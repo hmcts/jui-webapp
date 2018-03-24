@@ -1,6 +1,8 @@
 // Protractor configuration file, see link for more information
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
+const {SpecReporter} = require('jasmine-spec-reporter');
+
 exports.config = {
   allScriptsTimeout: 11000,
   specs: [
@@ -14,26 +16,16 @@ exports.config = {
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,
+    isVerbose: false,
+    includeStackTrace: false,
     defaultTimeoutInterval: 30000,
-    print: function() {}
+    print: function () {
+    }
   },
-  onPrepare: function () {
-    var SpecReporter = require('jasmine-spec-reporter').SpecReporter;
-    // add jasmine spec reporter
-    jasmine.getEnv().addReporter(new SpecReporter({displayStacktrace: true}));
-
-    browser.ignoreSynchronization = true;
-  },
-
-
-  /**
-   * Angular 2 configuration
-   *
-   * useAllAngular2AppRoots: tells Protractor to wait for any angular2 apps on the page instead of just the one matching
-   * `rootEl`
-   *
-   */
-  useAllAngular2AppRoots: true
+  onPrepare: function() {
+    require('ts-node').register({
+      project: 'e2e/tsconfig.e2e.json'
+    });
+    jasmine.getEnv().addReporter(new SpecReporter({spec: {displayStacktrace: true}}));
+  }
 };
-
-

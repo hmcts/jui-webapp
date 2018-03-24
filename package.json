@@ -7,7 +7,7 @@
         "start": "echo \"Npm start command\"",
         "build-universal": "npm run build:client-and-server-bundles",
         "e2e": "ng e2e",
-        "teste2e": "protractor cucumber-e2e/config/config.js",
+        "test-e2e": "protractor cucumber-e2e/config/config.js",
         "start-dev": "ng serve",
         "build:client-and-server-bundles": "ng build --prod && ng build --prod --app 1 --output-hashing=false",
         "lint": "echo \"Linting\"",
@@ -55,7 +55,7 @@
         "zone.js": "^0.8.19"
     },
     "devDependencies": {
-        "@angular/cli": "~1.7.3",
+        "@angular/cli": "^1.7.3",
         "@angular/compiler-cli": "^5.2.0",
         "@angular/language-service": "^5.2.0",
         "@types/jasmine": "~2.8.3",

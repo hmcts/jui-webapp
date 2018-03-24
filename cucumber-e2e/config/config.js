@@ -3,7 +3,7 @@ var chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised);
 
 exports.config = {
-  //seleniumAddress: "http://localhost:4444/wd/hub",
+  seleniumAddress: "http://localhost:4444/wd/hub",
   baseUrl: "http://localhost:3000",
   capabilities: {
     browserName: process.env.TEST_BROWSER_NAME || "chrome"
