@@ -1,17 +1,19 @@
 "use strict";
 var homePage = require("../pages/homePage");
-var { defineSupportCode } = require("cucumber");
+var {defineSupportCode} = require("cucumber");
 
-defineSupportCode(function({ Given, When, Then}) {
+defineSupportCode(function ({Given, When, Then}) {
 
 
   Given('I am on JUI web home page', function (next) {
-     expect(browser.getCurrentUrl()).to.eventually.equals('http://localhost:3000/').and.notify(next);
+    expect(browser.getCurrentUrl()).to.eventually.equals('http://localhost:3000/').and.notify(next);
   });
+
 
   Given('I should see HMCTS logo', function (next) {
     expect(homePage.hmctsLogo.isDisplayed()).to.eventually.be.true.and.notify(next);
   });
+
 
   Given('I should see {stringInDoubleQuotes} link', function (stringInDoubleQuotes, next) {
 
@@ -26,9 +28,9 @@ defineSupportCode(function({ Given, When, Then}) {
   });
 
 
-  Given('I should see the page content as {stringInDoubleQuotes}', function (stringInDoubleQuotes, next) {
-    expect(homePage.mainContent.isDisplayed()).to.eventually.be.true.and.notify(next);
-
+  Given('I should see the phase tag as {stringInDoubleQuotes}', function (stringInDoubleQuotes, next) {
+    expect(homePage.phaseTag.isDisplayed()).to.eventually.be.true.and.notify(next);
+    expect(homePage.phaseTag.getText()).to.eventually.equals('ALPHA').and.notify(next);
   });
 
 
@@ -45,8 +47,8 @@ defineSupportCode(function({ Given, When, Then}) {
 
 
   When('I click on Open Government Licence link', function (next) {
-   (homePage.openGovtLicenceLink).click();
-  next();
+    (homePage.openGovtLicenceLink).click();
+    next();
   });
 
 
