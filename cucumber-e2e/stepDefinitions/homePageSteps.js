@@ -27,16 +27,20 @@ defineSupportCode(function ({Given, When, Then}) {
   });
 
   Given('I should see {stringInDoubleQuotes}', function (stringInDoubleQuotes, next) {
+
     expect(homePage.signOutLink.isDisplayed()).to.eventually.be.true.and.notify(next);
     expect(homePage.juiLink.getText()).to.eventually.equals('Sign Out').and.notify(next);
     browser.waitForAngular();
+
   });
 
 
   Given('I should see the phase tag as {stringInDoubleQuotes}', function (stringInDoubleQuotes, next) {
+
     expect(homePage.phaseTag.isDisplayed()).to.eventually.be.true.and.notify(next);
     expect(homePage.phaseTag.getText()).to.eventually.equals('ALPHA').and.notify(next);
     browser.waitForAngular();
+
   });
 
 
@@ -48,6 +52,7 @@ defineSupportCode(function ({Given, When, Then}) {
 
 
   Given('I should see Open Government Licence link', function (next) {
+
     expect(homePage.openGovtLicenceLink.isDisplayed()).to.eventually.be.true.and.notify(next);
     browser.waitForAngular();
 
@@ -55,16 +60,16 @@ defineSupportCode(function ({Given, When, Then}) {
 
 
   When('I click on Open Government Licence link', function () {
-    (homePage.openGovtLicenceLink).click();
+
+    expect(homePage.openGovtLicenceLink).click();
     browser.waitForAngular();
   });
 
 
   Then('I should be redirected to licence page', function (next) {
     browser.ignoreSynchronization = true;
-    browser.waitForAngular();
     expect(homePage.licenceLogoHolderImg.isDisplayed()).to.eventually.be.true.and.notify(next);
-
+    browser.waitForAngular();
   });
 
 });
