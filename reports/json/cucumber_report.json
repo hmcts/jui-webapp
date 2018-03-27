@@ -29,7 +29,7 @@
             "name": "I am on JUI web home page",
             "result": {
               "status": "passed",
-              "duration": 69
+              "duration": 20
             },
             "isBackground": true,
             "line": 5,
@@ -43,11 +43,11 @@
             "name": "I should see HMCTS logo",
             "result": {
               "status": "passed",
-              "duration": 125
+              "duration": 29
             },
             "line": 9,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:13"
+              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:14"
             }
           },
           {
@@ -56,11 +56,11 @@
             "name": "I should see \"Judicial UI\" link",
             "result": {
               "status": "passed",
-              "duration": 114
+              "duration": 36
             },
             "line": 10,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:18"
+              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:21"
             }
           },
           {
@@ -69,11 +69,11 @@
             "name": "I should see \"Sign out\"",
             "result": {
               "status": "passed",
-              "duration": 159
+              "duration": 26
             },
             "line": 11,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:25"
+              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:29"
             }
           },
           {
@@ -81,7 +81,7 @@
             "keyword": "After",
             "result": {
               "status": "passed",
-              "duration": 1
+              "duration": 0
             },
             "hidden": true,
             "match": {
@@ -108,7 +108,7 @@
             "name": "I am on JUI web home page",
             "result": {
               "status": "passed",
-              "duration": 69
+              "duration": 6
             },
             "isBackground": true,
             "line": 5,
@@ -122,11 +122,11 @@
             "name": "I should see the phase tag as \"ALPHA\"",
             "result": {
               "status": "passed",
-              "duration": 127
+              "duration": 34
             },
             "line": 15,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:31"
+              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:36"
             }
           },
           {
@@ -135,11 +135,11 @@
             "name": "I should see the App home page content as \"home works!\"",
             "result": {
               "status": "passed",
-              "duration": 134
+              "duration": 28
             },
             "line": 16,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:37"
+              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:43"
             }
           },
           {
@@ -174,7 +174,7 @@
             "name": "I am on JUI web home page",
             "result": {
               "status": "passed",
-              "duration": 32
+              "duration": 10
             },
             "isBackground": true,
             "line": 5,
@@ -188,11 +188,11 @@
             "name": "I should see Open Government Licence link",
             "result": {
               "status": "passed",
-              "duration": 125
+              "duration": 26
             },
             "line": 20,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:43"
+              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:50"
             }
           },
           {
@@ -205,7 +205,7 @@
             },
             "line": 21,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:49"
+              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:57"
             }
           },
           {
@@ -214,11 +214,11 @@
             "name": "I should be redirected to licence page",
             "result": {
               "status": "passed",
-              "duration": 549
+              "duration": 267
             },
             "line": 22,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:55"
+              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:63"
             }
           },
           {
