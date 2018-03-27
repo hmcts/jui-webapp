@@ -6,7 +6,7 @@ exports.config = {
   seleniumAddress: "http://localhost:4444/wd/hub",
   baseUrl: "http://localhost:3000",
   capabilities: {
-    browserName: process.env.TEST_BROWSER_NAME || "chrome"
+    browserName: "chrome"
   },
   framework: "custom",
   frameworkPath: require.resolve("protractor-cucumber-framework"),

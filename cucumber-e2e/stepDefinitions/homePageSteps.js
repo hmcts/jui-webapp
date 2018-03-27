@@ -5,8 +5,8 @@ var { defineSupportCode } = require("cucumber");
 defineSupportCode(function({ Given, When, Then}) {
 
 
-  Given('I am on JUI web home page', function () {
-    return browser.get('http://localhost:3000');
+  Given('I am on JUI web home page', function (next) {
+     expect(browser.getCurrentUrl()).to.eventually.equals('http://localhost:3000/').and.notify(next);
   });
 
   Given('I should see HMCTS logo', function (next) {
@@ -34,7 +34,7 @@ defineSupportCode(function({ Given, When, Then}) {
 
   Given('I should see the App home page content as {stringInDoubleQuotes}', function (stringInDoubleQuotes, next) {
 
-    expect(homePage.mainContent.getText()).to.eventually.equals('This is a new service – your').and.notify(next);
+    expect(homePage.content.getText()).to.eventually.equals('home works!').and.notify(next);
   });
 
 

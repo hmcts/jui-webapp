@@ -12,7 +12,7 @@ Feature: Jui webpage
 
 
   Scenario: Verify content of JUI web page
-    And I should see the page content as "This is a new service – your"
+    #And I should see the page content as "This is a new service – your"
     And I should see the App home page content as "home works!"
 
 

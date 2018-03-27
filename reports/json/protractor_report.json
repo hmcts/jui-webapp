@@ -23,7 +23,7 @@
         "emitterEvent": "testPass",
         "name": "Given I am on JUI web home page",
         "category": "Jui webpage: Verify header of JUI webpage",
-        "durationMillis": 1041,
+        "durationMillis": 27,
         "sourceLocation": {
           "filePath": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/features/homepage.feature",
           "line": 5,
@@ -38,7 +38,7 @@
         "emitterEvent": "testPass",
         "name": "And I should see HMCTS logo",
         "category": "Jui webpage: Verify header of JUI webpage",
-        "durationMillis": 50,
+        "durationMillis": 52,
         "sourceLocation": {
           "filePath": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/features/homepage.feature",
           "line": 9,
@@ -53,7 +53,7 @@
         "emitterEvent": "testPass",
         "name": "And I should see \"Judicial UI\" link",
         "category": "Jui webpage: Verify header of JUI webpage",
-        "durationMillis": 44,
+        "durationMillis": 51,
         "sourceLocation": {
           "filePath": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/features/homepage.feature",
           "line": 10,
@@ -68,7 +68,7 @@
         "emitterEvent": "testPass",
         "name": "And I should see \"Sign out\"",
         "category": "Jui webpage: Verify header of JUI webpage",
-        "durationMillis": 55,
+        "durationMillis": 57,
         "sourceLocation": {
           "filePath": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/features/homepage.feature",
           "line": 11,
@@ -83,7 +83,7 @@
         "emitterEvent": "testPass",
         "name": "After",
         "category": "Jui webpage: Verify header of JUI webpage",
-        "durationMillis": 0,
+        "durationMillis": 1,
         "sourceLocation": {
           "filePath": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/features/homepage.feature",
           "column": 1
@@ -94,7 +94,7 @@
         }
       }
     ],
-    "duration": 1190
+    "duration": 188
   },
   {
     "description": "Verify content of JUI web page",
@@ -103,9 +103,7 @@
         "passed": true
       },
       {
-        "passed": false,
-        "errorMsg": "No element found using locator: By(xpath, //*[@id='content']/div[2]/p/span/text[1])",
-        "stackTrace": "NoSuchElementError: No element found using locator: By(xpath, //*[@id='content']/div[2]/p/span/text[1])\n    at elementArrayFinder.getWebElements.then (/Users/roopa/Documents/Work/Pocs/jui-webapp/node_modules/protractor/lib/element.ts:851:17)\n    at ManagedPromise.invokeCallback_ (/Users/roopa/Documents/Work/Pocs/jui-webapp/node_modules/selenium-webdriver/lib/promise.js:1366:14)\n    at TaskQueue.execute_ (/Users/roopa/Documents/Work/Pocs/jui-webapp/node_modules/selenium-webdriver/lib/promise.js:2970:14)\n    at TaskQueue.executeNext_ (/Users/roopa/Documents/Work/Pocs/jui-webapp/node_modules/selenium-webdriver/lib/promise.js:2953:27)\n    at asyncRun (/Users/roopa/Documents/Work/Pocs/jui-webapp/node_modules/selenium-webdriver/lib/promise.js:2813:27)\n    at /Users/roopa/Documents/Work/Pocs/jui-webapp/node_modules/selenium-webdriver/lib/promise.js:676:7\n    at <anonymous>\n    at process._tickCallback (internal/process/next_tick.js:188:7)Error\n    at ElementArrayFinder.applyAction_ (/Users/roopa/Documents/Work/Pocs/jui-webapp/node_modules/protractor/lib/element.ts:482:23)\n    at ElementArrayFinder.(anonymous function).args [as isDisplayed] (/Users/roopa/Documents/Work/Pocs/jui-webapp/node_modules/protractor/lib/element.ts:96:21)\n    at ElementFinder.(anonymous function).args [as isDisplayed] (/Users/roopa/Documents/Work/Pocs/jui-webapp/node_modules/protractor/lib/element.ts:873:14)\n    at World.<anonymous> (/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:30:33)"
+        "passed": true
       },
       {
         "passed": true
@@ -116,7 +114,7 @@
         "emitterEvent": "testPass",
         "name": "Given I am on JUI web home page",
         "category": "Jui webpage: Verify content of JUI web page",
-        "durationMillis": 342,
+        "durationMillis": 28,
         "sourceLocation": {
           "filePath": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/features/homepage.feature",
           "line": 5,
@@ -124,54 +122,40 @@
         },
         "progress": {
           "step": 1,
-          "steps": 3
-        }
-      },
-      {
-        "emitterEvent": "testFail",
-        "name": "And I should see the page content as \"This is a new service – your\"",
-        "category": "Jui webpage: Verify content of JUI web page",
-        "durationMillis": 35,
-        "sourceLocation": {
-          "filePath": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/features/homepage.feature",
-          "line": 15,
-          "column": 1
-        },
-        "progress": {
-          "step": 2,
-          "steps": 3
+          "steps": 2
         }
       },
       {
         "emitterEvent": "testPass",
         "name": "And I should see the App home page content as \"home works!\"",
         "category": "Jui webpage: Verify content of JUI web page",
+        "durationMillis": 55,
         "sourceLocation": {
           "filePath": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/features/homepage.feature",
           "line": 16,
           "column": 1
         },
         "progress": {
-          "step": 3,
-          "steps": 3
+          "step": 2,
+          "steps": 2
         }
       },
       {
         "emitterEvent": "testPass",
         "name": "After",
         "category": "Jui webpage: Verify content of JUI web page",
-        "durationMillis": 764,
+        "durationMillis": 0,
         "sourceLocation": {
           "filePath": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/features/homepage.feature",
           "column": 1
         },
         "progress": {
           "step": 0,
-          "steps": 3
+          "steps": 2
         }
       }
     ],
-    "duration": null
+    "duration": 83
   },
   {
     "description": "Verify footer links of JUI webpage",
@@ -197,7 +181,7 @@
         "emitterEvent": "testPass",
         "name": "Given I am on JUI web home page",
         "category": "Jui webpage: Verify footer links of JUI webpage",
-        "durationMillis": 272,
+        "durationMillis": 18,
         "sourceLocation": {
           "filePath": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/features/homepage.feature",
           "line": 5,
@@ -212,7 +196,7 @@
         "emitterEvent": "testPass",
         "name": "And I should see Open Government Licence link",
         "category": "Jui webpage: Verify footer links of JUI webpage",
-        "durationMillis": 47,
+        "durationMillis": 50,
         "sourceLocation": {
           "filePath": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/features/homepage.feature",
           "line": 20,
@@ -242,7 +226,7 @@
         "emitterEvent": "testPass",
         "name": "Then I should be redirected to licence page",
         "category": "Jui webpage: Verify footer links of JUI webpage",
-        "durationMillis": 297,
+        "durationMillis": 248,
         "sourceLocation": {
           "filePath": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/features/homepage.feature",
           "line": 22,
@@ -268,6 +252,6 @@
         }
       }
     ],
-    "duration": 617
+    "duration": 317
   }
 ]
