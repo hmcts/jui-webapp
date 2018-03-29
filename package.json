@@ -8,6 +8,7 @@
         "build-universal": "npm run build:client-and-server-bundles",
         "e2e": "ng e2e",
         "protractor": "protractor cucumber-e2e/config/config.js",
+        "wd:start": "webdriver-manager update && webdriver-manager start",
         "start-dev": "ng serve",
         "build:client-and-server-bundles": "ng build --prod && ng build --prod --app 1 --output-hashing=false",
         "lint": "echo \"Linting\"",

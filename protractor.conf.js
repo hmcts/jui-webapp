@@ -2,7 +2,7 @@ exports.config = {
   baseUrl: 'http://localhost:3000',
 
   specs: [
-    'src/**/*.e2e-spec.js'
+    './e2e/**/*.e2e-spec.ts'
   ],
   exclude: [],
 
@@ -28,7 +28,7 @@ exports.config = {
     // add jasmine spec reporter
     jasmine.getEnv().addReporter(new SpecReporter({displayStacktrace: true}));
 
-    browser.ignoreSynchronization = true;
+    browser.ignoreSynchronization = false;
   },
 
 
