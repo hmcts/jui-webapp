@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-// import { AppRoutingModule } from './app-routing.module';
+
+import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -9,6 +10,10 @@ import { isPlatformBrowser } from '@angular/common';
 import { AppRoutingModule } from './/app-routing.module';
 import { HomeComponent } from './home/home.component';
 import { FeedbackComponent } from './feedback/feedback.component';
+import {EmViewerModule} from 'em-viewer-web';
+
+import {MockServiceService} from './mock-service.service'
+
 
 const routes: Routes = [
     { path: '', component: HomeComponent },
@@ -25,9 +30,11 @@ const routes: Routes = [
   imports: [
       BrowserModule.withServerTransition({ appId: 'jui' }),
       AppRoutingModule,
-      RouterModule.forRoot(routes)
+      RouterModule.forRoot(routes),
+      HttpClientModule,
+      EmViewerModule
   ],
-  providers: [],
+  providers: [MockServiceService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

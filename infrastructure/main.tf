@@ -13,6 +13,7 @@ module "app" {
   ilbIp = "${var.ilbIp}"
   subscription = "${var.subscription}"
   is_frontend = true
+  capacity = "${var.capacity}"
 
   app_settings = {
     # REDIS_HOST = "${module.redis-cache.host_name}"
@@ -37,5 +38,7 @@ module "app" {
     ROOT_APPENDER = "${var.root_appender}"
     JSON_CONSOLE_PRETTY_PRINT = "${var.json_console_pretty_print}"
     LOG_OUTPUT = "${var.log_output}"
+
+    NODE_ENV = "${var.env}"
   }
 }
