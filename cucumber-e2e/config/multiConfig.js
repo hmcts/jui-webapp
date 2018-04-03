@@ -3,7 +3,7 @@ var chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised);
 
 exports.config = {
-  seleniumAddress: "http://127.0.0.1:4444/wd/hub",
+  seleniumAddress: "http://localhost:4444/wd/hub",
 
   baseUrl: "",
 
@@ -24,7 +24,7 @@ exports.config = {
   frameworkPath: require.resolve("protractor-cucumber-framework"),
 
   suites: {
-    workbasketFeature: ["../features/workbasket.feature"]
+
   },
 
   onPrepare: function() {
@@ -37,6 +37,6 @@ exports.config = {
     strict: true,
     format: ["pretty"],
     require: ["../stepDefinitions/*.js", "../support/*.js"],
-    tags: "@CucumberScenario,@ProtractorScenario,@AllureScenario,~@DatabaseTest"
+    tags: ""
   }
 };

@@ -12,7 +12,7 @@ import { HomeComponent } from './home/home.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import {EmViewerModule} from 'em-viewer-web';
 
-import {MockServiceService} from './mock-service.service'
+import {MockServiceService} from './mock-service.service';
 
 
 const routes: Routes = [
