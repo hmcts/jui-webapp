@@ -9,7 +9,7 @@
         "name": "@Jui_HomePage"
       }
     ],
-    "uri": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/features/homepage.feature",
+    "uri": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/features/homepage.feature",
     "elements": [
       {
         "keyword": "Scenario",
@@ -34,7 +34,7 @@
             "isBackground": true,
             "line": 5,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:8"
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:8"
             }
           },
           {
@@ -43,11 +43,11 @@
             "name": "I should see HMCTS logo",
             "result": {
               "status": "passed",
-              "duration": 33
+              "duration": 43
             },
             "line": 9,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:16"
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:16"
             }
           },
           {
@@ -56,11 +56,11 @@
             "name": "I should see \"Judicial UI\" link",
             "result": {
               "status": "passed",
-              "duration": 28
+              "duration": 33
             },
             "line": 10,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:24"
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:24"
             }
           },
           {
@@ -69,11 +69,11 @@
             "name": "I should see \"Sign out\"",
             "result": {
               "status": "passed",
-              "duration": 40
+              "duration": 54
             },
             "line": 11,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:33"
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:33"
             }
           },
           {
@@ -85,7 +85,7 @@
             },
             "hidden": true,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/support/hooks.js:19"
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/support/hooks.js:19"
             }
           }
         ]
@@ -108,12 +108,12 @@
             "name": "I am on JUI web home page",
             "result": {
               "status": "passed",
-              "duration": 8
+              "duration": 18
             },
             "isBackground": true,
             "line": 5,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:8"
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:8"
             }
           },
           {
@@ -122,11 +122,11 @@
             "name": "I should see the phase tag as \"ALPHA\"",
             "result": {
               "status": "passed",
-              "duration": 33
+              "duration": 44
             },
             "line": 16,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:43"
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:43"
             }
           },
           {
@@ -135,12 +135,12 @@
             "name": "I should see the App home page content as \"home works!\"",
             "result": {
               "status": "failed",
-              "duration": 30,
-              "error_message": "NoSuchElementError: No element found using locator: By(css selector, #content > app-home > p)\n    at elementArrayFinder.getWebElements.then (/Users/roopa/Documents/Work/Pocs/jui-webapp/node_modules/protractor/lib/element.ts:851:17)\n    at ManagedPromise.invokeCallback_ (/Users/roopa/Documents/Work/Pocs/jui-webapp/node_modules/selenium-webdriver/lib/promise.js:1366:14)\n    at TaskQueue.execute_ (/Users/roopa/Documents/Work/Pocs/jui-webapp/node_modules/selenium-webdriver/lib/promise.js:2970:14)\n    at TaskQueue.executeNext_ (/Users/roopa/Documents/Work/Pocs/jui-webapp/node_modules/selenium-webdriver/lib/promise.js:2953:27)\n    at asyncRun (/Users/roopa/Documents/Work/Pocs/jui-webapp/node_modules/selenium-webdriver/lib/promise.js:2813:27)\n    at /Users/roopa/Documents/Work/Pocs/jui-webapp/node_modules/selenium-webdriver/lib/promise.js:676:7\n    at <anonymous>\n    at process._tickCallback (internal/process/next_tick.js:188:7)Error\n    at ElementArrayFinder.applyAction_ (/Users/roopa/Documents/Work/Pocs/jui-webapp/node_modules/protractor/lib/element.ts:482:23)\n    at ElementArrayFinder.(anonymous function).args [as getText] (/Users/roopa/Documents/Work/Pocs/jui-webapp/node_modules/protractor/lib/element.ts:96:21)\n    at ElementFinder.(anonymous function).args [as getText] (/Users/roopa/Documents/Work/Pocs/jui-webapp/node_modules/protractor/lib/element.ts:873:14)\n    at World.<anonymous> (/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:54:29)"
+              "duration": 42,
+              "error_message": "NoSuchElementError: No element found using locator: By(css selector, #content > app-home > p)\n    at elementArrayFinder.getWebElements.then (/Users/roopa/Documents/Work/Poc/jui-webapp/node_modules/protractor/lib/element.ts:851:17)\n    at ManagedPromise.invokeCallback_ (/Users/roopa/Documents/Work/Poc/jui-webapp/node_modules/selenium-webdriver/lib/promise.js:1366:14)\n    at TaskQueue.execute_ (/Users/roopa/Documents/Work/Poc/jui-webapp/node_modules/selenium-webdriver/lib/promise.js:2970:14)\n    at TaskQueue.executeNext_ (/Users/roopa/Documents/Work/Poc/jui-webapp/node_modules/selenium-webdriver/lib/promise.js:2953:27)\n    at asyncRun (/Users/roopa/Documents/Work/Poc/jui-webapp/node_modules/selenium-webdriver/lib/promise.js:2813:27)\n    at /Users/roopa/Documents/Work/Poc/jui-webapp/node_modules/selenium-webdriver/lib/promise.js:676:7\n    at <anonymous>\n    at process._tickCallback (internal/process/next_tick.js:188:7)Error\n    at ElementArrayFinder.applyAction_ (/Users/roopa/Documents/Work/Poc/jui-webapp/node_modules/protractor/lib/element.ts:482:23)\n    at ElementArrayFinder.(anonymous function).args [as getText] (/Users/roopa/Documents/Work/Poc/jui-webapp/node_modules/protractor/lib/element.ts:96:21)\n    at ElementFinder.(anonymous function).args [as getText] (/Users/roopa/Documents/Work/Poc/jui-webapp/node_modules/protractor/lib/element.ts:873:14)\n    at World.<anonymous> (/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:54:29)"
             },
             "line": 17,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:52"
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:52"
             }
           },
           {
@@ -148,7 +148,7 @@
             "keyword": "After",
             "result": {
               "status": "passed",
-              "duration": 482
+              "duration": 516
             },
             "hidden": true,
             "embeddings": [
@@ -158,7 +158,7 @@
               }
             ],
             "match": {
-              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/support/hooks.js:19"
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/support/hooks.js:19"
             }
           }
         ]
@@ -186,7 +186,7 @@
             "isBackground": true,
             "line": 5,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:8"
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:8"
             }
           },
           {
@@ -195,11 +195,11 @@
             "name": "I should see Open Government Licence link",
             "result": {
               "status": "passed",
-              "duration": 30
+              "duration": 29
             },
             "line": 21,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:60"
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:60"
             }
           },
           {
@@ -208,11 +208,11 @@
             "name": "I click on Open Government Licence link",
             "result": {
               "status": "passed",
-              "duration": 1
+              "duration": 0
             },
             "line": 22,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:69"
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:69"
             }
           },
           {
@@ -221,11 +221,11 @@
             "name": "I should be redirected to licence page",
             "result": {
               "status": "passed",
-              "duration": 3299
+              "duration": 3301
             },
             "line": 23,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:77"
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:77"
             }
           },
           {
@@ -237,7 +237,7 @@
             },
             "hidden": true,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Pocs/jui-webapp/cucumber-e2e/support/hooks.js:19"
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/support/hooks.js:19"
             }
           }
         ]
