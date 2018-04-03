@@ -2,6 +2,10 @@ require( 'zone.js/dist/zone-node');
 
 const express = require('express');
 const ngExpressEngine = require('@nguniversal/express-engine').ngExpressEngine;
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
+
+
 
 const {
     AppServerModuleNgFactory,
@@ -33,6 +37,12 @@ app.use(express.static(__dirname + '/dist', { index: false }));
 app.get('/health', (req, res) => {
     res.status(200).end('ok');
 });
+
+
+
+const dmProxy = require('./proxies/dm');
+dmProxy(app);
+
 
 
 app.get('/*', (req, res) => {

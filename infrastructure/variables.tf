@@ -12,6 +12,10 @@ variable "app_type" {
   default = "web"
 }
 
+variable "capacity" {
+  default = "2"
+}
+
 variable "team_name" {
   default = "judicial_ui"
 }
