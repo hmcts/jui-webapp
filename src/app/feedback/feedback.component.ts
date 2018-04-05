@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FeedbackComponent implements OnInit {
 
+    data = null;
+
   constructor() { }
 
   ngOnInit() {
+      // this.data = this.getData();
   }
+
+
+
 
 }
