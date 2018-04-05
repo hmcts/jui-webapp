@@ -426,25 +426,25 @@
   <h1>Cucumber Report</h1>
 
   <h2 class="component"></h2>
-  <h3 class="timestamp">2018-04-03 04:02:01</h3>
+  <h3 class="timestamp">2018-04-04 08:05:31</h3>
 </header>
   <ul class="summary">
     <li>1 Features</li>
     <li>3 Scenarios</li>
     <li> Steps</li>
-    <li class="passed print-hide">2 Passed scenarios</li>
-    <li class="failed print-hide">1 Failing scenarios</li>
+    <li class="passed print-hide">3 Passed scenarios</li>
+    <li class="failed print-hide">0 Failing scenarios</li>
     <li class="passed print-hide"> Passed steps</li>
     <li class="failed print-hide"> Failing steps</li>
     <li class="skipped print-hide"> Skipped steps</li>
-    <li>Status <span class="failed">failed</span></li>
+    <li>Status <span class="passed">passed</span></li>
   </ul>
 
   <ul class="feature-list print-hide">
-      <li class="failed">
+      <li class="passed">
         <a href="#F_jui-webpage" title="Jui webpage">Jui webpage</a>
         <ul class="scenario-list">
-            <li class="failed"><a href="#S_jui-webpage;verify-content-of-jui-web-page" title="Verify content of JUI web page">Verify content of JUI web page</a></li>
+            <li class="passed"><a href="#S_jui-webpage;verify-content-of-jui-web-page" title="Verify content of JUI web page">Verify content of JUI web page</a></li>
             <li class="passed"><a href="#S_jui-webpage;verify-footer-links-of-jui-webpage" title="Verify footer links of JUI webpage">Verify footer links of JUI webpage</a></li>
             <li class="passed"><a href="#S_jui-webpage;verify-header-of-jui-webpage" title="Verify header of JUI webpage">Verify header of JUI webpage</a></li>
         </ul>
@@ -474,7 +474,7 @@
         <th>Status</th>
       </tr>
 
-        <tr class="failed">
+        <tr class="passed">
           <td>Jui webpage</td>
           <td class="scenarios-all"></td>
           <td class="scenarios-passed passed"></td>
@@ -483,8 +483,8 @@
           <td class="steps-passed passed"></td>
           <td class="steps-failed failed"></td>
           <td class="steps-skipped skipped"></td>
-          <td class="duration">3.59 s</td>
-          <td class="status">failed</td>
+          <td class="duration">3.62 s</td>
+          <td class="status">passed</td>
         </tr>
 
     </table>
@@ -520,7 +520,7 @@
                 </table>
               </td>
               <td>5</td>
-              <td class="duration">0.02 s</td>
+              <td class="duration">0.01 s</td>
               <td class="status">passed</td>
             </tr>
 
@@ -549,34 +549,22 @@
               </td>
               <td class="screenshot-link" data-index="0"></td>
             </tr>
-            <tr class="failed">
+            <tr class="passed">
               <td>And </td>
               <td>
-                I should see the App home page content as &quot;home works!&quot;
+                I should see the App home page content as &quot;home&quot;
                 <table class="datatable">
                 <!--  -->
                 </table>
               </td>
               <td>17</td>
-              <td class="duration">0.04 s</td>
-              <td class="status">failed</td>
+              <td class="duration">0.05 s</td>
+              <td class="status">passed</td>
             </tr>
 
-            <tr class="hidden failed">
+            <tr class="hidden passed">
               <td class="trace" colspan="4">
-                <pre>NoSuchElementError: No element found using locator: By(css selector, #content &gt; app-home &gt; p)
-    at elementArrayFinder.getWebElements.then (&#x2F;Users&#x2F;roopa&#x2F;Documents&#x2F;Work&#x2F;Poc&#x2F;jui-webapp&#x2F;node_modules&#x2F;protractor&#x2F;lib&#x2F;element.ts:851:17)
-    at ManagedPromise.invokeCallback_ (&#x2F;Users&#x2F;roopa&#x2F;Documents&#x2F;Work&#x2F;Poc&#x2F;jui-webapp&#x2F;node_modules&#x2F;selenium-webdriver&#x2F;lib&#x2F;promise.js:1366:14)
-    at TaskQueue.execute_ (&#x2F;Users&#x2F;roopa&#x2F;Documents&#x2F;Work&#x2F;Poc&#x2F;jui-webapp&#x2F;node_modules&#x2F;selenium-webdriver&#x2F;lib&#x2F;promise.js:2970:14)
-    at TaskQueue.executeNext_ (&#x2F;Users&#x2F;roopa&#x2F;Documents&#x2F;Work&#x2F;Poc&#x2F;jui-webapp&#x2F;node_modules&#x2F;selenium-webdriver&#x2F;lib&#x2F;promise.js:2953:27)
-    at asyncRun (&#x2F;Users&#x2F;roopa&#x2F;Documents&#x2F;Work&#x2F;Poc&#x2F;jui-webapp&#x2F;node_modules&#x2F;selenium-webdriver&#x2F;lib&#x2F;promise.js:2813:27)
-    at &#x2F;Users&#x2F;roopa&#x2F;Documents&#x2F;Work&#x2F;Poc&#x2F;jui-webapp&#x2F;node_modules&#x2F;selenium-webdriver&#x2F;lib&#x2F;promise.js:676:7
-    at &lt;anonymous&gt;
-    at process._tickCallback (internal&#x2F;process&#x2F;next_tick.js:188:7)Error
-    at ElementArrayFinder.applyAction_ (&#x2F;Users&#x2F;roopa&#x2F;Documents&#x2F;Work&#x2F;Poc&#x2F;jui-webapp&#x2F;node_modules&#x2F;protractor&#x2F;lib&#x2F;element.ts:482:23)
-    at ElementArrayFinder.(anonymous function).args [as getText] (&#x2F;Users&#x2F;roopa&#x2F;Documents&#x2F;Work&#x2F;Poc&#x2F;jui-webapp&#x2F;node_modules&#x2F;protractor&#x2F;lib&#x2F;element.ts:96:21)
-    at ElementFinder.(anonymous function).args [as getText] (&#x2F;Users&#x2F;roopa&#x2F;Documents&#x2F;Work&#x2F;Poc&#x2F;jui-webapp&#x2F;node_modules&#x2F;protractor&#x2F;lib&#x2F;element.ts:873:14)
-    at World.&lt;anonymous&gt; (&#x2F;Users&#x2F;roopa&#x2F;Documents&#x2F;Work&#x2F;Poc&#x2F;jui-webapp&#x2F;cucumber-e2e&#x2F;stepDefinitions&#x2F;homePageSteps.js:54:29)</pre>
+                <pre></pre>
               </td>
               <td class="screenshot-link" data-index="0"></td>
             </tr>
@@ -585,7 +573,7 @@
 
 
         
-        <img src="verify_content_of_jui_web_page-15-1.png" />
+        
         <h3 id="S_jui-webpage;verify-footer-links-of-jui-webpage">
           Scenario: Verify footer links of JUI webpage
             <span class="scenario-tag">@Jui_HomePage</span>
@@ -666,7 +654,7 @@
                 </table>
               </td>
               <td>23</td>
-              <td class="duration">3.3 s</td>
+              <td class="duration">3.34 s</td>
               <td class="status">passed</td>
             </tr>
 
@@ -705,7 +693,7 @@
                 </table>
               </td>
               <td>5</td>
-              <td class="duration">0.02 s</td>
+              <td class="duration">0.01 s</td>
               <td class="status">passed</td>
             </tr>
 
@@ -724,7 +712,7 @@
                 </table>
               </td>
               <td>9</td>
-              <td class="duration">0.04 s</td>
+              <td class="duration">0.05 s</td>
               <td class="status">passed</td>
             </tr>
 
@@ -804,17 +792,17 @@
         <th>Status</th>
       </tr>
 
-        <tr class="failed">
+        <tr class="passed">
           <td>@Jui_HomePage</td>
           <td class="scenarios-all">3</td>
-          <td class="scenarios-passed passed">2</td>
-          <td class="scenarios-failed failed">1</td>
+          <td class="scenarios-passed passed">3</td>
+          <td class="scenarios-failed failed">0</td>
           <td class="steps-all">11</td>
-          <td class="steps-passed passed">10</td>
-          <td class="steps-failed failed">1</td>
+          <td class="steps-passed passed">11</td>
+          <td class="steps-failed failed">0</td>
           <td class="steps-skipped skipped">0</td>
-          <td class="duration">3.59 s</td>
-          <td class="status">failed</td>
+          <td class="duration">3.62 s</td>
+          <td class="status">passed</td>
         </tr>
 
     </table>
