@@ -5,7 +5,7 @@ let proxyMiddleware = require('http-proxy-middleware');
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 process.env.NODE_ENV = process.env.NODE_ENV || 'local';
 // const baseUrl = 'https://api-gateway.test.dm.reform.hmcts.net';
-let token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbV9ndyIsImV4cCI6MTUyMjg0NDE3Nn0.IVsU6mWQrgHtTiH7_F4CrDCUcSoxJa1gGh18sL6k05OLc_JtHyAb_fv5XgbBnFlzxZ4LnIaLiv3eHVIzsuYMYA';
+let token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbV9ndyIsImV4cCI6MTUyMjk1NDE1Nn0.rB-mrLzEz_15PuoM6mPofQh7Pf2BxoUga0nn7y_FW1RF0NUi-3Qp2Mxw_dVihDt94dbE0ggFyNiUHf6hLXrNnw';
 // token = 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJlbV9ndyIsImV4cCI6MTUyMjc2MjY3NX0.0yMbUaC1zQsvn-zREyOei5NpSY_ZEQctBb8iTmeR4hfF6gYL3tlB6Rxk3b7uuTL-bvew1M0ei6gRPsRz4x8Ig';
 // const token = "Bearer eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJsMXNqZHJhNjUyZGQ0amFuMHEyNnVrMDFwciIsInN1YiI6IjY2ODciLCJpYXQiOjE1MjIyMjg1MzMsImV4cCI6MTUyMjI1NzMzMywiZGF0YSI6ImNhc2V3b3JrZXItcHJvYmF0ZSxjYXNld29ya2VyLWNtYyxjYXNld29ya2VyLXNzY3MsY2FzZXdvcmtlci1kaXZvcmNlLGNhc2V3b3JrZXItdGVzdCxjYXNld29ya2VyLXJlZmVyZW5jZS1kYXRhLGNhc2V3b3JrZXIsY2FzZXdvcmtlci1wcm9iYXRlLWxvYTEsY2FzZXdvcmtlci1jbWMtbG9hMSxjYXNld29ya2VyLXNzY3MtbG9hMSxjYXNld29ya2VyLWRpdm9yY2UtbG9hMSxjYXNld29ya2VyLXRlc3QtbG9hMSxjYXNld29ya2VyLXJlZmVyZW5jZS1kYXRhLWxvYTEsY2FzZXdvcmtlci1sb2ExIiwidHlwZSI6IkFDQ0VTUyIsImlkIjoiNjY4NyIsImZvcmVuYW1lIjoiQ0NEIiwic3VybmFtZSI6IldlYiBkb21haW4iLCJkZWZhdWx0LXNlcnZpY2UiOiJDQ0QiLCJsb2EiOjEsImRlZmF1bHQtdXJsIjoiaHR0cHM6Ly9jYXNlLXdvcmtlci13ZWIudGVzdC5jY2QucmVmb3JtLmhtY3RzLm5ldCIsImdyb3VwIjoiY2FzZXdvcmtlciJ9.p7d_Gx0_wOYnB-xeSXqAAyVYhAXzlg65a_gwdhhKO6A";
 
@@ -18,15 +18,15 @@ let target = 'https://dm-store-app-aat-staging.service.core-compute-aat.internal
 
 let sshProxy;
 function attachSSHProxy(proxy) {
-    // if(process.env.NODE_ENV === 'local') {
+    if(process.env.NODE_ENV === 'local') {
         let agent;
-        // if(!sshProxy) {
+        if(!sshProxy) {
             const SocksProxyAgent = require('socks-proxy-agent');
             const proxyUrl = 'socks://127.0.0.1:9090';
             agent = new SocksProxyAgent(proxyUrl, true);
-        // }
+        }
         proxy.agent = agent;
-    // }
+    }
     return proxy;
 }
 
