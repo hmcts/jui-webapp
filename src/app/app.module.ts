@@ -11,6 +11,7 @@ import { AppRoutingModule } from './/app-routing.module';
 import { HomeComponent } from './home/home.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import {EmViewerModule} from 'em-viewer-web';
+import {SharedModule } from './shared/shared.module';
 
 import {MockServiceService} from './mock-service.service'
 
@@ -32,7 +33,8 @@ const routes: Routes = [
       AppRoutingModule,
       RouterModule.forRoot(routes),
       HttpClientModule,
-      EmViewerModule
+      EmViewerModule,
+      SharedModule
   ],
   providers: [MockServiceService],
   bootstrap: [AppComponent]
