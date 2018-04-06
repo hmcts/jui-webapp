@@ -11,7 +11,7 @@ exports.config = {
             "browser": "chrome",
             "smartWait": 5000,
             "restart": false,
-          "useAllAngular2AppRoots": true
+          // "useAllAngular2AppRoots": true
 
         }
     },

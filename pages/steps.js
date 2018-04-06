@@ -8,7 +8,8 @@ module.exports = function () {
     return actor({
 
         //signin
-        signin: steps.signin.signIn,
+
+        signin: steps.signin.signin,
 
         // invalid signin
         invalidsignin: steps.signin.invalidsignin,

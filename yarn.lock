@@ -8221,7 +8221,7 @@ protractor-cucumber-framework@^3.1.2:
     glob "^7.0.3"
     q "^1.4.1"
 
-protractor@^5.1.2, protractor@^5.3.1:
+protractor@^5.0.0, protractor@^5.1.2:
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/protractor/-/protractor-5.3.1.tgz#b8b8ac4ad2278bb7a461b99a34d79532095f14b8"
   dependencies:
