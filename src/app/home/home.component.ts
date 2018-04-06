@@ -12,7 +12,7 @@ export class HomeComponent implements OnInit {
     url = '';
 
     constructor(private mockService: MockServiceService) {
-        this.url = '/demproxy/dm/documents/ff89843f-71a7-49c1-a879-50e3655d8d7c';
+        this.url = '/demproxy/dm/documents/b2ea8421-be90-4902-bd88-23fdddf4e28c';
     }
 
     getData() {
