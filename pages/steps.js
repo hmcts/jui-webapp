@@ -21,7 +21,8 @@ module.exports = function () {
         feedback: steps.feedback.feedback,
 
 
-
+       // search
+      search: steps.search.search,
 
 
     });

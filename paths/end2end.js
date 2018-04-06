@@ -38,8 +38,9 @@ Scenario("signout", function* (I) {
 
 
 
-// Scenario("report a problem", function* (I){
-//
-//
-//
-// });
+Scenario("search ccd cases", function* (I){
+
+  I.search();
+
+
+});
