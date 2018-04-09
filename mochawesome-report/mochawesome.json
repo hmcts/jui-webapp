@@ -5,9 +5,9 @@
     "passes": 4,
     "pending": 0,
     "failures": 1,
-    "start": "2018-04-06T12:05:15.499Z",
-    "end": "2018-04-06T12:06:41.262Z",
-    "duration": 85763,
+    "start": "2018-04-06T14:19:48.982Z",
+    "end": "2018-04-06T14:21:36.806Z",
+    "duration": 107824,
     "testsRegistered": 5,
     "passPercent": 80,
     "pendingPercent": 0,
@@ -19,7 +19,7 @@
     "pendingPercentClass": "danger"
   },
   "suites": {
-    "uuid": "486dad35-0681-4284-87f7-ec3408b02f9a",
+    "uuid": "2ef1060c-b253-49ab-b8c8-3bd16bf199d2",
     "title": "",
     "fullFile": "",
     "file": "",
@@ -28,7 +28,7 @@
     "tests": [],
     "suites": [
       {
-        "uuid": "b7d896d1-5d85-46e1-8ac7-ce9be5b11962",
+        "uuid": "36f894c0-16f8-4d84-8c7c-97e2400592d9",
         "title": "CCD login logout & feedback functionality",
         "fullFile": "/Users/roopa/Documents/Work/Poc/jui-webapp/paths/end2end.js",
         "file": "/paths/end2end.js",
@@ -44,7 +44,7 @@
             "code": "scenario.suiteSetup(suite)",
             "err": {},
             "isRoot": false,
-            "uuid": "41cee897-8d36-4ee0-ba55-ecff8d5736c9",
+            "uuid": "6c37ec00-f520-4b3d-b30e-3841289634aa",
             "isHook": true,
             "skipped": false
           },
@@ -59,7 +59,7 @@
             "code": "scenario.setup(suite)",
             "err": {},
             "isRoot": false,
-            "uuid": "5bacb5b3-f182-49c6-9c8d-4bbeeb409f76",
+            "uuid": "117da6be-4cbb-4da2-9a84-b0db07da6bba",
             "isHook": true,
             "skipped": false
           },
@@ -67,14 +67,14 @@
             "title": "\"before each\" hook: Before",
             "fullTitle": "CCD login logout & feedback functionality \"before each\" hook: Before",
             "timedOut": false,
-            "duration": 10688,
+            "duration": 10717,
             "pass": false,
             "fail": false,
             "pending": false,
             "code": "I.amOnPage('/');\n  browser.ignoreSynchronization = true;\n  browser.waitForAngular();\n  browser.sleep(500);\n  I.wait(10);",
             "err": {},
             "isRoot": false,
-            "uuid": "99391aa1-589e-4996-bd63-4b7b4c21463d",
+            "uuid": "60fb92b4-2466-4901-86d1-341dfa0bfaf9",
             "isHook": true,
             "skipped": false
           }
@@ -91,7 +91,7 @@
             "code": "scenario.suiteTeardown(suite)",
             "err": {},
             "isRoot": false,
-            "uuid": "738b76e7-047f-4d4b-9f5c-16426c57a851",
+            "uuid": "cca88fa2-e119-486a-867c-642b390e3dc1",
             "isHook": true,
             "skipped": false
           },
@@ -99,14 +99,14 @@
             "title": "\"after each\" hook: finalize codeceptjs",
             "fullTitle": "CCD login logout & feedback functionality \"after each\" hook: finalize codeceptjs",
             "timedOut": false,
-            "duration": 17,
+            "duration": 18,
             "pass": false,
             "fail": false,
             "pending": false,
             "code": "scenario.teardown(suite)",
             "err": {},
             "isRoot": false,
-            "uuid": "8a086979-71c4-4ca4-87c6-8650098993e4",
+            "uuid": "699e2e7a-1a8d-480c-894c-c5245ac14588",
             "isHook": true,
             "skipped": false
           }
@@ -116,7 +116,7 @@
             "title": "ccd signin",
             "fullTitle": "CCD login logout & feedback functionality: ccd signin",
             "timedOut": false,
-            "duration": 590,
+            "duration": 573,
             "state": "failed",
             "pass": false,
             "fail": true,
@@ -127,7 +127,7 @@
               "estack": "Error while waiting for Protractor to sync with the page: \"both angularJS testability and angular testability are undefined.  This could be either because this is a non-angular page or because your test involves client-side navigation, which can interfere with Protractor's bootstrapping.  See http://git.io/v4gXM for details\"\n\nScenario Steps:\n\n- I.fillField(\"#username\", \"nybgul@gmail.com\") at Object.module.exports [as signin] (pages/signin/signin.js:7:7)\n\n"
             },
             "isRoot": false,
-            "uuid": "69e50848-4f4c-4eeb-a201-8c8b181f08c9",
+            "uuid": "b10b7b71-c17a-4520-96a1-21e095a0b444",
             "isHook": false,
             "skipped": false
           },
@@ -135,7 +135,7 @@
             "title": "Invalid Signin",
             "fullTitle": "CCD login logout & feedback functionality: Invalid Signin",
             "timedOut": false,
-            "duration": 633,
+            "duration": 5802,
             "state": "passed",
             "speed": "slow",
             "pass": true,
@@ -144,7 +144,7 @@
             "code": "I.invalidsignin();",
             "err": {},
             "isRoot": false,
-            "uuid": "faaecc82-3716-4133-a2d7-4bc5793e391a",
+            "uuid": "104a497a-bc8c-4227-8932-4fd2788c9899",
             "isHook": false,
             "skipped": false
           },
@@ -152,7 +152,7 @@
             "title": "feedback",
             "fullTitle": "CCD login logout & feedback functionality: feedback",
             "timedOut": false,
-            "duration": 2864,
+            "duration": 18802,
             "state": "passed",
             "speed": "slow",
             "pass": true,
@@ -161,7 +161,7 @@
             "code": "I.feedback();",
             "err": {},
             "isRoot": false,
-            "uuid": "86850d19-58d3-4eee-a910-aa432b0a163e",
+            "uuid": "ab9f53d5-aa53-4e9f-85d6-db5028c8e0f3",
             "isHook": false,
             "skipped": false
           },
@@ -169,7 +169,7 @@
             "title": "signout",
             "fullTitle": "CCD login logout & feedback functionality: signout",
             "timedOut": false,
-            "duration": 4419,
+            "duration": 4413,
             "state": "passed",
             "speed": "slow",
             "pass": true,
@@ -178,7 +178,7 @@
             "code": "I.signout();",
             "err": {},
             "isRoot": false,
-            "uuid": "084b550a-3588-4ad3-898a-0a1eb5d106db",
+            "uuid": "e4e331b3-178b-47df-98b7-abcd5c9d0b5d",
             "isHook": false,
             "skipped": false
           },
@@ -186,7 +186,7 @@
             "title": "search ccd cases",
             "fullTitle": "CCD login logout & feedback functionality: search ccd cases",
             "timedOut": false,
-            "duration": 21275,
+            "duration": 21608,
             "state": "passed",
             "speed": "slow",
             "pass": true,
@@ -195,24 +195,24 @@
             "code": "I.search();",
             "err": {},
             "isRoot": false,
-            "uuid": "4c69d4b1-6f6f-4e35-ba70-d2e23e475c6f",
+            "uuid": "8493d0ec-148d-48e9-bc46-98e9aad3c2b3",
             "isHook": false,
             "skipped": false
           }
         ],
         "suites": [],
         "passes": [
-          "faaecc82-3716-4133-a2d7-4bc5793e391a",
-          "86850d19-58d3-4eee-a910-aa432b0a163e",
-          "084b550a-3588-4ad3-898a-0a1eb5d106db",
-          "4c69d4b1-6f6f-4e35-ba70-d2e23e475c6f"
+          "104a497a-bc8c-4227-8932-4fd2788c9899",
+          "ab9f53d5-aa53-4e9f-85d6-db5028c8e0f3",
+          "e4e331b3-178b-47df-98b7-abcd5c9d0b5d",
+          "8493d0ec-148d-48e9-bc46-98e9aad3c2b3"
         ],
         "failures": [
-          "69e50848-4f4c-4eeb-a201-8c8b181f08c9"
+          "b10b7b71-c17a-4520-96a1-21e095a0b444"
         ],
         "pending": [],
         "skipped": [],
-        "duration": 29781,
+        "duration": 51198,
         "root": false,
         "rootEmpty": false,
         "_timeout": 0
