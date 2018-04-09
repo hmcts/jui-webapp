@@ -5,6 +5,10 @@
         {{data | json}}
     </div>
     <div>
+        <input #docIdInput type="text" [value]="docId" (keyup.enter)="onEnter(docIdInput.value)"/>
+
+    </div>
+    <div>
         <app-em-viewer [url]="url" ></app-em-viewer>
     </div>
 </div>
