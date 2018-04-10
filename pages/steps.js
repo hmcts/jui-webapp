@@ -3,7 +3,7 @@
 const requireDirectory = require('require-directory'),
   steps = requireDirectory(module);
 
-module.exports = function () {
+     module.exports = function () {
 
     return actor({
 

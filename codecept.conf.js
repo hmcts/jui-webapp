@@ -1,4 +1,4 @@
-//const testConfig = require("test/config.js");
+//const testConfig = require("./config.js");
 
 exports.config = {
     'tests': './paths/*.js',
@@ -9,9 +9,9 @@ exports.config = {
         "Protractor" : {
             "url": "https://case-worker-web.dev.ccd.reform.hmcts.net",
             "browser": "chrome",
+            "show": true,
             "smartWait": 5000,
             "restart": false,
-          // "useAllAngular2AppRoots": true
 
         }
     },
