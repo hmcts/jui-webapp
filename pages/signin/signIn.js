@@ -1,6 +1,6 @@
 'use strict';
 
- module.exports = function() {
+ function signIn() {
   const I = this;
 
 
@@ -21,3 +21,4 @@
 
 };
 
+module.exports = signIn;

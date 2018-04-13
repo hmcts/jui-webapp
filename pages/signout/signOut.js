@@ -1,6 +1,6 @@
 'use strict';
 
- module.exports = function() {
+ function signOut() {
 
   const I = this;
 
@@ -18,6 +18,7 @@
 
  };
 
+ module.exports = signOut;
 
 
 

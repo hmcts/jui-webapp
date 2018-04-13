@@ -1,7 +1,7 @@
 'use strict';
 
 
-module.exports = function() {
+function yourFeedback() {
     const I = this;
 
 
@@ -19,3 +19,4 @@ module.exports = function() {
 };
 
 
+module.exports = yourFeedback;

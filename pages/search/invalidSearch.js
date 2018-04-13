@@ -1,7 +1,7 @@
 'use strict';
 
 
-module.exports = function() {
+ function invalidSearch() {
   const I = this;
 
   I.fillField("#username", "nybgul@gmail.com");
@@ -22,3 +22,4 @@ module.exports = function() {
 
 }
 
+module.exports = invalidSearch;

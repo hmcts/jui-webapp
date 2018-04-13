@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function () {
+function invalidSignIn() {
     const I = this;
 
   browser.waitForAngularEnabled(false);
@@ -17,3 +17,5 @@ module.exports = function () {
 
 
 };
+
+module.exports = invalidSignIn;
