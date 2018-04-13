@@ -1,7 +1,7 @@
 'use strict';
 
 
-module.exports = function () {
+module.exports = function() {
     const I = this;
 
 
@@ -17,3 +17,5 @@ module.exports = function () {
 
 
 };
+
+

@@ -3,27 +3,26 @@
 const requireDirectory = require('require-directory'),
   steps = requireDirectory(module);
 
-     module.exports = function () {
+module.exports = function () {
 
-    return actor({
+  return actor({
 
-        //signin
+    //signin
+    signIn: steps.signin.signIn,
 
-        signin: steps.signin.signin,
+    // invalid signin
+    invalidSignIn: steps.signin.invalidSignIn,
 
-        // invalid signin
-        invalidsignin: steps.signin.invalidsignin,
+    //signout
+    signOut: steps.signout.signOut,
 
-        //signout
-        signout: steps.signout.signout,
-
-        //feedback
-        feedback: steps.feedback.feedback,
-
-
-       // search
-      search: steps.search.search,
+    //feedback
+    yourFeedback: steps.feedback.yourFeedback,
 
 
-    });
+    //search
+    invalidSearch: steps.search.invalidSearch,
+
+
+  });
 };

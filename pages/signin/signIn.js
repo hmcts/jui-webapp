@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function () {
+ module.exports = function() {
   const I = this;
 
   browser.waitForAngularEnabled(false);

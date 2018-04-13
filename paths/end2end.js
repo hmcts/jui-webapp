@@ -13,33 +13,31 @@ Before(function* (I) {
 
 
 Scenario("ccd signin", function* (I) {
-    I.signin();
+    I.signIn();
 
 });
 
 
 Scenario("Invalid Signin", function* (I) {
-    I.invalidsignin();
+    I.invalidSignIn();
 
 });
 
 
 Scenario("feedback", function* (I) {
-    I.feedback();
+    I.yourFeedback();
 
 });
 
 
 Scenario("signout", function* (I) {
-
-    I.signout();
+  I.signOut();
 });
 
 
 
 Scenario("search ccd cases", function* (I){
-
-  I.search();
+  I.invalidSearch();
 
 
 });
