@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, BrowserTransferStateModule  } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { HttpClientModule } from '@angular/common/http';
@@ -31,6 +31,7 @@ const routes: Routes = [
   ],
   imports: [
       BrowserModule.withServerTransition({ appId: 'jui' }),
+      BrowserTransferStateModule,
       AppRoutingModule,
       RouterModule.forRoot(routes),
       HttpClientModule,

@@ -11,7 +11,7 @@ export class HomeComponent implements OnInit {
     data = null;
     url = '';
     baseUrl = '/demproxy/dm/documents';
-    docId = '59940c1b-f154-41a2-9d46-b4bfea9409a2';
+    docId = 'f025b6d5-c8ae-43f7-b883-374c02a38b17';
 
     constructor(private mockService: MockServiceService) {
         this.url = `${this.baseUrl}/${this.docId}`;
