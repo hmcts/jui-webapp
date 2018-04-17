@@ -29,7 +29,7 @@
             "name": "I am on JUI web home page",
             "result": {
               "status": "passed",
-              "duration": 13
+              "duration": 16
             },
             "isBackground": true,
             "line": 5,
@@ -43,7 +43,7 @@
             "name": "I should see HMCTS logo",
             "result": {
               "status": "passed",
-              "duration": 53
+              "duration": 46
             },
             "line": 9,
             "match": {
@@ -56,7 +56,7 @@
             "name": "I should see \"Judicial UI\" link",
             "result": {
               "status": "passed",
-              "duration": 33
+              "duration": 44
             },
             "line": 10,
             "match": {
@@ -69,7 +69,7 @@
             "name": "I should see \"Sign out\"",
             "result": {
               "status": "passed",
-              "duration": 51
+              "duration": 63
             },
             "line": 11,
             "match": {
@@ -81,7 +81,7 @@
             "keyword": "After",
             "result": {
               "status": "passed",
-              "duration": 1
+              "duration": 0
             },
             "hidden": true,
             "match": {
@@ -108,7 +108,7 @@
             "name": "I am on JUI web home page",
             "result": {
               "status": "passed",
-              "duration": 9
+              "duration": 7
             },
             "isBackground": true,
             "line": 5,
@@ -122,7 +122,7 @@
             "name": "I should see the phase tag as \"ALPHA\"",
             "result": {
               "status": "passed",
-              "duration": 36
+              "duration": 32
             },
             "line": 16,
             "match": {
@@ -135,7 +135,7 @@
             "name": "I should see the App home page content as \"home\"",
             "result": {
               "status": "passed",
-              "duration": 46
+              "duration": 45
             },
             "line": 17,
             "match": {
@@ -174,7 +174,7 @@
             "name": "I am on JUI web home page",
             "result": {
               "status": "passed",
-              "duration": 6
+              "duration": 7
             },
             "isBackground": true,
             "line": 5,
@@ -188,7 +188,7 @@
             "name": "I should see Open Government Licence link",
             "result": {
               "status": "passed",
-              "duration": 31
+              "duration": 28
             },
             "line": 21,
             "match": {
@@ -214,7 +214,7 @@
             "name": "I should be redirected to licence page",
             "result": {
               "status": "passed",
-              "duration": 3341
+              "duration": 3357
             },
             "line": 23,
             "match": {
