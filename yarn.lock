@@ -5445,6 +5445,12 @@ osx-release@^1.0.0:
   dependencies:
     minimist "^1.1.0"
 
+otp@^0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/otp/-/otp-0.1.3.tgz#c257bf25d2f9027af77ac52269b3c14268d2bd6b"
+  dependencies:
+    thirty-two "^0.0.2"
+
 p-finally@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/p-finally/-/p-finally-1.0.0.tgz#3fbcfb15b899a44123b34b6dcc18b724336a2cae"
@@ -7504,6 +7510,7 @@ then-fs@^2.0.0:
   dependencies:
     promise ">=3.2 <8"
 
+<<<<<<< HEAD
 thenify-all@^1.0.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/thenify-all/-/thenify-all-1.6.0.tgz#1a1918d402d8fc3f98fbf234db0bcc8cc10e9726"
@@ -7515,6 +7522,11 @@ thenify-all@^1.0.0:
   resolved "https://registry.yarnpkg.com/thenify/-/thenify-3.3.0.tgz#e69e38a1babe969b0108207978b9f62b88604839"
   dependencies:
     any-promise "^1.0.0"
+=======
+thirty-two@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/thirty-two/-/thirty-two-0.0.2.tgz#4253e29d8cb058f0480267c5698c0e4927e54b6a"
+>>>>>>> 26adce3bd9a92a39de9d6a32f26ca9c70ee5ad95
 
 throttleit@^1.0.0:
   version "1.0.0"

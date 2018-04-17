@@ -10,13 +10,19 @@ export class HomeComponent implements OnInit {
 
     data = null;
     url = '';
+    baseUrl = '/demproxy/dm/documents';
+    docId = '59940c1b-f154-41a2-9d46-b4bfea9409a2';
 
     constructor(private mockService: MockServiceService) {
-        this.url = '/demproxy/dm/documents/ff89843f-71a7-49c1-a879-50e3655d8d7c';
+        this.url = `${this.baseUrl}/${this.docId}`;
+    }
+
+    onEnter(value: string) {
+        this.docId = value;
+        this.url = `${this.baseUrl}/${this.docId}`;
     }
 
     getData() {
-
         this.mockService.getData().then(data => {
             this.data = data;
         });
