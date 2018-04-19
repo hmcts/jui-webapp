@@ -51,7 +51,7 @@ defineSupportCode(function ({Given, When, Then}) {
 
   Given('I should see the App home page content as {stringInDoubleQuotes}', function (stringInDoubleQuotes, next) {
     browser.ignoreSynchronization = true;
-    expect(homePage.content.getText()).to.eventually.equals('home').and.notify(next);
+    expect(homePage.content.getText()).to.eventually.equals('Case list').and.notify(next);
     browser.driver.sleep(3000);
     browser.waitForAngular();
   });

@@ -14,7 +14,7 @@ Feature: Jui webpage
 
   Scenario: Verify content of JUI web page
     And I should see the phase tag as "ALPHA"
-    And I should see the App home page content as "home"
+    And I should see the App home page content as "Case list"
 
 
   Scenario: Verify footer links of JUI webpage
