@@ -4,6 +4,9 @@
     <!--<div>-->
         <!--{{data | json}}-->
     <!--</div>-->
+    <!--<div>-->
+        <!--<app-heroes></app-heroes>-->
+    <!--</div>-->
 
     <br/><br/>
 
@@ -13,10 +16,10 @@
 
     <br/><br/>
 
-    <!--<div>-->
-        <!--<input #docIdInput type="text" [value]="docId" (keyup.enter)="onEnter(docIdInput.value)"/>-->
+    <div>
+        <input #docIdInput type="text" [value]="docId" (keyup.enter)="onEnter(docIdInput.value)"/>
 
-    <!--</div>-->
+    </div>
     <div>
         <app-em-viewer [url]="url" ></app-em-viewer>
     </div>

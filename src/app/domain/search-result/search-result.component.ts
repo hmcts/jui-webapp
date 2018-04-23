@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {CcdService} from '../ccd.service';
-
+import { TransferState, makeStateKey } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-search-result',
