@@ -6,6 +6,7 @@
     "ng": "ng",
     "build-universal": "npm run build:client-and-server-bundles",
     "e2e": "protractor ./protractor.conf.js",
+    "cucumber-e2e": "protractor cucumber-e2e/config/multiConfig.js",
     "start-dev": "ng serve",
     "protractor": "protractor cucumber-e2e/config/config.js",
     "wd:start": "webdriver-manager update && webdriver-manager start",

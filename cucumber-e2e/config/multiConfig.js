@@ -5,7 +5,7 @@ chai.use(chaiAsPromised);
 exports.config = {
   seleniumAddress: "http://localhost:4444/wd/hub",
 
-  baseUrl: "",
+  baseUrl: "http://localhost:3000",
 
   multiCapabilities: [
     {
@@ -24,7 +24,7 @@ exports.config = {
   frameworkPath: require.resolve("protractor-cucumber-framework"),
 
   suites: {
-
+    homepagFeature: ["../features/homePage.feature"]
   },
 
   onPrepare: function() {
@@ -37,6 +37,6 @@ exports.config = {
     strict: true,
     format: ["pretty"],
     require: ["../stepDefinitions/*.js", "../support/*.js"],
-    tags: ""
+    tags: "@Jui_HomePage"
   }
 };

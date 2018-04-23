@@ -11,7 +11,6 @@ Feature: Jui webpage
     And I should see "Sign out"
 
 
-
   Scenario: Verify content of JUI web page
     And I should see the phase tag as "ALPHA"
     And I should see the App home page content as "Case list"

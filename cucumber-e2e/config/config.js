@@ -22,6 +22,6 @@ exports.config = {
     strict: true,
     format: ["pretty"],
     require: ["../stepDefinitions/*.js", "../support/*.js"],
-    tags: ""
+    tags: "@Jui_HomePage"
   }
 };
