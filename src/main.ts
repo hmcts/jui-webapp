@@ -10,5 +10,8 @@ if (environment.production) {
   enableProdMode();
 }
 
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.log(err));
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('dom content loaded!!!!');
+    platformBrowserDynamic().bootstrapModule(AppModule)
+        .catch(err => console.log(err));
+});
