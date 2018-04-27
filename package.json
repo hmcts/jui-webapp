@@ -9,6 +9,7 @@
     "cucumber-e2e": "protractor cucumber-e2e/config/multiConfig.js",
     "start-dev": "ng serve",
     "protractor": "protractor cucumber-e2e/config/config.js",
+    "crossbrowser-e2e":"protractor /cucumber-e2e/config/saucelabs.config.js",
     "wd:start": "webdriver-manager update && webdriver-manager start",
     "start-dev-proxy": "ng serve --proxy-config proxy.config.json",
     "build:client-and-server-bundles": "ng build --prod && ng build --prod --app 1 --output-hashing=false",
