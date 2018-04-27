@@ -8,6 +8,7 @@
     "e2e": "protractor ./protractor.conf.js",
     "codeceptjs": "codeceptjs run --steps --reporter mochawesome",
     "wd:start": "webdriver-manager update && webdriver-manager start --standalone",
+    "crossbrowser-e2e": "NODE_PATH=. codeceptjs run saucelabs.conf.js --steps",
     "start-dev": "ng serve",
     "start-dev-proxy": "ng serve --proxy-config proxy.config.json",
     "build:client-and-server-bundles": "ng build --prod && ng run jui:server",
