@@ -1,6 +1,6 @@
 #!/bin/bash
 
-supportedBrowsers=`sed '/\/\//d' /crossbrowser/supportedBrowsers.js | sed '/: {/!d' | sed "s/[\'\:\{ ]//g"`
+supportedBrowsers=`sed '/\/\//d' ./crossbrowser/supportedBrowsers.js | sed '/: {/!d' | sed "s/[\'\:\{ ]//g"`
 browsersArray=(${supportedBrowsers//$'\n'/ })
 finalExitStatus=0
 
@@ -15,7 +15,7 @@ echo
 for i in "${browsersArray[@]}"
 do
     echo "*** Testing $i ***"
-    SAUCELABS_BROWSER=$i TUNNEL_IDENTIFIER=saucelabs-overnight-tunnel yarn crossbrowser-e2e --reporter mochawesome --reporter-options reportFilename="${i}_report",reportDir=/crossbrowser/reports
+    SAUCELABS_BROWSER=$i TUNNEL_IDENTIFIER=saucelabs-overnight-tunnel yarn crossbrowser-e2e
 
     exitStatus=$?
     if [ $exitStatus -ne 0 ]; then
