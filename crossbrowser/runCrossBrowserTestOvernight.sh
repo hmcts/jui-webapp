@@ -1,6 +1,6 @@
 #!/bin/bash
 
-supportedBrowsers=`sed '/\/\//d' ./crossbrowser/supportedBrowsers.js | sed '/: {/!d' | sed "s/[\'\:\{ ]//g"`
+supportedBrowsers=`sed '/\/\//d' /crossbrowser/supportedBrowsers.js | sed '/: {/!d' | sed "s/[\'\:\{ ]//g"`
 browsersArray=(${supportedBrowsers//$'\n'/ })
 finalExitStatus=0
 

@@ -1,15 +1,15 @@
-const supportedBrowsers = require('../crossbrowser/supportedBrowsers.js');
+const supportedBrowsers = require('./crossbrowser/supportedBrowsers.js');
 const browser = process.env.SAUCELABS_BROWSER || 'chrome';
 const tunnelName = process.env.TUNNEL_IDENTIFIER || 'saucelabs-overnight-tunnel';
 
-const setupConfig = {
+exports.config = {
   'tests': './paths/*.js',
   'output': './output',
   'timeout': 20000,
   'helpers': {
-    "Protractor": {
-      url: process.env.E2E_FRONTEND_URL || "https://case-worker-web.dev.ccd.reform.hmcts.net",
-      browser: supportedBrowsers[browser].browserName,
+    WebDriverIO: {
+      url: process.env.E2E_FRONTEND_URL || "https://https://case-worker-web.dev.ccd.reform.hmcts.net/",
+      'browser': supportedBrowsers[browser].browserName,
       waitforTimeout: 60000,
       cssSelectorsEnabled: 'true',
       windowSize: '1600x900',
@@ -49,4 +49,4 @@ function getDesiredCapabilities() {
   return desiredCapability;
 }
 
-exports.config = setupConfig;
+
