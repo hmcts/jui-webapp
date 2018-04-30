@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {MockServiceService} from '../mock-service.service';
+// import {MockServiceService} from '../mock-service.service';
 
 @Component({
     selector: 'app-home',
@@ -9,12 +9,12 @@ import {MockServiceService} from '../mock-service.service';
 export class HomeComponent implements OnInit {
 
     data = null;
-    url = '';
-    baseUrl = '/demproxy/dm/documents';
-    docId = 'f025b6d5-c8ae-43f7-b883-374c02a38b17';
 
-    constructor(private mockService: MockServiceService) {
-        this.url = `${this.baseUrl}/${this.docId}`;
+    baseUrl = '/demproxy/dm/documents';
+    docId = '52f55a07-dbc6-4d78-ad8a-0a9bcfec9d76';
+    url = `${this.baseUrl}/${this.docId}`;
+
+    constructor() {
     }
 
     onEnter(value: string) {
@@ -22,14 +22,14 @@ export class HomeComponent implements OnInit {
         this.url = `${this.baseUrl}/${this.docId}`;
     }
 
-    getData() {
-        this.mockService.getData().then(data => {
-            this.data = data;
-        });
-    }
+    // getData() {
+    //     this.mockService.getData().then(data => {
+    //         this.data = data;
+    //     });
+    // }
 
     ngOnInit() {
-        this.getData();
+        // this.getData();
     }
 
 }

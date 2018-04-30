@@ -4,7 +4,7 @@ chai.use(chaiAsPromised);
 
 exports.config = {
   seleniumAddress: "http://localhost:4444/wd/hub",
-  baseUrl: "http://localhost:3000",
+  baseUrl: "http://localhost:3608",
   capabilities: {
     browserName: "chrome"
   },
@@ -14,6 +14,11 @@ exports.config = {
   resultJsonOutputFile: "reports/json/protractor_report.json",
   onPrepare: function() {
     browser.manage().window().maximize();
+    browser.waitForAngularEnabled(false);
+    // browser.driver.get(idamUrl);
+    // browser.driver.findElement(by.css(''));
+    // browser.driver.findElement(by.css(''));
+
     global.expect = chai.expect;
     global.assert = chai.assert;
     global.should = chai.should;
@@ -22,6 +27,6 @@ exports.config = {
     strict: true,
     format: ["pretty"],
     require: ["../stepDefinitions/*.js", "../support/*.js"],
-    tags: "@Jui_HomePage"
+    tags: "@login"
   }
 };

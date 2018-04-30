@@ -11,7 +11,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const {
     AppServerModuleNgFactory,
     LAZY_MODULE_MAP
-} = require(`./dist-server/main.bundle`);
+} = require(`./dist-server/main`);
 
 const app = express();
 

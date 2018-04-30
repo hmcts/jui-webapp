@@ -6,9 +6,9 @@ Feature: Jui webpage
 
 
   Scenario: Verify header of JUI webpage
-    And I should see HMCTS logo
-    And I should see "Judicial UI" link
-    And I should see "Sign out"
+    When I should see HMCTS logo
+    Then I should see "Judicial UI" link
+    Then I should see "Sign out"
 
 
   Scenario: Verify content of JUI web page

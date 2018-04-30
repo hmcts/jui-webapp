@@ -2,223 +2,91 @@
   {
     "keyword": "Feature",
     "line": 2,
-    "name": "Jui webpage",
+    "name": "EM login fun",
     "tags": [
       {
         "line": 1,
-        "name": "@Jui_HomePage"
+        "name": "@login"
       }
     ],
-    "uri": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/features/homepage.feature",
+    "uri": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/features/login.feature",
     "elements": [
       {
         "keyword": "Scenario",
-        "line": 8,
-        "name": "Verify header of JUI webpage",
+        "line": 13,
+        "name": "Valid login",
         "tags": [
           {
             "line": 1,
-            "name": "@Jui_HomePage"
+            "name": "@login"
           }
         ],
-        "id": "jui-webpage;verify-header-of-jui-webpage",
+        "id": "em-login-fun;valid-login",
         "steps": [
           {
             "arguments": [],
             "keyword": "Given ",
-            "name": "I am on JUI web home page",
+            "name": "I am on IDAM login page",
             "result": {
               "status": "passed",
-              "duration": 10
+              "duration": 1
             },
             "isBackground": true,
-            "line": 5,
+            "line": 4,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:8"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "name": "I should see HMCTS logo",
-            "result": {
-              "status": "passed",
-              "duration": 33
-            },
-            "line": 9,
-            "match": {
-              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:16"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "name": "I should see \"Judicial UI\" link",
-            "result": {
-              "status": "passed",
-              "duration": 31
-            },
-            "line": 10,
-            "match": {
-              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:24"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "name": "I should see \"Sign out\"",
-            "result": {
-              "status": "passed",
-              "duration": 57
-            },
-            "line": 11,
-            "match": {
-              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:33"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "After",
-            "result": {
-              "status": "passed",
-              "duration": 0
-            },
-            "hidden": true,
-            "match": {
-              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/support/hooks.js:19"
-            }
-          }
-        ]
-      },
-      {
-        "keyword": "Scenario",
-        "line": 14,
-        "name": "Verify content of JUI web page",
-        "tags": [
-          {
-            "line": 1,
-            "name": "@Jui_HomePage"
-          }
-        ],
-        "id": "jui-webpage;verify-content-of-jui-web-page",
-        "steps": [
-          {
-            "arguments": [],
-            "keyword": "Given ",
-            "name": "I am on JUI web home page",
-            "result": {
-              "status": "passed",
-              "duration": 11
-            },
-            "isBackground": true,
-            "line": 5,
-            "match": {
-              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:8"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "name": "I should see the phase tag as \"ALPHA\"",
-            "result": {
-              "status": "passed",
-              "duration": 32
-            },
-            "line": 15,
-            "match": {
-              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:43"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "name": "I should see the App home page content as \"Case list\"",
-            "result": {
-              "status": "passed",
-              "duration": 50
-            },
-            "line": 16,
-            "match": {
-              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:52"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "After",
-            "result": {
-              "status": "passed",
-              "duration": 0
-            },
-            "hidden": true,
-            "match": {
-              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/support/hooks.js:19"
-            }
-          }
-        ]
-      },
-      {
-        "keyword": "Scenario",
-        "line": 19,
-        "name": "Verify footer links of JUI webpage",
-        "tags": [
-          {
-            "line": 1,
-            "name": "@Jui_HomePage"
-          }
-        ],
-        "id": "jui-webpage;verify-footer-links-of-jui-webpage",
-        "steps": [
-          {
-            "arguments": [],
-            "keyword": "Given ",
-            "name": "I am on JUI web home page",
-            "result": {
-              "status": "passed",
-              "duration": 9
-            },
-            "isBackground": true,
-            "line": 5,
-            "match": {
-              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:8"
-            }
-          },
-          {
-            "arguments": [],
-            "keyword": "And ",
-            "name": "I should see Open Government Licence link",
-            "result": {
-              "status": "passed",
-              "duration": 36
-            },
-            "line": 20,
-            "match": {
-              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:60"
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/loginSteps.js:8"
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
-            "name": "I click on Open Government Licence link",
+            "name": "I enter valid Email address as test@test.com",
             "result": {
               "status": "passed",
               "duration": 1
             },
-            "line": 21,
+            "line": 7,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:69"
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/loginSteps.js:18"
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "name": "I should be redirected to licence page",
+            "name": "I enter valid Password as 123",
             "result": {
               "status": "passed",
-              "duration": 3353
+              "duration": 1
             },
-            "line": 22,
+            "line": 8,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/homePageSteps.js:77"
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/loginSteps.js:25"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "I click on Sign in",
+            "result": {
+              "status": "passed",
+              "duration": 0
+            },
+            "line": 9,
+            "match": {
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/loginSteps.js:34"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "I should see List View",
+            "result": {
+              "status": "passed",
+              "duration": 0
+            },
+            "line": 10,
+            "match": {
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumber-e2e/stepDefinitions/loginSteps.js:43"
             }
           },
           {
@@ -236,6 +104,6 @@
         ]
       }
     ],
-    "id": "jui-webpage"
+    "id": "em-login-fun"
   }
 ]
