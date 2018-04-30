@@ -54,8 +54,13 @@ module "app" {
     IDAM_LOGIN_URL = "${var.idam_login_url}"
     IDAM_USER_BASE_URI = "${var.idam_api_url}"
     S2S_URI = "http://${var.s2s_url}-${local.local_env}.service.core-compute-${local.local_env}.internal"
+
     IDAM_SERVICE_KEY = "${data.vault_generic_secret.s2s_secret.data["value"]}"
+    JUI_SECRET = "${data.vault_generic_secret.s2s_secret.data["value"]}"
+
     IDAM_SERVICE_NAME = "${var.idam_service_name}"
+    JUI_MICROSERVICE = "${var.idam_service_name}"
+
     IDAM_API_OAUTH2_CLIENT_CLIENT_SECRETS_WEBSHOW = "${data.vault_generic_secret.oauth2_secret.data["value"]}"
   }
 }
@@ -65,7 +70,7 @@ provider "vault" {
 }
 
 data "vault_generic_secret" "s2s_secret" {
-  path = "secret/${var.vault_section}/ccidam/service-auth-provider/api/microservice-keys/em-gw"
+  path = "secret/${var.vault_section}/ccidam/service-auth-provider/api/microservice-keys/divorceDocumentUpload"
 }
 
 data "vault_generic_secret" "oauth2_secret" {

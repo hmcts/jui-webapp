@@ -100,5 +100,5 @@ variable "log_output" {
 // Addtional
 ////////////////////////////////////////////////
 variable "idam_service_name" {
-  default = "em_gw"
+  default = "divorce_document_upload"
 }

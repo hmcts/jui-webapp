@@ -15,7 +15,7 @@ properties([
 
 def type = "nodejs"
 def product = "jui"
-def component = "webapp-web"
+def component = "webapp"
 
 def channel = '#jui-pipeline'
 
