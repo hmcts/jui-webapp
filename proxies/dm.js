@@ -6,7 +6,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 process.env.NODE_ENV = process.env.NODE_ENV || 'local';
 
 
-let target = 'https://dm-store-aat.service.core-compute-aat.internal';
+let target = process.env.DM_STORE_APP_URI || 'https://dm-store-aat.service.core-compute-aat.internal';
 
 
 let sshProxy;
@@ -22,12 +22,6 @@ function attachSSHProxy(proxy) {
     }
     return proxy;
 }
-
-
-
-
-
-
 
 module.exports = app => {
 

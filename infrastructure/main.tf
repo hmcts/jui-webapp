@@ -53,7 +53,7 @@ module "app" {
 
     IDAM_LOGIN_URL = "${var.idam_login_url}"
     IDAM_USER_BASE_URI = "${var.idam_api_url}"
-    IDAM_S2S_BASE_URI = "http://${var.s2s_url}-${local.local_env}.service.core-compute-${local.local_env}.internal"
+    S2S_URI = "http://${var.s2s_url}-${local.local_env}.service.core-compute-${local.local_env}.internal"
     IDAM_SERVICE_KEY = "${data.vault_generic_secret.s2s_secret.data["value"]}"
     IDAM_SERVICE_NAME = "${var.idam_service_name}"
     IDAM_API_OAUTH2_CLIENT_CLIENT_SECRETS_WEBSHOW = "${data.vault_generic_secret.oauth2_secret.data["value"]}"
