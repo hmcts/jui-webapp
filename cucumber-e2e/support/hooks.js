@@ -12,7 +12,7 @@ var htmlReports = process.cwd() + "/reports/html";
 var targetJson = jsonReports + "/cucumber_report.json";
 
 defineSupportCode(function({ registerHandler, After, registerListener }) {
-  registerHandler("BeforeFeature", { timeout: 20 * 1000 }, function() {
+  registerHandler("BeforeFeature", { timeout: 60 * 1000 }, function() {
     return browser.get(conf.baseUrl);
   });
 
