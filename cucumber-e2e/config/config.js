@@ -15,10 +15,6 @@ exports.config = {
   onPrepare: function() {
     browser.manage().window().maximize();
     browser.waitForAngularEnabled(false);
-    // browser.driver.get(idamUrl);
-    // browser.driver.findElement(by.css(''));
-    // browser.driver.findElement(by.css(''));
-
     global.expect = chai.expect;
     global.assert = chai.assert;
     global.should = chai.should;
