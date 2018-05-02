@@ -4,7 +4,7 @@ chai.use(chaiAsPromised);
 
 exports.config = {
   seleniumAddress: "http://localhost:4444/wd/hub",
-  baseUrl: "http://localhost:3608",
+  baseUrl: "http://localhost:3608",           /* this url used for Document management Page run test locally */
   capabilities: {
     browserName: "chrome"
   },

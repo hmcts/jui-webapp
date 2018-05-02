@@ -39,7 +39,7 @@ defineSupportCode(function ({Given, When, Then}) {
   });
 
 
-  Then(/^I should see List View$/, function (next) {
+  Then(/^I should redirect to the list page$/, function (next) {
     browser.ignoreSynchronization = true;
     // browser.driver.wait(function() {
     //   return browser.driver.getCurrentUrl().then(function(url) {

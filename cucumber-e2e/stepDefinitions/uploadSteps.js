@@ -19,10 +19,12 @@ defineSupportCode(function ({Given, When, Then}) {
 
 
   When(/^I click on Upload$/, function (btn, next) {
+
+
     next();
   });
 
-  Then(/^I should see uploaded file on List View$/, function (next) {
+  Then(/^I should able to view uploaded file on List View$/, function (next) {
     next();
   });
 

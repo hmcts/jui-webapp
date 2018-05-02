@@ -8,7 +8,7 @@ Feature: EM login fun
     When I enter Email address as <valid_username>
     Then I enter Password as <valid_password>
     When I click on Sign in
-    Then I should see List View
+    Then I should redirect to the list page
     And I click on Sign out
     Examples:
       | valid_username | valid_password |
