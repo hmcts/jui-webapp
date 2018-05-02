@@ -1,4 +1,4 @@
-@wip
+@login
 Feature: EM login fun
 
   Background:

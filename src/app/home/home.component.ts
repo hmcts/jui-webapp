@@ -11,7 +11,7 @@ export class HomeComponent implements OnInit {
     data = null;
 
     baseUrl = '/demproxy/dm/documents';
-    docId = '52f55a07-dbc6-4d78-ad8a-0a9bcfec9d76';
+    docId = '82dbab2d-20ae-4810-80ad-f7e8a5cc8ef1';
     url = `${this.baseUrl}/${this.docId}`;
 
     constructor() {
