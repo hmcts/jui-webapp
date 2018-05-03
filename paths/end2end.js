@@ -18,26 +18,26 @@ Scenario("ccd signin", function* (I) {
 });
 
 
-Scenario("Invalid Signin", function* (I) {
-    I.invalidSignIn();
+// Scenario("Invalid Signin", function* (I) {
+//     I.invalidSignIn();
+//
+// });
+//
+//
+// Scenario("feedback", function* (I) {
+//     I.yourFeedback();
+//
+// });
+//
+//
+// Scenario("signout", function* (I) {
+//   I.signOut();
+// });
+//
+//
+//
+// Scenario("search ccd cases", function* (I){
+//   I.invalidSearch();
 
-});
 
-
-Scenario("feedback", function* (I) {
-    I.yourFeedback();
-
-});
-
-
-Scenario("signout", function* (I) {
-  I.signOut();
-});
-
-
-
-Scenario("search ccd cases", function* (I){
-  I.invalidSearch();
-
-
-});
+// });

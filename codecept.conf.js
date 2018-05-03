@@ -8,10 +8,25 @@ exports.config = {
     "helpers": {
         "Protractor" : {
             "url": "https://case-worker-web.dev.ccd.reform.hmcts.net",
-            "browser": "chrome",
-            "show": true,
+            // "browser": "chrome",
+             "show": true,
+          // 'angular': false,
             "smartWait": 5000,
             "restart": false,
+          'driver': 'sauce',
+          'host': 'ondemand.saucelabs.com',
+          'port': 80,
+          'user': 'rramisetty',
+          'key': 'c0a3c627-27d3-4ee8-a9e2-3388d25bfa59',
+
+          'capabilities':{
+            'tunnelIdentifier': 'saucelab-test',
+            'browserName': 'firefox',
+            'name': 'WIN_CHROME_LATEST',
+            'platform': 'Windows 10',
+            'version': 'latest'
+
+          }
 
         }
     },
