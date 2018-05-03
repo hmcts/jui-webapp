@@ -23,6 +23,6 @@ exports.config = {
     strict: true,
     format: ["pretty"],
     require: ["../stepDefinitions/*.js", "../support/*.js"],
-    tags: "@upload"
+    tags: "@login"
   }
 };

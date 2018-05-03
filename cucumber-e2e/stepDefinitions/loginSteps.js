@@ -1,6 +1,7 @@
 "use strict";
 
-
+ var loginpage = require('../pages/loginPage');
+ var listpage = require('../pages/listPage');
 var {defineSupportCode} = require("cucumber");
 
 defineSupportCode(function ({Given, When, Then}) {
@@ -18,14 +19,16 @@ defineSupportCode(function ({Given, When, Then}) {
 
   When(/^I enter Email address as (.*)$/, function (valid_username, next) {
     browser.waitForAngularEnabled(false);
-    browser.driver.findElement(by.css('input#username')).sendKeys(valid_username);
+    //browser.driver.findElement(by.css('input#username')).sendKeys(valid_username);
+    login.username_field.sendKeys(valid_username);
     next();
   });
 
 
   Then(/^I enter Password as (.*)$/, function (valid_password, next) {
     browser.waitForAngularEnabled(false);
-    browser.driver.findElement(by.css('input#password')).sendKeys(valid_password);
+    // browser.driver.findElement(by.css('input#password')).sendKeys(valid_password);
+    login.password_field.sendKeys(valid_password);
     browser.driver.sleep(3000);
     browser.waitForAngular();
     next();
@@ -34,7 +37,8 @@ defineSupportCode(function ({Given, When, Then}) {
 
   When(/^I click on Sign in$/, function () {
     browser.waitForAngularEnabled(false);
-    browser.driver.findElement(by.css('input.button')).click();
+    // browser.driver.findElement(by.css('input.button')).click();
+    login.signin_btn.click();
     browser.waitForAngular();
     browser.driver.sleep(3000);
   });
@@ -52,8 +56,10 @@ defineSupportCode(function ({Given, When, Then}) {
     //   browser.waitForAngularEnabled(true);
     //
     //   });
-    browser.driver.findElement(by.css('h1.heading-large')).getText();
-    expect(browser.driver.findElement(by.css('h1.heading-large')).getText()).to.eventually.equals('List View').and.notify(next);
+
+    expect(loginpage.listview_header_text).isDisplayed().to.be.eventually.true;
+    //browser.driver.findElement(by.css('h1.heading-large')).getText();
+    expect(login.listview_header_text.getText()).to.eventually.equals('List View').and.notify(next);
     browser.driver.sleep(3000);
     browser.waitForAngular();
     next();
@@ -61,8 +67,8 @@ defineSupportCode(function ({Given, When, Then}) {
 
 
   Then(/^I should see error message saying as (.*)$/, function (err_message, next) {
-    browser.driver.findElement(by.css('h3#failure-error-summary-heading')).getText();
-    expect(browser.driver.findElement(by.css('h3#failure-error-summary-heading')).getText()).to.eventually.equals(err_message).and.notify(next);
+    login.incorrect_login_msg.getText();
+    expect(loginpage.incorrect_login_msg.getText()).to.eventually.equals(err_message).and.notify(next);
     next();
   });
 
@@ -70,7 +76,7 @@ defineSupportCode(function ({Given, When, Then}) {
   When(/^I click on Sign out$/, function (next) {
     browser.ignoreSynchronization = true;
     browser.waitForAngular();
-    browser.driver.findElement(by.css('li > a')).click();
+    list.signOut.click();
     browser.driver.sleep(3000);
     next();
   });

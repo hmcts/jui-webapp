@@ -8,6 +8,8 @@ defineSupportCode(function ({Given, When, Then}) {
 
   When (/^I see View button$/, function(next){
 
+    expect()
+
     next();
 
   });

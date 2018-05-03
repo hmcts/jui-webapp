@@ -1,5 +1,5 @@
 "use strict";
-//var uploadpage = require("../pages/uploadPage");
+var uploadpage = require("../pages/uploadPage");
 
 var {defineSupportCode} = require("cucumber");
 
