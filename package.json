@@ -6,7 +6,7 @@
     "ng": "ng",
     "build-universal": "npm run build:client-and-server-bundles",
     "e2e": "protractor ./protractor.conf.js",
-    "codeceptjs-run": "codeceptjs run --steps --reporter mochawesome --config=./codecept.conf.js",
+    "codeceptjs-run": "codeceptjs run --steps --reporter mochawesome",
     "wd:start": "webdriver-manager update && webdriver-manager start --standalone",
     "crossbrowser-e2e": "NODE_PATH=. codeceptjs run ./saucelabs.conf.js --steps",
     "start-dev": "ng serve",
