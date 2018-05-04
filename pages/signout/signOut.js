@@ -5,10 +5,10 @@
   const I = this;
 
 
-  I.fillField("#username", "nybgul@gmail.com");
+  I.fillField("#username", "");
   I.fillField("#password", 'Monday01');
   I.click('Sign in');
-  I.see('Nayab Gul', 'button.dropbtn');
+  I.see('', 'button.dropbtn');
   I.click('button.dropbtn');
   I.see('Sign Out', '.dropdown-content > a');
   I.click('Sign Out');

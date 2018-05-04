@@ -12,20 +12,20 @@ exports.config = {
              "show": true,
             "smartWait": 5000,
             "restart": false,
-          // "driver":"browserstack",
-          // 'host': 'ondemand.saucelabs.com',
-          // 'port': 80,
-          // 'user': 'rramisetty',
-          // 'key': 'c0a3c627-27d3-4ee8-a9e2-3388d25bfa59',
+          "driver":"sauce",
+          'host': 'ondemand.saucelabs.com',
+          'port': 80,
+          'user':  process.env.SAUCE_USERNAME,
+          'key': process.env.SAUCE_ACCESS_KEY,
 
-          // 'capabilities':{
-          //   'tunnelIdentifier': 'saucelab-tunnel-ramisetty',
-          //   'browserName': 'firefox',
-          //   'name': 'WIN_CHROME_LATEST',
-          //   'platform': 'Windows 10',
-          //   'version': 'latest'
-          //
-          // }
+          'capabilities':{
+            'tunnelIdentifier': '',
+            'browserName': 'firefox',
+            'name': 'WIN_CHROME_LATEST',
+            'platform': 'Windows 10',
+            'version': 'latest'
+
+          }
 
         }
     },
