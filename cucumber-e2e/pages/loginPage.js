@@ -11,4 +11,4 @@ This.incorrect_login_msg = element(by.css('h3#failure-error-summary-heading'));
 
 
 }
-module.export = login;
+module.export = new login;

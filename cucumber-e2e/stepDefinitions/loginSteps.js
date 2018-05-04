@@ -57,7 +57,7 @@ defineSupportCode(function ({Given, When, Then}) {
     //
     //   });
 
-    expect(loginpage.listview_header_text).isDisplayed().to.be.eventually.true;
+    expect(login.listview_header_text).isDisplayed().to.eventually.be.true.and.notify(next);
     //browser.driver.findElement(by.css('h1.heading-large')).getText();
     expect(login.listview_header_text.getText()).to.eventually.equals('List View').and.notify(next);
     browser.driver.sleep(3000);
@@ -68,7 +68,7 @@ defineSupportCode(function ({Given, When, Then}) {
 
   Then(/^I should see error message saying as (.*)$/, function (err_message, next) {
     login.incorrect_login_msg.getText();
-    expect(loginpage.incorrect_login_msg.getText()).to.eventually.equals(err_message).and.notify(next);
+    expect(login.incorrect_login_msg.getText()).to.eventually.equals(err_message).and.notify(next);
     next();
   });
 

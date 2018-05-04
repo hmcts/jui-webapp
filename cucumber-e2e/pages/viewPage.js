@@ -8,4 +8,4 @@ function view(){
 
 
 }
-module.export =view;
+module.export = new view;

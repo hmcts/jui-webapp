@@ -7,4 +7,4 @@ function list(){
 
 
 }
-module.export = list;
+module.export = new list;
