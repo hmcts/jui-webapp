@@ -248,6 +248,13 @@
   dependencies:
     tslib "^1.9.0"
 
+"@louisblack/pdf-annotate.js@0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@louisblack/pdf-annotate.js/-/pdf-annotate.js-0.0.4.tgz#0415bffbe970cca0469246481ddc88c5e8ff76ec"
+  dependencies:
+    create-stylesheet "^0.3.0"
+    object-assign "^4.0.1"
+
 "@ngtools/webpack@6.0.0":
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-6.0.0.tgz#e160cccd85823e9b01ee7bc5156a02510a323a34"
@@ -1846,6 +1853,10 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
+create-stylesheet@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/create-stylesheet/-/create-stylesheet-0.3.0.tgz#37479d83c75131b0677d00510d0419fcccc9bc96"
+
 cross-env@^5.0.5:
   version "5.1.4"
   resolved "https://registry.yarnpkg.com/cross-env/-/cross-env-5.1.4.tgz#f61c14291f7cc653bb86457002ea80a04699d022"
@@ -2310,9 +2321,9 @@ elliptic@^6.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.0"
 
-em-viewer-web@^0.0.14:
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/em-viewer-web/-/em-viewer-web-0.0.14.tgz#3ef7e2fb4551ec8dc1b920ff1bbbc5a57a7f6bee"
+em-viewer-web@^0.0.17:
+  version "0.0.17"
+  resolved "https://registry.yarnpkg.com/em-viewer-web/-/em-viewer-web-0.0.17.tgz#e5e1d1c7c7fe98f01560d1a7f4f170b4dacb1c80"
   dependencies:
     "@angular/animations" "^5.0.0"
     "@angular/common" "^5.0.0"
@@ -2323,6 +2334,8 @@ em-viewer-web@^0.0.14:
     "@angular/platform-browser" "^5.0.0"
     "@angular/platform-browser-dynamic" "^5.0.0"
     "@angular/router" "^5.0.0"
+    "@louisblack/pdf-annotate.js" "0.0.4"
+    "@types/pdfjs-dist" "^0.1.1"
     config "^1.30.0"
     core-js "^2.4.1"
     cross-env "^5.0.5"
@@ -2331,7 +2344,8 @@ em-viewer-web@^0.0.14:
     govuk_template_jinja "^0.23.0"
     http "^0.0.0"
     jwt-decode "^2.2.0"
-    ng2-pdf-viewer "^3.0.8"
+    ng2-pdf-viewer "^4.1.2"
+    pdfjs-dist "1.9.661"
     rxjs "^5.5.2"
     snyk "^1.59.1"
     tslib "^1.7.1"
@@ -4572,7 +4586,7 @@ loader-utils@^0.2.16:
     json5 "^0.5.0"
     object-assign "^4.0.1"
 
-loader-utils@^1.0.1, loader-utils@^1.0.2, loader-utils@^1.1.0:
+loader-utils@^1.0.0, loader-utils@^1.0.1, loader-utils@^1.0.2, loader-utils@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/loader-utils/-/loader-utils-1.1.0.tgz#c98aef488bcceda2ffb5e2de646d6a754429f5cd"
   dependencies:
@@ -5134,9 +5148,9 @@ next-tick@1:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
 
-ng2-pdf-viewer@^3.0.8:
-  version "3.0.8"
-  resolved "https://registry.yarnpkg.com/ng2-pdf-viewer/-/ng2-pdf-viewer-3.0.8.tgz#23c3f55a4ba548b73a0717baf2d40c6a9cc9f3f9"
+ng2-pdf-viewer@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/ng2-pdf-viewer/-/ng2-pdf-viewer-4.1.2.tgz#a2d6501fcf148e313f8712edf0e707b10e323528"
   dependencies:
     "@types/pdfjs-dist" "^0.1.1"
     pdfjs-dist "1.9.489"
@@ -5769,6 +5783,13 @@ pdfjs-dist@1.9.489:
   dependencies:
     node-ensure "^0.0.0"
     worker-loader "^0.8.0"
+
+pdfjs-dist@1.9.661:
+  version "1.9.661"
+  resolved "https://registry.yarnpkg.com/pdfjs-dist/-/pdfjs-dist-1.9.661.tgz#74433774ec3065036e70ac27330624d4fe455483"
+  dependencies:
+    node-ensure "^0.0.0"
+    worker-loader "^1.0.0"
 
 pend@~1.2.0:
   version "1.2.0"
@@ -8609,6 +8630,13 @@ worker-loader@^0.8.0:
   dependencies:
     loader-utils "^1.0.2"
     schema-utils "^0.3.0"
+
+worker-loader@^1.0.0:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/worker-loader/-/worker-loader-1.1.1.tgz#920d74ddac6816fc635392653ed8b4af1929fd92"
+  dependencies:
+    loader-utils "^1.0.0"
+    schema-utils "^0.4.0"
 
 wrap-ansi@^2.0.0:
   version "2.1.0"

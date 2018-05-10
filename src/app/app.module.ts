@@ -33,7 +33,7 @@ const routes: Routes = [
       AppRoutingModule,
       RouterModule.forRoot(routes),
       HttpClientModule,
-      // EmViewerModule,
+      EmViewerModule,
       SharedModule,
       DomainModule
   ],
