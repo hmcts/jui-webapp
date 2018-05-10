@@ -4,7 +4,7 @@
  function invalidSearch() {
   const I = this;
 
-  I.fillField("#username", "");
+  I.fillField("#username", "nybgul@gmail.com");
   I.fillField("#password", 'Monday01');
   I.click('Sign in');
   I.wait(5);

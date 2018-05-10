@@ -4,30 +4,37 @@ exports.config = {
   "timeout": 10000,
 
   "helpers": {
-    "WebdriverIO" : {
+    "Protractor" : {
       "url": "https://case-worker-web.dev.ccd.reform.hmcts.net",
-      "browser": "chrome",
-      //"show": true,
+     "browser": "chrome",
+      "show": true,
       "smartWait": 5000,
       "restart": false,
+
       //"driver":"sauce",
-      'host': 'ondemand.saucelabs.com',
-      'port': 80,
-      'user': 'rramisetty',
-      'key': 'c0a3c627-27d3-4ee8-a9e2-3388d25bfa59',
+     // "proxy":'no_proxy',   // proxy issue with WebIO
+      //'host': 'ondemand.saucelabs.com',
+      //'port': 80,
+      //sauceSeleniumAddress: 'localhost:4445/wd/hub',
+      //'sauceUser': process.env.SAUCE_USERNAME,
+      //
+      //
+      // 'sauceKey': process.env.SAUCE_ACCESS_KEY,
 
-      multiCapabilities: [{
-        browserName: 'chrome',
-        version: 'latest',
-        platform: 'Windows 7',
-        name: "chrome-tests",
-        shardTestFiles: true,
-        maxInstances: 1,
-        "tunnel-identifier": 'saucelabs'
-      }],
-
-    }
+  //     multiCapabilities: [{
+  //       browserName: 'chrome',
+  //       version: 'latest',
+  //       platform: 'Windows 7',
+  //       name: "chrome-tests",
+  //       shardTestFiles: true,
+  //       maxInstances: 1,
+  //       "tunnel-identifier": 'saucelabs'
+  //     }],
+  //
+     }
   },
+
+
 
   'include': {
     'I': './pages/steps.js'
@@ -54,6 +61,8 @@ exports.config = {
       }
     }
   },
+
+
 
   'name': 'Codecept Tests'
 };
