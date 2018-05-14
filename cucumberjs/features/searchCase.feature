@@ -10,7 +10,7 @@ Feature: search a case
 
   Scenario Outline: Verify Searching an invalid case function
     When I click on search
-    When I enter invalid case number as "<case_number>"
+    Then I enter invalid case number as "<case_number>"
     When I click on Apply
     Then I should see message saying "<message>"
 
