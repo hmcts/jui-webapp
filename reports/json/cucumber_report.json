@@ -1,0 +1,135 @@
+[
+  {
+    "keyword": "Feature",
+    "line": 2,
+    "name": "sign out",
+    "tags": [
+      {
+        "line": 1,
+        "name": "@signout"
+      }
+    ],
+    "uri": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumberjs/features/signout.feature",
+    "elements": [
+      {
+        "keyword": "Scenario",
+        "line": 7,
+        "name": "verify sign out",
+        "tags": [
+          {
+            "line": 1,
+            "name": "@signout"
+          }
+        ],
+        "id": "sign-out;verify-sign-out",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "name": "I am on IDAM login page",
+            "result": {
+              "status": "passed",
+              "duration": 2
+            },
+            "isBackground": true,
+            "line": 5,
+            "match": {
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumberjs/steps/loginSteps.js:10"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "name": "I enter email address as nybgul@gmail.com",
+            "result": {
+              "status": "passed",
+              "duration": 0
+            },
+            "line": 8,
+            "match": {
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumberjs/steps/loginSteps.js:20"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "name": "I enter password as Monday01",
+            "result": {
+              "status": "passed",
+              "duration": 0
+            },
+            "line": 9,
+            "match": {
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumberjs/steps/loginSteps.js:27"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "name": "I click on sign in",
+            "result": {
+              "status": "passed",
+              "duration": 1
+            },
+            "line": 10,
+            "match": {
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumberjs/steps/loginSteps.js:34"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "I will be redirected to caselist",
+            "result": {
+              "status": "passed",
+              "duration": 0
+            },
+            "line": 11,
+            "match": {
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumberjs/steps/loginSteps.js:40"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "I click on Sign Out",
+            "result": {
+              "status": "passed",
+              "duration": 0
+            },
+            "line": 12,
+            "match": {
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumberjs/steps/signOutSteps.js:11"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "I should see a message saying \"You have succesfully logged out and this window can now be closed.\"",
+            "result": {
+              "status": "passed",
+              "duration": 0
+            },
+            "line": 13,
+            "match": {
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumberjs/steps/signOutSteps.js:20"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "After",
+            "result": {
+              "status": "passed",
+              "duration": 1
+            },
+            "hidden": true,
+            "match": {
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumberjs/support/hooks.js:19"
+            }
+          }
+        ]
+      }
+    ],
+    "id": "sign-out"
+  }
+]
