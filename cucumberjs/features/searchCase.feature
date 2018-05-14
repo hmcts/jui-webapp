@@ -3,8 +3,8 @@ Feature: search a case
 
   Background:
     Given I am on IDAM login page
-    When I enter email address as nybgul@gmail.com
-    When I enter password as Monday01
+    When I enter email address as ""
+    When I enter password as ""
     When I click on sign in
     Then I will be redirected to caselist
 

@@ -6,7 +6,7 @@ exports.config = {
   seleniumAddress: "http://localhost:4444/wd/hub",
   getPageTimeout: 60000,
   allScriptsTimeout: 500000,
-  baseUrl:"https://case-worker-web.dev.ccd.reform.hmcts.net/",
+  baseUrl:"",
 
   capabilities: {
     browserName: "chrome"
@@ -32,6 +32,6 @@ exports.config = {
     strict: true,
     format: ["pretty"],
     require: ["../steps/*.js", "../support/*.js"],
-    tags: "@search"
+    tags: " "
   }
 };
