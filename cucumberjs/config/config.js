@@ -32,6 +32,6 @@ exports.config = {
     strict: true,
     format: ["pretty"],
     require: ["../steps/*.js", "../support/*.js"],
-    tags: "@feedback"
+    tags: "@search"
   }
 };

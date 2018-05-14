@@ -1,9 +1,10 @@
 "use strict";
 
- function searchPage() {
-  this.apply = element(by.css('#dynamicFilters'));
+function searchPage() {
   this.case_number_field = element(by.css('input#caseReference'));
-  this.invalid_search_err = element(by.css('button.button'));
+  this.apply = element(by.css('button.button'));
+  this.invalid_search_err = element(by.css('ccd-search-result > div'));
 
- }
- module.exports = new searchPage;
+}
+
+module.exports = new searchPage;
