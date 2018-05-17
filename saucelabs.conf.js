@@ -5,7 +5,7 @@ exports.config = {
 
 
   "helpers": {
-    "WebdriverIO" : {
+    "WebDriverIO" : {
       "url": "",
       "browser": "chrome",
       "show": true,
