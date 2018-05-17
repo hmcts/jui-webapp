@@ -6,7 +6,7 @@ exports.config = {
 
   "helpers": {
     "WebdriverIO" : {
-      "url": "https://case-worker-web.dev.ccd.reform.hmcts.net",
+      "url": "",
       "browser": "chrome",
       "show": true,
       "smartWait": 5000,

@@ -6,13 +6,13 @@
 
 
 
-  I.fillField("#username", "nybgul@gmail.com");
-  I.fillField("#password", 'Monday01');
+  I.fillField("#username", "");
+  I.fillField("", 'Monday01');
   I.click('Sign in');
   I.wait(5);
   I.see('Search','#search');
   I.click('Search');
-  I.seeInCurrentUrl('https://case-worker-web.dev.ccd.reform.hmcts.net/search');
+  I.seeInCurrentUrl('');
   I.wait(5);
   I.seeElement('#caseReference');
   I.fillField('#caseReference', '01');
