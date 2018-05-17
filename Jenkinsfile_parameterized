@@ -1,24 +1,34 @@
 #!groovy
-@Library("Infrastructure") _
 
 properties([
-    parameters([
-        string(name: 'PRODUCT_NAME', defaultValue: 'jui', description: ''),
-        string(name: 'APP', defaultValue: 'webapp-web', description: ''),
-        string(name: 'TYPE', defaultValue: 'nodejs', description: ''),
-        string(name: 'ENVIRONMENT', defaultValue: 'sandbox', description: 'Environment where code should be build and deployed'),
-        choice(name: 'SUBSCRIPTION', choices: 'sandbox\nnonprod\nprod', description: 'Azure subscriptions available to build in')
-    ])
+  [
+    $class       : 'GithubProjectProperty',
+    displayName  : 'Judicial UI Web App',
+    projectUrlStr: 'https://github.com/hmcts/jui-webapp/'
+  ],
+  pipelineTriggers([
+    [$class: 'GitHubPushTrigger']
+  ])
 ])
 
-withParameterizedPipeline(params.TYPE, params.PRODUCT_NAME, params.APP, params.ENVIRONMENT, params.SUBSCRIPTION) {
+@Library("Infrastructure") _
+
+def type = "nodejs"
+def product = "jui"
+def component = "webapp"
+
+def channel = '#jui-pipeline'
+
+withPipeline(type , product, component) {
     after('checkout') {
         sh 'yarn cache clean'
     }
 
     after('build') {
-            echo '--After build hook--'
-            sh 'npm run build-universal'
-            echo '----'
-    }
+        echo '--After build hook--'
+        sh 'npm run build-universal'
+        echo '----'
+     }
+
+    enableSlackNotifications(channel)
 }
