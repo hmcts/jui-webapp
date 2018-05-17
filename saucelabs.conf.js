@@ -5,12 +5,29 @@ exports.config = {
 
 
   "helpers": {
-    "Protractor" : {
+    "WebdriverIO" : {
       "url": "https://case-worker-web.dev.ccd.reform.hmcts.net",
       "browser": "chrome",
       "show": true,
       "smartWait": 5000,
       "restart": false,
+      "driver":'sauce',
+      'host': 'ondemand.saucelabs.com',
+      'port': 80,
+      'user': process.env.SAUCE_USERNAME,
+      'key': process.env.SAUCE_ACCESS_KEY,
+
+
+      Capabilities: [{
+        browserName: 'chrome',
+        version: 'latest',
+        platform: 'Windows 7',
+        name: "webio-tests",
+        // shardTestFiles: true,
+        // maxInstances: 1,
+        "tunnel-identifier": 'saucelabs'
+      }],
+
     }
   },
 

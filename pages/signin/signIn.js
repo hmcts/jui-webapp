@@ -1,12 +1,11 @@
 'use strict';
 
- function signIn() {
+function signIn() {
   const I = this;
-
-
 
   browser.waitForAngularEnabled(false);
   browser.get("https://idam.dev.ccidam.reform.hmcts.net/login?response_type=code&client_id=ccd_gateway&redirect_uri=https%3A%2F%2Fcase-worker-web.dev.ccd.reform.hmcts.net%2Foauth2redirect");
+
   I.see('Sign in');
   I.fillField("#username", "nybgul@gmail.com");
   I.fillField("#password", 'Monday01');

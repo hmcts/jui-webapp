@@ -6,7 +6,7 @@ Before(function* (I) {
   browser.ignoreSynchronization = true;
   browser.waitForAngular();
   browser.sleep(500);
-  I.wait(10);
+  I.wait(30);
 
 
 });
