@@ -3,30 +3,28 @@ const { InfoContributor, infoRequestHandler  } = require('@hmcts/info-provider')
 require( 'zone.js/dist/zone-node');
 const apiRoute = require('./api');
 const express = require('express');
+const app = express();
 const serviceTokenMiddleware = require('./middleware/service-token');
 const ngExpressEngine = require('@nguniversal/express-engine').ngExpressEngine;
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
-
 const {
-    AppServerModuleNgFactory,
-    LAZY_MODULE_MAP
+  AppServerModuleNgFactory,
+  LAZY_MODULE_MAP
 } = require(`./dist-server/main`);
 
-const app = express();
-
 const {
-    provideModuleMap
+  provideModuleMap
 } = require('@nguniversal/module-map-ngfactory-loader');
 
 const provider = provideModuleMap(LAZY_MODULE_MAP);
 
 app.engine(
-    'html',
-    ngExpressEngine({
-        bootstrap: AppServerModuleNgFactory,
-        providers: [provider]
-    })
+  'html',
+  ngExpressEngine({
+    bootstrap: AppServerModuleNgFactory,
+    providers: [provider]
+  })
 );
 
 app.set('view engine', 'html');
@@ -72,17 +70,16 @@ app.get('/info', infoRequestHandler({
   }
 }));
 
-
 app.use(serviceTokenMiddleware);
 app.use('/api', apiRoute);
 
 app.get('/*', (req, res) => {
-    console.time(`GET: ${req.originalUrl}`);
-    res.render('./dist/index', {
-        req: req,
-        res: res
-    });
-    console.timeEnd(`GET: ${req.originalUrl}`);
+  console.time(`GET: ${req.originalUrl}`);
+  res.render('./dist/index', {
+    req: req,
+    res: res
+  });
+  console.timeEnd(`GET: ${req.originalUrl}`);
 });
 
 app.listen(process.env.PORT || 3000, () => {});

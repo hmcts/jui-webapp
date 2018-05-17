@@ -6,11 +6,12 @@ S2S_URI = http://localhost:4502
 NODE_ENV = alectronic
 PORT = 3000
 
-
 clear;
 ./bin/fakeversion.sh
 yarn cache clean
 yarn install --force
 yarn build-universal
-yarn start
+yarn start-dev-proxy
+
+# Then start node dev-server.js
 
