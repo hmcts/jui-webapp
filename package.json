@@ -27,6 +27,7 @@
     "test": "ng test",
     "pree2e": "webdriver-manager update --standalone false --gecko false --quiet",
     "cucumberjs": "protractor cucumberjs/config/config.js",
+    "crossbrowser-e2e": "protractor cucumberjs/config/saucelabs.conf.js",
     "wd:start": "webdriver-manager update && webdriver-manager start"
   },
   "private": true,
@@ -44,6 +45,9 @@
     "@angular/platform-browser-dynamic": "^6.0.0",
     "@angular/platform-server": "^6.0.0",
     "@angular/router": "^6.0.0",
+    "@hmcts/info-provider": "^1.0.0",
+    "@hmcts/nodejs-healthcheck": "^1.4.6",
+    "@hmcts/nodejs-logging": "^3.0.0",
     "@nguniversal/express-engine": "^6.0.0",
     "@nguniversal/module-map-ngfactory-loader": "^6.0.0",
     "core-js": "^2.4.1",
@@ -59,6 +63,7 @@
     "rxjs-compat": "^6.1.0",
     "ts-loader": "^4.0.1",
     "url": "^0.11.0",
+    "yarn": "1.6.0",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
@@ -97,7 +102,7 @@
     "postcss-loader": "^2.0.10",
     "postcss-url": "^7.1.2",
     "protractor": "^5.3.1",
-    "protractor-cucumber-framework": "4.2.0",
+    "protractor-cucumber-framework": "^4.2.0",
     "raw-loader": "^0.5.1",
     "sass-loader": "^6.0.6",
     "socks-proxy-agent": "^3.0.1",
