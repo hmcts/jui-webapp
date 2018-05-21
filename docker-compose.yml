@@ -1,0 +1,40 @@
+version: '2.1'
+
+services:
+  jui-webapp:
+    build:
+      context: .
+    image: hmcts/jui-webapp:latest
+    environment:
+    - NODE_ENV=development
+    - PORT=8080
+    - IDAM_LOGIN_URL=https://localhost:3501/login
+    - DM_STORE_URI=http://dm-store:8080
+    - EM_ANNO_URI=http://em-anno:8080
+#    - EM_REDACT_URI =http://em-redact:8080
+    - DM_UPLOAD_URL=/demproxy/dm/documents
+    - DM_OWNED_URL=/demproxy/dm/documents/owned
+    - DM_SEARCH_URL=/demproxy/dm/documents/filter
+    - IDAM_API_URI=http://idam-api:8080
+    - IDAM_S2S_BASE_URI=http://service-auth-provider-app:8489
+    - IDAM_SERVICE_KEY=AAAAAAAAAAAAAAAA
+    - IDAM_SERVICE_NAME=em_gw
+    #      logging env vars
+    - ROOT_APPENDER=JSON_CONSOLE
+    - LOG_OUTPUT=single
+    - JSON_CONSOLE_PRETTY_PRINT=false
+    - REFORM_SERVICE_TYPE=node
+    - REFORM_SERVICE_NAME=dm-show
+    - REFORM_TEAM=evidence
+    - REFORM_ENVIRONMENT=docker
+    #      healthcheck env vars
+    - PACKAGES_ENVIRONMENT=docker
+    - PACKAGES_PROJECT=evidence
+    - PACKAGES_NAME=dm-show
+    - PACKAGES_VERSION=unknown
+    ports:
+      - 3608:8080
+
+
+
+

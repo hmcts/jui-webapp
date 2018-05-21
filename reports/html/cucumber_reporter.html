@@ -244,7 +244,7 @@ th {
 
     <div class="container">
 
-      <div class="generated-on">Mon Apr 30 2018 12:09:09 GMT+0100 (BST)</div>
+      <div class="generated-on">Mon May 21 2018 14:49:31 GMT+0100 (BST)</div>
 
       <div class="row">
         <div class="chart col-lg-6 col-md-6" id="piechart_features"></div>
@@ -261,11 +261,11 @@ th {
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">
-            <div class="tags"> <span class="tag">@login</span>  </div>
+            <div class="tags"> <span class="tag">@feedback</span>  </div>
           <a data-toggle="collapse" href="#collapseFeature0">
             <i class="glyphicon glyphicon-chevron-right"></i>
             <i class="glyphicon glyphicon-chevron-down"></i>
-            <b>Feature:</b>EM login fun
+            <b>Feature:</b>feedback function
             <span class="label-container">
               <span class="label label-success" title="Passed">1</span>
               
@@ -289,9 +289,9 @@ th {
                   <a data-toggle="collapse" href="#collapseScenario0_0">
                     <i class="glyphicon glyphicon-chevron-right"></i>
                     <i class="glyphicon glyphicon-chevron-down"></i>
-                    <b>Scenario:</b>Valid login
+                    <b>Scenario:</b>Verify feedback functionality
                     <span class="label-container">
-                      <span class="label label-success" title="Passed">5</span>
+                      <span class="label label-success" title="Passed">8</span>
                       
                       
                       
@@ -346,7 +346,7 @@ th {
                     
                       <span class="text">
                         <span class="keyword highlight">When </span>
-                        I enter valid Email address as test@test.com
+                        I see feedback link
                           
                               <span class="step-duration">
                                0s
@@ -377,8 +377,36 @@ th {
                       
                     
                       <span class="text">
+                        <span class="keyword highlight">When </span>
+                        I click on feedback
+                          
+                         
+                            
+                          
+                      </span>
+                    
+                      
+
+                      
+
+                      
+
+                       
+
+                    
+                    </p>
+                    
+                  
+                    
+                    <p class="scenario-container">
+                    
+                      
+                        <span class="label label-success" title="Success"><i class="glyphicon glyphicon-ok"></i></span>
+                      
+                    
+                      <span class="text">
                         <span class="keyword highlight">Then </span>
-                        I enter valid Password as 123
+                        I should see header message saying "Help us improve this service"
                           
                               <span class="step-duration">
                                0s
@@ -409,8 +437,8 @@ th {
                       
                     
                       <span class="text">
-                        <span class="keyword highlight">And </span>
-                        I click on Sign in
+                        <span class="keyword highlight">When </span>
+                        I choose a service
                           
                          
                             
@@ -438,8 +466,68 @@ th {
                     
                       <span class="text">
                         <span class="keyword highlight">Then </span>
-                        I should see List View
+                        I enter my feedback
                           
+                         
+                            
+                          
+                      </span>
+                    
+                      
+
+                      
+
+                      
+
+                       
+
+                    
+                    </p>
+                    
+                  
+                    
+                    <p class="scenario-container">
+                    
+                      
+                        <span class="label label-success" title="Success"><i class="glyphicon glyphicon-ok"></i></span>
+                      
+                    
+                      <span class="text">
+                        <span class="keyword highlight">When </span>
+                        I click submit
+                          
+                         
+                            
+                          
+                      </span>
+                    
+                      
+
+                      
+
+                      
+
+                       
+
+                    
+                    </p>
+                    
+                  
+                    
+                    <p class="scenario-container">
+                    
+                      
+                        <span class="label label-success" title="Success"><i class="glyphicon glyphicon-ok"></i></span>
+                      
+                    
+                      <span class="text">
+                        <span class="keyword highlight">Then </span>
+                        I should see a message after feedback saying "Thank you for your feedback"
+                          
+                              <span class="step-duration">
+                               0s
+                              </span>
+                            
                          
                             
                           

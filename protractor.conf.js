@@ -30,14 +30,13 @@ exports.config = {
 
     browser.ignoreSynchronization = false;
   },
+  onPrepare() {
+    require('ts-node').register({
+      project: 'e2e/tsconfig.e2e.json'
+    });
+    jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
+
+  },
 
 
-  /**
-   * Angular 2 configuration
-   *
-   * useAllAngular2AppRoots: tells Protractor to wait for any angular2 apps on the page instead of just the one matching
-   * `rootEl`
-   *
-   */
-  useAllAngular2AppRoots: true
 };
