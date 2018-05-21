@@ -32,7 +32,7 @@ exports.config = {
   cucumberOpts: {
     require: ["../steps/*.js", "../support/*.js"],
     format: ["pretty"],
-    tags: " "
+    tags: ""
   },
 
   multiCapabilities: [
@@ -43,12 +43,32 @@ exports.config = {
     },
 
 
-     {
+    {
       'platform': 'Windows 7',
       'browserName': 'firefox',
       'version': '60.0'
-    }
+    },
 
+    {
+      'browserName': 'internet explorer',
+      'name': 'IE11_Win7',
+      'platform': 'Windows 7',
+      'version': '11'
+    },
+
+
+    {
+      'browserName': 'internet explorer',
+      'name': 'IE10_Win7',
+      'platform': 'Windows 7',
+    },
+
+    {
+      'browserName': 'MicrosoftEdge',
+      'name': 'IEEdge_LATEST',
+      'platform': 'Windows 10',
+      'version': 'latest'
+    }
   ],
 
 
