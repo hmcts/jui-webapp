@@ -5,7 +5,7 @@ exports.config = {
 
 
   "helpers": {
-    "Protractor" : {
+    Protractor : {
       "url": "",
       "browser": "chrome",
       "show": true,
