@@ -2,26 +2,26 @@
   {
     "keyword": "Feature",
     "line": 2,
-    "name": "sign out",
+    "name": "feedback function",
     "tags": [
       {
         "line": 1,
-        "name": "@signout"
+        "name": "@feedback"
       }
     ],
-    "uri": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumberjs/features/signout.feature",
+    "uri": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumberjs/features/feedback.feature",
     "elements": [
       {
         "keyword": "Scenario",
-        "line": 7,
-        "name": "verify sign out",
+        "line": 8,
+        "name": "Verify feedback functionality",
         "tags": [
           {
             "line": 1,
-            "name": "@signout"
+            "name": "@feedback"
           }
         ],
-        "id": "sign-out;verify-sign-out",
+        "id": "feedback-function;verify-feedback-functionality",
         "steps": [
           {
             "arguments": [],
@@ -34,85 +34,99 @@
             "isBackground": true,
             "line": 5,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumberjs/steps/loginSteps.js:10"
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumberjs/steps/loginSteps.js:11"
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
-            "name": "I enter email address as nybgul@gmail.com",
+            "name": "I see feedback link",
             "result": {
               "status": "passed",
-              "duration": 0
+              "duration": 1
             },
-            "line": 8,
+            "isBackground": true,
+            "line": 6,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumberjs/steps/loginSteps.js:20"
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumberjs/steps/feedbackSteps.js:11"
             }
           },
           {
             "arguments": [],
             "keyword": "When ",
-            "name": "I enter password as Monday01",
+            "name": "I click on feedback",
             "result": {
               "status": "passed",
               "duration": 0
             },
             "line": 9,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumberjs/steps/loginSteps.js:27"
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumberjs/steps/feedbackSteps.js:20"
             }
           },
           {
             "arguments": [],
-            "keyword": "When ",
-            "name": "I click on sign in",
+            "keyword": "Then ",
+            "name": "I should see header message saying \"Help us improve this service\"",
             "result": {
               "status": "passed",
               "duration": 1
             },
             "line": 10,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumberjs/steps/loginSteps.js:34"
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumberjs/steps/feedbackSteps.js:25"
             }
           },
           {
             "arguments": [],
-            "keyword": "Then ",
-            "name": "I will be redirected to caselist",
+            "keyword": "When ",
+            "name": "I choose a service",
             "result": {
               "status": "passed",
               "duration": 0
             },
             "line": 11,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumberjs/steps/loginSteps.js:40"
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumberjs/steps/feedbackSteps.js:32"
             }
           },
           {
             "arguments": [],
             "keyword": "Then ",
-            "name": "I click on Sign Out",
+            "name": "I enter my feedback",
             "result": {
               "status": "passed",
               "duration": 0
             },
             "line": 12,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumberjs/steps/signOutSteps.js:11"
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumberjs/steps/feedbackSteps.js:38"
             }
           },
           {
             "arguments": [],
-            "keyword": "Then ",
-            "name": "I should see a message saying \"You have succesfully logged out and this window can now be closed.\"",
+            "keyword": "When ",
+            "name": "I click submit",
             "result": {
               "status": "passed",
               "duration": 0
             },
             "line": 13,
             "match": {
-              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumberjs/steps/signOutSteps.js:20"
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumberjs/steps/feedbackSteps.js:43"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "I should see a message after feedback saying \"Thank you for your feedback\"",
+            "result": {
+              "status": "passed",
+              "duration": 1
+            },
+            "line": 14,
+            "match": {
+              "location": "/Users/roopa/Documents/Work/Poc/jui-webapp/cucumberjs/steps/feedbackSteps.js:49"
             }
           },
           {
@@ -120,7 +134,7 @@
             "keyword": "After",
             "result": {
               "status": "passed",
-              "duration": 1
+              "duration": 0
             },
             "hidden": true,
             "match": {
@@ -130,6 +144,6 @@
         ]
       }
     ],
-    "id": "sign-out"
+    "id": "feedback-function"
   }
 ]

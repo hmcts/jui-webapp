@@ -426,7 +426,7 @@
   <h1>Cucumber Report</h1>
 
   <h2 class="component"></h2>
-  <h3 class="timestamp">2018-05-11 04:28:26</h3>
+  <h3 class="timestamp">2018-05-21 02:49:31</h3>
 </header>
   <ul class="summary">
     <li>1 Features</li>
@@ -442,9 +442,9 @@
 
   <ul class="feature-list print-hide">
       <li class="passed">
-        <a href="#F_sign-out" title="sign out">sign out</a>
+        <a href="#F_feedback-function" title="feedback function">feedback function</a>
         <ul class="scenario-list">
-            <li class="passed"><a href="#S_sign-out;verify-sign-out" title="verify sign out">verify sign out</a></li>
+            <li class="passed"><a href="#S_feedback-function;verify-feedback-functionality" title="Verify feedback functionality">Verify feedback functionality</a></li>
         </ul>
       </li>
   </ul>
@@ -473,7 +473,7 @@
       </tr>
 
         <tr class="passed">
-          <td>sign out</td>
+          <td>feedback function</td>
           <td class="scenarios-all"></td>
           <td class="scenarios-passed passed"></td>
           <td class="scenarios-failed failed"></td>
@@ -481,7 +481,7 @@
           <td class="steps-passed passed"></td>
           <td class="steps-failed failed"></td>
           <td class="steps-skipped skipped"></td>
-          <td class="duration">0 s</td>
+          <td class="duration">0.01 s</td>
           <td class="status">passed</td>
         </tr>
 
@@ -489,15 +489,15 @@
   </div>
  -->
 
-    <section class="report" id="F_sign-out">
-      <h2>Feature: sign out <span class="tags">@signout</span></h2>
+    <section class="report" id="F_feedback-function">
+      <h2>Feature: feedback function <span class="tags">@feedback</span></h2>
 
-      <p class="filename">&#x2F;Users&#x2F;roopa&#x2F;Documents&#x2F;Work&#x2F;Poc&#x2F;jui-webapp&#x2F;cucumberjs&#x2F;features&#x2F;signout.feature</p>
+      <p class="filename">&#x2F;Users&#x2F;roopa&#x2F;Documents&#x2F;Work&#x2F;Poc&#x2F;jui-webapp&#x2F;cucumberjs&#x2F;features&#x2F;feedback.feature</p>
 
       <p class="story"></p>
-        <h3 id="S_sign-out;verify-sign-out">
-          Scenario: verify sign out
-            <span class="scenario-tag">@signout</span>
+        <h3 id="S_feedback-function;verify-feedback-functionality">
+          Scenario: Verify feedback functionality
+            <span class="scenario-tag">@feedback</span>
         </h3>
 
         <table>
@@ -531,13 +531,13 @@
             <tr class="passed">
               <td>When </td>
               <td>
-                I enter email address as nybgul@gmail.com
+                I see feedback link
                 <table class="datatable">
                 <!--  -->
                 </table>
               </td>
-              <td>8</td>
-              <td class="duration"></td>
+              <td>6</td>
+              <td class="duration">0 s</td>
               <td class="status">passed</td>
             </tr>
 
@@ -550,7 +550,7 @@
             <tr class="passed">
               <td>When </td>
               <td>
-                I enter password as Monday01
+                I click on feedback
                 <table class="datatable">
                 <!--  -->
                 </table>
@@ -567,9 +567,9 @@
               <td class="screenshot-link" data-index="0"></td>
             </tr>
             <tr class="passed">
-              <td>When </td>
+              <td>Then </td>
               <td>
-                I click on sign in
+                I should see header message saying &quot;Help us improve this service&quot;
                 <table class="datatable">
                 <!--  -->
                 </table>
@@ -586,9 +586,9 @@
               <td class="screenshot-link" data-index="0"></td>
             </tr>
             <tr class="passed">
-              <td>Then </td>
+              <td>When </td>
               <td>
-                I will be redirected to caselist
+                I choose a service
                 <table class="datatable">
                 <!--  -->
                 </table>
@@ -607,7 +607,7 @@
             <tr class="passed">
               <td>Then </td>
               <td>
-                I click on Sign Out
+                I enter my feedback
                 <table class="datatable">
                 <!--  -->
                 </table>
@@ -624,15 +624,34 @@
               <td class="screenshot-link" data-index="0"></td>
             </tr>
             <tr class="passed">
-              <td>Then </td>
+              <td>When </td>
               <td>
-                I should see a message saying &quot;You have succesfully logged out and this window can now be closed.&quot;
+                I click submit
                 <table class="datatable">
                 <!--  -->
                 </table>
               </td>
               <td>13</td>
               <td class="duration"></td>
+              <td class="status">passed</td>
+            </tr>
+
+            <tr class="hidden passed">
+              <td class="trace" colspan="4">
+                <pre></pre>
+              </td>
+              <td class="screenshot-link" data-index="0"></td>
+            </tr>
+            <tr class="passed">
+              <td>Then </td>
+              <td>
+                I should see a message after feedback saying &quot;Thank you for your feedback&quot;
+                <table class="datatable">
+                <!--  -->
+                </table>
+              </td>
+              <td>14</td>
+              <td class="duration">0 s</td>
               <td class="status">passed</td>
             </tr>
 
@@ -675,15 +694,15 @@
       </tr>
 
         <tr class="passed">
-          <td>@signout</td>
+          <td>@feedback</td>
           <td class="scenarios-all">1</td>
           <td class="scenarios-passed passed">1</td>
           <td class="scenarios-failed failed">0</td>
-          <td class="steps-all">7</td>
-          <td class="steps-passed passed">7</td>
+          <td class="steps-all">8</td>
+          <td class="steps-passed passed">8</td>
           <td class="steps-failed failed">0</td>
           <td class="steps-skipped skipped">0</td>
-          <td class="duration">0 s</td>
+          <td class="duration">0.01 s</td>
           <td class="status">passed</td>
         </tr>
 

@@ -29,16 +29,20 @@ change tags name in config file (it helps to run different features)
 
 ### Prerequisites
 
+
 Get sauce labs credentials
+
 
 connect to sauce labs tunnel using your sauce credentials
 (check manually )
+
 
 bin/sc -p proxyout.reform.hmcts.net:8080 -u <username> -k <access_key> --dns 172.16.0.10 -i 'tunnel-identifier' -v.
 
 
 
 ### run crossbrowser-e2e tests (cucumberjs folder)
+
 
 1. yarn wd:start
 
