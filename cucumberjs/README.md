@@ -17,9 +17,9 @@ checkout cucumberjs (checkout branch)
 yarn
 
 # run the e2e tests (cucumberjs folder)
-1.yarn wd:start 
+1. yarn wd:start 
 
-2.yarn cucumberjs
+2. yarn cucumberjs
 
 change tags name in config file (it helps to run different features)
 
@@ -38,11 +38,11 @@ bin/sc -p proxyout.reform.hmcts.net:8080 -u username -k access_key --dns 172.16.
 
 
 
-#run crossbrowser-e2e tests (cucumberjs folder)
+### run crossbrowser-e2e tests (cucumberjs folder)
 
-1.yarn wd:start
+1. yarn wd:start
 
-2.SAUCE_USERNAME=username SAUCE_ACCESS_KEY=key yarn crossbrowser-e2e
+2. SAUCE_USERNAME=username SAUCE_ACCESS_KEY=key yarn crossbrowser-e2e
 
 
 
