@@ -1,5 +1,5 @@
 @feedback
-Feature: feedback function
+Feature:feedback function
 
   Background:
     Given I am on IDAM login page

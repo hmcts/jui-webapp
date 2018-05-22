@@ -6,11 +6,8 @@
     "ng": "ng",
     "build-universal": "npm run build:client-and-server-bundles",
     "e2e": "protractor ./protractor.conf.js",
-    "cucumber-e2e": "protractor cucumber-e2e/config/multiConfig.js",
     "start-dev": "ng serve",
     "protractor": "protractor cucumber-e2e/config/config.js",
-    "crossbrowser-e2e": "protractor /cucumber-e2e/config/saucelabs.config.js",
-    "wd:start": "webdriver-manager update && webdriver-manager start",
     "start-dev-proxy": "ng serve --proxy-config proxy.config.json",
     "build:client-and-server-bundles": "ng build --prod && ng run jui:server",
     "lint": "echo \"Linting\"",
@@ -70,6 +67,7 @@
     "yarn": "1.6.0",
     "zone.js": "^0.8.19"
   },
+
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.6.0",
     "@angular-devkit/core": "^0.6.0",

@@ -32,7 +32,7 @@ exports.config = {
   cucumberOpts: {
     require: ["../steps/*.js", "../support/*.js"],
     format: ["pretty"],
-    tags: ""
+    tags: " "
   },
 
   multiCapabilities: [
