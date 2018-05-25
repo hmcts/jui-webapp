@@ -3,6 +3,8 @@ import {CommonModule} from '@angular/common';
 import {SearchResultComponent} from './search-result/search-result.component';
 import {SharedModule} from '../shared/shared.module';
 import { CcdService } from './ccd.service';
+import { CaseViewerModule} from "./case-viewer/case-viewer.module";
+
 
 @NgModule({
     imports: [
@@ -10,7 +12,8 @@ import { CcdService } from './ccd.service';
         SharedModule
     ],
     exports: [
-        SearchResultComponent
+        SearchResultComponent,
+        CaseViewerModule
     ],
     declarations: [SearchResultComponent],
     providers: [CcdService]

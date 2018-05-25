@@ -7,7 +7,7 @@ const { InfoContributor, infoRequestHandler  } = require('@hmcts/info-provider')
 const express = require('express');
 const app = express();
 const serviceTokenMiddleware = require('./middleware/service-token');
-
+const apiRoute = require('./api');
 
 // THIS IS EXTERNAL ENDPOINT WE NEED TO FIND A WAY TO MOVE THIS TO A CONFIG FILE...
 const S2S_URI = process.env.S2S_URI || 'http://localhost:4501';
@@ -45,6 +45,9 @@ app.get('/info', infoRequestHandler({
     // hostname: hostname()
   }
 }));
+
+
+app.use('/api', apiRoute);
 
 app.use(serviceTokenMiddleware);
 
