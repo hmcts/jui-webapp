@@ -3,7 +3,7 @@ var Cucumber = require("cucumber");
 var { defineSupportCode } = require("cucumber");
 var fs = require("fs");
 var mkdirp = require("mkdirp");
-var conf = require("../config/config").config;
+var conf = require("../../config/conf").config;
 var reporter = require("cucumber-html-reporter");
 var report = require("cucumber-html-report");
 

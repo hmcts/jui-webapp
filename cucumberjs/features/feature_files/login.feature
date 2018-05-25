@@ -12,5 +12,5 @@ Feature: CCD Login
 
     Examples:
       | email_address | pwd |
-      |               |     |
+      | nybgul@gmail.com|Monday01    |
 

@@ -3,10 +3,11 @@ var chaiAsPromised = require("chai-as-promised");
 chai.use(chaiAsPromised);
 
 exports.config = {
+  directConnect: true,
   seleniumAddress: "http://localhost:4444/wd/hub",
   getPageTimeout: 60000,
   allScriptsTimeout: 500000,
-  baseUrl:" ",
+  baseUrl:"https://case-worker-web.dev.ccd.reform.hmcts.net/",
 
   capabilities: {
     browserName: "chrome"
@@ -15,7 +16,7 @@ exports.config = {
 
   framework: "custom",
   frameworkPath: require.resolve("protractor-cucumber-framework"),
-  specs: ["../features/*.feature"],
+  specs: ["../features/feature_files/*.feature"],
 
   //resultJsonOutputFile: "reports/json/protractor_report.json",
 
@@ -31,7 +32,7 @@ exports.config = {
   cucumberOpts: {
     strict: true,
     format: ["pretty"],
-    require: ["../steps/*.js", "../support/*.js"],
-    tags: " "
+    require: ["../features/step_definitions/*.js", "../features/support/*.js"],
+    tags: ""
   }
 };

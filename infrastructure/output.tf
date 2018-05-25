@@ -25,3 +25,5 @@ output "dm_store_app_url" {
 output "em_anno_app_url" {
   value = "http://${var.em_anno_app_url}-${local.local_env}.service.core-compute-${local.local_env}.internal"
 }
+
+

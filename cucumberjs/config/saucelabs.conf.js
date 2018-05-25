@@ -11,13 +11,14 @@ exports.config = {
    * `rootEl`
    *
    */
+  //directConnect: true,
   useAllAngular2AppRoots: true,
 
   /* SAUCELABS CONFIG */
   sauceUser: process.env.SAUCE_USERNAME,
   sauceKey: process.env.SAUCE_ACCESS_KEY,
 
-  baseUrl: '',
+  baseUrl: 'https://case-worker-web.dev.ccd.reform.hmcts.net/',
 
   exclude: [],
 
@@ -30,7 +31,7 @@ exports.config = {
   specs: ["../features/*.feature"],
 
   cucumberOpts: {
-    require: ["../steps/*.js", "../support/*.js"],
+    require: ["../features/step_definitions/*.js", "../features/support/*.js"],
     format: ["pretty"],
     tags: " "
   },
@@ -43,32 +44,32 @@ exports.config = {
     },
 
 
-    {
-      'platform': 'Windows 7',
-      'browserName': 'firefox',
-      'version': '60.0'
-    },
-
-    {
-      'browserName': 'internet explorer',
-      'name': 'IE11_Win7',
-      'platform': 'Windows 7',
-      'version': '11'
-    },
-
-
-    {
-      'browserName': 'internet explorer',
-      'name': 'IE10_Win7',
-      'platform': 'Windows 7',
-    },
-
-    {
-      'browserName': 'MicrosoftEdge',
-      'name': 'IEEdge_LATEST',
-      'platform': 'Windows 10',
-      'version': 'latest'
-    }
+    // {
+    //   'platform': 'Windows 7',
+    //   'browserName': 'firefox',
+    //   'version': '60.0'
+    // },
+    //
+    // {
+    //   'browserName': 'internet explorer',
+    //   'name': 'IE11_Win7',
+    //   'platform': 'Windows 7',
+    //   'version': '11'
+    // },
+    //
+    //
+    // {
+    //   'browserName': 'internet explorer',
+    //   'name': 'IE10_Win7',
+    //   'platform': 'Windows 7',
+    // },
+    //
+    // {
+    //   'browserName': 'MicrosoftEdge',
+    //   'name': 'IEEdge_LATEST',
+    //   'platform': 'Windows 10',
+    //   'version': 'latest'
+    // }
   ],
 
 
