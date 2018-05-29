@@ -7,7 +7,7 @@ exports.config = {
   seleniumAddress: "http://localhost:4444/wd/hub",
   getPageTimeout: 60000,
   allScriptsTimeout: 500000,
-  baseUrl:"https://case-worker-web.dev.ccd.reform.hmcts.net/",
+  baseUrl:"",
 
   capabilities: {
     browserName: "chrome"
@@ -16,7 +16,7 @@ exports.config = {
 
   framework: "custom",
   frameworkPath: require.resolve("protractor-cucumber-framework"),
-  specs: ["../features/feature_files/*.feature"],
+  specs: ["../features/*.feature"],
 
   //resultJsonOutputFile: "reports/json/protractor_report.json",
 
@@ -32,7 +32,7 @@ exports.config = {
   cucumberOpts: {
     strict: true,
     format: ["pretty"],
-    require: ["../features/step_definitions/*.js", "../features/support/*.js"],
+    require: ["../features/step_definitions/*.js", "../support/*.js"],
     tags: ""
   }
 };

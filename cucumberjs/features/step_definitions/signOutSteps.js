@@ -1,8 +1,8 @@
 "use strict";
 
-var loginPage = require("../pages/loginPage");
-var caseListPage = require("../pages/caseListPage");
-var signOutPage = require("../pages/signOutPage");
+var loginPage = require("../../pages/loginPage");
+var caseListPage = require("../../pages/caseListPage");
+var signOutPage = require("../../pages/signOutPage");
 var {defineSupportCode} = require("cucumber");
 
 defineSupportCode(function ({Given, When, Then}) {

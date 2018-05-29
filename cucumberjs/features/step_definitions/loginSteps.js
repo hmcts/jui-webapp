@@ -1,7 +1,7 @@
 "use strict";
 
-var loginPage = require("../pages/loginPage");
-var caseListPage = require("../pages/caseListPage");
+var loginPage = require("../../pages/loginPage");
+var caseListPage = require("../../pages/caseListPage");
 var expect = require('chai').expect;
 var {defineSupportCode} = require("cucumber");
 

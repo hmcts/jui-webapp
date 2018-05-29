@@ -1,7 +1,7 @@
 "use strict"
 
-var loginPage = require("../pages/loginPage");
-var feedbackPage = require("../pages/feedbackPage");
+var loginPage = require("../../pages/loginPage");
+var feedbackPage = require("../../pages/feedbackPage");
 
 var {defineSupportCode} = require("cucumber");
 
