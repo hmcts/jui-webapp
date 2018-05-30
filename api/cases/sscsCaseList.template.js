@@ -61,21 +61,6 @@ module.exports = {
       }
     },
     {
-      "label": "Docs",
-      "order": 6,
-      "case_field_id": "docs",
-      "case_field_type": {
-        "id": "Text",
-        "type": "Text",
-        "min": null,
-        "max": null,
-        "regular_expression": null,
-        "fixed_list_items": [],
-        "complex_fields": [],
-        "collection_field_type": null
-      }
-    },
-    {
       "label": "Last Action",
       "order": 7,
       "case_field_id": "caseLastActioned",
