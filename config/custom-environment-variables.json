@@ -1,0 +1,31 @@
+{
+    "ccd_uri" : "CCD_URI",
+    "dm_store_uri" : "DM_STORE_URI",
+    "em_anno_uri" : "EM_ANNO_URI",
+    "em_redact_uri" : "EM_REDACT_URI",
+    "idam": {
+        "apiUrl": "IDAM_API_URI",
+        "loginUrl": "IDAM_LOGIN_URL",
+        "registrationUrl": "IDAM_REG_URI",
+        "redirectUri": "http://localhost:3000/oauth2/callback",
+        "clientId" : "IDAM_CLIENT_ID",
+        "clientSecret" : "IDAM_API_OAUTH2_CLIENT_SECRETS"
+    },
+    "s2s": {
+        "apiUrl" : "S2S_URI",
+        "microservice" : "S2S_SERVICE_NAME",
+        "secret" : "S2S_SECRET"
+    },
+    "ng_config": {
+        "login_url": "IDAM_LOGIN_URL",
+        "oauth2_callback_token_endpoint": "NG_OAUTH_CALLBACK",
+        "oauth2_callback_token_endpoint_backend_url": "NODE_OAUTH_CALLBACK",
+        "oauth2_client_id": "IDAM_CLIENT_ID",
+        "dm_store_app_local_endpoint": "/demproxy/dm/",
+        "em_anno_app_local_endpoint": "/demproxy/an/",
+        "em_redact_app_local_endpoint": "/demproxy/re/",
+        "dm_upload_url": "DM_UPLOAD_URL",
+        "dm_find_documents_by_creator_url": "DM_OWNED_URL",
+        "dm_find_documents_by_metadata_url": "DM_SEARCH_URL"
+    }
+}

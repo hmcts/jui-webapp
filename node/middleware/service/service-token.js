@@ -1,4 +1,4 @@
-const serviceTokenGenerator = require('../lib/service-token');
+const serviceTokenGenerator = require('../../lib/s2s/service-token-generator');
 
 module.exports = async  (req,res,next) => {
     const token = await serviceTokenGenerator();

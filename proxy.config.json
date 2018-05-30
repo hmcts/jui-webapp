@@ -8,5 +8,30 @@
         "target":"http://localhost:3001",
         "secure":false,
         "logLevel":"debug"
+    },
+    "/config":{
+        "target":"http://localhost:3001",
+        "secure":false,
+        "logLevel":"debug"
+    },
+    "/info":{
+        "target":"http://localhost:3001",
+        "secure":false,
+        "logLevel":"debug"
+    },
+    "/health":{
+        "target":"http://localhost:3001",
+        "secure":false,
+        "logLevel":"debug"
+    },
+    "/node/oauth2/callback":{
+        "target":"http://localhost:3001",
+        "secure":false,
+        "logLevel":"debug"
+    },
+    "/node/idam/details":{
+        "target":"http://localhost:3001",
+        "secure":false,
+        "logLevel":"debug"
     }
 }

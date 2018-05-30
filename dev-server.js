@@ -1,12 +1,21 @@
+const express = require('express');
+const cookieParser = require('cookie-parser');
 const healthcheck = require('@hmcts/nodejs-healthcheck');
 const { InfoContributor, infoRequestHandler  } = require('@hmcts/info-provider');
-const express = require('express');
+
 const apiRoute = require('./api');
+app.use(cookieParser());
 const serviceTokenMiddleware = require('./middleware/service-token');
 const config = require('./config');
 const app = express();
 
 
+
+const Security = require('./node/lib/idam/security');
+const security = new Security(config.get('idam'));
+app.use('/logout', security.logout());
+app.use('/node/oauth2/callback', security.OAuth2CallbackEndpoint());
+app.use('/node/idam/details', security.IdamDetails());
 
 
 
@@ -18,7 +27,7 @@ app.get("/health", healthcheck.configure({
   },
   buildInfo: {
 
-  }
+    }
 }));
 
 app.get('/info', infoRequestHandler({
@@ -35,5 +44,6 @@ app.get('/info', infoRequestHandler({
 app.use(serviceTokenMiddleware);
 app.use('/api', apiRoute);
 
-
+const dmProxy = require('./node/proxies/dm');
+dmProxy(app);
 app.listen(3001, () => console.log('Example app listening on port 3001!'));
