@@ -44,8 +44,8 @@ module "app" {
         LOG_OUTPUT = "${var.log_output}"
 
         DM_STORE_URI= "http://${var.dm_store_app_url}-${local.local_env}.service.core-compute-${local.local_env}.internal"
-        EM_ANNO_URI="http://${var.em_anno_app_url}-${local.local_env}.service.core-compute-${local.local_env}.internal"
-        EM_REDACT_URI ="http://${var.em_redact_app_url}-${local.local_env}.service.core-compute-${local.local_env}.internal"
+//        EM_ANNO_URI="http://${var.em_anno_app_url}-${local.local_env}.service.core-compute-${local.local_env}.internal"
+//        EM_REDACT_URI ="http://${var.em_redact_app_url}-${local.local_env}.service.core-compute-${local.local_env}.internal"
 
         DM_UPLOAD_URL="/demproxy/dm/documents"
         DM_OWNED_URL="/demproxy/dm/documents/owned"
@@ -71,11 +71,11 @@ provider "vault" {
 }
 
 data "vault_generic_secret" "s2s_secret" {
-    path = "secret/${var.vault_section}/ccidam/service-auth-provider/api/microservice-keys/divorceDocumentUpload"
+    path = "secret/${var.vault_section}/ccidam/service-auth-provider/api/microservice-keys/jui-webapp"
 }
 
 data "vault_generic_secret" "oauth2_secret" {
-    path = "secret/${var.vault_section}/ccidam/idam-api/oauth2/client-secrets/webshow"
+    path = "secret/${var.vault_section}/ccidam/idam-api/oauth2/client-secrets/juiwebapp"
 }
 
 module "key_vault" {
@@ -96,7 +96,7 @@ resource "azurerm_key_vault_secret" "S2S_TOKEN" {
 
 resource "azurerm_key_vault_secret" "OAUTH2_TOKEN" {
     name = "oauth2-token"
-    value = "${data.vault_generic_secret.s2s_secret.data["value"]}"
+    value = "${data.vault_generic_secret.oauth2_secret.data["value"]}"
     vault_uri = "${module.key_vault.key_vault_uri}"
 }
 
