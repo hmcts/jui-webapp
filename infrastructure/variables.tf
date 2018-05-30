@@ -50,29 +50,6 @@ variable "vault_section" {
   default = "test"
 }
 
-variable "idam_api_url" {
-    default = "http://betaDevBccidamAppLB.reform.hmcts.net:80"
-}
-
-variable "idam_login_url" {
-  default = "https://idam-test.dev.ccidam.reform.hmcts.net/login"
-}
-
-variable "s2s_url" {
-  default = "rpe-service-auth-provider"
-}
-
-variable "dm_store_app_url" {
-    default = "dm-store"
-}
-
-variable "em_anno_app_url" {
-    default = "em-anno"
-}
-variable "em_redact_app_url" {
-    default = "em-redact"
-}
-
 ////////////////////////////////////////////////
 // Logging
 ////////////////////////////////////////////////
@@ -86,19 +63,4 @@ variable "json_console_pretty_print" {
 
 variable "log_output" {
   default = "single"
-}
-
-////////////////////////////////////////////////
-// Toggle Features
-////////////////////////////////////////////////
-
-////////////////////////////////////////////////
-// Whitelists
-////////////////////////////////////////////////
-
-////////////////////////////////////////////////
-// Addtional
-////////////////////////////////////////////////
-variable "idam_service_name" {
-  default = "divorce_document_upload"
 }

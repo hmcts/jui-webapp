@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const caseRoutes = require('./case');
-
+const caseRoutes = require('./cases');
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 
 

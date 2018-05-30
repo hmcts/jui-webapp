@@ -1,7 +1,7 @@
 const healthcheck = require('@hmcts/nodejs-healthcheck');
 const { InfoContributor, infoRequestHandler  } = require('@hmcts/info-provider');
 require( 'zone.js/dist/zone-node');
-
+const apiRoute = require('./api');
 const express = require('express');
 const serviceTokenMiddleware = require('./middleware/service-token');
 const ngExpressEngine = require('@nguniversal/express-engine').ngExpressEngine;
@@ -74,11 +74,7 @@ app.get('/info', infoRequestHandler({
 
 
 app.use(serviceTokenMiddleware);
-
-const dmProxy = require('./proxies/dm');
-dmProxy(app);
-
-
+app.use('/api', apiRoute);
 
 app.get('/*', (req, res) => {
     console.time(`GET: ${req.originalUrl}`);
