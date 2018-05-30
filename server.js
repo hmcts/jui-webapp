@@ -1,19 +1,23 @@
-const healthcheck = require('@hmcts/nodejs-healthcheck');
-const { InfoContributor, infoRequestHandler  } = require('@hmcts/info-provider');
-require( 'zone.js/dist/zone-node');
 const apiRoute = require('./api');
 const express = require('express');
-const serviceTokenMiddleware = require('./middleware/service-token');
+const cookieParser = require('cookie-parser');
+
+const app = express();
+app.use(cookieParser());
+require( 'zone.js/dist/zone-node');
 const ngExpressEngine = require('@nguniversal/express-engine').ngExpressEngine;
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
+const config = require('config');
+
+const healthcheck = require('@hmcts/nodejs-healthcheck');
+const { InfoContributor, infoRequestHandler  } = require('@hmcts/info-provider');
+const serviceTokenMiddleware = require('./node/middleware/service/service-token');
 
 const {
     AppServerModuleNgFactory,
     LAZY_MODULE_MAP
 } = require(`./dist-server/main`);
-
-const app = express();
 
 const {
     provideModuleMap
@@ -35,52 +39,62 @@ app.set('views', __dirname);
 app.use(express.static(__dirname + '/assets', { index: false }));
 app.use(express.static(__dirname + '/dist', { index: false }));
 
-// THIS IS EXTERNAL ENDPOINT WE NEED TO FIND A WAY TO MOVE THIS TO A CONFIG FILE...
-const S2S_URI = process.env.S2S_URI || 'http://localhost:4501';
-const IDAM_API_URI = process.env.IDAM_API_URI || 'http://localhost:4502';
-const CCD_URI = process.env.CCD_URI  || 'http://localhost:1234';
-const DM_STORE_URI = process.env.DM_STORE_URI || 'http://localhost:4603';
-const EM_ANNO_URI = process.env.EM_ANNO_URI || 'http://localhost:3621';
-const EM_REDACT_URI = process.env.EM_REDACT_URI || 'http://localhost:3623';
+const Security = require('./node/lib/idam/security');
+const security = new Security(config.get('idam'));
+
+app.use('/logout', security.logout());
+app.use('/node/oauth2/callback', security.OAuth2CallbackEndpoint());
+app.use('/node/idam/details', security.IdamDetails());
+
+app.get("/config", (req, res) => {
+    res.send(config.get('ng_config'));
+});
 
 app.get("/health", healthcheck.configure({
-  checks: {
-    'dmStore' : healthcheck.web(DM_STORE_URI + "/health"),
-    // 'emAnno' : healthcheck.web(EM_ANNO_URI + "/health"),
-    // 'emRedact' : healthcheck.web(EM_REDACT_URI + "/health"),
-    // 'ccd' : healthcheck.web(CCD_URI + "/health"),
-    'idam' : healthcheck.web(IDAM_API_URI + "/health"),
-    's2s' : healthcheck.web(S2S_URI + "/health")
-  },
-  buildInfo: {
+    checks: {
+        'dmStore' : healthcheck.web(config.get('dm_store_uri') + "/health"),
+        // 'emAnno' : healthcheck.web(config.get('em_anno_uri') + "/health"),
+        // 'emRedact' : healthcheck.web(config.get('em_redact_uri') + "/health"),
+        // 'ccd' : healthcheck.web(config.get('ccd_uri') + "/health"),
+        'idam' : healthcheck.web(config.get('idam.apiUrl') + "/health"),
+        's2s' : healthcheck.web(config.get('s2s.apiUrl') + "/health")
+    },
+    buildInfo: {
 
-  }
+    }
 }));
 
 app.get('/info', infoRequestHandler({
-  info: {
-    'dmStore' : new InfoContributor(DM_STORE_URI + "/info"),
-    // 'emAnno' : new InfoContributor(EM_ANNO_URI + "/info"),
-    // 'emRedact' : new InfoContributor(EM_REDACT_URI + "/info"),
-    // 'ccd' : new InfoContributor(CCD_URI + "/info"),
-    'idam' : new InfoContributor(IDAM_API_URI + "/info"),
-    's2s' : new InfoContributor(S2S_URI + "/info")
-  },
-  extraBuildInfo: {
-    // featureToggles: config.get('featureToggles'),
-    // hostname: hostname()
-  }
+    info: {
+        'dmStore' : new InfoContributor(config.get('dm_store_uri') + "/info"),
+        // 'emAnno' : new InfoContributor(config.get('em_anno_uri') + "/info"),
+        // 'emRedact' : new InfoContributor(config.get('em_redact_uri') + "/info"),
+        // 'ccd' : new InfoContributor(config.get('ccd_uri') + "/info"),
+        'idam' : new InfoContributor(config.get('idam.apiUrl') + "/info"),
+        's2s' : new InfoContributor(config.get('s2s.apiUrl') + "/info")
+    },
+    extraBuildInfo: {
+        // featureToggles: config.get('featureToggles'),
+        // hostname: hostname()
+    }
 }));
 
 
 app.use(serviceTokenMiddleware);
 app.use('/api', apiRoute);
 
+const dmProxy = require('./proxies/dm');
+dmProxy(app);
+
 app.get('/*', (req, res) => {
     console.time(`GET: ${req.originalUrl}`);
     res.render('./dist/index', {
         req: req,
-        res: res
+        res: res,
+        providers: [{
+            provide: 'serverUrl',
+            useValue: `${req.protocol}://${req.get('host')}`
+        }]
     });
     console.timeEnd(`GET: ${req.originalUrl}`);
 });

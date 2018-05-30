@@ -10,10 +10,8 @@
         <div class="header-proposition">
             <div class="content">
                 <nav id="proposition-menu">
-                    <a routerLink="/" id="proposition-name">Judicial UI</a>
-
+                    <a routerLink="/" id="proposition-name">{{title}}</a>
                     <ul id="proposition-links">
-
                         <!-- auth START-->
                         <li *ngIf="authService.isAuthenticated()"><a class="" (click)="logout()">Sign out</a></li>
                         <!-- auth END-->
@@ -24,4 +22,6 @@
     </div>
 </header>
 
-<div id="global-header-bar"></div>
+<div id="global-header-bar">
+</div>
+Welcome {{idamForename}} {{idamSurname}} ({{idamId}})

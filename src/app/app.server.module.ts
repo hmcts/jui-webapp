@@ -9,14 +9,11 @@ import { AppComponent } from './app.component';
 
 @NgModule({
     imports: [
-        //Make sure the string matches
-        BrowserModule.withServerTransition({
-            appId: 'jui'
-        }),
+        BrowserModule.withServerTransition({appId: 'jui'}),
         ServerModule,
         ServerTransferStateModule,
         AppModule,
-        ModuleMapLoaderModule // The new module
+        ModuleMapLoaderModule
     ],
     bootstrap: [ AppComponent ],
 })

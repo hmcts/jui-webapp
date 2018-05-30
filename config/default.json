@@ -1,0 +1,33 @@
+{
+    "ccd_uri" : "http://localhost:1234",
+    "dm_store_uri" : "http://localhost:4603",
+    //     "dm_store_uri" : "https://dm-store-aat.service.core-compute-aat.internal",
+    "em_anno_uri" : "http://localhost:4621",
+    "em_redact_uri" : "http://localhost:4623",
+    "idam": {
+        "apiUrl": "http://localhost:4501",
+        "loginUrl": "https://localhost:3501/login",
+        "registrationUrl": "https://localhost:3502/register",
+        "redirectUri": "http://localhost:3000/oauth2/callback",
+        "clientId" : "webshow",
+        "clientSecret" : "WEBSHOWWEBSHOW"
+    },
+    "s2s": {
+        "apiUrl" : "http://localhost:4502",
+        //     "s2s_uri" : "http://rpe-service-auth-provider-aat.service.core-compute-aat.internal",
+        "microservice" : "em_gw",
+        "secret" : "AAAAAAAAAAAAAAAA"
+    },
+    "ng_config": {
+        "login_url": "https://localhost:3501/login",
+        "oauth2_callback_token_endpoint": "/oauth2/callback",
+        "oauth2_callback_token_endpoint_backend": "/node/oauth2/callback",
+        "oauth2_client_id": "webshow",
+        "dm_store_app_local_endpoint": "/demproxy/dm/",
+        "em_anno_app_local_endpoint": "/demproxy/an/",
+        "em_redact_app_local_endpoint": "/demproxy/re/",
+        "dm_upload_url": "/demproxy/dm/documents",
+        "dm_find_documents_by_creator_url": "/demproxy/dm/documents/owned/",
+        "dm_find_documents_by_metadata_url": "/demproxy/dm/documents/filter/"
+    }
+}

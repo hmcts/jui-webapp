@@ -20,6 +20,7 @@ import { ConfigService } from './config.server.service';
     BrowserModule.withServerTransition({appId: 'jui'}),
     BrowserTransferStateModule,
     RoutingModule,
+    CookieModule.forRoot(),
     // RouterModule.forRoot(routes),
     HttpClientModule,
     SharedModule,

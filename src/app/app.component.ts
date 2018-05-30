@@ -8,7 +8,8 @@ import { ConfigService } from './config.server.service';
 })
 
 export class AppComponent {
-  title = 'JUI Web App';
+  title = 'Judicial UI';
+}
 
   config;
 
