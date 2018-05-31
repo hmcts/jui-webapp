@@ -85,9 +85,10 @@
               "udk": {
                 "builder": "udk:udk-builder",
                 "options": {
-                  "main": "server.js",
+                  "main": "src/server.main.ts",
                   "browserTarget": "jui:build",
-                  "serverTarget": "jui:server"
+                  "serverTarget": "jui:server",
+                  "deleteOutputPath": false
                 },
                 "configurations": {
                   "production": {

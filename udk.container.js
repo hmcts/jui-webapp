@@ -1,7 +1,7 @@
 module.exports = {
   context: __dirname,
   angularProject: 'jui',
-  hmr: true,
+  hmr: false,
   metafiles: [
     'angular.json',
     'package.json',
