@@ -1,1 +1,7 @@
-<app-datalist [datalist]="panelData.fields"></app-datalist>
+<div class="govuk-grid-row">
+    <ng-container *ngFor="let section of panelData.sections">
+        <div class="govuk-grid-column-one-half">
+            <app-datalist [title]="section.name" [datalist]="section.fields"></app-datalist>
+        </div>
+    </ng-container>
+</div>

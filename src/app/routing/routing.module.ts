@@ -27,7 +27,7 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
-    path: 'viewcase/:section',
+    path: 'viewcase/:case_id/:section',
     component: ViewCaseComponent
   },
 ];

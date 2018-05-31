@@ -1,31 +1,42 @@
-/* You can add global styles to this file, and also import other style files */
-
+// Path to assets for use with the file-url function
+// in the govuk frontend toolkit"s url-helpers partial
 $path: "/public/images/";
-//@import '~govuk-elements-sass';
-
-@import "~govuk_frontend_toolkit/stylesheets/colours";                                // Colour variables
-@import "~govuk_frontend_toolkit/stylesheets/font_stack";                             // Font family variables
-@import "~govuk_frontend_toolkit/stylesheets/measurements";                           // Widths and gutter variables
-
-// Mixins
-@import "~govuk_frontend_toolkit/stylesheets/conditionals";                           // Media query mixin
-@import "~govuk_frontend_toolkit/stylesheets/device-pixels";                          // Retina image mixin
-@import "~govuk_frontend_toolkit/stylesheets/grid_layout";                            // Basic grid layout mixin
-@import "~govuk_frontend_toolkit/stylesheets/typography";                             // Core bold and heading mixins, also external links
-@import "~govuk_frontend_toolkit/stylesheets/shims";                                  // Inline block mixin, clearfix placeholder
-
-// Mixins to generate components (chunks of UI)
-@import "~govuk_frontend_toolkit/stylesheets/design-patterns/alpha-beta";
-@import "~govuk_frontend_toolkit/stylesheets/design-patterns/buttons";
-@import "~govuk_frontend_toolkit/stylesheets/design-patterns/breadcrumbs";
-
-// Functions
-@import "~govuk_frontend_toolkit/stylesheets/url-helpers";                            // Function to output image-url, or prefixed path (Rails and Compass only)
-
-@import "~govuk-elements-sass/public/sass/_elements.scss";
 
 
+// Import GOV.UK Frontend
+//@import "~govuk-frontend/dist/govuk-frontend-0.0.30-alpha.min.css";
+@import "~govuk-frontend/src/all";
 
-//@import '../node_modules/govuk-elements-sass/public/sass/govuk-elements';
-@import '~govuk_template_jinja/assets/stylesheets/govuk-template.css';
-@import '~govuk_template_jinja/assets/stylesheets/fonts.css';
+@import "~govuk_template_jinja/assets/stylesheets/govuk-template.css";
+
+@import "./assets/jui/all";
+
+//$path: "/public/images/";
+////@import '~govuk-elements-sass';
+//
+//@import "~govuk_frontend_toolkit/stylesheets/colours";                                // Colour variables
+//@import "~govuk_frontend_toolkit/stylesheets/font_stack";                             // Font family variables
+//@import "~govuk_frontend_toolkit/stylesheets/measurements";                           // Widths and gutter variables
+//
+//// Mixins
+//@import "~govuk_frontend_toolkit/stylesheets/conditionals";                           // Media query mixin
+//@import "~govuk_frontend_toolkit/stylesheets/device-pixels";                          // Retina image mixin
+//@import "~govuk_frontend_toolkit/stylesheets/grid_layout";                            // Basic grid layout mixin
+//@import "~govuk_frontend_toolkit/stylesheets/typography";                             // Core bold and heading mixins, also external links
+//@import "~govuk_frontend_toolkit/stylesheets/shims";                                  // Inline block mixin, clearfix placeholder
+//
+//// Mixins to generate components (chunks of UI)
+//@import "~govuk_frontend_toolkit/stylesheets/design-patterns/alpha-beta";
+//@import "~govuk_frontend_toolkit/stylesheets/design-patterns/buttons";
+//@import "~govuk_frontend_toolkit/stylesheets/design-patterns/breadcrumbs";
+//
+//// Functions
+//@import "~govuk_frontend_toolkit/stylesheets/url-helpers";                            // Function to output image-url, or prefixed path (Rails and Compass only)
+//
+//@import "~govuk-elements-sass/public/sass/_elements.scss";
+//
+//
+//
+////@import '../node_modules/govuk-elements-sass/public/sass/govuk-elements';
+//@import '~govuk_template_jinja/assets/stylesheets/govuk-template.css';
+//@import '~govuk_template_jinja/assets/stylesheets/fonts.css';

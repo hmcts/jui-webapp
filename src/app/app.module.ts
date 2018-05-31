@@ -11,12 +11,14 @@ import {SharedModule } from './shared/shared.module';
 import {DomainModule } from './domain/domain.module';
 import {RoutingModule} from "./routing/routing.module";
 import { HeaderComponent } from './header/header.component';
+import { CasebarComponent } from './casebar/casebar.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent
+    HeaderComponent,
+    CasebarComponent
   ],
   imports: [
       BrowserModule.withServerTransition({ appId: 'jui' }),

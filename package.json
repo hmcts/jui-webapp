@@ -51,6 +51,7 @@
     "em-viewer-web": "^0.0.17",
     "express": "^4.16.2",
     "govuk-elements-sass": "^3.1.2",
+    "govuk-frontend": "https://github.com/hmcts/govuk-frontend",
     "govuk_frontend_toolkit": "^7.5.0",
     "govuk_template_jinja": "^0.23.0",
     "http-proxy-middleware": "^0.18.0",

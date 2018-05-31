@@ -10,6 +10,9 @@ export class DatalistComponent implements OnInit {
     @Input()
     datalist;
 
+    @Input()
+    title
+
     constructor() {
     }
 

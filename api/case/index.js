@@ -37,21 +37,42 @@ const sscsCaseViewTemplate = {
             type: 'page',
             sections: [
                 {
-                    id: 'case_details',
-                    name: 'Case Details',
+                    name: 'Summary',
                     type: 'summary-panel',
-                    fields: [
+                    sections: [
                         {
-                            label: 'Parties',
-                            lookup: '$.id'
+                            name: 'Case Details',
+                            fields: [
+                                {
+                                    label: 'Parties',
+                                    lookup: '$.id'
+                                },
+                                {
+                                    label: 'Case number',
+                                    lookup: '$.id'
+                                },
+                                {
+                                    label: 'Case type',
+                                    lookup: '$.case_type_id'
+                                }
+                            ]
                         },
                         {
-                            label: 'Case number',
-                            lookup: '$.id'
-                        },
-                        {
-                            label: 'Case type',
-                            lookup: '$.case_type_id'
+                            name: 'Representative',
+                            fields: [
+                                {
+                                    label: 'Judge',
+                                    value: 'Prita Shah'
+                                },
+                                {
+                                    label: 'Case number',
+                                    lookup: '$.id'
+                                },
+                                {
+                                    label: 'Case type',
+                                    lookup: '$.case_type_id'
+                                }
+                            ]
                         }
                     ]
                 }
@@ -233,8 +254,10 @@ function replaceSectionValues(section, caseInfo) {
     }
     else {
         section.fields.forEach(field => {
-            field.value = jp.query(caseInfo, field.lookup);
-            delete field.lookup;
+            if(field.lookup) {
+                field.value = jp.query(caseInfo, field.lookup);
+                delete field.lookup;
+            }
         });
     }
 }
