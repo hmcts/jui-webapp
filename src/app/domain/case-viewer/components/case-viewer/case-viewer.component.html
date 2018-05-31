@@ -3,7 +3,7 @@
         <ng-container *ngIf="targetSection && targetSection.sections">
             <ng-container *ngFor="let section of targetSection.sections">
                 <ng-container [ngSwitch]="section.type" >
-                    <h1 class="govuk-heading-1">{{section.name}}</h1>
+                    <h1 class="govuk-heading-l">{{section.name}}</h1>
                     <app-summary-panel *ngSwitchCase="'summary-panel'" [panelData]="section"></app-summary-panel>
                     <app-document-panel *ngSwitchCase="'document-panel'" [panelData]="section"></app-document-panel>
                     <app-parties-panel *ngSwitchCase="'parties-panel'" [panelData]="section"></app-parties-panel>
