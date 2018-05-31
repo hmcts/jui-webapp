@@ -7,6 +7,9 @@
     "build-universal": "npm run build:client-and-server-bundles",
     "e2e": "protractor ./protractor.conf.js",
     "start-dev": "ng serve",
+    "dev": "yarn build-universal && concurrently \"yarn dev-frontend\" \"yarn dev-backend\"",
+    "dev-backend": "nodemon server.js --watch api --watch src --watch middleware --watch lib --watch proxies --watch config --delay 3000ms -e js,ts,html,scss",
+    "dev-frontend": "ng-udkc",
     "start-dev-proxy": "ng serve --proxy-config proxy.config.json",
     "build:client-and-server-bundles": "ng build --prod && ng run jui:server",
     "lint": "echo \"Linting\"",
@@ -61,6 +64,7 @@
     "rxjs": "^6.1.0",
     "rxjs-compat": "^6.1.0",
     "ts-loader": "^4.0.1",
+    "udk": "^0.3.12",
     "url": "^0.11.0",
     "yarn": "1.6.0",
     "zone.js": "^0.8.19"
@@ -91,6 +95,7 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "karma-phantomjs-launcher": "^1.0.4",
     "less-loader": "^4.0.5",
+    "nodemon": "^1.17.5",
     "postcss-import": "^11.0.0",
     "postcss-loader": "^2.0.10",
     "postcss-url": "^7.1.2",
@@ -105,9 +110,6 @@
     "tslint": "~5.9.1",
     "typescript": "2.7.*",
     "uglifyjs-webpack-plugin": "^1.1.8",
-    "url-loader": "^0.6.2",
-    "webpack": "~3.11.0",
-    "webpack-dev-middleware": "^3.0.1",
-    "webpack-dev-server": "~2.11.0"
+    "url-loader": "^0.6.2"
   }
 }
