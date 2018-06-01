@@ -1,0 +1,13 @@
+<!--<h1>Hola</h1>-->
+
+
+<!--<div>-->
+    <!--{{bob}}-->
+<!--</div>-->
+<ul>
+    <li *ngFor="let link of links">
+        <a [routerLink]="link.href">{{link.label}}</a>
+    </li>
+</ul>
+
+<app-case-viewer [case]="case" [sectionId]="bob"></app-case-viewer>

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {CcdService} from '../ccd.service';
-import { TransferState, makeStateKey } from '@angular/platform-browser';
+import {CasesService} from '../../cases.service';
+// import { TransferState, makeStateKey } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-search-result',
@@ -11,12 +11,12 @@ export class SearchResultComponent implements OnInit {
 
     data: Object;
 
-    constructor(private ccdService: CcdService) {
+    constructor(private casesService: CasesService) {
     }
 
 
     ngOnInit() {
-        this.data = this.ccdService.search();
+        this.data = this.casesService.search();
     }
 
 }
