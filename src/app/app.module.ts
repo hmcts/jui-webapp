@@ -10,13 +10,11 @@ import { RoutingModule } from './routing/routing.module';
 import { HeaderComponent } from './header/header.component';
 import { makeStateKey, TransferState } from '@angular/platform-browser';
 import { ConfigService } from './config.service';
-import { CasebarComponent } from './casebar/casebar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HeaderComponent,
-    CasebarComponent
+    HeaderComponent
   ],
   imports: [
     BrowserModule.withServerTransition({appId: 'jui'}),
