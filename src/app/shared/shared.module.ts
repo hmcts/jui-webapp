@@ -6,7 +6,6 @@ import {TabComponent} from './components/tab/tab.component';
 import {TabsComponent} from './components/tabs/tabs.component';
 import { DatalistComponent } from './components/datalist/datalist.component';
 
-
 @NgModule({
     imports: [
         CommonModule,

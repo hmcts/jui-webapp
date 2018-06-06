@@ -9,7 +9,7 @@ import { DomainModule } from './domain/domain.module';
 import { RoutingModule } from './routing/routing.module';
 import { HeaderComponent } from './header/header.component';
 import { makeStateKey, TransferState } from '@angular/platform-browser';
-import { ConfigService } from './config.server.service';
+import { ConfigService } from './config.service';
 
 @NgModule({
   declarations: [

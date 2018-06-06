@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
-// import {filter} from 'rxjs/operators';
 import 'rxjs/add/operator/filter';
 import {CaseService} from "../../../case.service";
-
+import { ActivatedRoute } from '@angular/router';
+import {Observable} from 'rxjs';
 
 @Component({
     selector: 'app-view-case',
@@ -13,60 +13,33 @@ import {CaseService} from "../../../case.service";
 export class ViewCaseComponent implements OnInit {
 
     case: any;
+    caseId: string;
+    sectionId: string;
+    links = [];
 
-    bob: string;
-    links = []
-
-    constructor(public router: Router, private caseService: CaseService) {
+    constructor(
+        public router: Router,
+        private caseService: CaseService,
+        private route: ActivatedRoute) {
+        this.route.params.subscribe( params => {
+            this.caseId = params.case_id;
+            this.sectionId = params.section;
+        } );
 
     }
 
     ngOnInit() {
-        this.caseService.fetch().subscribe(data => {
+        this.caseService.fetch(this.caseId).subscribe(data => {
             this.case = data;
             this.links = this.case.sections.map(section => {
                 // this.createCaseRoutes(section);
                 return {
-                    href: `/viewcase/${section.id}`,
-                    label: section.name
+                    href: `/viewcase/${this.caseId}/${section.id}`,
+                    label: section.name,
+                    id: section.id
                 }
             });
-
-
         });
-
-
-
-
-        this.bob = this.router.url.replace('/viewcase/', '');
-        // console.log(this.router);
-        // this.case = JSON.parse('{"sections":[{"id":"summary","name":"Summary","type":"section","sections":[{"id":"case_details","name":"Case Details","type":"panel","fields":[{"label":"Parties","value":[1522058425067027]},{"label":"Case number","value":[1522058425067027]},{"label":"Case type","value":["Benefit"]}]}]},{"id":"parties","name":"Parties","type":"section","sections":[{"id":"case_details","name":"Case Details","type":"panel","fields":[{"label":"Parties","value":[1522058425067027]}]}]},{"id":"casefile","name":"Case file","type":"section","sections":[{"id":"case_details","name":"Case Details","type":"panel","fields":[{"label":"Parties","value":[1522058425067027]}]}]}]}');
-
-        // this.case = {
-        //     sections: [
-        //         {
-        //             id: 'summary',
-        //             name: 'Summary'
-        //         },
-        //         {
-        //             id: 'parties',
-        //             name: 'Parties'
-        //         },
-        //         {
-        //             id: 'casefile',
-        //             name: 'Case file'
-        //         }
-        //     ]
-        // };
-
-
-
-        this.router.events.filter(event => event instanceof NavigationEnd)
-            .subscribe((event: NavigationEnd) => {
-                this.bob = event.url.replace('/viewcase/', '');
-                // console.log(event);
-                // You only receive NavigationStart events
-            });
     }
 
 }

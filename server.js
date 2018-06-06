@@ -45,12 +45,12 @@ const EM_REDACT_URI = process.env.EM_REDACT_URI || 'http://localhost:3623';
 
 app.get("/health", healthcheck.configure({
   checks: {
-    'dmStore' : healthcheck.web(DM_STORE_URI + "/health"),
+    // 'dmStore' : healthcheck.web(DM_STORE_URI + "/health"),
     // 'emAnno' : healthcheck.web(EM_ANNO_URI + "/health"),
     // 'emRedact' : healthcheck.web(EM_REDACT_URI + "/health"),
     // 'ccd' : healthcheck.web(CCD_URI + "/health"),
-    'idam' : healthcheck.web(IDAM_API_URI + "/health"),
-    's2s' : healthcheck.web(S2S_URI + "/health")
+    // 'idam' : healthcheck.web(IDAM_API_URI + "/health"),
+    // 's2s' : healthcheck.web(S2S_URI + "/health")
   },
   buildInfo: {
 

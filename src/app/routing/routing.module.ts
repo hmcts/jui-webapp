@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
-import { FeedbackComponent } from './pages/feedback/feedback.component';
 import { SharedModule } from '../shared/shared.module';
 import { DomainModule } from '../domain/domain.module';
 import { LoginComponent } from './pages/login/login.component';
@@ -19,15 +18,11 @@ const routes: Routes = [
     canActivate: [AuthGuardService]
   },
   {
-    path: 'feedback',
-    component: FeedbackComponent
-  },
-  {
     path: 'login',
     component: LoginComponent
   },
   {
-    path: 'viewcase/:section',
+    path: 'viewcase/:case_id/:section',
     component: ViewCaseComponent
   },
 ];
@@ -42,7 +37,6 @@ const routes: Routes = [
   ],
   declarations: [
     HomeComponent,
-    FeedbackComponent,
     LoginComponent,
     ViewCaseComponent
   ],

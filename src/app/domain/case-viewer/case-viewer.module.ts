@@ -5,6 +5,7 @@ import {SharedModule} from '../../shared/shared.module';
 import { DocumentPanelComponent } from './components/document-panel/document-panel.component';
 import { SummaryPanelComponent } from './components/summary-panel/summary-panel.component';
 import { PartiesPanelComponent } from './components/parties-panel/parties-panel.component';
+import { CaseNavComponent } from './components/case-nav/case-nav.component';
 
 @NgModule({
     imports: [
@@ -18,7 +19,8 @@ import { PartiesPanelComponent } from './components/parties-panel/parties-panel.
         CaseViewerComponent,
         DocumentPanelComponent,
         SummaryPanelComponent,
-        PartiesPanelComponent
+        PartiesPanelComponent,
+        CaseNavComponent
     ]
 })
 export class CaseViewerModule {

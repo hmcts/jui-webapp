@@ -5,6 +5,6 @@ module.exports = {
         dm: "",
         idam: ""
     },
-    microservice: "ccd_gw",
+    microservice: "jui_webapp",
     useProxy: true
 };

@@ -1,0 +1,42 @@
+/* ==========================================================================
+   #HEADER
+   ========================================================================== */
+@import "~govuk-frontend/src/all";
+
+.jui-header {
+    @include govuk-clearfix;
+    background-color: $govuk-black;
+    padding-top: $govuk-spacing-scale-3;
+    padding-bottom: $govuk-spacing-scale-3;
+}
+
+
+.jui-header__service {
+    @include govuk-font-bold-24;
+    display: block;
+
+    a:link,
+    a:active,
+    a:visited {
+        color: $govuk-white;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+}
+
+
+@include mq($from: tablet) {
+
+    .jui-header__service {
+        float: left;
+    }
+
+    .jui-header__account {
+        float: right;
+    }
+
+}

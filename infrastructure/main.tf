@@ -46,22 +46,16 @@ module "app" {
     DM_STORE_URI= "http://${var.dm_store_app_url}-${local.local_env}.service.core-compute-${local.local_env}.internal"
     EM_ANNO_URI="http://${var.em_anno_app_url}-${local.local_env}.service.core-compute-${local.local_env}.internal"
     EM_REDACT_URI ="http://${var.em_redact_app_url}-${local.local_env}.service.core-compute-${local.local_env}.internal"
-
-    DM_UPLOAD_URL="/demproxy/dm/documents"
-    DM_OWNED_URL="/demproxy/dm/documents/owned"
-    DM_SEARCH_URL="/demproxy/dm/documents/filter"
-
-    IDAM_LOGIN_URL = "${var.idam_login_url}"
-    IDAM_API_URI = "${var.idam_api_url}"
+    CCD_DATA_URI ="http://${var.ccd_data_app_url}-${local.local_env}.service.core-compute-${local.local_env}.internal"
+    IDAM_LOGIN_URL = "http://${var.idam_login_url}-${local.local_env}.service.core-compute-${local.local_env}.internal"
+    IDAM_API_URI = "http://${var.idam_api_url}-${local.local_env}.service.core-compute-${local.local_env}.internal"
     S2S_URI = "http://${var.s2s_url}-${local.local_env}.service.core-compute-${local.local_env}.internal"
 
-    IDAM_SERVICE_KEY = "${data.vault_generic_secret.s2s_secret.data["value"]}"
-    JUI_SECRET = "${data.vault_generic_secret.s2s_secret.data["value"]}"
+    S2S_SERVICE_NAME = "${var.s2s_service_name}"
+    S2S_SECRET = "${data.vault_generic_secret.s2s_secret.data["value"]}"
 
-    IDAM_SERVICE_NAME = "${var.idam_service_name}"
-    JUI_MICROSERVICE = "${var.idam_service_name}"
-
-    IDAM_API_OAUTH2_CLIENT_CLIENT_SECRETS_WEBSHOW = "${data.vault_generic_secret.oauth2_secret.data["value"]}"
+    IDAM_CLIENT_ID = "${data.vault_generic_secret.oauth2_secret.data["value"]}"
+    IDAM_API_OAUTH2_CLIENT_SECRETS = "${data.vault_generic_secret.oauth2_secret.data["value"]}"
   }
 }
 
@@ -70,11 +64,11 @@ provider "vault" {
 }
 
 data "vault_generic_secret" "s2s_secret" {
-  path = "secret/${var.vault_section}/ccidam/service-auth-provider/api/microservice-keys/divorceDocumentUpload"
+  path = "secret/${var.vault_section}/ccidam/service-auth-provider/api/microservice-keys/jui-webapp"
 }
 
 data "vault_generic_secret" "oauth2_secret" {
-  path = "secret/${var.vault_section}/ccidam/idam-api/oauth2/client-secrets/webshow"
+  path = "secret/${var.vault_section}/ccidam/idam-api/oauth2/client-secrets/juiwebapp"
 }
 
 module "key_vault" {
