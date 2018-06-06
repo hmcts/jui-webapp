@@ -1,0 +1,230 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 0,
+    "passes": 0,
+    "pending": 0,
+    "failures": 0,
+    "start": "2018-06-04T19:28:04.061Z",
+    "end": "2018-06-04T19:29:17.976Z",
+    "duration": 73915,
+    "testsRegistered": 5,
+    "passPercent": 0,
+    "pendingPercent": 0,
+    "other": 4,
+    "hasOther": true,
+    "skipped": 5,
+    "hasSkipped": true,
+    "passPercentClass": "danger",
+    "pendingPercentClass": "danger"
+  },
+  "suites": {
+    "uuid": "5c313777-beaf-486d-81fe-b817a0cf0cc7",
+    "title": "",
+    "fullFile": "",
+    "file": "",
+    "beforeHooks": [],
+    "afterHooks": [],
+    "tests": [],
+    "suites": [
+      {
+        "uuid": "336836f1-462d-4338-9877-8a8bc5252258",
+        "title": "CCD login logout & feedback functionality",
+        "fullFile": "/Users/roopa/Documents/Work/Poc/jui-webapp/paths/end2end.js",
+        "file": "/paths/end2end.js",
+        "beforeHooks": [
+          {
+            "title": "\"before all\" hook: codeceptjs.beforeSuite",
+            "fullTitle": "CCD login logout & feedback functionality \"before all\" hook: codeceptjs.beforeSuite",
+            "timedOut": false,
+            "duration": 542,
+            "pass": false,
+            "fail": false,
+            "pending": false,
+            "code": "scenario.suiteSetup(suite)",
+            "err": {},
+            "isRoot": false,
+            "uuid": "11e312b6-f3e0-4d85-baf3-dc1b6a7ae682",
+            "isHook": true,
+            "skipped": false
+          },
+          {
+            "title": "\"before each\" hook: codeceptjs.before",
+            "fullTitle": "CCD login logout & feedback functionality \"before each\" hook: codeceptjs.before",
+            "timedOut": false,
+            "duration": 0,
+            "pass": false,
+            "fail": false,
+            "pending": false,
+            "code": "scenario.setup(suite)",
+            "err": {},
+            "isRoot": false,
+            "uuid": "ca15add5-fa2c-4d55-b53c-125657dbd26a",
+            "isHook": true,
+            "skipped": false
+          },
+          {
+            "title": "\"before each\" hook: Before for \"ccd signin\"",
+            "fullTitle": "CCD login logout & feedback functionality \"before each\" hook: Before for \"ccd signin\"",
+            "timedOut": false,
+            "duration": 73361,
+            "state": "failed",
+            "pass": false,
+            "fail": true,
+            "pending": false,
+            "code": "I => {\n  I.amOnPage('/');\n  browser.ignoreSynchronization = true;\n  browser.waitForAngular();\n  browser.sleep(1000);\n  I.wait(50);\n  browser.waitForAngularEnabled(false);\n  browser.get(\"https://idam.dev.ccidam.reform.hmcts.net/login?response_type=code&client_id=ccd_gateway&redirect_uri=https%3A%2F%2Fcase-worker-web.dev.ccd.reform.hmcts.net%2Foauth2redirect\");",
+            "err": {
+              "message": "WebDriverError: unknown error: cannot determine loading status\nfrom unknown error: cannot determine loading status\nfrom disconnected: received Inspector.detached event\n  (Session info: chrome=66.0.3359.181)\n  (Driver info: chromedriver=2.39.562713 (dd642283e958a93ebf6891600db055f1f1b4f3b2),platform=Mac OS X 10.12.6 x86_64)",
+              "estack": "unknown error: cannot determine loading status\nfrom unknown error: cannot determine loading status\nfrom disconnected: received Inspector.detached event\n  (Session info: chrome=66.0.3359.181)\n  (Driver info: chromedriver=2.39.562713 (dd642283e958a93ebf6891600db055f1f1b4f3b2),platform=Mac OS X 10.12.6 x86_64)\n\nScenario Steps:\n\n- I.amOnPage(\"/\") at Context.I (paths/end2end.js:5:5)\n\n"
+            },
+            "isRoot": false,
+            "uuid": "0fd84ec4-f992-4097-ad23-581a92984473",
+            "isHook": true,
+            "skipped": false
+          }
+        ],
+        "afterHooks": [
+          {
+            "title": "\"after all\" hook: codeceptjs.afterSuite",
+            "fullTitle": "CCD login logout & feedback functionality \"after all\" hook: codeceptjs.afterSuite",
+            "timedOut": false,
+            "duration": 4,
+            "state": "failed",
+            "pass": false,
+            "fail": true,
+            "pending": false,
+            "code": "scenario.suiteTeardown(suite)",
+            "err": {
+              "message": "NoSuchWindowError: no such window: window was already closed\n  (Session info: chrome=66.0.3359.181)\n  (Driver info: chromedriver=2.39.562713 (dd642283e958a93ebf6891600db055f1f1b4f3b2),platform=Mac OS X 10.12.6 x86_64)",
+              "estack": "no such window: window was already closed\n  (Session info: chrome=66.0.3359.181)\n  (Driver info: chromedriver=2.39.562713 (dd642283e958a93ebf6891600db055f1f1b4f3b2),platform=Mac OS X 10.12.6 x86_64)"
+            },
+            "isRoot": false,
+            "uuid": "bf55b709-146e-48bb-a17b-973da7eb208d",
+            "isHook": true,
+            "skipped": false
+          },
+          {
+            "title": "\"after each\" hook: finalize codeceptjs",
+            "fullTitle": "CCD login logout & feedback functionality \"after each\" hook: finalize codeceptjs",
+            "timedOut": false,
+            "duration": 5,
+            "state": "failed",
+            "pass": false,
+            "fail": true,
+            "pending": false,
+            "code": "scenario.teardown(suite)",
+            "err": {
+              "message": "NoSuchWindowError: no such window: window was already closed\n  (Session info: chrome=66.0.3359.181)\n  (Driver info: chromedriver=2.39.562713 (dd642283e958a93ebf6891600db055f1f1b4f3b2),platform=Mac OS X 10.12.6 x86_64)",
+              "estack": "no such window: window was already closed\n  (Session info: chrome=66.0.3359.181)\n  (Driver info: chromedriver=2.39.562713 (dd642283e958a93ebf6891600db055f1f1b4f3b2),platform=Mac OS X 10.12.6 x86_64)"
+            },
+            "isRoot": false,
+            "uuid": "fb722b19-bf00-4070-8eec-61a6307fb5a5",
+            "isHook": true,
+            "skipped": false
+          }
+        ],
+        "tests": [
+          {
+            "title": "ccd signin",
+            "fullTitle": "CCD login logout & feedback functionality: ccd signin",
+            "timedOut": false,
+            "duration": 0,
+            "pass": false,
+            "fail": false,
+            "pending": false,
+            "code": "I.see('Sign in');\nI.fillField(\"#username\", \"nybgul@gmail.com\");\nI.fillField(\"#password\", 'Monday01');\nI.click('Sign in');\nI.wait(10);\n//I.see('Nayab Gul', 'button.dropbtn');\nI.see('Case List', 'h1');\nI.wait(10);\nI.see('Create new case', 'a.button');\nI.click('button.dropbtn');\nI.wait(20);\nI.see('Sign Out', '#header-wrapper > header > div.dropdown > div > a');\nI.click('Sign Out');\nI.wait(20);",
+            "err": {},
+            "isRoot": false,
+            "uuid": "61c61bf3-a52e-40a6-a09b-7141f0521694",
+            "isHook": false,
+            "skipped": true
+          },
+          {
+            "title": "Invalid Signin",
+            "fullTitle": "CCD login logout & feedback functionality: Invalid Signin",
+            "timedOut": false,
+            "duration": 0,
+            "pass": false,
+            "fail": false,
+            "pending": false,
+            "code": "I.invalidSignIn();",
+            "err": {},
+            "isRoot": false,
+            "uuid": "f72a2859-7597-4871-9009-c5691421c625",
+            "isHook": false,
+            "skipped": true
+          },
+          {
+            "title": "feedback",
+            "fullTitle": "CCD login logout & feedback functionality: feedback",
+            "timedOut": false,
+            "duration": 0,
+            "pass": false,
+            "fail": false,
+            "pending": false,
+            "code": "I.yourFeedback();",
+            "err": {},
+            "isRoot": false,
+            "uuid": "d38a24c4-3e03-4bb6-8ad7-08b33de64070",
+            "isHook": false,
+            "skipped": true
+          },
+          {
+            "title": "signout",
+            "fullTitle": "CCD login logout & feedback functionality: signout",
+            "timedOut": false,
+            "duration": 0,
+            "pass": false,
+            "fail": false,
+            "pending": false,
+            "code": "I.signOut();",
+            "err": {},
+            "isRoot": false,
+            "uuid": "8700f6d4-11ae-4a3f-8981-f489515e6f4c",
+            "isHook": false,
+            "skipped": true
+          },
+          {
+            "title": "search ccd cases",
+            "fullTitle": "CCD login logout & feedback functionality: search ccd cases",
+            "timedOut": false,
+            "duration": 0,
+            "pass": false,
+            "fail": false,
+            "pending": false,
+            "code": "I.invalidSearch();",
+            "err": {},
+            "isRoot": false,
+            "uuid": "136e0202-7df9-4a4b-8af0-cadea66e86af",
+            "isHook": false,
+            "skipped": true
+          }
+        ],
+        "suites": [],
+        "passes": [],
+        "failures": [],
+        "pending": [],
+        "skipped": [
+          "61c61bf3-a52e-40a6-a09b-7141f0521694",
+          "f72a2859-7597-4871-9009-c5691421c625",
+          "d38a24c4-3e03-4bb6-8ad7-08b33de64070",
+          "8700f6d4-11ae-4a3f-8981-f489515e6f4c",
+          "136e0202-7df9-4a4b-8af0-cadea66e86af"
+        ],
+        "duration": null,
+        "root": false,
+        "rootEmpty": false,
+        "_timeout": 0
+      }
+    ],
+    "passes": [],
+    "failures": [],
+    "pending": [],
+    "skipped": [],
+    "duration": 0,
+    "root": true,
+    "rootEmpty": true,
+    "_timeout": 0
+  },
+  "copyrightYear": 2018
+}

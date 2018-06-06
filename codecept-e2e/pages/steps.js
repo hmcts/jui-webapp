@@ -11,10 +11,10 @@ module.exports = function () {
     signIn: steps.signin.signIn,
 
     // invalid signin
-    invalidSignIn: steps.signin.invalidSignIn,
+   invalidSignIn: steps.signin.invalidSignIn,
 
     //signout
-    signOut: steps.signout.signOut,
+   signOut: steps.signout.signOut,
 
     //feedback
     yourFeedback: steps.feedback.yourFeedback,
