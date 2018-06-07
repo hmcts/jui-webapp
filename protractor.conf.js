@@ -17,6 +17,7 @@ exports.config = {
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 30000,
+
     print: function() {}
   },
   onPrepare() {
@@ -25,4 +26,5 @@ exports.config = {
     });
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
   }
+
 };
