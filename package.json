@@ -55,6 +55,7 @@
     "@hmcts/nodejs-logging": "^3.0.0",
     "@nguniversal/express-engine": "^6.0.0",
     "@nguniversal/module-map-ngfactory-loader": "^6.0.0",
+    "cookie-parser": "^1.4.3",
     "core-js": "^2.4.1",
     "express": "^4.16.2",
     "govuk-frontend": "https://github.com/hmcts/govuk-frontend",

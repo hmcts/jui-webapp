@@ -4,10 +4,10 @@ require( 'zone.js/dist/zone-node');
 const apiRoute = require('./api');
 const config = require('./config');
 const express = require('express');
-const serviceTokenMiddleware = require('./middleware/service-token');
+const serviceTokenMiddleware = require('./api/middleware/service-token');
 const ngExpressEngine = require('@nguniversal/express-engine').ngExpressEngine;
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-
+const cookieParser = require('cookie-parser');
 
 const {
     AppServerModuleNgFactory,
@@ -29,6 +29,9 @@ app.engine(
         providers: [provider]
     })
 );
+
+app.use(cookieParser());
+app.get('/oauth2/callback', apiRoute);
 
 app.set('view engine', 'html');
 app.set('views', __dirname);
