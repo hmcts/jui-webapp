@@ -5,8 +5,8 @@
   const I = this;
 
 
-  I.fillField("#username", "nybgul@gmail.com");
-  I.fillField("#password", 'Monday01');
+  I.fillField("#username", "");
+  I.fillField("#password", "");
   I.click('Sign in');
   I.wait(20);
   //I.see('', 'button.dropbtn');

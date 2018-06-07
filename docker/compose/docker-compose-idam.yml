@@ -12,6 +12,8 @@ services:
     links:
     - idam-api
     - service-auth-provider-app
+    ports:
+    - 3501:8000
 
   idam-registration-web:
     image: docker.artifactory.reform.hmcts.net/auth/registration-web:latest
@@ -23,6 +25,8 @@ services:
     links:
     - idam-api
     - service-auth-provider-app
+    ports:
+    - 3502:8000
 
   idam-api:
     image: docker.artifactory.reform.hmcts.net/auth/idam-api:1620c9973d85ca622904ecbf01c47a4abb91f7c9
@@ -58,9 +62,13 @@ services:
     depends_on:
       - idam-database
       - smtp-server
+    ports:
+      - 4501:8080
 
   idam-database:
     image: docker.artifactory.reform.hmcts.net/auth/idam-database:latest
+    ports:
+      - 5501:5432
 
   smtp-server:
     image: mailhog/mailhog
@@ -70,7 +78,9 @@ services:
     environment:
       - AUTH_PROVIDER_SERVICE_SERVER_MICROSERVICE_KEYS_JUI_WEBAPP=AAAAAAAAAAAAAAAA
       - AUTH_PROVIDER_SERVICE_SERVER_MICROSERVICE_KEYS_EM_GW=AAAAAAAAAAAAAAAA
-      - AUTH_PROVIDER_SERVICE_SERVER_MICROSERVICE_KEYS_DIVORCE_DOCUMENT_UPLOAD=AAAAAAAAAAAAAAAA
+      - AUTH_PROVIDER_SERVICE_SERVER_MICROSERVICE_KEYS_CCD_DATA=AAAAAAAAAAAAAAAA
+      - AUTH_PROVIDER_SERVICE_SERVER_MICROSERVICE_KEYS_CCD_GW=AAAAAAAAAAAAAAAA
+      - AUTH_PROVIDER_SERVICE_SERVER_MICROSERVICE_KEYS_CCD_DEFINITION=AAAAAAAAAAAAAAAA
 #      logging env vars
       - ROOT_APPENDER=JSON_CONSOLE
       - JSON_CONSOLE_PRETTY_PRINT=false
@@ -83,3 +93,5 @@ services:
       - PACKAGES_PROJECT=rpe
       - PACKAGES_NAME=service-auth-provider-app
       - PACKAGES_VERSION=unkown
+    ports:
+      - 4502:8489

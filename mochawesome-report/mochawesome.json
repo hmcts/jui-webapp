@@ -1,25 +1,25 @@
 {
   "stats": {
     "suites": 1,
-    "tests": 1,
+    "tests": 0,
     "passes": 0,
     "pending": 0,
-    "failures": 1,
-    "start": "2018-06-06T11:45:31.400Z",
-    "end": "2018-06-06T11:45:33.848Z",
-    "duration": 2448,
+    "failures": 0,
+    "start": "2018-06-07T21:33:44.067Z",
+    "end": "2018-06-07T21:33:55.426Z",
+    "duration": 11359,
     "testsRegistered": 1,
     "passPercent": 0,
     "pendingPercent": 0,
-    "other": 1,
+    "other": 2,
     "hasOther": true,
-    "skipped": 0,
-    "hasSkipped": false,
+    "skipped": 1,
+    "hasSkipped": true,
     "passPercentClass": "danger",
     "pendingPercentClass": "danger"
   },
   "suites": {
-    "uuid": "b8527c8b-a5f1-49bc-8dfe-142e5b728714",
+    "uuid": "b57298ed-e629-4680-9ec0-7e97e3d409b3",
     "title": "",
     "fullFile": "",
     "file": "",
@@ -28,7 +28,7 @@
     "tests": [],
     "suites": [
       {
-        "uuid": "fceecbee-3e73-494c-a973-6a00e34843d6",
+        "uuid": "7f1fe4e3-104f-4eee-8ece-20417a990390",
         "title": "CCD login logout & feedback functionality",
         "fullFile": "/Users/roopa/Documents/Work/Poc/jui-webapp/codecept-e2e/paths/end2end.js",
         "file": "/codecept-e2e/paths/end2end.js",
@@ -37,14 +37,14 @@
             "title": "\"before all\" hook: codeceptjs.beforeSuite",
             "fullTitle": "CCD login logout & feedback functionality \"before all\" hook: codeceptjs.beforeSuite",
             "timedOut": false,
-            "duration": 712,
+            "duration": 575,
             "pass": false,
             "fail": false,
             "pending": false,
             "code": "scenario.suiteSetup(suite)",
             "err": {},
             "isRoot": false,
-            "uuid": "8328888d-d118-458c-a19b-2483b0f1a64c",
+            "uuid": "518b670f-7795-4099-a2d2-9ea0b0596b4f",
             "isHook": true,
             "skipped": false
           },
@@ -59,22 +59,26 @@
             "code": "scenario.setup(suite)",
             "err": {},
             "isRoot": false,
-            "uuid": "93c91157-dfc0-49d0-9db6-d87c2cb4c118",
+            "uuid": "85b642bd-9609-4610-9554-6e69e2a7fd2d",
             "isHook": true,
             "skipped": false
           },
           {
-            "title": "\"before each\" hook: Before",
-            "fullTitle": "CCD login logout & feedback functionality \"before each\" hook: Before",
+            "title": "\"before each\" hook: Before for \"sign in\"",
+            "fullTitle": "CCD login logout & feedback functionality \"before each\" hook: Before for \"sign in\"",
             "timedOut": false,
-            "duration": 772,
+            "duration": 10771,
+            "state": "failed",
             "pass": false,
-            "fail": false,
+            "fail": true,
             "pending": false,
-            "code": "I.amOnPage('/');",
-            "err": {},
+            "code": "I.amOnPage('/');\n// browser.ignoreSynchronization = true;\n// browser.waitForAngular();\n// browser.sleep(500);\n// I.wait(30);\n// browser.waitForAngularEnabled(false);\n// browser.get(\"https://idam.dev.ccidam.reform.hmcts.net/login?response_type=code&client_id=ccd_gateway&redirect_uri=https%3A%2F%2Fcase-worker-web.dev.ccd.reform.hmcts.net%2Foauth2redirect\");",
+            "err": {
+              "message": "Error: Error while running testForAngular: asynchronous script timeout: result was not received in 10 seconds\n  (Session info: chrome=67.0.3396.79)\n  (Driver info: chromedriver=2.39.562713 (dd642283e958a93ebf6891600db055f1f1b4f3b2),platform=Mac OS X 10.12.6 x86_64)",
+              "estack": "Error while running testForAngular: asynchronous script timeout: result was not received in 10 seconds\n  (Session info: chrome=67.0.3396.79)\n  (Driver info: chromedriver=2.39.562713 (dd642283e958a93ebf6891600db055f1f1b4f3b2),platform=Mac OS X 10.12.6 x86_64)\n\nScenario Steps:\n\n- I.amOnPage(\"/\") at Context.<anonymous> (codecept-e2e/paths/end2end.js:6:7)\n\n"
+            },
             "isRoot": false,
-            "uuid": "6ee56af1-30a7-466d-8472-3a59dfce29db",
+            "uuid": "5f059485-2ab2-4a38-8a70-d657a8eee0a6",
             "isHook": true,
             "skipped": false
           }
@@ -91,74 +95,55 @@
             "code": "scenario.suiteTeardown(suite)",
             "err": {},
             "isRoot": false,
-            "uuid": "b4f08310-78d3-422e-b72d-7164ea6d9dac",
+            "uuid": "cd67e6ba-6ba9-444b-b991-b47cd7fbb3e1",
             "isHook": true,
             "skipped": false
           },
           {
-            "title": "\"after each\" hook: After",
-            "fullTitle": "CCD login logout & feedback functionality \"after each\" hook: After",
+            "title": "\"after each\" hook: finalize codeceptjs for \"sign in\"",
+            "fullTitle": "CCD login logout & feedback functionality \"after each\" hook: finalize codeceptjs for \"sign in\"",
             "timedOut": false,
-            "duration": 1,
-            "pass": false,
-            "fail": false,
-            "pending": false,
-            "code": "",
-            "err": {},
-            "isRoot": false,
-            "uuid": "4f0bd245-feb0-4fb8-bffc-29663be83d5e",
-            "isHook": true,
-            "skipped": false
-          },
-          {
-            "title": "\"after each\" hook: finalize codeceptjs for \"Invalid Signin\"",
-            "fullTitle": "CCD login logout & feedback functionality \"after each\" hook: finalize codeceptjs for \"Invalid Signin\"",
-            "timedOut": false,
-            "duration": 11,
+            "duration": 7,
             "state": "failed",
             "pass": false,
             "fail": true,
             "pending": false,
             "code": "scenario.teardown(suite)",
             "err": {
-              "message": "NoSuchAlertError: no such alert\n  (Session info: chrome=67.0.3396.62)\n  (Driver info: chromedriver=2.39.562713 (dd642283e958a93ebf6891600db055f1f1b4f3b2),platform=Mac OS X 10.12.6 x86_64)",
-              "estack": "no such alert\n  (Session info: chrome=67.0.3396.62)\n  (Driver info: chromedriver=2.39.562713 (dd642283e958a93ebf6891600db055f1f1b4f3b2),platform=Mac OS X 10.12.6 x86_64)"
+              "message": "NoSuchAlertError: no such alert\n  (Session info: chrome=67.0.3396.79)\n  (Driver info: chromedriver=2.39.562713 (dd642283e958a93ebf6891600db055f1f1b4f3b2),platform=Mac OS X 10.12.6 x86_64)",
+              "estack": "no such alert\n  (Session info: chrome=67.0.3396.79)\n  (Driver info: chromedriver=2.39.562713 (dd642283e958a93ebf6891600db055f1f1b4f3b2),platform=Mac OS X 10.12.6 x86_64)"
             },
             "isRoot": false,
-            "uuid": "4eda700a-10a2-49d1-8ba8-05ae3174aed6",
+            "uuid": "28a8d46e-1b55-4bec-a20c-80633198e8f1",
             "isHook": true,
             "skipped": false
           }
         ],
         "tests": [
           {
-            "title": "Invalid Signin",
-            "fullTitle": "CCD login logout & feedback functionality: Invalid Signin",
+            "title": "sign in",
+            "fullTitle": "CCD login logout & feedback functionality: sign in",
             "timedOut": false,
-            "duration": 944,
-            "state": "failed",
+            "duration": 0,
             "pass": false,
-            "fail": true,
+            "fail": false,
             "pending": false,
-            "code": "I.invalidSignIn();",
-            "err": {
-              "message": "Error: Error while waiting for Protractor to sync with the page: \"Could not find testability for element.\"",
-              "estack": "Error while waiting for Protractor to sync with the page: \"Could not find testability for element.\"\n\nScenario Steps:\n\n- I.see(\"Sign in\") at Object.invalidSignIn (codecept-e2e/pages/signin/invalidSignIn.js:7:7)\n\n"
-            },
+            "code": "I.signIn();",
+            "err": {},
             "isRoot": false,
-            "uuid": "97fb8885-9dea-4aa7-8c8d-217e7a5b78cf",
+            "uuid": "6f7af2cc-2f16-476f-90a3-24c7477f66a3",
             "isHook": false,
-            "skipped": false
+            "skipped": true
           }
         ],
         "suites": [],
         "passes": [],
-        "failures": [
-          "97fb8885-9dea-4aa7-8c8d-217e7a5b78cf"
-        ],
+        "failures": [],
         "pending": [],
-        "skipped": [],
-        "duration": 944,
+        "skipped": [
+          "6f7af2cc-2f16-476f-90a3-24c7477f66a3"
+        ],
+        "duration": null,
         "root": false,
         "rootEmpty": false,
         "_timeout": 0

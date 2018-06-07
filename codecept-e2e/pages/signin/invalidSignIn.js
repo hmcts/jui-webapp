@@ -5,7 +5,7 @@ function invalidSignIn() {
 
 
     I.see('Sign in');
-    I.wait(20);
+    I.wait(50);
     I.fillField("#username", "testccd@gmail.com");
     I.fillField("#password", 'Monda567');
     I.click('Sign in');

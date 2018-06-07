@@ -4,11 +4,14 @@
     "timeout": 20000,
     "helpers": {
         "Protractor": {
-            "url": "https://www-ccd.nonprod.platform.hmcts.net/",
+            "url": "",
+            "driver":"hosted",
             "browser": "chrome",
             "show": true,
+            "rootElement": "body",
             "smartWait": 5000,
             "restart": false
+
         }
     },
     "include": {

@@ -6,8 +6,8 @@
 
 
 
-  I.fillField("#username", "nybgul@gmail.com");
-  I.fillField("#password", 'Monday01');
+  I.fillField("#username", "");
+  I.fillField("#password", '');
   I.click('Sign in');
   I.wait(15);
   I.see('Search','#search');

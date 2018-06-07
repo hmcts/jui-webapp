@@ -1,7 +1,7 @@
 'use strict';
 
-const requireDirectory = require('require-directory'),
-  steps = requireDirectory(module);
+const requireDirectory = require('require-directory');
+  const steps = requireDirectory(module);
 
 module.exports = function () {
 
@@ -10,7 +10,7 @@ module.exports = function () {
     //signin
     signIn: steps.signin.signIn,
 
-    // invalid signin
+    //invalid signin
    invalidSignIn: steps.signin.invalidSignIn,
 
     //signout
