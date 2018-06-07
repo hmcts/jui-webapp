@@ -1,13 +1,40 @@
-<!--<h1>Hola</h1>-->
+<div class="jui-casebar">
+    <div class="jui-width-container">
+        <div class="jui-casebar__details">
+            CO18D00150<span class="jui-casebar__title"> Alan Jones vs DWP</span>
+        </div>
+        <div class="jui-casebar__options">
+            <nav class="jui-case-actions">
+                <ul class="jui-case-actions__list">
+                    <li class="jui-case-actions__item">
+                        <a class="jui-case-actions__link" href="/app/case/CO18D00150/make-decision">Make decision</a>
+                    </li>
+                    <li class="jui-case-actions__item">
+                        <a class="jui-case-actions__link" href="/app/case/CO18D00150/list-for-hearing">List for hearing</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<div class="jui-width-container">
+    <main id="content" role="main" class="govuk-main-wrapper">
+        <nav class="jui-casenav">
+            <ul class="jui-casenav__list">
+                <li class="jui-casenav__item" *ngFor="let link of links">
+                    <a class="jui-casenav__link" [attr.aria-current]="link.id===sectionId ? 'page' : null" [routerLink]="link.href">{{link.label}}</a>
+                </li>
+            </ul>
+        </nav>
 
 
-<!--<div>-->
-    <!--{{bob}}-->
-<!--</div>-->
-<ul>
-    <li *ngFor="let link of links">
-        <a [routerLink]="link.href">{{link.label}}</a>
-    </li>
-</ul>
+        <app-case-viewer [case]="case" [sectionId]="sectionId"></app-case-viewer>
 
-<app-case-viewer [case]="case" [sectionId]="bob"></app-case-viewer>
+    </main>
+</div>
+
+
+
+
+

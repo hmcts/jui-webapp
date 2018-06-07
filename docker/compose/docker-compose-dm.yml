@@ -31,6 +31,8 @@ services:
     - PACKAGES_PROJECT=evidence
     - PACKAGES_NAME=dm-show
     - PACKAGES_VERSION=unkown
+    ports:
+     - 3608:8080
 
   dm-store:
     image: hmcts/dm-store:latest
@@ -73,6 +75,11 @@ services:
      - dm-store-db
      - idam-api
      - service-auth-provider-app
+    ports:
+     - 4603:8080
+#     - 5005:5005
 
   dm-store-db:
     image: hmcts/dm-store-db:latest
+#    ports:
+#     - 5432:5432

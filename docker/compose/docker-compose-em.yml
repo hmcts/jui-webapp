@@ -31,9 +31,14 @@ services:
      - em-anno-db
      - idam-api
      - service-auth-provider-app
+    ports:
+      - 4621:8080
+#     - 5005:5005
 
   em-anno-db:
     image: hmcts/em-anno-db:latest
+#    ports:
+#      - 5432:5432
 
   em-redact:
     image: hmcts/em-redact:latest
@@ -64,6 +69,10 @@ services:
      - em-redact-db
      - idam-api
      - service-auth-provider-app
+#    ports:
+#      - 4623:8080
 
   em-redact-db:
     image: hmcts/em-redact-db:latest
+#    ports:
+#      - 5432:5432

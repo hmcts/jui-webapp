@@ -50,27 +50,32 @@ variable "vault_section" {
   default = "test"
 }
 
-variable "idam_api_url" {
-    default = "http://betaDevBccidamAppLB.reform.hmcts.net:80"
+variable "dm_store_app_url" {
+  default = "dm-store"
 }
 
-variable "idam_login_url" {
-  default = "https://idam-test.dev.ccidam.reform.hmcts.net/login"
+variable "em_anno_app_url" {
+  default = "em-anno"
+}
+
+variable "em_redact_app_url" {
+  default = "em-redact"
+}
+
+variable "ccd_data_app_url" {
+  default = "ccd-data-store-api"
 }
 
 variable "s2s_url" {
   default = "rpe-service-auth-provider"
 }
 
-variable "dm_store_app_url" {
-    default = "dm-store"
+variable "idam_api_url" {
+  default = "idam-api-idam"
 }
 
-variable "em_anno_app_url" {
-    default = "em-anno"
-}
-variable "em_redact_app_url" {
-    default = "em-redact"
+variable "idam_login_url" {
+  default = "idam-web-public-idam"
 }
 
 ////////////////////////////////////////////////
@@ -86,4 +91,19 @@ variable "json_console_pretty_print" {
 
 variable "log_output" {
   default = "single"
+}
+
+////////////////////////////////////////////////
+// Toggle Features
+////////////////////////////////////////////////
+
+////////////////////////////////////////////////
+// Addtional
+////////////////////////////////////////////////
+variable "s2s_service_name" {
+  default = "jui_webapp"
+}
+
+variable "idam_client_id" {
+  default = "juiwebapp"
 }

@@ -2,10 +2,10 @@ const otp = require('otp');
 const jwtDecode = require('jwt-decode');
 const request = require('request');
 const proxy = require('./proxy');
-const config = require('../config');
+const config = require('../../config/index');
 
 const microservice = config.microservice;
-const secret = process.env.JUI_SECRET;
+const secret = process.env.S2S_SECRET || 'AAAAAAAAAAAAAAAA';
 let _cache = {};
 
 
@@ -38,7 +38,8 @@ function generateToken() {
     return new Promise((resolve, reject) => {
         request(options, (err, res, body) => {
             console.log(err);
-            // console.log(res.statusCode);
+            console.log(res.statusCode);
+
             console.log(body);
 
             const tokenData = jwtDecode(body);
