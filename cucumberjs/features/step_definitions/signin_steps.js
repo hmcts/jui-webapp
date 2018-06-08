@@ -1,11 +1,9 @@
-"use strict";
+'use strict';
 
 
-var {defineSupportCode} = require("cucumber");
+const { defineSupportCode } = require('cucumber');
 
-defineSupportCode(function ({Given, When, Then}) {
-
-
+defineSupportCode(({ Given, When, Then }) => {
     Given('I am on Jui signin page', callback => {
         // Write code here that turns the phrase above into concrete actions
         callback(null, 'pending');
