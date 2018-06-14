@@ -19,7 +19,7 @@
     "lint": "(ng lint jui --force && eslint . --ignore-path .gitignore) || :",
     "test:nsp": "echo \"Security testing\"",
     "test:a11y": "echo \"Testing ally\"",
-    "test:coverage": "ng test --single-run=true --code-coverage",
+    "test:coverage": "ng test && ng test --main ./src/test-coverage.ts --code-coverage",
     "test-all": "echo 'test all not implemented'",
     "test:nsp-warn": "echo \"Test nsp warn\"",
     "test:snyk": "echo \"Test snyk\"",

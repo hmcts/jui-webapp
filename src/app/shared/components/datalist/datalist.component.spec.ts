@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DatalistComponent } from './datalist.component';
 
-describe('DatalistComponent', () => {
+xdescribe('DatalistComponent', () => {
   let component: DatalistComponent;
   let fixture: ComponentFixture<DatalistComponent>;
 
