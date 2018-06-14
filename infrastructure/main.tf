@@ -40,11 +40,7 @@ module "app" {
     PACKAGES_PROJECT = "${var.team_name}"
     PACKAGES_ENVIRONMENT = "${var.env}"
 
-    ROOT_APPENDER = "${var.root_appender}"
-    JSON_CONSOLE_PRETTY_PRINT = "${var.json_console_pretty_print}"
-    LOG_OUTPUT = "${var.log_output}"
-
-//    JUI_S2S_SECRET = "${data.vault_generic_secret.s2s_secret.data["value"]}"
+    JUI_S2S_SECRET = "${data.vault_generic_secret.s2s_secret.data["value"]}"
     IDAM_SECRET = "${data.vault_generic_secret.oauth2_secret.data["value"]}"
   }
 }
@@ -53,10 +49,11 @@ provider "vault" {
   address = "https://vault.reform.hmcts.net:6200"
 }
 
-//data "vault_generic_secret" "s2s_secret" {
+data "vault_generic_secret" "s2s_secret" {
 //  //Temporarily use ccd_gw
-//  path = "secret/${var.vault_section}/ccidam/service-auth-provider/api/microservice-keys/ccd_gw"
-//}
+  path = "secret/${var.vault_section}/ccidam/service-auth-provider/api/microservice-keys/ccd-gw"
+//  path = "secret/${var.vault_section}/ccidam/service-auth-provider/api/microservice-keys/jui-webapp"
+}
 
 data "vault_generic_secret" "oauth2_secret" {
   path = "secret/${var.vault_section}/ccidam/idam-api/oauth2/client-secrets/juiwebapp"
@@ -72,22 +69,14 @@ module "key_vault" {
   product_group_object_id = "5d9cd025-a293-4b97-a0e5-6f43efce02c0"
 }
 
-//resource "azurerm_key_vault_secret" "S2S_TOKEN" {
-//  name = "s2s-token"
-//  value = "${data.vault_generic_secret.s2s_secret.data["value"]}"
-//  vault_uri = "${module.key_vault.key_vault_uri}"
-//}
+resource "azurerm_key_vault_secret" "S2S_TOKEN" {
+  name = "s2s-token"
+  value = "${data.vault_generic_secret.s2s_secret.data["value"]}"
+  vault_uri = "${module.key_vault.key_vault_uri}"
+}
 
-//resource "azurerm_key_vault_secret" "OAUTH2_TOKEN" {
-//  name = "oauth2-token"
-//  value = "${data.vault_generic_secret.s2s_secret.data["value"]}"
-//  vault_uri = "${module.key_vault.key_vault_uri}"
-//}
-
-# module "redis-cache" {
-# source = "git@github.com:hmcts/moj-module-redis?ref=master"
-# product = "${var.product}"
-# location = "${var.location}"
-# env = "${var.env}"
-# subnetid = "${data.terraform_remote_state.core_apps_infrastructure.subnet_ids[2]}"
-# }
+resource "azurerm_key_vault_secret" "OAUTH2_TOKEN" {
+  name = "oauth2-token"
+  value = "${data.vault_generic_secret.s2s_secret.data["value"]}"
+  vault_uri = "${module.key_vault.key_vault_uri}"
+}

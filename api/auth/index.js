@@ -6,9 +6,9 @@ const config = require('../../config');
 
 
 function getTokenFromCode(code) {
-    const secret = process.env.IDAM_SECRET;
+    const secret = process.env.IDAM_SECRET || "AAAAAAAAAAAAAAAA";
     const Authorization = 'Basic ' + new Buffer(`${config.idam_client}:${secret}`).toString('base64');
-    let url = `${config.services.idam_api}/oauth2/token?grant_type=authorization_code&code=${code}&redirect_uri=http://localhost:3000/oauth2/callback`;
+    let url = `${config.services.idam_api}/oauth2/token?grant_type=authorization_code&code=${code}&redirect_uri=${config.oauth_callback_url}`;
     let options = {
         url: url,
         method: 'POST',
@@ -17,8 +17,9 @@ function getTokenFromCode(code) {
             'Authorization': Authorization
         }
     };
-    options = proxy(options);
-
+    if (config.useProxy) {
+        options = proxy(options);
+    }
     return request(options).then(data => JSON.parse(data));
 }
 
@@ -33,8 +34,9 @@ function getUserDetails(jwt) {
             'Authorization': Authorization
         }
     };
-    options = proxy(options);
-
+    if (config.useProxy) {
+        options = proxy(options);
+    }
     return request(options).then(data => JSON.parse(data));
 }
 
@@ -45,14 +47,11 @@ router.use((req, res) => {
             getUserDetails(data.access_token).then(details => {
                 console.log(details);
                 console.log('-----------------------------');
-                res.cookie(config.cookieName, data.access_token);
-                res.cookie('__USERID__', details.id);
+                res.cookie(config.cookies.token, data.access_token);
+                res.cookie(config.cookies.userId, details.id);
                 res.redirect('/');
             });
-
-
         }
-
     }).catch(e => {
         console.log('error - ', e);
         res.redirect('/');

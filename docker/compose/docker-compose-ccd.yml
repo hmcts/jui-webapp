@@ -25,7 +25,7 @@ services:
       - IDAM_S2S_URL=http://service-auth-provider-app:8489
       - IDAM_SERVICE_KEY=AAAAAAAAAAAAAAAA
       - IDAM_OAUTH2_CLIENT_ID=ccd_gateway
-      - IDAM_OAUTH2_CLIENT_SECRET=00000000
+      - IDAM_OAUTH2_CLIENT_SECRET=AAAAAAAAAAAAAAAA
       - IDAM_OAUTH2_TOKEN_ENDPOINT=http://idam-api:8080/oauth2/token
       - PROXY_AGGREGATED=http://ccd-data-store-api:4452
       - PROXY_DATA=http://ccd-data-store-api:4452
@@ -118,11 +118,11 @@ services:
       - DATA_STORE_DB_USERNAME=ccd
       - DATA_STORE_DB_PASSWORD=ccd
       - DATA_STORE_IDAM_KEY=AAAAAAAAAAAAAAAA
-      - DATA_STORE_TOKEN_SECRET=AAAAAAAAAA
-      - DATA_STORE_S2S_AUTHORISED_SERVICES=ccd_gw
+      - DATA_STORE_TOKEN_SECRET=AAAAAAAAAAAAAAAA
+      - DATA_STORE_S2S_AUTHORISED_SERVICES=ccd_gw,ccd_data,ccd_ps
       - DEFINITION_STORE_HOST=http://ccd-definition-store-api:4451
       - USER_PROFILE_HOST=http://ccd-user-profile-api:4453
-      - IDAM_USER_URL http://idam-api:8080
+      - IDAM_USER_URL=http://idam-api:8080
       - IDAM_S2S_URL=http://service-auth-provider-app:8489
       - REFORM_SERVICE_NAME=ccd-data-store-api
       - REFORM_TEAM=ccd

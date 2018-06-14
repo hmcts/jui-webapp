@@ -6,9 +6,11 @@ chai.use(chaiAsPromised);
 exports.config = {
     directConnect: true,
     seleniumAddress: 'http://localhost:4444/wd/hub',
+    webDriverProxy: 'http://proxyout.reform.hmcts.net:8080',
+
     getPageTimeout: 60000,
     allScriptsTimeout: 500000,
-    baseUrl: '',
+    baseUrl: 'https://jui-webapp-saat.service.core-compute-saat.internal/',
 
     capabilities: { browserName: 'chrome' },
 
@@ -17,7 +19,6 @@ exports.config = {
     frameworkPath: require.resolve('protractor-cucumber-framework'),
     specs: ['../features/*.feature'],
 
-    // resultJsonOutputFile: "reports/json/protractor_report.json",
 
     onPrepare() {
         browser.manage().window()

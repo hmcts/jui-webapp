@@ -49,22 +49,3 @@ variable "capacity" {
 variable "vault_section" {
   default = "test"
 }
-
-////////////////////////////////////////////////
-// Logging
-////////////////////////////////////////////////
-variable "root_appender" {
-  default = "JSON_CONSOLE"
-}
-
-variable "json_console_pretty_print" {
-  default = "false"
-}
-
-variable "log_output" {
-  default = "single"
-}
-
-////////////////////////////////////////////////
-// Toggle Features
-////////////////////////////////////////////////

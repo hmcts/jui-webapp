@@ -25,12 +25,12 @@ function generateRequest(url, params) {
 }
 
 
-function getCase(caseId, userId, options) {
-  return generateRequest(`${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/SSCS/case-types/jui_test/cases/${caseId}`, options)
+function getCase(caseId, userId, options, caseType = 'Benefit', jurisdiction = 'SSCS') {
+    return generateRequest(`${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}`, options)
 }
 
-function getCases(userId, options, caseStateId = 'appealCreated', jurisdiction = 'SSCS') {
-    return generateRequest(`${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/Benefit/cases?state=${caseStateId}&page=1`, options)
+function getCases(userId, options, caseType = 'Benefit', caseStateId = 'appealCreated', jurisdiction = 'SSCS') {
+    return generateRequest(`${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases?state=${caseStateId}&page=1`, options)
 }
 
 function replaceSectionValues(section, caseData) {
@@ -70,8 +70,9 @@ function rawCasesReducer(cases) {
 //Get case
 router.get('/:case_id', (req, res, next) => {
     const token = req.auth.token;
-    const userId = req.auth.sub;
+    const userId = req.auth.userId;
     const caseId = req.params.case_id;
+    
     getCase(caseId, userId, {
         headers: {
             'Authorization': `Bearer ${token}`,
