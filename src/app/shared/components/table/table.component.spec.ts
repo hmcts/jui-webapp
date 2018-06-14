@@ -114,8 +114,6 @@ const dataWithTwoRows = {
 const dataWithNoRows = {
     'columns': columns,
     'results': [
-        result1,
-        result2
     ]
 };
 
@@ -154,7 +152,7 @@ describe('TableComponent', () => {
         }));
 
         it('should have no rows', () => {
-            expect(element.nativeElement.querySelectorAll('mat-row').length).toBe(dataWithNoRows.results.length);
+            expect(element.nativeElement.querySelectorAll('mat-row').length).toBe(0);
         });
 
         it('should have ALL the headers', () => {
