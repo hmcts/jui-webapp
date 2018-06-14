@@ -6,13 +6,29 @@ chai.use(chaiAsPromised);
 exports.config = {
     directConnect: true,
     seleniumAddress: 'http://localhost:4444/wd/hub',
-    webDriverProxy: 'http://proxyout.reform.hmcts.net:8080',
-
     getPageTimeout: 60000,
     allScriptsTimeout: 500000,
-    baseUrl: 'https://jui-webapp-saat.service.core-compute-saat.internal/',
+    baseUrl: 'https://jui-webapp-saat.service.core-compute-saat.internal',
 
-    capabilities: { browserName: 'chrome' },
+    // capabilities: {
+    //     browserName: 'chrome',
+    // },
+
+
+    /*****
+     * to enable proxy
+     */
+    capabilities: {
+        browserName: 'chrome',
+
+        'proxy': {
+
+            'proxyType': 'manual',
+            'httpProxy': 'socks5://localhost:9090',
+            'sslProxy': 'socks5://localhost:9090'
+
+        }
+    },
 
 
     framework: 'custom',
@@ -33,6 +49,6 @@ exports.config = {
         strict: true,
         format: ['pretty'],
         require: ['../features/step_definitions/*.js', '../support/*.js'],
-        tags: ''
+        tags: '@dashboard'
     }
 };

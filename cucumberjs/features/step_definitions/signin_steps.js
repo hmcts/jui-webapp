@@ -5,7 +5,11 @@ const { defineSupportCode } = require('cucumber');
 
 defineSupportCode(({ Given, When, Then }) => {
     Given('I am on Jui signin page', callback => {
-        // Write code here that turns the phrase above into concrete actions
+        browser.driver.sleep(3000);
+        browser.waitForAngular();
+        //expect(loginPage.pagetitle.getText()).to.eventually.equal('Sign in').and.notify(next);
+        next();
+
         callback(null, 'pending');
     });
 
