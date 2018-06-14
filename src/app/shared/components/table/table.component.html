@@ -1,12 +1,16 @@
 <div>
     <mat-table *ngIf="resultView" [dataSource]="resultView.results">
 
-        <ng-container matColumnDef="case_id">
+        <ng-container matColumnDef="case_id" >
             <mat-header-cell *matHeaderCellDef>Case reference</mat-header-cell>
-            <mat-cell *matCellDef="let row;">{{row.case_id}}</mat-cell>
+            <mat-cell *matCellDef="let row;">
+                <a data-test-hook="jui-table-component-case-reference-link" href="/viewcase/{{row.case_id}}/summary">{{row.case_id}}</a>
+            </mat-cell>
         </ng-container>
         <ng-container *ngFor="let column of resultView.columns" matColumnDef="{{column.case_field_id}}">
-            <mat-header-cell *matHeaderCellDef>{{column.label}}</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef>
+                <span attr.data-test-hook="jui-table-component-{{column.case_field_id}}-header">{{column.label}}</span>
+            </mat-header-cell>
             <mat-cell *matCellDef="let row">{{row.case_fields[column.case_field_id]}}</mat-cell>
         </ng-container>
 
