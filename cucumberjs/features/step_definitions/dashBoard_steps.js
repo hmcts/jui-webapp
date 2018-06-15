@@ -1,8 +1,9 @@
 'use strict';
 
-//var loginPage = require("../../pages/loginPage");
+//var signInPage = require("../../pages/signInPage");
 //var caseListPage = require("../../pages/caseListPage");
 var dashBoardPage = require('../../pages/dashBoardPage');
+var caseSummaryPage = require('../../pages/caseSummaryPage');
 
 var expect = require('chai').expect;
 var {defineSupportCode} = require('cucumber');
@@ -15,22 +16,26 @@ defineSupportCode(function ({Given, When, Then}) {
     });
 
     When(/^I am on the dashboard page$/, function (next) {
-        // Write code here that turns the phrase above into concrete actions
+        dashBoardPage.visit().then(next);
+        expect(dashBoardPage.dashboard_header.isDisplayed()).to.eventually.be.true.and.notify(next);
+        //expect(dashBoardPage.dashboard_header.getText()).to.eventually.equal('caseList').and.notify(next);
         next();
     });
 
     When(/^all case references are hyperlinked$/, function (next) {
-        // Write code here that turns the phrase above into concrete actions
+        expect(dashBoardPage.list_of_cases.isDisplayed()).to.eventually.be.true.and.notify(next);
+        expect(dashBoardPage.case_link.isDisplayed()).to.eventually.be.true.and.notify(next);
         next();
     });
 
     When(/^I select a case reference$/, function (next) {
-        // Write code here that turns the phrase above into concrete actions
+        dashBoardPage.case_link.click();
         next();
     });
 
     Then(/^I will be redirected to the Case Summary page for that case$/, function (next) {
-        // Write code here that turns the phrase above into concrete actions
+        expect(caseSummaryPage.caseSummary_header_text.isDisplayed()).to.eventually.be.true.and.notify(next);
+        expect(caseSummaryPage.caseSummary_header_text.getText()).to.eventually.equal('Summary').and.notify(next);
         next();
     });
 

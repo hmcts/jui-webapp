@@ -10,6 +10,7 @@ exports.config = {
     allScriptsTimeout: 500000,
     baseUrl: 'https://jui-webapp-saat.service.core-compute-saat.internal',
 
+
     // capabilities: {
     //     browserName: 'chrome',
     // },
@@ -49,6 +50,6 @@ exports.config = {
         strict: true,
         format: ['pretty'],
         require: ['../features/step_definitions/*.js', '../support/*.js'],
-        tags: '@dashboard'
+        tags: '@signin'
     }
 };
