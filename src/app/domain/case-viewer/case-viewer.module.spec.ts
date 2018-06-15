@@ -1,6 +1,6 @@
 import { CaseViewerModule } from './case-viewer.module';
 
-describe('CaseViewerModule', () => {
+xdescribe('CaseViewerModule', () => {
   let caseViewerModule: CaseViewerModule;
 
   beforeEach(() => {

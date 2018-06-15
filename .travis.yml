@@ -28,6 +28,7 @@ script:
   - yarn build-universal
 #  - yarn setup
   - yarn lint
+  - yarn test
 #  - yarn test:nsp-warn
 #  - yarn test:coverage
 #  #  - yarn test:routes
