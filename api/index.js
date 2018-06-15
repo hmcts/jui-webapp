@@ -6,7 +6,7 @@ const auth = require('./auth');
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const authInterceptor = require('./middleware/auth');
 
-router.use('/oauth2/callback', auth);
+auth(router);
 
 router.use(authInterceptor);
 
