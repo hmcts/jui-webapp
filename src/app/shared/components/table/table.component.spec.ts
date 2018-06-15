@@ -4,7 +4,7 @@ import {TableComponent} from './table.component';
 import {SharedModule} from '../../shared.module';
 import {DebugElement} from '@angular/core';
 
-import * as selector from '../../../../../test/selector-helper';
+import {Selector} from '../../../../../test/selector-helper';
 
 const columns = [
     {
@@ -153,12 +153,12 @@ describe('TableComponent', () => {
         }));
 
         it('should have no rows', () => {
-            expect(element.nativeElement.querySelectorAll(selector('table-row')).length).toBe(0);
+            expect(element.nativeElement.querySelectorAll(Selector.selector('table-row')).length).toBe(0);
         });
 
         it('should have ALL the headers', () => {
             dataWithNoRows.columns.forEach((column) => {
-                const header = element.nativeElement.querySelector(selector(`table-component|${column.case_field_id}-header`));
+                const header = element.nativeElement.querySelector(Selector.selector(`table-component|${column.case_field_id}-header`));
                 expect(header.textContent).toEqual(column.label);
             });
         });
@@ -177,18 +177,18 @@ describe('TableComponent', () => {
         }));
 
         it('should show match the number of  rows', () => {
-            expect(element.nativeElement.querySelectorAll(selector('table-row')).length).toBe(dataWithTwoRows.results.length);
+            expect(element.nativeElement.querySelectorAll(Selector.selector('table-row')).length).toBe(dataWithTwoRows.results.length);
         });
 
         it('should have a clickable case reference link to summary', () => {
             const links =
-                element.nativeElement.querySelectorAll(selector('table-component|case-reference-link'));
+                element.nativeElement.querySelectorAll(Selector.selector('table-component|case-reference-link'));
             expect(links[0].attributes.href.value).toEqual('/viewcase/1528476356357908/summary');
         });
 
         it('should have ALL the headers', () => {
             dataWithTwoRows.columns.forEach((column) => {
-                const header = element.nativeElement.querySelector(selector(`table-component|${column.case_field_id}-header`));
+                const header = element.nativeElement.querySelector(Selector.selector(`table-component|${column.case_field_id}-header`));
                 expect(header.textContent).toEqual(column.label);
             });
         });
