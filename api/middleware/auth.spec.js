@@ -1,4 +1,3 @@
-const expect = require('chai').expect;
 const proxyquire = require('proxyquire');
 
 describe('Auth middleware', function () {
@@ -49,7 +48,7 @@ describe('Auth middleware', function () {
             expiryDate = new Date().getTime() + 5000;
             req.headers = {};
             authMiddleware(req, res, next);
-            expect(req.auth).to.deep.equal({
+            expect(req.auth).toEqual({
                 exp: expiryDate,
                 token: 'cookie_token',
                 userId: 'cookie_user'
@@ -60,7 +59,7 @@ describe('Auth middleware', function () {
             expiryDate = new Date().getTime() + 5000;
             req.cookies = {};
             authMiddleware(req, res, next);
-            expect(req.auth).to.deep.equal({
+            expect(req.auth).toEqual({
                 exp: expiryDate,
                 token: 'header_token',
                 userId: 'header_user'
@@ -71,7 +70,7 @@ describe('Auth middleware', function () {
             expiryDate = new Date().getTime() + 5000;
             req.cookies = {};
             authMiddleware(req, res, next);
-            expect(req.auth).to.deep.equal({
+            expect(req.auth).toEqual({
                 exp: expiryDate,
                 token: 'header_token',
                 userId: 'header_user'

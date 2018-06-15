@@ -1,14 +1,14 @@
-const expect = require('chai').expect;
+// const expect = require('chai').expect;
 const proxyquire = require('proxyquire');
 const supertest = require('supertest');
 const express = require('express');
 const config = require('../../config');
-const sinon = require('sinon');
+// const sinon = require('sinon');
 
 describe('oAuth callback route', () => {
 
-    let getTokenCodeSpy = sinon.stub();
-    getTokenCodeSpy.returns(Promise.resolve({
+    let getTokenCodeSpy = jasmine.createSpy();
+    getTokenCodeSpy.and.callFake(() => Promise.resolve({
         access_token: '__access__'
     }));
 
@@ -35,7 +35,7 @@ describe('oAuth callback route', () => {
             .get('/oauth2/callback')
             .expect(302)
             .then((res) => {
-                expect(res.headers.location).to.equal('/');
+                expect(res.headers.location).toEqual('/');
             });
     });
 
@@ -43,8 +43,8 @@ describe('oAuth callback route', () => {
         return request
             .get('/oauth2/callback?code=bob')
             .then((res) => {
-                expect(getTokenCodeSpy.called).to.equal(true);
-                expect(getTokenCodeSpy.calledWith('bob')).to.equal(true);
+                expect(getTokenCodeSpy).toHaveBeenCalled();
+                expect(getTokenCodeSpy).toHaveBeenCalledWith('bob');
             });
     });
 
@@ -52,8 +52,8 @@ describe('oAuth callback route', () => {
         return request
             .get('/oauth2/callback')
             .then((res) => {
-                expect(res.headers['set-cookie'].length).to.equal(2);
-                expect(res.headers['set-cookie']).to.deep.equal(
+                expect(res.headers['set-cookie'].length).toEqual(2);
+                expect(res.headers['set-cookie']).toEqual(
                     [`${config.cookies.token}=__access__; Path=/`,
                         `${config.cookies.userId}=__userid__; Path=/`
                     ]);
