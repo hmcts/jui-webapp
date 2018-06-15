@@ -4,6 +4,8 @@ import {TableComponent} from './table.component';
 import {SharedModule} from '../../shared.module';
 import {DebugElement} from '@angular/core';
 
+import * as selector from '../../../../../test/selector-helper';
+
 const columns = [
     {
         'label': 'Parties',
@@ -113,8 +115,7 @@ const dataWithTwoRows = {
 };
 const dataWithNoRows = {
     'columns': columns,
-    'results': [
-    ]
+    'results': []
 };
 
 describe('TableComponent', () => {
@@ -125,7 +126,7 @@ describe('TableComponent', () => {
         TestBed.configureTestingModule({
             imports: [SharedModule]
         })
-        .compileComponents();
+            .compileComponents();
     }));
 
     beforeEach(() => {
@@ -152,13 +153,12 @@ describe('TableComponent', () => {
         }));
 
         it('should have no rows', () => {
-            expect(element.nativeElement.querySelectorAll('mat-row').length).toBe(0);
+            expect(element.nativeElement.querySelectorAll(selector('table-row')).length).toBe(0);
         });
 
         it('should have ALL the headers', () => {
             dataWithNoRows.columns.forEach((column) => {
-                const selector = `span[data-test-hook="jui-table-component-${column.case_field_id}-header"]`;
-                const header = element.nativeElement.querySelector(selector);
+                const header = element.nativeElement.querySelector(selector(`table-component|${column.case_field_id}-header`));
                 expect(header.textContent).toEqual(column.label);
             });
         });
@@ -177,18 +177,18 @@ describe('TableComponent', () => {
         }));
 
         it('should show match the number of  rows', () => {
-            expect(element.nativeElement.querySelectorAll('mat-row').length).toBe(dataWithTwoRows.results.length);
+            expect(element.nativeElement.querySelectorAll(selector('table-row')).length).toBe(dataWithTwoRows.results.length);
         });
 
         it('should have a clickable case reference link to summary', () => {
-            const links = element.nativeElement.querySelectorAll('a[data-test-hook="jui-table-component-case-reference-link"');
+            const links =
+                element.nativeElement.querySelectorAll(selector('table-component|case-reference-link'));
             expect(links[0].attributes.href.value).toEqual('/viewcase/1528476356357908/summary');
         });
 
         it('should have ALL the headers', () => {
             dataWithTwoRows.columns.forEach((column) => {
-                const selector = `span[data-test-hook="jui-table-component-${column.case_field_id}-header"]`;
-                const header = element.nativeElement.querySelector(selector);
+                const header = element.nativeElement.querySelector(selector(`table-component|${column.case_field_id}-header`));
                 expect(header.textContent).toEqual(column.label);
             });
         });
