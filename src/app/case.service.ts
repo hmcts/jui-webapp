@@ -24,36 +24,6 @@ export class CaseService {
         });
     }
 
-    getFixedList(listItems) {
-        const obj = {};
-
-        listItems.forEach(listItem => {
-            obj[listItem.code] = listItem.label;
-        });
-
-        return obj;
-    }
-
-    transform(data) {
-        const enumColumns = {};
-
-        data.columns.forEach(column => {
-            if (column.case_field_type.fixed_list_items.length) {
-                enumColumns[column.case_field_id] = this.getFixedList(column.case_field_type.fixed_list_items);
-            }
-        });
-
-        if (Object.keys(enumColumns).length > 0) {
-            data.results.forEach(result => {
-                for (const fieldName in enumColumns) {
-                    result.case_fields[fieldName] = enumColumns[fieldName][result.case_fields[fieldName]];
-                }
-            });
-        }
-
-        return data;
-    }
-
     search(): Observable<Object> {
         const url = `${this.configService.config.api_base_url}/api/cases`;
         const key = makeStateKey(url);
@@ -63,7 +33,6 @@ export class CaseService {
         }
         return this.httpClient
             .get(url)
-            .map(data => this.transform(data))
             .map(data => {
                 this.state.set(key, data);
                 return data;
