@@ -1,24 +1,23 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 
 @Component({
     selector: 'app-document-panel',
     templateUrl: './document-panel.component.html',
     styleUrls: ['./document-panel.component.scss']
 })
-export class DocumentPanelComponent implements OnInit {
+export class DocumentPanelComponent implements OnChanges {
+    @Input() panelData;
+    @Input() documentId: string;
+    @Input() documents;
+    targetDocument;
 
-    @Input()
-    panelData;
-    documents: Array<Object>;
+    constructor() {
+    }
 
-    constructor(/*private dmStoreService: DMStoreService*/) { }
+    ngOnChanges(changes) {
+        if (this.documents) {
+            this.targetDocument = this.documents.filter(item => item.id === this.documentId);
 
-    ngOnInit() {
-        this.documents = this.panelData.fields[0].value[0];
-
-        // console.log('panelData', this.panelData);
-        // this.docURL = this.dmStoreService
-        //                 .getMime(this.panelData.id);
-        // console.log('this.data', this.docURL);
+        }
     }
 }

@@ -5,14 +5,20 @@ import { MatTableModule } from '@angular/material';
 import { TabComponent } from './components/tab/tab.component';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { DatalistComponent } from './components/datalist/datalist.component';
-import { CaseFileViewerModule } from './components/case-file-viewer/case-file-viewer.module';
-import {HeaderComponent} from './components/header/header.component';
-import {FooterComponent} from './components/footer/footer.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { FormsModule } from '@angular/forms';
+import { ImageViewerComponent } from './components/viewers/image-viewer/image-viewer.component';
+import { PdfViewerComponent } from './components/viewers/pdf-viewer/pdf-viewer.component';
+import { UnsupportedViewerComponent } from './components/viewers/unsupported-viewer/unsupported-viewer.component';
 
 @NgModule({
     imports: [
         CommonModule,
-        MatTableModule
+        MatTableModule,
+        FormsModule,
+        PdfViewerModule
     ],
     declarations: [
         TabComponent,
@@ -20,16 +26,21 @@ import {FooterComponent} from './components/footer/footer.component';
         TableComponent,
         DatalistComponent,
         HeaderComponent,
-        FooterComponent
+        FooterComponent,
+        PdfViewerComponent,
+        ImageViewerComponent,
+        UnsupportedViewerComponent
     ],
     exports: [
         TabComponent,
         TabsComponent,
         TableComponent,
         DatalistComponent,
-        CaseFileViewerModule,
         HeaderComponent,
-        FooterComponent
+        FooterComponent,
+        PdfViewerComponent,
+        ImageViewerComponent,
+        UnsupportedViewerComponent
     ]
 })
 

@@ -4,16 +4,15 @@ import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 
 @Injectable()
-export class DMStoreService {
+export class CaseFileService {
   private readonly apiRoot = 'http://localhost:3000/api';
 
   constructor(private httpClient: HttpClient) {
   }
 
-  getDoc(id: number): Observable<Object> {
-    const url = `${this.apiRoot}/documents/${id}`;
+  fetch(id: String): Observable<Object> {
+    const url = `${this.apiRoot}/cases/${id}`;
 
     return this.httpClient.get(url);
   }
-
 }

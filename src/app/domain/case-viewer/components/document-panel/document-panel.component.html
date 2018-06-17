@@ -1,19 +1,11 @@
-<div>
-    {{panelData | json}}
+<div class="grid-row">
+    <div class="column-full">
+        <ng-container *ngIf="targetDocument">
+            <ng-container *ngFor="let document of targetDocument">
+                <app-pdf-viewer *ngIf="document.isPdf" [url]="document.src"></app-pdf-viewer>
+                <app-image-viewer *ngIf="document.isImage" [url]="document.src"></app-image-viewer>
+                <app-unsupported-viewer *ngIf="document.isUnsupported" [url]="document.src"></app-unsupported-viewer>
+            </ng-container>
+        </ng-container>
+    </div>
 </div>
-
-<div>
-    {{documents | json}}
-</div>
-
-<ul *ngFor="let document of documents">
-    <li><a [href]="document.value.documentLink.document_url">{{ document.value.documentType}}</a></li>
-</ul>
-
-<!--<div *ngFor="let document of documents">-->
-    <!--&lt;!&ndash;<app-pdf-viewer *ngIf="document.value.documentLink['document_filename'].endsWith('pdf')" [url]="document.value.documentLink.document_binary_url"></app-pdf-viewer>&ndash;&gt;-->
-    <!--&lt;!&ndash;<app-image-viewer *ngIf="document.value.documentLink['document_filename'].match(/(jpeg|jpg|png)$/))" [url]="document.value.documentLink.document_binary_url"></app-image-viewer>&ndash;&gt;-->
-<!--</div>-->
-
-
-<!--&lt;!&ndash;<app-case-file-viewer [url]="'http://localhost:3000/api/documents/6a6978c3-ae29-48fd-bd26-246897308d2e'"></app-case-file-viewer>&ndash;&gt;-->

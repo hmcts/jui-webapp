@@ -5,7 +5,7 @@
                 <ng-container [ngSwitch]="section.type" >
                     <h1 class="govuk-heading-l">{{section.name}}</h1>
                     <app-summary-panel *ngSwitchCase="'summary-panel'" [panelData]="section"></app-summary-panel>
-                    <app-document-panel *ngSwitchCase="'document-panel'" [panelData]="section"></app-document-panel>
+                    <app-document-panel *ngSwitchCase="'document-panel'" [panelData]="targetSection.sections"></app-document-panel>
                     <app-parties-panel *ngSwitchCase="'parties-panel'" [panelData]="section"></app-parties-panel>
                 </ng-container>
             </ng-container>

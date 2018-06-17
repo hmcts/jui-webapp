@@ -6,8 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./pdf-viewer.component.scss']
 })
 export class PdfViewerComponent implements OnInit {
-  src: any = '/assets/pdf-test.pdf';
-
+  src: any;
   page: number = 1;
   totalPages: number;
   isLoaded: boolean = false;

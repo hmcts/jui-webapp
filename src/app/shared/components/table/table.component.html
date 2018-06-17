@@ -1,17 +1,21 @@
-<div>
+<div data-selector="table-component">
     <mat-table *ngIf="resultView" [dataSource]="resultView.results">
 
-        <ng-container matColumnDef="case_id">
+        <ng-container matColumnDef="case_id" >
             <mat-header-cell *matHeaderCellDef>Case reference</mat-header-cell>
-            <mat-cell *matCellDef="let row;">{{row.case_id}}</mat-cell>
+            <mat-cell *matCellDef="let row;">
+                <a data-selector="case-reference-link" href="/viewcase/{{row.case_id}}/summary">{{row.case_id}}</a>
+            </mat-cell>
         </ng-container>
         <ng-container *ngFor="let column of resultView.columns" matColumnDef="{{column.case_field_id}}">
-            <mat-header-cell *matHeaderCellDef>{{column.label}}</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef>
+                <span attr.data-selector="{{column.case_field_id}}-header">{{column.label}}</span>
+            </mat-header-cell>
             <mat-cell *matCellDef="let row">{{row.case_fields[column.case_field_id]}}</mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns()"></mat-header-row>
 
-        <mat-row *matRowDef="let results; columns: displayedColumns()"></mat-row>
+        <mat-row data-selector="table-row" *matRowDef="let results; columns: displayedColumns()"></mat-row>
     </mat-table>
 </div>
