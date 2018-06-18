@@ -42,7 +42,7 @@ describe('case-list spec', () => {
                 .then(response => {
                     expect(response.body.results.length).toBe(0);
                     expect(response.body.columns.length).toBe(2); // 3 minus case reference
-                    expect(response.body.columns[0]).toEqual(sscsCaseListTemplate.columns[0]);
+                    expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
                 });
         });
     });
@@ -71,7 +71,7 @@ describe('case-list spec', () => {
                 .then(response => {
                     expect(response.body.columns.length).toBe(2); // 3 minus case reference
                     expect(response.body.results.length).toBe(1);
-                    expect(response.body.columns[0]).toEqual(sscsCaseListTemplate.columns[0]);
+                    expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
                     expect(response.body.results[0]).toEqual({
                         case_id: caseData[0].id,
                         case_fields: {
