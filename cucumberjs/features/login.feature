@@ -11,6 +11,6 @@ Feature: CCD Login
     Then I will be redirected to caselist
 
     Examples:
-      | email_address | pwd |
-      | nybgul@gmail.com|Monday01    |
+        | email_address    | pwd      |
+        | nybgul@gmail.com |Monday01  |
 

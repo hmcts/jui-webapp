@@ -1,0 +1,49 @@
+@import "~govuk-frontend/src/all";
+/* ==========================================================================
+   #FOOTER
+   ========================================================================== */
+
+$color-footer-link: rgb(69, 74, 76); // No colour variable defined by GDS!
+
+.jui-footer {
+    background-color: $govuk-grey-3;
+    padding-top: $govuk-spacing-scale-7;
+    padding-bottom: $govuk-spacing-scale-7;
+}
+
+
+.jui-footer__heading {
+    @include govuk-font-bold-19;
+    margin-bottom: $govuk-spacing-scale-2;
+}
+
+.jui-footer__list {
+    @include govuk-font-regular-16;
+    color: $color-footer-link;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    a {
+        color: $color-footer-link;
+
+        &:hover {
+            color: $govuk-black;
+        }
+
+    }
+
+}
+
+
+/* Style variants
+   ========================================================================== */
+
+.jui-footer__list--inline {
+
+    li {
+        display: inline;
+        margin-right: $govuk-spacing-scale-3;
+    }
+
+}

@@ -17,7 +17,7 @@ checkout cucumberjs (checkout branch)
 yarn
 
 # run the e2e tests (cucumberjs folder)
-1. yarn wd:start 
+1. yarn wd:start (if you setup directconnection true then no need to use this command)
 
 2. yarn cucumberjs
 

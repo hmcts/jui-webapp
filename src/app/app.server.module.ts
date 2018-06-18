@@ -4,7 +4,7 @@ import { ServerModule, ServerTransferStateModule  } from '@angular/platform-serv
 import { ModuleMapLoaderModule } from '@nguniversal/module-map-ngfactory-loader';
 import { AppModule } from './app.module';
 import { AppComponent } from './app.component';
-
+import { CookieService, CookieBackendService } from 'ngx-cookie';
 
 
 @NgModule({
@@ -19,6 +19,7 @@ import { AppComponent } from './app.component';
         ModuleMapLoaderModule // The new module
     ],
     bootstrap: [ AppComponent ],
+    providers: [{ provide: CookieService, useClass: CookieBackendService }]
 })
 export class AppServerModule {
     constructor() {

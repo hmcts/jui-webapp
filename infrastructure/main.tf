@@ -28,6 +28,7 @@ module "app" {
 
     # NODE_ENV = "${var.env}"
     # PORT = "8080"
+    JUI_ENV = "${var.env}"
 
     # logging vars & healthcheck
     REFORM_SERVICE_NAME = "${local.app_full_name}"
@@ -39,23 +40,8 @@ module "app" {
     PACKAGES_PROJECT = "${var.team_name}"
     PACKAGES_ENVIRONMENT = "${var.env}"
 
-    ROOT_APPENDER = "${var.root_appender}"
-    JSON_CONSOLE_PRETTY_PRINT = "${var.json_console_pretty_print}"
-    LOG_OUTPUT = "${var.log_output}"
-
-    DM_STORE_URI= "http://${var.dm_store_app_url}-${local.local_env}.service.core-compute-${local.local_env}.internal"
-    EM_ANNO_URI="http://${var.em_anno_app_url}-${local.local_env}.service.core-compute-${local.local_env}.internal"
-    EM_REDACT_URI ="http://${var.em_redact_app_url}-${local.local_env}.service.core-compute-${local.local_env}.internal"
-    CCD_DATA_URI ="http://${var.ccd_data_app_url}-${local.local_env}.service.core-compute-${local.local_env}.internal"
-    IDAM_LOGIN_URL = "http://${var.idam_login_url}-${local.local_env}.service.core-compute-${local.local_env}.internal"
-    IDAM_API_URI = "http://${var.idam_api_url}-${local.local_env}.service.core-compute-${local.local_env}.internal"
-    S2S_URI = "http://${var.s2s_url}-${local.local_env}.service.core-compute-${local.local_env}.internal"
-
-    S2S_SERVICE_NAME = "${var.s2s_service_name}"
-    S2S_SECRET = "${data.vault_generic_secret.s2s_secret.data["value"]}"
-
-    IDAM_CLIENT_ID = "${data.vault_generic_secret.oauth2_secret.data["value"]}"
-    IDAM_API_OAUTH2_CLIENT_SECRETS = "${data.vault_generic_secret.oauth2_secret.data["value"]}"
+    JUI_S2S_SECRET = "${data.vault_generic_secret.s2s_secret.data["value"]}"
+    IDAM_SECRET = "${data.vault_generic_secret.oauth2_secret.data["value"]}"
   }
 }
 
@@ -64,7 +50,9 @@ provider "vault" {
 }
 
 data "vault_generic_secret" "s2s_secret" {
-  path = "secret/${var.vault_section}/ccidam/service-auth-provider/api/microservice-keys/jui-webapp"
+//  //Temporarily use ccd_gw
+  path = "secret/${var.vault_section}/ccidam/service-auth-provider/api/microservice-keys/ccd-gw"
+//  path = "secret/${var.vault_section}/ccidam/service-auth-provider/api/microservice-keys/jui-webapp"
 }
 
 data "vault_generic_secret" "oauth2_secret" {
@@ -92,11 +80,3 @@ resource "azurerm_key_vault_secret" "OAUTH2_TOKEN" {
   value = "${data.vault_generic_secret.s2s_secret.data["value"]}"
   vault_uri = "${module.key_vault.key_vault_uri}"
 }
-
-# module "redis-cache" {
-# source = "git@github.com:hmcts/moj-module-redis?ref=master"
-# product = "${var.product}"
-# location = "${var.location}"
-# env = "${var.env}"
-# subnetid = "${data.terraform_remote_state.core_apps_infrastructure.subnet_ids[2]}"
-# }

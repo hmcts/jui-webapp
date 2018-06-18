@@ -110,7 +110,7 @@ module.exports = {
                     type: 'document-panel',
                     fields: [
                         {
-                            lookup: '$.case_data.evidence.documents'
+                            lookup: '$.case_data.sscsDocument'
                         }
                     ]
                 }

@@ -32,7 +32,6 @@ export class ViewCaseComponent implements OnInit {
         this.caseService.fetch(this.caseId).subscribe(data => {
             this.case = data;
             this.links = this.case.sections.map(section => {
-                // this.createCaseRoutes(section);
                 return {
                     href: `/viewcase/${this.caseId}/${section.id}`,
                     label: section.name,

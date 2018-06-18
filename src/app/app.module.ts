@@ -3,19 +3,17 @@ import {APP_ID, Inject, NgModule, PLATFORM_ID} from '@angular/core';
 
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
-import { isPlatformBrowser } from '@angular/common';
 import { SharedModule } from './shared/shared.module';
 import { DomainModule } from './domain/domain.module';
 import { RoutingModule } from './routing/routing.module';
-import { HeaderComponent } from './header/header.component';
-import { makeStateKey, TransferState } from '@angular/platform-browser';
+import { HeaderComponent } from './shared/components/header/header.component';
 import { ConfigService } from './config.service';
-import {AuthModule} from "./auth/auth.module";
+import {AuthModule} from './auth/auth.module';
+import {FooterComponent} from './shared/components/footer/footer.component';
 
 @NgModule({
     declarations: [
-        AppComponent,
-        HeaderComponent
+        AppComponent
     ],
     imports: [
         BrowserModule.withServerTransition({appId: 'jui'}),

@@ -1,3 +1,4 @@
+#!/bin/sh
 IDAM_USER_BASE_URL=http://localhost:4501
 IDAM_S2S_BASE_URL=http://localhost:4502
 DIR="$( cd "$( dirname "$0" )" && pwd )/"

@@ -1,6 +1,7 @@
-"use strict";
+'use strict';
 
 function signOutPage() {
-  this.signout_msg =element(by.css('p.lede'));
+    //this.signout_msg = element(by.css('p.lede'));
 }
-module.exports =new signOutPage;
+
+module.exports = new signOutPage();

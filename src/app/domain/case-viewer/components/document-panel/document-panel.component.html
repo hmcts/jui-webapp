@@ -1,6 +1,11 @@
-<p>
-  document-panel works!
-</p>
-<div>
-    {{panelData | json}}
+<div class="grid-row">
+    <div class="column-full">
+        <ng-container *ngIf="targetDocument">
+            <ng-container *ngFor="let document of targetDocument">
+                <app-pdf-viewer *ngIf="document.isPdf" [url]="document.src"></app-pdf-viewer>
+                <app-image-viewer *ngIf="document.isImage" [url]="document.src"></app-image-viewer>
+                <app-unsupported-viewer *ngIf="document.isUnsupported" [url]="document.src"></app-unsupported-viewer>
+            </ng-container>
+        </ng-container>
+    </div>
 </div>

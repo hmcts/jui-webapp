@@ -5,7 +5,7 @@ const proxy = require('./proxy');
 const config = require('../../config/index');
 
 const microservice = config.microservice;
-const secret = process.env.S2S_SECRET || 'AAAAAAAAAAAAAAAA';
+const secret = process.env.JUI_S2S_SECRET || 'AAAAAAAAAAAAAAAA';
 let _cache = {};
 
 

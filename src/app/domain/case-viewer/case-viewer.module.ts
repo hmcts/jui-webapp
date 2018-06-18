@@ -13,7 +13,8 @@ import { CaseNavComponent } from './components/case-nav/case-nav.component';
         SharedModule
     ],
     exports: [
-        CaseViewerComponent
+        CaseViewerComponent,
+        DocumentPanelComponent,
     ],
     declarations: [
         CaseViewerComponent,
