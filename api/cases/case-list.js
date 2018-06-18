@@ -13,7 +13,7 @@ function dataLookup(column, caseRow) {
     }
     if (typeof column.lookup === "string") {
         return jp.query(caseRow, column.lookup);
-    } else if (column.lookup.length) {
+    } else if (Array.isArray(column.lookup)) {
         return column.lookup.map(part => {
             if (part.startsWith('$')) {
                 return jp.query(caseRow, part);
@@ -21,6 +21,7 @@ function dataLookup(column, caseRow) {
             return part;
         }).join(' ');
     }
+    throw new Error('lookup is neither a string or an array.')
 }
 
 function rawCasesReducer(cases, columns) {
@@ -48,6 +49,7 @@ module.exports = (req, res, next) => {
     }).then(casesData => {
         const aggregatedData = {...sscsCaseListTemplate, results : rawCasesReducer(casesData, sscsCaseListTemplate.columns)};
         res.setHeader('Access-Control-Allow-Origin', '*');
+        res.setHeader('content-type', 'application/json');
         res.status(200).send(JSON.stringify(aggregatedData));
     }).catch(e => console.log(e))
 };
