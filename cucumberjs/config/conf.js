@@ -10,32 +10,31 @@ exports.config = {
     allScriptsTimeout: 500000,
     baseUrl: 'https://jui-webapp-saat.service.core-compute-saat.internal',
 
+    //
+    //
+    // capabilities: { browserName: 'chrome',
+    //
+    //     'proxy': {
+    //
+    //         'proxyType': 'manual',
+    //         'httpProxy': 'socks5://localhost:9090',
+    //         'sslProxy' : 'socks5://localhost:9090',
+    //
+    //     }},
 
-    // capabilities: {
-    //     browserName: 'chrome',
-    // },
 
+    capabilities: { browserName: 'chrome',
+        chromeOptions: {
+            args: ["--proxy-server=socks5://localhost:9090"]
+        }},
 
-    /*****
-     * to enable proxy
-     */
-    capabilities: {
-        browserName: 'chrome',
-
-        'proxy': {
-
-            'proxyType': 'manual',
-            'httpProxy': 'socks5://localhost:9090',
-            'sslProxy': 'socks5://localhost:9090'
-
-        }
-    },
 
 
     framework: 'custom',
     frameworkPath: require.resolve('protractor-cucumber-framework'),
     specs: ['../features/*.feature'],
 
+    // resultJsonOutputFile: "reports/json/protractor_report.json",
 
     onPrepare() {
         browser.manage().window()
@@ -47,9 +46,10 @@ exports.config = {
     },
 
     cucumberOpts: {
-        strict: true,
+//        strict: true,
         format: ['pretty'],
         require: ['../features/step_definitions/*.js', '../support/*.js'],
-        tags: '@signin'
+        tags: '',
+        keepAlive: false
     }
 };
