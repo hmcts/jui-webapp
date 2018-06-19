@@ -23,6 +23,7 @@ const columns = [{
     'value': 'PIP',
 
 }];
+const casesUrl = 'http://localhost:3000/api/cases';
 
 describe('SearchResultComponent', () => {
     let component: SearchResultComponent;
@@ -54,7 +55,7 @@ describe('SearchResultComponent', () => {
 
         describe('when no rows are returned', () => {
             beforeEach(async(() => {
-                const req = httpMock.expectOne('http://localhost:3000/api/cases');
+                const req = httpMock.expectOne(casesUrl);
 
                 req.flush({
                     columns: columns,
@@ -83,7 +84,7 @@ describe('SearchResultComponent', () => {
             }];
 
             beforeEach(async(() => {
-                const req = httpMock.expectOne('http://localhost:3000/api/cases');
+                const req = httpMock.expectOne(casesUrl);
 
                 req.flush({
                     columns,
@@ -116,7 +117,8 @@ describe('SearchResultComponent', () => {
 
         beforeEach(() => {
             state = TestBed.get(TransferState);
-            const key: StateKey<Object> = makeStateKey('http://localhost:3000/api/cases');
+
+            const key: StateKey<Object> = makeStateKey(casesUrl);
             state.set(key, {
                 columns,
                 results
