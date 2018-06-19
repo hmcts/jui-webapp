@@ -6,8 +6,9 @@ const { defineSupportCode } = require('cucumber');
 defineSupportCode(({ Given, When, Then }) => {
 
     Given(/^I am on Jui signin page$/, function(next) {
-        browser.driver.sleep(3000);
-        browser.waitForAngular();
+        //browser.get('https://jui-webapp-saat.service.core-compute-saat.internal');
+        browser.driver.sleep(6000);
+        //browser.waitForAngular();
         //expect(loginPage.pagetitle.getText()).to.eventually.equal('Sign in').and.notify(next);
         next();
 

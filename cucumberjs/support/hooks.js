@@ -3,7 +3,7 @@ var Cucumber = require("cucumber");
 var { defineSupportCode } = require("cucumber");
 var fs = require("fs");
 var mkdirp = require("mkdirp");
-var conf = require("../../config/conf").config;
+var conf = require("../config/conf").config;
 var reporter = require("cucumber-html-reporter");
 var report = require("cucumber-html-report");
 
@@ -12,8 +12,8 @@ var htmlReports = process.cwd() + "/reports/html";
 var targetJson = jsonReports + "/cucumber_report.json";
 
 defineSupportCode(function({ registerHandler, After, registerListener }) {
-    registerHandler("BeforeFeature", { timeout: 120 * 1000 }, function() {
-        return browser.get(conf.baseUrl);
+    registerHandler("BeforeFeature", { timeout: 500 * 1000 }, function() {
+       return browser.get(conf.baseUrl);
     });
 
     After(function(scenario) {

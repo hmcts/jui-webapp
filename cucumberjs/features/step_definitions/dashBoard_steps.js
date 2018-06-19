@@ -16,7 +16,7 @@ defineSupportCode(function ({Given, When, Then}) {
     });
 
     When(/^I am on the dashboard page$/, function (next) {
-        dashBoardPage.visit().then(next);
+        expect(dashBoardPage.verify_dashboard_page().isDisplayed()).to.eventually.be.true.and.notify(next);
         expect(dashBoardPage.dashboard_header.isDisplayed()).to.eventually.be.true.and.notify(next);
         //expect(dashBoardPage.dashboard_header.getText()).to.eventually.equal('caseList').and.notify(next);
         next();

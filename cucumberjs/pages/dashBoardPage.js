@@ -7,18 +7,22 @@ function dashBoardPage() {
     this.case_link = $("");
 
 
+    this.verify_dashboard_page = function(caselist_header){
+        return element(by.css('', caselist_header));
+
+    }
 
 
-    // visit: () => {
-    //     let url = '/app/dashboard';
-    //
-    //     return browser.get(url);
-    // },
-    //
-    //     getTitle: () => {
-    //
-    //     return element(by.id('')).getText();
-    // }
+    this.select_hyper_link = function(summary_text){
+        return element(by.css('', summary_text));
+    }
+
+   this.no_cases_assigned = function(no_cases_text){
+        return element(by.css('', no_cases_text));
+
+   }
+
+
 
 
 }
