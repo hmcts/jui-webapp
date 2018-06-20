@@ -1,21 +1,24 @@
 <div data-selector="table-component">
-    <mat-table *ngIf="resultView" [dataSource]="resultView.results">
+    <table cdk-table *ngIf="resultView" [dataSource]="resultView.results" class="govuk-table govuk-!-f-16">
 
-        <ng-container matColumnDef="case_id" >
-            <mat-header-cell *matHeaderCellDef>Case reference</mat-header-cell>
-            <mat-cell *matCellDef="let row;">
+        <ng-container cdkColumnDef="case_id">
+            <th cdk-header-cell *cdkHeaderCellDef class="govuk-table__header">Case reference</th>
+            <td cdk-cell class="govuk-table__cell" *cdkCellDef="let row;">
                 <a data-selector="case-reference-link" href="/viewcase/{{row.case_id}}/summary">{{row.case_id}}</a>
-            </mat-cell>
+            </td>
         </ng-container>
-        <ng-container *ngFor="let column of resultView.columns" matColumnDef="{{column.case_field_id}}">
-            <mat-header-cell *matHeaderCellDef>
-                <span attr.data-selector="{{column.case_field_id}}-header">{{column.label}}</span>
-            </mat-header-cell>
-            <mat-cell *matCellDef="let row">{{row.case_fields[column.case_field_id]}}</mat-cell>
+        <ng-container *ngFor="let column of resultView.columns" cdkColumnDef="{{column.case_field_id}}">
+            <th cdk-header-cell *cdkHeaderCellDef class="govuk-table__header" attr.data-selector="{{column.case_field_id}}-header">{{column.label}}</th>
+            <td cdk-cell class="govuk-table__cell" *cdkCellDef="let row">{{row.case_fields[column.case_field_id]}}</td>
         </ng-container>
 
-        <mat-header-row *matHeaderRowDef="displayedColumns()"></mat-header-row>
+        <thead class="govuk-table__head">
+            <tr cdk-header-row *cdkHeaderRowDef="displayedColumns()" class="govuk-table__head"></tr>
+        </thead>
+        <tbody class="govuk-table__body">
+            <tr cdk-row data-selector="table-row" class="govuk-table__row"
+                     *cdkRowDef="let results; columns: displayedColumns()"></tr>
+        </tbody>
 
-        <mat-row data-selector="table-row" *matRowDef="let results; columns: displayedColumns()"></mat-row>
-    </mat-table>
+    </table>
 </div>
