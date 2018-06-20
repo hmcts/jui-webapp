@@ -1,13 +1,12 @@
 'use strict';
 
-var loginPage = require("../../pages/loginPage");
+const loginPage = require('../../pages/loginPage');
 const caseListPage = require('../../pages/caseListPage');
 const searchPage = require('../../pages/searchPage');
 
 const { defineSupportCode } = require('cucumber');
 
 defineSupportCode(({ Given, When, Then }) => {
-
     When(/^I click on search$/, next => {
         expect(caseListPage.search_btn.isDisplayed()).to.eventually.be.true.and.notify(next);
         caseListPage.search_btn.click();
