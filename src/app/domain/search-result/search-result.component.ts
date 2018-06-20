@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CaseService} from '../../case.service';
+import {Observable, of} from 'rxjs';
+import {catchError, shareReplay} from 'rxjs/operators';
 
 @Component({
     selector: 'app-search-result',
@@ -8,12 +10,13 @@ import {CaseService} from '../../case.service';
 })
 export class SearchResultComponent implements OnInit {
 
-    data: Object;
+    data$: Object;
+    error: string;
 
     constructor(private caseService: CaseService) {
     }
 
     ngOnInit() {
-        this.data = this.caseService.search();
+        this.data$ = this.caseService.search();
     }
 }

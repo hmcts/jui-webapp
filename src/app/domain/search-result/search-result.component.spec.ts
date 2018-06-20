@@ -58,7 +58,7 @@ describe('SearchResultComponent', () => {
                 const req = httpMock.expectOne(casesUrl);
 
                 req.flush({
-                    columns: columns,
+                    columns,
                     results: []
                 });
             }));
@@ -71,6 +71,35 @@ describe('SearchResultComponent', () => {
 
             it('should have zero rows', () => {
                 expect(nativeElement.querySelectorAll(Selector.selector('search-result|table-row')).length).toBe(0);
+            });
+
+            it('should show a message saying that there are no cases', () => {
+                expect(nativeElement.querySelector(Selector.selector('search-result|no-results-text'))).toBeTruthy();
+            });
+        });
+
+        describe('when there is an error', () => {
+            beforeEach(async(() => {
+                const req = httpMock.expectOne(casesUrl);
+
+                req.flush({}, {
+                    statusText: 'Forbidden',
+                    status: 403
+                });
+            }));
+
+            beforeEach(async(() => {
+                fixture.whenStable().then(() => {
+                    fixture.detectChanges();
+                });
+            }));
+
+            it('should have zero rows', () => {
+                expect(nativeElement.querySelectorAll(Selector.selector('search-result|table-row')).length).toBe(0);
+            });
+
+            it('should show a message saying that there has been an error', () => {
+                expect(nativeElement.querySelector(Selector.selector('search-result|error-text'))).toBeTruthy();
             });
         });
 
@@ -135,6 +164,31 @@ describe('SearchResultComponent', () => {
 
         it('should have some rows without hitting backend', () => {
             expect(nativeElement.querySelectorAll(Selector.selector('search-result|table-row')).length).toBe(results.length);
+        });
+    });
+
+    describe('when there is an error in the transfer state', () => {
+        let state: TransferState;
+
+        beforeEach(() => {
+            state = TestBed.get(TransferState);
+
+            const key: StateKey<Object> = makeStateKey(casesUrl);
+            state.set(key, {
+                error: {}
+            });
+        });
+
+        beforeEach(() => {
+            fixture = TestBed.createComponent(SearchResultComponent);
+            component = fixture.componentInstance;
+            nativeElement = fixture.nativeElement;
+            httpMock = TestBed.get(HttpTestingController);
+            fixture.detectChanges();
+        });
+
+        it('should show a message saying that there has been an error', () => {
+            expect(nativeElement.querySelector(Selector.selector('search-result|error-text'))).toBeTruthy();
         });
     });
 });
