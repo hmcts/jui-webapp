@@ -5,8 +5,7 @@ Feature: JUI Signin
         Given I am on Jui signin page
 
     Scenario: Verify Jui app signin functionality
-        When I enter email address as ""
-        When I enter password as ""
+        When I enter email address as "test@test.com"
+        When I enter password as "123"
         When I click on signin
-        Then I should see dashboard page
-
+        Then I am on the dashboard page

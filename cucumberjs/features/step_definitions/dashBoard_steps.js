@@ -22,13 +22,26 @@ defineSupportCode(function ({Given, When, Then}) {
         next();
     });
 
+
+    When(/^there are no cases listed$/, function (next) {
+        // Write code here that turns the phrase above into concrete actions
+        next();
+    });
+
+
+    Then(/^I will see a message saying (.*)$/, function (no_cases_message,next) {
+        // Write code here that turns the phrase above into concrete actions
+        next();
+    });
+
+
     When(/^all case references are hyperlinked$/, function (next) {
         expect(dashBoardPage.list_of_cases.isDisplayed()).to.eventually.be.true.and.notify(next);
         expect(dashBoardPage.case_link.isDisplayed()).to.eventually.be.true.and.notify(next);
         next();
     });
 
-    When(/^I select a case reference$/, function (next) {
+    When(/^I select a case reference number$/, function (next) {
         dashBoardPage.case_link.click();
         next();
     });
@@ -36,6 +49,27 @@ defineSupportCode(function ({Given, When, Then}) {
     Then(/^I will be redirected to the Case Summary page for that case$/, function (next) {
         expect(caseSummaryPage.caseSummary_header_text.isDisplayed()).to.eventually.be.true.and.notify(next);
         expect(caseSummaryPage.caseSummary_header_text.getText()).to.eventually.equal('Summary').and.notify(next);
+        next();
+    });
+
+    When(/^one or more cases are displayed$/, function (next) {
+        expect(dashBoardPage.list_of_cases.isDisplayed()).to.eventually.be.true.and.notify(next);
+    });
+
+    Then(/^I will see a list of all those SSCS cases$/, function (next) {
+
+        next();
+    });
+
+
+    // TODO
+    Then(/^I will see date details for the list of cases displayed$/, function (next) {
+        // Write code here that turns the phrase above into concrete actions
+        next();
+    });
+
+    When(/^I see \'Date of latest action\' by date descending order$/, function (next) {
+        // Write code here that turns the phrase above into concrete actions
         next();
     });
 

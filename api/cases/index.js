@@ -61,11 +61,16 @@ router.get('/:case_id', (req, res, next) => {
             'ServiceAuthorization' : req.headers.ServiceAuthorization
         }
     }).then(caseData => {
+
+
+
         const schema = JSON.parse(JSON.stringify(sscsCaseTemplate));
         schema.sections.forEach(section => replaceSectionValues(section, caseData));
 
         const rawCaseFile = schema.sections.filter(section => section.id === 'casefile')
-        const caseFile = caseFileReducer(caseId, rawCaseFile[0].sections[0].fields[0].value[0]);
+
+        const hasDocuments = rawCaseFile[0].sections[0].fields[0].value.length;
+        const caseFile = hasDocuments ? caseFileReducer(caseId, rawCaseFile[0].sections[0].fields[0].value[0]) : null;
 
         schema.sections[schema.sections.findIndex(el => el.id === 'casefile')].sections = caseFile;
 

@@ -3,8 +3,8 @@
 function dashBoardPage() {
 
     this.dashboard_header = $("#lst-ib");
-    this.list_of_cases = $("");
-    this.case_link = $("");
+    this.list_of_cases = $(".govuk-table__row cdk-row")[0];
+    this.case_link = $("[data-selector='case-reference-link']");
 
 
     this.verify_dashboard_page = function(caselist_header){
