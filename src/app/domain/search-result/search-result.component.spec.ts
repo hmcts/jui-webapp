@@ -11,18 +11,32 @@ import {BrowserTransferStateModule, StateKey} from '@angular/platform-browser';
 import {makeStateKey, TransferState} from '@angular/platform-browser';
 
 const columns = [{
-    'label': 'Parties',
-    'order': 2,
-    'case_field_id': 'parties',
-    'lookup': ['$.appeal.appellant.name.firstName', '$.appeal.appellant.name.lastName', 'versus DWP']
-},
-{
-    'label': 'Type',
-    'order': 3,
-    'case_field_id': 'type',
-    'value': 'PIP',
+        'label': 'Parties',
+        'order': 2,
+        'case_field_id': 'parties',
+        'lookup': ['$.appeal.appellant.name.firstName', '$.appeal.appellant.name.lastName', 'versus DWP']
+    },
+    {
+        'label': 'Type',
+        'order': 3,
+        'case_field_id': 'type',
+        'lookup': 'PIP',
 
-}];
+    },
+    {
+        'label': 'Case Start Date',
+        'order': 4,
+        'case_field_id': 'caseStartDate',
+        'lookup': '$.created_date',
+        'date_format': 'd MMMM yyyy \'at\' h:mma'
+    },
+    {
+        'label': 'Date of Last Action',
+        'order': 5,
+        'case_field_id': 'dateOfLastAction',
+        'lookup': '$.last_modified',
+        'date_format': 'd MMMM yyyy \'at\' h:mma'
+    }];
 const casesUrl = 'http://localhost:3000/api/cases';
 
 describe('SearchResultComponent', () => {
@@ -108,7 +122,9 @@ describe('SearchResultComponent', () => {
                 case_id: '987654321',
                 case_fields: {
                     parties: 'Louis Houghton versus DWP',
-                    type: 'PIP'
+                    type: 'PIP',
+                    caseStartDate: '2018-06-21T12:56:12.466Z',
+                    dateOfLastAction: '2018-06-21T12:58:12.466Z'
                 }
             }];
 
@@ -130,16 +146,25 @@ describe('SearchResultComponent', () => {
             it('should have some rows', () => {
                 expect(nativeElement.querySelectorAll(Selector.selector('search-result|table-row')).length).toBe(results.length);
             });
+
+            it('should have have dates formatted properly', () => {
+                expect(nativeElement.querySelector(Selector.selector('caseStartDate-value')).textContent)
+                    .toEqual('21 June 2018 at 1:56PM');
+
+                expect(nativeElement.querySelector(Selector.selector('dateOfLastAction-value')).textContent)
+                    .toEqual('21 June 2018 at 1:58PM');
+            });
         });
     });
-
 
     describe('when there is some data in the transfer state', () => {
         const results = [{
             case_id: '987654321',
             case_fields: {
                 parties: 'Louis Houghton versus DWP',
-                type: 'PIP'
+                type: 'PIP',
+                caseStartDate: '2018-06-21T12:56:12.466Z',
+                dateOfLastAction: '2018-06-21T12:56:12.466Z'
             }
         }];
         let state: TransferState;
