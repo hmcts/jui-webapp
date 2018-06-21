@@ -149,10 +149,10 @@ describe('SearchResultComponent', () => {
 
             it('should have have dates formatted properly', () => {
                 expect(nativeElement.querySelector(Selector.selector('caseStartDate-value')).textContent)
-                    .toMatch(/21 June 2018 at \d*:56PM/);
+                    .toEqual('21 June 2018 at 1:56PM');
 
                 expect(nativeElement.querySelector(Selector.selector('dateOfLastAction-value')).textContent)
-                    .toMatch(/21 June 2018 at \d*:58PM/);
+                    .toEqual('21 June 2018 at 1:58PM');
             });
         });
     });
