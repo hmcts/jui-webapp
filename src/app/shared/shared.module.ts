@@ -12,15 +12,13 @@ import { ImageViewerComponent } from './components/viewers/image-viewer/image-vi
 import { PdfViewerComponent } from './components/viewers/pdf-viewer/pdf-viewer.component';
 import { UnsupportedViewerComponent } from './components/viewers/unsupported-viewer/unsupported-viewer.component';
 import {CdkTableModule} from '@angular/cdk/table';
-import {RouterModule} from '@angular/router';
 
 @NgModule({
     imports: [
         CommonModule,
         CdkTableModule,
         FormsModule,
-        PdfViewerModule,
-        RouterModule
+        PdfViewerModule
     ],
     declarations: [
         TabComponent,
