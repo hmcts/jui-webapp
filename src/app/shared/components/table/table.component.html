@@ -2,22 +2,22 @@
     <cdk-table *ngIf="resultView" [dataSource]="resultView.results" class="govuk-table govuk-!-f-16">
 
         <ng-container cdkColumnDef="case_id">
-            <th cdk-header-cell *cdkHeaderCellDef class="govuk-table__header">Case reference</th>
-            <td cdk-cell class="govuk-table__cell" *cdkCellDef="let row;">
+            <cdk-header-cell *cdkHeaderCellDef class="govuk-table__header">Case reference</cdk-header-cell>
+            <cdk-cell class="govuk-table__cell" *cdkCellDef="let row;">
                 <a data-selector="case-reference-link" href="/viewcase/{{row.case_id}}/summary">{{row.case_id}}</a>
-            </td>
+            </cdk-cell>
         </ng-container>
         <ng-container *ngFor="let column of resultView.columns" cdkColumnDef="{{column.case_field_id}}">
-            <th cdk-header-cell *cdkHeaderCellDef class="govuk-table__header" attr.data-selector="{{column.case_field_id}}-header">{{column.label}}</th>
-            <td cdk-cell class="govuk-table__cell" *cdkCellDef="let row">{{row.case_fields[column.case_field_id]}}</td>
+            <cdk-header-cell *cdkHeaderCellDef class="govuk-table__header" attr.data-selector="{{column.case_field_id}}-header">{{column.label}}</cdk-header-cell>
+            <cdk-cell class="govuk-table__cell" *cdkCellDef="let row">{{row.case_fields[column.case_field_id]}}</cdk-cell>
         </ng-container>
 
         <thead class="govuk-table__head">
-            <tr cdk-header-row *cdkHeaderRowDef="displayedColumns()" class="govuk-table__head"></tr>
+            <cdk-header-row *cdkHeaderRowDef="displayedColumns()" class="govuk-table__head"></cdk-header-row>
         </thead>
         <tbody class="govuk-table__body">
-            <tr cdk-row data-selector="table-row" class="govuk-table__row"
-                     *cdkRowDef="let results; columns: displayedColumns()"></tr>
+            <cdk-row data-selector="table-row" class="govuk-table__row"
+                     *cdkRowDef="let results; columns: displayedColumns()"></cdk-row>
         </tbody>
 
     </cdk-table>
