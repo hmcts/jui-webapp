@@ -13,7 +13,6 @@ exports.config = {
     // capabilities: { browserName: 'chrome' },
 
 
-
     capabilities: {
         browserName: 'chrome',
         chromeOptions: { args: ['--proxy-server=proxyout.reform.hmcts.net:8080'] }
@@ -38,7 +37,8 @@ exports.config = {
     // resultJsonOutputFile: "reports/json/protractor_report.json",
 
     onPrepare() {
-        browser.manage().window().maximize();
+        browser.manage().window()
+            .maximize();
         browser.waitForAngularEnabled(false);
         global.expect = chai.expect;
         global.assert = chai.assert;
