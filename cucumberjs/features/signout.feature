@@ -5,7 +5,7 @@ Feature: sign out
     Given I am on IDAM login page
 
     Scenario: verify sign out
-      When I enter email address as nybgul@gmail.com
+      When I enter email address as
       When I enter password as Monday01
       When I click on sign in
       Then I will be redirected to caselist
