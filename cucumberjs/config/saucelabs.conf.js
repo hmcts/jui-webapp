@@ -18,7 +18,7 @@ exports.config = {
   sauceUser: process.env.SAUCE_USERNAME,
   sauceKey: process.env.SAUCE_ACCESS_KEY,
 
-  baseUrl: 'https://www-ccd.nonprod.platform.hmcts.net',
+  baseUrl: '',
 
   exclude: [],
 
@@ -33,7 +33,7 @@ exports.config = {
   cucumberOpts: {
     require: ["../features/step_definitions/*.js", "../support/*.js"],
     format: ["pretty"],
-    tags: "@signout"
+    tags: ""
   },
 
   multiCapabilities: [

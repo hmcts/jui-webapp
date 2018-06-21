@@ -8,7 +8,7 @@ exports.config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
     getPageTimeout: 60000,
     allScriptsTimeout: 500000,
-    baseUrl: 'https://www-ccd.nonprod.platform.hmcts.net',
+    baseUrl: '',
 
     // capabilities: { browserName: 'chrome' },
 
