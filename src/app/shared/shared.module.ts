@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TableComponent } from './components/table/table.component';
 import { TabComponent } from './components/tab/tab.component';
 import { TabsComponent } from './components/tabs/tabs.component';
-import { DatalistComponent } from './components/datalist/datalist.component';
+import { DataListComponent } from './components/data-list/data-list.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
@@ -24,7 +24,7 @@ import {CdkTableModule} from '@angular/cdk/table';
         TabComponent,
         TabsComponent,
         TableComponent,
-        DatalistComponent,
+        DataListComponent,
         HeaderComponent,
         FooterComponent,
         PdfViewerComponent,
@@ -35,7 +35,7 @@ import {CdkTableModule} from '@angular/cdk/table';
         TabComponent,
         TabsComponent,
         TableComponent,
-        DatalistComponent,
+        DataListComponent,
         HeaderComponent,
         FooterComponent,
         PdfViewerComponent,

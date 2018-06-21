@@ -2,7 +2,6 @@ const proxyquire = require('proxyquire');
 const supertest = require('supertest');
 const express = require('express');
 const router = express.Router();
-const config = require('../../config');
 const sscsCaseListTemplate = require('./sscsCaseList.template');
 
 describe('case-list spec', () => {

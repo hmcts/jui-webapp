@@ -6,26 +6,20 @@ import {Component, Input, OnChanges} from '@angular/core';
     styleUrls: ['./case-viewer.component.scss']
 })
 export class CaseViewerComponent implements OnChanges {
+    @Input() case: any;
 
-    @Input()
-    case: any;
-
-    @Input()
-    sectionId: string;
+    @Input() sectionId: string;
 
     targetSection;
 
     constructor() {
-
     }
 
     ngOnChanges(changes) {
-        if(this.case) {
+        if (this.case) {
             this.targetSection = this.case.sections.find(section => {
                 return section.id === this.sectionId;
             });
         }
-
     }
-
 }

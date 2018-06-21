@@ -14,15 +14,16 @@ module.exports = {
                             fields: [
                                 {
                                     label: 'Parties',
-                                    lookup: '$.id'
+                                    lookup: "$.case_data.appeal.appellant.name['firstName','lastName']",
+                                    suffix: ' vs DWP'
                                 },
                                 {
                                     label: 'Case number',
-                                    lookup: '$.id'
+                                    lookup: '$.case_data.caseReference'
                                 },
                                 {
                                     label: 'Case type',
-                                    lookup: '$.case_type_id'
+                                    lookup: '$.case_data.appeal.benefitType.code'
                                 }
                             ]
                         },
@@ -31,15 +32,15 @@ module.exports = {
                             fields: [
                                 {
                                     label: 'Judge',
-                                    value: 'Prita Shah'
+                                    value: 'na'
                                 },
                                 {
-                                    label: 'Case number',
-                                    lookup: '$.id'
+                                    label: 'Medical Member',
+                                    value: 'na'
                                 },
                                 {
-                                    label: 'Case type',
-                                    lookup: '$.case_type_id'
+                                    label: 'Disability qualified member',
+                                    value: 'na'
                                 }
                             ]
                         }
