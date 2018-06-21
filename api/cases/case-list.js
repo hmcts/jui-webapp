@@ -51,5 +51,8 @@ module.exports = (req, res, next) => {
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('content-type', 'application/json');
         res.status(200).send(JSON.stringify(aggregatedData));
-    }).catch(e => console.log(e))
+    }).catch(response => {
+        console.log(response.error);
+        res.status(response.error.status).send(response.error.message);
+    });
 };

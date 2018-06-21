@@ -1,5 +1,5 @@
 <div data-selector="table-component">
-    <table cdk-table *ngIf="resultView" [dataSource]="resultView.results" class="govuk-table govuk-!-f-16">
+    <cdk-table *ngIf="resultView" [dataSource]="resultView.results" class="govuk-table govuk-!-f-16">
 
         <ng-container cdkColumnDef="case_id">
             <th cdk-header-cell *cdkHeaderCellDef class="govuk-table__header">Case reference</th>
@@ -20,5 +20,5 @@
                      *cdkRowDef="let results; columns: displayedColumns()"></tr>
         </tbody>
 
-    </table>
+    </cdk-table>
 </div>

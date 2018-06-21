@@ -4,11 +4,14 @@ import {HttpClient} from '@angular/common/http';
 import {ConfigService} from './config.service';
 import {makeStateKey, TransferState} from '@angular/platform-browser';
 import 'rxjs/operators/map';
+import {catchError} from 'rxjs/operators';
 
 @Injectable()
 export class CaseService {
 
-    constructor(private httpClient: HttpClient, private configService: ConfigService, private state: TransferState) {
+    constructor(private httpClient: HttpClient,
+                private configService: ConfigService,
+                private state: TransferState) {
     }
 
     fetch(caseId): Observable<Object> {
@@ -36,6 +39,11 @@ export class CaseService {
             .map(data => {
                 this.state.set(key, data);
                 return data;
-            });
+            })
+            .pipe(catchError(error => {
+                const value: any = {error};
+                this.state.set(key, value);
+                return of(value);
+            }));
     }
 }
