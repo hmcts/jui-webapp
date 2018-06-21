@@ -77,7 +77,6 @@ describe('case-list spec', () => {
                     expect(response.body.columns.length).toBe(4); // 5 minus case reference
                     expect(response.body.results.length).toBe(1);
                     expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
-                    console.log(JSON.stringify(response.body.results[0]));
                     expect(response.body.results[0]).toEqual({
                         case_id: caseData[0].id,
                         case_fields: {
