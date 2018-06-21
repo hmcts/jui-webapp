@@ -12,7 +12,7 @@ Feature: Dashboard
 #        Then I will see a message saying No cases to work on
 
     @RIUI_418
-        Scenario Outline: Verify when onre or more SSCS cases
+        Scenario Outline: Verify when one or more SSCS cases
         When one or more cases are displayed
         Then I will see a list of all those SSCS cases
         Examples:

@@ -29,7 +29,7 @@ defineSupportCode(function ({Given, When, Then}) {
     });
 
 
-    Then(/^I will see a message saying (.*)$/, function (no_cases_message,next) {
+    Then(/^I will see a message saying (.*)$/, function (no_cases_message, next) {
         // Write code here that turns the phrase above into concrete actions
         next();
     });
