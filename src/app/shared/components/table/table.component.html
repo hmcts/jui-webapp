@@ -1,10 +1,10 @@
 <div data-selector="table-component">
-    <table cdk-table *ngIf="resultView" [dataSource]="resultView.results" class="govuk-table govuk-!-f-16">
+    <cdk-table *ngIf="resultView" [dataSource]="resultView.results" class="govuk-table govuk-!-f-16">
 
         <ng-container cdkColumnDef="case_id">
             <th cdk-header-cell *cdkHeaderCellDef class="govuk-table__header">Case reference</th>
             <td cdk-cell class="govuk-table__cell" *cdkCellDef="let row;">
-                <a data-selector="case-reference-link" href="/viewcase/{{row.case_id}}/summary">{{row.case_id}}</a>
+                <a data-selector="case-reference-link" routerLink="/viewcase/{{row.case_id}}/summary">{{row.case_id}}</a>
             </td>
         </ng-container>
         <ng-container *ngFor="let column of resultView.columns" cdkColumnDef="{{column.case_field_id}}">
@@ -20,5 +20,5 @@
                      *cdkRowDef="let results; columns: displayedColumns()"></tr>
         </tbody>
 
-    </table>
+    </cdk-table>
 </div>
