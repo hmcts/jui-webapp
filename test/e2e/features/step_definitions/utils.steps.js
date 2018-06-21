@@ -2,8 +2,8 @@ const {Given} = require('cucumber');
 
     let index = 0;
 
-    Given(/^I wait (\d+) seconds?$/, function (seconds) {
-        return this.client.pause(seconds * 1000);
+    Given(/^I wait (\d+) seconds?$/, async function (seconds) {
+        await this.client.sleep(seconds * 1000);
     });
 
     Given(/^I take a screenshot$/, function () {
@@ -15,6 +15,6 @@ const {Given} = require('cucumber');
         // console.log(logs);
     });
 
-    Given(/^I refresh the page$/, function () {
-        // this.client.refresh();
+    Given(/^I refresh the page$/, async function () {
+        await browser.refresh();
     });

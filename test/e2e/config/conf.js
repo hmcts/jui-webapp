@@ -2,10 +2,11 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const minimist = require('minimist');
 const argv = minimist(process.argv.slice(2));
+const tagProcessor = require('../support/tagProcessor');
 
 chai.use(chaiAsPromised);
 
-exports.config = {
+const config = {
     params: {
         serverUrls: {
             local: 'http://localhost:3000',
@@ -20,7 +21,16 @@ exports.config = {
     allScriptsTimeout: 500000,
     baseUrl: '',
 
-    capabilities: { browserName: 'chrome' },
+    capabilities: {
+        browserName: 'chrome',
+        'proxy': {
+
+            proxyType: 'manual',
+            httpProxy: 'proxyout.reform.hmcts.net:8080',
+            sslProxy : 'proxyout.reform.hmcts.net:8080',
+            noProxy: 'localhost:3000'
+        }
+    },
 
 
     framework: 'custom',
@@ -44,7 +54,9 @@ exports.config = {
         require: [
             '../support/world.js',
             '../features/step_definitions/**/*.steps.js'
-        ],
-        tags: ''
+        ]
     }
 };
+
+config.cucumberOpts.tags = tagProcessor(config, argv);
+exports.config = config;

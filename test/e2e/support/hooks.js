@@ -10,7 +10,7 @@ const jsonReports = `${process.cwd()}/reports/json`;
 const htmlReports = `${process.cwd()}/reports/html`;
 const targetJson = `${jsonReports}/cucumber_report.json`;
 
-defineSupportCode(({ registerHandler, After, registerListener }) => {
+// defineSupportCode(({ registerHandler, After, registerListener }) => {
     // registerHandler('BeforeFeature', { timeout: 120 * 1000 }, () => browser.get(conf.baseUrl));
     //
     // After(function(scenario) {
@@ -53,4 +53,4 @@ defineSupportCode(({ registerHandler, After, registerListener }) => {
     // };
     // const jsonformatter = new Cucumber.JsonFormatter({ log: logFn });
     // registerListener(jsonformatter);
-});
+// });
