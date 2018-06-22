@@ -10,7 +10,7 @@
         <ng-container *ngFor="let column of resultView.columns" cdkColumnDef="{{column.case_field_id}}">
             <cdk-header-cell *cdkHeaderCellDef class="govuk-table__header" attr.data-selector="{{column.case_field_id}}-header">{{column.label}}</cdk-header-cell>
             <cdk-cell class="govuk-table__cell" *cdkCellDef="let row">
-                <span attr.data-selector="{{column.case_field_id}}-value" *ngIf="column.date_format">{{row.case_fields[column.case_field_id] | date: column.date_format}}</span>
+                <span attr.data-selector="{{column.case_field_id}}-value" *ngIf="column.date_format">{{row.case_fields[column.case_field_id] | date: column.date_format:'+0000'}}</span>
                 <span attr.data-selector="{{column.case_field_id}}-value" *ngIf="!column.date_format">{{row.case_fields[column.case_field_id]}}</span>
             </cdk-cell>
         </ng-container>
