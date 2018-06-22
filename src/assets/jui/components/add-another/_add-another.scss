@@ -1,0 +1,29 @@
+/* ==========================================================================
+   #ADD ANOTHER
+   ========================================================================== */
+
+.jui-add-another__item {
+  margin: 0;
+  margin-top: govuk-spacing(6);
+  padding: 0;
+  position: relative;
+
+  &:first-of-type {
+    margin-top: 0;
+  }
+
+}
+
+
+.jui-add-another__item legend {
+  float: left;
+  padding: 4px 0;
+  width: 100%;
+}
+
+
+.jui-add-another__remove-button {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
