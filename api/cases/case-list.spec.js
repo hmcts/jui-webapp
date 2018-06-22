@@ -41,7 +41,6 @@ describe('case-list spec', () => {
                 .expect(200)
                 .then(response => {
                     expect(response.body.results.length).toBe(0);
-                    expect(response.body.columns.length).toBe(4); // 5 minus case reference
                     expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
                 });
         });
@@ -74,7 +73,6 @@ describe('case-list spec', () => {
             return request.get('/api/cases')
                 .expect(200)
                 .then(response => {
-                    expect(response.body.columns.length).toBe(4); // 5 minus case reference
                     expect(response.body.results.length).toBe(1);
                     expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
                     expect(response.body.results[0]).toEqual({
