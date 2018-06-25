@@ -8,3 +8,7 @@ $govuk-global-styles: true;
 body {
     @include govuk-font($size: 16);
 }
+
+a:hover {
+    cursor: pointer;
+}
