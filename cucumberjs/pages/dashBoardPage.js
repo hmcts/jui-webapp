@@ -15,49 +15,49 @@ function dashBoardPage() {
 
 
 
-   dashboardTableHeader()
-
-    {
-
-        return element(this.case_reference_header).isPresent() && element(this.parties_header).isPresent() && element(this.type_header).isPresent()
-
-
-    }
-
-    verifyListOfCases()
-    {
-       element.all(this.List_of_case_reference).getText();
-
-    }
-
-
-
-
-
-
-   clickOnCaseReference()
-
-    {
-       element.all(this.first_case_reference_link).click();
-
-
-    }
-
-
-
-
-    this.select_hyper_link = function(summary_text){
-        return element(by.css('', summary_text));
-    }
-
-
-
-   this.no_cases_assigned = function(no_cases_text){
-        return element(by.css('', no_cases_text));
-
-   }
-
-
+   // dashboardTableHeader()
+   //
+   //  {
+   //
+   //      return element(this.case_reference_header).isPresent() && element(this.parties_header).isPresent() && element(this.type_header).isPresent()
+   //
+   //
+   //  }
+   //
+   //  verifyListOfCases()
+   //  {
+   //     element.all(this.List_of_case_reference).getText();
+   //
+   //  }
+   //
+   //
+   //
+   //
+   //
+   //
+   // clickOnCaseReference()
+   //
+   //  {
+   //     element.all(this.first_case_reference_link).click();
+   //
+   //
+   //  }
+   //
+   //
+   //
+   //
+   //  this.select_hyper_link = function(summary_text){
+   //      return element(by.css('', summary_text));
+   //  }
+   //
+   //
+   //
+   // this.no_cases_assigned = function(no_cases_text){
+   //      return element(by.css('', no_cases_text));
+   //
+   // }
+   //
+   //
 
 
 }
