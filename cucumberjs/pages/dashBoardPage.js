@@ -2,8 +2,10 @@
 
 function dashBoardPage() {
 
+    this.table = $("[data-selector='table-component']");
+    this.rows = this.table.all($("[data-selector='table-row']"))
     this.dashboard_header = $("#lst-ib");
-    this.list_of_cases = $(".govuk-table__row cdk-row")[0];
+    this.list_of_cases = $("[data-selector='table-row']");
     this.case_link = $("[data-selector='case-reference-link']");
 
 

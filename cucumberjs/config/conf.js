@@ -8,48 +8,42 @@ exports.config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
     getPageTimeout: 60000,
     allScriptsTimeout: 500000,
-    baseUrl: '',
+    baseUrl: ''
+        email: '',
+        password: '',
+        fakeEmail: '',
 
-    // capabilities: {
-    //     browserName: 'chrome',
-    // },
+        capabilities: { browserName: 'chrome',
+
+         'proxy': {
+
+             'proxyType': 'manual',
+             'httpProxy': 'proxyout.reform.hmcts.net:8080',//'socks5://localhost:9090',
+             'sslProxy' : 'proxyout.reform.hmcts.net:8080',//'socks5://localhost:9090',
+
+           }},
 
 
-    /*****
-     * to enable proxy
-     */
-    capabilities: {
-        browserName: 'chrome',
+        framework: 'custom',
+        frameworkPath: require.resolve('protractor-cucumber-framework'),
+        specs: ['../features/*.feature'],
 
-        'proxy': {
+        // resultJsonOutputFile: "reports/json/protractor_report.json",
 
-            'proxyType': 'manual',
-            'httpProxy': 'socks5://localhost:9090',
-            'sslProxy': 'socks5://localhost:9090'
+        onPrepare() {
+            browser.manage().window()
+                .maximize();
+            browser.waitForAngularEnabled(false);
+            global.expect = chai.expect;
+            global.assert = chai.assert;
+            global.should = chai.should;
+        },
 
+        cucumberOpts: {
+    //        strict: true,
+            format: ['pretty'],
+            require: ['../features/step_definitions/*.js', '../support/*.js'],
+            tags: '',
+            keepAlive: false
         }
-    },
-
-
-
-    framework: 'custom',
-    frameworkPath: require.resolve('protractor-cucumber-framework'),
-    specs: ['../features/*.feature'],
-
-
-    onPrepare() {
-        browser.manage().window()
-            .maximize();
-        browser.waitForAngularEnabled(false);
-        global.expect = chai.expect;
-        global.assert = chai.assert;
-        global.should = chai.should;
-    },
-
-    cucumberOpts: {
-        strict: true,
-        format: ['pretty'],
-        require: ['../features/step_definitions/*.js', '../support/*.js'],
-        tags: '@wip'
-    }
-};
+    };
