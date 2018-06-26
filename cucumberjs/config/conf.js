@@ -10,6 +10,10 @@ exports.config = {
     allScriptsTimeout: 500000,
     baseUrl: 'http://jui-webapp-saat.service.core-compute-saat.internal/',
 
+    email: 'juitestuser1@gmail.com',
+    password: 'Monday01',
+    // fakeEmail: '',
+
     // capabilities: {
     //     browserName: 'chrome',
     // },

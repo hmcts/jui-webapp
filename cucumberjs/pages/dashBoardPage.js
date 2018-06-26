@@ -3,13 +3,14 @@
 function dashBoardPage() {
 
     this.dashboard_header = $("h1.govuk-heading-l");
+    this.table = $("[data-selector='table-component']");
     this.case_reference_header = $('[role="columnheader"]');
     this.parties_header = $('[data-selector =\'parties-header\']');
     this.type_header = $("[data-selector='type-header']");
-    this.list_of_cases = $("[data-selector='table-row']");
-    this.List_of_case_reference = $(".govuk-table__cell.cdk-cell.cdk-column-case_id");
-    this.List_parties = $(".govuk-table__cell cdk-cell cdk-column-parties");
-    this.List_type = $(".govuk-table__cell cdk-cell cdk-column-type");
+    this.number_of_cases = $("[data-selector='table-row']");
+    this.case_reference = $(".govuk-table__cell.cdk-cell.cdk-column-case_id");
+    this.List_parties = $(".govuk-table__cell.cdk-cell.cdk-column-parties");
+    this.List_type = $(".govuk-table__cell.cdk-cell.cdk-column-type");
     this.first_case_reference_link = $("[data-selector='case-reference-link]")[0];
 
 
@@ -52,12 +53,7 @@ function dashBoardPage() {
    //
    //
    //
-   // this.no_cases_assigned = function(no_cases_text){
-   //      return element(by.css('', no_cases_text));
-   //
-   // }
-   //
-   //
+
 
 
 }
