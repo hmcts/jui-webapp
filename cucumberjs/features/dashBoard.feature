@@ -6,20 +6,6 @@ Feature: Dashboard
         When I am on the dashboard page
 
 
-    @RIUI_418 @manual
-    Scenario: Verify when no SSCS cases
-#        When there are no cases listed
-#        Then I will see a message saying No cases to work on
-
-    @RIUI_418
-        Scenario Outline: Verify when one or more SSCS cases
-        When one or more cases are displayed
-        Then I will see a list of all those SSCS cases
-        Examples:
-            | user_with_cases | user_without_cases |
-            |                 |                    |
-
-
     @select_sscs_link @RIUI_370
     Scenario: Verify available SSCS cases
         When one or more cases are displayed
@@ -29,7 +15,13 @@ Feature: Dashboard
 
 
 
-    //TODO
+    @RIUI_418
+        Scenario: Verify when one or more SSCS cases
+        When one or more cases are displayed
+        Then I will see a list of all those SSCS cases
+
+
+#    //TODO
 
     @RIUI_417
     Scenario: Verify date details for SSCS cases

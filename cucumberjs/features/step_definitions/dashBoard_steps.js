@@ -8,6 +8,7 @@ var caseSummaryPage = require('../../pages/caseSummaryPage');
 var expect = require('chai').expect;
 var {defineSupportCode} = require('cucumber');
 
+
 defineSupportCode(function ({Given, When, Then}) {
 
     Given(/^I am logged in as a Judge$/, function (next) {
@@ -16,21 +17,14 @@ defineSupportCode(function ({Given, When, Then}) {
     });
 
     When(/^I am on the dashboard page$/, function (next) {
-        expect(dashBoardPage.verify_dashboard_page().isDisplayed()).to.eventually.be.true.and.notify(next);
+
+        //let dashBoardPage = new dashBoardPage;
+
         expect(dashBoardPage.dashboard_header.isDisplayed()).to.eventually.be.true.and.notify(next);
+        expect(dashBoardPage.dashboard_header.getText()).to.eventually.equal('DashBoard').and.notify(next);
+        expect(dashBoardPage.dashboardTableHeader().isDisplayed()).to.eventually.be.true.and.notify(next);
+
         //expect(dashBoardPage.dashboard_header.getText()).to.eventually.equal('caseList').and.notify(next);
-        next();
-    });
-
-
-    When(/^there are no cases listed$/, function (next) {
-        // Write code here that turns the phrase above into concrete actions
-        next();
-    });
-
-
-    Then(/^I will see a message saying (.*)$/, function (no_cases_message, next) {
-        // Write code here that turns the phrase above into concrete actions
         next();
     });
 
@@ -42,7 +36,7 @@ defineSupportCode(function ({Given, When, Then}) {
     });
 
     When(/^I select a case reference number$/, function (next) {
-        dashBoardPage.case_link.click();
+        dashBoardPage.first_case_reference_link.click();
         next();
     });
 
@@ -52,26 +46,26 @@ defineSupportCode(function ({Given, When, Then}) {
         next();
     });
 
-    When(/^one or more cases are displayed$/, function (next) {
-        expect(dashBoardPage.list_of_cases.isDisplayed()).to.eventually.be.true.and.notify(next);
-    });
-
-    Then(/^I will see a list of all those SSCS cases$/, function (next) {
-
-        next();
-    });
-
-
-    // TODO
-    Then(/^I will see date details for the list of cases displayed$/, function (next) {
-        // Write code here that turns the phrase above into concrete actions
-        next();
-    });
-
-    When(/^I see \'Date of latest action\' by date descending order$/, function (next) {
-        // Write code here that turns the phrase above into concrete actions
-        next();
-    });
+    // When(/^one or more cases are displayed$/, function (next) {
+    //     expect(dashBoardPage.list_of_cases.isDisplayed()).to.eventually.be.true.and.notify(next);
+    // });
+    //
+    // Then(/^I will see a list of all those SSCS cases$/, function (next) {
+    //
+    //     next();
+    // });
+    //
+    //
+    // // TODO
+    // Then(/^I will see date details for the list of cases displayed$/, function (next) {
+    //     // Write code here that turns the phrase above into concrete actions
+    //     next();
+    // });
+    //
+    // When(/^I see \'Date of latest action\' by date descending order$/, function (next) {
+    //     // Write code here that turns the phrase above into concrete actions
+    //     next();
+    // });
 
 
 });

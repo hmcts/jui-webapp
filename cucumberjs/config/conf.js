@@ -8,7 +8,7 @@ exports.config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
     getPageTimeout: 60000,
     allScriptsTimeout: 500000,
-    baseUrl: '',
+    baseUrl: 'http://jui-webapp-saat.service.core-compute-saat.internal/',
 
     // capabilities: {
     //     browserName: 'chrome',
