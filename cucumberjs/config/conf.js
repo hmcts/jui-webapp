@@ -24,11 +24,13 @@ exports.config = {
         'proxy': {
 
             'proxyType': 'manual',
-            'httpProxy': 'socks5://localhost:9090',
-            'sslProxy': 'socks5://localhost:9090'
+            'httpProxy': 'proxyout.reform.hmcts.net:8080',//'socks5://localhost:9090',
+            'sslProxy' : 'proxyout.reform.hmcts.net:8080',//'socks5://localhost:9090',
 
         }
     },
+
+
 
 
 

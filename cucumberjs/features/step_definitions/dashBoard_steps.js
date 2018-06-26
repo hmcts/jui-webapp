@@ -1,6 +1,6 @@
 'use strict';
 
-//var signInPage = require("../../pages/signInPage");
+var logInPage = require("../../pages/logInPage");
 //var caseListPage = require("../../pages/caseListPage");
 var dashBoardPage = require('../../pages/dashBoardPage');
 var caseSummaryPage = require('../../pages/caseSummaryPage');
@@ -11,22 +11,35 @@ var {defineSupportCode} = require('cucumber');
 
 defineSupportCode(function ({Given, When, Then}) {
 
-    Given(/^I am logged in as a Judge$/, function (next) {
-        // Write code here that turns the phrase above into concrete actions
-        next();
+    Given(/^I logged in as a Judge$/, function (next) {
+       logInPage.email.sendKeys("juitestuser1@gmail.com");
+        browser.driver.sleep(3000);
+       logInPage.password.sendKeys('Monday01');
+        browser.driver.sleep(8000);
+       logInPage.signin_btn.click();
+        browser.driver.sleep(8000);
+       next();
     });
 
     When(/^I am on the dashboard page$/, function (next) {
 
-        //let dashBoardPage = new dashBoardPage;
-
         expect(dashBoardPage.dashboard_header.isDisplayed()).to.eventually.be.true.and.notify(next);
         expect(dashBoardPage.dashboard_header.getText()).to.eventually.equal('DashBoard').and.notify(next);
-        expect(dashBoardPage.dashboardTableHeader().isDisplayed()).to.eventually.be.true.and.notify(next);
+        //expect(dashBoardPage.dashboardTableHeader().isDisplayed()).to.eventually.be.true.and.notify(next);
 
         //expect(dashBoardPage.dashboard_header.getText()).to.eventually.equal('caseList').and.notify(next);
         next();
     });
+
+
+    When (/^one or more cases are displayed$/, function (next){
+        expect(dashBoardPage.list_of_cases.isDisplayed()).to.eventually.be.true.and.notify(next);
+        //dashBoardPage.list_of_cases.
+    });
+
+    Then (/^I will see a list of all those SSCS cases$/, function(next){
+
+    }
 
 
     When(/^all case references are hyperlinked$/, function (next) {

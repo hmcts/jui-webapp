@@ -36,9 +36,22 @@ CCD_PAYLOAD=$(printf '{
         "name": {
          "firstName": "Bob",
          "lastName": "Bobby"
+
          }
       }
     }
+    }
+ "data" : {
+    "caseReference": "345",
+    "appeal": {
+    "appellant": {
+    "name": {
+    "firstName":"test",
+    "lastName": "test1"
+    }
+    }
+
+  }
   }
 }')
 

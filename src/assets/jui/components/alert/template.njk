@@ -1,0 +1,4 @@
+<div class="jui-alert{% if params.alertClasses %} {{ params.alertClasses }}{% endif %}" role="status" aria-live="polite">      
+  {%- if params.icon %}<span class="jui-alert__icon{% if params.iconClasses %} {{ params.iconClasses }}{% endif %}">{{ params.iconText }}</span>{% endif %}
+  <span class="jui-alert__text">{{ params.alertHtml | safe if params.alertHtml else params.alertText }}</span>
+</div>

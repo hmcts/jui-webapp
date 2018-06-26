@@ -29,13 +29,18 @@ const cookieService = {
     },
     set: (key, value) => {
       this[key] = value;
-    }
+    },
+    removeAll: () => {}
 };
 
+var deleteCookiesSpy;
+var routerNavigateSpy;
 
 describe('AuthService', () => {
     let setup;
     beforeEach(() => {
+        deleteCookiesSpy = spyOn(cookieService, 'removeAll');
+        routerNavigateSpy = spyOn(router, 'navigate');
         TestBed.configureTestingModule({
             providers: [
                 AuthService,
@@ -80,6 +85,20 @@ describe('AuthService', () => {
             expect(service.isAuthenticated()).toEqual(false);
             expiry = new Date().getTime() - 3000;
             expect(service.isAuthenticated()).toEqual(true);
+        }));
+    });
+
+    describe('logout', () => {
+        it('should delete all cookies', inject([AuthService], (service: AuthService) => {
+            service.logout();
+            expect(deleteCookiesSpy).toHaveBeenCalled();
+        }));
+
+        it('should redirect to idam', inject([AuthService], (service: AuthService) => {
+            service.loginRedirect = () => {};
+            const redirectSpy = spyOn(service, 'loginRedirect');
+            service.logout();
+            expect(redirectSpy).toHaveBeenCalled();
         }));
     });
 });

@@ -7,7 +7,7 @@ function dashBoardPage() {
     this.parties_header = $('[data-selector =\'parties-header\']');
     this.type_header = $("[data-selector='type-header']");
     this.list_of_cases = $("[data-selector='table-row']");
-    this.List_of_case_reference = $(".govuk-table__cell cdk-cell cdk-column-case_id");
+    this.List_of_case_reference = $(".govuk-table__cell.cdk-cell.cdk-column-case_id");
     this.List_parties = $(".govuk-table__cell cdk-cell cdk-column-parties");
     this.List_type = $(".govuk-table__cell cdk-cell cdk-column-type");
     this.first_case_reference_link = $("[data-selector='case-reference-link]")[0];
