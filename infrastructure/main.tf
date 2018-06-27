@@ -50,9 +50,7 @@ provider "vault" {
 }
 
 data "vault_generic_secret" "s2s_secret" {
-//  //Temporarily use ccd_gw
-  path = "secret/${var.vault_section}/ccidam/service-auth-provider/api/microservice-keys/ccd-gw"
-//  path = "secret/${var.vault_section}/ccidam/service-auth-provider/api/microservice-keys/jui-webapp"
+  path = "secret/${var.vault_section}/ccidam/service-auth-provider/api/microservice-keys/jui-webapp"
 }
 
 data "vault_generic_secret" "oauth2_secret" {
