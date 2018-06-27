@@ -18,7 +18,9 @@ defineSupportCode(function({ registerHandler, After, registerListener }) {
     });
 
     After(function(scenario) {
-        signoutPage.clickSignOut();
+        if(signoutPage.signout.isDisplayed()){
+            signoutPage.clickSignOut();
+        }
         if (scenario.isFailed()) {
             var attach = this.attach; // cucumber's world object has attach function which should be used
             return browser.takeScreenshot().then(function(png) {
