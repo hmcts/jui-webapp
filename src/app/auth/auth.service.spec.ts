@@ -90,6 +90,7 @@ describe('AuthService', () => {
 
     describe('logout', () => {
         it('should delete all cookies', inject([AuthService], (service: AuthService) => {
+            service.loginRedirect = () => {};
             service.logout();
             expect(deleteCookiesSpy).toHaveBeenCalled();
         }));

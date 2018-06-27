@@ -1,27 +1,41 @@
-# Jui
+# Judaical UI Webapp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.0.
+This is the Web Application to allow Judaical staff (Judges & Panel Members) to access and work on cases.
 
-## Development server
+## Cloning repo
+```bash
+git clone https://github.com/hmcts/jui-webapp.git
+cd jui-webapp/
+```
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Set Environmental Variables
+```bash
+export JUI_S2S_SECRET=
+export IDAM_SECRET=
+```
 
-## Code scaffolding
+## Run Local with quick reload for angular
+To Run the Angular code
+```bash
+yarn install
+yarn start-dev-proxy
+```
+To Run the Node Code
+```bash
+yarn install
+yarn start-dev-node
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Run Local like prod
+```bash
+yarn install
+yarn build
+yarn start
+```
 
-## Build
+## Run Local with docker
+WIP atm
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
 
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## Run test...
+WIP
