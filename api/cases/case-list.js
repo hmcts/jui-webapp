@@ -1,24 +1,10 @@
 const sscsCaseListTemplate = require('./sscsCaseList.template');
 const generateRequest = require('../lib/request');
 const config = require('../../config');
-const jp = require('jsonpath');
+const valueProcessor = require('../lib/value-processor');
 
 function getCases(userId, options, caseType = 'Benefit', caseStateId = 'appealCreated', jurisdiction = 'SSCS') {
     return generateRequest(`${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases?state=${caseStateId}&page=1`, options)
-}
-
-function dataLookup(lookup, caseRow) {
-    if (typeof lookup === "string") {
-        if (lookup.startsWith('$')) {
-            return jp.query(caseRow, lookup)[0];
-        }
-        return lookup;
-    } else if (Array.isArray(lookup)) {
-        return lookup.map(part => {
-            return dataLookup(part, caseRow);
-        }).join(' ');
-    }
-    throw new Error('lookup is neither a string or an array.')
 }
 
 function rawCasesReducer(cases, columns) {
@@ -26,7 +12,7 @@ function rawCasesReducer(cases, columns) {
         return {
             case_id: caseRow.id,
             case_fields : columns.reduce((row, column) => {
-                row[column.case_field_id] = dataLookup(column.lookup, caseRow);
+                row[column.case_field_id] = valueProcessor(column.value, caseRow);
                 return row;
             }, {})
         };

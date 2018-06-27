@@ -1,7 +1,7 @@
 const sscsCaseTemplate = require('./sscsCase.template');
 const generateRequest = require('../lib/request');
 const config = require('../../config');
-const jp = require('jsonpath');
+const valueProcessor = require('../lib/value-processor');
 
 function getCase(caseId, userId, options, caseType = 'Benefit', jurisdiction = 'SSCS') {
     return generateRequest(`${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}`, options)
@@ -14,17 +14,7 @@ function replaceSectionValues(section, caseData) {
         });
     } else {
         section.fields.forEach(field => {
-            if(field.lookup) {
-                let value = jp.query(caseData, field.lookup);
-                
-                field.value = Array.isArray(value) ? value.join(' ') : value;
-                if (field.value && field.suffix) {
-                    field.value += field.suffix;
-                }
-                
-                delete field.suffix;
-                delete field.lookup;
-            }
+            field.value = valueProcessor(field.value, caseData)
         });
     }
 }
@@ -65,7 +55,6 @@ module.exports = (req, res, next) => {
             'ServiceAuthorization' : req.headers.ServiceAuthorization
         }
     }).then(caseData => {
-        
         const schema = JSON.parse(JSON.stringify(sscsCaseTemplate));
         schema.sections.forEach(section => replaceSectionValues(section, caseData));
     
@@ -81,5 +70,8 @@ module.exports = (req, res, next) => {
 
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.status(200).send(JSON.stringify(schema));
-    }).catch(e => console.log(e))
+    }).catch(response => {
+        console.log(response.error || response);
+        res.status(response.error.status).send(response.error.message);
+    });
 };

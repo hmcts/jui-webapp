@@ -14,33 +14,32 @@ module.exports = {
                             fields: [
                                 {
                                     label: 'Parties',
-                                    lookup: "$.case_data.appeal.appellant.name['firstName','lastName']",
-                                    suffix: ' vs DWP'
+                                    value: ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName", "vs DWP"],
                                 },
                                 {
                                     label: 'Case number',
-                                    lookup: '$.case_data.caseReference'
+                                    value: '$.case_data.caseReference'
                                 },
                                 {
                                     label: 'Case type',
-                                    lookup: '$.case_data.appeal.benefitType.code'
+                                    value: '$.case_data.appeal.benefitType.code'
                                 }
                             ]
                         },
                         {
-                            name: 'Representative',
+                            name: 'Representatives',
                             fields: [
                                 {
                                     label: 'Judge',
-                                    value: 'na'
+                                    value: '$.case_data.panel.assignedTo'
                                 },
                                 {
                                     label: 'Medical Member',
-                                    value: 'na'
+                                    value: '$.case_data.panel.medicalMember'
                                 },
                                 {
                                     label: 'Disability qualified member',
-                                    value: 'na'
+                                    value: '$.case_data.panel.disabilityQualifiedMember'
                                 }
                             ]
                         }
@@ -65,15 +64,15 @@ module.exports = {
                             fields: [
                                 {
                                     label: 'Parties',
-                                    lookup: '$.id'
+                                    value: '$.id'
                                 },
                                 {
                                     label: 'Case number',
-                                    lookup: '$.id'
+                                    value: '$.id'
                                 },
                                 {
                                     label: 'Case type',
-                                    lookup: '$.case_type_id'
+                                    value: '$.case_type_id'
                                 }
                             ]
                         },
@@ -84,15 +83,15 @@ module.exports = {
                             fields: [
                                 {
                                     label: 'Parties',
-                                    lookup: '$.id'
+                                    value: '$.id'
                                 },
                                 {
                                     label: 'Case number',
-                                    lookup: '$.id'
+                                    value: '$.id'
                                 },
                                 {
                                     label: 'Case type',
-                                    lookup: '$.case_type_id'
+                                    value: '$.case_type_id'
                                 }
                             ]
                         }
@@ -111,7 +110,7 @@ module.exports = {
                     type: 'document-panel',
                     fields: [
                         {
-                            lookup: '$.case_data.sscsDocument'
+                            value: '$.case_data.sscsDocument'
                         }
                     ]
                 }

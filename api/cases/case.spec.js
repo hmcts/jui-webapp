@@ -8,10 +8,14 @@ describe('case spec', () => {
     let route;
     let app;
     let request;
+    let httpResponse;
 
     beforeEach(() => {
+        httpResponse = (resolve, reject) => {
+            resolve({});
+        };
         httpRequest = jasmine.createSpy();
-        httpRequest.and.callFake(() => Promise.resolve([]));
+        httpRequest.and.callFake(() => new Promise(httpResponse));
 
         route = proxyquire('./case', {
             '../lib/request': httpRequest
@@ -31,143 +35,29 @@ describe('case spec', () => {
     });
 
     describe('when no case data is returned', () => {
-        
-        it('should return the case sections with no values', () => {
-            return request.get('/api/cases/1')
-                .expect(200)
-                .then(response => {
-                     expect(response.text).toEqual(JSON.stringify({
-                         "sections": [
-                             {
-                                 "id": "summary",
-                                 "name": "Summary",
-                                 "type": "page",
-                                 "sections": [
-                                     {
-                                         "name": "Summary",
-                                         "type": "summary-panel",
-                                         "sections": [
-                                             {
-                                                 "name": "Case Details",
-                                                 "fields": [
-                                                     {
-                                                         "label": "Parties",
-                                                         "value": ""
-                                                     },
-                                                     {
-                                                         "label": "Case number",
-                                                         "value": ""
-                                                     },
-                                                     {
-                                                         "label": "Case type",
-                                                         "value": ""
-                                                     }
-                                                 ]
-                                             },
-                                             {
-                                                 "name": "Representative",
-                                                 "fields": [
-                                                     {
-                                                         "label": "Judge",
-                                                         "value": "na"
-                                                     },
-                                                     {
-                                                         "label": "Medical Member",
-                                                         "value": "na"
-                                                     },
-                                                     {
-                                                         "label": "Disability qualified member",
-                                                         "value": "na"
-                                                     }
-                                                 ]
-                                             }
-                                         ]
-                                     }
-                                 ]
-                             },
-                             {
-                                 "id": "parties",
-                                 "name": "Parties",
-                                 "type": "page",
-                                 "sections": [
-                                     {
-                                         "id": "case_details",
-                                         "name": "Case Details",
-                                         "type": "parties-panel",
-                                         "sections": [
-                                             {
-                                                 "id": "petitioner",
-                                                 "name": "Petitioner",
-                                                 "type": "tab",
-                                                 "fields": [
-                                                     {
-                                                         "label": "Parties",
-                                                         "value": ""
-                                                     },
-                                                     {
-                                                         "label": "Case number",
-                                                         "value": ""
-                                                     },
-                                                     {
-                                                         "label": "Case type",
-                                                         "value": ""
-                                                     }
-                                                 ]
-                                             },
-                                             {
-                                                 "id": "respondent",
-                                                 "name": "Respondent",
-                                                 "type": "tab",
-                                                 "fields": [
-                                                     {
-                                                         "label": "Parties",
-                                                         "value": ""
-                                                     },
-                                                     {
-                                                         "label": "Case number",
-                                                         "value": ""
-                                                     },
-                                                     {
-                                                         "label": "Case type",
-                                                         "value": ""
-                                                     }
-                                                 ]
-                                             }
-                                         ]
-                                     }
-                                 ]
-                             },
-                             {
-                                 "id": "casefile",
-                                 "name": "Case file",
-                                 "type": "page",
-                                 "sections": [
-                                     {
-                                         "id": "documents",
-                                         "name": "",
-                                         "type": "document-panel",
-                                         "fields": [
-                                             {
-                                                 "value": ""
-                                             }
-                                         ]
-                                     }
-                                 ]
-                             }
-                         ]
-                     }));
-            });
+        beforeEach(() => {
+            httpResponse = (resolve, reject) => {
+                reject({
+                    error: {
+                        status: 400,
+                        message: 'Case reference is not valid'
+                    }
+                });
+            };
+        });
+        it('should return an error', () => {
+            return request.get('/api/cases/null')
+                .expect(400);
         });
     });
 
     describe('when all expected case data is returned', () => {
-
+        let caseData;
         beforeEach(() => {
-            const caseData = [{
+            caseData = {
                 id: 1528476356357908,
                 case_data: {
-                    subscriptions: {
-                    },
+                    subscriptions: {},
                     caseReference: "SC001/01/46863",
                     appeal: {
                         appellant: {
@@ -189,65 +79,55 @@ describe('case spec', () => {
                         {
                             id: "6ad97d36-2c85-4aec-9909-e5ca7592faae",
                         }
-                    ]
+                    ],
+                    panel: {
+                        assignedTo: 'assignedTo',
+                        medicalMember: 'medicalMember',
+                        disabilityQualifiedMember: 'disabilityQualifiedMember'
+                    }
                 }
-            }];
+            };
+            httpResponse = (resolve, reject) => {
+                resolve(caseData);
+            };
         });
 
         it('should populate the summary panel given data is in the response', () => {
             return request.get('/api/cases/1').expect(200).then(response => {
                 const jsonRes = JSON.parse(response.text);
-                const actualSummarySection = jsonRes.sections.filter(section => section.id === 'summary')
-                expect(actualSummarySection).toEqual([
-                       {
-                           "id": "summary",
-                           "name": "Summary",
-                           "type": "page",
-                           "sections": [
-                               {
-                                   "name": "Summary",
-                                   "type": "summary-panel",
-                                   "sections": [
-                                       {
-                                           "name": "Case Details",
-                                           "fields": [
-                                               {
-                                                   "label": "Parties",
-                                                   "value": ""
-                                               },
-                                               {
-                                                   "label": "Case number",
-                                                   "value": ""
-                                               },
-                                               {
-                                                   "label": "Case type",
-                                                   "value": ""
-                                               }
-                                           ]
-                                       },
-                                       {
-                                           "name": "Representative",
-                                           "fields": [
-                                               {
-                                                   "label": "Judge",
-                                                   "value": "na"
-                                               },
-                                               {
-                                                   "label": "Medical Member",
-                                                   "value": "na"
-                                               },
-                                               {
-                                                   "label": "Disability qualified member",
-                                                   "value": "na"
-                                               }
-                                           ]
-                                       }
-                                   ]
-                               }
-                           ]
-                       }
-                   ]
-                );
+                const actualSummarySection = jsonRes.sections.filter(section => section.id === 'summary')[0];
+
+                const caseDetails = actualSummarySection.sections[0].sections[0];
+                const representatives = actualSummarySection.sections[0].sections[1];
+                expect(caseDetails.fields).toEqual([
+                    {
+                        "label": "Parties",
+                        "value": `${caseData.case_data.appeal.appellant.name.firstName} ${caseData.case_data.appeal.appellant.name.lastName} vs DWP`
+                    },
+                    {
+                        "label": "Case number",
+                        "value": caseData.case_data.caseReference
+                    },
+                    {
+                        "label": "Case type",
+                        "value": caseData.case_data.appeal.benefitType.code
+                    }
+                ]);
+
+                expect(representatives.fields).toEqual([
+                    {
+                        "label": "Judge",
+                        "value": caseData.case_data.panel.assignedTo
+                    },
+                    {
+                        "label": "Medical Member",
+                        "value": caseData.case_data.panel.medicalMember
+                    },
+                    {
+                        "label": "Disability qualified member",
+                        "value": caseData.case_data.panel.disabilityQualifiedMember
+                    }
+                ]);
             });
         });
     });
