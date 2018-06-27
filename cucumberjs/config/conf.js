@@ -8,33 +8,33 @@ exports.config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
     getPageTimeout: 60000,
     allScriptsTimeout: 500000,
-    baseUrl: 'http://jui-webapp-saat.service.core-compute-saat.internal/',
+    baseUrl:'http://localhost:3000',
 
-    email: 'juitestuser1@gmail.com',
-    password: 'Monday01',
+    email:'test@test.com',
+    password:'123',
     // fakeEmail: '',
 
-    // capabilities: {
-    //     browserName: 'chrome',
-    // },
+    capabilities: {
+        browserName: 'chrome',
+    },
 
 
     /*****
      * to enable proxy
      */
-    capabilities: {
-        browserName: 'chrome',
-
-        'proxy': {
-
-            'proxyType': 'manual',
-            'httpProxy': 'proxyout.reform.hmcts.net:8080',//'socks5://localhost:9090',
-            'sslProxy' : 'proxyout.reform.hmcts.net:8080',//'socks5://localhost:9090',
-
-        }
-    },
-
-
+    // capabilities: {
+    //     browserName: 'chrome',
+    //
+    //     'proxy': {
+    //
+    //         'proxyType': 'manual',
+    //         'httpProxy': 'socks5://localhost:9090',  //'proxyout.reform.hmcts.net:8080',
+    //         'sslProxy' : 'socks5://localhost:9090',  //'proxyout.reform.hmcts.net:8080',
+    //
+    //     }
+    // },
+    //
+    //
 
 
 
