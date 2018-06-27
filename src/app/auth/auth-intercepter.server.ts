@@ -39,6 +39,4 @@ export class AuthIntercepterServer implements HttpInterceptor  {
         }
         return next.handle(request);
     }
-
-
 }

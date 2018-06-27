@@ -30,10 +30,14 @@ export class AuthService {
     }
 
     getAuthHeaders() {
-        return {
+        interface HeaderObject {
+            [key: string]: string
+        }
+        const headers: HeaderObject = {
             Authorization: this.cookieService.get(this.COOKIE_KEYS.TOKEN),
             [this.COOKIE_KEYS.USER]: this.cookieService.get(this.COOKIE_KEYS.USER),
         };
+        return headers;
     }
 
     loginRedirect() {
@@ -41,17 +45,18 @@ export class AuthService {
     }
 
     logout() {
-        // localStorage.removeItem('LOGGED_IN');
-        // this.router.navigate(['login']);
+        this.cookieService.removeAll();
+        this.loginRedirect();
+    }
+
+    decodeJwt(jwt) {
+        return jwtDecode(jwt);
     }
 
     isAuthenticated(): boolean {
         const jwt = this.cookieService.get(this.COOKIE_KEYS.TOKEN);
-        console.log(jwt);
         if (!jwt) return false;
-        const jwtData = jwtDecode(jwt);
-        console.log(jwtData);
-        // if(jwtData) return false;
+        const jwtData = this.decodeJwt(jwt);
         const expired = jwtData.exp > new Date().getTime();
         // do stuff!!
         return !expired;

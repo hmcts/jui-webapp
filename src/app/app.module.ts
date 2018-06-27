@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
 import { DomainModule } from './domain/domain.module';
 import { RoutingModule } from './routing/routing.module';
-import { HeaderComponent } from './shared/components/header/header.component';
 import { ConfigService } from './config.service';
 import {AuthModule} from './auth/auth.module';
 import {FooterComponent} from './shared/components/footer/footer.component';

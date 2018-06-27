@@ -41,13 +41,14 @@ describe('case-list spec', () => {
                 .expect(200)
                 .then(response => {
                     expect(response.body.results.length).toBe(0);
-                    expect(response.body.columns.length).toBe(2); // 3 minus case reference
                     expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
                 });
         });
     });
 
     describe('when one row of case data is returned', () => {
+        const createdDate = new Date();
+        const updatedDate = new Date();
 
         beforeEach(() => {
             caseData.push({
@@ -61,7 +62,10 @@ describe('case-list spec', () => {
                             }
                         }
                     }
-                }
+                },
+                created_date: createdDate,
+                last_modified: updatedDate,
+
             });
         });
 
@@ -69,14 +73,15 @@ describe('case-list spec', () => {
             return request.get('/api/cases')
                 .expect(200)
                 .then(response => {
-                    expect(response.body.columns.length).toBe(2); // 3 minus case reference
                     expect(response.body.results.length).toBe(1);
                     expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
                     expect(response.body.results[0]).toEqual({
                         case_id: caseData[0].id,
                         case_fields: {
                             parties: 'Louis Houghton versus DWP',
-                            type: 'PIP'
+                            type: 'PIP',
+                            caseStartDate: createdDate.toISOString(),
+                            dateOfLastAction: updatedDate.toISOString()
                         }
                     });
                 });

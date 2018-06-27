@@ -30,6 +30,4 @@ export class AuthInteceptor implements HttpInterceptor  {
             }
         });
     }
-
-
 }
