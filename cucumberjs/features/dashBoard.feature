@@ -14,9 +14,8 @@ Feature: Dashboard
         Then I will be redirected to the Case Summary page for that case
 
 
-#    @RIUI_418
-#    Scenario: Verify when one or more SSCS cases
-#        Then I will see a list of all those cases with
+
+
 
 
 

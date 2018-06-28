@@ -86,6 +86,7 @@
     "autoprefixer": "^7.2.3",
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
+    "chai-smoothie": "^0.3.2",
     "circular-dependency-plugin": "^4.2.1",
     "codelyzer": "^4.0.1",
     "concurrently": "^3.5.1",

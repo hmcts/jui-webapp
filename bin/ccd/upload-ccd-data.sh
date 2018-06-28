@@ -43,26 +43,6 @@ CCD_PAYLOAD=$(printf '{
 }')
 
 
-CCD_PAYLOAD=$(printf '{
- "event_token": "'${CCD_TOKEN}'",
-  "event" : {
-   "id":"appealCreated",
-   "summary":"xxx",
-    "description":"xxxx"
-   },
-  "data" : {
-  "caseReference":"1234",
-  "appeal": {
-     "appellant": {
-        "name": {
-         "firstName": "Bob",
-         "lastName": "Bobby"
-         }
-      }
-    }
-  }
-}')
-
 
 curl -X POST \
 -H "Authorization:Bearer ${IDAM_JWT}" \

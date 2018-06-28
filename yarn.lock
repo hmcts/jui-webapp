@@ -1279,6 +1279,10 @@ chai-as-promised@^7.1.1:
   dependencies:
     check-error "^1.0.2"
 
+chai-smoothie@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/chai-smoothie/-/chai-smoothie-0.3.2.tgz#1273a63743abac33ee0a2c8afae97e1627399e07"
+
 chai@^4.1.2:
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/chai/-/chai-4.1.2.tgz#0f64584ba642f0f2ace2806279f4f06ca23ad73c"

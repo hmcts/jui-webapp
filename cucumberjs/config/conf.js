@@ -10,8 +10,8 @@ exports.config = {
     allScriptsTimeout: 500000,
     baseUrl:'http://localhost:3000',
 
-    email:'test@test.com',
-    password:'123',
+    //email:'',
+    //password:'',
     // fakeEmail: '',
 
     capabilities: {
@@ -28,13 +28,13 @@ exports.config = {
     //     'proxy': {
     //
     //         'proxyType': 'manual',
-    //         'httpProxy': 'socks5://localhost:9090',  //'proxyout.reform.hmcts.net:8080',
-    //         'sslProxy' : 'socks5://localhost:9090',  //'proxyout.reform.hmcts.net:8080',
+    //         'httpProxy': 'proxyout.reform.hmcts.net:8080',  //'socks5://localhost:9090',
+    //         'sslProxy' : 'proxyout.reform.hmcts.net:8080',  //'socks5://localhost:9090',
     //
     //     }
     // },
-    //
-    //
+
+
 
 
 
