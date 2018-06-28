@@ -50,15 +50,15 @@ Then(/^I (?:can|should) wait for the url to( not)? "(.*)" "(.*)"$/, function (no
     // }, this.EXPECTATION_TIMEOUT, `Browser url did not ${matchers} ${text} after ${this.EXPECTATION_TIMEOUT} ms`);
 });
 
-Then(/^I (?:can|should) expect the url to( not)? "(.*)" "(.*)"$/, function (not, matchers, text) {
-    // matchers = matchers.split(',');
-    // const operator = matchers[0];
-    // var modifier = matchers[1] || '';
-    // const url = this.client.getUrl();
-    // if (operator === 'match') {
-    //     text = new RegExp(text, modifier);
-    // }
-    // invert(this.expect(url).to, not)[operator](text);
+Then(/^I (?:can|should) expect the url to( not)? "(.*)" "(.*)"$/, async function (not, matchers, text) {
+    matchers = matchers.split(',');
+    const operator = matchers[0];
+    const modifier = matchers[1] || '';
+    const url = await browser.getCurrentUrl();
+    if (operator === 'match') {
+        text = new RegExp(text, modifier);
+    }
+    invert(this.expect(url).to, not)[operator](text);
 });
 
 Then(/^I should expect the title to( not)? "(.*)" "(.*)"$/, {retry: 2}, function (not, matchers, text) {
