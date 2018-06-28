@@ -4,7 +4,7 @@ module.exports = {
             "label": "Parties",
             "order": 2,
             "case_field_id": "parties",
-            "lookup": ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName", "versus DWP"]
+            "lookup": ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName", "vs DWP"]
         },
         {
             "label": "Type",
@@ -18,14 +18,14 @@ module.exports = {
             "order": 4,
             "case_field_id": "caseStartDate",
             "lookup": "$.created_date",
-            "date_format": "d MMMM yyyy \'at\' h:mma"
+            "date_format": "d MMMM yyyy \'at\' h:mmaaaaa\'m\'"
         },
         {
             "label": "Date of Last Action",
             "order": 5,
             "case_field_id": "dateOfLastAction",
             "lookup": "$.last_modified",
-            "date_format": "d MMMM yyyy \'at\' h:mma"
+            "date_format": "d MMMM yyyy \'at\' h:mmaaaaa\'m\'"
         }
     ],
     "results": []
