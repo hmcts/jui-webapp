@@ -64,7 +64,7 @@ describe('AuthService', () => {
 
     it('should generate a login url', inject([AuthService], (service: AuthService) => {
         const url = service.generateLoginUrl();
-        expect(url).toEqual('http://idam_url.com?response_type=code&client_id=client_name&redirect_uri=callback_url')
+        expect(url).toEqual('http://idam_url.com/login?response_type=code&client_id=client_name&redirect_uri=callback_url')
     }));
 
     it('Should provide header versions of cookie values', inject([AuthService], (service: AuthService) => {
