@@ -78,7 +78,7 @@ describe('case-list spec', () => {
                     expect(response.body.results[0]).toEqual({
                         case_id: caseData[0].id,
                         case_fields: {
-                            parties: 'Louis Houghton versus DWP',
+                            parties: 'Louis Houghton vs DWP',
                             type: 'PIP',
                             caseStartDate: createdDate.toISOString(),
                             dateOfLastAction: updatedDate.toISOString()
