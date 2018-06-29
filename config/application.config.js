@@ -1,5 +1,5 @@
 module.exports = {
-    microservice: "ccd_gw",
+    microservice: "jui_webapp",
     cookies: {
         token: '__auth__',
         userId: '__userid__'
