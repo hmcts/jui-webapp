@@ -1,85 +1,59 @@
 'use strict';
 
-//var signInPage = require("../../pages/signInPage");
-//var caseListPage = require("../../pages/caseListPage");
+var logInPage = require('../../pages/logInPage');
 var dashBoardPage = require('../../pages/dashBoardPage');
 var caseSummaryPage = require('../../pages/caseSummaryPage');
-var signinPage = require('../../pages/signinPage');
-var signoutPage = require('../../pages/headerPage');
-var EC = protractor.ExpectedConditions;
 
 var expect = require('chai').expect;
+var assert = require('assert');
 var {defineSupportCode} = require('cucumber');
+var chai = require('chai');
+chai.use(require('chai-smoothie'));
+
 
 defineSupportCode(function ({Given, When, Then}) {
 
-    Given(/^I am logged in as a Judge$/, function (next) {
-        signinPage.givenIAmLoggedIn();
-        // Write code here that turns the phrase above into concrete actions
-        next();
+    Given(/^I am logged in as a Judge$/, async function () {
+        await logInPage.email.sendKeys('');
+        await  logInPage.password.sendKeys('');
+        await  logInPage.signin_btn.click();
+
     });
 
-    When(/^I am on the dashboard page$/, function (next) {
-        expect(dashBoardPage.verify_dashboard_page().isDisplayed()).to.eventually.be.true.and.notify(next);
-        expect(dashBoardPage.dashboard_header.isDisplayed()).to.eventually.be.true.and.notify(next);
-        //expect(dashBoardPage.dashboard_header.getText()).to.eventually.equal('caseList').and.notify(next);
-        next();
-    });
-
-
-    When(/^there are no cases listed$/, function (next) {
-        // Write code here that turns the phrase above into concrete actions
-        next();
+    When(/^I am on the dashboard page$/, async function () {
+        var dashboard_header_text = dashBoardPage.dashboard_header;
+        await expect(dashboard_header_text).to.be.present;
+        dashBoardPage.table.isDisplayed();
     });
 
 
-    Then(/^I will see a message saying (.*)$/, function (no_cases_message, next) {
-        // Write code here that turns the phrase above into concrete actions
-        next();
+    When(/^one or more cases are displayed$/, async function () {
+        await dashBoardPage.case_number_links.isDisplayed();
+        var no_of_cases = dashBoardPage.number_of_rows.length;
+        var no_of_case_reference = dashBoardPage.case_number_links.length;
+        assert(no_of_cases === no_of_case_reference, 'no table present');
     });
 
 
-    When(/^all case references are hyperlinked$/, function (next) {
-        expect(dashBoardPage.list_of_cases.isDisplayed()).to.eventually.be.true.and.notify(next);
-        expect(dashBoardPage.case_link.isDisplayed()).to.eventually.be.true.and.notify(next);
-        next();
-    });
-
-    When(/^I select a case reference number$/, function (next) {
-        var option = dashBoardPage.case_link.get(0);
-        option.click();
-        next();
-    });
-
-    Then(/^I will be redirected to the Case Summary page for that case$/, function (next) {
-        expect(caseSummaryPage.caseSummary_header_text.isDisplayed()).to.eventually.be.true.and.notify(next);
-        expect(caseSummaryPage.caseSummary_header_text.getText()).to.eventually.equal('Summary').and.notify(next);
-        next();
-    });
-
-    When(/^one or more cases are displayed$/, {timeout: -1}, function (next) {
-//        browser.waitForAngular();
-//        var foo = $("#content > app-search-result > div > div > app-table > div");
-//        browser.wait(EC.visibilityOf($("#content > app-search-result > div > div > app-table > div")), 10000);
-        expect(dashBoardPage.number_of_rows.isDisplayed()).to.eventually.be.true.and.notify(next);
-    });
-
-    Then(/^I will see a list of all those SSCS cases$/, function (next) {
-
-        next();
+    When(/^all case numbers are hyperlinked$/, async function () {
+        var case_nums = dashBoardPage.case_number_links;
+        // need to refactor this
+        await expect(case_nums.first().getAttribute('href')).to.eventually.equal('http://localhost:3000/viewcase/1530183252195806/summary');
     });
 
 
-    // TODO
-    Then(/^I will see date details for the list of cases displayed$/, function (next) {
-        // Write code here that turns the phrase above into concrete actions
-        next();
+    When(/^I select a case reference$/, async function () {
+        await dashBoardPage.case_number_links.first().click();
     });
 
-    When(/^I see \'Date of latest action\' by date descending order$/, function (next) {
-        // Write code here that turns the phrase above into concrete actions
-        next();
-    });
 
+    Then(/^I will be redirected to the Case Summary page for that case$/, async function () {
+        var caseSummary_header_text = caseSummaryPage.caseSummary_header_text;
+        await expect(caseSummary_header_text).to.be.present;
+        var case_num = caseSummaryPage.selected_case;
+        await expect(case_num.first()).to.be.present;
+
+
+    });
 
 });

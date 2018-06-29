@@ -13,23 +13,28 @@ exports.config = {
         password: '123', //'Monday01',
         fakeEmail: 'test@abctest.com',
 
-        capabilities: { browserName: 'chrome',
 
-//         'proxy': {
-//
-//             'proxyType': 'manual',
-//             'httpProxy': 'proxyout.reform.hmcts.net:8080',//'socks5://localhost:9090',
-//             'sslProxy' : 'proxyout.reform.hmcts.net:8080',//'socks5://localhost:9090',
-//
-//           }
-},
+    /*****
+         * to enable proxy
+         */
+        // capabilities: {
+        //     browserName: 'chrome',
+        //
+        //     'proxy': {
+        //
+        //         'proxyType': 'manual',
+        //         'httpProxy': 'proxyout.reform.hmcts.net:8080',  //'socks5://localhost:9090',
+        //         'sslProxy' : 'proxyout.reform.hmcts.net:8080',  //'socks5://localhost:9090',
+        //
+        //     }
+        // },
+
 
 
         framework: 'custom',
         frameworkPath: require.resolve('protractor-cucumber-framework'),
         specs: ['../features/*.feature'],
 
-        // resultJsonOutputFile: "reports/json/protractor_report.json",
 
         onPrepare() {
             browser.manage().window()
@@ -40,11 +45,11 @@ exports.config = {
             global.should = chai.should;
         },
 
-        cucumberOpts: {
-    //        strict: true,
-            format: ['pretty'],
-            require: ['../features/step_definitions/*.js', '../support/*.js'],
-            tags: '',
-            keepAlive: false
-        }
-    };
+    cucumberOpts: {
+        strict: true,
+        format: ['pretty'],
+        require: ['../features/step_definitions/*.js', '../support/*.js'],
+        keepAlive: false,
+        tags: '@wip'
+    }
+};
