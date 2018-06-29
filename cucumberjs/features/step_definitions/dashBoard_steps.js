@@ -5,7 +5,7 @@
 var dashBoardPage = require('../../pages/dashBoardPage');
 var caseSummaryPage = require('../../pages/caseSummaryPage');
 var signinPage = require('../../pages/signinPage');
-var signoutPage = require('../../pages/signoutPage');
+var signoutPage = require('../../pages/headerPage');
 var EC = protractor.ExpectedConditions;
 
 var expect = require('chai').expect;
@@ -46,7 +46,8 @@ defineSupportCode(function ({Given, When, Then}) {
     });
 
     When(/^I select a case reference number$/, function (next) {
-        dashBoardPage.case_link.click();
+        var option = dashBoardPage.case_link.get(0);
+        option.click();
         next();
     });
 
@@ -60,7 +61,7 @@ defineSupportCode(function ({Given, When, Then}) {
 //        browser.waitForAngular();
 //        var foo = $("#content > app-search-result > div > div > app-table > div");
 //        browser.wait(EC.visibilityOf($("#content > app-search-result > div > div > app-table > div")), 10000);
-        expect(dashBoardPage.list_of_cases.isDisplayed()).to.eventually.be.true.and.notify(next);
+        expect(dashBoardPage.number_of_rows.isDisplayed()).to.eventually.be.true.and.notify(next);
     });
 
     Then(/^I will see a list of all those SSCS cases$/, function (next) {

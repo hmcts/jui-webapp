@@ -25,11 +25,11 @@
 #        Then I will see a list of all those SSCS cases
 #        When I select a case reference number
 #        Then I will be redirected to the Case Summary page for that case
-#
-##    //TODO
 ##
-##    @RIUI_417
-##    Scenario: Verify date details for SSCS cases
-##        When one or more cases are displayed
-##        Then I will see date details for the list of cases displayed
-##        When I see 'Date of latest action' by date descending order (need to check? sorting)
+###    //TODO
+###
+###    @RIUI_417
+###    Scenario: Verify date details for SSCS cases
+###        When one or more cases are displayed
+###        Then I will see date details for the list of cases displayed
+###        When I see 'Date of latest action' by date descending order (need to check? sorting)

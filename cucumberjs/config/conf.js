@@ -9,8 +9,8 @@ exports.config = {
     getPageTimeout: 60000,
     allScriptsTimeout: 500000,
     baseUrl: 'http://localhost:3000', //'https://jui-webapp-saat.service.core-compute-saat.internal',//'http://localhost:3000/app/signin'
-        email: 'juitestuser1@gmail.com',
-        password: 'Monday01',
+        email: 'test@test.com', //'juitestuser1@gmail.com',
+        password: '123', //'Monday01',
         fakeEmail: 'test@abctest.com',
 
         capabilities: { browserName: 'chrome',

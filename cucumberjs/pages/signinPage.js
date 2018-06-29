@@ -3,10 +3,9 @@ const conf = require('..\\config\\conf').config;
 
 var signinPage = function() {
 
-    this.emailAddress = $("[id='username']")
-    this.password = $("[id='password']")
-//    this.emailAddress = element(by.css('#username'));
-//    this.password = element(by.css('#password'));
+    this.emailAddress = $("[id='username']");
+    this.password = $("[id='password']");
+    this.signinTitle = $('.heading-large');
     this.signinBtn = element(by.css('.button'));
 
     this.givenIAmLoggedIn = function(){
@@ -14,6 +13,11 @@ var signinPage = function() {
         this.enterPassword(conf.password);
         this.clickSignIn();
         };
+
+    this.givenIAmUnauthenticatedUser= function(){
+        this.enterUrEmail(conf.fakeEmail);
+        this.enterPassword(conf.password);
+    }
 
     this.enterUrEmail = function(email){
         this.emailAddress.sendKeys(email);

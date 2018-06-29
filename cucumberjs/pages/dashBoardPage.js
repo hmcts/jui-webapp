@@ -5,7 +5,7 @@ function dashBoardPage() {
     this.table = $("[data-selector='table-component']");
     this.rows = this.table.all($("[data-selector='table-row']"))
     this.dashboard_header = $("#lst-ib");
-    this.list_of_cases = $("[data-selector='table-row']");
+    this.number_of_rows = element.all(by.css("[data-selector='table-row']"));
     this.case_link = $("[data-selector='case-reference-link']");
 
 

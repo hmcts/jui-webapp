@@ -10,7 +10,6 @@ var report = require("cucumber-html-report");
 var jsonReports = process.cwd() + "/reports/json";
 var htmlReports = process.cwd() + "/reports/html";
 var targetJson = jsonReports + "/cucumber_report.json";
-var signoutPage = require("../pages/signoutPage");
 
 defineSupportCode(function({ registerHandler, After, registerListener }) {
     registerHandler("BeforeFeature", { timeout: 500 * 1000 }, function() {
@@ -18,9 +17,6 @@ defineSupportCode(function({ registerHandler, After, registerListener }) {
     });
 
     After(function(scenario) {
-        if(signoutPage.signout.isDisplayed()){
-            signoutPage.clickSignOut();
-        }
         if (scenario.isFailed()) {
             var attach = this.attach; // cucumber's world object has attach function which should be used
             return browser.takeScreenshot().then(function(png) {

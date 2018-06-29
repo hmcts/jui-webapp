@@ -1,6 +1,6 @@
 "use strict";
 
-var signoutPage = function() {
+var headerPage = function() {
 
     this.signout = element(by.linkText('Signout'));
 
@@ -9,4 +9,4 @@ var signoutPage = function() {
     }
 }
 
-module.exports = new signoutPage;
+module.exports = new headerPage;
