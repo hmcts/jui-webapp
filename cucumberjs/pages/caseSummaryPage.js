@@ -7,13 +7,24 @@ function caseSummaryPage(){
 
 
 
+
   this.selected_case_number = function () {
-
-      this.selected_case.first().isDisplayed();
       this.selected_case.first().getText();
+      }
 
 
-  }
+
+    // this.verify_case_num_for_that_case = function () {
+    //     this.selected_case.first().getText().then( async function(case_number){
+    //         browser.pause();
+    //         browser.ignoreSynchronization = true;
+    //         browser.driver.navigate().back();
+    //         browser.sleep(100000);
+    //         await browser.driver.sleep(10000);
+    //         browser.waitForAngular();
+    //         await expect(dashBoardPage.case_number_links.first().getText()).to.eventually.equal(case_number);
+    //     });
+    // }
 
 
 }

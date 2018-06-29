@@ -1,4 +1,3 @@
-@wip
 Feature: Dashboard
 
     Background:
@@ -7,9 +6,9 @@ Feature: Dashboard
         When one or more cases are displayed
 
 
-    @select_sscs_link @RIUI_370
+    @RIUI_370 @RIUI_418
     Scenario: Verify available SSCS cases
-        And all case references are hyperlinked
+        When all case numbers are hyperlinked
         When I select a case reference
         Then I will be redirected to the Case Summary page for that case
 
