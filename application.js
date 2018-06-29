@@ -6,6 +6,11 @@ const serviceTokenMiddleware = require('./api/middleware/service-token');
 const config = require('./config');
 const app = express();
 const cookieParser = require('cookie-parser');
+const appInsights = require('applicationinsights');
+
+const appInsightsInstrumentationKey = process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "AAAAAAAAAAAAAAAA";
+appInsights.setup(appInsightsInstrumentationKey).start();
+
 
 app.use(cookieParser());
 app.get('/oauth2/callback', apiRoute);
