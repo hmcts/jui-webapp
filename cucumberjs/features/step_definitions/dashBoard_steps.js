@@ -14,8 +14,8 @@ chai.use(require('chai-smoothie'));
 defineSupportCode(function ({Given, When, Then}) {
 
     Given(/^I am logged in as a Judge$/, async function () {
-        await logInPage.email.sendKeys('test@test.com');
-        await  logInPage.password.sendKeys('123');
+        await logInPage.email.sendKeys('');
+        await  logInPage.password.sendKeys('');
         await  logInPage.signin_btn.click();
 
     });
