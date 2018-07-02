@@ -37,7 +37,6 @@ var deleteCookiesSpy;
 var routerNavigateSpy;
 
 describe('AuthService', () => {
-    let setup;
     beforeEach(() => {
         deleteCookiesSpy = spyOn(cookieService, 'removeAll');
         routerNavigateSpy = spyOn(router, 'navigate');
@@ -65,6 +64,7 @@ describe('AuthService', () => {
     it('should generate a login url', inject([AuthService], (service: AuthService) => {
         const url = service.generateLoginUrl();
         expect(url).toEqual('http://idam_url.com/login?response_type=code&client_id=client_name&redirect_uri=callback_url')
+//        expect(url).toEqual('http://idam_url.com?response_type=code&client_id=client_name&redirect_uri=callback_url'); //SIDAM
     }));
 
     it('Should provide header versions of cookie values', inject([AuthService], (service: AuthService) => {
@@ -80,7 +80,7 @@ describe('AuthService', () => {
             service.decodeJwt = () => {
                 return {
                     exp: expiry
-                }
+                };
             };
             expect(service.isAuthenticated()).toEqual(false);
             expiry = new Date().getTime() - 3000;

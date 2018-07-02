@@ -12,7 +12,11 @@ module.exports = function(app) {
     app.use('/oauth2/callback', router);
 
     router.use((req, res) => {
-        getTokenFromCode(req.query.code).then(data => {
+        getTokenFromCode(
+            req.query.code,
+            req.protocol,
+            req.get('host')
+        ).then(data => {
             if(data.access_token) {
                 getUserDetails(data.access_token).then(details => {
                     // console.log(details);

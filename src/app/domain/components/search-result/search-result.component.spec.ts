@@ -37,7 +37,7 @@ const columns = [{
         'lookup': '$.last_modified',
         'date_format': 'd MMMM yyyy \'at\' h:mmaaaaa\'m\''
     }];
-const casesUrl = 'http://localhost:3000/api/cases';
+const casesUrl = '/api/cases';
 
 describe('SearchResultComponent', () => {
     let component: SearchResultComponent;

@@ -11,7 +11,6 @@ module.exports = {
         em_redact_api: "http://em-redact-saat.service.core-compute-saat.internal",
         coh_cor_api: "http://coh-cor-saat.service.core-compute-saat.internal"
     },
+    useProxy: true,
     api_base_url: "http://localhost:3000",
-    oauth_callback_url: "http://localhost:3000/oauth2/callback",
-    useProxy: true
 };

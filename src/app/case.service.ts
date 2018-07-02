@@ -1,10 +1,11 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {ConfigService} from './config.service';
 import {makeStateKey, TransferState} from '@angular/platform-browser';
 import 'rxjs/operators/map';
 import {catchError} from 'rxjs/operators';
+import {DOCUMENT} from '@angular/common';
 
 @Injectable()
 export class CaseService {

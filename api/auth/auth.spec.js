@@ -4,16 +4,20 @@ const supertest = require('supertest');
 const express = require('express');
 const config = require('../../config');
 // const sinon = require('sinon');
+const url = require('url');
 
 describe('oAuth callback route', () => {
 
-    let getTokenCodeSpy = jasmine.createSpy();
-    getTokenCodeSpy.and.callFake(() => Promise.resolve({
-        access_token: '__access__'
-    }));
+    let getTokenCodeSpy;
+
 
     let route, request, app;
     beforeEach(() => {
+        getTokenCodeSpy = jasmine.createSpy();
+        getTokenCodeSpy.and.callFake(() => Promise.resolve({
+            access_token: '__access__'
+        }));
+
         app = express();
 
         route = proxyquire('./index.js', {
@@ -39,12 +43,13 @@ describe('oAuth callback route', () => {
             });
     });
 
-    it('Should convert the idam code toa jwt', () => {
+    it('Should convert the idam code to a jwt', () => {
         return request
             .get('/oauth2/callback?code=bob')
             .then((res) => {
+                const myURL = url.parse(JSON.parse(JSON.stringify(res)).req.url);
                 expect(getTokenCodeSpy).toHaveBeenCalled();
-                expect(getTokenCodeSpy).toHaveBeenCalledWith('bob');
+                expect(getTokenCodeSpy).toHaveBeenCalledWith('bob', 'http', myURL.host);
             });
     });
 
