@@ -1,11 +1,13 @@
-<div class="grid-row">
-    <div class="column-full">
-        <ng-container *ngIf="targetDocument">
-            <ng-container *ngFor="let document of targetDocument">
-                <app-pdf-viewer *ngIf="document.isPdf" [url]="document.src"></app-pdf-viewer>
-                <app-image-viewer *ngIf="document.isImage" [url]="document.src"></app-image-viewer>
-                <app-unsupported-viewer *ngIf="document.isUnsupported" [url]="document.src"></app-unsupported-viewer>
-            </ng-container>
-        </ng-container>
+<div class="jui-casefile-files" *ngIf="documents">
+    <ul class="jui-casefile-list">
+        <li class="jui-casefile-list__item" *ngFor="let document of documents">
+            <a class="jui-casefile-list__link" href="{{document.id}}" data-selector="document">{{document.name}}</a>
+        </li>
+    </ul>
+</div>
+
+<div class="jui-casefile-document-wrapper" *ngIf="selectedDocument">
+    <div class="jui-casefile-page editable medium-editor-element" data-medium-editor-element="true" role="textbox" aria-multiline="true" data-medium-editor-editor-index="1" medium-editor-index="ca3cfb8f-8b6a-8f73-1ed5-fa7679703446" data-placeholder="Type your text">
+        <app-em-viewer [url]="selectedDocument.url"></app-em-viewer>
     </div>
 </div>

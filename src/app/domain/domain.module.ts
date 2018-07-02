@@ -4,11 +4,13 @@ import {SearchResultComponent} from './components/search-result/search-result.co
 import {SharedModule} from '../shared/shared.module';
 import {CaseViewerModule} from './case-viewer/case-viewer.module';
 import {HeaderComponent} from './components/header/header.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
     imports: [
         CommonModule,
-        SharedModule
+        SharedModule,
+        RouterModule
     ],
     exports: [
         SearchResultComponent,

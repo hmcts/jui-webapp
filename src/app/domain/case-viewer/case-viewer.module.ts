@@ -6,11 +6,13 @@ import { DocumentPanelComponent } from './components/document-panel/document-pan
 import { SummaryPanelComponent } from './components/summary-panel/summary-panel.component';
 import { PartiesPanelComponent } from './components/parties-panel/parties-panel.component';
 import { CaseNavComponent } from './components/case-nav/case-nav.component';
+import {EmViewerModule} from 'em-viewer-web';
 
 @NgModule({
     imports: [
         CommonModule,
-        SharedModule
+        SharedModule,
+        EmViewerModule
     ],
     exports: [
         CaseViewerComponent,
