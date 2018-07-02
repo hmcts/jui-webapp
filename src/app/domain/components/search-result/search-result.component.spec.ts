@@ -14,7 +14,7 @@ const columns = [{
         'label': 'Parties',
         'order': 2,
         'case_field_id': 'parties',
-        'lookup': ['$.appeal.appellant.name.firstName', '$.appeal.appellant.name.lastName', 'versus DWP']
+        'lookup': ['$.appeal.appellant.name.firstName', '$.appeal.appellant.name.lastName', 'vs DWP']
     },
     {
         'label': 'Type',
@@ -28,14 +28,14 @@ const columns = [{
         'order': 4,
         'case_field_id': 'caseStartDate',
         'lookup': '$.created_date',
-        'date_format': 'd MMMM yyyy \'at\' h:mma'
+        'date_format': 'd MMMM yyyy \'at\' h:mmaaaaa\'m\''
     },
     {
         'label': 'Date of Last Action',
         'order': 5,
         'case_field_id': 'dateOfLastAction',
         'lookup': '$.last_modified',
-        'date_format': 'd MMMM yyyy \'at\' h:mma'
+        'date_format': 'd MMMM yyyy \'at\' h:mmaaaaa\'m\''
     }];
 const casesUrl = 'http://localhost:3000/api/cases';
 
@@ -149,10 +149,10 @@ describe('SearchResultComponent', () => {
 
             it('should have have dates formatted properly', () => {
                 expect(nativeElement.querySelector(Selector.selector('caseStartDate-value')).textContent)
-                    .toEqual('21 June 2018 at 12:56PM');
+                    .toEqual('21 June 2018 at 12:56pm');
 
                 expect(nativeElement.querySelector(Selector.selector('dateOfLastAction-value')).textContent)
-                    .toEqual('21 June 2018 at 12:58PM');
+                    .toEqual('21 June 2018 at 12:58pm');
             });
         });
     });

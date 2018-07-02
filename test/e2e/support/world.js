@@ -42,6 +42,8 @@ class World {
         this.config = config;
         this.config.serverUrls = global.browser.params.serverUrls;
         this.config.targetEnv = global.browser.params.targetEnv;
+        this.config.username = global.browser.params.username;
+        this.config.password = global.browser.params.password;
     }
 
     getSelector(field) {

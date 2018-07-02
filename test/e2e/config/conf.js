@@ -5,7 +5,6 @@ const argv = minimist(process.argv.slice(2));
 const tagProcessor = require('../support/tagProcessor');
 
 chai.use(chaiAsPromised);
-
 const config = {
     params: {
         serverUrls: {
@@ -14,6 +13,8 @@ const config = {
             // prod: 'https://forecaster.ovum.com'
         },
         targetEnv: argv.env || 'local',
+        username: process.env.BDD_USERNAME,
+        password: process.env.BDD_PASSWORD
     },
     directConnect: true,
     seleniumAddress: 'http://localhost:4444/wd/hub',

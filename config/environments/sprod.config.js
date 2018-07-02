@@ -1,8 +1,10 @@
 module.exports = {
     services: {
         ccd_data_api: "https://ccd-data-store-api-sprod.service.core-compute-sprod.internal",
-        idam_web: "https://idam-web-public-idam-sprod.service.core-compute-sprod.internal",
-        idam_api: "https://idam-api-idam-sprod.service.core-compute-sprod.internal",
+        // idam_web: "https://idam-web-public-idam-saat.service.core-compute-saat.internal",
+        // idam_api: "https://idam-api-idam-saat.service.core-compute-saat.internal",
+        idam_web: "https://idam-test.dev.ccidam.reform.hmcts.net",
+        idam_api: "http://betaDevBccidamAppLB.reform.hmcts.net",
         s2s: "http://rpe-service-auth-provider-sprod.service.core-compute-sprod.internal",
         dm_store_api: "http://dm-store-sprod.service.core-compute-sprod.internal",
         em_anno_api: "http://em-anno-sprod.service.core-compute-sprod.internal",
