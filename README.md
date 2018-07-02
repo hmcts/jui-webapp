@@ -34,8 +34,23 @@ yarn start
 ```
 
 ## Run Local with docker
-WIP atm
-
-
+```bash
+export JUI_ENV=docker;
+yarn install;
+yarn build;
+yarn start;
+```
+spin up docker
+```bash
+./docker/buildrun-docker-base.sh
+```
+setup test idam users
+```bash
+./bin/idam/idam.sh
+```
+setup test ccd data (note you need to find your own ccd def file)
+```bash
+./bin/ccd/ccd.sh ~/Downloads/CCD_Definition.xlsx
+```
 ## Run test...
 WIP
