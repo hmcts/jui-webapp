@@ -16,7 +16,7 @@ describe('DocumentPanelComponent', () => {
     describe('when we have a document id in the url', () => {
         beforeEach(async(() => {
             mockRouter = jasmine.createSpyObj(['navigate']);
-            mockRoute = {queryParamMap: of({doc_id: '13eb9981-9360-4d4b-b9fd-506b5818e7ff'})};
+            mockRoute = {paramMap: of({doc_id: '13eb9981-9360-4d4b-b9fd-506b5818e7ff'})};
 
             TestBed.configureTestingModule({
                 imports: [CaseViewerModule],
