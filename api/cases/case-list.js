@@ -11,6 +11,7 @@ function rawCasesReducer(cases, columns) {
     return cases.map(caseRow => {
         return {
             case_id: caseRow.id,
+            case_reference: valueProcessor(sscsCaseListTemplate.case_number.label, caseRow),
             case_fields : columns.reduce((row, column) => {
                 row[column.case_field_id] = valueProcessor(column.value, caseRow);
                 return row;
@@ -36,6 +37,6 @@ module.exports = (req, res, next) => {
         res.status(200).send(JSON.stringify(aggregatedData));
     }).catch(response => {
         console.log(response.error || response);
-        res.status(response.error.status).send(response.error.message);
+        res.status(response.error.status || 500).send(response.error.message);
     });
 };
