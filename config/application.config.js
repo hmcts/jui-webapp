@@ -4,5 +4,5 @@ module.exports = {
         token: '__auth__',
         userId: '__userid__'
     },
-    idam_client: 'juiwebapp'
+    idam_client: 'jui_webapp'
 };

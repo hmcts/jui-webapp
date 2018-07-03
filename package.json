@@ -6,7 +6,7 @@
     "ng": "ng",
     "build": "npm run build-universal",
     "build-universal": "npm run build:client-and-server-bundles",
-    "start": "node server.js",
+    "start": "node --inspect=5858 server.js",
     "start-dev": "ng serve",
     "start-dev-proxy": "ng serve --proxy-config proxy.config.json",
     "start-dev-docker-proxy": "export JUI_ENV=docker; ng serve --proxy-config proxy.config.json",
