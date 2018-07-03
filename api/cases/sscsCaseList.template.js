@@ -1,7 +1,6 @@
 module.exports = {
     "case_number": {
         "label": "$.case_data.caseReference",
-        "value": '$.id'
     },
     "columns": [
         {
