@@ -4,28 +4,28 @@ module.exports = {
             "label": "Parties",
             "order": 2,
             "case_field_id": "parties",
-            "lookup": ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName", "versus DWP"]
+            "value": ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName", "vs DWP"]
         },
         {
             "label": "Type",
             "order": 3,
             "case_field_id": "type",
-            "lookup": "PIP",
+            "value": "PIP",
 
         },
         {
             "label": "Case Start Date",
             "order": 4,
             "case_field_id": "caseStartDate",
-            "lookup": "$.created_date",
-            "date_format": "d MMMM yyyy \'at\' h:mma"
+            "value": "$.created_date",
+            "date_format": "d MMMM yyyy \'at\' h:mmaaaaa\'m\'"
         },
         {
             "label": "Date of Last Action",
             "order": 5,
             "case_field_id": "dateOfLastAction",
-            "lookup": "$.last_modified",
-            "date_format": "d MMMM yyyy \'at\' h:mma"
+            "value": "$.last_modified",
+            "date_format": "d MMMM yyyy \'at\' h:mmaaaaa\'m\'"
         }
     ],
     "results": []

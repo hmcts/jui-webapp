@@ -24,8 +24,25 @@ function dashBoardPage() {
 
     this.get_a_case_num = function () {
         this.case_number_links.first().getText();
-        }
+        };
 
+
+
+    // var no_of_cases = dashBoardPage.number_of_rows.then(function (number_of_rows){
+    //     return number_of_rows.count();
+    // });
+    //
+    // var no_of_case_reference = dashBoardPage.case_number_links.then(function(no_of_cases){
+    //     return no_of_cases.count();
+    // });
+    // assert(no_of_cases === no_of_case_reference, 'no table present');
+    // next();
+    //
+
+
+
+    // var case_num = caseSummaryPage.selected_case.get(1);  related to RIUI_299
+    // await expect(case_num).to.be.present;
 
 
 }

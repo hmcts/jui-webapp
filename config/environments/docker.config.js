@@ -1,7 +1,7 @@
 module.exports = {
     services: {
         ccd_data_api: "http://localhost:4452",
-        idam_web: "https://localhost:3501/login",
+        idam_web: "https://localhost:3501",
         idam_api: "http://localhost:4501",
         s2s: "http://localhost:4502",
         dm_store_api: "http://localhost:4603",

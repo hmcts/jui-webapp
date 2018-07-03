@@ -56,6 +56,6 @@ exports.config = {
         strict: true,
         format: ['pretty'],
         require: ['../features/step_definitions/*.js', '../support/*.js'],
-        tags: '@wip'
+        tags: ''
     }
 };

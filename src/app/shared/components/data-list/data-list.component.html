@@ -1,0 +1,13 @@
+<div data-selector="data-list-component">
+    <h2 data-selector="title" class="gov-heading-s  govuk-!-mb-r2">{{title}}</h2>
+    <table class="govuk-table govuk-!-f-16  govuk-!-mb-r7">
+        <tbody class="govuk-table__body">
+        <ng-container *ngFor="let dataItem of dataList">
+            <tr data-selector="table-row" class="govuk-table__row">
+                <th data-selector="table-header" class="govuk-table__header" scope="row">{{dataItem.label}}</th>
+                <td data-selector="table-cell" class="govuk-table__cell ">{{dataItem.value}}</td>
+            </tr>
+        </ng-container>
+        </tbody>
+    </table>
+</div>

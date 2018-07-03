@@ -14,32 +14,32 @@ module.exports = {
                             fields: [
                                 {
                                     label: 'Parties',
-                                    lookup: '$.id'
+                                    value: ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName", "vs DWP"],
                                 },
                                 {
                                     label: 'Case number',
-                                    lookup: '$.id'
+                                    value: '$.case_data.caseReference'
                                 },
                                 {
                                     label: 'Case type',
-                                    lookup: '$.case_type_id'
+                                    value: '$.case_data.appeal.benefitType.code'
                                 }
                             ]
                         },
                         {
-                            name: 'Representative',
+                            name: 'Representatives',
                             fields: [
                                 {
                                     label: 'Judge',
-                                    value: 'Prita Shah'
+                                    value: '$.case_data.panel.assignedTo'
                                 },
                                 {
-                                    label: 'Case number',
-                                    lookup: '$.id'
+                                    label: 'Medical Member',
+                                    value: '$.case_data.panel.medicalMember'
                                 },
                                 {
-                                    label: 'Case type',
-                                    lookup: '$.case_type_id'
+                                    label: 'Disability qualified member',
+                                    value: '$.case_data.panel.disabilityQualifiedMember'
                                 }
                             ]
                         }
@@ -64,15 +64,15 @@ module.exports = {
                             fields: [
                                 {
                                     label: 'Parties',
-                                    lookup: '$.id'
+                                    value: '$.id'
                                 },
                                 {
                                     label: 'Case number',
-                                    lookup: '$.id'
+                                    value: '$.id'
                                 },
                                 {
                                     label: 'Case type',
-                                    lookup: '$.case_type_id'
+                                    value: '$.case_type_id'
                                 }
                             ]
                         },
@@ -83,15 +83,15 @@ module.exports = {
                             fields: [
                                 {
                                     label: 'Parties',
-                                    lookup: '$.id'
+                                    value: '$.id'
                                 },
                                 {
                                     label: 'Case number',
-                                    lookup: '$.id'
+                                    value: '$.id'
                                 },
                                 {
                                     label: 'Case type',
-                                    lookup: '$.case_type_id'
+                                    value: '$.case_type_id'
                                 }
                             ]
                         }
@@ -110,7 +110,7 @@ module.exports = {
                     type: 'document-panel',
                     fields: [
                         {
-                            lookup: '$.case_data.sscsDocument'
+                            value: '$.case_data.sscsDocument'
                         }
                     ]
                 }

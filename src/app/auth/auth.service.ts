@@ -26,7 +26,7 @@ export class AuthService {
         const base = this.configService.config.services.idam_web;
         const clientId = this.configService.config.idam_client;
         const callback = this.configService.config.oauth_callback_url;
-        return `${base}?response_type=code&client_id=${clientId}&redirect_uri=${callback}`;
+        return `${base}/login?response_type=code&client_id=${clientId}&redirect_uri=${callback}`;
     }
 
     getAuthHeaders() {

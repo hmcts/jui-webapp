@@ -2,7 +2,6 @@ const proxyquire = require('proxyquire');
 const supertest = require('supertest');
 const express = require('express');
 const router = express.Router();
-const config = require('../../config');
 const sscsCaseListTemplate = require('./sscsCaseList.template');
 
 describe('case-list spec', () => {
@@ -78,7 +77,7 @@ describe('case-list spec', () => {
                     expect(response.body.results[0]).toEqual({
                         case_id: caseData[0].id,
                         case_fields: {
-                            parties: 'Louis Houghton versus DWP',
+                            parties: 'Louis Houghton vs DWP',
                             type: 'PIP',
                             caseStartDate: createdDate.toISOString(),
                             dateOfLastAction: updatedDate.toISOString()
