@@ -9,6 +9,7 @@ const cookieParser = require('cookie-parser');
 
 app.use(cookieParser());
 app.get('/oauth2/callback', apiRoute);
+app.get('/logout', apiRoute);
 
 app.get("/health", healthcheck.configure({
     checks: {

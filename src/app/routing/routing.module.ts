@@ -10,6 +10,8 @@ import { ViewCaseFileComponent } from './pages/view-case-file/view-case-file.com
 import { HttpClientModule } from '@angular/common/http';
 import { CaseService } from '../case.service';
 import { CaseFileService } from '../case-file.service';
+import { RedirectionService} from "./redirection.service";
+import { LogoutComponent } from "./pages/logout/logout.component";
 
 const routes: Routes = [
     {
@@ -25,6 +27,10 @@ const routes: Routes = [
         path: 'viewcase/:case_id/casefile/:doc_id',
         component: ViewCaseFileComponent
     }
+    // {
+    //     path: 'logout',
+    //     component: LogoutComponent
+    // }
 ];
 
 @NgModule({
@@ -38,11 +44,13 @@ const routes: Routes = [
     declarations: [
         HomeComponent,
         ViewCaseComponent,
-        ViewCaseFileComponent
+        ViewCaseFileComponent,
+        LogoutComponent
     ],
     providers: [
         CaseService,
-        CaseFileService
+        CaseFileService,
+        RedirectionService
     ],
     exports: [
         RouterModule

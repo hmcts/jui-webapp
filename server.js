@@ -32,6 +32,8 @@ app.use(express.static(__dirname + '/dist', { index: false }));
 
 app.get('/*', (req, res) => {
     console.time(`GET: ${req.originalUrl}`);
+
+    res.headers = res.getHeaders();
     res.render('./dist/index', {
         req: req,
         res: res,

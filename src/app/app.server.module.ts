@@ -5,7 +5,8 @@ import { ModuleMapLoaderModule } from '@nguniversal/module-map-ngfactory-loader'
 import { AppModule } from './app.module';
 import { AppComponent } from './app.component';
 import { CookieService, CookieBackendService } from 'ngx-cookie';
-
+import {RedirectionService} from "./routing/redirection.service";
+import {  ServerRedirectionService} from "./routing/redirection.service.server";
 
 @NgModule({
     imports: [
@@ -19,15 +20,13 @@ import { CookieService, CookieBackendService } from 'ngx-cookie';
         ModuleMapLoaderModule // The new module
     ],
     bootstrap: [ AppComponent ],
-    providers: [{ provide: CookieService, useClass: CookieBackendService }]
+    providers: [
+        { provide: CookieService, useClass: CookieBackendService },
+        { provide: RedirectionService, useClass: ServerRedirectionService }
+    ]
 })
 export class AppServerModule {
     constructor() {
         console.log('server!');
-
-
-
-
-
     }
 }

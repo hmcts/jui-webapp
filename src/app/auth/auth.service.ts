@@ -1,9 +1,8 @@
 import {Inject, Injectable} from '@angular/core';
-import {Router} from '@angular/router';
 import {CookieService} from "ngx-cookie";
 import * as jwtDecode from 'jwt-decode';
 import {ConfigService} from "../config.service";
-import {DOCUMENT} from '@angular/common';
+import { RedirectionService} from "../routing/redirection.service";
 
 @Injectable({
     providedIn: 'root'
@@ -12,10 +11,9 @@ export class AuthService {
 
     COOKIE_KEYS;
 
-    constructor(public router: Router,
-                private configService: ConfigService,
+    constructor(private configService: ConfigService,
                 private cookieService: CookieService,
-                @Inject(DOCUMENT) private document: any) {
+                private redirectionService: RedirectionService) {
         this.COOKIE_KEYS = {
             TOKEN: this.configService.config.cookies.token,
             USER: this.configService.config.cookies.userId
@@ -41,13 +39,18 @@ export class AuthService {
     }
 
     loginRedirect() {
-        this.document.location.href = this.generateLoginUrl();
+        this.redirectionService.redirect(this.generateLoginUrl());
     }
 
-    logout() {
-        this.cookieService.removeAll();
-        this.loginRedirect();
-    }
+    // logout() {
+    //     console.log('111111111111111');
+    //     this.cookieService.removeAll();
+    //     console.log('222222222222');
+    //     // setTimeout(() => {
+    //     //     this.redirectionService.redirect('/');
+    //     //     console.log('333333333333333');
+    //     // }, 3000);
+    // }
 
     decodeJwt(jwt) {
         return jwtDecode(jwt);

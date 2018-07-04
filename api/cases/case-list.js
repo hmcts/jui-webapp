@@ -36,6 +36,6 @@ module.exports = (req, res, next) => {
         res.status(200).send(JSON.stringify(aggregatedData));
     }).catch(response => {
         console.log(response.error || response);
-        res.status(response.error.status).send(response.error.message);
+        res.status(response.statusCode).send(response);
     });
 };
