@@ -10,10 +10,6 @@ exports.config = {
     allScriptsTimeout: 500000,
     baseUrl:'',
 
-    //email:'',
-    //password:'',
-    // fakeEmail: '',
-
     capabilities: {
         browserName: 'chrome',
     },

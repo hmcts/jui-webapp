@@ -38,9 +38,6 @@ function generateToken() {
     return new Promise((resolve, reject) => {
         request(options, (err, res, body) => {
             console.log(err);
-            console.log(res.statusCode);
-
-            console.log(body);
 
             const tokenData = jwtDecode(body);
             _cache[microservice] = {

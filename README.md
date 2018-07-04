@@ -34,8 +34,26 @@ yarn start
 ```
 
 ## Run Local with docker
-WIP atm
-
+To Run the Angular code with docker
+```bash
+yarn start-dev-docker-proxy;
+```
+To Run the Node Code with docker
+```bash
+yarn start-dev-docker-node;
+```
+spin up docker
+```bash
+./docker/buildrun-docker-base.sh
+```
+setup test idam users
+```bash
+./bin/idam/idam.sh
+```
+setup test ccd data (note you need to find your own ccd def file)
+```bash
+./bin/ccd/ccd.sh ~/Downloads/CCD_Definition.xlsx
+```
 
 ## Run test...
 WIP

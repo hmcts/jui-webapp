@@ -1,8 +1,8 @@
 'use strict';
 
 function caseSummaryPage(){
-  this.caseSummary_header_text = $("h1");
-  this.caseDetails_header_text = $("h2");
+  this.caseSummary_header_text = element(by.css('h1'));
+  this.caseDetails_header_text = element.all(by.css(('h2[data-selector="title"]:nth-child(1)')));
   this.selected_case = element.all(by.css("[data-selector='table-cell']"));  //selector not working
 
 

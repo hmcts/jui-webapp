@@ -1,32 +1,32 @@
 const {Given, When, Then} = require('cucumber');
+const EC = protractor.ExpectedConditions;
 
-Then(/^I (?:can|should) see "(.*)" at least "(\d+)" times?$/, {retry: 2}, function (selector, count) {
-    // selector = this.getSelector(selector);
-    // const result = this.client.elements(selector);
-    // this.expect(result.value.length).to.be.at.least(parseInt(count, 10));
+Then(/^I (?:can|should) see "(.*)" at least "(\d+)" times?$/, {retry: 2}, async function (selector, count) {
+    selector = this.getSelector(selector);
+    const items = await $$(selector);
+    expect(items.length).to.be.at.least(parseInt(count, 10));
 });
 
-Then(/^I (?:can|should) see "(.*)" exactly "(\d+)" times?$/, {retry: 2}, function (selector, count) {
-    // selector = this.getSelector(selector);
-    // const result = this.client.elements(selector);
-    // this.expect(result.value.length).to.equal(parseInt(count, 10));
+Then(/^I (?:can|should) see "(.*)" exactly "(\d+)" times?$/, {retry: 2}, async function (selector, count) {
+    selector = this.getSelector(selector);
+    const items = await $$(selector);
+    expect(items.length).to.equal(parseInt(count, 10));
 });
 
-Then(/^I (?:can|should) expect "(.*)" text to( not)? "(.*)" "(.*)"$/, {retry: 2}, function (selector, not, matchers, text) {
-    // selector = this.getSelector(selector);
-    // matchers = matchers.split(',');
-    // const operator = matchers[0];
-    // const modifier = matchers[1] || '';
-    //
-    // const elementText = this.client.getText(selector);
-    // if (operator === 'match') {
-    //     text = new RegExp(text, modifier);
-    // }
-    // let expect = this.expect(elementText).to;
-    // if (not) {
-    //     expect = expect.not;
-    // }
-    // expect[operator](text);
+Then(/^I (?:can|should) expect "(.*)" text to( not)? "(.*)" "(.*)"$/, {retry: 2}, async function (selector, not, matchers, text) {
+    selector = this.getSelector(selector);
+    matchers = matchers.split(',');
+    const operator = matchers[0];
+    const modifier = matchers[1] || '';
+    const elementText = await $(selector).getText();
+    if (operator === 'match') {
+        text = new RegExp(text, modifier);
+    }
+    let expectation = expect(elementText).to;
+    if (not) {
+        expectation = expectation.not;
+    }
+    expectation[operator](text);
 });
 
 const invert = (should, not) => not ? should.not : should;
@@ -61,31 +61,27 @@ Then(/^I (?:can|should) expect the url to( not)? "(.*)" "(.*)"$/, async function
     invert(this.expect(url).to, not)[operator](text);
 });
 
-Then(/^I should expect the title to( not)? "(.*)" "(.*)"$/, {retry: 2}, function (not, matchers, text) {
-    // matchers = matchers.split(',');
-    // const operator = matchers[0];
-    // const modifier = matchers[1] || '';
-    // const titleText = this.client.getTitle();
-    // if (operator === 'match') {
-    //     text = new RegExp(text, modifier);
-    // }
-    // let expect = this.expect(titleText).to;
-    // if (not) {
-    //     expect = expect.not;
-    // }
-    // expect[operator](text);
+Then(/^I should expect the title to( not)? "(.*)" "(.*)"$/, {retry: 2}, async function (not, matchers, text) {
+    matchers = matchers.split(',');
+    const operator = matchers[0];
+    const modifier = matchers[1] || '';
+    const title = await browser.getTitle();
+    if (operator === 'match') {
+        text = new RegExp(text, modifier);
+    }
+    let expectation = expect(title).to;
+    if (not) {
+        expectation = expectation.not;
+    }
+    expectation[operator](text);
 });
 
 Then(/^I should expect "(.*)" to( not)? be visible$/, {retry: 2}, async function (selector, not) {
-    await browser.wait(async () => {
-        const present = await $(this.getSelector('jui-header')).isPresent();
-        if(not){
-            expect(present).toBeTruthy();
-        }
-        else {
-            expect(present).toBeFalsy();
-        }
-    }, 5000);
+    selector = this.getSelector(selector);
+    let condition;
+    if(not) condition = EC.invisibilityOf($(selector));
+    else condition = EC.visibilityOf($(selector));
+    await browser.wait(condition, 5000);
 });
 
 Then(/^I should expect "(.*)" to( not)? be visible within viewport$/, {retry: 2}, function (selector, not) {
@@ -104,10 +100,10 @@ Then(/^I should expect "(.*)" to( not)? be visible within viewport$/, {retry: 2}
     // }
 });
 
-Then(/^I should expect "(.*)" to( not)? exist$/, {retry: 4}, function (selector, not) {
-    // selector = this.getSelector(selector);
-    // const isExisting = this.client.isExisting(selector);
-    // this.expect(isExisting).to.equal(!not);
+Then(/^I should expect "(.*)" to( not)? exist$/, {retry: 4}, async function (selector, not) {
+    selector = this.getSelector(selector);
+    const isPresent = await $(selector).isPresent();
+    expect(isPresent).to.equal(!not);
 });
 
 Then(/^I should expect "(.*)" checkboxes to( not)? be checked$/, {retry: 2}, function (selector, not) {
@@ -135,17 +131,9 @@ Then(/^I should expect "(.*)" to have a selected checkbox containing "(.*)"$/, {
     // this.expect(elementId).to.contain(content);
 });
 
-Then(/^I should expect search results for "(.*)" to contain "(.*)"$/, {retry: 15}, function (selector, content) {
-    // const searchResultsElements = this.getSelector(selector) + ' li span';
-    // const searchResults = this.client.elements(searchResultsElements);
-    // const searchResultsMatching = searchResults.value
-    //     .map(e => e.getText().toString().toLowerCase())
-    //     .filter(v => v.indexOf(content.toLowerCase()) > -1);
-    //
-    // this.expect(searchResultsMatching).to.have.length.above(0);
-});
-
 Then(/^I should wait for "(.*)" to( not)? be visible$/, {retry: 4}, function (selector, not) {
+
+
     // selector = this.getSelector(selector);
     // const element = $(selector);
     // this.client.waitForVisible(selector, this.EXPECTATION_TIMEOUT, !!not);
