@@ -9,8 +9,21 @@ const cookieParser = require('cookie-parser');
 const appInsights = require('applicationinsights');
 
 const appInsightsInstrumentationKey = process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "AAAAAAAAAAAAAAAA";
-appInsights.setup(appInsightsInstrumentationKey).start();
+appInsights.setup(appInsightsInstrumentationKey)
+    .setAutoDependencyCorrelation(true)
+    .setAutoCollectRequests(true)
+    .setAutoCollectPerformance(true)
+    .setAutoCollectExceptions(true)
+    .setAutoCollectDependencies(true)
+    .setAutoCollectConsole(true)
+    .setUseDiskRetryCaching(true)
+    .start();
 
+let client = appInsights.defaultClient;
+client.trackTrace({message: "Test Message App Insight Activated"});
+
+
+app.use()
 
 app.use(cookieParser());
 app.get('/oauth2/callback', apiRoute);
