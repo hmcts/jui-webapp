@@ -3,6 +3,7 @@ import { CaseViewerModule } from '../../case-viewer.module';
 import { SummaryPanelComponent } from './summary-panel.component';
 import { DebugElement } from '@angular/core';
 import { Selector } from '../../../../../../test/selector-helper';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('SummaryPanelComponent', () => {
     let component: SummaryPanelComponent;
@@ -11,9 +12,9 @@ describe('SummaryPanelComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [CaseViewerModule]
+            imports: [CaseViewerModule, RouterTestingModule]
         })
-               .compileComponents();
+       .compileComponents();
     }));
 
     beforeEach(() => {
@@ -29,6 +30,7 @@ describe('SummaryPanelComponent', () => {
 
     describe('Setting inputs', () => {
         beforeEach(() => {
+
             component.panelData = {
                 'name': 'Summary',
                 'type': 'summary-panel',
@@ -62,6 +64,28 @@ describe('SummaryPanelComponent', () => {
                                 'value': 'na'
                             }
                         ]
+                    },
+                    {
+                        'id': 'recentEvents',
+                        'name': 'Recent events',
+                        'fields': [
+                            {
+                                'value': [
+                                    {
+                                        'event_name': 'Create/update Panel',
+                                        'user_first_name': 'John',
+                                        'user_last_name': 'Smith',
+                                        'created_date': '2018-07-05T11:37:44.854'
+                                    },
+                                    {
+                                        'event_name': 'Appeal created',
+                                        'user_first_name': 'Gilbert',
+                                        'user_last_name': 'Smith',
+                                        'created_date': '2018-07-05T11:36:51.125'
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ]
             };
@@ -75,8 +99,26 @@ describe('SummaryPanelComponent', () => {
 
         it(`should set the DataList Component's title to the sections name`, () => {
             const actualTitles = element.nativeElement.querySelectorAll(Selector.selector('title'));
-            component.panelData.sections.map((expectedItem, index) => {
+            component.panelData.sections.filter(s => s.id !== 'recentEvents').map((expectedItem, index) => {
                 expect(actualTitles[index].textContent).toEqual(expectedItem.name);
+            });
+        });
+
+        it(`should see the recent events`, () => {
+            it('should see two events', () => {
+                expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-item')).length).toBe(2);
+            });
+
+            it('should see HEARING first and CREATED_EVENT second', () => {
+                expect(element.nativeElement.querySelectorAll(
+                    Selector.selector('timeline-event-name'))[0].textContent).toBe('Create/update Panel');
+                expect(element.nativeElement.querySelectorAll(
+                    Selector.selector('timeline-event-name'))[1].textContent).toBe('Appeal created');
+            });
+
+            it('should see John first and Gilbert second', () => {
+                expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-by'))[0].textContent).toBe('by John Smith');
+                expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-by'))[1].textContent).toBe('by Gilbert Smith');
             });
         });
     });

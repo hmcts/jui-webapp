@@ -52,6 +52,15 @@ module.exports = {
                                     value: '$.case_data.panel.disabilityQualifiedMember'
                                 }
                             ]
+                        },
+                        {
+                            id: 'recentEvents',
+                            name: 'Recent events',
+                            fields: [
+                                {
+                                    value: '$.events'
+                                }
+                            ]
                         }
                     ]
                 }

@@ -150,6 +150,9 @@ describe('case spec', () => {
 
                 const caseDetails = actualSummarySection.sections[0].sections[0];
                 const representatives = actualSummarySection.sections[0].sections[1];
+
+                expect(jsonRes.caseId).toBe('1');
+
                 expect(caseDetails.fields).toEqual([
                     {
                         "label": "Parties",
