@@ -10,6 +10,7 @@ import {ConfigService} from '../../../config.service';
 import {BrowserTransferStateModule, StateKey} from '@angular/platform-browser';
 import {makeStateKey, TransferState} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
+import {RouterTestingModule} from '@angular/router/testing';
 
 const columns = [{
         'label': 'Parties',
@@ -49,7 +50,7 @@ describe('SearchResultComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [],
-            imports: [DomainModule, SharedModule, BrowserTransferStateModule, HttpClientTestingModule],
+            imports: [DomainModule, SharedModule, BrowserTransferStateModule, HttpClientTestingModule, RouterTestingModule],
             providers: [CaseService, ConfigService]
         })
             .compileComponents();

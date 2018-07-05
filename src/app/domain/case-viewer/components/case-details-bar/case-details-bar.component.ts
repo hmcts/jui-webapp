@@ -13,7 +13,6 @@ export class CaseDetailsBarComponent implements OnChanges {
     constructor() { }
 
     ngOnChanges(changes) {
-        console.dir(this.case);
         if (this.case && this.case.details) {
                 this.targetSection = this.case.details;
         }
