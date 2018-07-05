@@ -87,8 +87,36 @@ describe('DocumentPanelComponent', () => {
                 expect(component).toBeTruthy();
             });
 
-            it('when display a list of documents', () => {
+            it('should display a list of documents', () => {
                 expect(nativeElement.querySelectorAll(Selector.selector('document')).length).toBe(1);
+            });
+        });
+
+        describe('when we receive a section without documents', () => {
+            const data = {
+                id: 'documents',
+                name: 'Documents',
+                type: 'document-panel',
+                fields: [
+                    {
+                        value: []
+                    }
+                ]
+            };
+            beforeEach(async(() => {
+                fixture = TestBed.createComponent(DocumentPanelComponent);
+                component = fixture.componentInstance;
+                component.panelData = data;
+                nativeElement = fixture.nativeElement;
+                fixture.detectChanges();
+            }));
+
+            it('should create', () => {
+                expect(component).toBeTruthy();
+            });
+
+            it('should not display a list of documents', () => {
+                expect(nativeElement.querySelectorAll(Selector.selector('document')).length).toBe(0);
             });
         });
     });
