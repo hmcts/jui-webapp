@@ -8,15 +8,7 @@
     </div>
     <div class="govuk-grid-column-one-third">
         <h2 class="govuk-heading-m  govuk-!-margin-bottom-4">Recent events</h2>
-        <div class="jui-timeline">
-            <div *ngFor="let event of getRecentEvents()" data-selector="timeline-item" class="jui-timeline__item">
-                <div class="jui-timeline__header">
-                    <h2 class="jui-timeline__title" data-selector="timeline-event-name">{{event.event_name}}</h2>
-                    <p class="jui-timeline__by" data-selector="timeline-by">by {{event.user_first_name}} {{event.user_last_name}}</p>
-                </div>
-                <p class="jui-timeline__date" data-selector="timeline-date">{{event.created_date | date: "dd MMMM y 'at' h:mma"}}</p>
-            </div>
-        </div>
+        <app-timeline-widget [events]="getRecentEvents()" ></app-timeline-widget>
         <p><a (click)="goToTimeline()">View all events</a></p>
     </div>
 </div>
