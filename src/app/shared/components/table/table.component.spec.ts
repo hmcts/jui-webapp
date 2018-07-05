@@ -86,6 +86,7 @@ const columns = [
 
 const result1 = {
     'case_id': 1528476356357908,
+    'case_reference': '123-123-123',
     'case_fields': {
         'caseReference': null,
         'parties': 'A vs May_146863',
@@ -97,6 +98,7 @@ const result1 = {
 };
 const result2 = {
     'case_id': 1528476358303157,
+    'case_reference': '321-321-321',
     'case_fields': {
         'caseReference': null,
         'parties': 'B vs May_417228',

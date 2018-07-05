@@ -120,6 +120,7 @@ describe('SearchResultComponent', () => {
         describe('when some rows are returned', () => {
             const results = [{
                 case_id: '987654321',
+                case_reference: '123-456-789',
                 case_fields: {
                     parties: 'Louis Houghton versus DWP',
                     type: 'PIP',
@@ -160,6 +161,7 @@ describe('SearchResultComponent', () => {
     describe('when there is some data in the transfer state', () => {
         const results = [{
             case_id: '987654321',
+            case_reference: '123-456-789',
             case_fields: {
                 parties: 'Louis Houghton versus DWP',
                 type: 'PIP',
