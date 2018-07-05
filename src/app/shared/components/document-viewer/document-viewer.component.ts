@@ -15,10 +15,10 @@ import {UrlFixerService} from './url-fixer.service';
 
 @Component({
   selector: 'app-document-viewer',
-  templateUrl: './em-viewer.component.html',
-  styleUrls: ['./em-viewer.component.scss']
+  templateUrl: './document-viewer.component.html',
+  styleUrls: ['./document-viewer.component.scss']
 })
-export class EmViewerComponent implements OnChanges, OnInit  {
+export class DocumentViewerComponent implements OnChanges, OnInit  {
 
   @ViewChild(ViewerAnchorDirective) viewerAnchor: ViewerAnchorDirective;
   @Input() url: string;

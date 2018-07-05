@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {EmViewerComponent} from './em-viewer.component';
+import {DocumentViewerComponent} from './document-viewer.component';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserModule} from '@angular/platform-browser';
 import {PdfViewerModule} from 'ng2-pdf-viewer';
@@ -13,7 +13,7 @@ import {UrlFixerService} from './url-fixer.service';
 
 @NgModule({
   declarations: [
-    EmViewerComponent,
+    DocumentViewerComponent,
     PdfViewerComponent,
     ImgViewerComponent,
     UnsupportedViewerComponent,
@@ -24,7 +24,7 @@ import {UrlFixerService} from './url-fixer.service';
     ImgViewerComponent,
     UnsupportedViewerComponent
   ],
-  exports: [EmViewerComponent],
+  exports: [DocumentViewerComponent],
   imports: [
     BrowserModule,
     FormsModule,
@@ -35,5 +35,5 @@ import {UrlFixerService} from './url-fixer.service';
     UrlFixerService
   ],
 })
-export class EmViewerModule {
+export class DocumentViewerModule {
 }

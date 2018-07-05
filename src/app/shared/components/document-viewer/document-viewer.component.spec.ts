@@ -1,22 +1,22 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {EmViewerComponent} from './em-viewer.component';
+import {DocumentViewerComponent} from './document-viewer.component';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {DebugElement, SimpleChange} from '@angular/core';
-import {EmViewerModule} from './em-viewer.module';
+import {DocumentViewerModule} from './document-viewer.module';
 
 const originalUrl = 'http://api-gateway.dm.com/documents/1234-1234-1234';
 const url = '/demproxy/dm/documents/1234-1234-1234';
 
 describe('EmViewerComponent', () => {
-  let component: EmViewerComponent;
+  let component: DocumentViewerComponent;
   let httpMock: HttpTestingController;
-  let fixture: ComponentFixture<EmViewerComponent>;
+  let fixture: ComponentFixture<DocumentViewerComponent>;
   let element: DebugElement;
 
   beforeEach(async(() => {
     const testingModule = TestBed.configureTestingModule({
-      imports: [EmViewerModule, HttpClientTestingModule]
+      imports: [DocumentViewerModule, HttpClientTestingModule]
     });
 
     testingModule.compileComponents();
@@ -24,7 +24,7 @@ describe('EmViewerComponent', () => {
 
   beforeEach(() => {
     httpMock = TestBed.get(HttpTestingController);
-    fixture = TestBed.createComponent(EmViewerComponent);
+    fixture = TestBed.createComponent(DocumentViewerComponent);
     component = fixture.componentInstance;
     component.url = originalUrl;
     component.baseUrl = '/demproxy/dm';
