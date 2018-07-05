@@ -117,6 +117,10 @@ describe('DocumentPanelComponent', () => {
             it('should not display a list of documents', () => {
                 expect(nativeElement.querySelectorAll(Selector.selector('document')).length).toBe(0);
             });
+
+            it('should show a friendly message', () => {
+                expect(nativeElement.querySelector(Selector.selector('no-documents'))).toBeTruthy();
+            });
         });
     });
 

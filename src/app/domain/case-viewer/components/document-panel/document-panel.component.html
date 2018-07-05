@@ -1,5 +1,5 @@
 <div class="jui-casefile govuk-!-margin-bottom-6">
-        <div class="jui-casefile-files" *ngIf="documents && documents.length">
+        <div class="jui-casefile-files" *ngIf="documents && documents.length; else noDocuments">
             <ul class="jui-casefile-list">
                 <li class="jui-casefile-list__item" *ngFor="let document of documents">
                     <a class="jui-casefile-list__link"
@@ -8,7 +8,9 @@
                 </li>
             </ul>
         </div>
-
+        <ng-template #noDocuments>
+            <p data-selector="no-documents">This case file is empty.</p>
+        </ng-template>
         <div class="jui-casefile-document-wrapper" *ngIf="selectedDocument">
             <div class="jui-casefile-page editable medium-editor-element" data-medium-editor-element="true"
                  role="textbox"
