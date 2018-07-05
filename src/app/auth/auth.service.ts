@@ -42,16 +42,6 @@ export class AuthService {
         this.redirectionService.redirect(this.generateLoginUrl());
     }
 
-    // logout() {
-    //     console.log('111111111111111');
-    //     this.cookieService.removeAll();
-    //     console.log('222222222222');
-    //     // setTimeout(() => {
-    //     //     this.redirectionService.redirect('/');
-    //     //     console.log('333333333333333');
-    //     // }, 3000);
-    // }
-
     decodeJwt(jwt) {
         return jwtDecode(jwt);
     }
