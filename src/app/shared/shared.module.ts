@@ -8,19 +8,23 @@ import { FooterComponent } from './components/footer/footer.component';
 import { FormsModule } from '@angular/forms';
 import {CdkTableModule} from '@angular/cdk/table';
 import {DocumentViewerModule} from './components/document-viewer/document-viewer.module';
+import { RouterModule} from '@angular/router';
+import {HeaderComponent} from './components/header/header.component';
 
 @NgModule({
     imports: [
         CommonModule,
         CdkTableModule,
         FormsModule,
-        DocumentViewerModule
+        DocumentViewerModule,
+        RouterModule
     ],
     declarations: [
         TabComponent,
         TabsComponent,
         TableComponent,
         DataListComponent,
+        HeaderComponent,
         FooterComponent
     ],
     exports: [
@@ -28,6 +32,7 @@ import {DocumentViewerModule} from './components/document-viewer/document-viewer
         TabsComponent,
         TableComponent,
         DataListComponent,
+        HeaderComponent,
         FooterComponent
     ]
 })

@@ -81,6 +81,9 @@ module.exports = (req, res, next) => {
         caseData.events = events != null ? events.map(e => reduceEvent(e)) : [];
 
         const schema = JSON.parse(JSON.stringify(sscsCaseTemplate));
+        if(schema.details) {
+            replaceSectionValues(schema.details, caseData);
+        }
         schema.sections.forEach(section => replaceSectionValues(section, caseData));
         /**
          * DO NOT DELETE: commenting out spike until story is available
