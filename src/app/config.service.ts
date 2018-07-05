@@ -15,11 +15,11 @@ export class ConfigService {
         if (!this.config) {
             this.state.set(this.CONFIG_KEY, config);
             this.config = config;
-            this.config.bob = this.getBaseUrl();
+            this.config.api_base_url = this.getBaseUrl();
         }
     }
 
     getBaseUrl() {
-        return '/';
+        return '';
     }
 }
