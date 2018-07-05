@@ -106,7 +106,7 @@ module.exports = {
             sections: [
                 {
                     id: 'documents',
-                    name: 'Documents',
+                    name: 'Case file',
                     type: 'document-panel',
                     fields: [
                         {
