@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UnsupportedViewerComponent } from './unsupported-viewer.component';
 
-xdescribe('UnsupportedViewerComponent', () => {
+describe('UnsupportedViewerComponent', () => {
   let component: UnsupportedViewerComponent;
   let fixture: ComponentFixture<UnsupportedViewerComponent>;
 
@@ -10,7 +10,7 @@ xdescribe('UnsupportedViewerComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ UnsupportedViewerComponent ]
     })
-           .compileComponents();
+    .compileComponents();
   }));
 
   beforeEach(() => {

@@ -1,13 +1,13 @@
 <div class="jui-casefile-files" *ngIf="documents">
     <ul class="jui-casefile-list">
         <li class="jui-casefile-list__item" *ngFor="let document of documents">
-            <a class="jui-casefile-list__link" href="{{document.id}}" data-selector="document">{{document.name}}</a>
+            <a class="jui-casefile-list__link" href="/viewcase/{{this.route.snapshot.params.case_id}}/casefile/{{document.id}}" data-selector="document">{{document.name}}</a>
         </li>
     </ul>
 </div>
 
 <div class="jui-casefile-document-wrapper" *ngIf="selectedDocument">
     <div class="jui-casefile-page editable medium-editor-element" data-medium-editor-element="true" role="textbox" aria-multiline="true" data-medium-editor-editor-index="1" medium-editor-index="ca3cfb8f-8b6a-8f73-1ed5-fa7679703446" data-placeholder="Type your text">
-        <app-em-viewer [url]="selectedDocument.url"></app-em-viewer>
+        <app-document-viewer [url]="selectedDocument.url" [page]="1"></app-document-viewer>
     </div>
 </div>

@@ -21,11 +21,7 @@ const routes: Routes = [
         component: ViewCaseComponent
     },
     {
-        path: 'viewcase/:case_id/casefile',
-        component: ViewCaseComponent
-    },
-    {
-        path: 'viewcase/:case_id/casefile/:doc_id',
+        path: 'viewcase/:case_id/:section/:section_item_id',
         component: ViewCaseComponent
     }
 ];

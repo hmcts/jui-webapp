@@ -7,12 +7,14 @@ import { DataListComponent } from './components/data-list/data-list.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { FormsModule } from '@angular/forms';
 import {CdkTableModule} from '@angular/cdk/table';
+import {EmViewerModule} from './components/document-viewer/em-viewer.module';
 
 @NgModule({
     imports: [
         CommonModule,
         CdkTableModule,
-        FormsModule
+        FormsModule,
+        EmViewerModule
     ],
     declarations: [
         TabComponent,

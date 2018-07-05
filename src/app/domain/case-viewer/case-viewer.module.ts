@@ -6,7 +6,7 @@ import { DocumentPanelComponent } from './components/document-panel/document-pan
 import { SummaryPanelComponent } from './components/summary-panel/summary-panel.component';
 import { PartiesPanelComponent } from './components/parties-panel/parties-panel.component';
 import { CaseNavComponent } from './components/case-nav/case-nav.component';
-import {EmViewerModule} from 'em-viewer-web';
+import {EmViewerModule} from '../../shared/components/document-viewer/em-viewer.module';
 
 @NgModule({
     imports: [

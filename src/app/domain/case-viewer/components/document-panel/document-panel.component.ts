@@ -9,7 +9,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class DocumentPanelComponent implements OnInit {
     @Input() panelData;
     documents: any[];
-    private selectedDocument: string;
+    selectedDocument: string;
 
     constructor(private route: ActivatedRoute, private router: Router) {
     }
@@ -19,17 +19,16 @@ export class DocumentPanelComponent implements OnInit {
             this.documents = this.panelData.fields[0].value.map(doc => {
                 return {
                     id: doc.id,
-                    name: doc.value.documentFileName,
-                    url: doc.value.documentLink.document_binary_url
+                    name: doc.value.documentFileName || doc.value.documentLink.document_filename,
+                    url: doc.value.documentLink.document_url
                 };
             });
-            this.route.paramMap.subscribe(params => {
-                if (params['doc_id']) {
-                    this.selectedDocument = this.documents.filter(doc => doc.id === params['doc_id'])[0];
+            const params = this.route.snapshot.params;
+            if (params['section_item_id']) {
+                    this.selectedDocument = this.documents.filter(doc => doc.id === params['section_item_id'])[0];
                 } else {
-                    this.router.navigate([`${this.documents[0].id}`]);
+                    this.router.navigate([`${this.documents[0].id}`], {relativeTo: this.route});
                 }
-            });
         }
     }
 }
