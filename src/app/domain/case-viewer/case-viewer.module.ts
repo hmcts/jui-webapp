@@ -7,6 +7,7 @@ import { SummaryPanelComponent } from './components/summary-panel/summary-panel.
 import { PartiesPanelComponent } from './components/parties-panel/parties-panel.component';
 import { CaseNavComponent } from './components/case-nav/case-nav.component';
 import {EmViewerModule} from '../../shared/components/document-viewer/em-viewer.module';
+import { TimelinePanelComponent } from './components/timeline-panel/timeline-panel.component';
 
 @NgModule({
     imports: [
@@ -23,6 +24,7 @@ import {EmViewerModule} from '../../shared/components/document-viewer/em-viewer.
         DocumentPanelComponent,
         SummaryPanelComponent,
         PartiesPanelComponent,
+        TimelinePanelComponent,
         CaseNavComponent
     ]
 })
