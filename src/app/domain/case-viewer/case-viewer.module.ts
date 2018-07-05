@@ -7,11 +7,15 @@ import { SummaryPanelComponent } from './components/summary-panel/summary-panel.
 import { PartiesPanelComponent } from './components/parties-panel/parties-panel.component';
 import { CaseNavComponent } from './components/case-nav/case-nav.component';
 import { TimelinePanelComponent } from './components/timeline-panel/timeline-panel.component';
+import {DocumentViewerModule} from '../../shared/components/document-viewer/document-viewer.module';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
     imports: [
         CommonModule,
-        SharedModule
+        SharedModule,
+        DocumentViewerModule,
+        RouterModule
     ],
     exports: [
         CaseViewerComponent,
