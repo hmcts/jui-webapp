@@ -1,5 +1,6 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {ConfigService} from '../../../../config.service';
 
 @Component({
     selector: 'app-document-panel',
@@ -10,8 +11,12 @@ export class DocumentPanelComponent implements OnInit {
     @Input() panelData;
     documents: any[];
     selectedDocument: string;
+    documentUrl: string;
 
-    constructor(private route: ActivatedRoute, private router: Router) {
+    constructor(private route: ActivatedRoute,
+                private router: Router,
+                private configService: ConfigService) {
+        this.documentUrl = `${configService.config.api_base_url}/api`;
     }
 
     ngOnInit(): void {

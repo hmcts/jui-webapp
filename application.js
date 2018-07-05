@@ -37,7 +37,6 @@ app.get('/info', infoRequestHandler({
 
 app.use(serviceTokenMiddleware);
 app.use('/api', apiRoute);
-app.use('/demproxy/dm', apiRoute);
 
 
 module.exports = app;

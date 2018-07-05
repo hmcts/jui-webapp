@@ -27,6 +27,7 @@ describe('EmViewerComponent', () => {
     fixture = TestBed.createComponent(EmViewerComponent);
     component = fixture.componentInstance;
     component.url = originalUrl;
+    component.baseUrl = '/demproxy/dm';
     element = fixture.debugElement;
     fixture.detectChanges();
   });
