@@ -28,13 +28,14 @@ export class DocumentPanelComponent implements OnInit {
                     url: doc.value.documentLink.document_url
                 };
             });
-            const params = this.route.snapshot.params;
             if (this.documents.length) {
-                if (params['section_item_id']) {
-                    this.selectedDocument = this.documents.filter(doc => doc.id === params['section_item_id'])[0];
-                } else {
-                    this.router.navigate([`${this.documents[0].id}`], {relativeTo: this.route});
-                }
+                this.route.params.subscribe(params => {
+                    if (params['section_item_id']) {
+                        this.selectedDocument = this.documents.filter(doc => doc.id === params['section_item_id'])[0];
+                    } else {
+                        this.router.navigate([`${this.documents[0].id}`], {relativeTo: this.route});
+                    }
+                });
             }
         }
     }

@@ -8,12 +8,14 @@ import { PartiesPanelComponent } from './components/parties-panel/parties-panel.
 import { CaseNavComponent } from './components/case-nav/case-nav.component';
 import { TimelinePanelComponent } from './components/timeline-panel/timeline-panel.component';
 import {DocumentViewerModule} from '../../shared/components/document-viewer/document-viewer.module';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
     imports: [
         CommonModule,
         SharedModule,
-        DocumentViewerModule
+        DocumentViewerModule,
+        RouterModule
     ],
     exports: [
         CaseViewerComponent,

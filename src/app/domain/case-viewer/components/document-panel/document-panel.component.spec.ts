@@ -6,22 +6,24 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {of} from 'rxjs';
 import {CaseViewerModule} from '../../case-viewer.module';
 import {ConfigService} from '../../../../config.service';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('DocumentPanelComponent', () => {
     let component: DocumentPanelComponent;
     let fixture: ComponentFixture<DocumentPanelComponent>;
     let nativeElement;
-    let mockRouter;
     let mockRoute;
     let mockConfigService;
 
     describe('when we have a document id in the url', () => {
         beforeEach(async(() => {
-            mockRouter = jasmine.createSpyObj(['navigate']);
             mockRoute = {
+                params: of({
+                    'section_item_id': '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
+                }),
                 snapshot: {
                     params: {
-                        section_item_id: '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
+                        'section_item_id': '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
                     }
                 }
             };
@@ -32,14 +34,11 @@ describe('DocumentPanelComponent', () => {
             };
 
             TestBed.configureTestingModule({
-                imports: [CaseViewerModule],
+                imports: [CaseViewerModule, RouterTestingModule],
                 declarations: [],
                 providers: [{
                     provide: ActivatedRoute,
                     useValue: mockRoute
-                }, {
-                    provide: Router,
-                    useValue: mockRouter
                 }, {
                     provide: ConfigService,
                     useValue: mockConfigService
@@ -120,8 +119,5 @@ describe('DocumentPanelComponent', () => {
             });
         });
     });
-
-
-
 
 });
