@@ -32,6 +32,7 @@ import {HeaderComponent} from './components/header/header.component';
         TabsComponent,
         TableComponent,
         DataListComponent,
+        HeaderComponent,
         FooterComponent
     ]
 })
