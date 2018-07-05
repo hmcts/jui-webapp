@@ -1,4 +1,14 @@
 module.exports = {
+    details: {
+        fields: [
+            {
+                value: '$.case_data.caseReference'
+            },
+            {
+                value: ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName", "vs DWP"],
+            }
+        ]
+    },
     sections: [
         {
             id: 'summary',
@@ -47,58 +57,58 @@ module.exports = {
                 }
             ]
         },
-        {
-            id: 'parties',
-            name: 'Parties',
-            type: 'page',
-            sections: [
-                {
-                    id: 'case_details',
-                    name: 'Case Details',
-                    type: 'parties-panel',
-                    sections: [
-                        {
-                            id: 'petitioner',
-                            name: 'Petitioner',
-                            type: 'tab',
-                            fields: [
-                                {
-                                    label: 'Parties',
-                                    value: '$.id'
-                                },
-                                {
-                                    label: 'Case number',
-                                    value: '$.id'
-                                },
-                                {
-                                    label: 'Case type',
-                                    value: '$.case_type_id'
-                                }
-                            ]
-                        },
-                        {
-                            id: 'respondent',
-                            name: 'Respondent',
-                            type: 'tab',
-                            fields: [
-                                {
-                                    label: 'Parties',
-                                    value: '$.id'
-                                },
-                                {
-                                    label: 'Case number',
-                                    value: '$.id'
-                                },
-                                {
-                                    label: 'Case type',
-                                    value: '$.case_type_id'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
+        // {
+        //     id: 'parties',
+        //     name: 'Parties',
+        //     type: 'page',
+        //     sections: [
+        //         {
+        //             id: 'case_details',
+        //             name: 'Case Details',
+        //             type: 'parties-panel',
+        //             sections: [
+        //                 {
+        //                     id: 'petitioner',
+        //                     name: 'Petitioner',
+        //                     type: 'tab',
+        //                     fields: [
+        //                         {
+        //                             label: 'Parties',
+        //                             value: '$.id'
+        //                         },
+        //                         {
+        //                             label: 'Case number',
+        //                             value: '$.id'
+        //                         },
+        //                         {
+        //                             label: 'Case type',
+        //                             value: '$.case_type_id'
+        //                         }
+        //                     ]
+        //                 },
+        //                 {
+        //                     id: 'respondent',
+        //                     name: 'Respondent',
+        //                     type: 'tab',
+        //                     fields: [
+        //                         {
+        //                             label: 'Parties',
+        //                             value: '$.id'
+        //                         },
+        //                         {
+        //                             label: 'Case number',
+        //                             value: '$.id'
+        //                         },
+        //                         {
+        //                             label: 'Case type',
+        //                             value: '$.case_type_id'
+        //                         }
+        //                     ]
+        //                 }
+        //             ]
+        //         }
+        //     ]
+        // },
         {
             id: 'casefile',
             name: 'Case file',
