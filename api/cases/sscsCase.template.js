@@ -115,6 +115,23 @@ module.exports = {
                     ]
                 }
             ]
+        },
+        {
+            id: 'timeline',
+            name: 'Timeline',
+            type: 'page',
+            sections: [
+                {
+                    id: 'events',
+                    name: '',
+                    type: 'timeline-panel',
+                    fields: [
+                        {
+                            value: '$.events'
+                        }
+                    ]
+                }
+            ]
         }
     ]
 };;
