@@ -9,6 +9,7 @@ import {HttpClientTestingModule, HttpTestingController} from '@angular/common/ht
 import {ConfigService} from '../../../config.service';
 import {BrowserTransferStateModule, StateKey} from '@angular/platform-browser';
 import {makeStateKey, TransferState} from '@angular/platform-browser';
+import {RouterModule} from '@angular/router';
 
 const columns = [{
         'label': 'Parties',
