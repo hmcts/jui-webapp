@@ -22,8 +22,10 @@ appInsights.setup(appInsightsInstrumentationKey)
 let client = appInsights.defaultClient;
 client.trackTrace({message: "Test Message App Insight Activated"});
 
-
-app.use()
+app.use(function (req, res, next) {
+    client.trackNodeHttpRequest({request: req, response: res});
+    next()
+});
 
 app.use(cookieParser());
 app.get('/oauth2/callback', apiRoute);
