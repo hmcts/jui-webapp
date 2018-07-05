@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Inject, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ServerModule, ServerTransferStateModule  } from '@angular/platform-server';
 import { ModuleMapLoaderModule } from '@nguniversal/module-map-ngfactory-loader';
@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { CookieService, CookieBackendService } from 'ngx-cookie';
 import {RedirectionService} from "./routing/redirection.service";
 import {  ServerRedirectionService} from "./routing/redirection.service.server";
+import {ConfigService} from "./config.service";
+import {ServerConfigService} from "./config.service.server";
 
 @NgModule({
     imports: [
@@ -22,7 +24,8 @@ import {  ServerRedirectionService} from "./routing/redirection.service.server";
     bootstrap: [ AppComponent ],
     providers: [
         { provide: CookieService, useClass: CookieBackendService },
-        { provide: RedirectionService, useClass: ServerRedirectionService }
+        { provide: RedirectionService, useClass: ServerRedirectionService },
+        { provide: ConfigService, useClass: ServerConfigService }
     ]
 })
 export class AppServerModule {
