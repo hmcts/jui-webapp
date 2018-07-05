@@ -5,21 +5,11 @@
                  'column-two-thirds': annotate && viewerComponent && viewerComponent.numPages > 0}">
     <ng-template appViewerAnchor></ng-template>
   </div>
-
-  <app-notes *ngIf="annotate && viewerComponent && viewerComponent.numPages > 0"
-             class="column-one-third"
-             [url]="url"
-             [page]="viewerComponent.page"
-             [numPages]="viewerComponent.numPages">
-  </app-notes>
 </div>
 
 <div class="grid-row">
   <div *ngIf="error"  class="error-summary" role="alert" aria-labelledby="error-summary-heading-example-1" tabindex="-1">
     <h2 class="heading-medium error-summary-heading" id="error-summary-heading-example-1">There was an error while loading your document.</h2>
     <p>Response status was {{error.status}}.</p>
-    <ul class="error-summary-list">
-      <li><a href="javascript:history.back()">Go Back</a></li>
-    </ul>
   </div>
 </div>

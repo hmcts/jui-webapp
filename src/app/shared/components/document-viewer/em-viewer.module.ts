@@ -5,10 +5,8 @@ import {BrowserModule} from '@angular/platform-browser';
 import {PdfViewerModule} from 'ng2-pdf-viewer';
 import {FormsModule} from '@angular/forms';
 import {ViewerFactoryService} from './viewers/viewer-factory.service';
-import {NotesService} from './annotations/notes.service';
 import {PdfViewerComponent} from './viewers/pdf-viewer/pdf-viewer.component';
 import {UnsupportedViewerComponent} from './viewers/unsupported-viewer/unsupported-viewer.component';
-import {NotesComponent} from './annotations/notes/notes.component';
 import {ImgViewerComponent} from './viewers/img-viewer/img-viewer.component';
 import {ViewerAnchorDirective} from './viewers/viewer-anchor.directive';
 import {UrlFixerService} from './url-fixer.service';
@@ -19,8 +17,7 @@ import {UrlFixerService} from './url-fixer.service';
     PdfViewerComponent,
     ImgViewerComponent,
     UnsupportedViewerComponent,
-    ViewerAnchorDirective,
-    NotesComponent
+    ViewerAnchorDirective
   ],
   entryComponents: [
     PdfViewerComponent,
@@ -35,7 +32,6 @@ import {UrlFixerService} from './url-fixer.service';
     PdfViewerModule],
   providers: [
     ViewerFactoryService,
-    NotesService,
     UrlFixerService
   ],
 })
