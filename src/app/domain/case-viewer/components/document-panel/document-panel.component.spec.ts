@@ -122,6 +122,47 @@ describe('DocumentPanelComponent', () => {
                 expect(nativeElement.querySelector(Selector.selector('no-documents'))).toBeTruthy();
             });
         });
+
+        describe('when we receive a document without a document link...', () => {
+            const data = {
+                id: 'documents',
+                name: 'Documents',
+                type: 'document-panel',
+                fields: [
+                    {
+                        value: [{
+                            'id': '13eb9981-9360-4d4b-b9fd-506b5818e7ff',
+                            'value': {
+                                'documentType': 'Medical evidence',
+                                'documentComment': null,
+                                'documentFileName': 'Medical notes',
+                                'documentDateAdded': null,
+                                'documentEmailContent': null
+                            }
+                        }]
+                    }
+                ]
+            };
+            beforeEach(async(() => {
+                fixture = TestBed.createComponent(DocumentPanelComponent);
+                component = fixture.componentInstance;
+                component.panelData = data;
+                nativeElement = fixture.nativeElement;
+                fixture.detectChanges();
+            }));
+
+            it('should create', () => {
+                expect(component).toBeTruthy();
+            });
+
+            it('should not display a list of documents', () => {
+                expect(nativeElement.querySelectorAll(Selector.selector('document')).length).toBe(0);
+            });
+
+            it('should show a friendly message that there are no documents', () => {
+                expect(nativeElement.querySelector(Selector.selector('no-documents'))).toBeTruthy();
+            });
+        });
     });
 
 });

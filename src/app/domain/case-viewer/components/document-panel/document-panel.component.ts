@@ -21,7 +21,9 @@ export class DocumentPanelComponent implements OnInit {
 
     ngOnInit(): void {
         if (this.panelData.fields[0].value) {
-            this.documents = this.panelData.fields[0].value.map(doc => {
+            this.documents = this.panelData.fields[0].value
+                .filter(doc => doc.value.documentLink)
+                .map(doc => {
                 return {
                     id: doc.id,
                     name: doc.value.documentFileName || doc.value.documentLink.document_filename,
