@@ -31,11 +31,10 @@ import { TimelineSectionComponent } from './components/timeline-section/timeline
         SummaryPanelComponent,
         PartiesPanelComponent,
         TimelinePanelComponent,
-        CaseNavComponent,
+        TimelineSectionComponent,
         TimelineWidgetComponent,
         CaseNavComponent,
-        CaseDetailsBarComponent,
-        TimelineSectionComponent
+        CaseDetailsBarComponent
     ]
 })
 export class CaseViewerModule {
