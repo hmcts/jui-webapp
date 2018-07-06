@@ -11,13 +11,6 @@ export class SummaryPanelComponent {
 
     @Input() caseId;
 
-    constructor(private router: Router){
-    }
-
-    goToTimeline() {
-        this.router.navigate(['viewcase', this.caseId, 'timeline']);
-    }
-
     private getRecentEvents() {
         if (this.panelData != null && this.panelData.sections != null) {
             const recentEventIndex = this.panelData.sections.findIndex(section => section.id === 'recentEvents');

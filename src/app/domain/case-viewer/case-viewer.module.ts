@@ -11,6 +11,7 @@ import { TimelineWidgetComponent } from './components/timeline-widget/timeline-w
 import { CaseDetailsBarComponent } from './components/case-details-bar/case-details-bar.component';
 import {DocumentViewerModule} from '../../shared/components/document-viewer/document-viewer.module';
 import {RouterModule} from '@angular/router';
+import { TimelineSectionComponent } from './components/timeline-section/timeline-section.component';
 
 @NgModule({
     imports: [
@@ -33,7 +34,8 @@ import {RouterModule} from '@angular/router';
         CaseNavComponent,
         TimelineWidgetComponent,
         CaseNavComponent,
-        CaseDetailsBarComponent
+        CaseDetailsBarComponent,
+        TimelineSectionComponent
     ]
 })
 export class CaseViewerModule {
