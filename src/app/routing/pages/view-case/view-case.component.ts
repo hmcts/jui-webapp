@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import 'rxjs/add/operator/filter';
-import {CaseService} from "../../../case.service";
+import {CaseService} from '../../../case.service';
 import { ActivatedRoute } from '@angular/router';
 import {Observable} from 'rxjs';
 

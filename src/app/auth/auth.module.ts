@@ -1,10 +1,10 @@
 import { Inject, NgModule } from '@angular/core';
-import {CookieModule} from "ngx-cookie";
+import {CookieModule} from 'ngx-cookie';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import {AuthInteceptor} from "./auth-inteceptor";
-import {AuthService} from "./auth.service";
-import {AuthGuardService} from "./auth-guard.service";
-import {AuthIntercepterServer} from "./auth-intercepter.server";
+import {AuthInteceptor} from './auth-inteceptor';
+import {AuthService} from './auth.service';
+import {AuthGuardService} from './auth-guard.service';
+import {AuthIntercepterServer} from './auth-intercepter.server';
 
 @NgModule({
     imports: [

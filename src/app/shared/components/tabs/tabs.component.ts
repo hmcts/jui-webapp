@@ -1,4 +1,4 @@
-import { Component, QueryList, ContentChildren, ElementRef, ViewChildren, OnInit } from '@angular/core';
+import {Component, QueryList, ContentChildren, ElementRef, ViewChildren, OnInit, AfterContentInit} from '@angular/core';
 import { TabComponent } from '../tab/tab.component';
 import { ActivatedRoute } from '@angular/router';
 
@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
     './tabs.component.scss'
   ],
 })
-export class TabsComponent {
+export class TabsComponent implements AfterContentInit {
 
   @ViewChildren('tab')
   public tabs: QueryList<ElementRef>;
@@ -22,7 +22,7 @@ export class TabsComponent {
   // constructor(private route: ActivatedRoute) {}
 
   public ngAfterContentInit(): void {
-      if(this.panels && this.panels.length) {
+      if (this.panels && this.panels.length) {
           this.panels.forEach((panel) => this.panelIds.push(panel.id));
       }
 
