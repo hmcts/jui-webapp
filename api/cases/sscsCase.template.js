@@ -92,7 +92,7 @@ module.exports = {
             sections: [
                 {
                     id: 'events',
-                    name: '',
+                    name: 'Timeline',
                     type: 'timeline-panel',
                     fields: [
                         {
