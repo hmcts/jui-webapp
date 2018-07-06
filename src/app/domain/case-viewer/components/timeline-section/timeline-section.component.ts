@@ -10,11 +10,5 @@ export class TimelineSectionComponent {
     @Input() events;
     @Input() caseId;
 
-    constructor(private router: Router) {
-    }
-
-
-    goToTimeline() {
-        this.router.navigate(['viewcase', this.caseId, 'timeline']);
-    }
+    constructor() {}
 }
