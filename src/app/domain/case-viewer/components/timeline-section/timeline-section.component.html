@@ -1,3 +1,3 @@
 <h2 class="govuk-heading-m  govuk-!-margin-bottom-4">{{title}}</h2>
-<app-timeline [events]="events"></app-timeline>
+<app-timeline [events]="events" [maxHistory]="3"></app-timeline>
 <p><a routerLink="/viewcase/{{caseId}}/timeline">View all events</a></p>

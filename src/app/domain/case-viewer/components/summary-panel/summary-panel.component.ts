@@ -8,26 +8,9 @@ import {Router} from '@angular/router';
 })
 export class SummaryPanelComponent {
 
-    @Input() panelData;
     @Input() caseId;
+    @Input() panelData;
 
-    private getRecentEvents() {
-        if (this.panelData != null && this.panelData.sections != null) {
-            const recentEventIndex = this.panelData.sections.findIndex(section => section.id === 'recentEvents');
-            if (recentEventIndex >= 0) {
-                const recentEventsSection = this.panelData.sections[recentEventIndex];
-                if (recentEventsSection != null
-                    && recentEventsSection.fields != null && recentEventsSection.fields.length > 0) {
-                    let recentEvents = recentEventsSection.fields[0].value;
-                    if (recentEvents.length > 3) {
-                        recentEvents = recentEvents.slice(0, 3);
-                    }
-                    return recentEvents;
-                }
-
-            }
-        }
-    }
 }
 
 
