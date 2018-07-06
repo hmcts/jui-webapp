@@ -21,6 +21,7 @@ module.exports = {
                     sections: [
                         {
                             name: 'Case Details',
+                            type: 'data-list',
                             fields: [
                                 {
                                     label: 'Parties',
@@ -38,6 +39,7 @@ module.exports = {
                         },
                         {
                             name: 'Representatives',
+                            type: 'data-list',
                             fields: [
                                 {
                                     label: 'Judge',
@@ -54,8 +56,8 @@ module.exports = {
                             ]
                         },
                         {
-                            id: 'recentEvents',
                             name: 'Recent events',
+                            type: 'timeline',
                             fields: [
                                 {
                                     value: '$.events'

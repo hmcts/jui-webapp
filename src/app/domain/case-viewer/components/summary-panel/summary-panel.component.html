@@ -1,14 +1,25 @@
-<div data-selector="summary-panel-component" class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-        <ng-container *ngFor="let section of panelData.sections">
-            <div  class="govuk-grid-row">
-                <div class="govuk-grid-column" *ngIf="section.id !== 'recentEvents'">
-                    <app-data-list [title]="section.name" [dataList]="section.fields"></app-data-list>
-                </div>
-            </div>
-        </ng-container>
-    </div>
-    <div class="govuk-grid-column-one-third">
-        <app-timeline-section [events]="getRecentEvents()" [caseId]="caseId"></app-timeline-section>
+<div data-selector="summary-panel-component">
+    <h1 data-selector="heading" class="govuk-heading-l">Summary</h1>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <ng-container *ngFor="let section of panelData.sections">
+                <ng-container [ngSwitch]="section.type" >
+                    <app-data-list
+                        data-selector="data-list"
+                        *ngSwitchCase="'data-list'"
+                        [title]="section.name"
+                        [dataList]="section.fields">
+                    </app-data-list>
+
+                    <app-timeline-section
+                        data-selector="timeline-section"
+                        *ngSwitchCase="'timeline'"
+                        [title]="section.name"
+                        [caseId]="caseId"
+                        [events]="section.fields[0].value"
+                    ></app-timeline-section>
+                </ng-container>
+            </ng-container>
+        </div>
     </div>
 </div>

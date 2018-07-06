@@ -85,7 +85,6 @@ module.exports = (req, res, next) => {
             replaceSectionValues(schema.details, caseData);
         }
         schema.sections.forEach(section => replaceSectionValues(section, caseData));
-        schema.caseId = caseId;
         /**
          * DO NOT DELETE: commenting out spike until story is available
          */

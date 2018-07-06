@@ -7,7 +7,7 @@ import { SummaryPanelComponent } from './components/summary-panel/summary-panel.
 import { PartiesPanelComponent } from './components/parties-panel/parties-panel.component';
 import { CaseNavComponent } from './components/case-nav/case-nav.component';
 import { TimelinePanelComponent } from './components/timeline-panel/timeline-panel.component';
-import { TimelineWidgetComponent } from './components/timeline-widget/timeline-widget.component';
+import { TimelineComponent } from './components/timeline/timeline.component';
 import { CaseDetailsBarComponent } from './components/case-details-bar/case-details-bar.component';
 import {DocumentViewerModule} from '../../shared/components/document-viewer/document-viewer.module';
 import {RouterModule} from '@angular/router';
@@ -32,7 +32,7 @@ import { TimelineSectionComponent } from './components/timeline-section/timeline
         PartiesPanelComponent,
         TimelinePanelComponent,
         TimelineSectionComponent,
-        TimelineWidgetComponent,
+        TimelineComponent,
         CaseNavComponent,
         CaseDetailsBarComponent
     ]

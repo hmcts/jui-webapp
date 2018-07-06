@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TimelineSectionComponent } from './timeline-section.component';
 import {RouterTestingModule} from '@angular/router/testing';
-import {TimelineWidgetComponent} from '../timeline-widget/timeline-widget.component';
+import {TimelineComponent} from '../timeline/timeline.component';
 import {Selector} from '../../../../../../test/selector-helper';
 import {CaseViewerModule} from '../../case-viewer.module';
 import {DebugElement} from '@angular/core';

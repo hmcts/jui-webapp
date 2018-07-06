@@ -7,6 +7,8 @@ import {Router} from '@angular/router';
     styleUrls: ['./timeline-section.component.scss']
 })
 export class TimelineSectionComponent {
+
+    @Input() title: string;
     @Input() events;
     @Input() caseId;
 

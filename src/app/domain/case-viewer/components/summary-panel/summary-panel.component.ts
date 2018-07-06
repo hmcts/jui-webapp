@@ -7,8 +7,8 @@ import {Router} from '@angular/router';
     styleUrls: ['./summary-panel.component.scss']
 })
 export class SummaryPanelComponent {
-    @Input() panelData;
 
+    @Input() panelData;
     @Input() caseId;
 
     private getRecentEvents() {

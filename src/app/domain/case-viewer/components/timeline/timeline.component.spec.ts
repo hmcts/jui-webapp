@@ -1,12 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TimelineWidgetComponent } from './timeline-widget.component';
+import { TimelineComponent } from './timeline.component';
 import { CaseViewerModule } from '../../case-viewer.module';
 import { DebugElement } from '@angular/core';
 import { Selector } from '../../../../../../test/selector-helper';
 
-describe('TimelineWidgetComponent', () => {
-    let component: TimelineWidgetComponent;
-    let fixture: ComponentFixture<TimelineWidgetComponent>;
+describe('TimelineComponent', () => {
+    let component: TimelineComponent;
+    let fixture: ComponentFixture<TimelineComponent>;
     let element: DebugElement;
 
     beforeEach(async(() => {
@@ -17,7 +17,7 @@ describe('TimelineWidgetComponent', () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(TimelineWidgetComponent);
+        fixture = TestBed.createComponent(TimelineComponent);
         component = fixture.componentInstance;
         element = fixture.debugElement;
         fixture.detectChanges();
