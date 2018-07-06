@@ -11,6 +11,8 @@ import { TimelineComponent } from './components/timeline/timeline.component';
 import { CaseDetailsBarComponent } from './components/case-details-bar/case-details-bar.component';
 import {DocumentViewerModule} from '../../shared/components/document-viewer/document-viewer.module';
 import {RouterModule} from '@angular/router';
+import { CaseViewerContainerComponent } from './components/case-viewer-container/case-viewer-container.component';
+import { CaseDecisionContainerComponent } from './components/case-decision-container/case-decision-container.component';
 
 @NgModule({
     imports: [
@@ -22,7 +24,9 @@ import {RouterModule} from '@angular/router';
     exports: [
         CaseViewerComponent,
         DocumentPanelComponent,
-        CaseDetailsBarComponent
+        CaseDetailsBarComponent,
+        CaseViewerContainerComponent,
+        CaseDecisionContainerComponent
     ],
     declarations: [
         CaseViewerComponent,
@@ -32,7 +36,9 @@ import {RouterModule} from '@angular/router';
         TimelinePanelComponent,
         TimelineComponent,
         CaseNavComponent,
-        CaseDetailsBarComponent
+        CaseDetailsBarComponent,
+        CaseViewerContainerComponent,
+        CaseDecisionContainerComponent
     ]
 })
 export class CaseViewerModule {

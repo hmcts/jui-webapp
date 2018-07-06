@@ -15,7 +15,6 @@ export class ViewCaseComponent implements OnInit {
     case: any;
     caseId: string;
     sectionId: string;
-    links = [];
 
     constructor(
         public router: Router,
@@ -23,7 +22,7 @@ export class ViewCaseComponent implements OnInit {
         private route: ActivatedRoute) {
         this.route.params.subscribe( params => {
             this.caseId = params.case_id;
-            this.sectionId = params.section;
+            this.sectionId = params.section || 'summary';
         } );
 
     }
@@ -31,13 +30,6 @@ export class ViewCaseComponent implements OnInit {
     ngOnInit() {
         this.caseService.fetch(this.caseId).subscribe(data => {
             this.case = data;
-            this.links = this.case.sections.map(section => {
-                return {
-                    href: `/viewcase/${this.caseId}/${section.id}`,
-                    label: section.name,
-                    id: section.id
-                };
-            });
         });
     }
 

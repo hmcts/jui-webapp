@@ -18,15 +18,15 @@ const routes: Routes = [
         canActivate: [AuthGuardService]
     },
     {
+        path: 'viewcase/:case_id',
+        component: ViewCaseComponent
+    },
+    {
         path: 'viewcase/:case_id/:section',
         component: ViewCaseComponent
     },
     {
         path: 'viewcase/:case_id/:section/:section_item_id',
-        component: ViewCaseComponent
-    },
-    {
-        path: 'viewcase/:case_id/:section/make-decision',
         component: ViewCaseComponent
     }
 ];
