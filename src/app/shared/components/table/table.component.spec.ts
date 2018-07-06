@@ -5,6 +5,7 @@ import {SharedModule} from '../../shared.module';
 import {DebugElement} from '@angular/core';
 
 import {Selector} from '../../../../../test/selector-helper';
+import {RouterTestingModule} from '@angular/router/testing';
 
 const columns = [
     {
@@ -126,7 +127,7 @@ describe('TableComponent', () => {
     let element: DebugElement;
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [SharedModule]
+            imports: [SharedModule, RouterTestingModule]
         })
             .compileComponents();
     }));

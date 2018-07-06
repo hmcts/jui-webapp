@@ -36,7 +36,7 @@ export class ViewCaseComponent implements OnInit {
                     href: `/viewcase/${this.caseId}/${section.id}`,
                     label: section.name,
                     id: section.id
-                }
+                };
             });
         });
     }

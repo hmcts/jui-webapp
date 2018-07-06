@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ViewCaseFileComponent } from './view-case-file.component';
+import { UnsupportedViewerComponent } from './unsupported-viewer.component';
 
-xdescribe('ViewCaseFileComponent', () => {
-  let component: ViewCaseFileComponent;
-  let fixture: ComponentFixture<ViewCaseFileComponent>;
+describe('UnsupportedViewerComponent', () => {
+  let component: UnsupportedViewerComponent;
+  let fixture: ComponentFixture<UnsupportedViewerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ViewCaseFileComponent ]
+      declarations: [ UnsupportedViewerComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ViewCaseFileComponent);
+    fixture = TestBed.createComponent(UnsupportedViewerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
