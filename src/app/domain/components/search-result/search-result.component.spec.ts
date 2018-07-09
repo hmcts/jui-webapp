@@ -41,17 +41,26 @@ const columns = [{
     }];
 const casesUrl = '/api/cases';
 
+const configMock = {
+    config: {
+        api_base_url: ''
+    }
+};
+
 describe('SearchResultComponent', () => {
     let component: SearchResultComponent;
     let fixture: ComponentFixture<SearchResultComponent>;
     let httpMock: HttpTestingController;
     let nativeElement;
 
+
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [],
             imports: [DomainModule, SharedModule, BrowserTransferStateModule, HttpClientTestingModule, RouterTestingModule],
-            providers: [CaseService, ConfigService]
+            providers: [CaseService, {
+                provide: ConfigService, useValue: configMock
+            }]
         })
             .compileComponents();
     }));
@@ -84,6 +93,7 @@ describe('SearchResultComponent', () => {
                     fixture.detectChanges();
                 });
             }));
+
 
             it('should have zero rows', () => {
                 expect(nativeElement.querySelectorAll(Selector.selector('search-result|table-row')).length).toBe(0);
