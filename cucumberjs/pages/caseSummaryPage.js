@@ -1,18 +1,13 @@
 'use strict';
 
 function caseSummaryPage(){
-  this.caseSummary_header_text = $("h1");
+  this.caseSummary_header_text = $("[data-selector='heading']");//$("[class='jui-width-container'][data-selector='heading']");//$("h1");
   this.caseDetails_header_text = $("h2");
-  this.selected_case = element.all(by.css("tr:nth-child(2) > td"));
-
-
-
+  this.selected_case = element.all(by.css("tr:nth-child(2) > td1"));
 
   this.selected_case_number = function () {
       this.selected_case.first().getText();
       }
-
-
 
     // this.verify_case_num_for_that_case = function () {
     //     this.selected_case.first().getText().then( async function(case_number){
@@ -25,7 +20,6 @@ function caseSummaryPage(){
     //         await expect(dashBoardPage.case_number_links.first().getText()).to.eventually.equal(case_number);
     //     });
     // }
-
 
 }
 module.exports = new caseSummaryPage;

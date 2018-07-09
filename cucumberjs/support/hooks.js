@@ -13,6 +13,18 @@ var targetJson = jsonReports + "/cucumber_report.json";
 
 defineSupportCode(function({ registerHandler, After, registerListener }) {
     registerHandler("BeforeFeature", { timeout: 500 * 1000 }, function() {
+    var origFn = browser.driver.controlFlow().execute;
+
+    browser.driver.controlFlow().execute = function () {
+        var args = arguments;
+
+        origFn.call(browser.driver.controlFlow(), function () {
+            //increase or reduce time value, its in millisecond
+            return protractor.promise.delayed(300);
+        });
+
+        return origFn.apply(browser.driver.controlFlow(), args);
+    };
        return browser.get(conf.baseUrl);
     });
 

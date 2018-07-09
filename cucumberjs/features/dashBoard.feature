@@ -11,10 +11,4 @@ Feature: Dashboard
         When all case numbers are hyperlinked
         When I select a case reference
         Then I will be redirected to the Case Summary page for that case
-
-
-
-
-
-
-
+        Then I signout

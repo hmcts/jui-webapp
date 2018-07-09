@@ -3,37 +3,38 @@ const conf = require('..\\config\\conf').config;
 
 var signinPage = function() {
 
-    this.emailAddress = $("[id='username']");
+    this.emailAddress = element(by.css('input#username'));
     this.password = $("[id='password']");
     this.signinTitle = $('.heading-large');
     this.signinBtn = element(by.css('.button'));
 
-    this.givenIAmLoggedIn = function(){
-        this.enterUrEmail(conf.email);
-        this.enterPassword(conf.password);
-        this.clickSignIn();
-        };
+    this.givenIAmLoggedIn = async function(){
+        await this.enterUrEmail(conf.email);
+        await this.enterPassword(conf.password);
+        await this.clickSignIn();
+    };
 
-    this.givenIAmUnauthenticatedUser= function(){
-        this.enterUrEmail(conf.fakeEmail);
-        this.enterPassword(conf.password);
+    this.givenIAmUnauthenticatedUser= async function(){
+//        this.waitFor(this.enterUrEmail);
+        await this.enterUrEmail(conf.fakeEmail);
+        await this.enterPassword(conf.password);
     }
 
-    this.enterUrEmail = function(email){
-        this.emailAddress.sendKeys(email);
+    this.enterUrEmail = async function(email){
+        await this.emailAddress.sendKeys(email);
     };
 
-    this.enterPassword = function(password){
-        this.password.sendKeys(password);
+    this.enterPassword = async function(password){
+        await this.password.sendKeys(password);
     };
 
-    this.clickSignIn = function(){
-        this.signinBtn.click();
+    this.clickSignIn = async function(){
+        await this.signinBtn.click();
     };
 
     this.waitFor = function(selector) {
       return browser.wait(function () {
-        return browser.isElementPresent(by.css(selector));
+        return browser.isElementPresent(selector);
       }, 50000);
     }
 

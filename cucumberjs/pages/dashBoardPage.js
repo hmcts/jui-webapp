@@ -25,9 +25,6 @@ function dashBoardPage() {
     this.get_a_case_num = function () {
         this.case_number_links.first().getText();
         }
-
-
-
 }
 
 module.exports = new dashBoardPage;
