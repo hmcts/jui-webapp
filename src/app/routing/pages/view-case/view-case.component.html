@@ -7,9 +7,9 @@
                     <li class="jui-case-actions__item">
                         <a class="jui-case-actions__link" routerLink="/viewcase/{{this.caseId}}/make-desion/">Make decision</a>
                     </li>
-                    <!--<li class="jui-case-actions__item">-->
-                        <!--<a class="jui-case-actions__link" routerLink="/">List for hearing</a>-->
-                    <!--</li>-->
+                    <li class="jui-case-actions__item">
+                        <a class="jui-case-actions__link" routerLink="/viewcase/{{this.caseId}}/list-for-hearing/">List for hearing</a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -20,6 +20,7 @@
     <main id="content" role="main" class="govuk-main-wrapper">
         <ng-container [ngSwitch]="sectionId" >
             <app-case-decision-container data-selector="make-desion-container" *ngSwitchCase="'make-desion'" [caseId]="caseId"></app-case-decision-container>
+            <app-list-for-hearing-container data-selector="list-for-hearing-container" *ngSwitchCase="'list-for-hearing'" [caseId]="caseId"></app-list-for-hearing-container>
             <app-case-viewer-container data-selector="case-viewer-container" *ngSwitchDefault="" [caseId]="caseId" [case]="case" [sectionId]="sectionId"></app-case-viewer-container>
         </ng-container>
     </main>

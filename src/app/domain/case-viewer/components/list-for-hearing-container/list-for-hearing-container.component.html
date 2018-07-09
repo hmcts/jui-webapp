@@ -1,0 +1,17 @@
+<div class="jui-width-container">
+    <a class="govuk-back-link" routerLink="/viewcase/{{this.caseId}}">Back</a>
+    <main class="govuk-main-wrapper" role="main">
+        <h1 class="govuk-heading-l">List for hearing</h1>
+        <form method="post">
+            <div class="govuk-form-group">
+                <label class="govuk-label govuk-label--m" for="hearing-notes">
+                    Hearing notes (optional)
+                </label>
+                <textarea class="govuk-textarea govuk-input--width-30" id="hearing-notes" name="hearing-notes" rows="5"></textarea>
+            </div>
+            <button type="submit" class="govuk-button">
+                Continue
+            </button>
+        </form>
+    </main>
+</div>

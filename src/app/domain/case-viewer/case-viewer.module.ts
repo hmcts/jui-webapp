@@ -13,6 +13,7 @@ import {DocumentViewerModule} from '../../shared/components/document-viewer/docu
 import {RouterModule} from '@angular/router';
 import { CaseViewerContainerComponent } from './components/case-viewer-container/case-viewer-container.component';
 import { CaseDecisionContainerComponent } from './components/case-decision-container/case-decision-container.component';
+import { ListForHearingContainerComponent } from './components/list-for-hearing-container/list-for-hearing-container.component';
 
 @NgModule({
     imports: [
@@ -26,7 +27,8 @@ import { CaseDecisionContainerComponent } from './components/case-decision-conta
         DocumentPanelComponent,
         CaseDetailsBarComponent,
         CaseViewerContainerComponent,
-        CaseDecisionContainerComponent
+        CaseDecisionContainerComponent,
+        ListForHearingContainerComponent
     ],
     declarations: [
         CaseViewerComponent,
@@ -38,7 +40,8 @@ import { CaseDecisionContainerComponent } from './components/case-decision-conta
         CaseNavComponent,
         CaseDetailsBarComponent,
         CaseViewerContainerComponent,
-        CaseDecisionContainerComponent
+        CaseDecisionContainerComponent,
+        ListForHearingContainerComponent
     ]
 })
 export class CaseViewerModule {
