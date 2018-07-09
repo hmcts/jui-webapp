@@ -20,7 +20,7 @@ module.exports = {
                     type: 'summary-panel',
                     sections: [
                         {
-                            name: 'Case Details',
+                            name: 'Case details',
                             type: 'data-list',
                             fields: [
                                 {
@@ -38,7 +38,7 @@ module.exports = {
                             ]
                         },
                         {
-                            name: 'Representatives',
+                            name: 'Panel members',
                             type: 'data-list',
                             fields: [
                                 {
