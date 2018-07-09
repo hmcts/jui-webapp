@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TimelineComponent } from './timeline.component';
 import { CaseViewerModule } from '../../case-viewer.module';
 import { DebugElement } from '@angular/core';
 import { Selector } from '../../../../../../test/selector-helper';
+import {TimelineComponent} from './timeline.component';
 
 describe('TimelineComponent', () => {
     let component: TimelineComponent;

@@ -2,10 +2,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TimelineSectionComponent } from './timeline-section.component';
 import {RouterTestingModule} from '@angular/router/testing';
-import {TimelineComponent} from '../timeline/timeline.component';
 import {Selector} from '../../../../../../test/selector-helper';
 import {CaseViewerModule} from '../../case-viewer.module';
 import {DebugElement} from '@angular/core';
+import {TimelineComponent} from '../timeline/timeline.component';
 
 describe('TimelineSectionComponent', () => {
     let component: TimelineSectionComponent;
