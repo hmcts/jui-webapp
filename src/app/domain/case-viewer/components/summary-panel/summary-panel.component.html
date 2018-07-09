@@ -2,22 +2,21 @@
     <div class="govuk-grid-column-two-thirds">
         <ng-container *ngFor="let section of panelData.sections">
             <div  class="govuk-grid-row">
-                <div class="govuk-grid-column">
-                    <ng-container [ngSwitch]="section.type" >
-                        <app-data-list
-                            data-selector="data-list"
-                            *ngSwitchCase="'data-list'"
-                            [title]="section.name"
-                            [dataList]="section.fields">
-                        </app-data-list>
-                        <!--<app-timeline-section-->
-                        <!--data-selector="timeline-section"-->
-                        <!--*ngSwitchCase="'timeline'"-->
-                        <!--[title]="section.name"-->
-                        <!--[caseId]="caseId"-->
-                        <!--[events]="section.fields[0].value"-->
-                        <!--&gt;</app-timeline-section>-->
-                    </ng-container>                </div>
+                <ng-container [ngSwitch]="section.type" >
+                    <app-data-list
+                        data-selector="data-list"
+                        *ngSwitchCase="'data-list'"
+                        [title]="section.name"
+                        [dataList]="section.fields">
+                    </app-data-list>
+                    <!--<app-timeline-section-->
+                    <!--data-selector="timeline-section"-->
+                    <!--*ngSwitchCase="'timeline'"-->
+                    <!--[title]="section.name"-->
+                    <!--[caseId]="caseId"-->
+                    <!--[events]="section.fields[0].value"-->
+                    <!--&gt;</app-timeline-section>-->
+                </ng-container>
             </div>
         </ng-container>
     </div>

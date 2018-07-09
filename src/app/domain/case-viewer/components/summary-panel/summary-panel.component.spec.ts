@@ -37,6 +37,7 @@ describe('SummaryPanelComponent', () => {
                 'sections': [
                     {
                         'name': 'Case Details',
+                        'type': 'data-list',
                         'fields': [
                             {
                                 'label': 'Parties',
@@ -50,6 +51,7 @@ describe('SummaryPanelComponent', () => {
                     },
                     {
                         'name': 'Representative',
+                        'type': 'data-list',
                         'fields': [
                             {
                                 'label': 'Judge',
@@ -66,8 +68,8 @@ describe('SummaryPanelComponent', () => {
                         ]
                     },
                     {
-                        'id': 'recentEvents',
                         'name': 'Recent events',
+                        'type': 'timeline',
                         'fields': [
                             {
                                 'value': [
@@ -99,7 +101,7 @@ describe('SummaryPanelComponent', () => {
 
         it(`should set the DataList Component's title to the sections name`, () => {
             const actualTitles = element.nativeElement.querySelectorAll(Selector.selector('title'));
-            component.panelData.sections.filter(s => s.id !== 'recentEvents').map((expectedItem, index) => {
+            component.panelData.sections.filter(s => s.type !== 'timeline').map((expectedItem, index) => {
                 expect(actualTitles[index].textContent).toEqual(expectedItem.name);
             });
         });
