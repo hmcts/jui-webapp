@@ -67,8 +67,8 @@ describe('TimelinePanelComponent', () => {
         });
 
         it('should see John first and Gilbert second', () => {
-            expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-by'))[0].textContent).toBe('by John Smith');
-            expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-by'))[1].textContent).toBe('by Gilbert Smith');
+            expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-by'))[0].textContent).toBe(' by John Smith');
+            expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-by'))[1].textContent).toBe(' by Gilbert Smith');
         });
 
     });
