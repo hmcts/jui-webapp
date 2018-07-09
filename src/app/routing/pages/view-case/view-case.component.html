@@ -16,15 +16,12 @@
     </div>
 </div>
 
-<div class="jui-width-container">
-    <main id="content" role="main" class="govuk-main-wrapper">
+
         <ng-container [ngSwitch]="sectionId" >
             <app-case-decision-container data-selector="make-desion-container" *ngSwitchCase="'make-desion'" [caseId]="caseId"></app-case-decision-container>
             <app-list-for-hearing-container data-selector="list-for-hearing-container" *ngSwitchCase="'list-for-hearing'" [caseId]="caseId"></app-list-for-hearing-container>
             <app-case-viewer-container data-selector="case-viewer-container" *ngSwitchDefault="" [caseId]="caseId" [case]="case" [sectionId]="sectionId"></app-case-viewer-container>
         </ng-container>
-    </main>
-</div>
 
 
 
