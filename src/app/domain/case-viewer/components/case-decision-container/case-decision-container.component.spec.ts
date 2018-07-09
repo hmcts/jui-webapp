@@ -1,25 +1,28 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CaseDecisionContainerComponent } from './case-decision-container.component';
+import {RouterTestingModule} from '@angular/router/testing';
 
 describe('CaseDecisionContainerComponent', () => {
-  let component: CaseDecisionContainerComponent;
-  let fixture: ComponentFixture<CaseDecisionContainerComponent>;
+    let component: CaseDecisionContainerComponent;
+    let fixture: ComponentFixture<CaseDecisionContainerComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CaseDecisionContainerComponent ]
-    })
-    .compileComponents();
-  }));
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [ CaseDecisionContainerComponent ],
+            imports: [RouterTestingModule]
+        })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CaseDecisionContainerComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(CaseDecisionContainerComponent);
+        component = fixture.componentInstance;
+        component.caseId = 123456;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });
