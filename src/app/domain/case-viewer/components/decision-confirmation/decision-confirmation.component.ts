@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-decision-confirmation',
-  templateUrl: './decision-confirmation.component.html',
-  styleUrls: ['./decision-confirmation.component.scss']
+    selector: 'app-decision-confirmation',
+    templateUrl: './decision-confirmation.component.html',
+    styleUrls: ['./decision-confirmation.component.scss']
 })
 export class DecisionConfirmationComponent implements OnInit {
 
-  constructor() { }
+    caseId: string;
 
-  ngOnInit() {
-  }
+    constructor() { }
+
+    ngOnInit() {
+    }
 
 }
