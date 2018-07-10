@@ -18,4 +18,8 @@ export class CaseDecisionContainerComponent implements OnInit {
     public toggle() {
         this.error = !this.error;
     }
+
+    submitDecision() {
+
+    }
 }

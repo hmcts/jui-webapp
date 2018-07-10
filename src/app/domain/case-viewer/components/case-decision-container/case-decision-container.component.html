@@ -1,33 +1,48 @@
 <div class="jui-width-container">
     <a class="govuk-back-link" routerLink="/viewcase/{{this.caseId}}">Back</a>
     <main class="govuk-main-wrapper" role="main">
-        <h1 class="govuk-heading-l">Make decision</h1>
 
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-
-                <div *ngIf="error" class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="error-summary">
-                    <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
-                    <div class="govuk-error-summary__body">
-                        <ul class="govuk-list govuk-error-summary__list">
-                            <li><a href="#decision-notes">Enter your decision notes</a></li>
-                        </ul>
+        <div *ngIf="false">
+            <h1 class="govuk-heading-l">Make decision</h1>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    <div *ngIf="error" class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="error-summary">
+                        <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
+                        <div class="govuk-error-summary__body">
+                            <ul class="govuk-list govuk-error-summary__list">
+                                <li><a href="#decision-notes">Enter your decision notes</a></li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-
-
-                <div [ngClass]="{'govuk-form-group': true, 'govuk-form-group--error': error}">
-                    <label class="govuk-label govuk-label--m" for="decision-notes">Decision notes</label>
-                    <span *ngIf="error" id="decision-notes-error" class="govuk-error-message">Enter your decision notes</span>
-                    <textarea [ngClass]="{
+                    <div [ngClass]="{'govuk-form-group': true, 'govuk-form-group--error': error}">
+                        <label class="govuk-label govuk-label--m" for="decision-notes">Decision notes</label>
+                        <span *ngIf="error" id="decision-notes-error" class="govuk-error-message">Enter your decision notes</span>
+                        <textarea [ngClass]="{
                         'govuk-textarea': true,
                         'govuk-input--width-30x': true,
-                         'govuk-textarea--error': error
-                         }" id="decision-notes" name="decision-notes" rows="5"></textarea>
+                        'govuk-textarea--error': error
+                        }" id="decision-notes" name="decision-notes" rows="5"></textarea>
+                    </div>
+                    <button class="govuk-button" (click)="toggle()">Continue</button>
                 </div>
-                <button class="govuk-button" (click)="toggle()">Continue</button>
+            </div>
+        </div>
 
-
+        <div *ngIf="false">
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    <h1 class="govuk-heading-xl">Check your decision</h1>
+                    <dl class="app-check-your-answers  app-check-your-answers--short  govuk-!-margin-bottom-6">
+                        <div class="app-check-your-answers__contents">
+                            <dt class="app-check-your-answers__question">Decision</dt>
+                            <dd class="app-check-your-answers__answer">asdgasdgs</dd>
+                            <dd class="app-check-your-answers__change">
+                                <a routerLink="/viewcase/{{this.caseId}}/make-decision">Change <span class="govuk-visually-hidden">decision</span></a>
+                            </dd>
+                        </div>
+                    </dl>
+                    <button class="govuk-button" (click)="submitDecision()">Submit decision</button>
+                </div>
             </div>
         </div>
 

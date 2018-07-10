@@ -19,4 +19,7 @@ export class ListForHearingContainerComponent implements OnInit {
         this.error = !this.error;
     }
 
+    submitHearing() {
+
+    }
 }
