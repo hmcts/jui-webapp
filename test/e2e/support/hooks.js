@@ -35,7 +35,9 @@ const targetJson = `${jsonReports}/cucumber_report.json`;
 //             .create(cucumberReportOptions)
 //             .then(() => {
 //                 // invoke cucumber-html-report
-//                 // creating two reports(optional) here, cucumber-html-report gives directory already exists as cucumber-html-reporter already creates the html dir!
+//                 // creating two reports(optional) here,
+//                 // cucumber-html-report gives directory already
+//                 // exists as cucumber-html-reporter already creates the html dir!
 //                 // suggestion- use either one of the reports based on your needs
 //                 console.log('cucumber_report.html created successfully!');
 //             })

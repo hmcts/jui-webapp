@@ -76,7 +76,7 @@ module.exports = (req, res, next) => {
             ServiceAuthorization: req.headers.ServiceAuthorization
         }
     }).then(([caseData, events]) => {
-        caseData.events = events != null ? events.map(e => reduceEvent(e)) : [];
+        caseData.events = events === null ? [] : events.map(e => reduceEvent(e));
 
         const schema = JSON.parse(JSON.stringify(sscsCaseTemplate));
         if (schema.details) {
