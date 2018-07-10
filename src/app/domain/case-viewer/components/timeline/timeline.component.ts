@@ -6,7 +6,7 @@ import {Component, Input, OnChanges} from '@angular/core';
     styleUrls: ['./timeline.component.scss']
 })
 export class TimelineComponent implements OnChanges{
-    @Input() events;
+    @Input() events = [];
     @Input() maxHistory: number;
 
     ngOnChanges(changes): void {

@@ -11,7 +11,6 @@ import { TimelineComponent } from './components/timeline/timeline.component';
 import { CaseDetailsBarComponent } from './components/case-details-bar/case-details-bar.component';
 import {DocumentViewerModule} from '../../shared/components/document-viewer/document-viewer.module';
 import {RouterModule} from '@angular/router';
-import { TimelineSectionComponent } from './components/timeline-section/timeline-section.component';
 
 @NgModule({
     imports: [
@@ -31,7 +30,6 @@ import { TimelineSectionComponent } from './components/timeline-section/timeline
         SummaryPanelComponent,
         PartiesPanelComponent,
         TimelinePanelComponent,
-        TimelineSectionComponent,
         TimelineComponent,
         CaseNavComponent,
         CaseDetailsBarComponent
