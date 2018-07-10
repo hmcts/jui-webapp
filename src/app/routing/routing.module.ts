@@ -9,7 +9,10 @@ import { ViewCaseComponent } from './pages/view-case/view-case.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CaseService } from '../case.service';
 import { CaseFileService } from '../case-file.service';
-import { RedirectionService} from "./redirection.service";
+import { RedirectionService} from './redirection.service';
+import {CaseViewerComponent} from '../domain/case-viewer/components/case-viewer/case-viewer.component';
+import {CaseDecisionComponent} from '../domain/case-viewer/components/case-decision/case-decision.component';
+import {ListForHearingComponent} from '../domain/case-viewer/components/list-for-hearing/list-for-hearing.component';
 
 const routes: Routes = [
     {
@@ -19,15 +22,25 @@ const routes: Routes = [
     },
     {
         path: 'viewcase/:case_id',
-        component: ViewCaseComponent
-    },
-    {
-        path: 'viewcase/:case_id/:section',
-        component: ViewCaseComponent
-    },
-    {
-        path: 'viewcase/:case_id/:section/:section_item_id',
-        component: ViewCaseComponent
+        component: ViewCaseComponent,
+        children: [
+            {
+                path: 'make-decision',
+                component: CaseDecisionComponent
+            },
+            {
+                path: 'list-for-hearing',
+                component: ListForHearingComponent
+            },
+            {
+                path: ':section',
+                component: CaseViewerComponent
+            },
+            {
+                path: ':section/:section_item_id',
+                component: CaseViewerComponent
+            }
+        ]
     }
 ];
 

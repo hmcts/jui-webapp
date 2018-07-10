@@ -1,19 +1,18 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {CaseViewerComponent} from './components/case-viewer/case-viewer.component';
+import {RouterModule} from '@angular/router';
 import {SharedModule} from '../../shared/shared.module';
+import {DocumentViewerModule} from '../../shared/components/document-viewer/document-viewer.module';
+import {CaseViewerComponent} from './components/case-viewer/case-viewer.component';
+import { CaseDetailsBarComponent } from './components/case-details-bar/case-details-bar.component';
+import { CaseNavComponent } from './components/case-nav/case-nav.component';
 import { DocumentPanelComponent } from './components/document-panel/document-panel.component';
 import { SummaryPanelComponent } from './components/summary-panel/summary-panel.component';
 import { PartiesPanelComponent } from './components/parties-panel/parties-panel.component';
-import { CaseNavComponent } from './components/case-nav/case-nav.component';
 import { TimelinePanelComponent } from './components/timeline-panel/timeline-panel.component';
 import { TimelineComponent } from './components/timeline/timeline.component';
-import { CaseDetailsBarComponent } from './components/case-details-bar/case-details-bar.component';
-import {DocumentViewerModule} from '../../shared/components/document-viewer/document-viewer.module';
-import {RouterModule} from '@angular/router';
-import { CaseViewerContainerComponent } from './components/case-viewer-container/case-viewer-container.component';
-import { CaseDecisionContainerComponent } from './components/case-decision-container/case-decision-container.component';
-import { ListForHearingContainerComponent } from './components/list-for-hearing-container/list-for-hearing-container.component';
+import {CaseDecisionComponent} from './components/case-decision/case-decision.component';
+import { ListForHearingComponent } from './components/list-for-hearing/list-for-hearing.component';
 
 @NgModule({
     imports: [
@@ -26,9 +25,8 @@ import { ListForHearingContainerComponent } from './components/list-for-hearing-
         CaseViewerComponent,
         DocumentPanelComponent,
         CaseDetailsBarComponent,
-        CaseViewerContainerComponent,
-        CaseDecisionContainerComponent,
-        ListForHearingContainerComponent
+        CaseDecisionComponent,
+        ListForHearingComponent
     ],
     declarations: [
         CaseViewerComponent,
@@ -38,10 +36,9 @@ import { ListForHearingContainerComponent } from './components/list-for-hearing-
         TimelinePanelComponent,
         TimelineComponent,
         CaseNavComponent,
+        CaseDecisionComponent,
         CaseDetailsBarComponent,
-        CaseViewerContainerComponent,
-        CaseDecisionContainerComponent,
-        ListForHearingContainerComponent
+        ListForHearingComponent
     ]
 })
 export class CaseViewerModule {
