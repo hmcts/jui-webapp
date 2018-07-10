@@ -8,10 +8,15 @@ import {Component, Input, OnInit} from '@angular/core';
 export class ListForHearingContainerComponent implements OnInit {
 
     @Input() caseId: any;
+    error = false;
 
     constructor() { }
 
     ngOnInit() {
+    }
+
+    public toggle() {
+        this.error = !this.error;
     }
 
 }

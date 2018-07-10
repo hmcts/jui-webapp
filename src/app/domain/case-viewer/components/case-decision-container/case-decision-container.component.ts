@@ -8,9 +8,14 @@ import {Component, Input, OnInit} from '@angular/core';
 export class CaseDecisionContainerComponent implements OnInit {
 
     @Input() caseId: any;
+    error = false;
+
     constructor() { }
 
     ngOnInit() {
     }
 
+    public toggle() {
+        this.error = !this.error;
+    }
 }
