@@ -6,8 +6,7 @@ import {Component, Input} from '@angular/core';
     styleUrls: ['./data-list.component.scss']
 })
 export class DataListComponent {
-    @Input() dataList;
-
     @Input() title;
+    @Input() dataList;
 }
 

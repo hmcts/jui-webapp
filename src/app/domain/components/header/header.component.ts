@@ -7,16 +7,13 @@ import {AuthService} from '../../../auth/auth.service';
 })
 export class HeaderComponent {
 
-    constructor(
-        public authService: AuthService) {
+    logoutLink: string;
+
+    constructor(public authService: AuthService) {
+        this.logoutLink = `/logout?redirect=${encodeURIComponent(this.authService.generateLoginUrl())}`;
     }
 
     get loggedIn() {
         return this.authService.isAuthenticated();
     }
-
-    logout() {
-        this.authService.logout();
-    }
-
 }

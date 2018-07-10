@@ -9,7 +9,6 @@ import { FormsModule } from '@angular/forms';
 import {CdkTableModule} from '@angular/cdk/table';
 import {DocumentViewerModule} from './components/document-viewer/document-viewer.module';
 import { RouterModule} from '@angular/router';
-import {HeaderComponent} from './components/header/header.component';
 
 @NgModule({
     imports: [
@@ -24,7 +23,6 @@ import {HeaderComponent} from './components/header/header.component';
         TabsComponent,
         TableComponent,
         DataListComponent,
-        HeaderComponent,
         FooterComponent
     ],
     exports: [
@@ -32,7 +30,6 @@ import {HeaderComponent} from './components/header/header.component';
         TabsComponent,
         TableComponent,
         DataListComponent,
-        HeaderComponent,
         FooterComponent
     ]
 })

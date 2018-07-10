@@ -6,8 +6,9 @@ import {Component, Input, OnChanges} from '@angular/core';
     styleUrls: ['./case-viewer.component.scss']
 })
 export class CaseViewerComponent implements OnChanges {
-    @Input() case: any;
 
+    @Input() case: any;
+    @Input() caseId: any;
     @Input() sectionId: string;
 
     targetSection;

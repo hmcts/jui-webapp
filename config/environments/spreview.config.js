@@ -11,7 +11,5 @@ module.exports = {
         em_redact_api: "http://em-redact-saat.service.core-compute-saat.internal",
         coh_cor_api: "http://coh-cor-saat.service.core-compute-saat.internal"
     },
-    api_base_url: "https://jui-webapp-saat.service.core-compute-saat.internal",
-    oauth_callback_url: "https://jui-webapp-saat.service.core-compute-saat.internal/oauth2/callback",
     useProxy: false
 };

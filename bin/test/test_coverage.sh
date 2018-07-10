@@ -2,8 +2,8 @@
 
 yarn test:coverage
 
-xdg-open coverage/index.html
-open coverage/index.html
+xdg-open test/coverage/index.html
+open test/coverage/index.html
 
 # if java gradle
 #./gradlew jacocoTestReport --info

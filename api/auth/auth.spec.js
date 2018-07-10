@@ -44,7 +44,7 @@ describe('oAuth callback route', () => {
             .get('/oauth2/callback?code=bob')
             .then((res) => {
                 expect(getTokenCodeSpy).toHaveBeenCalled();
-                expect(getTokenCodeSpy).toHaveBeenCalledWith('bob');
+                expect(getTokenCodeSpy.calls.mostRecent().args[0]).toEqual('bob');
             });
     });
 

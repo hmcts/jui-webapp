@@ -39,7 +39,13 @@ const columns = [{
         'lookup': '$.last_modified',
         'date_format': 'd MMMM yyyy \'at\' h:mmaaaaa\'m\''
     }];
-const casesUrl = 'http://localhost:3000/api/cases';
+const casesUrl = '/api/cases';
+
+const configMock = {
+    config: {
+        api_base_url: ''
+    }
+};
 
 describe('SearchResultComponent', () => {
     let component: SearchResultComponent;
@@ -47,11 +53,14 @@ describe('SearchResultComponent', () => {
     let httpMock: HttpTestingController;
     let nativeElement;
 
+
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [],
             imports: [DomainModule, SharedModule, BrowserTransferStateModule, HttpClientTestingModule, RouterTestingModule],
-            providers: [CaseService, ConfigService]
+            providers: [CaseService, {
+                provide: ConfigService, useValue: configMock
+            }]
         })
             .compileComponents();
     }));
@@ -84,6 +93,7 @@ describe('SearchResultComponent', () => {
                     fixture.detectChanges();
                 });
             }));
+
 
             it('should have zero rows', () => {
                 expect(nativeElement.querySelectorAll(Selector.selector('search-result|table-row')).length).toBe(0);
