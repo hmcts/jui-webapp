@@ -1,9 +1,8 @@
 import {Component, QueryList, ContentChildren, ElementRef, ViewChildren, OnInit, AfterContentInit} from '@angular/core';
 import { TabComponent } from '../tab/tab.component';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'cut-tabs',
+  selector: 'app-tabs',
   templateUrl: './tabs.component.html',
   styleUrls: [
     './tabs.component.scss'

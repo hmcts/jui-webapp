@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'cut-tab',
+  selector: 'app-tab',
   templateUrl: './tab.component.html'
 })
 export class TabComponent {

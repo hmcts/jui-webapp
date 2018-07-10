@@ -2,7 +2,8 @@
     "extends": "@hmcts",
     "env": {
         "es6": true,
-        "node": true
+        "node": true,
+        "jasmine": true
     },
     "parserOptions": {
         "sourceType": "module"
