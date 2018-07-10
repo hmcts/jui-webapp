@@ -60,6 +60,9 @@ describe('case-list spec', () => {
                                 firstName: 'Louis',
                                 lastName: 'Houghton'
                             }
+                        },
+                        benefitType: {
+                            code: 'PIP'
                         }
                     }
                 },
@@ -111,6 +114,9 @@ describe('case-list spec', () => {
                                 firstName: 'Louis',
                                 lastName: 'Houghton'
                             }
+                        },
+                        benefitType: {
+                            code: 'PIP'
                         }
                     }
                 },
@@ -128,6 +134,9 @@ describe('case-list spec', () => {
                                 firstName: 'Padmaja',
                                 lastName: 'Ramisetti'
                             }
+                        },
+                        benefitType: {
+                            code: 'PIP'
                         }
                     }
                 },
@@ -146,6 +155,9 @@ describe('case-list spec', () => {
                                 firstName: 'Roopa',
                                 lastName: 'Ramisetty'
                             }
+                        },
+                        benefitType: {
+                            code: 'PIP'
                         }
                     }
                 },
