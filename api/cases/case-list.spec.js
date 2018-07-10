@@ -162,13 +162,13 @@ describe('case-list spec', () => {
                     expect(response.body.results.length).toBe(3);
                     expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
                     expect(response.body.results[0]).toEqual({
-                        case_id: caseData[1].id,
-                        case_reference: caseData[1].case_data.caseReference,
+                        case_id: caseData[0].id,
+                        case_reference: caseData[0].case_data.caseReference,
                         case_fields: {
-                            parties: 'Padmaja Ramisetti vs DWP',
+                            parties: 'Louis Houghton vs DWP',
                             type: 'PIP',
-                            caseStartDate: createdDate2.toISOString(),
-                            dateOfLastAction: updatedDate2.toISOString()
+                            caseStartDate: createdDate1.toISOString(),
+                            dateOfLastAction: updatedDate1.toISOString()
                         }
                     });
                     expect(response.body.results[1]).toEqual({
@@ -182,13 +182,13 @@ describe('case-list spec', () => {
                         }
                     });
                     expect(response.body.results[2]).toEqual({
-                        case_id: caseData[0].id,
-                        case_reference: caseData[0].case_data.caseReference,
+                        case_id: caseData[1].id,
+                        case_reference: caseData[1].case_data.caseReference,
                         case_fields: {
-                            parties: 'Louis Houghton vs DWP',
+                            parties: 'Padmaja Ramisetti vs DWP',
                             type: 'PIP',
-                            caseStartDate: createdDate1.toISOString(),
-                            dateOfLastAction: updatedDate1.toISOString()
+                            caseStartDate: createdDate2.toISOString(),
+                            dateOfLastAction: updatedDate2.toISOString()
                         }
                     });
                 });
