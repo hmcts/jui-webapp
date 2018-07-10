@@ -4,11 +4,22 @@ const config = require('../../config');
 const valueProcessor = require('../lib/value-processor');
 
 function getCase(caseId, userId, options, caseType = 'Benefit', jurisdiction = 'SSCS') {
-    return generateRequest(`${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}`, options);
+    const url = `${config.services.ccd_data_api}
+    /caseworkers/${userId}/
+    jurisdictions/${jurisdiction}
+    /case-types/${caseType}
+    /cases/${caseId}`;
+    return generateRequest(url, options);
 }
 
 function getCaseEvents(caseId, userId, options, caseType = 'Benefit', jurisdiction = 'SSCS') {
-    return generateRequest(`${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`, options);
+    const url = `${config.services.ccd_data_api}
+    /caseworkers/${userId}
+    /jurisdictions/${jurisdiction}
+    /case-types/${caseType}
+    /cases/${caseId}
+    /events`;
+    return generateRequest(url, options);
 }
 
 function getCaseWithEvents(caseId, userId, options, caseType = 'Benefit', jurisdiction = 'SSCS') {

@@ -8,7 +8,9 @@ function getCases(userId, options, caseType = 'Benefit', caseStateId = 'appealCr
     /caseworkers/${userId}
     /jurisdictions/${jurisdiction}
     /case-types/${caseType}
-    /cases?state=${caseStateId}&page=1&sortDirection=DESC`;
+    /cases?state=${caseStateId}
+    &page=1
+    &sortDirection=DESC`;
     return generateRequest(url, options);
 }
 

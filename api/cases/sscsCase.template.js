@@ -20,7 +20,11 @@ module.exports = {
                             fields: [
                                 {
                                     label: 'Parties',
-                                    value: ['$.case_data.appeal.appellant.name.firstName', '$.case_data.appeal.appellant.name.lastName', 'vs DWP']
+                                    value: [
+                                        '$.case_data.appeal.appellant.name.firstName',
+                                        '$.case_data.appeal.appellant.name.lastName',
+                                        'vs DWP'
+                                    ]
                                 },
                                 {
                                     label: 'Case number',
