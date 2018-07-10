@@ -31,8 +31,8 @@ module.exports = (req, res, next) => {
             'ServiceAuthorization' : req.headers.ServiceAuthorization
         }
     }).then(casesData => {
-        var results = rawCasesReducer(casesData, sscsCaseListTemplate.columns).sort(function (result1, result2) {
-            return new Date(result1.case_fields.dateOfLastAction) - new Date(result2.case_fields.dateOfLastAction);
+        let results = rawCasesReducer(casesData, sscsCaseListTemplate.columns).sort(function (result1, result2) {
+            return new Date(result2.case_fields.dateOfLastAction) - new Date(result1.case_fields.dateOfLastAction);
         });
         const aggregatedData = {...sscsCaseListTemplate, results : results};
         res.setHeader('Access-Control-Allow-Origin', '*');
