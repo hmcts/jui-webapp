@@ -53,6 +53,7 @@ describe('case-list spec', () => {
             caseData.push({
                 id: '987654321',
                 case_data: {
+                    caseReference: '123-123-123',
                     appeal: {
                         appellant: {
                             name: {
@@ -76,6 +77,7 @@ describe('case-list spec', () => {
                     expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
                     expect(response.body.results[0]).toEqual({
                         case_id: caseData[0].id,
+                        case_reference: caseData[0].case_data.caseReference,
                         case_fields: {
                             parties: 'Louis Houghton vs DWP',
                             type: 'PIP',

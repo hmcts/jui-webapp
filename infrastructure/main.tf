@@ -18,6 +18,7 @@ module "app" {
   is_frontend = true
   additional_host_name = "${local.app_full_name}-${var.env}.service.${var.env}.platform.hmcts.net"
   https_only="false"
+  common_tags  = "${var.common_tags}"
 
   app_settings = {
     # REDIS_HOST = "${module.redis-cache.host_name}"
@@ -50,9 +51,7 @@ provider "vault" {
 }
 
 data "vault_generic_secret" "s2s_secret" {
-//  //Temporarily use ccd_gw
-  path = "secret/${var.vault_section}/ccidam/service-auth-provider/api/microservice-keys/ccd-gw"
-//  path = "secret/${var.vault_section}/ccidam/service-auth-provider/api/microservice-keys/jui-webapp"
+  path = "secret/${var.vault_section}/ccidam/service-auth-provider/api/microservice-keys/jui-webapp"
 }
 
 data "vault_generic_secret" "oauth2_secret" {
@@ -77,6 +76,6 @@ resource "azurerm_key_vault_secret" "S2S_TOKEN" {
 
 resource "azurerm_key_vault_secret" "OAUTH2_TOKEN" {
   name = "oauth2-token"
-  value = "${data.vault_generic_secret.s2s_secret.data["value"]}"
+  value = "${data.vault_generic_secret.oauth2_secret.data["value"]}"
   vault_uri = "${module.key_vault.key_vault_uri}"
 }

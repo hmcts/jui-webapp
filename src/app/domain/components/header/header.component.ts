@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
-import {AuthService} from "../../../auth/auth.service";
-
+import {AuthService} from '../../../auth/auth.service';
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
@@ -8,15 +7,13 @@ import {AuthService} from "../../../auth/auth.service";
 })
 export class HeaderComponent {
 
+    logoutLink: string;
+
     constructor(public authService: AuthService) {
+        this.logoutLink = `/logout?redirect=${encodeURIComponent(this.authService.generateLoginUrl())}`;
     }
 
     get loggedIn() {
         return this.authService.isAuthenticated();
     }
-
-    logout() {
-        this.authService.logout();
-    }
-
 }
