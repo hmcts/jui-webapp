@@ -4,13 +4,11 @@ const config = require('../../config');
 
 module.exports = function getUserDetails(jwt) {
     const Authorization = `Bearer ${jwt}`;
-    let url = `${config.services.idam_api}/details`;
+    const url = `${config.services.idam_api}/details`;
     let options = {
-        url: url,
+        url,
         method: 'GET',
-        headers: {
-            'Authorization': Authorization
-        }
+        headers: { Authorization }
     };
     if (config.useProxy) {
         options = proxy(options);

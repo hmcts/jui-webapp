@@ -6,7 +6,7 @@ const config = require('../../config/index');
 
 const microservice = config.microservice;
 const secret = process.env.JUI_S2S_SECRET || 'AAAAAAAAAAAAAAAA';
-let _cache = {};
+const _cache = {};
 
 
 function validateCache() {
@@ -21,13 +21,13 @@ function getToken() {
 
 
 function generateToken() {
-    const oneTimePassword = otp({secret: secret}).totp();
+    const oneTimePassword = otp({ secret }).totp();
     let options = {
         url: `${config.services.s2s}/lease`,
         method: 'POST',
         body: {
-            oneTimePassword: oneTimePassword,
-            microservice: microservice
+            oneTimePassword,
+            microservice
         },
         json: true
     };
@@ -53,14 +53,12 @@ function generateToken() {
 
 function serviceTokenGenerator() {
     return new Promise((resolve, reject) => {
-
         if (validateCache()) {
             resolve(getToken());
-        }
-        else {
+        } else {
             generateToken().then(() => {
                 resolve(getToken());
-            })
+            });
         }
     });
 }

@@ -7,15 +7,9 @@ describe('Value Processor Helper', () => {
         sampleObject = {
             simpleField1: 'simpleField1',
             simpleField2: 'simpleField2',
-            complexField1: {
-                simpleField3: 'simpleField3'
-            },
-            complexField2: {
-                complexField3: {
-                    simpleField4: 'simpleField4'
-                }
-            }
-        }
+            complexField1: { simpleField3: 'simpleField3' },
+            complexField2: { complexField3: { simpleField4: 'simpleField4' } }
+        };
     });
 
     describe('simple values', () => {

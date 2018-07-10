@@ -6,11 +6,8 @@ const config = require('../../config');
 // const sinon = require('sinon');
 
 describe('oAuth callback route', () => {
-
-    let getTokenCodeSpy = jasmine.createSpy();
-    getTokenCodeSpy.and.callFake(() => Promise.resolve({
-        access_token: '__access__'
-    }));
+    const getTokenCodeSpy = jasmine.createSpy();
+    getTokenCodeSpy.and.callFake(() => Promise.resolve({ access_token: '__access__' }));
 
     let route, request, app;
     beforeEach(() => {
@@ -18,11 +15,7 @@ describe('oAuth callback route', () => {
 
         route = proxyquire('./index.js', {
             './getTokenFromCode': getTokenCodeSpy,
-            './getUserDetails': () => {
-                return Promise.resolve({
-                    id: '__userid__'
-                })
-            }
+            './getUserDetails': () => Promise.resolve({ id: '__userid__' })
         });
 
         route(app);
@@ -30,33 +23,28 @@ describe('oAuth callback route', () => {
         request = supertest(app);
     });
 
-    it('Should redirect to /', () => {
-        return request
-            .get('/oauth2/callback')
-            .expect(302)
-            .then((res) => {
-                expect(res.headers.location).toEqual('/');
-            });
-    });
+    it('Should redirect to /', () => request
+        .get('/oauth2/callback')
+        .expect(302)
+        .then(res => {
+            expect(res.headers.location).toEqual('/');
+        }));
 
-    it('Should convert the idam code toa jwt', () => {
-        return request
-            .get('/oauth2/callback?code=bob')
-            .then((res) => {
-                expect(getTokenCodeSpy).toHaveBeenCalled();
-                expect(getTokenCodeSpy.calls.mostRecent().args[0]).toEqual('bob');
-            });
-    });
+    it('Should convert the idam code toa jwt', () => request
+        .get('/oauth2/callback?code=bob')
+        .then(res => {
+            expect(getTokenCodeSpy).toHaveBeenCalled();
+            expect(getTokenCodeSpy.calls.mostRecent().args[0]).toEqual('bob');
+        }));
 
-    it('Should set cookies', () => {
-        return request
-            .get('/oauth2/callback')
-            .then((res) => {
-                expect(res.headers['set-cookie'].length).toEqual(2);
-                expect(res.headers['set-cookie']).toEqual(
-                    [`${config.cookies.token}=__access__; Path=/`,
-                        `${config.cookies.userId}=__userid__; Path=/`
-                    ]);
-            });
-    });
+    it('Should set cookies', () => request
+        .get('/oauth2/callback')
+        .then(res => {
+            expect(res.headers['set-cookie'].length).toEqual(2);
+            expect(res.headers['set-cookie']).toEqual(
+                [
+                    `${config.cookies.token}=__access__; Path=/`,
+                    `${config.cookies.userId}=__userid__; Path=/`
+                ]);
+        }));
 });

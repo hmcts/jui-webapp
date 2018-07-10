@@ -4,11 +4,11 @@ const config = require('../../config');
 const valueProcessor = require('../lib/value-processor');
 
 function getCase(caseId, userId, options, caseType = 'Benefit', jurisdiction = 'SSCS') {
-    return generateRequest(`${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}`, options)
+    return generateRequest(`${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}`, options);
 }
 
 function getCaseEvents(caseId, userId, options, caseType = 'Benefit', jurisdiction = 'SSCS') {
-    return generateRequest(`${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`, options)
+    return generateRequest(`${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`, options);
 }
 
 function getCaseWithEvents(caseId, userId, options, caseType = 'Benefit', jurisdiction = 'SSCS') {
@@ -21,22 +21,22 @@ function getCaseWithEvents(caseId, userId, options, caseType = 'Benefit', jurisd
 function reduceEvent(event) {
     if (event) {
         return {
-            event_name:event.event_name,
-            user_first_name:event.user_first_name,
-            user_last_name:event.user_last_name,
-            created_date:event.created_date
-        }
+            event_name: event.event_name,
+            user_first_name: event.user_first_name,
+            user_last_name: event.user_last_name,
+            created_date: event.created_date
+        };
     }
 }
 
 function replaceSectionValues(section, caseData) {
-    if(section.sections && section.sections.length) {
+    if (section.sections && section.sections.length) {
         section.sections.forEach(childSection => {
             replaceSectionValues(childSection, caseData);
         });
     } else {
         section.fields.forEach(field => {
-            field.value = valueProcessor(field.value, caseData)
+            field.value = valueProcessor(field.value, caseData);
         });
     }
 }
@@ -47,41 +47,39 @@ function caseFileReducer(caseId, caseFile) {
         const docStoreId = curr.value.documentLink.document_url.split('/').pop();
         const docType = fileName.split('.').pop();
         const isImage = ['gif', 'jpg', 'png'].includes(docType);
-        const isPdf = 'pdf' === docType;
+        const isPdf = docType === 'pdf';
         const isUnsupported = !isImage && !isPdf;
 
         acc.push({
-            'id' : docStoreId,
-            'href' : `/viewcase/${caseId}/casefile/${docStoreId}`,
-            'label' : curr.value.documentType,
-            'src' : `/api/documents/${docStoreId}`,
-            'isImage' : isImage,
-            'isPdf' : isPdf,
-            'isUnsupported' : isUnsupported
+            id: docStoreId,
+            href: `/viewcase/${caseId}/casefile/${docStoreId}`,
+            label: curr.value.documentType,
+            src: `/api/documents/${docStoreId}`,
+            isImage,
+            isPdf,
+            isUnsupported
         });
 
         return acc;
-
     }, []);
 }
 
-//GET case callback
+// GET case callback
 module.exports = (req, res, next) => {
     const token = req.auth.token;
     const userId = req.auth.userId;
     const caseId = req.params.case_id;
 
     getCaseWithEvents(caseId, userId, {
-        headers : {
-            'Authorization' : `Bearer ${token}`,
-            'ServiceAuthorization' : req.headers.ServiceAuthorization
+        headers: {
+            Authorization: `Bearer ${token}`,
+            ServiceAuthorization: req.headers.ServiceAuthorization
         }
-    }).then( ([caseData, events])=> {
-
+    }).then(([caseData, events]) => {
         caseData.events = events != null ? events.map(e => reduceEvent(e)) : [];
 
         const schema = JSON.parse(JSON.stringify(sscsCaseTemplate));
-        if(schema.details) {
+        if (schema.details) {
             replaceSectionValues(schema.details, caseData);
         }
         schema.sections.forEach(section => replaceSectionValues(section, caseData));
@@ -97,8 +95,9 @@ module.exports = (req, res, next) => {
 
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.status(200).send(JSON.stringify(schema));
-    }).catch(response => {
-        console.log(response.error || response);
-        res.status(response.error.status).send(response.error.message);
-    });
+    })
+        .catch(response => {
+            console.log(response.error || response);
+            res.status(response.error.status).send(response.error.message);
+        });
 };
