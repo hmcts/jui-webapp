@@ -8,7 +8,7 @@ const app = express();
 const cookieParser = require('cookie-parser');
 
 app.use(cookieParser());
-app.get('/oauth2/callback', apiRoute);
+
 
 app.get("/health", healthcheck.configure({
     checks: {
@@ -34,6 +34,12 @@ app.get('/info', infoRequestHandler({
         // hostname: hostname()
     }
 }));
+
+app.get('/oauth2/callback', apiRoute);
+app.get('/logout', apiRoute);
+
+// const authInteceptor = require('./api/middleware/auth');
+// app.use(authInteceptor);
 
 app.use(serviceTokenMiddleware);
 app.use('/api', apiRoute);

@@ -5,6 +5,7 @@ import {SharedModule} from '../../shared.module';
 import {DebugElement} from '@angular/core';
 
 import {Selector} from '../../../../../test/selector-helper';
+import {RouterTestingModule} from '@angular/router/testing';
 
 const columns = [
     {
@@ -86,6 +87,7 @@ const columns = [
 
 const result1 = {
     'case_id': 1528476356357908,
+    'case_reference': '123-123-123',
     'case_fields': {
         'caseReference': null,
         'parties': 'A vs May_146863',
@@ -97,6 +99,7 @@ const result1 = {
 };
 const result2 = {
     'case_id': 1528476358303157,
+    'case_reference': '321-321-321',
     'case_fields': {
         'caseReference': null,
         'parties': 'B vs May_417228',
@@ -124,7 +127,7 @@ describe('TableComponent', () => {
     let element: DebugElement;
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [SharedModule]
+            imports: [SharedModule, RouterTestingModule]
         })
             .compileComponents();
     }));

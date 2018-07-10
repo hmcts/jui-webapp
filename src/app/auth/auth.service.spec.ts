@@ -15,6 +15,7 @@ const config = {
             idam_web: 'http://idam_url.com'
         },
         oauth_callback_url: 'callback_url',
+        api_base_url: 'api_base',
         idam_client: 'client_name'
     }
 };
@@ -64,7 +65,7 @@ describe('AuthService', () => {
 
     it('should generate a login url', inject([AuthService], (service: AuthService) => {
         const url = service.generateLoginUrl();
-        expect(url).toEqual('http://idam_url.com/login?response_type=code&client_id=client_name&redirect_uri=callback_url')
+        expect(url).toEqual('http://idam_url.com/login?response_type=code&client_id=client_name&redirect_uri=api_base/callback_url')
     }));
 
     it('Should provide header versions of cookie values', inject([AuthService], (service: AuthService) => {
@@ -85,21 +86,6 @@ describe('AuthService', () => {
             expect(service.isAuthenticated()).toEqual(false);
             expiry = new Date().getTime() - 3000;
             expect(service.isAuthenticated()).toEqual(true);
-        }));
-    });
-
-    describe('logout', () => {
-        it('should delete all cookies', inject([AuthService], (service: AuthService) => {
-            service.loginRedirect = () => {};
-            service.logout();
-            expect(deleteCookiesSpy).toHaveBeenCalled();
-        }));
-
-        it('should redirect to idam', inject([AuthService], (service: AuthService) => {
-            service.loginRedirect = () => {};
-            const redirectSpy = spyOn(service, 'loginRedirect');
-            service.logout();
-            expect(redirectSpy).toHaveBeenCalled();
         }));
     });
 });
