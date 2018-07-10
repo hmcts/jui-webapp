@@ -18,16 +18,21 @@
 
 <div class="jui-width-container">
     <main id="content" role="main" class="govuk-main-wrapper">
-        <nav class="jui-secondary-nav">
+        <nav class="jui-secondary-nav" aria-label="">
             <ul class="jui-secondary-nav__list">
                 <li class="jui-secondary-nav__item" *ngFor="let link of links">
                     <a class="jui-secondary-nav__link" [attr.aria-current]="link.id===sectionId ? 'page' : null" [routerLink]="link.href">{{link.label}}</a>
                 </li>
             </ul>
         </nav>
-        <app-case-viewer [case]="case" [sectionId]="sectionId"></app-case-viewer>
+        <app-case-viewer [case]="case" [caseId]="caseId" [sectionId]="sectionId"></app-case-viewer>
     </main>
 </div>
+
+
+
+
+
 
 
 

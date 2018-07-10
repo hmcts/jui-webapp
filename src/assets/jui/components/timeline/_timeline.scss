@@ -3,81 +3,83 @@
    ========================================================================== */
 
 .jui-timeline {
-  position: relative;
+    position: relative;
+    margin-bottom: govuk-spacing(4);
 
-  &:before {
-    background-color: govuk-colour("blue");
-    content: "";
-    height: calc(100% - 10px);
-    left: 0;
-    position: absolute;
-    top: govuk-spacing(2);
-    width: 5px;
-  }
+    &:before {
+        background-color: govuk-colour("blue");
+        content: "";
+        height: calc(100% - 10px);
+        left: 0;
+        position: absolute;
+        top: govuk-spacing(2);
+        width: 5px;
+    }
 
 }
 
 .jui-timeline--full {
-  &:before {
-    height: calc(100% - 69px);
-  }
+    margin-bottom: 0;
+    &:before {
+        height: calc(100% - 75px);
+    }
 }
 
 
 .jui-timeline__item {
-  padding-bottom: govuk-spacing(6);
-  padding-left: govuk-spacing(4);
-  position: relative;
+    padding-bottom: govuk-spacing(6);
+    padding-left: govuk-spacing(4);
+    position: relative;
 
-  &:before {
-    background-color: govuk-colour("blue");
-    content: "";
-    height: 5px;
-    left: 0;
-    position: absolute;
-    top: govuk-spacing(2);
-    width: 15px;
-  }
+    &:before {
+        background-color: govuk-colour("blue");
+        content: "";
+        height: 5px;
+        left: 0;
+        position: absolute;
+        top: govuk-spacing(2);
+        width: 15px;
+    }
 
 }
 
 
 .jui-timeline__title {
-  @include govuk-font($size: 16, $weight: bold);
-  display: inline;
+    @include govuk-font($size: 19, $weight: bold);
+    display: inline;
 }
 
 
 .jui-timeline__by {
-  @include govuk-font($size: 16);
-  color: $govuk-secondary-text-colour;
-  display: inline;
-  margin: 0;
-  margin-left: govuk-spacing(1);
+    @include govuk-font($size: 19);
+    color: $govuk-secondary-text-colour;
+    display: inline;
+    margin: 0;
 }
 
 
 .jui-timeline__date {
-  @include govuk-font($size: 16);
-  margin: 0;
+    @include govuk-font($size: 16);
+    margin-top: govuk-spacing(1);
+    margin-bottom: 0;
 }
 
 
 .jui-timeline__documents {
-  list-style: none;
-  padding-left: 0;
+    list-style: none;
+    padding-left: 0;
 }
 
 
 .jui-timeline__document-item {
-  margin-bottom: govuk-spacing(1);
+    margin-bottom: govuk-spacing(1);
 }
 
 
 .jui-timeline__document-link {
-  background-image: url(#{$jui-assets-path}icon-document.svg);
-  background-repeat: no-repeat;
-  background-size: 15px 20px;
-  background-position: 0 50%;
-  padding-left: govuk-spacing(5);
+    background-image: url(#{$jui-assets-path}icon-document.svg);
+    background-repeat: no-repeat;
+    background-size: 15px 20px;
+    background-position: 0 50%;
+    padding-left: govuk-spacing(5);
 }
