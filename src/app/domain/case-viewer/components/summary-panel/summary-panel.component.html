@@ -1,14 +1,12 @@
 <div data-selector="summary-panel-component" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <ng-container *ngFor="let section of panelData.sections">
-            <ng-container [ngSwitch]="section.type" >
-                <app-data-list
-                    data-selector="data-list"
-                    *ngSwitchCase="'data-list'"
-                    [title]="section.name"
-                    [dataList]="section.fields">
-                </app-data-list>
-            </ng-container>
+            <app-data-list
+                data-selector="data-list"
+                *ngIf="section.type === 'data-list'"
+                [title]="section.name"
+                [dataList]="section.fields">
+            </app-data-list>
         </ng-container>
     </div>
     <div class="govuk-grid-column-one-third">
