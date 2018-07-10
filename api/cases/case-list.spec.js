@@ -88,4 +88,79 @@ describe('case-list spec', () => {
                 });
         });
     });
+
+    describe('when multiple row of case data is returned order by ascending order of last updated date', () => {
+        const createdDate1 = new Date(2018,6,28);
+        const updatedDate1 = new Date(2018,6,29);
+
+        const createdDate2 = new Date(2018,6,28);
+        const updatedDate2 = new Date(2018,6,30);
+
+        beforeEach(() => {
+            caseData.pop();
+            caseData.push({
+                id: '987654321',
+                case_data: {
+                    caseReference: '123-123-123',
+                    appeal: {
+                        appellant: {
+                            name: {
+                                firstName: 'Louis',
+                                lastName: 'Houghton'
+                            }
+                        }
+                    }
+                },
+                created_date: createdDate1,
+                last_modified: updatedDate1
+
+            });
+            caseData.push({
+                id: '987654322',
+                case_data: {
+                    caseReference: '123-123-124',
+                    appeal: {
+                        appellant: {
+                            name: {
+                                firstName: 'Padmaja',
+                                lastName: 'Ramisetti'
+                            }
+                        }
+                    }
+                },
+                created_date: createdDate2,
+                last_modified: updatedDate2
+
+            });
+        });
+
+        it('should return the columns with multiple rows order by ascending order of last updated date', () => {
+            return request.get('/api/cases')
+                .expect(200)
+                .then(response => {
+                    expect(response.body.results.length).toBe(2);
+                    expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
+                    expect(response.body.results[0]).toEqual({
+                        case_id: caseData[0].id,
+                        case_reference: caseData[0].case_data.caseReference,
+                        case_fields: {
+                            parties: 'Louis Houghton vs DWP',
+                            type: 'PIP',
+                            caseStartDate: createdDate1.toISOString(),
+                            dateOfLastAction: updatedDate1.toISOString()
+                        }
+                    });
+                    expect(response.body.results[1]).toEqual({
+                        case_id: caseData[1].id,
+                        case_reference: caseData[1].case_data.caseReference,
+                        case_fields: {
+                            parties: 'Padmaja Ramisetti vs DWP',
+                            type: 'PIP',
+                            caseStartDate: createdDate2.toISOString(),
+                            dateOfLastAction: updatedDate2.toISOString()
+                        }
+                    });
+                });
+        });
+    });
 });
