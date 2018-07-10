@@ -14,13 +14,13 @@ export class ConfigService {
     constructor(private state: TransferState, @Inject(DOCUMENT) private document: any) {
         this.config = this.state.get(this.CONFIG_KEY, null as any);
         if (!this.config) {
+            config.api_base_url = this.getBaseUrl(config);
             this.state.set(this.CONFIG_KEY, config);
             this.config = config;
-            this.config.api_base_url = this.getBaseUrl();
         }
     }
 
-    getBaseUrl() {
-        return `${this.document.location.protocol}//${this.document.location.host}`;
+    getBaseUrl(config) {
+        return `${config.protocol}://${this.document.location.host}`;
     }
 }

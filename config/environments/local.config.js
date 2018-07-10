@@ -11,5 +11,6 @@ module.exports = {
         em_redact_api: "http://em-redact-aat.service.core-compute-aat.internal",
         coh_cor_api: "http://coh-cor-aat.service.core-compute-aat.internal"
     },
-    useProxy: true
+    useProxy: true,
+    protocol: 'http'
 };

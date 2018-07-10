@@ -5,5 +5,6 @@ module.exports = {
     },
     microservice: "jui_webapp",
     idam_client: 'juiwebapp',
-    oauth_callback_url: 'oauth2/callback'
+    oauth_callback_url: 'oauth2/callback',
+    protocol: 'https'
 };

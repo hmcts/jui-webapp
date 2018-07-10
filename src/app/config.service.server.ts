@@ -18,15 +18,16 @@ export class ServerConfigService {
                 @Inject(PLATFORM_ID) private platformId: string) {
         this.config = this.state.get(this.CONFIG_KEY, null as any);
         if (!this.config) {
+            config.api_base_url = this.getBaseUrl(config);
             this.state.set(this.CONFIG_KEY, config);
             this.config = config;
-            this.config.api_base_url = this.getBaseUrl();
         }
     }
 
-    getBaseUrl() {
-        const protocol = this.request.protocol;
+    getBaseUrl(config) {
+        const protocol = config.protocol;
         const host = this.request.get('host');
+        console.log('********************', `${protocol}://${host}`)
         return `${protocol}://${host}`;
     }
 }
