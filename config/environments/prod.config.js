@@ -9,7 +9,5 @@ module.exports = {
         em_redact_api: "http://em-redact-prod.service.core-compute-prod.internal",
         coh_cor_api: "http://coh-cor-prod.service.core-compute-prod.internal"
     },
-    api_base_url: "https://jui-webapp-prod.service.core-compute-prod.internal",
-    oauth_callback_url: "https://jui-webapp-prod.service.core-compute-prod.internal/oauth2/callback",
     useProxy: false
 };

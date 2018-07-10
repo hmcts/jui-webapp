@@ -1,16 +1,14 @@
 <div class="jui-casebar">
     <div class="jui-width-container">
-        <div class="jui-casebar__details">
-            CO18D00150<span class="jui-casebar__title"> Alan Jones vs DWP</span>
-        </div>
+        <app-case-details-bar [case]="case"></app-case-details-bar>
         <div class="jui-casebar__options">
             <nav class="jui-case-actions">
                 <ul class="jui-case-actions__list">
                     <li class="jui-case-actions__item">
-                        <a class="jui-case-actions__link" href="/app/case/CO18D00150/make-decision">Make decision</a>
+                        <a class="jui-case-actions__link" routerLink="/">Make decision</a>
                     </li>
                     <li class="jui-case-actions__item">
-                        <a class="jui-case-actions__link" href="/app/case/CO18D00150/list-for-hearing">List for hearing</a>
+                        <a class="jui-case-actions__link" routerLink="/">List for hearing</a>
                     </li>
                 </ul>
             </nav>
@@ -27,8 +25,6 @@
                 </li>
             </ul>
         </nav>
-
-
         <app-case-viewer [case]="case" [sectionId]="sectionId"></app-case-viewer>
     </main>
 </div>

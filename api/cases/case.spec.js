@@ -9,13 +9,20 @@ describe('case spec', () => {
     let app;
     let request;
     let httpResponse;
+    let eventsHttpResponse;
 
     beforeEach(() => {
         httpResponse = (resolve, reject) => {
             resolve({});
         };
         httpRequest = jasmine.createSpy();
-        httpRequest.and.callFake(() => new Promise(httpResponse));
+        httpRequest.and.callFake((url) => {
+            if (url.endsWith('events')) {
+                return new Promise(eventsHttpResponse);
+            } else {
+                return new Promise(httpResponse);
+            }
+        });
 
         route = proxyquire('./case', {
             '../lib/request': httpRequest
@@ -37,6 +44,14 @@ describe('case spec', () => {
     describe('when no case data is returned', () => {
         beforeEach(() => {
             httpResponse = (resolve, reject) => {
+                reject({
+                    error: {
+                        status: 400,
+                        message: 'Case reference is not valid'
+                    }
+                });
+            };
+            eventsHttpResponse = (resolve, reject) => {
                 reject({
                     error: {
                         status: 400,
@@ -90,12 +105,48 @@ describe('case spec', () => {
             httpResponse = (resolve, reject) => {
                 resolve(caseData);
             };
+            eventsHttpResponse = (resolve, reject) => {
+                resolve([
+                    {
+                        id: 'hearingBooked',
+                        summary: 'xxx',
+                        description: 'xxxx',
+                        user_id: '28',
+                        user_last_name: 'PINEAPPLE',
+                        user_first_name: 'BOB',
+                        event_name: 'Hearing booked',
+                        created_date: '2018-07-03T10:58:37.474',
+                        case_type_id: 'Benefit',
+                        case_type_version: 1,
+                        state_id: 'appealCreated',
+                        state_name: 'Appeal Created',
+                        security_classification: 'PUBLIC'
+                    },
+                    {
+                        id: 'appealCreated',
+                        summary: 'xxx',
+                        description: 'xxxx',
+                        user_id: '28',
+                        user_last_name: 'PINEAPPLE',
+                        user_first_name: 'BOB',
+                        event_name: 'Appeal created',
+                        created_date: '2018-07-03T10:58:24.187',
+                        case_type_id: 'Benefit',
+                        case_type_version: 1,
+                        state_id: 'appealCreated',
+                        state_name: 'Appeal Created',
+                        security_classification: 'PUBLIC'
+                    }
+                ]);
+            };
         });
 
         it('should populate the summary panel given data is in the response', () => {
             return request.get('/api/cases/1').expect(200).then(response => {
                 const jsonRes = JSON.parse(response.text);
                 const actualSummarySection = jsonRes.sections.filter(section => section.id === 'summary')[0];
+
+
 
                 const caseDetails = actualSummarySection.sections[0].sections[0];
                 const representatives = actualSummarySection.sections[0].sections[1];
@@ -128,6 +179,21 @@ describe('case spec', () => {
                         "value": caseData.case_data.panel.disabilityQualifiedMember
                     }
                 ]);
+
+                const timelineSection = jsonRes.sections.filter(section => section.id === 'timeline')[0];
+
+                expect(timelineSection.sections[0].fields[0].value[0]).toEqual({
+                    event_name: "Hearing booked",
+                    user_first_name: "BOB",
+                    user_last_name: "PINEAPPLE",
+                    created_date: "2018-07-03T10:58:37.474"
+                });
+                expect(timelineSection.sections[0].fields[0].value[1]).toEqual({
+                    event_name: "Appeal created",
+                    user_first_name: "BOB",
+                    user_last_name: "PINEAPPLE",
+                    created_date: "2018-07-03T10:58:24.187"
+                });
             });
         });
     });

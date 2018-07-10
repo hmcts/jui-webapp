@@ -8,7 +8,7 @@ exports.config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
     getPageTimeout: 60000,
     allScriptsTimeout: 500000,
-    baseUrl:'https://jui-webapp-aat.service.core-compute-aat.internal/',
+    baseUrl:'http://localhost:3000',
 
     // capabilities: {
     //     browserName: 'chrome',
