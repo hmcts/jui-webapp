@@ -18,7 +18,6 @@ describe('ListForHearingComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(ListForHearingComponent);
         component = fixture.componentInstance;
-        component.caseId = 123456;
         fixture.detectChanges();
     });
 

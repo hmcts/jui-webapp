@@ -25,6 +25,10 @@ const routes: Routes = [
         component: ViewCaseComponent,
         children: [
             {
+                path: '',
+                component: CaseViewerComponent
+            },
+            {
                 path: 'make-decision',
                 component: CaseDecisionComponent
             },
