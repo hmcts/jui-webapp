@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 
 @Component({
-    selector: 'app-case-decision',
-    templateUrl: './case-decision.component.html',
-    styleUrls: ['./case-decision.component.scss']
+    selector: 'app-decision-make',
+    templateUrl: './decision-make.component.html',
+    styleUrls: ['./decision-make.component.scss']
 })
-export class CaseDecisionComponent implements OnInit {
+export class DecisionMakeComponent implements OnInit {
 
     // caseId: any;
     error = false;

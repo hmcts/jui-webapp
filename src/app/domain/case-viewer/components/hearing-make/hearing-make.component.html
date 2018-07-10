@@ -1,8 +1,6 @@
 <div class="jui-width-container">
     <a class="govuk-back-link" routerLink="..">Back</a>
     <main class="govuk-main-wrapper" role="main">
-
-        <div *ngIf="true">
             <h1 class="govuk-heading-l">List for hearing</h1>
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
@@ -23,28 +21,8 @@
                         'govuk-textarea--error': error
                         }" id="hearing-notes" name="hearing-notes" rows="5"></textarea>
                     </div>
-                    <button class="govuk-button" (click)="toggle()">Continue</button>
+                    <button class="govuk-button" routerLink="../check-hearing-notes">Continue</button>
                 </div>
             </div>
-        </div>
-
-        <div *ngIf="false">
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds">
-                    <h1 class="govuk-heading-xl">Check hearing notes</h1>
-                    <dl class="app-check-your-answers  app-check-your-answers--short  govuk-!-margin-bottom-6">
-                        <div class="app-check-your-answers__contents">
-                            <dt class="app-check-your-answers__question">Notes</dt>
-                            <dd class="app-check-your-answers__answer"></dd>
-                            <dd class="app-check-your-answers__change">
-                                <a routerLink="/viewcase/{{this.caseId}}/list-for-hearing">Change <span class="govuk-visually-hidden">notes</span></a>
-                            </dd>
-                        </div>
-                    </dl>
-                    <button class="govuk-button" (click)="submitHearing()">List for hearing</button>
-                </div>
-            </div>
-        </div>
-
     </main>
 </div>

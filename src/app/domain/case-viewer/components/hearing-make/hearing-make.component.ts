@@ -2,10 +2,10 @@ import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
     selector: 'app-list-for-hearing',
-    templateUrl: './list-for-hearing.component.html',
-    styleUrls: ['./list-for-hearing.component.scss']
+    templateUrl: './hearing-make.component.html',
+    styleUrls: ['./hearing-make.component.scss']
 })
-export class ListForHearingComponent implements OnInit {
+export class HearingMakeComponent implements OnInit {
 
     // caseId: any;
     error = false;

@@ -1,22 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ListForHearingComponent } from './list-for-hearing.component';
+import { DecisionMakeComponent } from './decision-make.component';
 import {RouterTestingModule} from '@angular/router/testing';
 
-describe('ListForHearingComponent', () => {
-    let component: ListForHearingComponent;
-    let fixture: ComponentFixture<ListForHearingComponent>;
+describe('DecisionMakeComponent', () => {
+    let component: DecisionMakeComponent;
+    let fixture: ComponentFixture<DecisionMakeComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ ListForHearingComponent ],
+            declarations: [ DecisionMakeComponent ],
             imports: [RouterTestingModule]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(ListForHearingComponent);
+        fixture = TestBed.createComponent(DecisionMakeComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

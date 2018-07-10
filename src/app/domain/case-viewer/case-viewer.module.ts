@@ -11,8 +11,12 @@ import { SummaryPanelComponent } from './components/summary-panel/summary-panel.
 import { PartiesPanelComponent } from './components/parties-panel/parties-panel.component';
 import { TimelinePanelComponent } from './components/timeline-panel/timeline-panel.component';
 import { TimelineComponent } from './components/timeline/timeline.component';
-import {CaseDecisionComponent} from './components/case-decision/case-decision.component';
-import { ListForHearingComponent } from './components/list-for-hearing/list-for-hearing.component';
+import {DecisionMakeComponent} from './components/decision-make/decision-make.component';
+import { HearingMakeComponent } from './components/hearing-make/hearing-make.component';
+import { DecisionCheckComponent } from './components/decision-check/decision-check.component';
+import { DecisionConfirmationComponent } from './components/decision-confirmation/decision-confirmation.component';
+import { HearingConfirmationComponent } from './components/hearing-confirmation/hearing-confirmation.component';
+import { HearingCheckComponent } from './components/hearing-check/hearing-check.component';
 
 @NgModule({
     imports: [
@@ -25,8 +29,12 @@ import { ListForHearingComponent } from './components/list-for-hearing/list-for-
         CaseViewerComponent,
         DocumentPanelComponent,
         CaseDetailsBarComponent,
-        CaseDecisionComponent,
-        ListForHearingComponent
+        DecisionMakeComponent,
+        DecisionCheckComponent,
+        DecisionConfirmationComponent,
+        HearingMakeComponent,
+        HearingCheckComponent,
+        HearingConfirmationComponent
     ],
     declarations: [
         CaseViewerComponent,
@@ -36,9 +44,13 @@ import { ListForHearingComponent } from './components/list-for-hearing/list-for-
         TimelinePanelComponent,
         TimelineComponent,
         CaseNavComponent,
-        CaseDecisionComponent,
         CaseDetailsBarComponent,
-        ListForHearingComponent
+        DecisionMakeComponent,
+        DecisionCheckComponent,
+        DecisionConfirmationComponent,
+        HearingMakeComponent,
+        HearingCheckComponent,
+        HearingConfirmationComponent
     ]
 })
 export class CaseViewerModule {
