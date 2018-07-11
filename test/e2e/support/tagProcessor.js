@@ -1,4 +1,4 @@
-module.exports = function (config, argv) {
+module.exports = function(config, argv) {
     let tags = '';
     if (config.defaultTags) {
         tags = config.defaultTags.join(' and ');

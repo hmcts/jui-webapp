@@ -1,16 +1,13 @@
 const proxyquire = require('proxyquire');
 
-describe('Auth middleware', function () {
-
+describe('Auth middleware', () => {
     let expiryDate;
     let authMiddleware;
 
     beforeEach(() => {
         authMiddleware = proxyquire('./auth', {
             'jwt-decode': () => {
-                return {
-                    exp: expiryDate
-                }
+                return { exp: expiryDate };
             },
             '../../config': {
                 cookies: {
@@ -27,20 +24,20 @@ describe('Auth middleware', function () {
 
     describe('Headers and cookies', () => {
         let req = {};
-        let res = {};
-        let next = function () {
+        const res = {};
+        const next = function() {
         };
         beforeEach(() => {
             req = {
                 cookies: {
-                    'user_key': 'cookie_user',
-                    'token_cookie': 'cookie_token'
+                    user_key: 'cookie_user',
+                    token_cookie: 'cookie_token'
                 },
                 headers: {
-                    'user_key': 'header_user',
-                    'authorization': 'header_token'
+                    user_key: 'header_user',
+                    authorization: 'header_token'
                 }
-            }
+            };
         });
 
 

@@ -1,6 +1,7 @@
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const minimist = require('minimist');
+
 const argv = minimist(process.argv.slice(2));
 const tagProcessor = require('../support/tagProcessor');
 
@@ -8,7 +9,7 @@ chai.use(chaiAsPromised);
 const config = {
     params: {
         serverUrls: {
-            local: 'http://localhost:3000',
+            local: 'http://localhost:3000'
             // dev: 'https://forecaster-ui.dev.tmt.informa-labs.com',
             // prod: 'https://forecaster.ovum.com'
         },
@@ -24,11 +25,11 @@ const config = {
 
     capabilities: {
         browserName: 'chrome',
-        'proxy': {
+        proxy: {
 
             proxyType: 'manual',
             httpProxy: 'proxyout.reform.hmcts.net:8080',
-            sslProxy : 'proxyout.reform.hmcts.net:8080',
+            sslProxy: 'proxyout.reform.hmcts.net:8080',
             noProxy: 'localhost:3000'
         }
     },
@@ -60,4 +61,5 @@ const config = {
 };
 
 config.cucumberOpts.tags = tagProcessor(config, argv);
+
 exports.config = config;

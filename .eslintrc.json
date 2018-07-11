@@ -2,16 +2,36 @@
     "extends": "@hmcts",
     "env": {
         "es6": true,
-        "node": true
+        "node": true,
+        "jasmine": true
     },
     "parserOptions": {
         "sourceType": "module"
     },
     "rules": {
-        "indent": [
-            "error",
-            4
-        ],
-        "max-len": [2, 120]
+        "indent": ["error", 4],
+        "max-len": ["error", 140],
+
+        "consistent-return": ["off"],
+        "eqeqeq": ["off"],
+        "func-names": ["off"],
+        "global-require": ["off"],
+        "id-blacklist": ["off"],
+        "init-declarations": ["off"],
+        "line-comment-position": ["off"],
+        "max-nested-callbacks": ["off"],
+        "new-cap": ["off"],
+        "no-buffer-constructor": ["off"],
+        "no-console": ["off"],
+        "no-empty-function": ["off"],
+        "no-invalid-this": ["off"],
+        "no-magic-numbers": ["off"],
+        "no-negated-condition": ["off"],
+        "no-process-env": ["off"],
+        "no-use-before-define": ["off"],
+        "no-useless-escape": ["off"],
+        "no-undef": ["off"],
+        "no-unused-vars": ["off"],
+        "object-curly-newline": ["off"]
     }
 }

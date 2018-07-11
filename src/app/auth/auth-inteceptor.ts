@@ -9,7 +9,7 @@ import {
     HttpErrorResponse
 } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import {AuthService} from "./auth.service";
+import {AuthService} from './auth.service';
 
 @Injectable({
     providedIn: 'root'
@@ -21,7 +21,7 @@ export class AuthInteceptor implements HttpInterceptor  {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).do((event: HttpEvent<any>) => {
-            //Carry on
+            // Carry on
         }, (err: any) => {
             if (err instanceof HttpErrorResponse) {
                 if (err.status === 401) {

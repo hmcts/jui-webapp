@@ -3,7 +3,6 @@ import {makeStateKey, TransferState} from '@angular/platform-browser';
 declare function require(name: string);
 const config = require('../../config');
 import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
-import { isPlatformBrowser } from '@angular/common';
 import { Response, Request } from 'express';
 
 @Injectable()
@@ -27,7 +26,7 @@ export class ServerConfigService {
     getBaseUrl(config) {
         const protocol = config.protocol;
         const host = this.request.get('host');
-        console.log('********************', `${protocol}://${host}`)
+        console.log('********************', `${protocol}://${host}`);
         return `${protocol}://${host}`;
     }
 }

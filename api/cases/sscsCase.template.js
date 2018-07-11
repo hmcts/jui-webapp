@@ -1,12 +1,8 @@
 module.exports = {
     details: {
         fields: [
-            {
-                value: '$.case_data.caseReference'
-            },
-            {
-                value: ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName", "vs DWP"],
-            }
+            { value: '$.case_data.caseReference' },
+            { value: ['$.case_data.appeal.appellant.name.firstName', '$.case_data.appeal.appellant.name.lastName', 'vs DWP'] }
         ]
     },
     sections: [
@@ -25,7 +21,11 @@ module.exports = {
                             fields: [
                                 {
                                     label: 'Parties',
-                                    value: ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName", "vs DWP"],
+                                    value: [
+                                        '$.case_data.appeal.appellant.name.firstName',
+                                        '$.case_data.appeal.appellant.name.lastName',
+                                        'vs DWP'
+                                    ]
                                 },
                                 {
                                     label: 'Case number',
@@ -77,11 +77,7 @@ module.exports = {
                     id: 'documents',
                     name: 'Case file',
                     type: 'document-panel',
-                    fields: [
-                        {
-                            value: '$.case_data.sscsDocument'
-                        }
-                    ]
+                    fields: [{ value: '$.case_data.sscsDocument' }]
                 }
             ]
         },
@@ -94,13 +90,9 @@ module.exports = {
                     id: 'events',
                     name: 'Timeline',
                     type: 'timeline-panel',
-                    fields: [
-                        {
-                            value: '$.events'
-                        }
-                    ]
+                    fields: [{ value: '$.events' }]
                 }
             ]
         }
     ]
-};;
+};
