@@ -11,7 +11,11 @@
             <cdk-header-cell *cdkHeaderCellDef class="govuk-table__header" attr.data-selector="{{column.case_field_id}}-header">{{column.label}}</cdk-header-cell>
             <cdk-cell class="govuk-table__cell" *cdkCellDef="let row">
                 <span attr.data-selector="{{column.case_field_id}}-value" *ngIf="column.date_format">{{row.case_fields[column.case_field_id] | date: column.date_format:'+0000'}}</span>
-                <span attr.data-selector="{{column.case_field_id}}-value" *ngIf="!column.date_format">{{row.case_fields[column.case_field_id]}}</span>
+                <span attr.data-selector="{{column.case_field_id}}-value" *ngIf="!column.date_format">
+                       {{ (row.case_fields[column.case_field_id].length>20) ?
+                    (row.case_fields[column.case_field_id] | slice:0:20)+'...'
+                    : (row.case_fields[column.case_field_id]) }}
+                </span>
             </cdk-cell>
         </ng-container>
 
