@@ -24,7 +24,7 @@
     "test:nsp-warn": "echo \"Test nsp warn\"",
     "test:snyk": "echo \"Test snyk\"",
     "test:smoke": "echo 'smoke test not implemented'",
-    "test:functional": "echo 'functional test not implemented'",
+    "test:functional": "npm run cucumberjs",
     "health-check": "echo 'healthcheck not implemented'",
     "sonar-scan": "node_modules/sonar-scanner/bin/sonar-scanner",
     "test:codacy-upload": "echo \"Test codacity\"",
