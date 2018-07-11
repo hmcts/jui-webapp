@@ -6,6 +6,26 @@ const serviceTokenMiddleware = require('./api/middleware/service-token');
 const config = require('./config');
 const app = express();
 const cookieParser = require('cookie-parser');
+const appInsights = require('applicationinsights');
+
+const appInsightsInstrumentationKey = process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "AAAAAAAAAAAAAAAA";
+appInsights.setup(appInsightsInstrumentationKey)
+    .setAutoDependencyCorrelation(true)
+    .setAutoCollectRequests(true)
+    .setAutoCollectPerformance(true)
+    .setAutoCollectExceptions(true)
+    .setAutoCollectDependencies(true)
+    .setAutoCollectConsole(true)
+    .setUseDiskRetryCaching(true)
+    .start();
+
+let client = appInsights.defaultClient;
+client.trackTrace({message: "Test Message App Insight Activated"});
+
+app.use(function (req, res, next) {
+    client.trackNodeHttpRequest({request: req, response: res});
+    next()
+});
 
 app.use(cookieParser());
 
