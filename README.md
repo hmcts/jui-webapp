@@ -34,11 +34,13 @@ yarn start
 ```
 
 ## Run Local with docker
+To Run the Angular code with docker
 ```bash
-export JUI_ENV=docker;
-yarn install;
-yarn build;
-yarn start;
+yarn start-dev-docker-proxy;
+```
+To Run the Node Code with docker
+```bash
+yarn start-dev-docker-node;
 ```
 spin up docker
 ```bash
@@ -52,5 +54,6 @@ setup test ccd data (note you need to find your own ccd def file)
 ```bash
 ./bin/ccd/ccd.sh ~/Downloads/CCD_Definition.xlsx
 ```
+
 ## Run test...
 WIP

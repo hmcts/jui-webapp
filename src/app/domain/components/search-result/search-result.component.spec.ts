@@ -9,6 +9,8 @@ import {HttpClientTestingModule, HttpTestingController} from '@angular/common/ht
 import {ConfigService} from '../../../config.service';
 import {BrowserTransferStateModule, StateKey} from '@angular/platform-browser';
 import {makeStateKey, TransferState} from '@angular/platform-browser';
+import {RouterModule} from '@angular/router';
+import {RouterTestingModule} from '@angular/router/testing';
 
 const columns = [{
         'label': 'Parties',
@@ -37,7 +39,13 @@ const columns = [{
         'lookup': '$.last_modified',
         'date_format': 'd MMMM yyyy \'at\' h:mmaaaaa\'m\''
     }];
-const casesUrl = 'http://localhost:3000/api/cases';
+const casesUrl = '/api/cases';
+
+const configMock = {
+    config: {
+        api_base_url: ''
+    }
+};
 
 describe('SearchResultComponent', () => {
     let component: SearchResultComponent;
@@ -45,11 +53,14 @@ describe('SearchResultComponent', () => {
     let httpMock: HttpTestingController;
     let nativeElement;
 
+
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [],
-            imports: [DomainModule, SharedModule, BrowserTransferStateModule, HttpClientTestingModule],
-            providers: [CaseService, ConfigService]
+            imports: [DomainModule, SharedModule, BrowserTransferStateModule, HttpClientTestingModule, RouterTestingModule],
+            providers: [CaseService, {
+                provide: ConfigService, useValue: configMock
+            }]
         })
             .compileComponents();
     }));
@@ -82,6 +93,7 @@ describe('SearchResultComponent', () => {
                     fixture.detectChanges();
                 });
             }));
+
 
             it('should have zero rows', () => {
                 expect(nativeElement.querySelectorAll(Selector.selector('search-result|table-row')).length).toBe(0);
@@ -120,6 +132,7 @@ describe('SearchResultComponent', () => {
         describe('when some rows are returned', () => {
             const results = [{
                 case_id: '987654321',
+                case_reference: '123-456-789',
                 case_fields: {
                     parties: 'Louis Houghton versus DWP',
                     type: 'PIP',
@@ -160,6 +173,7 @@ describe('SearchResultComponent', () => {
     describe('when there is some data in the transfer state', () => {
         const results = [{
             case_id: '987654321',
+            case_reference: '123-456-789',
             case_fields: {
                 parties: 'Louis Houghton versus DWP',
                 type: 'PIP',

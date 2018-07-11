@@ -1,7 +1,17 @@
 <div data-selector="summary-panel-component" class="govuk-grid-row">
-    <ng-container *ngFor="let section of panelData.sections">
-        <div class="govuk-grid-column-one-half">
-            <app-data-list [title]="section.name" [dataList]="section.fields"></app-data-list>
-        </div>
-    </ng-container>
+    <div class="govuk-grid-column-two-thirds">
+        <ng-container *ngFor="let section of panelData.sections">
+            <app-data-list
+                data-selector="data-list"
+                *ngIf="section.type === 'data-list'"
+                [title]="section.name"
+                [dataList]="section.fields">
+            </app-data-list>
+        </ng-container>
+    </div>
+    <div class="govuk-grid-column-one-third">
+        <h2 class="govuk-heading-m  govuk-!-margin-bottom-4">{{panelData.sections[2].name || "Recent Events"}}</h2>
+        <app-timeline *ngIf="panelData.sections[2].fields[0].value" [events]="panelData.sections[2].fields[0].value" [maxHistory]="3"></app-timeline>
+        <p><a routerLink="/viewcase/{{caseId}}/timeline">View all events</a></p>
+    </div>
 </div>

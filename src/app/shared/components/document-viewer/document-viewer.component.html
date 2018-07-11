@@ -1,0 +1,15 @@
+<h1 class="heading-large" *ngIf="docName" data-hook="dm.viewer.docName">{{docName}}</h1>
+
+<div class="grid-row">
+  <div [ngClass]="{'column-full': !annotate,
+                 'column-two-thirds': annotate && viewerComponent && viewerComponent.numPages > 0}">
+    <ng-template appViewerAnchor></ng-template>
+  </div>
+</div>
+
+<div class="grid-row">
+  <div *ngIf="error"  class="error-summary" role="alert" aria-labelledby="error-summary-heading-example-1" tabindex="-1">
+    <h2 class="heading-medium error-summary-heading" id="error-summary-heading-example-1">There was an error while loading your document.</h2>
+    <p>Response status was {{error.status}}.</p>
+  </div>
+</div>

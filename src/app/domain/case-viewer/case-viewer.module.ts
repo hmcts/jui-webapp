@@ -6,22 +6,33 @@ import { DocumentPanelComponent } from './components/document-panel/document-pan
 import { SummaryPanelComponent } from './components/summary-panel/summary-panel.component';
 import { PartiesPanelComponent } from './components/parties-panel/parties-panel.component';
 import { CaseNavComponent } from './components/case-nav/case-nav.component';
+import { TimelinePanelComponent } from './components/timeline-panel/timeline-panel.component';
+import { TimelineComponent } from './components/timeline/timeline.component';
+import { CaseDetailsBarComponent } from './components/case-details-bar/case-details-bar.component';
+import {DocumentViewerModule} from '../../shared/components/document-viewer/document-viewer.module';
+import {RouterModule} from '@angular/router';
 
 @NgModule({
     imports: [
         CommonModule,
-        SharedModule
+        SharedModule,
+        DocumentViewerModule,
+        RouterModule
     ],
     exports: [
         CaseViewerComponent,
         DocumentPanelComponent,
+        CaseDetailsBarComponent
     ],
     declarations: [
         CaseViewerComponent,
         DocumentPanelComponent,
         SummaryPanelComponent,
         PartiesPanelComponent,
-        CaseNavComponent
+        TimelinePanelComponent,
+        TimelineComponent,
+        CaseNavComponent,
+        CaseDetailsBarComponent
     ]
 })
 export class CaseViewerModule {

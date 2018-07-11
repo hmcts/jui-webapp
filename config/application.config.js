@@ -1,8 +1,10 @@
 module.exports = {
-    microservice: "ccd_gw",
     cookies: {
         token: '__auth__',
         userId: '__userid__'
     },
-    idam_client: 'juiwebapp'
+    microservice: "jui_webapp",
+    idam_client: 'juiwebapp',
+    oauth_callback_url: 'oauth2/callback',
+    protocol: 'https'
 };

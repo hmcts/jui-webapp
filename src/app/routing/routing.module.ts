@@ -6,10 +6,10 @@ import { SharedModule } from '../shared/shared.module';
 import { DomainModule } from '../domain/domain.module';
 import { AuthGuardService } from '../auth/auth-guard.service';
 import { ViewCaseComponent } from './pages/view-case/view-case.component';
-import { ViewCaseFileComponent } from './pages/view-case-file/view-case-file.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CaseService } from '../case.service';
 import { CaseFileService } from '../case-file.service';
+import { RedirectionService} from "./redirection.service";
 
 const routes: Routes = [
     {
@@ -22,8 +22,8 @@ const routes: Routes = [
         component: ViewCaseComponent
     },
     {
-        path: 'viewcase/:case_id/casefile/:doc_id',
-        component: ViewCaseFileComponent
+        path: 'viewcase/:case_id/:section/:section_item_id',
+        component: ViewCaseComponent
     }
 ];
 
@@ -37,12 +37,12 @@ const routes: Routes = [
     ],
     declarations: [
         HomeComponent,
-        ViewCaseComponent,
-        ViewCaseFileComponent
+        ViewCaseComponent
     ],
     providers: [
         CaseService,
-        CaseFileService
+        CaseFileService,
+        RedirectionService
     ],
     exports: [
         RouterModule
