@@ -45,6 +45,7 @@ CCD_PAYLOAD=$(printf '{
   }
 }')
 
+
 CASE_ID=$(curl -X POST \
 -H "Authorization:Bearer ${IDAM_JWT}" \
 -H "ServiceAuthorization:${S2S_JWT}" \
