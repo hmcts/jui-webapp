@@ -8,6 +8,7 @@ exports.config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
     getPageTimeout: 60000,
     allScriptsTimeout: 500000,
+
     baseUrl: process.env.TEST_URL || '',
     email: process.env.TEST_EMAIL || '',
     password: process.env.TEST_PASSWORD || '',
@@ -42,11 +43,11 @@ exports.config = {
         global.assert = chai.assert;
         global.should = chai.should;
     },
-
     cucumberOpts: {
         strict: true,
         format: ['pretty'],
         require: ['../features/step_definitions/*.js', '../support/*.js'],
         tags: ''
+
     }
 };

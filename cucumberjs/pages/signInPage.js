@@ -1,43 +1,42 @@
 "use strict";
-const conf = require('../config/conf').config;
+const conf = require('..\\config\\conf').config;
 
-var signinPage = function() {
+var signInPage = function() {
 
-    this.emailAddress = element(by.css('input#username'));
+    this.emailAddress = $("[id='username']");
     this.password = $("[id='password']");
     this.signinTitle = $('.heading-large');
     this.signinBtn = element(by.css('.button'));
 
-    this.givenIAmLoggedIn = async function(){
-        await this.enterUrEmail(conf.email);
-        await this.enterPassword(conf.password);
-        await this.clickSignIn();
-    };
+    this.givenIAmLoggedIn = function(){
+        this.enterUrEmail(conf.email);
+        this.enterPassword(conf.password);
+        this.clickSignIn();
+        };
 
-    this.givenIAmUnauthenticatedUser= async function(){
-//        this.waitFor(this.enterUrEmail);
-        await this.enterUrEmail(conf.fakeEmail);
-        await this.enterPassword(conf.password);
+    this.givenIAmUnauthenticatedUser= function(){
+        this.enterUrEmail(conf.fakeEmail);
+        this.enterPassword(conf.password);
     }
 
-    this.enterUrEmail = async function(email){
-        await this.emailAddress.sendKeys(email);
+    this.enterUrEmail = function(email){
+        this.emailAddress.sendKeys(email);
     };
 
-    this.enterPassword = async function(password){
-        await this.password.sendKeys(password);
+    this.enterPassword = function(password){
+        this.password.sendKeys(password);
     };
 
-    this.clickSignIn = async function(){
-        await this.signinBtn.click();
+    this.clickSignIn = function(){
+        this.signinBtn.click();
     };
 
     this.waitFor = function(selector) {
-        return browser.wait(function () {
-            return browser.isElementPresent(selector);
-        }, 50000);
+      return browser.wait(function () {
+        return browser.isElementPresent(by.css(selector));
+      }, 50000);
     }
 
 }
 
-module.exports = new signinPage;
+module.exports = new signInPage;
