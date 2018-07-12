@@ -10,30 +10,32 @@ import {UnsupportedViewerComponent} from './viewers/unsupported-viewer/unsupport
 import {ImgViewerComponent} from './viewers/img-viewer/img-viewer.component';
 import {ViewerAnchorDirective} from './viewers/viewer-anchor.directive';
 import {UrlFixerService} from './url-fixer.service';
+import {DocumentViewerService} from "./document-viewer.service";
 
 @NgModule({
-  declarations: [
-    DocumentViewerComponent,
-    PdfViewerComponent,
-    ImgViewerComponent,
-    UnsupportedViewerComponent,
-    ViewerAnchorDirective
-  ],
-  entryComponents: [
-    PdfViewerComponent,
-    ImgViewerComponent,
-    UnsupportedViewerComponent
-  ],
-  exports: [DocumentViewerComponent],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    PdfViewerModule],
-  providers: [
-    ViewerFactoryService,
-    UrlFixerService
-  ],
+    declarations: [
+        DocumentViewerComponent,
+        PdfViewerComponent,
+        ImgViewerComponent,
+        UnsupportedViewerComponent,
+        ViewerAnchorDirective
+    ],
+    entryComponents: [
+        PdfViewerComponent,
+        ImgViewerComponent,
+        UnsupportedViewerComponent
+    ],
+    exports: [DocumentViewerComponent],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        HttpClientModule,
+        PdfViewerModule],
+    providers: [
+        ViewerFactoryService,
+        UrlFixerService,
+        DocumentViewerService
+    ],
 })
 export class DocumentViewerModule {
 }

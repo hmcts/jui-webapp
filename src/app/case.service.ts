@@ -3,7 +3,7 @@ import {Observable, of} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {ConfigService} from './config.service';
 import {makeStateKey, TransferState} from '@angular/platform-browser';
-import 'rxjs/operators/map';
+import {map} from 'rxjs/operators';
 import {catchError} from 'rxjs/operators';
 
 @Injectable()
@@ -21,10 +21,10 @@ export class CaseService {
         if (cache) {
             return of(cache);
         }
-        return this.httpClient.get(url).map(data => {
+        return this.httpClient.get(url).pipe(map(data => {
             this.state.set(key, data);
             return data;
-        });
+        }));
     }
 
     search(): Observable<Object> {
@@ -36,10 +36,10 @@ export class CaseService {
         }
         return this.httpClient
             .get(url)
-            .map(data => {
+            .pipe(map(data => {
                 this.state.set(key, data);
                 return data;
-            })
+            }))
             .pipe(catchError(error => {
                 const value: any = {error};
                 this.state.set(key, value);

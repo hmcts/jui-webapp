@@ -8,7 +8,6 @@ import { AuthGuardService } from '../auth/auth-guard.service';
 import { ViewCaseComponent } from './pages/view-case/view-case.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CaseService } from '../case.service';
-import { CaseFileService } from '../case-file.service';
 import { RedirectionService} from "./redirection.service";
 
 const routes: Routes = [
@@ -41,7 +40,6 @@ const routes: Routes = [
     ],
     providers: [
         CaseService,
-        CaseFileService,
         RedirectionService
     ],
     exports: [

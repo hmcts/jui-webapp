@@ -79,7 +79,7 @@ module.exports = {
                     type: 'document-panel',
                     fields: [
                         {
-                            value: '$.case_data.sscsDocument'
+                            value: '$.case_data.sscsDocument|document_processor'
                         }
                     ]
                 }
@@ -103,4 +103,4 @@ module.exports = {
             ]
         }
     ]
-};;
+};
