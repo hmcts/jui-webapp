@@ -1,4 +1,4 @@
-@wip
+
 Feature: Dashboard
 
     Background:

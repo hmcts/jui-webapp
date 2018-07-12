@@ -10,6 +10,6 @@ const config = {
     aat: require('./environments/aat.config.js'),
     prod: require('./environments/prod.config.js')
 };
-const env = typeof(process) !== 'undefined' ? (process.env.JUI_ENV || 'docker') : 'docker';
+const env = typeof(process) !== 'undefined' ? (process.env.JUI_ENV || 'local') : 'local';
 console.log('Using ' + env + ' Config');
 module.exports = Object.assign(applicationConfig, config[env]);

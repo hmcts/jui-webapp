@@ -19,7 +19,7 @@ function dashBoardPage() {
 
     this.verify_case_summary_page = function () {
         this.select_first_case_number();
-        expect(browser.driver.getCurrentUrl()).to.eventually.equal('http://');
+        expect(browser.driver.getCurrentUrl()).to.eventually.equal('');
     };
 
     this.get_a_case_num = function () {

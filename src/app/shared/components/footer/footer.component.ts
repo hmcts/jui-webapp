@@ -8,6 +8,6 @@ import {Component} from '@angular/core';
 export class FooterComponent {
 
     email = 'service-desk@hmcts.gov.uk';
-    phone = '0207 633 4140';
+    phone = '';
 
 }

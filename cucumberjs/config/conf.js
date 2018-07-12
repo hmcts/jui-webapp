@@ -8,7 +8,7 @@ exports.config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
     getPageTimeout: 60000,
     allScriptsTimeout: 500000,
-    baseUrl: process.env.TEST_URL || 'http://localhost:3000',
+    baseUrl: process.env.TEST_URL || '',
     email: process.env.TEST_EMAIL || '',
     password: process.env.TEST_PASSWORD || '',
     fakeEmail: '',
