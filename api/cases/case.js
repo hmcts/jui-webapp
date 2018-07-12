@@ -11,10 +11,19 @@ function getCaseEvents(caseId, userId, options, caseType = 'Benefit', jurisdicti
     return generateRequest(`${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`, options)
 }
 
-function getCaseWithEvents(caseId, userId, options, caseType = 'Benefit', jurisdiction = 'SSCS') {
+function getHearingId(caseId, options) {
+    return generateRequest(`${config.services.coh_cor_api}/continuous-online-hearings?case_id=${caseId}`, options)
+}
+
+function getCaseQuestions(hearingId, options) {
+    return hearingId && generateRequest(`${config.services.coh_cor_api}/continuous-online-hearings/${hearingId}/questions`, options)
+}
+
+function getCaseWithEvents(caseId, userId, hearingId, options, caseType, jurisdiction) {
     return Promise.all([
         getCase(caseId, userId, options, caseType, jurisdiction),
-        getCaseEvents(caseId, userId, options, caseType, jurisdiction)
+        getCaseEvents(caseId, userId, options, caseType, jurisdiction),
+        getCaseQuestions(hearingId, options)
     ]);
 }
 
@@ -69,21 +78,29 @@ function caseFileReducer(caseId, caseFile) {
 module.exports = (req, res, next) => {
     const token = req.auth.token;
     const userId = req.auth.userId;
-    const caseId = req.params.case_id;
-
-    getCaseWithEvents(caseId, userId, {
+    const caseId = req.params.case_id; // 1531309876267122
+    const options = {
         headers : {
             'Authorization' : `Bearer ${token}`,
             'ServiceAuthorization' : req.headers.ServiceAuthorization
         }
-    }).then( ([caseData, events])=> {
+    };
 
-        caseData.events = events != null ? events.map(e => reduceEvent(e)) : [];
-
+    getHearingId(caseId, options)
+    .then(hearing => {
+        const hearingId = hearing.online_hearings[0] && hearing.online_hearings[0].online_hearing_id
+        return getCaseWithEvents(caseId, userId, hearingId, options)
+    })
+    .then( ([caseData, events, questions])=> {
         const schema = JSON.parse(JSON.stringify(sscsCaseTemplate));
+        
+        caseData.events = events != null ? events.map(e => reduceEvent(e)) : [];
+        caseData.questions = questions && questions.questions;
+        
         if(schema.details) {
             replaceSectionValues(schema.details, caseData);
         }
+        
         schema.sections.forEach(section => replaceSectionValues(section, caseData));
         /**
          * DO NOT DELETE: commenting out spike until story is available

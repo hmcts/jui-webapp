@@ -1,0 +1,10 @@
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div *ngFor="let question of panelData.fields[0].value" data-selector="questions-item">
+            <div class="jui-questions__header">
+                <h2 data-selector="questions-header">{{question.question_header_text}}</h2>
+                <p data-selector="questions-body">{{question.question_body_text}}</p>
+            </div>
+        </div>
+    </div>
+</div>

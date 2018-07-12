@@ -101,6 +101,23 @@ module.exports = {
                     ]
                 }
             ]
+        },
+        {
+            id: 'questions',
+            name: 'Questions',
+            type: 'page',
+            sections: [
+                {
+                    id: 'questions',
+                    name: 'Questions',
+                    type: 'questions-panel',
+                    fields: [
+                        {
+                            value: '$.questions'
+                        }
+                    ]
+                }
+            ]
         }
     ]
 };;
