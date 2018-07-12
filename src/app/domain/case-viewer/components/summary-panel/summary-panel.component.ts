@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-summary-panel',
@@ -6,7 +7,10 @@ import { Component, Input } from '@angular/core';
     styleUrls: ['./summary-panel.component.scss']
 })
 export class SummaryPanelComponent {
+
+    @Input() caseId;
     @Input() panelData;
+
 }
 
 

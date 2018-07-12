@@ -8,11 +8,10 @@ exports.config = {
     seleniumAddress: 'http://localhost:4444/wd/hub',
     getPageTimeout: 60000,
     allScriptsTimeout: 500000,
-    baseUrl:'http://localhost:3000',
-
-    // capabilities: {
-    //     browserName: 'chrome',
-    // },
+    baseUrl: process.env.TEST_URL || 'http://localhost:3000',
+    email: process.env.TEST_EMAIL || '',
+    password: process.env.TEST_PASSWORD || '',
+    fakeEmail: '',
 
 
     /*****
@@ -24,13 +23,10 @@ exports.config = {
 
             proxyType: 'manual',
             httpProxy: 'proxyout.reform.hmcts.net:8080',
-            sslProxy : 'proxyout.reform.hmcts.net:8080',
+            sslProxy: 'proxyout.reform.hmcts.net:8080',
             noProxy: 'localhost:3000'
         }
     },
-
-
-
 
 
     framework: 'custom',
@@ -51,6 +47,6 @@ exports.config = {
         strict: true,
         format: ['pretty'],
         require: ['../features/step_definitions/*.js', '../support/*.js'],
-        tags: '@wip'
+        tags: ''
     }
 };

@@ -8,6 +8,7 @@ import {ConfigService} from '../../../../config.service';
     styleUrls: ['./document-panel.component.scss']
 })
 export class DocumentPanelComponent implements OnInit {
+
     @Input() panelData;
     documents: any[];
     selectedDocument: string;
