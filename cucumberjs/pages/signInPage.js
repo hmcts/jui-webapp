@@ -1,5 +1,5 @@
 "use strict";
-const conf = require('..\\config\\conf').config;
+const conf = require('../config/conf').config;
 
 var signInPage = function() {
 
