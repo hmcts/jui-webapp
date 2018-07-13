@@ -2,7 +2,7 @@ const express = require('express');
 const generateRequest = require('../lib/request');
 const config = require('../../config');
 const proxy = require('../lib/proxy');
-
+const getOptions = require('./options');
 
 function getDocumentBinary(docId, options) {
     return generateRequest(`${config.services.dm_store_api}/documents/${docId}/binary`, options);
@@ -24,22 +24,6 @@ function getDocuments(documentIds = [], options) {
     return getDocumentArray(documentIds, options);
 }
 
-function getOptions(req) {
-    const token = req.auth.token;
-    let options = {
-        headers : {
-            'Authorization' : `Bearer ${token}`,
-            'ServiceAuthorization' : req.headers.ServiceAuthorization,
-            'user-roles': req.auth.data,
-        },
-        json: true
-    };
-    if (config.useProxy) {
-        options = proxy(options);
-    }
-    return options;
-}
-
 module.exports = (app) => {
     const route = express.Router({mergeParams:true});
     app.use('/documents', route);
@@ -54,5 +38,6 @@ module.exports = (app) => {
         getDocument(documentId, getOptions(req)).pipe(res);
     });
 };
-
+module.exports.getDocument = getDocument;
 module.exports.getDocuments = getDocuments;
+module.exports.getDocumentBinary = getDocumentBinary;
