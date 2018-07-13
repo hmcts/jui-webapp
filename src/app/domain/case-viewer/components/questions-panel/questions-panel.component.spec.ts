@@ -1,95 +1,246 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CaseViewerModule } from '../../case-viewer.module';
+
 import { QuestionsPanelComponent } from './questions-panel.component';
-import { DebugElement } from '@angular/core';
+import { CaseViewerModule } from '../../case-viewer.module';
 import { Selector } from '../../../../../../test/selector-helper';
+import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ConfigService } from '../../../../config.service';
+import { of } from 'rxjs';
 
 describe('QuestionsPanelComponent', () => {
     let component: QuestionsPanelComponent;
     let fixture: ComponentFixture<QuestionsPanelComponent>;
-    let element: DebugElement;
+    let nativeElement;
+    const mockRoute = {
+        params: of({
+            'case_id': '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
+        }),
+        queryParams: of({}),
+        snapshot: {
+            params: {
+                'case_id': '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
+            },
+            queryParams: {}
+        }
+    };
+    const mockConfigService = {
+        config: {
+            api_base_url: 'http://localhost:3000'
+        }
+    };
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [CaseViewerModule]
-        })
-            .compileComponents();
-    }));
-
-    beforeEach(() => {
-        fixture = TestBed.createComponent(QuestionsPanelComponent);
-        component = fixture.componentInstance;
-        element = fixture.debugElement;
-    });
-
-    it('should create', () => {
-        expect(component)
-            .toBeTruthy();
-    });
-
-    describe('When there is some data', () => {
-        beforeEach(async(() => {
-            component.panelData = {
-                name: 'questions',
-                type: 'questions-panel',
-                fields: [
-                    {
-                        value: [
+    describe('when no create param is in the url', () => {
+        describe('When there is one round of draft questions to appellant', () => {
+            beforeEach(async(() => {
+                TestBed
+                    .configureTestingModule({
+                        imports: [
+                            CaseViewerModule,
+                            RouterTestingModule
+                        ],
+                        declarations: [],
+                        providers: [
                             {
-                                question_round: "1",
-                                question_ordinal: "1",
-                                question_header_text: "Title Example 1",
-                                question_body_text: "More detail about this question 1.",
-                                owner_reference: "John Smith",
-                                question_id: "14555f9c-2981-430f-bb0a-52d163a5425f",
-                                question_state: {
-                                    state_name: "DRAFTED"
-                                }
+                                provide: ActivatedRoute,
+                                useValue: mockRoute
                             },
                             {
-                                question_round: "1",
-                                question_ordinal: "1",
-                                question_header_text: "Title Example 2",
-                                question_body_text: "More detail about this question 2.",
-                                owner_reference: "John Smith",
-                                question_id: "14555f9c-2981-430f-bb0a-52d163a5425g",
-                                question_state: {
-                                    state_name: "DRAFTED"
-                                }
+                                provide: ConfigService,
+                                useValue: mockConfigService
+                            }
+                        ]
+                    })
+                    .compileComponents();
+            }));
+
+            const data = {
+                'name': 'Questions',
+                'type': 'questions-panel',
+                'sections': [
+                    {
+                        'id': 'questions-to-appellant',
+                        'name': 'Questions to appellant',
+                        'type': 'data-list',
+                        'sections': [
+                            {
+                                'id': 'draft-questions',
+                                'name': 'Draft Questions',
+                                'type': 'data-list',
+                                'fields': [
+                                    {
+                                        'value': [
+                                            null,
+                                            [
+                                                {
+                                                    'id': '5eea164a-62ee-43ee-8051-67b82b5af24f',
+                                                    'header': 'What are you doing?',
+                                                    'body': 'Nothing.',
+                                                    'owner_reference': '5899',
+                                                    'state_datetime': new Date(Date.UTC(2018, 6, 13, 8, 52, 38))
+                                                },
+                                                {
+                                                    'id': '4eea164a-62ee-43ee-8051-67b82b5af24f',
+                                                    'header': 'What are you doing now?',
+                                                    'body': 'Still nothing.',
+                                                    'owner_reference': '5899',
+                                                    'state_datetime': new Date(Date.UTC(2018, 6, 14, 8, 52, 38))
+                                                }
+                                            ]
+                                        ]
+                                    }
+                                ]
                             }
                         ]
                     }
                 ]
             };
 
-            fixture.whenStable().then(() => {
+            beforeEach(async(() => {
+                fixture = TestBed.createComponent(QuestionsPanelComponent);
+                component = fixture.componentInstance;
+                component.panelData = data;
+                component.caseId = '13eb9981-9360-4d4b-b9fd-506b5818e7ff';
+                nativeElement = fixture.nativeElement;
                 fixture.detectChanges();
-            });
-        }));
+            }));
 
-        it('should see two questions', () => {
-            expect(element.nativeElement.querySelectorAll(Selector.selector('questions-item')).length).toBe(2);
+            it('should create', () => {
+                expect(component)
+                    .toBeTruthy();
+            });
+
+            it('should display a list of draft questions to appellant', () => {
+                expect(nativeElement.querySelectorAll(Selector.selector('draft-questions-item')).length)
+                    .toBe(2);
+            });
+
+            it('should display details of when draft questions were added', () => {
+                expect(nativeElement.querySelector(Selector.selector('draft-questions-details')).textContent)
+                    .toBe('You sent 2 questions to the appellant at 9:52 am on Jul 13, 2018');
+            });
+
+            it('should display two draft questions', () => {
+                expect(nativeElement.querySelectorAll(Selector.selector('draft-questions-item')).length)
+                    .toBe(2);
+            });
+
+            it('should display two draft questions headings with a link to the associated question', () => {
+                const links = nativeElement.querySelectorAll(Selector.selector('questions-subject-link'));
+                expect(links[0].attributes.href.value)
+                    .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/5eea164a-62ee-43ee-8051-67b82b5af24f');
+                expect(links[1].attributes.href.value)
+                    .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/4eea164a-62ee-43ee-8051-67b82b5af24f');
+            });
+
+            it('should display two draft questions meta data', () => {
+                const metadata = nativeElement.querySelectorAll(Selector.selector('questions-meta-data'));
+                expect(metadata[0].textContent)
+                    .toBe('Sent by 5899 on Jul 13, 2018 at 9:52 am');
+                expect(metadata[1].textContent)
+                    .toBe('Sent by 5899 on Jul 14, 2018 at 9:52 am');
+            });
+
+            it('should display link to add more draft questions', () => {
+                expect(nativeElement.querySelector(Selector.selector('create-draft-questions-link')).textContent)
+                    .toBe('Add Questions');
+                expect(nativeElement.querySelector(Selector.selector('create-draft-questions-link')).attributes.href.value)
+                    .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/new');
+            });
+
+            it('should display link to send all draft questions', () => {
+                expect(nativeElement.querySelector(Selector.selector('send-draft-questions-link')).textContent)
+                    .toBe('Send Questions');
+                expect(nativeElement.querySelector(Selector.selector('send-draft-questions-link')).attributes.href.value)
+                    .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/check');
+            });
         });
     });
 
-    describe('When there is no data', () => {
+    describe('When there are no draft questions to appellant', () => {
         beforeEach(async(() => {
-            component.panelData = {
-                name: 'questions',
-                type: 'questions-panel',
-                fields: [
-                    {
-                        value: []
-                    }
-                ]
-            }
-
-            fixture.whenStable().then(() => {
-                fixture.detectChanges();
-            });
+            TestBed
+                .configureTestingModule({
+                    imports: [
+                        CaseViewerModule,
+                        RouterTestingModule
+                    ],
+                    declarations: [],
+                    providers: [
+                        {
+                            provide: ActivatedRoute,
+                            useValue: mockRoute
+                        },
+                        {
+                            provide: ConfigService,
+                            useValue: mockConfigService
+                        }
+                    ]
+                })
+                .compileComponents();
         }));
-        it('should see no questions', () => {
-            expect(element.nativeElement.querySelectorAll(Selector.selector('questions-item')).length).toBe(0);
+
+        const data = {
+            'name': 'Questions',
+            'type': 'questions-panel',
+            'sections': [
+                {
+                    'id': 'questions-to-appellant',
+                    'name': 'Questions to appellant',
+                    'type': 'data-list',
+                    'sections': [
+                        {
+                            'id': 'draft-questions',
+                            'name': 'Draft Questions',
+                            'type': 'data-list',
+                            'fields': [
+                                {}
+                            ]
+                        }
+                    ]
+                }
+            ]
+        };
+
+        beforeEach(async(() => {
+            fixture = TestBed.createComponent(QuestionsPanelComponent);
+            component = fixture.componentInstance;
+            component.panelData = data;
+            component.caseId = '13eb9981-9360-4d4b-b9fd-506b5818e7ff';
+            nativeElement = fixture.nativeElement;
+            fixture.detectChanges();
+        }));
+
+        it('should create', () => {
+            expect(component)
+                .toBeTruthy();
+        });
+
+        it('should display a title', () => {
+            expect(nativeElement.querySelector(Selector.selector('questions-to-appellant-heading')).textContent)
+                .toBe('Questions to appellant');
+        });
+
+        it('should display round 1 title', () => {
+            expect(nativeElement.querySelector(Selector.selector('round-1')).textContent)
+                .toBe('Round 1');
+        });
+
+        it('should display details of why no draft questions', () => {
+            expect(nativeElement.querySelector(Selector.selector('no-draft-questions-details')).textContent)
+                .toBe('You haven’t asked any questions.');
+        });
+
+        it('should display link to add draft questions', () => {
+            expect(nativeElement.querySelector(Selector.selector('no-draft-questions-link')).textContent)
+                .toBe('Add Questions');
+            expect(nativeElement.querySelector(Selector.selector('no-draft-questions-link')).attributes.href.value)
+                .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/new');
+        });
+
+        it('should see no draft questions', () => {
+            expect(nativeElement.querySelectorAll(Selector.selector('draft-questions-list')).length)
+                .toBe(0);
         });
     });
 });

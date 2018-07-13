@@ -10,6 +10,8 @@ describe('case spec', () => {
     let request;
     let httpResponse;
     let eventsHttpResponse;
+    let hearingHttpResponse;
+    let questionsHttpResponse;
 
     beforeEach(() => {
         httpResponse = (resolve, reject) => {
@@ -19,6 +21,10 @@ describe('case spec', () => {
         httpRequest.and.callFake((url) => {
             if (url.endsWith('events')) {
                 return new Promise(eventsHttpResponse);
+            } else if (url.endsWith('questions')) {
+                return new Promise(questionsHttpResponse);
+            } else if (url.includes('continuous-online-hearings?case_id')) {
+                return new Promise(hearingHttpResponse);
             } else {
                 return new Promise(httpResponse);
             }
@@ -52,6 +58,22 @@ describe('case spec', () => {
                 });
             };
             eventsHttpResponse = (resolve, reject) => {
+                reject({
+                    error: {
+                        status: 400,
+                        message: 'Case reference is not valid'
+                    }
+                });
+            };
+            questionsHttpResponse = (resolve, reject) => {
+                reject({
+                    error: {
+                        status: 400,
+                        message: 'Case reference is not valid'
+                    }
+                });
+            };
+            hearingHttpResponse = (resolve, reject) => {
                 reject({
                     error: {
                         status: 400,
@@ -105,6 +127,21 @@ describe('case spec', () => {
             httpResponse = (resolve, reject) => {
                 resolve(caseData);
             };
+            hearingHttpResponse = (resolve, reject) => {
+                resolve({
+                    online_hearings: [{
+                        online_hearing_id: "bf34ebf6-4082-4b7e-9c11-57cffcd8a717",
+                    case_id: "1531477344211657",
+                    start_date: "2018-07-13T15:54:07.080+0000",
+                    panel: [
+                        {
+                            name: "5899"
+                        }
+                    ],
+                    state: null
+                }]
+                })
+            };
             eventsHttpResponse = (resolve, reject) => {
                 resolve([
                     {
@@ -139,15 +176,42 @@ describe('case spec', () => {
                     }
                 ]);
             };
+            questionsHttpResponse = (resolve, reject) => {
+                resolve({
+                    questions: [
+                        {
+                            question_round: "1",
+                            question_ordinal: "1",
+                            question_header_text: "What are you doing?",
+                            question_body_text: "Describe what you are doing now.",
+                            owner_reference: "5899",
+                            question_id: "de8896df-1de7-4f46-a2e4-483d6bc3a27b",
+                            current_question_state: {
+                                state_name: "DRAFTED",
+                                state_datetime: "2018-07-13 15:54:07.376"
+                            }
+                        },
+                        {
+                            question_round: "1",
+                            question_ordinal: "1",
+                            question_header_text: "What are you doing tomorrow?",
+                            question_body_text: "Describe what you are doing tomorrow.",
+                            owner_reference: "5899",
+                            question_id: "re8896df-1de7-4f46-a2e4-483d6bc3a27b",
+                            current_question_state: {
+                                state_name: "DRAFTED",
+                                state_datetime: "2018-07-13 15:54:07.376"
+                            }
+                        }
+                    ]
+                });
+            };
         });
 
         it('should populate the summary panel given data is in the response', () => {
             return request.get('/api/cases/1').expect(200).then(response => {
                 const jsonRes = JSON.parse(response.text);
                 const actualSummarySection = jsonRes.sections.filter(section => section.id === 'summary')[0];
-
-
-
                 const caseDetails = actualSummarySection.sections[0].sections[0];
                 const representatives = actualSummarySection.sections[0].sections[1];
 
@@ -194,6 +258,28 @@ describe('case spec', () => {
                     user_first_name: "BOB",
                     user_last_name: "PINEAPPLE",
                     created_date: "2018-07-03T10:58:24.187"
+                });
+
+                const draftQuestionsToAppellant = jsonRes.sections
+                    .filter(section => section.id === 'questions')[0].sections[0].sections
+                    .filter(section => section.id === 'questions-to-appellant')[0].sections
+                    .filter(section => section.id === 'draft-questions')[0].fields[0].value[1];
+
+                
+                expect(draftQuestionsToAppellant[0]).toEqual({
+                    body: 'Describe what you are doing now.',
+                    header: 'What are you doing?',
+                    id: 'de8896df-1de7-4f46-a2e4-483d6bc3a27b',
+                    owner_reference: '5899',
+                    state_datetime: '2018-07-13 15:54:07.376'
+                });
+                
+                expect(draftQuestionsToAppellant[1]).toEqual({
+                    body: 'Describe what you are doing tomorrow.',
+                    header: 'What are you doing tomorrow?',
+                    id: 're8896df-1de7-4f46-a2e4-483d6bc3a27b',
+                    owner_reference: '5899',
+                    state_datetime: '2018-07-13 15:54:07.376'
                 });
             });
         });

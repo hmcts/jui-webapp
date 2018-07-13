@@ -9,7 +9,6 @@ import { CaseNavComponent } from './components/case-nav/case-nav.component';
 import { TimelinePanelComponent } from './components/timeline-panel/timeline-panel.component';
 import { QuestionsPanelComponent } from './components/questions-panel/questions-panel.component';
 import { TimelineComponent } from './components/timeline/timeline.component';
-import { CaseDetailsBarComponent } from './components/case-details-bar/case-details-bar.component';
 import { DocumentViewerModule } from '../../shared/components/document-viewer/document-viewer.module';
 import { RouterModule } from '@angular/router';
 
@@ -18,12 +17,11 @@ import { RouterModule } from '@angular/router';
         CommonModule,
         SharedModule,
         DocumentViewerModule,
-        RouterModule
+        RouterModule,
     ],
     exports: [
         CaseViewerComponent,
-        DocumentPanelComponent,
-        CaseDetailsBarComponent
+        DocumentPanelComponent
     ],
     declarations: [
         CaseViewerComponent,
@@ -33,8 +31,7 @@ import { RouterModule } from '@angular/router';
         TimelinePanelComponent,
         QuestionsPanelComponent,
         TimelineComponent,
-        CaseNavComponent,
-        CaseDetailsBarComponent
+        CaseNavComponent
     ]
 })
 export class CaseViewerModule {

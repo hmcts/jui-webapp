@@ -1,20 +1,4 @@
-<div class="jui-casebar">
-    <div class="jui-width-container">
-        <app-case-details-bar [case]="case"></app-case-details-bar>
-        <div class="jui-casebar__options">
-            <nav class="jui-case-actions">
-                <ul class="jui-case-actions__list">
-                    <li class="jui-case-actions__item">
-                        <a class="jui-case-actions__link" routerLink="/">Make decision</a>
-                    </li>
-                    <li class="jui-case-actions__item">
-                        <a class="jui-case-actions__link" routerLink="/">List for hearing</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </div>
-</div>
+<app-casebar></app-casebar>
 
 <div class="jui-width-container">
     <main id="content" role="main" class="govuk-main-wrapper">
@@ -28,13 +12,3 @@
         <app-case-viewer [case]="case" [caseId]="caseId" [sectionId]="sectionId"></app-case-viewer>
     </main>
 </div>
-
-
-
-
-
-
-
-
-
-

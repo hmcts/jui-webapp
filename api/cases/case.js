@@ -74,6 +74,26 @@ function caseFileReducer(caseId, caseFile) {
     }, []);
 }
 
+function getDraftQuestions(questions) {
+    return questions.reduce((acc, item) => {
+        if (item.current_question_state.state_name !== 'DRAFTED') return;
+        
+        const key = parseInt(item['question_round']);
+        
+        if (!acc[key]) acc[key] = [];
+        
+        acc[key].push({
+            id: item.question_id,
+            header: item.question_header_text,
+            body: item.question_body_text,
+            owner_reference: item.owner_reference,
+            state_datetime: item.current_question_state.state_datetime
+        });
+        
+        return acc;
+    }, []);
+}
+
 //GET case callback
 module.exports = (req, res, next) => {
     const token = req.auth.token;
@@ -95,22 +115,11 @@ module.exports = (req, res, next) => {
         const schema = JSON.parse(JSON.stringify(sscsCaseTemplate));
         
         caseData.events = events != null ? events.map(e => reduceEvent(e)) : [];
-        caseData.questions = questions && questions.questions;
+        caseData.draft_questions_to_appellant = questions && getDraftQuestions(questions.questions);
         
-        if(schema.details) {
-            replaceSectionValues(schema.details, caseData);
-        }
+        if(schema.details) replaceSectionValues(schema.details, caseData);
         
         schema.sections.forEach(section => replaceSectionValues(section, caseData));
-        /**
-         * DO NOT DELETE: commenting out spike until story is available
-         */
-        // const rawCaseFile = schema.sections.filter(section => section.id === 'casefile')
-        //
-        // const hasDocuments = rawCaseFile[0].sections[0].fields[0].value.length > 0;
-        // const caseFile = hasDocuments ? caseFileReducer(caseId, rawCaseFile[0].sections[0].fields[0].value[0]) : null;
-        //
-        // schema.sections[schema.sections.findIndex(el => el.id === 'casefile')].sections = caseFile;
 
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.status(200).send(JSON.stringify(schema));
