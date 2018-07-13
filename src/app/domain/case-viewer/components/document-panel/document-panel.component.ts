@@ -11,7 +11,7 @@ export class DocumentPanelComponent implements OnInit {
 
     @Input() panelData;
     @Input() case: any;
-    documents: any[];
+    documents: any[] = [];
     selectedDocument: string;
     documentUrl: string;
 
@@ -38,7 +38,7 @@ export class DocumentPanelComponent implements OnInit {
             const dateB = new Date(b.createdOn);
             return dateA < dateB;
         });
-        console.log(documents);
+
         documents = documents.map(doc => {
             return {
                 id: doc.id,
@@ -62,30 +62,5 @@ export class DocumentPanelComponent implements OnInit {
                 }
             });
         }
-
-
-        // if (this.panelData.fields[0].value) {
-        //     const docIds = this.panelData.fields[0].value.filter(doc => doc.value.documentLink);
-        //     console.log(docIds);
-        //     console.log(this.case.documents);
-            // this.documents = this.panelData.fields[0].value
-            //     .filter(doc => doc.value.documentLink)
-            //     .map(doc => {
-            //         return {
-            //             id: doc.id,
-            //             name: doc.value.documentFileName || doc.value.documentLink.document_filename,
-            //             url: doc.value.documentLink.document_url
-            //         };
-            //     });
-            // if (this.documents.length) {
-            //     this.route.params.subscribe(params => {
-            //         if (params['section_item_id']) {
-            //             this.selectedDocument = this.documents.filter(doc => doc.id === params['section_item_id'])[0];
-            //         } else {
-            //             this.router.navigate([`${this.documents[0].id}`], {relativeTo: this.route});
-            //         }
-            //     });
-            // }
-        // }
     }
 }

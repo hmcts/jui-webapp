@@ -13,7 +13,7 @@ import {DocumentViewerService} from "./document-viewer.service";
 export class DocumentViewerComponent implements OnChanges, OnInit {
 
     @ViewChild(ViewerAnchorDirective) viewerAnchor: ViewerAnchorDirective;
-    @Input() url: string;
+    @Input() url: string = '';
     @Input() annotate: boolean;
     @Input() page = 1;
     @Output() pageChanged = new EventEmitter<number>();

@@ -25,7 +25,7 @@ const dataLookup = (lookup, caseData) => {
 
 const documentProcessor = (documents, caseData) => {
     documents = documents
-        .filter(doc => doc.value.documentLink)
+        .filter(doc => doc.value && doc.value.documentLink)
         .map(doc => {
             const splitURL = doc.value.documentLink.document_url.split('/');
             const id = splitURL[splitURL.length-1];
