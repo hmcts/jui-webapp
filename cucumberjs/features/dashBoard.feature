@@ -1,4 +1,3 @@
-
 Feature: Dashboard
 
     Background:

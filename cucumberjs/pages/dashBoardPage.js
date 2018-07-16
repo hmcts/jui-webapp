@@ -2,7 +2,7 @@
 
 function dashBoardPage() {
 
-    this.dashboard_header = element(by.css('h1'));
+    this.dashboard_header = element(by.css('h1.govuk-heading-l'));
     this.table = element.all(by.css(('[data-selector="table-component"]')));
     this.case_reference_header = element.all(by.css('[role="columnheader"]'));
     this.parties_header = element(by.css(('[data-selector ="parties-header"]')));
