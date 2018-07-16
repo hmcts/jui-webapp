@@ -1,7 +1,7 @@
 const sscsCaseTemplate = require('./sscsCase.template');
 const generateRequest = require('../lib/request');
 const config = require('../../config');
-const valueProcessor = require('../lib/value-processor');
+const valueProcessor = require('../lib/processors/value-processor');
 const {getEvents} = require('../events');
 const {getDocuments} = require('../documents');
 

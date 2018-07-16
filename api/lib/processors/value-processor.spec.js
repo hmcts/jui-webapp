@@ -1,7 +1,11 @@
-const valueProcessor = require('./value-processor');
+const proxyquire = require('proxyquire');
 
 describe('Value Processor Helper', () => {
     let sampleObject = {};
+    let documentProcessorSpy = jasmine.createSpy();
+    let valueProcessor = proxyquire('./value-processor', {
+        './document-processor': documentProcessorSpy
+    });
 
     beforeEach(() => {
         sampleObject = {
@@ -37,5 +41,12 @@ describe('Value Processor Helper', () => {
         it('should be able to combine lookups and hard values', () => {
             expect(valueProcessor(['$.simpleField1', 'one', '$.simpleField2', 'two'], sampleObject)).toEqual('simpleField1 one simpleField2 two');
         });
+    });
+
+    describe('processor values', () => {
+        it('should call the relevant processor with value(s)', () => {
+            valueProcessor(['$.simpleField1|document_processor'], sampleObject);
+            expect(documentProcessorSpy).toHaveBeenCalledWith('simpleField1', sampleObject)
+        })
     });
 });
