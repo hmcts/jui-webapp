@@ -14,11 +14,11 @@
                     </div>
                     <div data-selector="draft-questions-list" *ngFor="let round of item.value; let i = index">
                         <div *ngFor="let question of round; let j = index">
-                            <p data-selector="draft-questions-details" *ngIf="j === 0">You sent {{round.length}} questions to the appellant at {{question.state_datetime | date:'shortTime' | lowercase }} on {{question.state_datetime | date}}</p>
+                            <p data-selector="draft-questions-details" *ngIf="j === 0">You sent {{round.length}} questions to the appellant at {{question.state_datetime | date:'shortTime':'+0000' | lowercase }} on {{question.state_datetime | date}}</p>
                             <div data-selector="draft-questions-item" class="jui-questions__item">
                                 <h3 data-selector="questions-subject" class="jui-questions__subject"><a data-selector="questions-subject-link" routerLink="/viewcase/{{this.route.snapshot.params.case_id}}/questions/{{question.id}}">{{question.header}}</a>
                                 </h3>
-                                <p data-selector="questions-meta-data" class="jui-questions__meta">Sent by <span class="jui-questions__author">{{question.owner_reference}}</span> on {{question.state_datetime | date}} at {{ question.state_datetime | date:'shortTime' | lowercase}}</p>
+                                <p data-selector="questions-meta-data" class="jui-questions__meta">Sent by <span class="jui-questions__author">{{question.owner_reference}}</span> on {{question.state_datetime | date}} at {{ question.state_datetime | date:'shortTime':'+0000' | lowercase}}</p>
                             </div>
                         </div>
                     </div>
