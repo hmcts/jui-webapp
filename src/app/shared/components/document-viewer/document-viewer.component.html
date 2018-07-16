@@ -1,5 +1,3 @@
-<h1 class="heading-large" *ngIf="docName" data-hook="dm.viewer.docName">{{docName}}</h1>
-
 <div class="grid-row">
   <div [ngClass]="{'column-full': !annotate,
                  'column-two-thirds': annotate && viewerComponent && viewerComponent.numPages > 0}">
