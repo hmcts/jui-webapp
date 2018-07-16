@@ -1,3 +1,6 @@
+const config = require('../../config');
+const proxy = require('../lib/proxy');
+
 module.exports = (req) => {
     const token = req.auth.token;
     let options = {
