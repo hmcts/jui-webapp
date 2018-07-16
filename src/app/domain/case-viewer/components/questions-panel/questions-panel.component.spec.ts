@@ -117,7 +117,7 @@ describe('QuestionsPanelComponent', () => {
 
             it('should display details of when draft questions were added', () => {
                 expect(nativeElement.querySelector(Selector.selector('draft-questions-details')).textContent)
-                    .toBe('You sent 2 questions to the appellant at 9:52 am on Jul 13, 2018');
+                    .toBe('You sent 2 questions to the appellant at 8:52 am on Jul 13, 2018');
             });
 
             it('should display two draft questions', () => {
@@ -136,9 +136,9 @@ describe('QuestionsPanelComponent', () => {
             it('should display two draft questions meta data', () => {
                 const metadata = nativeElement.querySelectorAll(Selector.selector('questions-meta-data'));
                 expect(metadata[0].textContent)
-                    .toBe('Sent by 5899 on Jul 13, 2018 at 9:52 am');
+                    .toBe('Sent by 5899 on Jul 13, 2018 at 8:52 am');
                 expect(metadata[1].textContent)
-                    .toBe('Sent by 5899 on Jul 14, 2018 at 9:52 am');
+                    .toBe('Sent by 5899 on Jul 14, 2018 at 8:52 am');
             });
 
             it('should display link to add more draft questions', () => {
