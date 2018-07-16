@@ -50,10 +50,6 @@ describe('EmViewerComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should display document name', () => {
-      expect(element.nativeElement.querySelector('h1').textContent).toEqual('image.jpeg');
-    });
-
     it('img element should be visible', () => {
       expect(element.nativeElement.querySelector('app-img-viewer')).toBeTruthy();
     });
@@ -88,10 +84,6 @@ describe('EmViewerComponent', () => {
           }
         });
         fixture.detectChanges();
-      });
-
-      it('should display the new document name', () => {
-        expect(element.nativeElement.querySelector('h1').textContent).toEqual('new-image.jpeg');
       });
 
       it('img element should still be visible', () => {
@@ -135,10 +127,6 @@ describe('EmViewerComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should display document name', () => {
-      expect(element.nativeElement.querySelector('h1').textContent).toEqual('cert.pdf');
-    });
-
     it('img element should not be visible', () => {
       expect(element.nativeElement.querySelector('app-img-viewer')).not.toBeTruthy();
     });
@@ -164,10 +152,6 @@ describe('EmViewerComponent', () => {
         }
       });
       fixture.detectChanges();
-    });
-
-    it('should display document name', () => {
-      expect(element.nativeElement.querySelector('h1').textContent).toEqual('plain.txt');
     });
 
     it('should show a message with link to download', () => {
