@@ -1,5 +1,6 @@
 const sscsCaseTemplate = require('./sscsCase.template');
 const generateRequest = require('../lib/request');
+const generatePostRequest = require('../lib/postRequest');
 const config = require('../../config');
 const valueProcessor = require('../lib/value-processor');
 
@@ -11,8 +12,21 @@ function getCaseEvents(caseId, userId, options, caseType = 'Benefit', jurisdicti
     return generateRequest(`${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`, options)
 }
 
-function getHearingId(caseId, options) {
+function postHearing(caseId, userId, options, jurisdictionId = 'SSCS') {
+    options.body = {
+        case_id: caseId,
+        jurisdiction: jurisdictionId,
+        panel: [{identity_token: 'string', name: userId}],
+        start_date: (new Date()).toISOString()
+    };
+    
+    return generatePostRequest(`${config.services.coh_cor_api}/continuous-online-hearings`, options)
+        .then(hearing => hearing.online_hearing_id);
+ }
+ 
+function getHearingId(caseId, userId, options) {
     return generateRequest(`${config.services.coh_cor_api}/continuous-online-hearings?case_id=${caseId}`, options)
+        .then(hearing => hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : postHearing(caseId, userId, options));
 }
 
 function getCaseQuestions(hearingId, options) {
@@ -105,26 +119,23 @@ module.exports = (req, res, next) => {
             'ServiceAuthorization' : req.headers.ServiceAuthorization
         }
     };
-
-    getHearingId(caseId, options)
-    .then(hearing => {
-        const hearingId = hearing.online_hearings[0] && hearing.online_hearings[0].online_hearing_id
-        return getCaseWithEvents(caseId, userId, hearingId, options)
-    })
-    .then( ([caseData, events, questions])=> {
-        const schema = JSON.parse(JSON.stringify(sscsCaseTemplate));
-        
-        caseData.events = events != null ? events.map(e => reduceEvent(e)) : [];
-        caseData.draft_questions_to_appellant = questions && getDraftQuestions(questions.questions);
-        
-        if(schema.details) replaceSectionValues(schema.details, caseData);
-        
-        schema.sections.forEach(section => replaceSectionValues(section, caseData));
-
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.status(200).send(JSON.stringify(schema));
-    }).catch(response => {
-        console.log(response.error || response);
-        res.status(response.error.status).send(response.error.message);
-    });
+    
+    getHearingId(caseId, userId, options)
+        .then(hearingId => getCaseWithEvents(caseId, userId, hearingId, options))
+        .then( ([caseData, events, questions])=> {
+            const schema = JSON.parse(JSON.stringify(sscsCaseTemplate));
+            
+            caseData.events = events != null ? events.map(e => reduceEvent(e)) : [];
+            caseData.draft_questions_to_appellant = questions && getDraftQuestions(questions.questions);
+            
+            if(schema.details) replaceSectionValues(schema.details, caseData);
+            
+            schema.sections.forEach(section => replaceSectionValues(section, caseData));
+    
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.status(200).send(JSON.stringify(schema));
+        }).catch(response => {
+            console.log(response.error || response);
+            res.status(response.error.status).send(response.error.message);
+        });
 };
