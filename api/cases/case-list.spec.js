@@ -173,7 +173,7 @@ describe('case-list spec', () => {
                 .then(response => {
                     expect(response.body.results.length).toBe(3);
                     expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
-                    expect(response.body.results[0]).toEqual({
+                    expect(response.body.results[2]).toEqual({
                         case_id: caseData[0].id,
                         case_reference: caseData[0].case_data.caseReference,
                         case_fields: {
@@ -193,7 +193,7 @@ describe('case-list spec', () => {
                             dateOfLastAction: updatedDate3.toISOString()
                         }
                     });
-                    expect(response.body.results[2]).toEqual({
+                    expect(response.body.results[0]).toEqual({
                         case_id: caseData[1].id,
                         case_reference: caseData[1].case_data.caseReference,
                         case_fields: {

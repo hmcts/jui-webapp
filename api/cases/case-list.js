@@ -3,8 +3,8 @@ const generateRequest = require('../lib/request');
 const config = require('../../config');
 const valueProcessor = require('../lib/processors/value-processor');
 
-function getCases(userId, options, caseType = 'Benefit', caseStateId = 'appealCreated', jurisdiction = 'SSCS') {
-    return generateRequest(`${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases?state=${caseStateId}&page=1&sortDirection=DESC`, options)
+function getCases(userId, options, caseType = 'Benefit', caseStateId = 'appealCreated', jurisdiction = 'SSCS', benefitType = 'case.appeal.benefitType.code=PIP&') {
+    return generateRequest(`${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases?${benefitType}state=${caseStateId}&page=1&sortDirection=DESC`, options)
 }
 
 function rawCasesReducer(cases, columns) {
@@ -32,7 +32,7 @@ module.exports = (req, res, next) => {
         }
     }).then(casesData => {
         let results = rawCasesReducer(casesData, sscsCaseListTemplate.columns).sort(function (result1, result2) {
-            return new Date(result2.case_fields.dateOfLastAction) - new Date(result1.case_fields.dateOfLastAction);
+            return new Date(result1.case_fields.dateOfLastAction) - new Date(result2.case_fields.dateOfLastAction) ;
         });
         const aggregatedData = {...sscsCaseListTemplate, results : results};
         res.setHeader('Access-Control-Allow-Origin', '*');

@@ -1,4 +1,4 @@
-<div class="jui-timeline">
+<div [ngClass]="{'jui-timeline': true,'jui-timeline--full': !maxHistory}">
     <div *ngFor="let event of events" data-selector="timeline-item" class="jui-timeline__item">
         <div class="jui-timeline__header">
             <h2 class="jui-timeline__title" data-selector="timeline-event-name">{{event.event_name}}</h2>
