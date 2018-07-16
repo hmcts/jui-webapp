@@ -1,14 +1,5 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-l">Timeline</h1>
-        <div class="jui-timeline jui-timeline--full">
-            <div *ngFor="let event of panelData.fields[0].value" data-selector="timeline-item" class="jui-timeline__item">
-                <div class="jui-timeline__header">
-                    <h2 class="jui-timeline__title" data-selector="timeline-event-name">{{event.event_name}}</h2>
-                    <p class="jui-timeline__by" data-selector="timeline-by">by {{event.user_first_name}} {{event.user_last_name}}</p>
-                </div>
-                <p class="jui-timeline__date" data-selector="timeline-date">{{event.created_date | date: "d MMMM yyyy 'at' h:mmaaaaa'm'"}}</p>
-            </div>
-        </div>
+        <app-timeline [events]="panelData.fields[0].value"></app-timeline>
     </div>
 </div>

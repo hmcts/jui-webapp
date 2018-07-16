@@ -9,7 +9,11 @@ import { ViewCaseComponent } from './pages/view-case/view-case.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CaseService } from '../case.service';
 import { CaseFileService } from '../case-file.service';
-import { RedirectionService} from "./redirection.service";
+import { QuestionService } from '../domain/services/question.service';
+import { RedirectionService } from './redirection.service';
+import { CreateQuestionsComponent } from '../domain/components/questions/create/create.component';
+import { CheckQuestionsComponent } from '../domain/components/questions/check/check.component';
+import { ViewQuestionComponent } from '../domain/components/questions/view/view.component';
 
 const routes: Routes = [
     {
@@ -22,8 +26,20 @@ const routes: Routes = [
         component: ViewCaseComponent
     },
     {
-        path: 'viewcase/:case_id/:section/:section_item_id',
+        path: 'viewcase/:case_id/casefile/:section_item_id',
         component: ViewCaseComponent
+    },
+    {
+        path: 'viewcase/:case_id/questions/new',
+        component: CreateQuestionsComponent
+    },
+    {
+        path: 'viewcase/:case_id/questions/check',
+        component: CheckQuestionsComponent
+    },
+    {
+        path: 'viewcase/:case_id/questions/:question_id',
+        component: ViewQuestionComponent
     }
 ];
 
@@ -42,7 +58,8 @@ const routes: Routes = [
     providers: [
         CaseService,
         CaseFileService,
-        RedirectionService
+        RedirectionService,
+        QuestionService,
     ],
     exports: [
         RouterModule

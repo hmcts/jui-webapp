@@ -11,8 +11,7 @@ module.exports = {
         {
             "label": "Type",
             "case_field_id": "type",
-            "value": "PIP",
-
+            "value": "$.case_data.appeal.benefitType.code",
         },
         {
             "label": "Case Start Date",

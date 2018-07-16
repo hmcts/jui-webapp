@@ -9,5 +9,6 @@ module.exports = {
         em_redact_api: "http://localhost:3623",
         coh_cor_api: "http://localhost:4701"
     },
-    useProxy: false
+    useProxy: false,
+    protocol: 'http'
 };

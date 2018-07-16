@@ -6,7 +6,7 @@ module.exports = {
             sections: [
                 {
                     id: 'case_details',
-                    name: 'Case Details',
+                    name: 'Case details',
                     fields: [
                         {
                             label: 'Case number',

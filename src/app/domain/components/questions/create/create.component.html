@@ -1,0 +1,31 @@
+<app-casebar></app-casebar>
+<div class="jui-width-container">
+    <main id="content" role="main" class="govuk-main-wrapper">
+        <a data-selector="back-button" class="govuk-back-link" routerLink="..">Back</a>
+        <div class="govuk-grid-row govuk-main-wrapper">
+            <div class="govuk-grid-column-two-thirds">
+                <h1 data-selector="create-questions-heading" class="govuk-heading-xl jui-add-another__heading" tabindex="-1">Create questions</h1>
+                <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+                    <fieldset data-selector="new-question-item" class="govuk-fieldset jui-add-another__item">
+                        <legend data-selector="new-question-item-heading" class="govuk-fieldset__legend govuk-fieldset__legend--m  govuk-heading-m">Question</legend>
+                        <div data-selector="new-question-item-subject" class="govuk-form-group">
+                            <label data-selector="new-question-item-subject-label" for="subject" class="govuk-label">Subject</label>
+                            <input data-selector="new-question-item-subject-input" class="govuk-input form-control" name="subject" type="text" [(ngModel)]="model.subject" #subject="ngModel" [ngClass]="{ 'is-invalid': f.submitted && subject.invalid }" required>
+                            <div *ngIf="f.submitted && subject.invalid" class="invalid-feedback">
+                                <div *ngIf="subject.errors.required">Subject is required</div>
+                            </div>
+                        </div>
+                        <div data-selector="new-question-item-question-body" class="govuk-form-group">
+                            <label data-selector="new-question-item-question-label" for="question" class="govuk-label">Question</label>
+                            <textarea data-selector="new-question-item-question-textarea" type="text" class="govuk-textarea form-control" name="question" rows="5" #question="ngModel" [(ngModel)]="model.question" [ngClass]="{ 'is-invalid': f.submitted && question.invalid }" required></textarea>
+                            <div *ngIf="f.submitted && question.invalid" class="invalid-feedback">
+                                <div *ngIf="question.errors.required">Question is required</div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <button data-selector="save-button" class="govuk-button">Save questions</button>
+                </form>
+            </div>
+        </div>
+    </main>
+</div>
