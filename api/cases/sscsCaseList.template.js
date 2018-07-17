@@ -11,7 +11,12 @@ module.exports = {
         {
             "label": "Type",
             "case_field_id": "type",
-            "value": "$.case_data.appeal.benefitType.code",
+            "value": "$.case_data.appeal.benefitType.code"
+        },
+        {
+            "label": "Status",
+            "case_field_id": "status",
+            "value": "$.status"
         },
         {
             "label": "Case Start Date",
