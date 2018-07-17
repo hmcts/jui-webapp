@@ -7,7 +7,6 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class HearingMakeComponent implements OnInit {
 
-    // caseId: any;
     error = false;
 
     constructor() { }

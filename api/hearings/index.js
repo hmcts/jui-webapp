@@ -30,7 +30,6 @@ module.exports = (req, res, next) => {
         'Authorization' : `Bearer ${req.auth.token}`,
         'ServiceAuthorization' : req.headers.ServiceAuthorization
     };
-    // const body = formatQuestion(req.body, userId);
 
     getHearingId(caseId, userId, headers)
         .then(hearingId => getHearing(hearingId, headers))
@@ -38,7 +37,6 @@ module.exports = (req, res, next) => {
             res.setHeader('Access-Control-Allow-Origin', '*');
             res.setHeader('content-type', 'application/json');
             res.status(200).send(JSON.stringify(response));
-            // res.status(201).send('done');
         })
         .catch(response => {
             console.log(response.error || response);

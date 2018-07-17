@@ -40,9 +40,9 @@ export class CaseViewerContainerComponent implements OnInit{
                 this.router.navigate([ this.links[0].id], {relativeTo: this.route})
                     .then(
                         nav => {
-                            console.log(nav); // true if navigation is successful
+                            console.log(nav);
                         }, err => {
-                            console.error(err); // when there's an error
+                            console.error(err);
                             this.router.navigate(['']);
                         }
                     );

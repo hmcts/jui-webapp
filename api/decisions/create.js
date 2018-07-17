@@ -35,7 +35,6 @@ module.exports = (req, res, next) => {
         'Authorization' : `Bearer ${req.auth.token}`,
         'ServiceAuthorization' : req.headers.ServiceAuthorization
     };
-    // const body = formatQuestion(req.body, userId);
 
     getHearingId(caseId, userId, headers)
         .then(hearingId => postDraftDecision(hearingId, headers, req.body))

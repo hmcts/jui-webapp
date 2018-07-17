@@ -3,15 +3,6 @@ const generatePostRequest = require('../lib/postRequest');
 const generatePutRequest = require('../lib/putRequest');
 const config = require('../../config');
 
-const putBody = {
-    decision_award: 'sdfghjk',
-    decision_header: '',
-    decision_reason: '',
-    decision_text: '',
-    // decision_state: 'decision_drafted'
-    decision_state: 'decision_issued'
-};
-
 function postHearing(caseId, userId, headers, jurisdictionId = 'SSCS') {
     const body = {
         case_id: caseId,
