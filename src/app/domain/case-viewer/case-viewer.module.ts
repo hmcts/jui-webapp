@@ -10,12 +10,12 @@ import { QuestionsPanelComponent } from './components/questions-panel/questions-
 import { TimelineComponent } from './components/timeline/timeline.component';
 import { DocumentViewerModule } from '../../shared/components/document-viewer/document-viewer.module';
 import { RouterModule } from '@angular/router';
-import {DecisionMakeComponent} from './components/decision-make/decision-make.component';
-import { HearingMakeComponent } from './components/hearing-make/hearing-make.component';
-import { DecisionCheckComponent } from './components/decision-check/decision-check.component';
-import { DecisionConfirmationComponent } from './components/decision-confirmation/decision-confirmation.component';
-import { HearingConfirmationComponent } from './components/hearing-confirmation/hearing-confirmation.component';
-import { HearingCheckComponent } from './components/hearing-check/hearing-check.component';
+import {DecisionMakeComponent} from '../components/decisions/decision-make/decision-make.component';
+import { HearingMakeComponent } from '../components/hearings/hearing-make/hearing-make.component';
+import { DecisionCheckComponent } from '../components/decisions/decision-check/decision-check.component';
+import { DecisionConfirmationComponent } from '../components/decisions/decision-confirmation/decision-confirmation.component';
+import { HearingConfirmationComponent } from '../components/hearings/hearing-confirmation/hearing-confirmation.component';
+import { HearingCheckComponent } from '../components/hearings/hearing-check/hearing-check.component';
 import { CaseViewerContainerComponent } from './components/case-viewer-container/case-viewer-container.component';
 
 @NgModule({
@@ -27,13 +27,7 @@ import { CaseViewerContainerComponent } from './components/case-viewer-container
     ],
     exports: [
         CaseViewerComponent,
-        DocumentPanelComponent,
-        DecisionMakeComponent,
-        DecisionCheckComponent,
-        DecisionConfirmationComponent,
-        HearingMakeComponent,
-        HearingCheckComponent,
-        HearingConfirmationComponent
+        DocumentPanelComponent
     ],
     declarations: [
         CaseViewerComponent,
@@ -43,12 +37,6 @@ import { CaseViewerContainerComponent } from './components/case-viewer-container
         TimelinePanelComponent,
         QuestionsPanelComponent,
         TimelineComponent,
-        DecisionMakeComponent,
-        DecisionCheckComponent,
-        DecisionConfirmationComponent,
-        HearingMakeComponent,
-        HearingCheckComponent,
-        HearingConfirmationComponent,
         CaseViewerContainerComponent
     ]
 })

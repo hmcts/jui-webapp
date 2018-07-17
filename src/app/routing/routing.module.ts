@@ -9,12 +9,12 @@ import { ViewCaseComponent } from './pages/view-case/view-case.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CaseService } from '../case.service';
 import { RedirectionService} from './redirection.service';
-import {DecisionMakeComponent} from '../domain/case-viewer/components/decision-make/decision-make.component';
-import {HearingMakeComponent} from '../domain/case-viewer/components/hearing-make/hearing-make.component';
-import {DecisionCheckComponent} from '../domain/case-viewer/components/decision-check/decision-check.component';
-import {DecisionConfirmationComponent} from '../domain/case-viewer/components/decision-confirmation/decision-confirmation.component';
-import {HearingCheckComponent} from '../domain/case-viewer/components/hearing-check/hearing-check.component';
-import {HearingConfirmationComponent} from '../domain/case-viewer/components/hearing-confirmation/hearing-confirmation.component';
+import {DecisionMakeComponent} from '../domain/components/decisions/decision-make/decision-make.component';
+import {HearingMakeComponent} from '../domain/components/hearings/hearing-make/hearing-make.component';
+import {DecisionCheckComponent} from '../domain/components/decisions/decision-check/decision-check.component';
+import {DecisionConfirmationComponent} from '../domain/components/decisions/decision-confirmation/decision-confirmation.component';
+import {HearingCheckComponent} from '../domain/components/hearings/hearing-check/hearing-check.component';
+import {HearingConfirmationComponent} from '../domain/components/hearings/hearing-confirmation/hearing-confirmation.component';
 import {CaseResolve} from './resolve/case.resolve';
 import {CaseViewerContainerComponent} from '../domain/case-viewer/components/case-viewer-container/case-viewer-container.component';
 import { QuestionService } from '../domain/services/question.service';
@@ -39,7 +39,7 @@ const routes: Routes = [
                 component: DecisionConfirmationComponent,
             },
             {
-                path: 'hearing-confirmation',
+                path: 'hearings-confirmation',
                 component: HearingConfirmationComponent,
 
             },
@@ -60,11 +60,11 @@ const routes: Routes = [
                         component: DecisionCheckComponent
                     },
                     {
-                        path: 'list-for-hearing',
+                        path: 'list-for-hearings',
                         component: HearingMakeComponent
                     },
                     {
-                        path: 'check-hearing-notes',
+                        path: 'check-hearings-notes',
                         component: HearingCheckComponent
                     },
                     {

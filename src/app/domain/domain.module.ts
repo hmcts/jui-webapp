@@ -12,6 +12,12 @@ import { CheckQuestionsComponent } from './components/questions/check/check.comp
 import { ViewQuestionComponent } from './components/questions/view/view.component';
 import { CaseBarDetailsComponent } from './components/casebar-details/casebar-details.component';
 import { CaseBarComponent } from './components/casebar/casebar.component';
+import {HearingMakeComponent} from './components/hearings/hearing-make/hearing-make.component';
+import {DecisionMakeComponent} from './components/decisions/decision-make/decision-make.component';
+import {DecisionCheckComponent} from './components/decisions/decision-check/decision-check.component';
+import {HearingConfirmationComponent} from './components/hearings/hearing-confirmation/hearing-confirmation.component';
+import {DecisionConfirmationComponent} from './components/decisions/decision-confirmation/decision-confirmation.component';
+import {HearingCheckComponent} from './components/hearings/hearing-check/hearing-check.component';
 
 @NgModule({
     imports: [
@@ -29,7 +35,13 @@ import { CaseBarComponent } from './components/casebar/casebar.component';
         CaseViewerModule,
         CreateQuestionsComponent,
         CheckQuestionsComponent,
-        ViewQuestionComponent
+        ViewQuestionComponent,
+        DecisionMakeComponent,
+        DecisionCheckComponent,
+        DecisionConfirmationComponent,
+        HearingMakeComponent,
+        HearingCheckComponent,
+        HearingConfirmationComponent,
     ],
     declarations: [
         CaseBarDetailsComponent,
@@ -38,7 +50,13 @@ import { CaseBarComponent } from './components/casebar/casebar.component';
         HeaderComponent,
         CreateQuestionsComponent,
         CheckQuestionsComponent,
-        ViewQuestionComponent
+        ViewQuestionComponent,
+        DecisionMakeComponent,
+        DecisionCheckComponent,
+        DecisionConfirmationComponent,
+        HearingMakeComponent,
+        HearingCheckComponent,
+        HearingConfirmationComponent,
     ],
     providers: []
 })
