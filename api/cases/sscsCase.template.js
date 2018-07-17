@@ -152,5 +152,14 @@ module.exports = {
                 }
             ]
         }
-    ]
+    ],
+    decision: {
+        id: 'decision',
+        name: 'Make Decision',
+        type: 'decision-page',
+        options: [
+            { id: 'appeal-upheld', name: 'Appeal Upheld' },
+            { id: 'appeal-denied', name: 'Appeal Denied' }
+        ]
+    }
 };
