@@ -8,7 +8,6 @@ import {Router} from '@angular/router';
 })
 export class SummaryPanelComponent {
 
-    @Input() caseId;
     @Input() panelData;
 
 }
