@@ -54,8 +54,6 @@ function replaceSectionValues(section, caseData) {
 
 function getDraftQuestions(questions) {
     return questions.reduce((acc, item) => {
-        if (item.current_question_state.state_name !== 'DRAFTED') return;
-
         if (item.current_question_state.state_name !== 'question_drafted') return;
 
         const key = parseInt(item['question_round']);
