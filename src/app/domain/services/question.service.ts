@@ -10,12 +10,7 @@ export class QuestionService {
 
     create(caseId, question) {
         return this.http
-           .post(`${this.configService.config.api_base_url}/api/questions/${caseId}`, question)
-           .subscribe(res => {
-               console.log('res', res);
-           }, (err) => {
-               console.error(err);
-           });
+           .post(`${this.configService.config.api_base_url}/api/questions/${caseId}`, question);
     }
 
     save(caseId, question) {

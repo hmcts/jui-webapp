@@ -22,7 +22,8 @@ export class CreateQuestionsComponent implements OnInit {
     }
 
     onSubmit() {
-        this.questionService.create(this.caseId, this.model);
-        this.redirectionService.redirect(`/viewcase/${this.caseId}/questions?created=success`);
+        this.questionService.create(this.caseId, this.model).subscribe(res => {
+            this.redirectionService.redirect(`/viewcase/${this.caseId}/questions?created=success`);
+        }, err => console.log);
     }
 }
