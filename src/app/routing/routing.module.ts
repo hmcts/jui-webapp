@@ -21,14 +21,6 @@ const routes: Routes = [
         canActivate: [AuthGuardService]
     },
     {
-        path: 'viewcase/:case_id/:section',
-        component: ViewCaseComponent
-    },
-    {
-        path: 'viewcase/:case_id/:section/:section_item_id',
-        component: ViewCaseComponent
-    },
-    {
         path: 'viewcase/:case_id/questions/new',
         component: CreateQuestionsComponent
     },
@@ -39,7 +31,15 @@ const routes: Routes = [
     {
         path: 'viewcase/:case_id/questions/:question_id',
         component: ViewQuestionComponent
-    }
+    },
+    {
+        path: 'viewcase/:case_id/:section',
+        component: ViewCaseComponent
+    },
+    {
+        path: 'viewcase/:case_id/:section/:section_item_id',
+        component: ViewCaseComponent
+    },
 ];
 
 @NgModule({
