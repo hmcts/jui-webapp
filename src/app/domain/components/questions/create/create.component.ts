@@ -16,7 +16,7 @@ export class CreateQuestionsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.route.params.subscribe(params => {
+        this.route.parent.params.subscribe(params => {
             this.caseId = params['case_id'];
         });
     }
