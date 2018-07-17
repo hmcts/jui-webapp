@@ -1,0 +1,146 @@
+.jui-questions__meta {
+    font-family: "nta", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 400;
+    color: #6f777b;
+    margin-bottom: 0;
+    font-size: 16px;
+    line-height: 20px;
+    margin-top: 5px;
+}
+
+div {
+    display: block;
+}
+
+.jui-questions__item {
+    border-bottom: 1px solid #bfc1c3;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    position: relative;
+    border-top: 1px solid #bfc1c3;
+}
+
+h3 {
+    display: block;
+    font-size: 1.17em;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+    font-weight: bold;
+}
+
+.jui-questions__subject {
+    font-family: "nta", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 700;
+    margin-bottom: 0;
+    margin-top: 0;
+    font-size: 19px;
+    line-height: 25px;
+}
+
+a:-webkit-any-link {
+    color: -webkit-link;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.govuk-link, a {
+    font-family: "nta", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.govuk-link:link, a:link {
+    color: #005ea5;
+}
+
+.govuk-link:visited, a:visited {
+    color: #005ea5;
+}
+
+.govuk-button:link, .govuk-button:visited, .govuk-button:active, .govuk-button:hover {
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.jui-questions__subject a {
+    margin-right: 10px;
+}
+
+p {
+    display: block;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+}
+
+.govuk-body-m, .govuk-body, p {
+    color: #0b0c0c;
+    font-family: "nta", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.jui-questions__meta {
+    font-family: "nta", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    color: #6f777b;
+    margin-bottom: 0;
+}
+
+.jui-questions__author {
+    font-weight: bold;
+}
+
+.jui-questions__meta {
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.jui-alert {
+    border: 5px solid #005ea5;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.jui-alert--success {
+    border-color: #006435;
+}
+
+.jui-alert__icon--success {
+    background-image: url(../../../../../assets/images/icon-success.svg);
+}
+.jui-alert__icon {
+    background-repeat: no-repeat;
+    background-size: 44px 44px;
+    display: inline-block;
+    height: 44px;
+    text-indent: -9999px;
+    vertical-align: middle;
+    width: 44px;
+}
+
+.jui-alert__icon, .jui-alert__text {
+    padding-left: 0;
+}
+
+.jui-alert__text {
+  display: inline-block;
+  padding: 10px;
+  vertical-align: top;
+}

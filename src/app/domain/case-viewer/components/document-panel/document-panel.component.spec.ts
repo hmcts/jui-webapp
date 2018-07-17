@@ -1,12 +1,12 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {DocumentPanelComponent} from './document-panel.component';
-import {Selector} from '../../../../../../test/selector-helper';
-import {ActivatedRoute} from '@angular/router';
-import {of} from 'rxjs';
-import {CaseViewerModule} from '../../case-viewer.module';
-import {ConfigService} from '../../../../config.service';
-import {RouterTestingModule} from '@angular/router/testing';
+import { DocumentPanelComponent } from './document-panel.component';
+import { Selector } from '../../../../../../test/selector-helper';
+import { ActivatedRoute, Router } from '@angular/router';
+import { of } from 'rxjs';
+import { CaseViewerModule } from '../../case-viewer.module';
+import { ConfigService } from '../../../../config.service';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('DocumentPanelComponent', () => {
     let component: DocumentPanelComponent;
@@ -49,17 +49,23 @@ describe('DocumentPanelComponent', () => {
             };
 
             TestBed.configureTestingModule({
-                imports: [CaseViewerModule, RouterTestingModule],
+                imports: [
+                    CaseViewerModule,
+                    RouterTestingModule
+                ],
                 declarations: [],
-                providers: [{
-                    provide: ActivatedRoute,
-                    useValue: mockRoute
-                }, {
-                    provide: ConfigService,
-                    useValue: mockConfigService
-                }]
+                providers: [
+                    {
+                        provide: ActivatedRoute,
+                        useValue: mockRoute
+                    },
+                    {
+                        provide: ConfigService,
+                        useValue: mockConfigService
+                    }
+                ]
             })
-                .compileComponents();
+                   .compileComponents();
         }));
 
         describe('when we receive a section with documents', () => {

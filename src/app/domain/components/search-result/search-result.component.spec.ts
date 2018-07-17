@@ -59,7 +59,8 @@ describe('SearchResultComponent', () => {
             declarations: [],
             imports: [DomainModule, SharedModule, BrowserTransferStateModule, HttpClientTestingModule, RouterTestingModule],
             providers: [CaseService, {
-                provide: ConfigService, useValue: configMock
+                provide: ConfigService,
+                useValue: configMock
             }]
         })
             .compileComponents();

@@ -101,6 +101,56 @@ module.exports = {
                     ]
                 }
             ]
+        },
+        {
+            id: 'questions',
+            name: 'Questions',
+            type: 'page',
+            sections: [
+                {
+                    name: 'Questions',
+                    type: 'questions-panel',
+                    sections: [
+                        {
+                            id: 'questions-to-appellant',
+                            name: 'Questions to appellant',
+                            type: 'data-list',
+                            sections: [
+                                {
+                                    id: 'draft-questions',
+                                    name: 'Draft Questions',
+                                    type: 'data-list',
+                                    fields: [
+                                        {
+                                            value: '$.draft_questions_to_appellant'
+                                        }
+                                    ]
+                                },
+                                {
+                                    id: 'sent-questions',
+                                    name: 'Sent Questions',
+                                    type: 'data-list',
+                                    fields: [
+                                        {
+                                            value: '$.sent_questions_to_appellant'
+                                        }
+                                    ]
+                                },
+                            ],
+                        },
+                        {
+                            id: 'questions-from-appellant',
+                            name: 'Questions from appellant',
+                            type: 'data-list',
+                            fields: [
+                                {
+                                    value: '$.questions_from_appellant'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
         }
     ]
 };

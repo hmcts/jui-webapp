@@ -5,10 +5,11 @@ const apiRoute = require('./api');
 const serviceTokenMiddleware = require('./api/middleware/service-token');
 const config = require('./config');
 const app = express();
+const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
+app.use(bodyParser.json());
 app.use(cookieParser());
-
 
 app.get("/health", healthcheck.configure({
     checks: {
@@ -37,9 +38,6 @@ app.get('/info', infoRequestHandler({
 
 app.get('/oauth2/callback', apiRoute);
 app.get('/logout', apiRoute);
-
-// const authInteceptor = require('./api/middleware/auth');
-// app.use(authInteceptor);
 
 app.use(serviceTokenMiddleware);
 app.use('/api', apiRoute);

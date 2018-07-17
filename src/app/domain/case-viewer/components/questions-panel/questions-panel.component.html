@@ -1,0 +1,35 @@
+<div *ngIf="createdQuestion === 'success'" class="jui-alert jui-alert--success" role="status" aria-live="polite"><span class="jui-alert__icon jui-alert__icon--success">Success!</span>
+    <span class="jui-alert__text">Question added</span>
+</div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div *ngFor="let section of panelData.sections">
+            <div attr.data-selector="{{section.id}}" *ngIf="section.id === 'questions-to-appellant'">
+                <h1 attr.data-selector="{{section.id}}-heading">{{section.name}}</h1>
+                <div *ngFor="let item of section.sections[0].fields">
+                    <h2 data-selector="round-1" class="govuk-heading-m">Round 1</h2>
+                    <div data-selector="no-draft-questions" *ngIf="!item.value">
+                        <p data-selector="no-draft-questions-details">You haven’t asked any questions.</p>
+                        <a data-selector="no-draft-questions-link" class="govuk-button" routerLink="/viewcase/{{this.route.snapshot.params.case_id}}/questions/new">Add Questions</a>
+                    </div>
+                    <div data-selector="draft-questions-list" *ngFor="let round of item.value; let i = index">
+                        <div *ngFor="let question of round; let j = index">
+                            <p data-selector="draft-questions-details" *ngIf="j === 0">You sent {{round.length}} questions to the appellant at {{question.state_datetime | date:'shortTime':'+0000' | lowercase }} on {{question.state_datetime | date}}</p>
+                            <div data-selector="draft-questions-item" class="jui-questions__item">
+                                <h3 data-selector="questions-subject" class="jui-questions__subject"><a data-selector="questions-subject-link" routerLink="/viewcase/{{this.route.snapshot.params.case_id}}/questions/{{question.id}}">{{question.header}}</a>
+                                </h3>
+                                <p data-selector="questions-meta-data" class="jui-questions__meta">Sent by <span class="jui-questions__author">{{question.owner_reference}}</span> on {{question.state_datetime | date}} at {{ question.state_datetime | date:'shortTime':'+0000' | lowercase}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div *ngIf="section.sections[0].fields[0].value">
+                    <a data-selector="create-draft-questions-link" class="govuk-button jui-button--secondary" routerLink="/viewcase/{{this.route.snapshot.params.case_id}}/questions/new">Add Questions</a>
+                    <br>
+                    <a data-selector="send-draft-questions-link" class="govuk-button" routerLink="/viewcase/{{this.route.snapshot.params.case_id}}/questions/check">Send Questions</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

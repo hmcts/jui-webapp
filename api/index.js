@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const caseRoutes = require('./cases');
 const documentRoutes = require('./documents');
-const eventRoutes = require('./events');
+const questionRoutes = require('./questions');
 const auth = require('./auth');
 const events = require('./events');
 const documents = require('./documents');
@@ -18,5 +18,7 @@ documents(router);
 router.use('/cases', caseRoutes);
 // router.use('/documents', documents);
 // router.use('/events', eventRoutes);
+
+router.use('/questions', questionRoutes);
 
 module.exports = router;
