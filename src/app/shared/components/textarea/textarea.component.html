@@ -1,0 +1,11 @@
+<div [ngClass]="{'govuk-form-group': true, 'govuk-form-group--error': error}">
+    <label class="govuk-label govuk-label--m" for="{{id}}">{{label}}</label>
+    <span *ngIf="error" id="{{id}}-error" class="govuk-error-message">{{errorMessage}}</span>
+    <textarea [ngClass]="{
+                        'govuk-textarea': true,
+                        'govuk-input--width-30x': true,
+                        'govuk-textarea--error': error
+                        }" id="{{id}}" name="{{id}}" rows="{{rows}}"
+              (change)="textChanged()"
+              [(ngModel)]="text"></textarea>
+</div>

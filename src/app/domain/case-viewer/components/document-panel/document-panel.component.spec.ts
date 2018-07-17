@@ -65,7 +65,7 @@ describe('DocumentPanelComponent', () => {
                     }
                 ]
             })
-                   .compileComponents();
+                .compileComponents();
         }));
 
         describe('when we receive a section with documents', () => {

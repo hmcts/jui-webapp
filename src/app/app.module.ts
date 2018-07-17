@@ -8,7 +8,6 @@ import { DomainModule } from './domain/domain.module';
 import { RoutingModule } from './routing/routing.module';
 import { ConfigService } from './config.service';
 import {AuthModule} from './auth/auth.module';
-import {FooterComponent} from './shared/components/footer/footer.component';
 
 @NgModule({
     declarations: [
