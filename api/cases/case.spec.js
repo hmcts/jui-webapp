@@ -175,7 +175,7 @@ describe('case spec', () => {
                             owner_reference: "5899",
                             question_id: "de8896df-1de7-4f46-a2e4-483d6bc3a27b",
                             current_question_state: {
-                                state_name: "DRAFTED",
+                                state_name: "question_drafted",
                                 state_datetime: "2018-07-13 15:54:07.376"
                             }
                         },
@@ -187,7 +187,7 @@ describe('case spec', () => {
                             owner_reference: "5899",
                             question_id: "re8896df-1de7-4f46-a2e4-483d6bc3a27b",
                             current_question_state: {
-                                state_name: "DRAFTED",
+                                state_name: "question_drafted",
                                 state_datetime: "2018-07-13 15:54:07.376"
                             }
                         }
