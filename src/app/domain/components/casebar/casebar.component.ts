@@ -23,10 +23,6 @@ export class CaseBarComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.caseService.fetch(this.caseId)
-            .subscribe(data => {
-                this.case = data;
-            });
     }
 
 }

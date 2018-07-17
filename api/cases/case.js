@@ -20,7 +20,7 @@ function postHearing(caseId, userId, options, jurisdictionId = 'SSCS') {
 
     return generatePostRequest(`${config.services.coh_cor_api}/continuous-online-hearings`, options)
         .then(hearing => hearing.online_hearing_id);
- }
+}
 
 function getHearingId(caseId, userId, options) {
     return generateRequest(`${config.services.coh_cor_api}/continuous-online-hearings?case_id=${caseId}`, options)
@@ -79,50 +79,53 @@ module.exports = (req, res, next) => {
     const caseId = req.params.case_id;
 
     const options = {
-        headers : {
-            'Authorization' : `Bearer ${token}`,
-            'ServiceAuthorization' : req.headers.ServiceAuthorization
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'ServiceAuthorization': req.headers.ServiceAuthorization
         }
     };
 
     getHearingId(caseId, userId, options)
         .then(hearingId => getCaseWithEvents(caseId, userId, hearingId, options))
-        .then( ([caseData, events, questions])=> {
-    }).then(([caseData, events]) => {
+        .then(([caseData, events, questions]) => {
 
-        caseData.draft_questions_to_appellant = questions && getDraftQuestions(questions.questions);
-        caseData.events = events;
+            caseData.draft_questions_to_appellant = questions && getDraftQuestions(questions.questions);
+            caseData.events = events;
 
-        const schema = JSON.parse(JSON.stringify(sscsCaseTemplate));
-        if (schema.details) {
-            replaceSectionValues(schema.details, caseData);
-        }
-        schema.sections.forEach(section => replaceSectionValues(section, caseData));
-        const docIds = caseData.documents
-            .filter(document => document.value.documentLink)
-            .map(document => {
-                const splitDocLink = document.value.documentLink.document_url.split('/');
-                return splitDocLink[splitDocLink.length - 1];
-            });
-
-        getDocuments(docIds, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'ServiceAuthorization': req.headers.ServiceAuthorization,
-                'user-roles': req.auth.data,
+            const schema = JSON.parse(JSON.stringify(sscsCaseTemplate));
+            if (schema.details) {
+                replaceSectionValues(schema.details, caseData);
             }
-        }).then(documents => {
-            documents = documents.map(doc => {
-                const splitURL = doc._links.self.href.split('/');
-                doc.id = splitURL[splitURL.length-1];
-                return doc;
-            });
+            schema.sections.forEach(section => replaceSectionValues(section, caseData));
 
-            schema.documents = documents;
-            res.setHeader('Access-Control-Allow-Origin', '*');
-            res.status(200).send(JSON.stringify(schema));
-        });
-    }).catch(response => {
+
+            const docIds = (caseData.documents || [])
+                .filter(document => document.value.documentLink)
+                .map(document => {
+                    const splitDocLink = document.value.documentLink.document_url.split('/');
+                    return splitDocLink[splitDocLink.length - 1];
+                });
+
+            console.log('**************', docIds);
+
+            getDocuments(docIds, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'ServiceAuthorization': req.headers.ServiceAuthorization,
+                    'user-roles': req.auth.data,
+                }
+            }).then(documents => {
+                documents = documents.map(doc => {
+                    const splitURL = doc._links.self.href.split('/');
+                    doc.id = splitURL[splitURL.length - 1];
+                    return doc;
+                });
+
+                schema.documents = documents;
+                res.setHeader('Access-Control-Allow-Origin', '*');
+                res.status(200).send(JSON.stringify(schema));
+            });
+        }).catch(response => {
         console.log(response.error || response);
         res.status(response.error.status).send(response.error.message);
     });

@@ -11,7 +11,7 @@ const dataLookup = (lookup, caseData) => {
             value = jp.query(caseData, value)[0];
         }
 
-        if (processor && processor === 'document_processor') {
+        if (value && processor && processor === 'document_processor') {
             value = documentProcessor(value, caseData);
         }
 
