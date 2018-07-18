@@ -42,7 +42,7 @@ describe('Documents route', () => {
 
         it('should make a request to doc store', () => {
             getDocument('1234', {});
-            expect(httpRequest).toHaveBeenCalledWith(`${config.services.dm_store_api}/documents/1234`, {});
+            expect(httpRequest).toHaveBeenCalledWith('GET', `${config.services.dm_store_api}/documents/1234`, {});
         });
     });
 
@@ -59,7 +59,7 @@ describe('Documents route', () => {
 
         it('should make a request to doc store', () => {
             getDocumentBinary('1234', {});
-            expect(httpRequest).toHaveBeenCalledWith(`${config.services.dm_store_api}/documents/1234/binary`, {});
+            expect(httpRequest).toHaveBeenCalledWith('GET', `${config.services.dm_store_api}/documents/1234/binary`, {});
         });
     });
 

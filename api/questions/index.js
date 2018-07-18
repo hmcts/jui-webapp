@@ -1,8 +1,6 @@
-const express = require('express');
-const router = express.Router();
-const createQuestionCallback = require('./create');
+const questionsRoute = require('./question');
+const { postHearing, getQuestionsByCase } = require('./question');
 
-/* SAVE Question */
-router.post('/:case_id', createQuestionCallback);
-
-module.exports = router;
+module.exports = (app) => questionsRoute(app);
+module.exports.postHearing = postHearing;
+module.exports.getQuestionsByCase = getQuestionsByCase;

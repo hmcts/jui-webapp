@@ -5,11 +5,11 @@ const proxy = require('../lib/proxy');
 const getOptions = require('./options');
 
 function getDocumentBinary(docId, options) {
-    return generateRequest(`${config.services.dm_store_api}/documents/${docId}/binary`, options);
+    return generateRequest('GET', `${config.services.dm_store_api}/documents/${docId}/binary`, options);
 }
 
 function getDocument(docId, options) {
-    return generateRequest(`${config.services.dm_store_api}/documents/${docId}`, options);
+    return generateRequest('GET', `${config.services.dm_store_api}/documents/${docId}`, options);
 }
 
 function getDocumentArray(docIds = [], options) {

@@ -10,6 +10,8 @@ export class QuestionsPanelComponent implements OnInit {
     @Input() panelData;
     @Input() caseId;
     createdQuestion: string;
+    updatedQuestion: string;
+    deletedQuestion: string;
 
     questions: any[];
 
@@ -19,6 +21,8 @@ export class QuestionsPanelComponent implements OnInit {
     ngOnInit(): void {
         this.route.queryParams.subscribe(queryParams => {
             this.createdQuestion = queryParams['created'];
+            this.deletedQuestion = queryParams['deleted'];
+            this.updatedQuestion = queryParams['updated'];
         });
     }
 }

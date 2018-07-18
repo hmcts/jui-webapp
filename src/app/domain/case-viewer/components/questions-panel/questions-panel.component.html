@@ -1,6 +1,12 @@
 <div *ngIf="createdQuestion === 'success'" class="jui-alert jui-alert--success" role="status" aria-live="polite"><span class="jui-alert__icon jui-alert__icon--success">Success!</span>
     <span class="jui-alert__text">Question added</span>
 </div>
+<div *ngIf="updatedQuestion === 'success'" class="jui-alert jui-alert--success" role="status" aria-live="polite"><span class="jui-alert__icon jui-alert__icon--success">Success!</span>
+    <span class="jui-alert__text">Question updated</span>
+</div>
+<div *ngIf="deletedQuestion === 'success'" class="jui-alert jui-alert--success" role="status" aria-live="polite"><span class="jui-alert__icon jui-alert__icon--success">Success!</span>
+    <span class="jui-alert__text">Question deleted</span>
+</div>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <div *ngFor="let section of panelData.sections">

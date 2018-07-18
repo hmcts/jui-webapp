@@ -1,5 +1,4 @@
 const generateRequest = require('../lib/request');
-const generatePostRequest = require('../lib/postRequest');
 const config = require('../../config');
 
 function postHearing(caseId, userId, headers, jurisdictionId = 'SSCS') {
@@ -10,17 +9,17 @@ function postHearing(caseId, userId, headers, jurisdictionId = 'SSCS') {
         start_date: (new Date()).toISOString()
     };
 
-    return generatePostRequest(`${config.services.coh_cor_api}/continuous-online-hearings`, { headers, body })
+    return generateRequest('POST', `${config.services.coh_cor_api}/continuous-online-hearings`, { headers, body })
         .then(hearing => hearing.online_hearing_id);
 }
 
 function getHearingId(caseId, userId, headers) {
-    return generateRequest(`${config.services.coh_cor_api}/continuous-online-hearings?case_id=${caseId}`, { headers })
+    return generateRequest('GET', `${config.services.coh_cor_api}/continuous-online-hearings?case_id=${caseId}`, { headers })
         .then(h => h.online_hearings[0] ? h.online_hearings[0].online_hearing_id : postHearing(caseId, userId, headers));
 }
 
 function getHearing(hearingId, headers) {
-    return generateRequest(`${config.services.coh_cor_api}/continuous-online-hearings/${hearingId}`, headers);
+    return generateRequest('GET', `${config.services.coh_cor_api}/continuous-online-hearings/${hearingId}`, headers);
 }
 
 module.exports = (req, res, next) => {

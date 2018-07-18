@@ -1,8 +1,23 @@
-<app-backlink></app-backlink>
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-        <div class="col-md-6 offset-md-3">
-            <h2 data-selector="view-questions-heading">View Question</h2>
+<div class="jui-width-container">
+    <app-backlink></app-backlink>
+    <div class="govuk-grid-row govuk-main-wrapper">
+        <div *ngIf="question" class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-xl">{{question.header}}</h1>
+            <div class="jui-question">
+                <p class="jui-question__meta">From <span class="jui-question__author">{{question.owner_reference}}</span>, added on {{question.state_datetime | date}}</p>
+                <div class="govuk-prose-scope">
+                    <p>{{question.body}}</p>
+                </div>
+            </div>
+            <div class="jui-button-actions  govuk-!-margin-top-7">
+                <div class="jui-button-actions__item  jui-button-actions__item--inline">
+                    <a data-selector="delete-question-link" class="govuk-button" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/{{this.route.snapshot.params.question_id}}/edit">Edit question</a>
+                </div>
+                <div class="jui-button-actions__item  jui-button-actions__item--inline">
+                    <a data-selector="delete-question-link" class="govuk-button jui-button--secondary" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/{{this.route.snapshot.params.question_id}}/delete">Delete question</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
