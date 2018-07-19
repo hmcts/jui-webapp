@@ -3,6 +3,15 @@
     <div class="govuk-grid-column-two-thirds">
         <div class="col-md-6 offset-md-3">
             <h2 data-selector="check-questions-heading">Check your questions before sending</h2>
+            <dl class="app-check-your-answers  app-check-your-answers--short  govuk-!-margin-bottom-6">
+                <div class="app-check-your-answers__contents" *ngFor="let question of questions$ | async">
+                    <dt class="app-check-your-answers__question">dsfsdfs</dt>
+                    <dd class="app-check-your-answers__answer">fsfsdf</dd>
+                    <dd class="app-check-your-answers__change">
+                        <a href="/app/cases/SC1231612323/questions/7122a2f1-cc87-4467-a3d6-99fde550c67f/edit">Change <span class="govuk-visually-hidden">dsfsdfs</span></a>
+                    </dd>
+                </div>
+            </dl>
             <button class="govuk-button">Send questions</button>
         </div>
     </div>

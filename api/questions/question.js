@@ -33,7 +33,8 @@ function formatQuestions(questions) {
             header: item.question_header_text,
             body: item.question_body_text,
             owner_reference: item.owner_reference,
-            state_datetime: item.current_question_state.state_datetime
+            state_datetime: item.current_question_state.state_datetime,
+            state: item.current_question_state.state_name
         });
 
         return acc;
@@ -75,6 +76,13 @@ function putQuestion(hearingId, questionId, options) {
 
 function deleteQuestion(hearingId, questionId, options) {
     return generateRequest('DELETE', `${config.services.coh_cor_api}/continuous-online-hearings/${hearingId}/questions/${questionId}`, options);
+}
+
+function updateRoundToIssued(hearingId, roundId, options) {
+    options.body = {
+        state_name: 'question_issued'
+    };
+    return generateRequest('PUT', `${config.services.coh_cor_api}/continuous-online-hearings/${hearingId}/questionrounds/${roundId}`, options);
 }
 
 function formatQuestion(body, userId) {
@@ -192,6 +200,32 @@ module.exports = (app) => {
                 res.status(response.error.status).send(response.error.message);
             });
     });
+
+
+    route.put('/:case_id/questions/rounds/:round_id', (req, res, next) => {
+        const caseId = req.params.case_id;
+        const roundId = req.params.round_id;
+        const options = {
+            headers : {
+                'Authorization' : `Bearer ${req.auth.token}`,
+                'ServiceAuthorization' : req.headers.ServiceAuthorization
+            }
+        };
+
+        return getHearingByCase(caseId, options)
+            .then(hearing => hearing.online_hearings[0].online_hearing_id)
+            .then(hearingId => updateRoundToIssued(hearingId, roundId, options))
+            .then(response => {
+                res.setHeader('Access-Control-Allow-Origin', '*');
+                res.status(200).send(JSON.stringify(response));
+            })
+            .catch(response => {
+                console.log(response.error || response);
+                res.status(response.error.status).send(response.error.message);
+            });
+    });
+
+
 };
 
 module.exports.getQuestions = getQuestions;

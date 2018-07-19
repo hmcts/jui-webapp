@@ -2,6 +2,7 @@ import { Component, Input, OnInit  } from '@angular/core';
 import { QuestionService } from '../../../services/question.service';
 import { RedirectionService } from '../../../../routing/redirection.service';
 import { ActivatedRoute } from '@angular/router';
+import {Observable} from 'rxjs';
 
 @Component({
     selector: 'app-check-question',
@@ -11,14 +12,17 @@ import { ActivatedRoute } from '@angular/router';
 export class CheckQuestionsComponent implements OnInit {
     caseId: string;
     questionId: string;
+    questions$: Observable<any[]>;
 
-    constructor(private questionService: QuestionService, private redirectionService: RedirectionService, private route: ActivatedRoute) {
+    constructor(private questionService: QuestionService,
+                private redirectionService: RedirectionService,
+                private route: ActivatedRoute) {
     }
 
     ngOnInit(): void {
-        this.route.params.subscribe(params => {
+        this.route.parent.params.subscribe(params => {
             this.caseId = params['case_id'];
-            this.caseId = params['question_id'];
+            this.questions$ = this.questionService.fetchAll(this.caseId);
         });
     }
 

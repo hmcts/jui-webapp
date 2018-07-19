@@ -13,16 +13,25 @@ export class QuestionService {
 
     fetch(caseId, questionId): Observable<Object> {
         const url = `${this.configService.config.api_base_url}/api/cases/${caseId}/questions/${questionId}`;
+        return this.fetchWithUrl(url);
+    }
+
+    fetchAll(caseId): Observable<any[]> {
+        const url = `${this.configService.config.api_base_url}/api/cases/${caseId}/questions`;
+        return this.fetchWithUrl(url);
+    }
+
+    private fetchWithUrl(url): Observable<any> {
         const key = makeStateKey(url);
         const cache = this.state.get(key, null as any);
 
         if (cache) return of(cache);
 
         return this.http.get(url)
-                   .pipe(map(data => {
-                       this.state.set(key, data);
-                       return data;
-                   }));
+            .pipe(map(data => {
+                this.state.set(key, data);
+                return data;
+            }));
     }
 
     create(caseId, question) {
@@ -44,5 +53,9 @@ export class QuestionService {
         /**
          * To Do
          */
+    }
+
+    sendQuestions(caseId, roundId) {
+        return this.http.put(`${this.configService.config.api_base_url}/api/cases/${caseId}/questions/rounds/${roundId}`, {});
     }
 }
