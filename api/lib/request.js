@@ -2,15 +2,20 @@ const config = require('../../config');
 const proxy = require('./proxy');
 const request = require('request-promise');
 
-module.exports = function generateRequest(url, params) {
+module.exports = (method, url, params) => {
     let options = {
-        url : url, headers : {
+        method: method,
+        url : url,
+        headers : {
             ...params.headers,
             'Content-Type' : 'application/json'
-        }, json : true
+        },
+        json : true
     };
-    if(config.useProxy) {
-        options = proxy(options);
-    }
+    
+    if (params.body) options.body = params.body;
+    
+    if(config.useProxy) options = proxy(options);
+    
     return request(options);
 };
