@@ -1,5 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {QuestionService} from '../../../services/question.service';
+import {RedirectionService} from '../../../../routing/redirection.service';
 
 @Component({
     selector: 'app-questions-panel',
@@ -8,14 +10,16 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class QuestionsPanelComponent implements OnInit {
     @Input() panelData;
-    @Input() caseId;
+    caseId;
     createdQuestion: string;
     updatedQuestion: string;
     deletedQuestion: string;
 
     questions: any[];
 
-    constructor(private route: ActivatedRoute) {
+    constructor(private route: ActivatedRoute,
+                private redirectionService: RedirectionService,
+                private questionsService: QuestionService) {
     }
 
     ngOnInit(): void {
@@ -23,6 +27,15 @@ export class QuestionsPanelComponent implements OnInit {
             this.createdQuestion = queryParams['created'];
             this.deletedQuestion = queryParams['deleted'];
             this.updatedQuestion = queryParams['updated'];
+        });
+        this.route.parent.params.subscribe(params => {
+            this.caseId = params['case_id'];
+        });
+    }
+
+    sendQuestions() {
+        this.questionsService.sendQuestions(this.caseId, 1).subscribe(res => {
+            this.redirectionService.redirect(`/viewcase/${this.caseId}/questions?sent=success`);
         });
     }
 }

@@ -33,7 +33,8 @@
                 <div *ngIf="section.sections[0].fields[0].value">
                     <a data-selector="create-draft-questions-link" class="govuk-button jui-button--secondary" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/new">Add Questions</a>
                     <br>
-                    <a data-selector="send-draft-questions-link" class="govuk-button" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/check">Send Questions</a>
+                    <a data-selector="send-draft-questions-link" class="govuk-button" (click)="sendQuestions()">Send Questions</a>
+                    <!--<a data-selector="send-draft-questions-link" class="govuk-button" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/check">Send Questions</a>-->
                 </div>
             </div>
         </div>
