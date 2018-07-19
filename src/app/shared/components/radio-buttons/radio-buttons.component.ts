@@ -13,7 +13,7 @@ export class RadioButtonsComponent {
     @Input() options: any;
     @Input() errorMessage: string;
     @Input() error: boolean;
-
+    @Input() disable: boolean;
     @Input() inputedId: string;
 
     @Output() buttonChange = new EventEmitter<string>();

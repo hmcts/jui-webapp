@@ -9,15 +9,16 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class DecisionCheckComponent implements OnInit {
 
+    caseId: string;
     case: any;
     decision: any;
-    error: boolean;
-    caseId: string;
-    options: { id: string; name: string }[];
+    options = [];
 
-    decision_text: string;
-    decision_award: string;
-    decision_state: string;
+    decisionAward: string;
+    decisionText: string;
+    decisionState: string;
+
+    error: boolean;
 
     constructor(
         private route: ActivatedRoute,
@@ -29,13 +30,14 @@ export class DecisionCheckComponent implements OnInit {
         this.route.parent.params.subscribe( params => this.caseId = params.case_id);
         this.case = this.route.parent.snapshot.data['caseData'];
         this.options = this.case.decision.options;
+
         this.decisionService.fetchDecision(this.caseId).subscribe(decision => {
             this.decision = decision;
-            this.decision_state = this.decision.decision_state.state_name;
-            this.decision_text = this.decision.decision_text;
-            this.decision_award = this.options
+            this.decisionAward = this.options
                 .filter(option => option.id === this.decision.decision_award)
                 .map(options => options.name)[0];
+            this.decisionState = this.decision.decision_state.state_name;
+            this.decisionText = this.decision.decision_text;
         });
     }
 
@@ -44,12 +46,12 @@ export class DecisionCheckComponent implements OnInit {
             this.error = false;
             this.decisionService.issueDecision(this.caseId, this.decision)
                 .subscribe(() => {
-                    this.router.navigate(['../decision-confirmation'], {relativeTo: this.route});
-                }, error => {
-                    this.error = true;
-                    console.error('Something went wrong', error);
-                }
-            );
+                        this.router.navigate(['../decision-confirmation'], {relativeTo: this.route});
+                    }, error => {
+                        this.error = true;
+                        console.error('Something went wrong', error);
+                    }
+                );
         } else {
             this.error = true;
         }

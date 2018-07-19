@@ -12,13 +12,16 @@ export class DecisionMakeComponent implements OnInit {
     caseId: string;
     case: any;
     decision: any;
-
     options = [];
-    award: string;
-    text: string;
+
+    decisionAward: string;
+    decisionState: string;
+    decisionText: string;
+
     error = {
         server: false,
-        radiobutton: false
+        decisionAward: false,
+        decisionText: false
     };
 
     constructor(
@@ -34,60 +37,60 @@ export class DecisionMakeComponent implements OnInit {
 
         this.decisionService.fetchDecision(this.caseId).subscribe(decision => {
             this.decision = decision;
-            console.dir(this.decision);
-            this.text = this.decision.decision_text;
-            this.award = this.decision.decision_award;
+            this.decisionAward = this.decision.decision_award;
+            this.decisionState = this.decision.decision_state.state_name;
+            this.decisionText = this.decision.decision_text;
         });
     }
 
     onDecisionButtonChange($event: string) {
-        this.award = $event;
-        console.log(`PARENT TEXT ${this.award}`);
+        this.decisionAward = $event;
     }
 
     onDecisionNoteTextChange($event: string) {
-        this.text = $event;
-        console.log(`PARENT TEXT ${this.text}`);
+        this.decisionText = $event;
     }
 
     submitDecisionDraft() {
-        if (this.award && this.getValidId(this.award) !== '') {
-            this.error.radiobutton = false;
+        if (this.isValidDecisionAward() && this.isValidDecisionText()) {
+            this.error.decisionAward = false;
             this.error.server = false;
 
             if (this.decision) {
-                this.decisionService.updateDecisionDraft(this.caseId, this.award, this.text).subscribe(() => {
-                        this.router.navigate(['../check-decision'], {relativeTo: this.route});
-                    }, error => {
-                        this.error.server = true;
-                        console.error('Somthing went wrong', error);
-                    }
-                );
+                this.decisionService.updateDecisionDraft(this.caseId, this.decisionAward, this.decisionText)
+                    .subscribe(
+                        () => this.router.navigate(['../check-decision'], {relativeTo: this.route}),
+                        error => this.error.server = true
+                    );
             } else {
-                this.decisionService.submitDecisionDraft(this.caseId, this.award, this.text).subscribe(() => {
-                        this.router.navigate(['../check-decision'], {relativeTo: this.route});
-                    }, error => {
-                        this.error.server = true;
-                        console.error('Somthing went wrong', error);
-                    }
-                );
+                this.decisionService.submitDecisionDraft(this.caseId, this.decisionAward, this.decisionText)
+                    .subscribe(
+                        () => this.router.navigate(['../check-decision'], {relativeTo: this.route}),
+                        error => this.error.server = true
+                    );
             }
 
 
         } else  {
-            this.error.radiobutton = true;
+            this.error.decisionAward = !this.isValidDecisionAward();
+            this.error.decisionText = !this.isValidDecisionText();
         }
     }
 
     getValidId(id: string): string {
-        return this.isValidId(id) ? id : '';
+        return this.isValidOptionId(id) ? id : '';
     }
 
-    isValidId(id: string): boolean {
-        return id === '' || this.options.some(obj => {
-            return obj.id === id;
-        });
+    isValidOptionId(id: string): boolean {
+        return id === '' || this.options.some(obj => obj.id === id);
     }
 
+    isValidDecisionText(): boolean {
+        return !!this.decisionText;
+    }
+
+    isValidDecisionAward(): boolean {
+        return this.decisionAward && this.getValidId(this.decisionAward) !== '';
+    }
 
 }

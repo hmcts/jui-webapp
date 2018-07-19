@@ -12,6 +12,7 @@ export class TextareaComponent implements OnInit {
     @Input() rows: string;
     @Input() errorMessage: string;
     @Input() error: boolean;
+    @Input() disable: boolean;
     @Input() text = '';
     @Output() textChange  = new EventEmitter<string>();
 

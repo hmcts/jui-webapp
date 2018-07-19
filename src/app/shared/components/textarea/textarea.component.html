@@ -7,5 +7,6 @@
                         'govuk-textarea--error': error
                         }" id="{{id}}" name="{{id}}" rows="{{rows}}"
               (change)="textChanged()"
+              [attr.disabled]="disable ? '' : null"
               [(ngModel)]="text"></textarea>
 </div>
