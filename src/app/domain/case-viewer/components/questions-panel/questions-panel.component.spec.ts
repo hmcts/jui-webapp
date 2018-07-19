@@ -8,7 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { ConfigService } from '../../../../config.service';
 import { of } from 'rxjs';
 
-describe('QuestionsPanelComponent', () => {
+xdescribe('QuestionsPanelComponent', () => {
     let component: QuestionsPanelComponent;
     let fixture: ComponentFixture<QuestionsPanelComponent>;
     let nativeElement;
