@@ -1,5 +1,5 @@
 const app = require('./application');
-require( 'zone.js/dist/zone-node');
+// require( 'zone.js/dist/zone-node');
 const express = require('express');
 const ngExpressEngine = require('@nguniversal/express-engine').ngExpressEngine;
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
