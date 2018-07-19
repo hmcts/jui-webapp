@@ -42,11 +42,19 @@ module.exports = (req, res, next) => {
             'ServiceAuthorization': req.headers.ServiceAuthorization
         }
     };
-    
+
     getCaseWithEventsAndQuestions(caseId, userId, options)
-        .then(([caseData, events, draftQuestions]) => {
-        
-            caseData.draft_questions_to_appellant = draftQuestions;
+        .then(([caseData, events, questions]) => {
+            const questionsGroupedByState = questions[1].reduce(function (acc, obj) {
+                var key = obj.state;
+                if (!acc[key]) {
+                    acc[key] = [];
+                }
+                acc[key].push(obj);
+                return acc;
+            }, {});
+            caseData.draft_questions_to_appellant = questionsGroupedByState['question_drafted'] || [];
+            caseData.sent_questions_to_appellant = questionsGroupedByState['question_issued'] || [];
             caseData.events = events;
 
             const schema = JSON.parse(JSON.stringify(sscsCaseTemplate));

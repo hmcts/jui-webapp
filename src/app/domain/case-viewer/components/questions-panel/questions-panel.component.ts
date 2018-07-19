@@ -16,6 +16,8 @@ export class QuestionsPanelComponent implements OnInit {
     deletedQuestion: string;
 
     questions: any[];
+    private sentQuestions: any[];
+    private draftQuestions: any[];
 
     constructor(private route: ActivatedRoute,
                 private redirectionService: RedirectionService,
@@ -23,6 +25,9 @@ export class QuestionsPanelComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        console.log(this.panelData);
+        this.sentQuestions = this.panelData.sections[0].sections[1].fields[0].value; // What the hell?
+        this.draftQuestions = this.panelData.sections[0].sections[0].fields[0].value; // What the hell?
         this.route.queryParams.subscribe(queryParams => {
             this.createdQuestion = queryParams['created'];
             this.deletedQuestion = queryParams['deleted'];

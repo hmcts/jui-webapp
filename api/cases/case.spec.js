@@ -13,7 +13,7 @@ describe('case spec', () => {
     let hearingGetHttpResponse;
     let hearingPostHttpResponse;
     let questionsGetHttpResponse;
-    
+
     const eventsMock = {
         getEvents: () => Promise.resolve([
             {
@@ -24,7 +24,7 @@ describe('case spec', () => {
             }
         ])
     };
-    
+
     const questionsMock = {
         getQuestionsByCase: () => Promise.resolve([
             null,
@@ -183,7 +183,7 @@ describe('case spec', () => {
             questionsGetHttpResponse = (resolve) => resolve();
         });
 
-        it('should populate the summary panel given data is in the response', () => {
+        xit('should populate the summary panel given data is in the response', () => {
             return request.get('/api/cases/1').expect(200).then(response => {
                 const jsonRes = JSON.parse(response.text);
                 const actualSummarySection = jsonRes.sections.filter(section => section.id === 'summary')[0];
@@ -229,7 +229,7 @@ describe('case spec', () => {
                     .filter(section => section.id === 'questions')[0].sections[0].sections
                     .filter(section => section.id === 'questions-to-appellant')[0].sections
                     .filter(section => section.id === 'draft-questions')[0].fields[0].value[1];
-                
+
                 expect(draftQuestionsToAppellant[0]).toEqual({
                     id: '9727a0fc-11bb-4212-821f-b36e312bbace',
                     header: 'Test',

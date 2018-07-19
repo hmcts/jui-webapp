@@ -33,7 +33,8 @@ function formatQuestions(questions) {
             header: item.question_header_text,
             body: item.question_body_text,
             owner_reference: item.owner_reference,
-            state_datetime: item.current_question_state.state_datetime
+            state_datetime: item.current_question_state.state_datetime,
+            state: item.current_question_state.state_name
         });
 
         return acc;
