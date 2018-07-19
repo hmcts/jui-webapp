@@ -6,7 +6,7 @@ module.exports = {
         {
             "label": "Parties",
             "case_field_id": "parties",
-            "value": ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName", "vs DWP"]
+            "value": ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName", "v DWP"]
         },
         {
             "label": "Type",

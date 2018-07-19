@@ -5,7 +5,7 @@ module.exports = {
                 value: '$.case_data.caseReference'
             },
             {
-                value: ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName", "vs DWP"],
+                value: ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName", "v DWP"],
             }
         ]
     },
@@ -25,7 +25,7 @@ module.exports = {
                             fields: [
                                 {
                                     label: 'Parties',
-                                    value: ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName", "vs DWP"],
+                                    value: ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName", "v DWP"],
                                 },
                                 {
                                     label: 'Case number',
@@ -152,5 +152,14 @@ module.exports = {
                 }
             ]
         }
-    ]
+    ],
+    decision: {
+        id: 'decision',
+        name: 'Make a decision',
+        type: 'decision-page',
+        options: [
+            { id: 'appeal-upheld', name: 'Appeal upheld' },
+            { id: 'appeal-denied', name: 'Appeal denied' }
+        ]
+    }
 };

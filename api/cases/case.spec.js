@@ -208,7 +208,7 @@ describe('case spec', () => {
                 expect(caseDetails.fields).toEqual([
                     {
                         "label": "Parties",
-                        "value": `${caseData.case_data.appeal.appellant.name.firstName} ${caseData.case_data.appeal.appellant.name.lastName} vs DWP`
+                        "value": `${caseData.case_data.appeal.appellant.name.firstName} ${caseData.case_data.appeal.appellant.name.lastName} v DWP`
                     },
                     {
                         "label": "Case number",

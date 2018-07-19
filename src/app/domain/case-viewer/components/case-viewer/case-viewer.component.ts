@@ -1,4 +1,5 @@
-import {Component, Input, OnChanges} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
     selector: 'app-case-viewer',
@@ -6,9 +7,7 @@ import {Component, Input, OnChanges} from '@angular/core';
     styleUrls: ['./case-viewer.component.scss']
 })
 export class CaseViewerComponent implements OnChanges {
-
     @Input() case: any;
-    @Input() caseId: any;
     @Input() sectionId: string;
 
     targetSection;

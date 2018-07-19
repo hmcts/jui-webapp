@@ -41,7 +41,7 @@ describe('SummaryPanelComponent', () => {
                         'fields': [
                             {
                                 'label': 'Parties',
-                                'value': 'A May_146863 vs DWP'
+                                'value': 'A May_146863 v DWP'
                             },
                             {
                                 'label': 'Case number',

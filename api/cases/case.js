@@ -106,8 +106,6 @@ module.exports = (req, res, next) => {
                     return splitDocLink[splitDocLink.length - 1];
                 });
 
-            console.log('**************', docIds);
-
             getDocuments(docIds, {
                 headers: {
                     'Authorization': `Bearer ${token}`,

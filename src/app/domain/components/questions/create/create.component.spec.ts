@@ -17,16 +17,21 @@ import { of } from 'rxjs';
 
 const questionsUrl = '/api/questions';
 const mockRoute = {
-    params: of({
-        'case_id': '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
-    }),
-    queryParams: of({}),
     snapshot: {
-        params: {
+        _lastPathIndex: 0
+    },
+    parent: {
+        params: of({
             'case_id': '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
-        },
-        queryParams: {}
-    }
+        }),
+        snapshot: {
+            params: {
+                'case_id': '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
+            },
+            queryParams: {}
+        }
+    },
+    queryParams: of({}),
 };
 const configMock = {
     config: {
