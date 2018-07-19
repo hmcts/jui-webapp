@@ -8,7 +8,7 @@ function getCases(userId, options, caseType = 'Benefit', caseStateId = 'appealCr
 }
 
 function getOnlineHearing(caseIds, options) {
-    return generateRequest(`${config.services.coh_cor_api}/continuous-online-hearings/?case_id=${caseIds}`, options);
+    return generateRequest(`${config.services.coh_cor_api}/continuous-online-hearings/?${caseIds}`, options);
 }
 
 function rawCasesReducer(cases, columns) {
@@ -24,6 +24,12 @@ function rawCasesReducer(cases, columns) {
     });
 }
 
+function format(state)
+{
+    let formattedState = state.split("_").join(" ");
+    return formattedState[0].toUpperCase() +  formattedState.slice(1);
+}
+
 //List of cases
 module.exports = (req, res, next) => {
     const token = req.auth.token;
@@ -37,14 +43,17 @@ module.exports = (req, res, next) => {
 
     getCases(userId, options)
         .then(caseData => {
-                let caseIds = caseData.map(caseRow => 'case_id=' + caseRow.id).join("&");
-                let casesData = getOnlineHearing(caseIds, options)
+            let caseIds = caseData.map(caseRow => 'case_id=' + caseRow.id).join("&");
+            let casesData = getOnlineHearing(caseIds, options)
                 .then(hearings => {
                     if (hearings.online_hearings) {
-                        let caseStateMap = new Map(hearings.online_hearings.
-                        map(hearing => [Number(hearing.case_id), hearing.current_question_state.state_name]));
+                        let caseStateMap = new Map(hearings.online_hearings
+                            .map(hearing => [Number(hearing.case_id), hearing.current_state]));
                         caseData.forEach(caseRow => {
-                            caseRow.status = caseStateMap.get(Number(caseRow.id));
+                            let state = caseStateMap.get(Number(caseRow.id));
+                            if(state!= undefined && state!= null && state.state_name!= undefined && state.state_name != null) {
+                                caseRow.status = format(state.state_name);
+                            }
                         });
                     }
                     return caseData;
