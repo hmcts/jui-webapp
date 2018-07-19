@@ -13,7 +13,7 @@ function postHearing(caseId, userId, options, jurisdiction = 'SSCS') {
         panel: [{identity_token: 'string', name: userId}],
         start_date: (new Date()).toISOString()
     };
-    
+
     return generateRequest('POST', `${config.services.coh_cor_api}/continuous-online-hearings`, {...options, body: body})
         .then(hearing => hearing.online_hearing_id)
 }
@@ -25,9 +25,9 @@ function getQuestions(hearingId, options) {
 function formatQuestions(questions) {
     return questions.reduce((acc, item) => {
         const key = parseInt(item['question_round']);
-        
+
         if (!acc[key]) acc[key] = [];
-        
+
         acc[key].push({
             id: item.question_id,
             header: item.question_header_text,
@@ -35,18 +35,19 @@ function formatQuestions(questions) {
             owner_reference: item.owner_reference,
             state_datetime: item.current_question_state.state_datetime
         });
-        
+
         return acc;
     }, []);
 }
 
-function formatQuestionRes(question) {
+function formatQuestionRes(question, answers) {
     return {
         id: question.question_id,
         header: question.question_header_text,
         body: question.question_body_text,
         owner_reference: question.owner_reference,
-        state_datetime: question.current_question_state.state_datetime
+        state_datetime: question.current_question_state.state_datetime,
+        answer: (answers !== undefined && answers.length > 0 ? answers[0] : null)
     };
 }
 
@@ -62,7 +63,10 @@ function postQuestion(hearingId, options) {
 }
 
 function getQuestion(hearingId, questionId, options) {
-    return generateRequest('GET', `${config.services.coh_cor_api}/continuous-online-hearings/${hearingId}/questions/${questionId}`, options);
+    return Promise.all([
+        generateRequest('GET', `${config.services.coh_cor_api}/continuous-online-hearings/${hearingId}/questions/${questionId}`, options),
+        generateRequest('GET', `${config.services.coh_cor_api}/continuous-online-hearings/${hearingId}/questions/${questionId}/answers`, options)
+    ]);
 }
 
 function putQuestion(hearingId, questionId, options) {
@@ -87,7 +91,7 @@ function formatQuestion(body, userId) {
 module.exports = (app) => {
     const route = express.Router({mergeParams:true});
     app.use('/cases', route);
-    
+
     route.get('/:case_id/questions/:question_id', (req, res, next) => {
         const caseId = req.params.case_id;
         const questionId = req.params.question_id;
@@ -100,11 +104,11 @@ module.exports = (app) => {
             },
             body: body
         };
-        
+
         return getHearingByCase(caseId, options)
             .then(hearing => hearing.online_hearings[0].online_hearing_id)
             .then(hearingId => getQuestion(hearingId, questionId, options))
-            .then(question => question && formatQuestionRes(question))
+            .then(([question, answers]) => question && formatQuestionRes(question, answers))
             .then(response => {
                 res.setHeader('Access-Control-Allow-Origin', '*');
                 res.status(200).send(JSON.stringify(response));
@@ -114,7 +118,7 @@ module.exports = (app) => {
                 res.status(response.error.status).send(response.error.message);
             });
     });
-    
+
     route.post('/:case_id/questions', (req, res, next) => {
         const caseId = req.params.case_id;
         const userId = req.auth.userId;
@@ -126,7 +130,7 @@ module.exports = (app) => {
             },
             body: body
         };
-        
+
         return getHearingByCase(caseId, options)
             .then(hearing => hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : postHearing(caseId, userId, options))
             .then(hearingId => postQuestion(hearingId, options))
@@ -152,7 +156,7 @@ module.exports = (app) => {
             },
             body: body
         };
-        
+
         return getHearingByCase(caseId, options)
             .then(hearing => hearing.online_hearings[0].online_hearing_id)
             .then(hearingId => putQuestion(hearingId, questionId, options))
@@ -175,7 +179,7 @@ module.exports = (app) => {
                 'ServiceAuthorization' : req.headers.ServiceAuthorization
             }
         };
-        
+
         return getHearingByCase(caseId, options)
             .then(hearing => hearing.online_hearings[0].online_hearing_id)
             .then(hearingId => deleteQuestion(hearingId, questionId, options))

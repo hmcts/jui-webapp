@@ -9,7 +9,14 @@
                     <p>{{question.body}}</p>
                 </div>
             </div>
-            <div class="jui-button-actions  govuk-!-margin-top-7">
+            <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" *ngIf="question.answer" >
+            <div class="jui-response" *ngIf="question.answer">
+                <p class="jui-question__meta">From <span class="jui-question__author">Appellant</span>
+                <div class="govuk-prose-scope">
+                    <p>{{question.answer.answer_text}}</p>
+                </div>
+            </div>
+            <div class="jui-button-actions  govuk-!-margin-top-7" *ngIf="!question.answer">
                 <div class="jui-button-actions__item  jui-button-actions__item--inline">
                     <a data-selector="edit-question-link" class="govuk-button" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/{{this.route.snapshot.params.question_id}}/edit">Edit question</a>
                 </div>
