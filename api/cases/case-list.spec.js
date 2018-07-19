@@ -15,7 +15,7 @@ describe('case-list spec', () => {
 
     beforeEach(() => {
         httpRequest = jasmine.createSpy();
-        httpRequest.and.callFake((url) => {
+        httpRequest.and.callFake((method, url) => {
             if (url.includes('continuous-online-hearings/?case_id=987654321')) {
                 return Promise.resolve(onlineHearingData);
             } else if (url.includes('continuous-online-hearings/?case_id=987654322&case_id=987654323&case_id=987654324')) {
