@@ -15,7 +15,9 @@ export class TableComponent implements OnChanges {
     };
 
     displayedColumns() {
-        const columns = this.resultView.columns.map(column => column.case_field_id);
+        const columns = this.resultView.columns
+            .filter(column => !column.hide)
+            .map(column => column.case_field_id);
 
         columns.unshift('case_id');
 

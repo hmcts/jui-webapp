@@ -105,7 +105,8 @@ describe('case-list spec', () => {
                             type: 'PIP',
                             status: 'Continuous online hearing started',
                             caseStartDate: createdDate.toISOString(),
-                            dateOfLastAction: updatedDate.toISOString()
+                            dateOfLastAction: updatedDate.toISOString(),
+                            dateOfLastActionSortable: updatedDate.toISOString()
                         }
                     });
                 });
@@ -227,7 +228,8 @@ describe('case-list spec', () => {
                             type: 'PIP',
                             status: 'Continuous online hearing started',
                             caseStartDate: createdDate1.toISOString(),
-                            dateOfLastAction: updatedDate1.toISOString()
+                            dateOfLastAction: updatedDate1.toISOString(),
+                            dateOfLastActionSortable: updatedDate1.toISOString()
                         }
                     });
                     expect(response.body.results[1]).toEqual({
@@ -237,7 +239,8 @@ describe('case-list spec', () => {
                             parties: 'Roopa Ramisetty v DWP',
                             type: 'PIP',
                             caseStartDate: createdDate3.toISOString(),
-                            dateOfLastAction: updatedDate3.toISOString()
+                            dateOfLastAction: updatedDate3.toISOString(),
+                            dateOfLastActionSortable: updatedDate3.toISOString()
                         }
                     });
                     expect(response.body.results[0]).toEqual({
@@ -248,7 +251,8 @@ describe('case-list spec', () => {
                             type: 'PIP',
                             status: 'Continuous online hearing started',
                             caseStartDate: createdDate2.toISOString(),
-                            dateOfLastAction: updatedDate2.toISOString()
+                            dateOfLastAction: updatedDate2.toISOString(),
+                            dateOfLastActionSortable: updatedDate2.toISOString()
                         }
                     });
                 });

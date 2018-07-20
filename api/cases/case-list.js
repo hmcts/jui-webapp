@@ -62,7 +62,7 @@ module.exports = (req, res, next) => {
             })
         .then(casesData => {
         let results = rawCasesReducer(casesData, sscsCaseListTemplate.columns).sort(function (result1, result2) {
-            return new Date(result1.case_fields.dateOfLastAction) - new Date(result2.case_fields.dateOfLastAction);
+            return new Date(result1.case_fields.dateOfLastActionSortable) - new Date(result2.case_fields.dateOfLastActionSortable);
         });
         const aggregatedData = {...sscsCaseListTemplate, results: results};
         res.setHeader('Access-Control-Allow-Origin', '*');
