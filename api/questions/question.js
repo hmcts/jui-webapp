@@ -27,22 +27,16 @@ function getRounds(hearingId, options) {
 }
 
 function formatQuestions(questions) {
-    return questions.reduce((acc, item) => {
-        const key = parseInt(item['question_round']);
-
-        if (!acc[key]) acc[key] = [];
-
-        acc[key].push({
+    return questions.map(item => {
+        return {
             id: item.question_id,
             header: item.question_header_text,
             body: item.question_body_text,
             owner_reference: item.owner_reference,
             state_datetime: item.current_question_state.state_datetime,
             state: item.current_question_state.state_name
-        });
-
-        return acc;
-    }, []);
+        }
+    });
 }
 
 function formatRounds(rounds) {
@@ -50,16 +44,7 @@ function formatRounds(rounds) {
         return {
             question_round_number: round.question_round_number,
             state: round.question_round_state.state_name,
-            questions: round.question_references ? round.question_references.map(question => {
-                return {
-                    id: question.question_id,
-                    header: question.question_header_text,
-                    body: question.question_body_text,
-                    owner_reference: question.owner_reference,
-                    state_datetime: question.current_question_state.state_datetime,
-                    state: question.current_question_state.state_name
-                }
-            }) : []
+            questions: round.question_references ? formatQuestions(round.question_references) : []
         }
     });
 }
