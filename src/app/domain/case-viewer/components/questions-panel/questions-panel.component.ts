@@ -19,9 +19,7 @@ export class QuestionsPanelComponent implements OnInit {
     private sentQuestions: any[];
     private draftQuestions: any[];
 
-    constructor(private route: ActivatedRoute,
-                private redirectionService: RedirectionService,
-                private questionsService: QuestionService) {
+    constructor(private route: ActivatedRoute) {
     }
 
     ngOnInit(): void {
@@ -38,9 +36,9 @@ export class QuestionsPanelComponent implements OnInit {
         });
     }
 
-    sendQuestions() {
-        this.questionsService.sendQuestions(this.caseId, 1).subscribe(res => {
-            this.redirectionService.redirect(`/viewcase/${this.caseId}/questions?sent=success`);
-        });
-    }
+    // sendQuestions() {
+    //     this.questionsService.sendQuestions(this.caseId, 1).subscribe(res => {
+    //         this.redirectionService.redirect(`/viewcase/${this.caseId}/questions?sent=success`);
+    //     });
+    // }
 }

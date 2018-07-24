@@ -1,14 +1,14 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { QuestionsPanelComponent } from './questions-panel.component';
-import { CaseViewerModule } from '../../case-viewer.module';
-import { Selector } from '../../../../../../test/selector-helper';
-import { ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ConfigService } from '../../../../config.service';
-import { of } from 'rxjs';
+import {QuestionsPanelComponent} from './questions-panel.component';
+import {CaseViewerModule} from '../../case-viewer.module';
+import {Selector} from '../../../../../../test/selector-helper';
+import {ActivatedRoute} from '@angular/router';
+import {RouterTestingModule} from '@angular/router/testing';
+import {ConfigService} from '../../../../config.service';
+import {of} from 'rxjs';
 
-xdescribe('QuestionsPanelComponent', () => {
+fdescribe('QuestionsPanelComponent', () => {
     let component: QuestionsPanelComponent;
     let fixture: ComponentFixture<QuestionsPanelComponent>;
     let nativeElement;
@@ -75,24 +75,30 @@ xdescribe('QuestionsPanelComponent', () => {
                                 'fields': [
                                     {
                                         'value': [
-                                            null,
-                                            [
-                                                {
-                                                    'id': '5eea164a-62ee-43ee-8051-67b82b5af24f',
-                                                    'header': 'What are you doing?',
-                                                    'body': 'Nothing.',
-                                                    'owner_reference': '5899',
-                                                    'state_datetime': new Date(Date.UTC(2018, 6, 13, 8, 52, 38))
-                                                },
-                                                {
-                                                    'id': '4eea164a-62ee-43ee-8051-67b82b5af24f',
-                                                    'header': 'What are you doing now?',
-                                                    'body': 'Still nothing.',
-                                                    'owner_reference': '5899',
-                                                    'state_datetime': new Date(Date.UTC(2018, 6, 14, 8, 52, 38))
-                                                }
-                                            ]
+                                            {
+                                                'id': '5eea164a-62ee-43ee-8051-67b82b5af24f',
+                                                'header': 'What are you doing?',
+                                                'body': 'Nothing.',
+                                                'owner_reference': '5899',
+                                                'state_datetime': new Date(Date.UTC(2018, 6, 13, 8, 52, 38))
+                                            },
+                                            {
+                                                'id': '4eea164a-62ee-43ee-8051-67b82b5af24f',
+                                                'header': 'What are you doing now?',
+                                                'body': 'Still nothing.',
+                                                'owner_reference': '5899',
+                                                'state_datetime': new Date(Date.UTC(2018, 6, 14, 8, 52, 38))
+                                            }
                                         ]
+                                    }
+                                ]
+                            }, {
+                                'id': 'sent-questions',
+                                'name': 'Sent Questions',
+                                'type': 'data-list',
+                                'fields': [
+                                    {
+                                        'value': []
                                     }
                                 ]
                             }
@@ -122,7 +128,7 @@ xdescribe('QuestionsPanelComponent', () => {
 
             it('should display details of when draft questions were added', () => {
                 expect(nativeElement.querySelector(Selector.selector('draft-questions-details')).textContent)
-                    .toBe('You sent 2 questions to the appellant at 8:52 am on Jul 13, 2018');
+                    .toBe('You have not sent these questions to the appellant');
             });
 
             it('should display two draft questions', () => {
@@ -141,9 +147,9 @@ xdescribe('QuestionsPanelComponent', () => {
             it('should display two draft questions meta data', () => {
                 const metadata = nativeElement.querySelectorAll(Selector.selector('questions-meta-data'));
                 expect(metadata[0].textContent)
-                    .toBe('Sent by 5899 on Jul 13, 2018 at 8:52 am');
+                    .toBe('Last updated by 5899 at 8:52am on 13 July 2018');
                 expect(metadata[1].textContent)
-                    .toBe('Sent by 5899 on Jul 14, 2018 at 8:52 am');
+                    .toBe('Last updated by 5899 at 8:52am on 14 July 2018');
             });
 
             it('should display link to add more draft questions', () => {
@@ -199,7 +205,19 @@ xdescribe('QuestionsPanelComponent', () => {
                             'name': 'Draft Questions',
                             'type': 'data-list',
                             'fields': [
-                                {}
+                                {
+                                    'value': []
+                                }
+                            ]
+                        },
+                        {
+                            'id': 'sent-questions',
+                            'name': 'Sent Questions',
+                            'type': 'data-list',
+                            'fields': [
+                                {
+                                    'value': []
+                                }
                             ]
                         }
                     ]
