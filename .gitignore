@@ -44,4 +44,8 @@ testem.log
 .DS_Store
 Thumbs.db
 version
+<<<<<<< HEAD
+reports/
+=======
 test/coverage/
+>>>>>>> 77a8d6aef968c55dd7e71f506958c2d9abff591b
