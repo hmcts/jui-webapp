@@ -13,15 +13,15 @@ function getOnlineHearing(caseIds, options) {
 
 function rawCasesReducer(cases, columns) {
     return cases.map(caseRow => {
-        return {
-            case_id: caseRow.id,
-            case_reference: valueProcessor(sscsCaseListTemplate.case_number.label, caseRow),
-            case_fields : columns.reduce((row, column) => {
-                row[column.case_field_id] = valueProcessor(column.value, caseRow);
-                return row;
-            }, {})
-        };
-    });
+                return {
+                    case_id: caseRow.id,
+                    case_reference: valueProcessor(sscsCaseListTemplate.case_number.label, caseRow),
+                    case_fields : columns.reduce((row, column) => {
+                        row[column.case_field_id] = valueProcessor(column.value, caseRow);
+                        return row;
+                    }, {})
+                };
+            });
 }
 
 function format(state)
@@ -61,7 +61,9 @@ module.exports = (req, res, next) => {
                 return casesData;
             })
         .then(casesData => {
-        let results = rawCasesReducer(casesData, sscsCaseListTemplate.columns).sort(function (result1, result2) {
+        const results = rawCasesReducer(casesData, sscsCaseListTemplate.columns)
+            .filter(row => row.case_reference != undefined && row.case_reference != null)
+            .sort(function (result1, result2) {
             return new Date(result1.case_fields.dateOfLastAction) - new Date(result2.case_fields.dateOfLastAction);
         });
         const aggregatedData = {...sscsCaseListTemplate, results: results};
