@@ -22,6 +22,10 @@ function getQuestions(hearingId, options) {
     return generateRequest('GET', `${config.services.coh_cor_api}/continuous-online-hearings/${hearingId}/questions`, options);
 }
 
+function getRounds(hearingId, options) {
+    return generateRequest('GET', `${config.services.coh_cor_api}/continuous-online-hearings/${hearingId}/questionrounds`, options);
+}
+
 function formatQuestions(questions) {
     return questions.reduce((acc, item) => {
         const key = parseInt(item['question_round']);
@@ -41,6 +45,25 @@ function formatQuestions(questions) {
     }, []);
 }
 
+function formatRounds(rounds) {
+    return rounds.map(round => {
+        return {
+            question_round_number: round.question_round_number,
+            state: round.question_round_state.state_name,
+            questions: round.question_references ? round.question_references.map(question => {
+                return {
+                    id: question.question_id,
+                    header: question.question_header_text,
+                    body: question.question_body_text,
+                    owner_reference: question.owner_reference,
+                    state_datetime: question.current_question_state.state_datetime,
+                    state: question.current_question_state.state_name
+                }
+            }) : []
+        }
+    });
+}
+
 function formatQuestionRes(question, answers) {
     return {
         id: question.question_id,
@@ -58,6 +81,15 @@ function getQuestionsByCase(caseId, userId, options, jurisdiction) {
             hearing.online_hearings[0].online_hearing_id : postHearing(caseId, userId, options, jurisdiction))
         .then(hearingId => getQuestions(hearingId, options))
         .then(questions => questions && formatQuestions(questions.questions));
+}
+
+
+function getAllQuestionsByCase(caseId, userId, options, jurisdiction) {
+    return getHearingByCase(caseId, options)
+        .then(hearing => hearing.online_hearings[0] ?
+            hearing.online_hearings[0].online_hearing_id : postHearing(caseId, userId, options, jurisdiction))
+        .then(hearingId => getRounds(hearingId, options))
+        .then(rounds => rounds && formatRounds(rounds.question_rounds));
 }
 
 function postQuestion(hearingId, options) {
@@ -253,3 +285,4 @@ module.exports = (app) => {
 module.exports.getQuestions = getQuestions;
 module.exports.postHearing = postHearing;
 module.exports.getQuestionsByCase = getQuestionsByCase;
+module.exports.getAllQuestionsByCase = getAllQuestionsByCase;

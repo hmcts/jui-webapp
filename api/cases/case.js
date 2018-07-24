@@ -4,7 +4,7 @@ const config = require('../../config');
 const valueProcessor = require('../lib/processors/value-processor');
 const { getEvents } = require('../events');
 const { getDocuments } = require('../documents');
-const { getQuestionsByCase } = require('../questions');
+const { getAllQuestionsByCase } = require('../questions');
 
 function getCase(caseId, userId, options, caseType = 'Benefit', jurisdiction = 'SSCS') {
     return generateRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}`, options)
@@ -14,7 +14,7 @@ function getCaseWithEventsAndQuestions(caseId, userId, options, caseType, jurisd
     return Promise.all([
         getCase(caseId, userId, options, caseType, jurisdiction),
         getEvents(caseId, userId, options, caseType, jurisdiction),
-        getQuestionsByCase(caseId, userId, options, jurisdiction)
+        getAllQuestionsByCase(caseId, userId, options, jurisdiction)
     ]);
 }
 
@@ -45,21 +45,7 @@ module.exports = (req, res, next) => {
 
     getCaseWithEventsAndQuestions(caseId, userId, options)
         .then(([caseData, events, questions]) => {
-            if (questions && questions.length) {
-                const questionsGroupedByState = questions[1].reduce(function (acc, obj) {
-                    var key = obj.state;
-                    if (!acc[key]) {
-                        acc[key] = [];
-                    }
-                    acc[key].push(obj);
-                    return acc;
-                }, {});
-                caseData.draft_questions_to_appellant = questionsGroupedByState['question_drafted'] || [];
-                caseData.sent_questions_to_appellant = questionsGroupedByState['question_issued'] || [];
-            } else {
-                caseData.draft_questions_to_appellant = [];
-                caseData.sent_questions_to_appellant = [];
-            }
+            caseData.questions = questions;
             caseData.events = events;
 
             const schema = JSON.parse(JSON.stringify(sscsCaseTemplate));
