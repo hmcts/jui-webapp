@@ -34,7 +34,7 @@ describe('CaseBarDetailsComponent', () => {
                             value: '1234'
                         },
                         {
-                            value: 'Alec DT vs DWP',
+                            value: 'Alec DT v DWP',
                         }
                     ]
                 }

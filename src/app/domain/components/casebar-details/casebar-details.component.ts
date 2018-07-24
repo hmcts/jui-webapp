@@ -8,14 +8,12 @@ import {Component, Input, OnChanges} from '@angular/core';
 export class CaseBarDetailsComponent implements OnChanges {
 
     @Input() case: any;
-    targetSection: any;
+    caseDetails: any;
 
     constructor() { }
 
     ngOnChanges(changes) {
-        if (this.case && this.case.details) {
-                this.targetSection = this.case.details;
-        }
+        if (this.case && this.case.details) {this.caseDetails = this.case.details;}
     }
 
 }

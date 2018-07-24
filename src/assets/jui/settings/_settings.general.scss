@@ -7,7 +7,7 @@ $jui-gutter: govuk-spacing(6);
 $jui-gutter-half: $govuk-gutter / 2;
 
 // Assets path
-$jui-assets-path : "/public/images/";
+$jui-assets-path : "/public/images/" !default;
 
 @mixin jui-width-container {
   margin-left: auto;

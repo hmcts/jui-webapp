@@ -8,12 +8,21 @@ import { AuthGuardService } from '../auth/auth-guard.service';
 import { ViewCaseComponent } from './pages/view-case/view-case.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CaseService } from '../case.service';
-import { CaseFileService } from '../case-file.service';
-import { QuestionService } from '../domain/services/question.service';
 import { RedirectionService } from './redirection.service';
+import { DecisionMakeComponent } from '../domain/components/decisions/decision-make/decision-make.component';
+import { HearingMakeComponent } from '../domain/components/hearings/hearing-make/hearing-make.component';
+import { DecisionCheckComponent } from '../domain/components/decisions/decision-check/decision-check.component';
+import { DecisionConfirmationComponent } from '../domain/components/decisions/decision-confirmation/decision-confirmation.component';
+import { HearingCheckComponent } from '../domain/components/hearings/hearing-check/hearing-check.component';
+import { HearingConfirmationComponent } from '../domain/components/hearings/hearing-confirmation/hearing-confirmation.component';
+import { CaseResolve } from './resolve/case.resolve';
+import { CaseViewerContainerComponent } from '../domain/case-viewer/components/case-viewer-container/case-viewer-container.component';
+import { QuestionService } from '../domain/services/question.service';
 import { CreateQuestionsComponent } from '../domain/components/questions/create/create.component';
 import { CheckQuestionsComponent } from '../domain/components/questions/check/check.component';
 import { ViewQuestionComponent } from '../domain/components/questions/view/view.component';
+import { DeleteQuestionComponent } from '../domain/components/questions/delete/delete.component';
+import { EditQuestionComponent } from '../domain/components/questions/edit/edit.component';
 
 const routes: Routes = [
     {
@@ -22,24 +31,74 @@ const routes: Routes = [
         canActivate: [AuthGuardService]
     },
     {
-        path: 'viewcase/:case_id/:section',
-        component: ViewCaseComponent
-    },
-    {
-        path: 'viewcase/:case_id/casefile/:section_item_id',
-        component: ViewCaseComponent
-    },
-    {
-        path: 'viewcase/:case_id/questions/new',
-        component: CreateQuestionsComponent
-    },
-    {
-        path: 'viewcase/:case_id/questions/check',
-        component: CheckQuestionsComponent
-    },
-    {
-        path: 'viewcase/:case_id/questions/:question_id',
-        component: ViewQuestionComponent
+        path: 'viewcase/:case_id',
+        resolve: {
+            caseData: CaseResolve
+        },
+        children: [
+            {
+                path: 'decision-confirmation',
+                component: DecisionConfirmationComponent,
+            },
+            {
+                path: 'hearings-confirmation',
+                component: HearingConfirmationComponent,
+            },
+            {
+                path: '',
+                component: ViewCaseComponent,
+                children: [
+                    {
+                        path: '',
+                        component: CaseViewerContainerComponent,
+                    },
+                    {
+                        path: 'make-decision',
+                        component: DecisionMakeComponent
+                    },
+                    {
+                        path: 'check-decision',
+                        component: DecisionCheckComponent
+                    },
+                    {
+                        path: 'list-for-hearing',
+                        component: HearingMakeComponent
+                    },
+                    {
+                        path: 'check-hearings-notes',
+                        component: HearingCheckComponent
+                    },
+                    {
+                        path: 'questions/new',
+                        component: CreateQuestionsComponent
+                    },
+                    {
+                        path: 'questions/check',
+                        component: CheckQuestionsComponent
+                    },
+                    {
+                        path: 'questions/:question_id',
+                        component: ViewQuestionComponent
+                    },
+                    {
+                        path: 'questions/:question_id/edit',
+                        component: EditQuestionComponent
+                    },
+                    {
+                        path: 'questions/:question_id/delete',
+                        component: DeleteQuestionComponent
+                    },
+                    {
+                        path: ':section',
+                        component: CaseViewerContainerComponent,
+                    },
+                    {
+                        path: ':section/:section_item_id',
+                        component: CaseViewerContainerComponent,
+                    },
+                ]
+            }
+        ]
     }
 ];
 
@@ -57,7 +116,7 @@ const routes: Routes = [
     ],
     providers: [
         CaseService,
-        CaseFileService,
+        CaseResolve,
         RedirectionService,
         QuestionService,
     ],

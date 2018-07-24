@@ -1,0 +1,32 @@
+import { Component, OnInit } from '@angular/core';
+import { QuestionService } from '../../../services/question.service';
+import { RedirectionService } from '../../../../routing/redirection.service';
+import { ActivatedRoute } from '@angular/router';
+
+@Component({
+    selector: 'app-delete-question',
+    templateUrl: './delete.component.html',
+    styleUrls: ['./delete.component.scss']
+})
+export class DeleteQuestionComponent implements OnInit {
+    caseId: any;
+    questionId: any;
+
+    constructor(private questionService: QuestionService, private redirectionService: RedirectionService, private route: ActivatedRoute) {
+    }
+
+    ngOnInit(): void {
+        this.route.parent.params.subscribe(params => {
+            this.caseId = params['case_id'];
+        });
+        this.route.params.subscribe(params => {
+            this.questionId = params['question_id'];
+        });
+    }
+
+    remove() {
+        this.questionService.remove(this.caseId, this.questionId).subscribe(res => {
+            this.redirectionService.redirect(`/viewcase/${this.caseId}/questions?deleted=success`);
+        }, err => console.log);
+    }
+}

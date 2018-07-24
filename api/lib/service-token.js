@@ -1,6 +1,6 @@
 const otp = require('otp');
 const jwtDecode = require('jwt-decode');
-const request = require('request');
+const request = require('request-promise');
 const proxy = require('./proxy');
 const config = require('../../config/index');
 
@@ -36,8 +36,7 @@ function generateToken() {
     }
 
     return new Promise((resolve, reject) => {
-        request(options, (err, res, body) => {
-            console.log(err);
+        request(options).then(body => {
 
             const tokenData = jwtDecode(body);
             _cache[microservice] = {
@@ -46,7 +45,10 @@ function generateToken() {
             };
             console.log(tokenData);
             resolve();
-        });
+        }).catch(e => {
+            console.log('Error creating S2S token! S2S service error - ', e.message);
+            reject();
+        })
     });
 }
 
@@ -60,7 +62,10 @@ function serviceTokenGenerator() {
         else {
             generateToken().then(() => {
                 resolve(getToken());
-            })
+            }).catch(e => {
+               console.log('Failed to get S2S token');
+               reject();
+            });
         }
     });
 }

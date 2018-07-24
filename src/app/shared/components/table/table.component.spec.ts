@@ -90,7 +90,7 @@ const result1 = {
     'case_reference': '123-123-123',
     'case_fields': {
         'caseReference': null,
-        'parties': 'A vs May_146863',
+        'parties': 'A v May_146863',
         'type': 'SSCS',
         'status': 'unknown',
         'caseCreated': '2018-06-08T16:45:56.301',
@@ -102,7 +102,7 @@ const result2 = {
     'case_reference': '321-321-321',
     'case_fields': {
         'caseReference': null,
-        'parties': 'B vs May_417228',
+        'parties': 'B v May_417228',
         'type': 'SSCS',
         'status': 'unknown',
         'caseCreated': '2018-06-08T16:45:58.349',

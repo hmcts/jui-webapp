@@ -10,8 +10,7 @@ properties([
     [$class: 'GitHubPushTrigger']
   ])
 ])
-
-@Library("Infrastructure") _
+@Library("Infrastructure")
 
 def type = "nodejs"
 def product = "jui"
@@ -19,16 +18,24 @@ def component = "webapp"
 
 def channel = '#jui-pipeline'
 
+List<LinkedHashMap<String, Object>> secrets = [
+    secret('test-email', 'TEST_EMAIL'),
+    secret('test-password', 'TEST_PASSWORD')
+]
+
+static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
+  [ $class: 'AzureKeyVaultSecret',
+    secretType: 'Secret',
+    name: secretName,
+    version: '',
+    envVariable: envVar
+  ]
+}
+
 withPipeline(type , product, component) {
-    after('checkout') {
-        sh 'yarn cache clean'
-    }
+    after('checkout') {sh 'yarn cache clean'}
+    after('build') {sh 'npm run build'}
 
-    after('build') {
-        echo '--After build hook--'
-        sh 'npm run build-universal'
-        echo '----'
-     }
-
+    loadVaultSecrets(secrets)
     enableSlackNotifications(channel)
 }

@@ -1,9 +1,7 @@
-// const expect = require('chai').expect;
 const proxyquire = require('proxyquire');
 const supertest = require('supertest');
 const express = require('express');
 const config = require('../../config');
-// const sinon = require('sinon');
 
 describe('oAuth callback route', () => {
 

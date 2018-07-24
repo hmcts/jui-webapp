@@ -6,7 +6,8 @@ const sscsCaseListTemplate = require('./sscsCaseList.template');
 
 describe('case-list spec', () => {
     const caseData = [];
-
+    let onlineHearingData = {};
+    let multipleOnlineHearingData = {};
     let httpRequest;
     let route;
     let app;
@@ -14,7 +15,14 @@ describe('case-list spec', () => {
 
     beforeEach(() => {
         httpRequest = jasmine.createSpy();
-        httpRequest.and.callFake(() => Promise.resolve(caseData));
+        httpRequest.and.callFake((method, url) => {
+            if (url.includes('continuous-online-hearings/?case_id=987654321')) {
+                return Promise.resolve(onlineHearingData);
+            } else if (url.includes('continuous-online-hearings/?case_id=987654322&case_id=987654323&case_id=987654324')) {
+                return Promise.resolve(multipleOnlineHearingData);
+            }
+            return Promise.resolve(caseData);
+        });
 
         route = proxyquire('./case-list', {
             '../lib/request': httpRequest
@@ -34,7 +42,6 @@ describe('case-list spec', () => {
     });
 
     describe('when no case data is returned', () => {
-
         it('should return the columns with no rows', () => {
             return request.get('/api/cases')
                 .expect(200)
@@ -51,7 +58,7 @@ describe('case-list spec', () => {
 
         beforeEach(() => {
             caseData.push({
-                id: '987654321',
+                id: 987654321,
                 case_data: {
                     caseReference: '123-123-123',
                     appeal: {
@@ -67,9 +74,21 @@ describe('case-list spec', () => {
                     }
                 },
                 created_date: createdDate,
-                last_modified: updatedDate,
+                last_modified: updatedDate
 
             });
+            onlineHearingData = {
+                online_hearings: [
+                    {
+                        online_hearing_id: '1',
+                        case_id: 987654321,
+                        start_date: '2018-07-17T12:56:49.145+0000',
+                        current_state: {
+                            state_name: 'continuous_online_hearing_started',
+                            state_datetime: '2018-07-17T12:56:49Z'
+                        }
+                    }]
+            };
         });
 
         it('should return the columns with one rows', () => {
@@ -82,8 +101,9 @@ describe('case-list spec', () => {
                         case_id: caseData[0].id,
                         case_reference: caseData[0].case_data.caseReference,
                         case_fields: {
-                            parties: 'Louis Houghton vs DWP',
+                            parties: 'Louis Houghton v DWP',
                             type: 'PIP',
+                            status: 'Continuous online hearing started',
                             caseStartDate: createdDate.toISOString(),
                             dateOfLastAction: updatedDate.toISOString()
                         }
@@ -105,7 +125,7 @@ describe('case-list spec', () => {
         beforeEach(() => {
             caseData.pop();
             caseData.push({
-                id: '987654321',
+                id: 987654322,
                 case_data: {
                     caseReference: '123-123-123',
                     appeal: {
@@ -125,7 +145,7 @@ describe('case-list spec', () => {
 
             });
             caseData.push({
-                id: '987654322',
+                id: 987654323,
                 case_data: {
                     caseReference: '123-123-124',
                     appeal: {
@@ -146,7 +166,7 @@ describe('case-list spec', () => {
             });
 
             caseData.push({
-                id: '987654323',
+                id: 987654324,
                 case_data: {
                     caseReference: '123-123-125',
                     appeal: {
@@ -166,6 +186,32 @@ describe('case-list spec', () => {
 
             });
         });
+        multipleOnlineHearingData = {
+            online_hearings: [
+                {
+                    online_hearing_id: '2',
+                    case_id: 987654322,
+                    start_date: '2018-07-17T12:56:49.145+0000',
+                    current_state: {
+                        state_name: 'continuous_online_hearing_started',
+                        state_datetime: '2018-06-30T10:10:49Z'
+                    }
+                },
+                {
+                    online_hearing_id: '3',
+                    case_id: 987654323,
+                    start_date: '2018-07-18T12:56:49.145+0000',
+                    current_state: {
+                        state_name: 'continuous_online_hearing_started',
+                        state_datetime: '2018-06-29T12:10:49Z'
+                    }
+                },
+                {
+                    online_hearing_id: '4',
+                    case_id: 987654324,
+                    start_date: '2018-07-189T12:56:49.145+0000',
+                }]
+        };
 
         it('should return the columns with multiple rows order by ascending order of last updated date', () => {
             return request.get('/api/cases')
@@ -177,8 +223,9 @@ describe('case-list spec', () => {
                         case_id: caseData[0].id,
                         case_reference: caseData[0].case_data.caseReference,
                         case_fields: {
-                            parties: 'Louis Houghton vs DWP',
+                            parties: 'Louis Houghton v DWP',
                             type: 'PIP',
+                            status: 'Continuous online hearing started',
                             caseStartDate: createdDate1.toISOString(),
                             dateOfLastAction: updatedDate1.toISOString()
                         }
@@ -187,7 +234,7 @@ describe('case-list spec', () => {
                         case_id: caseData[2].id,
                         case_reference: caseData[2].case_data.caseReference,
                         case_fields: {
-                            parties: 'Roopa Ramisetty vs DWP',
+                            parties: 'Roopa Ramisetty v DWP',
                             type: 'PIP',
                             caseStartDate: createdDate3.toISOString(),
                             dateOfLastAction: updatedDate3.toISOString()
@@ -197,8 +244,9 @@ describe('case-list spec', () => {
                         case_id: caseData[1].id,
                         case_reference: caseData[1].case_data.caseReference,
                         case_fields: {
-                            parties: 'Padmaja Ramisetti vs DWP',
+                            parties: 'Padmaja Ramisetti v DWP',
                             type: 'PIP',
+                            status: 'Continuous online hearing started',
                             caseStartDate: createdDate2.toISOString(),
                             dateOfLastAction: updatedDate2.toISOString()
                         }

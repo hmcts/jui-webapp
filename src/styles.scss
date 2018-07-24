@@ -1,12 +1,18 @@
 // Path to assets for use with the file-url function
 // in the govuk frontend toolkit"s url-helpers partial
 $path: "/public/images/";
+$jui-assets-path : "/assets/images/";
+
 $govuk-global-styles: true;
 @import "~govuk-frontend/all";
 @import "./assets/jui/all";
 
 body {
     @include govuk-font($size: 16);
+}
+
+.jui-casefile-list__link {
+    //background-image: url(/assets/images/icon-document.svg);
 }
 
 a:hover {
