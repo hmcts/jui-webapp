@@ -12,7 +12,7 @@
         <div *ngFor="let section of panelData.sections">
             <div attr.data-selector="{{section.id}}" *ngIf="section.id === 'questions-to-appellant'">
                 <h1 attr.data-selector="{{section.id}}-heading">{{section.name}}</h1>
-                <h2 data-selector="round-1" class="govuk-heading-m">Round 1</h2>
+                <!--<h2 data-selector="round-1" class="govuk-heading-m">Round 1</h2>-->
                 <div data-selector="no-draft-questions" *ngIf="!draftQuestions || !draftQuestions.length">
                     <p data-selector="no-draft-questions-details">You haven’t asked any questions.</p>
                     <a data-selector="no-draft-questions-link" class="govuk-button" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/new">Add Questions</a>
