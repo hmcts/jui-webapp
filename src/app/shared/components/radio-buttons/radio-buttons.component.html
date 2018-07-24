@@ -1,7 +1,7 @@
 <div [ngClass]="{'govuk-form-group': true, 'govuk-form-group--error': error}">
     <fieldset class="govuk-fieldset">
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-            <h1 class="govuk-fieldset__heading">{{title}}</h1>
+            <h1 id="{{id}}-fragment" class="govuk-fieldset__heading">{{title}}</h1>
         </legend>
         <span *ngIf="error" id="{{id}}-error" class="govuk-error-message">{{errorMessage}}</span>
         <div class="govuk-radios" >

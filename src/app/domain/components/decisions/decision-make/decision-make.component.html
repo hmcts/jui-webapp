@@ -9,8 +9,8 @@
                     <div class="govuk-error-summary__body">
                         <ul class="govuk-list govuk-error-summary__list">
                             <li *ngIf="error.server"><a>There Was a Server error</a></li>
-                            <li *ngIf="error.decisionAward"><a [routerLink]="['.']" fragment="make-decision" >Select your decision</a></li>
-                            <li *ngIf="error.decisionText"><a [routerLink]="['.']" fragment="decision-notes">Enter your decision notes</a></li>
+                            <li *ngIf="error.decisionAward"><a [routerLink]="['.']" fragment="make-decision-fragment" >Select your decision</a></li>
+                            <li *ngIf="error.decisionText"><a [routerLink]="['.']" fragment="decision-notes-fragment">Enter your decision notes</a></li>
                         </ul>
                     </div>
                 </div>
