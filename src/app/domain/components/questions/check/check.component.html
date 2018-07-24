@@ -6,12 +6,11 @@
                 <div class="col-md-6 offset-md-3">
                     <h2 data-selector="check-questions-heading">Check your questions before sending</h2>
                     <dl class="app-check-your-answers  app-check-your-answers--short  govuk-!-margin-bottom-6">
-                        <div *ngFor="let question of questions$ | async" class="app-check-your-answers__contents">
+                        <div *ngFor="let question of questions$ | async" class="app-check-your-answers__contents" data-selector="question-check">
                             <dt class="app-check-your-answers__question">{{question.header}}</dt>
                             <dd class="app-check-your-answers__answer">{{question.body}}</dd>
                             <dd class="app-check-your-answers__change">
-                                <a href="/app/cases/{{caseId}}/questions/{{question.id}}/edit">Change <span
-                                    class="govuk-visually-hidden">dsfsdfs</span></a>
+                                <a href="/app/cases/{{caseId}}/questions/{{question.id}}/edit">Change</a>
                             </dd>
                         </div>
                     </dl>
