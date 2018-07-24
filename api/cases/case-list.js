@@ -62,7 +62,7 @@ module.exports = (req, res, next) => {
             })
         .then(casesData => {
         const results = rawCasesReducer(casesData, sscsCaseListTemplate.columns)
-            .filter(row => row.case_reference != undefined && row.case_reference != null)
+            .filter(row => row.case_reference !== undefined && row.case_reference !== null)
             .sort(function (result1, result2) {
             return new Date(result1.case_fields.dateOfLastAction) - new Date(result2.case_fields.dateOfLastAction);
         });
