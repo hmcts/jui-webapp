@@ -54,10 +54,8 @@ function formatQuestionRes(question, answers) {
 
 function getQuestionsByCase(caseId, userId, options, jurisdiction) {
     return getHearingByCase(caseId, options)
-        .then(hearing => {
-            console.log(JSON.stringify(hearing));
-            return hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : postHearing(caseId, userId, options, jurisdiction)
-        })
+        .then(hearing => hearing.online_hearings[0] ?
+            hearing.online_hearings[0].online_hearing_id : postHearing(caseId, userId, options, jurisdiction))
         .then(hearingId => getQuestions(hearingId, options))
         .then(questions => questions && formatQuestions(questions.questions));
 }
