@@ -1,18 +1,27 @@
-<app-backlink></app-backlink>
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-        <div class="col-md-6 offset-md-3">
-            <h2 data-selector="check-questions-heading">Check your questions before sending</h2>
-            <dl class="app-check-your-answers  app-check-your-answers--short  govuk-!-margin-bottom-6">
-                <div class="app-check-your-answers__contents" *ngFor="let question of questions$ | async">
-                    <dt class="app-check-your-answers__question">dsfsdfs</dt>
-                    <dd class="app-check-your-answers__answer">fsfsdf</dd>
-                    <dd class="app-check-your-answers__change">
-                        <a href="/app/cases/SC1231612323/questions/7122a2f1-cc87-4467-a3d6-99fde550c67f/edit">Change <span class="govuk-visually-hidden">dsfsdfs</span></a>
-                    </dd>
+<div class="jui-width-container">
+    <app-backlink></app-backlink>
+    <main class="govuk-main-wrapper" role="main">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <div class="col-md-6 offset-md-3">
+                    <h2 data-selector="check-questions-heading">Check your questions before sending</h2>
+                    <div *ngFor="let round of rounds$ | async">
+                        <div *ngIf="round">
+                            <dl class="app-check-your-answers  app-check-your-answers--short  govuk-!-margin-bottom-6">
+                                <div *ngFor="let question of round" class="app-check-your-answers__contents">
+                                    <dt class="app-check-your-answers__question">{{question.header}}</dt>
+                                    <dd class="app-check-your-answers__answer">{{question.body}}</dd>
+                                    <dd class="app-check-your-answers__change">
+                                        <a href="/app/cases/{{caseId}}/questions/{{question.id}}/edit">Change <span
+                                            class="govuk-visually-hidden">dsfsdfs</span></a>
+                                    </dd>
+                                </div>
+                            </dl>
+                        </div>
+                    </div>
+                    <button class="govuk-button" (click)="onSubmit()">Send questions</button>
                 </div>
-            </dl>
-            <button class="govuk-button">Send questions</button>
+            </div>
         </div>
-    </div>
+    </main>
 </div>

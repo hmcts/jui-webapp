@@ -1,14 +1,14 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { QuestionsPanelComponent } from './questions-panel.component';
-import { CaseViewerModule } from '../../case-viewer.module';
-import { Selector } from '../../../../../../test/selector-helper';
-import { ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ConfigService } from '../../../../config.service';
-import { of } from 'rxjs';
+import {QuestionsPanelComponent} from './questions-panel.component';
+import {CaseViewerModule} from '../../case-viewer.module';
+import {Selector} from '../../../../../../test/selector-helper';
+import {ActivatedRoute} from '@angular/router';
+import {RouterTestingModule} from '@angular/router/testing';
+import {ConfigService} from '../../../../config.service';
+import {of} from 'rxjs';
 
-xdescribe('QuestionsPanelComponent', () => {
+describe('QuestionsPanelComponent', () => {
     let component: QuestionsPanelComponent;
     let fixture: ComponentFixture<QuestionsPanelComponent>;
     let nativeElement;
@@ -75,24 +75,30 @@ xdescribe('QuestionsPanelComponent', () => {
                                 'fields': [
                                     {
                                         'value': [
-                                            null,
-                                            [
-                                                {
-                                                    'id': '5eea164a-62ee-43ee-8051-67b82b5af24f',
-                                                    'header': 'What are you doing?',
-                                                    'body': 'Nothing.',
-                                                    'owner_reference': '5899',
-                                                    'state_datetime': new Date(Date.UTC(2018, 6, 13, 8, 52, 38))
-                                                },
-                                                {
-                                                    'id': '4eea164a-62ee-43ee-8051-67b82b5af24f',
-                                                    'header': 'What are you doing now?',
-                                                    'body': 'Still nothing.',
-                                                    'owner_reference': '5899',
-                                                    'state_datetime': new Date(Date.UTC(2018, 6, 14, 8, 52, 38))
-                                                }
-                                            ]
+                                            {
+                                                'id': '5eea164a-62ee-43ee-8051-67b82b5af24f',
+                                                'header': 'What are you doing?',
+                                                'body': 'Nothing.',
+                                                'owner_reference': '5899',
+                                                'state_datetime': new Date(Date.UTC(2018, 6, 13, 8, 52, 38))
+                                            },
+                                            {
+                                                'id': '4eea164a-62ee-43ee-8051-67b82b5af24f',
+                                                'header': 'What are you doing now?',
+                                                'body': 'Still nothing.',
+                                                'owner_reference': '5899',
+                                                'state_datetime': new Date(Date.UTC(2018, 6, 14, 8, 52, 38))
+                                            }
                                         ]
+                                    }
+                                ]
+                            }, {
+                                'id': 'sent-questions',
+                                'name': 'Sent Questions',
+                                'type': 'data-list',
+                                'fields': [
+                                    {
+                                        'value': []
                                     }
                                 ]
                             }
@@ -122,7 +128,7 @@ xdescribe('QuestionsPanelComponent', () => {
 
             it('should display details of when draft questions were added', () => {
                 expect(nativeElement.querySelector(Selector.selector('draft-questions-details')).textContent)
-                    .toBe('You sent 2 questions to the appellant at 8:52 am on Jul 13, 2018');
+                    .toBe('You have not sent these questions to the appellant');
             });
 
             it('should display two draft questions', () => {
@@ -141,21 +147,21 @@ xdescribe('QuestionsPanelComponent', () => {
             it('should display two draft questions meta data', () => {
                 const metadata = nativeElement.querySelectorAll(Selector.selector('questions-meta-data'));
                 expect(metadata[0].textContent)
-                    .toBe('Sent by 5899 on Jul 13, 2018 at 8:52 am');
+                    .toBe('Last updated by 5899 at 8:52am on 13 July 2018');
                 expect(metadata[1].textContent)
-                    .toBe('Sent by 5899 on Jul 14, 2018 at 8:52 am');
+                    .toBe('Last updated by 5899 at 8:52am on 14 July 2018');
             });
 
             it('should display link to add more draft questions', () => {
                 expect(nativeElement.querySelector(Selector.selector('create-draft-questions-link')).textContent)
-                    .toBe('Add questions');
+                    .toBe('Add Questions');
                 expect(nativeElement.querySelector(Selector.selector('create-draft-questions-link')).attributes.href.value)
                     .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/new');
             });
 
             it('should display link to send all draft questions', () => {
                 expect(nativeElement.querySelector(Selector.selector('send-draft-questions-link')).textContent)
-                    .toBe('Send questions');
+                    .toBe('Send Questions');
                 expect(nativeElement.querySelector(Selector.selector('send-draft-questions-link')).attributes.href.value)
                     .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/check');
             });
@@ -199,7 +205,19 @@ xdescribe('QuestionsPanelComponent', () => {
                             'name': 'Draft Questions',
                             'type': 'data-list',
                             'fields': [
-                                {}
+                                {
+                                    'value': []
+                                }
+                            ]
+                        },
+                        {
+                            'id': 'sent-questions',
+                            'name': 'Sent Questions',
+                            'type': 'data-list',
+                            'fields': [
+                                {
+                                    'value': []
+                                }
                             ]
                         }
                     ]
@@ -226,7 +244,7 @@ xdescribe('QuestionsPanelComponent', () => {
                 .toBe('Questions to appellant');
         });
 
-        it('should display round 1 title', () => {
+        xit('should display round 1 title', () => {
             expect(nativeElement.querySelector(Selector.selector('round-1')).textContent)
                 .toBe('Round 1');
         });
@@ -238,7 +256,7 @@ xdescribe('QuestionsPanelComponent', () => {
 
         it('should display link to add draft questions', () => {
             expect(nativeElement.querySelector(Selector.selector('no-draft-questions-link')).textContent)
-                .toBe('Add questions');
+                .toBe('Add Questions');
             expect(nativeElement.querySelector(Selector.selector('no-draft-questions-link')).attributes.href.value)
                 .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/new');
         });
