@@ -38,7 +38,7 @@ describe('CreateQuestionsComponent', () => {
                 {
                     provide: RedirectionService,
                     useValue: {
-                        redirect: {}
+                        redirect: () => {}
                     }
                 },
                 CaseService,

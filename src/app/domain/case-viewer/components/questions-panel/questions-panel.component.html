@@ -35,19 +35,16 @@
                     </div>
                 </div>
                 <div *ngIf="sentQuestions && sentQuestions.length">
-                    <div data-selector="draft-questions-list">
-                        <div *ngFor="let question of sentQuestions; let j = index">
-                            <p data-selector="draft-questions-details" *ngIf="j === 0">You sent {{sentQuestions.length}} {{sentQuestions.length <= 1 ? 'question' : 'questions'}} to the appellant {{question.state_datetime | date: "'at' h:mmaaaaa'm 'on' d MMMM yyyy":'+00:00'}}</p>
-                            <div data-selector="draft-questions-item" class="jui-questions__item">
-                                <h3 data-selector="questions-subject" class="jui-questions__subject"><a data-selector="questions-subject-link" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/{{question.id}}">{{question.header}}</a>
-                                </h3>
-                                <p data-selector="questions-meta-data" class="jui-questions__meta">Sent by <span class="jui-questions__author">{{question.owner_reference}}</span> {{question.state_datetime | date: "'at' h:mmaaaaa'm 'on' d MMMM yyyy":'+00:00'}}</p>
-                            </div>
+                    <div *ngFor="let question of sentQuestions; let j = index">
+                        <p data-selector="sent-questions-details" *ngIf="j === 0">You sent {{sentQuestions.length}} {{sentQuestions.length <= 1 ? 'question' : 'questions'}} to the appellant {{question.state_datetime | date: "'at' h:mmaaaaa'm 'on' d MMMM yyyy":'+00:00'}}</p>
+                        <div data-selector="sent-questions-item" class="jui-questions__item">
+                            <h3 data-selector="questions-subject" class="jui-questions__subject"><a data-selector="questions-subject-link" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/{{question.id}}">{{question.header}}</a>
+                            </h3>
+                            <p data-selector="questions-meta-data" class="jui-questions__meta">Sent by <span class="jui-questions__author">{{question.owner_reference}}</span> {{question.state_datetime | date: "'at' h:mmaaaaa'm 'on' d MMMM yyyy":'+00:00'}}</p>
                         </div>
                     </div>
                 </div>
                 <br>
-
             </div>
         </div>
     </div>

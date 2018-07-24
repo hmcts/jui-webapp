@@ -25,7 +25,7 @@ export class QuestionService {
         const key = makeStateKey(url);
         const cache = this.state.get(key, null as any);
 
-        if (cache) return of(cache);
+        if (cache) { return of(cache); }
 
         return this.http.get(url)
             .pipe(map(data => {
