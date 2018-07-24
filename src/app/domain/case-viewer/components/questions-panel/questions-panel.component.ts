@@ -35,10 +35,4 @@ export class QuestionsPanelComponent implements OnInit {
             this.caseId = params['case_id'];
         });
     }
-
-    // sendQuestions() {
-    //     this.questionsService.sendQuestions(this.caseId, 1).subscribe(res => {
-    //         this.redirectionService.redirect(`/viewcase/${this.caseId}/questions?sent=success`);
-    //     });
-    // }
 }
