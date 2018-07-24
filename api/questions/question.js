@@ -284,5 +284,4 @@ module.exports = (app) => {
 
 module.exports.getQuestions = getQuestions;
 module.exports.postHearing = postHearing;
-module.exports.getQuestionsByCase = getQuestionsByCase;
 module.exports.getAllQuestionsByCase = getAllQuestionsByCase;
