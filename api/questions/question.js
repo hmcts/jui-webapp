@@ -54,7 +54,8 @@ function formatQuestionRes(question, answers) {
 
 function getQuestionsByCase(caseId, userId, options, jurisdiction) {
     return getHearingByCase(caseId, options)
-        .then(hearing => hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : postHearing(caseId, userId, options, jurisdiction))
+        .then(hearing => hearing.online_hearings[0] ?
+            hearing.online_hearings[0].online_hearing_id : postHearing(caseId, userId, options, jurisdiction))
         .then(hearingId => getQuestions(hearingId, options))
         .then(questions => questions && formatQuestions(questions.questions));
 }
@@ -122,6 +123,27 @@ module.exports = (app) => {
                 res.status(200).send(JSON.stringify(response));
             })
              .catch(response => {
+                console.log(response.error || response);
+                res.status(response.error.status).send(response.error.message);
+            });
+    });
+
+    route.get('/:case_id/questions', (req, res, next) => {
+        const caseId = req.params.case_id;
+        const userId = req.auth.userId;
+        const options = {
+            headers : {
+                'Authorization' : `Bearer ${req.auth.token}`,
+                'ServiceAuthorization' : req.headers.ServiceAuthorization
+            }
+        };
+
+        return getQuestionsByCase(caseId, userId, options, 'SSCS')
+            .then(response => {
+                res.setHeader('Access-Control-Allow-Origin', '*');
+                res.status(201).send(JSON.stringify(response));
+            })
+            .catch(response => {
                 console.log(response.error || response);
                 res.status(response.error.status).send(response.error.message);
             });
