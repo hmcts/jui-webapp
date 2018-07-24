@@ -29,9 +29,9 @@
                         </div>
                     </div>
                     <div *ngIf="section.sections[0].fields[0].value">
-                        <a data-selector="create-draft-questions-link" class="govuk-button jui-button--secondary" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/new">Add Questions</a>
+                        <a data-selector="create-draft-questions-link" class="govuk-button" [ngClass]="{'jui-button--secondary':draftQuestions.length > 0}" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/new">Add questions</a>
                         <br>
-                        <a data-selector="send-draft-questions-link" class="govuk-button" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/check">Send Questions</a>
+                        <a *ngIf="draftQuestions.length > 0" data-selector="send-draft-questions-link" class="govuk-button" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/check">Send Questions</a>
                     </div>
                 </div>
                 <div *ngIf="sentQuestions && sentQuestions.length">
