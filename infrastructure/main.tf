@@ -5,10 +5,6 @@ locals {
     vault_name = "${var.shared_product_name}-${local.local_env}"
 }
 
-provider "vault" {
-    address = "https://vault.reform.hmcts.net:6200"
-}
-
 module "app" {
     source = "git@github.com:hmcts/moj-module-webapp?ref=master"
     product = "${local.app_full_name}"
