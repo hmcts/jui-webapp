@@ -19,7 +19,7 @@ module.exports = {
             "value": "$.status"
         },
         {
-            "label": "Start Date",
+            "label": "Start date",
             "case_field_id": "caseStartDate",
             "value": "$.created_date",
             "date_format": "d MMM yyyy"
