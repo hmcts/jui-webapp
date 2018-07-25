@@ -50,7 +50,8 @@ describe('DecisionMakeComponent', () => {
                                 }
                             }
                         },
-                        params: Observable.of({caseid: '1234'})
+                        params: Observable.of({caseid: '1234'}),
+                        fragment: Observable.of({})
                     }
                 }
             ]
