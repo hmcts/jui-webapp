@@ -17,7 +17,7 @@
     "dev-frontend": "ng-udkc",
     "build:client-and-server-bundles": "ng build --prod && ng run jui:server",
     "lint": "yarn lint:ng && yarn lint:node || true",
-    "lint:fix": "yarn lint:ng:fix && yarn lint:node:fix || true",
+    "lint:fix": "(yarn lint:ng:fix || true) && (yarn lint:node:fix || true)",
     "lint:ng": "ng lint jui",
     "lint:ng:fix": "ng lint jui --fix",
     "lint:node": "eslint . -f node_modules/eslint-html-reporter/reporter.js -o ./reports/lint/node/index.html",
