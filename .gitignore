@@ -45,3 +45,4 @@ testem.log
 Thumbs.db
 version
 test/coverage/
+reports/
