@@ -52,7 +52,16 @@ withPipeline(type , product, component) {
 //                    reportFiles          : 'index.html',
 //                    reportName           : 'eslint ng Report'
 //                ])
+                publishHTML([
+                    allowMissing         : true,
+                    alwaysLinkToLastBuild: true,
+                    keepAll              : true,
+                    reportDir            : "reports/tests/coverage/",
+                    reportFiles          : 'index.html',
+                    reportName           : 'Coverage Report'
+                ])
      }
+
     loadVaultSecrets(secrets)
     enableSlackNotifications(channel)
 }
