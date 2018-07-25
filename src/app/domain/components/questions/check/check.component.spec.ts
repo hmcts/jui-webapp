@@ -22,7 +22,7 @@ const routeMock = {
     }
 };
 
-fdescribe('CheckQuestionsComponent', () => {
+describe('CheckQuestionsComponent', () => {
     let component: CheckQuestionsComponent;
     let fixture: ComponentFixture<CheckQuestionsComponent>;
     let httpMock: HttpTestingController;

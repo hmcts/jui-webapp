@@ -9,17 +9,19 @@
 </div>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <h1>Questions to Appellant</h1>
+        <h1 class="govuk-heading-l">Questions to Appellant</h1>
+
         <div data-selector="no-draft-questions" *ngIf="!rounds.length || rounds[0].state !== 'question_drafted'">
             <h2 attr.data-selector="round-{{rounds.length + 1}}" class="govuk-heading-m">Round {{rounds.length + 1}}</h2>
             <p data-selector="no-draft-questions-details">You haven’t asked any questions.</p>
-            <a data-selector="no-draft-questions-link" class="govuk-button" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/new">Add Questions</a>
+            <a data-selector="no-draft-questions-link" class="govuk-button" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/new">Add questions</a>
         </div>
+
         <div *ngFor="let round of rounds">
             <h2 attr.data-selector="round-{{round.question_round_number}}" class="govuk-heading-m">Round {{round.question_round_number}}</h2>
             <div data-selector="no-draft-questions" *ngIf="!round.questions.length">
                 <p data-selector="no-draft-questions-details">You haven’t asked any questions.</p>
-                <a data-selector="no-draft-questions-link" class="govuk-button" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/new">Add Questions</a>
+                <a data-selector="no-draft-questions-link" class="govuk-button" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/new">Add questions</a>
             </div>
             <div *ngIf="round.state === 'question_drafted'; else questionsSent" data-selector="draft-questions-list">
                     <p data-selector="draft-questions-details">You have not sent these questions to the appellant</p>
@@ -31,9 +33,10 @@
                     </div>
                 </div>
                 <div>
-                    <a data-selector="create-draft-questions-link" class="govuk-button" [ngClass]="{'jui-button--secondary':round.questions.length > 0}" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/new">Add Questions</a>
                     <br>
-                    <a *ngIf="round.questions.length > 0" data-selector="send-draft-questions-link" class="govuk-button" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/check">Send Questions</a>
+                    <a data-selector="create-draft-questions-link" class="govuk-button" [ngClass]="{'jui-button--secondary':round.questions.length > 0}" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/new">Add questions</a>
+                    <br>
+                    <a *ngIf="round.questions.length > 0" data-selector="send-draft-questions-link" class="govuk-button" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/check">Send questions</a>
                 </div>
             </div>
             <ng-template #questionsSent>
