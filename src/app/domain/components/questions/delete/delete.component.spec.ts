@@ -99,6 +99,6 @@ xdescribe('DeleteQuestionComponent', () => {
 
     xit('should display a button to save question items', () => {
         expect(nativeElement.querySelector(Selector.selector('delete-link')).textContent)
-            .toBe('Delete Question');
+            .toBe('Delete question');
     });
 });

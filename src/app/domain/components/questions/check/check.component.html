@@ -4,23 +4,18 @@
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <div class="col-md-6 offset-md-3">
-                    <h2 data-selector="check-questions-heading">Check your questions before sending</h2>
-                    <div *ngFor="let round of rounds$ | async">
-                        <div *ngIf="round">
-                            <dl class="app-check-your-answers  app-check-your-answers--short  govuk-!-margin-bottom-6">
-                                <div *ngFor="let question of round" class="app-check-your-answers__contents">
-                                    <dt class="app-check-your-answers__question">{{question.header}}</dt>
-                                    <dd class="app-check-your-answers__answer">{{question.body}}</dd>
-                                    <dd class="app-check-your-answers__change">
-                                        <a href="/app/cases/{{caseId}}/questions/{{question.id}}/edit">Change <span
-                                            class="govuk-visually-hidden">dsfsdfs</span></a>
-                                    </dd>
-                                </div>
-                            </dl>
+                    <h2 data-selector="check-questions-heading" class="govuk-heading-xl">Check your questions before sending</h2>
+                    <dl class="app-check-your-answers  app-check-your-answers--short  govuk-!-margin-bottom-6">
+                        <div *ngFor="let question of questions$ | async" class="app-check-your-answers__contents" data-selector="question-check">
+                            <dt class="app-check-your-answers__question">{{question.header}}</dt>
+                            <dd class="app-check-your-answers__answer">{{question.body}}</dd>
+                            <dd class="app-check-your-answers__change">
+                                <a href="/app/cases/{{caseId}}/questions/{{question.id}}/edit">Change</a>
+                            </dd>
                         </div>
-                    </div>
-                    <button class="govuk-button" (click)="onSubmit()">Send questions</button>
+                    </dl>
                 </div>
+                <button class="govuk-button" (click)="onSubmit()">Send questions</button>
             </div>
         </div>
     </main>

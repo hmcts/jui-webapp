@@ -7,10 +7,18 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { ConfigService } from '../../../../config.service';
 import { BrowserTransferStateModule, StateKey } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import {ActivatedRoute} from '@angular/router';
+import {of} from 'rxjs';
+import {Selector} from '../../../../../../test/selector-helper';
 
 const configMock = {
     config: {
         api_base_url: ''
+    }
+};
+const routeMock = {
+    parent: {
+        params: of({'case_id': '123456789'})
     }
 };
 
@@ -35,6 +43,11 @@ describe('CheckQuestionsComponent', () => {
                 {
                     provide: ConfigService,
                     useValue: configMock
+                },
+                {
+                provide: ActivatedRoute,
+                    useValue: routeMock
+
                 }
             ]
         })
@@ -49,8 +62,44 @@ describe('CheckQuestionsComponent', () => {
         fixture.detectChanges();
     });
 
-    xit('should create', () => {
+    it('should create', () => {
         expect(component)
             .toBeTruthy();
+    });
+
+    describe('when we receive a list of questions', () => {
+        let request;
+        beforeEach(async(() => {
+            request = httpMock.expectOne('/api/cases/123456789/questions');
+            request.flush([
+                {
+                    'id': '0e8c2310-8972-4479-a3af-5660ecdf086e',
+                    'header': 'test',
+                    'body': 'test',
+                    'owner_reference': '5899',
+                    'state_datetime': '2018-07-24 13:28:47.45',
+                    'state': 'question_drafted'
+                },
+                {
+                    'id': '0e8c2310-8972-4479-a3af-5660ecdf086e',
+                    'header': 'test issued',
+                    'body': 'test issued',
+                    'owner_reference': '5899',
+                    'state_datetime': '2018-07-24 13:28:47.45',
+                    'state': 'question_issued'
+                }
+            ]);
+
+        }));
+
+        beforeEach(async(() => {
+            fixture.whenStable().then(() => {
+                fixture.detectChanges();
+            });
+        }));
+
+        it('should have filtered out the issued questions', () => {
+            expect(nativeElement.querySelectorAll(Selector.selector('question-check')).length).toBe(1);
+        });
     });
 });
