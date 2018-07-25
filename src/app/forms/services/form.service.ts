@@ -10,7 +10,6 @@ export class FormService {
 
     }
     getFormValues() {
-        console.log('client service');
         return {};
     }
 

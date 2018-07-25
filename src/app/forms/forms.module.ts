@@ -4,7 +4,6 @@ import { FormComponent } from './components/form/form.component';
 import { FormService } from "./services/form.service";
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { UniversalFormDirective } from './directives/universal-form.directive';
 
 @NgModule({
     imports: [
@@ -12,10 +11,9 @@ import { UniversalFormDirective } from './directives/universal-form.directive';
         FormsModule,
         ReactiveFormsModule
     ],
-    declarations: [FormComponent, UniversalFormDirective],
+    declarations: [FormComponent],
     exports:[
-        FormComponent,
-        UniversalFormDirective
+        FormComponent
     ]
 })
 export class JUIFormsModule {
@@ -23,7 +21,6 @@ export class JUIFormsModule {
         return {
             ngModule: JUIFormsModule,
             providers: [
-                // {provide: COOKIE_OPTIONS, useValue: options},
                 FormService
             ]
         };
