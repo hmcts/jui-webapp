@@ -7,7 +7,7 @@ const { getDocuments } = require('../documents');
 const { getAllQuestionsByCase } = require('../questions');
 
 function getCase(caseId, userId, options, caseType = 'Benefit', jurisdiction = 'SSCS') {
-    return generateRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}`, options)
+    return generateRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}`, options);
 }
 
 function getCaseWithEventsAndQuestions(caseId, userId, options, caseType, jurisdiction) {
@@ -25,12 +25,12 @@ function replaceSectionValues(section, caseData) {
         });
     } else {
         section.fields.forEach(field => {
-            field.value = valueProcessor(field.value, caseData)
+            field.value = valueProcessor(field.value, caseData);
         });
     }
 }
 
-//GET case callback
+// GET case callback
 module.exports = (req, res, next) => {
     const token = req.auth.token;
     const userId = req.auth.userId;
@@ -38,8 +38,8 @@ module.exports = (req, res, next) => {
 
     const options = {
         headers: {
-            'Authorization': `Bearer ${token}`,
-            'ServiceAuthorization': req.headers.ServiceAuthorization
+            Authorization: `Bearer ${token}`,
+            ServiceAuthorization: req.headers.ServiceAuthorization
         }
     };
 
@@ -64,9 +64,9 @@ module.exports = (req, res, next) => {
 
             getDocuments(docIds, {
                 headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'ServiceAuthorization': req.headers.ServiceAuthorization,
-                    'user-roles': req.auth.data,
+                    Authorization: `Bearer ${token}`,
+                    ServiceAuthorization: req.headers.ServiceAuthorization,
+                    'user-roles': req.auth.data
                 }
             }).then(documents => {
                 documents = documents.map(doc => {
@@ -79,8 +79,9 @@ module.exports = (req, res, next) => {
                 res.setHeader('Access-Control-Allow-Origin', '*');
                 res.status(200).send(JSON.stringify(schema));
             });
-        }).catch(response => {
-        console.log(response.error || response);
-        res.status(response.error.status).send(response.error.message);
-    });
+        })
+        .catch(response => {
+            console.log(response.error || response);
+            res.status(response.error.status).send(response.error.message);
+        });
 };

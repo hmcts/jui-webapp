@@ -1,12 +1,8 @@
 module.exports = {
     details: {
         fields: [
-            {
-                value: '$.case_data.caseReference'
-            },
-            {
-                value: ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName", "v DWP"],
-            }
+            { value: '$.case_data.caseReference' },
+            { value: ['$.case_data.appeal.appellant.name.firstName', '$.case_data.appeal.appellant.name.lastName', 'v DWP'] }
         ]
     },
     sections: [
@@ -25,7 +21,7 @@ module.exports = {
                             fields: [
                                 {
                                     label: 'Parties',
-                                    value: ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName", "v DWP"],
+                                    value: ['$.case_data.appeal.appellant.name.firstName', '$.case_data.appeal.appellant.name.lastName', 'v DWP']
                                 },
                                 {
                                     label: 'Case number',
@@ -58,11 +54,7 @@ module.exports = {
                         {
                             name: 'Recent events',
                             type: 'timeline',
-                            fields: [
-                                {
-                                    value: '$.events'
-                                }
-                            ]
+                            fields: [{ value: '$.events' }]
                         }
                     ]
                 }
@@ -77,11 +69,7 @@ module.exports = {
                     id: 'documents',
                     name: 'Case file',
                     type: 'document-panel',
-                    fields: [
-                        {
-                            value: '$.case_data.sscsDocument|document_processor'
-                        }
-                    ]
+                    fields: [{ value: '$.case_data.sscsDocument|document_processor' }]
                 }
             ]
         },
@@ -94,11 +82,7 @@ module.exports = {
                     id: 'events',
                     name: 'Timeline',
                     type: 'timeline-panel',
-                    fields: [
-                        {
-                            value: '$.events'
-                        }
-                    ]
+                    fields: [{ value: '$.events' }]
                 }
             ]
         },
@@ -110,11 +94,7 @@ module.exports = {
                 {
                     name: 'Questions',
                     type: 'questions-panel',
-                    fields: [
-                        {
-                            value: '$.questions'
-                        }
-                    ]
+                    fields: [{ value: '$.questions' }]
                 }
             ]
         }

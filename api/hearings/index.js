@@ -26,8 +26,8 @@ module.exports = (req, res, next) => {
     const userId = req.auth.userId;
     const caseId = req.params.case_id;
     const headers = {
-        'Authorization' : `Bearer ${req.auth.token}`,
-        'ServiceAuthorization' : req.headers.ServiceAuthorization
+        Authorization: `Bearer ${req.auth.token}`,
+        ServiceAuthorization: req.headers.ServiceAuthorization
     };
 
     getHearingId(caseId, userId, headers)

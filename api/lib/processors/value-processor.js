@@ -2,7 +2,7 @@ const jp = require('jsonpath');
 const documentProcessor = require('./document-processor');
 
 const dataLookup = (lookup, caseData) => {
-    if (typeof lookup === "string") {
+    if (typeof lookup === 'string') {
         const splitLookup = lookup.split('|');
         lookup = splitLookup[0];
         const processor = splitLookup.length > 1 ? splitLookup[1] : null;
@@ -17,11 +17,9 @@ const dataLookup = (lookup, caseData) => {
 
         return value;
     } else if (Array.isArray(lookup)) {
-        return lookup.map(part => {
-            return dataLookup(part, caseData);
-        }).join(' ');
+        return lookup.map(part => dataLookup(part, caseData)).join(' ');
     }
-    throw new Error('lookup is neither a string or an array.')
+    throw new Error('lookup is neither a string or an array.');
 };
 
 module.exports = dataLookup;

@@ -1,11 +1,12 @@
 const proxyquire = require('proxyquire');
 const supertest = require('supertest');
 const express = require('express');
+
 const router = express.Router();
 const sscsCaseListTemplate = require('./sscsCaseList.template');
 
 describe('case-list spec', () => {
-    let caseData = [];
+    const caseData = [];
     let onlineHearingData = {};
     let multipleOnlineHearingData = {};
     let httpRequest;
@@ -24,9 +25,7 @@ describe('case-list spec', () => {
             return Promise.resolve(caseData);
         });
 
-        route = proxyquire('./case-list', {
-            '../lib/request': httpRequest
-        });
+        route = proxyquire('./case-list', { '../lib/request': httpRequest });
         router.get('/', route);
         app = express();
         app.use((req, res, next) => {
@@ -42,14 +41,12 @@ describe('case-list spec', () => {
     });
 
     describe('when no case data is returned', () => {
-        it('should return the columns with no rows', () => {
-            return request.get('/api/cases')
-                .expect(200)
-                .then(response => {
-                    expect(response.body.results.length).toBe(0);
-                    expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
-                });
-        });
+        it('should return the columns with no rows', () => request.get('/api/cases')
+            .expect(200)
+            .then(response => {
+                expect(response.body.results.length).toBe(0);
+                expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
+            }));
     });
 
     describe('when one row of case data is returned', () => {
@@ -68,9 +65,7 @@ describe('case-list spec', () => {
                                 lastName: 'Houghton'
                             }
                         },
-                        benefitType: {
-                            code: 'PIP'
-                        }
+                        benefitType: { code: 'PIP' }
                     }
                 },
                 created_date: createdDate,
@@ -87,29 +82,28 @@ describe('case-list spec', () => {
                             state_name: 'continuous_online_hearing_started',
                             state_datetime: '2018-07-17T12:56:49Z'
                         }
-                    }]
+                    }
+                ]
             };
         });
 
-        it('should return the columns with one rows', () => {
-            return request.get('/api/cases')
-                .expect(200)
-                .then(response => {
-                    expect(response.body.results.length).toBe(1);
-                    expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
-                    expect(response.body.results[0]).toEqual({
-                        case_id: caseData[0].id,
-                        case_reference: caseData[0].case_data.caseReference,
-                        case_fields: {
-                            parties: 'Louis Houghton v DWP',
-                            type: 'PIP',
-                            status: 'Continuous online hearing started',
-                            caseStartDate: createdDate.toISOString(),
-                            dateOfLastAction: updatedDate.toISOString()
-                        }
-                    });
+        it('should return the columns with one rows', () => request.get('/api/cases')
+            .expect(200)
+            .then(response => {
+                expect(response.body.results.length).toBe(1);
+                expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
+                expect(response.body.results[0]).toEqual({
+                    case_id: caseData[0].id,
+                    case_reference: caseData[0].case_data.caseReference,
+                    case_fields: {
+                        parties: 'Louis Houghton v DWP',
+                        type: 'PIP',
+                        status: 'Continuous online hearing started',
+                        caseStartDate: createdDate.toISOString(),
+                        dateOfLastAction: updatedDate.toISOString()
+                    }
                 });
-        });
+            }));
     });
 
 
@@ -130,9 +124,7 @@ describe('case-list spec', () => {
                                 lastName: 'Houghton'
                             }
                         },
-                        benefitType: {
-                            code: 'PIP'
-                        }
+                        benefitType: { code: 'PIP' }
                     }
                 },
                 created_date: createdDate,
@@ -149,9 +141,7 @@ describe('case-list spec', () => {
                                 lastName: 'Bond'
                             }
                         },
-                        benefitType: {
-                            code: 'PIP'
-                        }
+                        benefitType: { code: 'PIP' }
                     }
                 },
                 created_date: createdDate,
@@ -178,41 +168,39 @@ describe('case-list spec', () => {
                             state_datetime: '2018-07-17T12:56:49Z'
                         }
                     }
-                    ]
+                ]
             };
         });
 
-        it('should filter cases to show only valid case reference', () => {
-            return request.get('/api/cases')
-                .expect(200)
-                .then(response => {
-                    expect(response.body.results.length).toBe(1);
-                    expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
-                    expect(response.body.results[0]).toEqual({
-                        case_id: caseData[0].id,
-                        case_reference: caseData[0].case_data.caseReference,
-                        case_fields: {
-                            parties: 'Louis Houghton v DWP',
-                            type: 'PIP',
-                            status: 'Continuous online hearing started',
-                            caseStartDate: createdDate.toISOString(),
-                            dateOfLastAction: updatedDate.toISOString()
-                        }
-                    });
+        it('should filter cases to show only valid case reference', () => request.get('/api/cases')
+            .expect(200)
+            .then(response => {
+                expect(response.body.results.length).toBe(1);
+                expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
+                expect(response.body.results[0]).toEqual({
+                    case_id: caseData[0].id,
+                    case_reference: caseData[0].case_data.caseReference,
+                    case_fields: {
+                        parties: 'Louis Houghton v DWP',
+                        type: 'PIP',
+                        status: 'Continuous online hearing started',
+                        caseStartDate: createdDate.toISOString(),
+                        dateOfLastAction: updatedDate.toISOString()
+                    }
                 });
-        });
+            }));
     });
 
 
     describe('when multiple row of case data is returned order by ascending order of last updated date', () => {
-        const createdDate1 = new Date(2018,6,25);
-        const updatedDate1 = new Date(2018,6,30,10,10);
+        const createdDate1 = new Date(2018, 6, 25);
+        const updatedDate1 = new Date(2018, 6, 30, 10, 10);
 
-        const createdDate2 = new Date(2018,6,25);
-        const updatedDate2 = new Date(2018,6,29, 12, 10);
+        const createdDate2 = new Date(2018, 6, 25);
+        const updatedDate2 = new Date(2018, 6, 29, 12, 10);
 
-        const createdDate3 = new Date(2018,6,25);
-        const updatedDate3 = new Date(2018,6,30, 9, 10);
+        const createdDate3 = new Date(2018, 6, 25);
+        const updatedDate3 = new Date(2018, 6, 30, 9, 10);
 
         const lastModifiedDate1 = new Date(2018, 7, 24, 10, 30, 1);
         const lastModifiedDate2 = new Date(2018, 7, 25, 10, 30, 1);
@@ -230,9 +218,7 @@ describe('case-list spec', () => {
                                 lastName: 'Houghton'
                             }
                         },
-                        benefitType: {
-                            code: 'PIP'
-                        }
+                        benefitType: { code: 'PIP' }
                     }
                 },
                 created_date: createdDate1,
@@ -250,9 +236,7 @@ describe('case-list spec', () => {
                                 lastName: 'Ramisetti'
                             }
                         },
-                        benefitType: {
-                            code: 'PIP'
-                        }
+                        benefitType: { code: 'PIP' }
                     }
                 },
                 created_date: createdDate2,
@@ -271,9 +255,7 @@ describe('case-list spec', () => {
                                 lastName: 'Ramisetty'
                             }
                         },
-                        benefitType: {
-                            code: 'PIP'
-                        }
+                        benefitType: { code: 'PIP' }
                     }
                 },
                 created_date: createdDate3,
@@ -305,48 +287,47 @@ describe('case-list spec', () => {
                     online_hearing_id: '4',
                     case_id: 987654324,
                     start_date: '2018-07-189T12:56:49.145+0000'
-                }]
+                }
+            ]
         };
 
-        it('should return the columns with multiple rows order by ascending order of last updated date', () => {
-            return request.get('/api/cases')
-                .expect(200)
-                .then(response => {
-                    expect(response.body.results.length).toBe(3);
-                    expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
-                    expect(response.body.results[0]).toEqual({
-                        case_id: caseData[2].id,
-                        case_reference: caseData[2].case_data.caseReference,
-                        case_fields: {
-                            parties: 'Roopa Ramisetty v DWP',
-                            type: 'PIP',
-                            caseStartDate: createdDate3.toISOString(),
-                            dateOfLastAction: updatedDate3.toISOString()
-                        }
-                    });
-                    expect(response.body.results[1]).toEqual({
-                        case_id: caseData[0].id,
-                        case_reference: caseData[0].case_data.caseReference,
-                        case_fields: {
-                            parties: 'Louis Houghton v DWP',
-                            type: 'PIP',
-                            status: 'Continuous online hearing started',
-                            caseStartDate: createdDate1.toISOString(),
-                            dateOfLastAction: lastModifiedDate1.toISOString()
-                        }
-                    });
-                    expect(response.body.results[2]).toEqual({
-                        case_id: caseData[1].id,
-                        case_reference: caseData[1].case_data.caseReference,
-                        case_fields: {
-                            parties: 'Padmaja Ramisetti v DWP',
-                            type: 'PIP',
-                            status: 'Question drafted',
-                            caseStartDate: createdDate2.toISOString(),
-                            dateOfLastAction: lastModifiedDate2.toISOString()
-                        }
-                    });
+        it('should return the columns with multiple rows order by ascending order of last updated date', () => request.get('/api/cases')
+            .expect(200)
+            .then(response => {
+                expect(response.body.results.length).toBe(3);
+                expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
+                expect(response.body.results[0]).toEqual({
+                    case_id: caseData[2].id,
+                    case_reference: caseData[2].case_data.caseReference,
+                    case_fields: {
+                        parties: 'Roopa Ramisetty v DWP',
+                        type: 'PIP',
+                        caseStartDate: createdDate3.toISOString(),
+                        dateOfLastAction: updatedDate3.toISOString()
+                    }
                 });
-        });
+                expect(response.body.results[1]).toEqual({
+                    case_id: caseData[0].id,
+                    case_reference: caseData[0].case_data.caseReference,
+                    case_fields: {
+                        parties: 'Louis Houghton v DWP',
+                        type: 'PIP',
+                        status: 'Continuous online hearing started',
+                        caseStartDate: createdDate1.toISOString(),
+                        dateOfLastAction: lastModifiedDate1.toISOString()
+                    }
+                });
+                expect(response.body.results[2]).toEqual({
+                    case_id: caseData[1].id,
+                    case_reference: caseData[1].case_data.caseReference,
+                    case_fields: {
+                        parties: 'Padmaja Ramisetti v DWP',
+                        type: 'PIP',
+                        status: 'Question drafted',
+                        caseStartDate: createdDate2.toISOString(),
+                        dateOfLastAction: lastModifiedDate2.toISOString()
+                    }
+                });
+            }));
     });
 });
