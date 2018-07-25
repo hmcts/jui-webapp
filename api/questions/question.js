@@ -68,7 +68,6 @@ function getQuestionsByCase(caseId, userId, options, jurisdiction) {
         .then(questions => questions && formatQuestions(questions.questions));
 }
 
-
 function getAllQuestionsByCase(caseId, userId, options, jurisdiction) {
     return getHearingByCase(caseId, options)
         .then(hearing => hearing.online_hearings[0] ?
@@ -121,14 +120,11 @@ module.exports = (app) => {
     route.get('/:case_id/questions/:question_id', (req, res, next) => {
         const caseId = req.params.case_id;
         const questionId = req.params.question_id;
-        const userId = req.auth.userId;
-        const body = formatQuestion(req.body, userId);
         const options = {
             headers : {
                 'Authorization' : `Bearer ${req.auth.token}`,
                 'ServiceAuthorization' : req.headers.ServiceAuthorization
-            },
-            body: body
+            }
         };
 
         return getHearingByCase(caseId, options)
@@ -137,6 +133,7 @@ module.exports = (app) => {
             .then(([question, answers]) => question && formatQuestionRes(question, answers))
             .then(response => {
                 res.setHeader('Access-Control-Allow-Origin', '*');
+                res.setHeader('content-type', 'application/json');
                 res.status(200).send(JSON.stringify(response));
             })
              .catch(response => {
