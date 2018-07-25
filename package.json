@@ -26,6 +26,7 @@
     "test:snyk": "echo \"Test snyk\"",
     "test:smoke": "echo 'smoke test not implemented'",
     "test:functional": "webdriver-manager update && protractor ./test/e2e/config/conf.js",
+    "test:functional:local": "webdriver-manager update && protractor ./test/e2e/config/conf.js --local",
     "health-check": "echo 'healthcheck not implemented'",
     "sonar-scan": "node_modules/sonar-scanner/bin/sonar-scanner",
     "test:codacy-upload": "echo \"Test codacity\"",
