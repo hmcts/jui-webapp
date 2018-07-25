@@ -13,7 +13,7 @@ export class CaseBarDetailsComponent implements OnChanges {
     constructor() { }
 
     ngOnChanges(changes) {
-        if (this.case && this.case.details) {this.caseDetails = this.case.details;}
+        if (this.case && this.case.details) {this.caseDetails = this.case.details; }
     }
 
 }

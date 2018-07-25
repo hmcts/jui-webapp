@@ -9,7 +9,7 @@ import {
     HttpErrorResponse
 } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import {AuthService} from "./auth.service";
+import {AuthService} from './auth.service';
 import { PLATFORM_ID, Inject, Injector } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import 'rxjs/add/operator/do';
@@ -25,7 +25,7 @@ import { CookieService } from 'ngx-cookie';
 export class AuthIntercepterServer implements HttpInterceptor  {
 
     constructor(public router: Router,
-                private authService: AuthService,@Inject(PLATFORM_ID)
+                private authService: AuthService, @Inject(PLATFORM_ID)
                 private platformId: string,
                 private cookieService: CookieService) {
     }

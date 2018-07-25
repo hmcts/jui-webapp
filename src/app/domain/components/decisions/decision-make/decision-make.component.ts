@@ -43,7 +43,7 @@ export class DecisionMakeComponent implements OnInit {
         });
 
         this.route.fragment.subscribe(fragment => {
-            const element = document.querySelector("#" + fragment);
+            const element = document.querySelector('#' + fragment);
             if (element) {
                 element.scrollIntoView();
             }

@@ -5,7 +5,7 @@ import {Component, Input, OnChanges} from '@angular/core';
     templateUrl: './timeline.component.html',
     styleUrls: ['./timeline.component.scss']
 })
-export class TimelineComponent implements OnChanges{
+export class TimelineComponent implements OnChanges {
     @Input() events = [];
     @Input() maxHistory: number;
 

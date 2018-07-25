@@ -100,7 +100,7 @@ describe('CreateQuestionsComponent', () => {
 
     it('subject field validity', () => {
         let errors = {};
-        let subject = component.form.controls['subject'];
+        const subject = component.form.controls['subject'];
         expect(subject.valid).toBeFalsy();
 
         // Subject field is required
@@ -115,7 +115,7 @@ describe('CreateQuestionsComponent', () => {
 
     it('question field validity', () => {
         let errors = {};
-        let question = component.form.controls['question'];
+        const question = component.form.controls['question'];
         expect(question.valid).toBeFalsy();
 
         // Question field is required

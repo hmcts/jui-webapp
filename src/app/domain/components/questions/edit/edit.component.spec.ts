@@ -116,7 +116,7 @@ describe('EditQuestionComponent', () => {
 
         it('subject field validity', () => {
             let errors = {};
-            let subject = component.form.controls['subject'];
+            const subject = component.form.controls['subject'];
 
             // Subject field is required
             subject.setValue('');
@@ -131,7 +131,7 @@ describe('EditQuestionComponent', () => {
 
         it('question field validity', () => {
             let errors = {};
-            let question = component.form.controls['subject'];
+            const question = component.form.controls['subject'];
 
             // Subject field is required
             question.setValue('');

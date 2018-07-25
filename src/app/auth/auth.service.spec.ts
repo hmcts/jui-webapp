@@ -1,9 +1,9 @@
 import {inject, TestBed} from '@angular/core/testing';
 
 import {AuthService} from './auth.service';
-import {ConfigService} from "../config.service";
-import {Router} from "@angular/router";
-import {CookieService} from "ngx-cookie";
+import {ConfigService} from '../config.service';
+import {Router} from '@angular/router';
+import {CookieService} from 'ngx-cookie';
 
 const config = {
     config: {
@@ -34,8 +34,8 @@ const cookieService = {
     removeAll: () => {}
 };
 
-var deleteCookiesSpy;
-var routerNavigateSpy;
+let deleteCookiesSpy;
+let routerNavigateSpy;
 
 describe('AuthService', () => {
     let setup;
@@ -65,7 +65,7 @@ describe('AuthService', () => {
 
     it('should generate a login url', inject([AuthService], (service: AuthService) => {
         const url = service.generateLoginUrl();
-        expect(url).toEqual('http://idam_url.com/login?response_type=code&client_id=client_name&redirect_uri=api_base/callback_url')
+        expect(url).toEqual('http://idam_url.com/login?response_type=code&client_id=client_name&redirect_uri=api_base/callback_url');
     }));
 
     it('Should provide header versions of cookie values', inject([AuthService], (service: AuthService) => {
@@ -81,7 +81,7 @@ describe('AuthService', () => {
             service.decodeJwt = () => {
                 return {
                     exp: expiry
-                }
+                };
             };
             expect(service.isAuthenticated()).toEqual(false);
             expiry = new Date().getTime() - 3000;

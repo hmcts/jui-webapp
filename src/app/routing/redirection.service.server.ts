@@ -18,7 +18,6 @@ export class ServerRedirectionService {
         try {
             this.response.redirect(301, url);
             this.response.end();
-        }
-        catch(e){}
+        } catch (e) {}
     }
 }

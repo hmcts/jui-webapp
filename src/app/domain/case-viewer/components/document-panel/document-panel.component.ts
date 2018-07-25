@@ -30,10 +30,10 @@ export class DocumentPanelComponent implements OnInit {
 
         let documents = this.case.documents.filter(document => {
             const splitURL = document._links.self.href.split('/');
-            const id = splitURL[splitURL.length-1];
+            const id = splitURL[splitURL.length - 1];
             return docIds.indexOf(id) > -1;
         });
-        documents.sort((a,b) => {
+        documents.sort((a, b) => {
             const dateA = new Date(a.createdOn);
             const dateB = new Date(b.createdOn);
             return dateA < dateB;
