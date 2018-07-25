@@ -111,6 +111,71 @@ describe('Questions route', () => {
                     });
             });
         });
+    });
+
+    describe('when I get all questions for a case', () => {
+        const caseNumber = "123456789";
+        const questionId = "987654321";
+        const hearingId = "564332";
+
+        beforeEach(() => {
+            cohResponses["GET"][`http://coh-cor-aat.service.core-compute-aat.internal/continuous-online-hearings?case_id=${caseNumber}`] = {
+                online_hearings: [{
+                    online_hearing_id: hearingId
+                }]
+            };
+        });
+
+        describe('when I have existing questions', () => {
+            beforeEach(() => {
+                cohResponses["GET"][`http://coh-cor-aat.service.core-compute-aat.internal/continuous-online-hearings/${hearingId}/questions`] = {
+                    questions: [{
+                        question_id: questionId,
+                        question_header_text: "Header text",
+                        question_body_text: "Body text",
+                        owner_reference: "Louis",
+                        current_question_state: {
+                            state_datetime: new Date().toDateString(),
+                            state_name: 'question_drafted'
+                        }
+                    }]
+                };
+            });
+
+            it('should return a list of formatted questions', (done) => {
+                request.get(`/cases/${caseNumber}/questions`)
+                    .expect(200)
+                    .then(response => {
+                        expect(response.body).toEqual([{
+                            id: '987654321',
+                            header: 'Header text',
+                            body: 'Body text',
+                            owner_reference: 'Louis',
+                            state_datetime: 'Wed Jul 25 2018',
+                            state: 'question_drafted'
+                        }]);
+                        done();
+                    });
+            });
+        });
+
+
+        describe('when I have no existing questions', () => {
+            beforeEach(() => {
+                cohResponses["GET"][`http://coh-cor-aat.service.core-compute-aat.internal/continuous-online-hearings/${hearingId}/questions`] = {
+                    questions: []
+                };
+            });
+
+            it('should return a an empty list', (done) => {
+                request.get(`/cases/${caseNumber}/questions`)
+                    .expect(200)
+                    .then(response => {
+                        expect(response.body).toEqual([]);
+                        done();
+                    });
+            });
+        });
 
     });
 });

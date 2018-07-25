@@ -155,7 +155,8 @@ module.exports = (app) => {
         return getQuestionsByCase(caseId, userId, options, 'SSCS')
             .then(response => {
                 res.setHeader('Access-Control-Allow-Origin', '*');
-                res.status(201).send(JSON.stringify(response));
+                res.setHeader('content-type', 'application/json');
+                res.status(200).send(JSON.stringify(response));
             })
             .catch(response => {
                 console.log(response.error || response);
