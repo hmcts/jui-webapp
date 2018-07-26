@@ -38,13 +38,6 @@ export class EditQuestionComponent implements OnInit {
             this.questionId = params['question_id'];
         });
 
-        this.route.fragment.subscribe(fragment => {
-            const element = document.querySelector('#' + fragment);
-            if (element) {
-                element.scrollIntoView();
-            }
-        });
-
         this.questionService
             .fetch(this.caseId, this.questionId)
             .subscribe((data: any) => this.createForm(data.header, data.body));
