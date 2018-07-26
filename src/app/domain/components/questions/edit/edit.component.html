@@ -9,14 +9,14 @@
                     <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
                     <div class="govuk-error-summary__body">
                         <ul data-selector="error-list" class="govuk-list govuk-error-summary__list">
-                            <li data-selector="error-list-item" *ngIf="submitted && form.get('subject').hasError('required')"><a [routerLink]="['.']" fragment="subject-fragment">Enter a subject</a></li>
-                            <li data-selector="error-list-item" *ngIf="submitted && form.get('question').hasError('required')"><a [routerLink]="['.']" fragment="question-fragment">Enter a question</a></li>
+                            <li data-selector="error-list-item" *ngIf="submitted && form.get('subject').hasError('required')"><a [routerLink]="['.']">Enter a subject</a></li>
+                            <li data-selector="error-list-item" *ngIf="submitted && form.get('question').hasError('required')"><a [routerLink]="['.']">Enter a question</a></li>
                         </ul>
                     </div>
                 </div>
                 <fieldset data-selector="question-item" class="govuk-fieldset jui-add-another__item">
                     <div [ngClass]="{'govuk-form-group': true, 'govuk-form-group--error': submitted && form.get('subject').hasError('required')}">
-                        <label id="subject-fragment" data-selector="item-subject-label" class="govuk-label">Subject</label>
+                        <label data-selector="item-subject-label" class="govuk-label">Subject</label>
                         <span *ngIf="submitted && form.get('subject').hasError('required')" data-selector="subject-error" class="govuk-error-message">Enter a subject</span>
                         <input
                             data-selector="item-subject-input"
@@ -31,7 +31,7 @@
                         />
                     </div>
                     <div [ngClass]="{'govuk-form-group': true, 'govuk-form-group--error': submitted && form.get('question').hasError('required')}">
-                        <label id="question-fragment" data-selector="item-question-label" class="govuk-label">Question</label>
+                        <label data-selector="item-question-label" class="govuk-label">Question</label>
                         <span *ngIf="submitted && form.get('question').hasError('required')" data-selector="subject-error" class="govuk-error-message">Enter a question</span>
                         <textarea
                             data-selector="item-question-textarea"
