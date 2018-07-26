@@ -14,6 +14,7 @@ export class TextareaComponent {
     @Input() error: boolean;
     @Input() disable: boolean;
     @Input() text = '';
+    @Input() formGroup;
     @Output() textChange  = new EventEmitter<string>();
 
     constructor() { }

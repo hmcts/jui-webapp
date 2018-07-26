@@ -39,7 +39,7 @@ module.exports = (req, res, next) => {
             res.status(201).send(JSON.stringify(response));
         })
         .catch(response => {
-            console.log(response.error || response);
-            res.status(response.error.status).send(response.error.message);
+            // console.log(response.error || response);
+            res.status(response.statusCode).send(response.error.message);
         });
 };

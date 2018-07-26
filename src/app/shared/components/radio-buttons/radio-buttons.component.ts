@@ -14,14 +14,8 @@ export class RadioButtonsComponent {
     @Input() errorMessage: string;
     @Input() error: boolean;
     @Input() disable: boolean;
-    @Input() inputedId: string;
-
-    @Output() buttonChange = new EventEmitter<string>();
+    @Input() formGroup;
+    @Input() value;
 
     constructor() {}
-
-    radioButtonChanged($event: string) {
-        this.inputedId = $event;
-        this.buttonChange.emit(this.inputedId);
-    }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {DecisionService} from '../../../services/decision.service';
+import {DecisionService} from '../../../../domain/services/decision.service';
 import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
@@ -31,7 +31,7 @@ export class DecisionCheckComponent implements OnInit {
         this.case = this.route.parent.snapshot.data['caseData'];
         this.options = this.case.decision.options;
 
-        this.decisionService.fetchDecision(this.caseId).subscribe(decision => {
+        this.decisionService.fetch(this.caseId).subscribe(decision => {
             this.decision = decision;
             this.decisionAward = this.options
                 .filter(option => option.id === this.decision.decision_award)

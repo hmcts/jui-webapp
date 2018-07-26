@@ -2,9 +2,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DecisionConfirmationComponent } from './decision-confirmation.component';
 import {RouterTestingModule} from '@angular/router/testing';
-import {DomainModule} from '../../../domain.module';
+import {DomainModule} from '../../../../domain/domain.module';
 import {SharedModule} from '../../../../shared/shared.module';
-import {DecisionService} from '../../../services/decision.service';
+import {DecisionService} from '../../../../domain/services/decision.service';
 import {BrowserTransferStateModule} from '@angular/platform-browser';
 import {ConfigService} from '../../../../config.service';
 import {HttpClientTestingModule} from '@angular/common/http/testing';

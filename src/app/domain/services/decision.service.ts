@@ -15,7 +15,8 @@ export class DecisionService {
         return `${this.configService.config.api_base_url}/api/decisions/${caseId}`;
     }
 
-    fetchDecision(caseId): Observable<any> {
+    fetch(caseId): Observable<any> {
+        console.log('fetch');
         const url = this.generateDecisionUrl(caseId);
         return this.httpClient.get(url);
     }

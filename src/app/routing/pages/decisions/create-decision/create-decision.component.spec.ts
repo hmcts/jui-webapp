@@ -1,28 +1,25 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DecisionCheckComponent } from './decision-check.component';
+import { DecisionMakeComponent } from './decision-make.component';
 import {RouterTestingModule} from '@angular/router/testing';
-import {DomainModule} from '../../../domain.module';
+import {DomainModule} from '../../../../domain/domain.module';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {SharedModule} from '../../../../shared/shared.module';
 import {BrowserTransferStateModule} from '@angular/platform-browser';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {CaseService} from '../../../../case.service';
+import {DecisionService} from '../../../../domain/services/decision.service';
 import {ConfigService} from '../../../../config.service';
-import {DecisionService} from '../../../services/decision.service';
 import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {FormsModule} from '@angular/forms';
 
-describe('DecisionCheckComponent', () => {
-    let component: DecisionCheckComponent;
-    let fixture: ComponentFixture<DecisionCheckComponent>;
+describe('DecisionMakeComponent', () => {
+    let component: DecisionMakeComponent;
+    let fixture: ComponentFixture<DecisionMakeComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [],
             imports: [DomainModule, SharedModule, BrowserTransferStateModule, HttpClientTestingModule, RouterTestingModule],
-            providers: [
-                DecisionService,
+            providers: [ DecisionService,
                 {
                     provide: ConfigService, useValue: {
                         config: {
@@ -32,17 +29,21 @@ describe('DecisionCheckComponent', () => {
                 },
                 {
                     provide: ActivatedRoute, useValue: {
-                        snapshot: {
-                            _lastPathIndex: 0
-                        },
                         parent: {
                             params: Observable.of({caseid: '1234'}),
                             snapshot: {
                                 data: {
                                     caseData: {
+                                        sections: [],
+                                        details: {
+                                            fields: [
+                                                { value: '123' },
+                                                { value: 'bob v bob' }
+                                            ]
+                                        },
                                         decision: {
                                             options: [
-                                                {id: 'test', name: 'test'}
+                                                {id: 'appeal-decline', name: 'Appeal Declined'}
                                             ]
                                         }
                                     }
@@ -58,7 +59,7 @@ describe('DecisionCheckComponent', () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(DecisionCheckComponent);
+        fixture = TestBed.createComponent(DecisionMakeComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

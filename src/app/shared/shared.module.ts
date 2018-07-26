@@ -12,12 +12,14 @@ import { RouterModule} from '@angular/router';
 import { TextareaComponent } from './components/textarea/textarea.component';
 import { RadioButtonsComponent } from './components/radio-buttons/radio-buttons.component';
 import { BacklinkComponent } from './components/backlink/backlink.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     imports: [
         CommonModule,
         CdkTableModule,
         FormsModule,
+        ReactiveFormsModule,
         DocumentViewerModule,
         RouterModule
     ],

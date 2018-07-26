@@ -15,6 +15,7 @@ export class ServerFormService {
     }
 
     getFormValues() {
+        console.log(this.request.body)
         return this.request.body;
     }
 
