@@ -7,8 +7,7 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class PartiesPanelComponent implements OnInit {
 
-    @Input()
-    panelData;
+    @Input() panelData;
 
     constructor() {
     }
