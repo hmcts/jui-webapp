@@ -12,7 +12,7 @@ export class DocumentPanelComponent implements OnInit {
     @Input() panelData;
     @Input() case: any;
     documents: any[] = [];
-    selectedDocument: string;
+    selectedDocument: any;
     documentUrl: string;
 
     constructor(private route: ActivatedRoute,
