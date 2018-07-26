@@ -13,8 +13,8 @@ module "app" {
     ilbIp = "${var.ilbIp}"
     subscription = "${var.subscription}"
     capacity     = "${var.capacity}"
-    is_frontend = true
-    additional_host_name = "${local.app_full_name}-${var.env}.service.${var.env}.platform.hmcts.net"
+    is_frontend = "${!(var.env == "preview" || var.env == "spreview") ? 1 : 0}"
+    additional_host_name = "${!(var.env == "preview" || var.env == "spreview") ? "${local.app_full_name}-${var.env}.service.${var.env}.platform.hmcts.net" : "null"}"
     https_only="false"
     common_tags  = "${var.common_tags}"
 

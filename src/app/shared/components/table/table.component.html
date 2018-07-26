@@ -2,7 +2,7 @@
     <cdk-table *ngIf="resultView" [dataSource]="resultView.results" class="govuk-table govuk-!-f-16">
 
         <ng-container cdkColumnDef="case_id">
-            <cdk-header-cell *cdkHeaderCellDef class="govuk-table__header">Case Number</cdk-header-cell>
+            <cdk-header-cell *cdkHeaderCellDef class="govuk-table__header">Case number</cdk-header-cell>
             <cdk-cell class="govuk-table__cell" *cdkCellDef="let row;">
                 <a data-selector="case-reference-link" routerLink="/viewcase/{{row.case_id}}/summary">{{row.case_reference}}</a>
             </cdk-cell>

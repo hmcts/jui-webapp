@@ -15,7 +15,6 @@ export class CreateQuestionsComponent implements OnInit {
         question: new FormControl(),
     });
     caseId: any;
-    model: any = {};
 
     constructor(private fb: FormBuilder, private questionService: QuestionService, private redirectionService: RedirectionService, private route: ActivatedRoute) {
     }

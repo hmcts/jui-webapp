@@ -155,11 +155,6 @@ describe('CreateQuestionsComponent', () => {
             .toBe('Create question');
     });
 
-    it('should display a heading for new question item', () => {
-        expect(nativeElement.querySelectorAll(Selector.selector('item-heading')).length).toBe(1);
-        expect(nativeElement.querySelector(Selector.selector('item-heading')).textContent).toBe('Question');
-    });
-
     it('should display a subject text input for new question item', () => {
         expect(nativeElement.querySelector(Selector.selector('item-subject-label')).textContent).toBe('Subject');
         expect(nativeElement.querySelectorAll(Selector.selector('item-subject-input')).length).toBe(1);
