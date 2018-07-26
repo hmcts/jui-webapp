@@ -58,7 +58,7 @@ describe('Questions route', () => {
                 question_body_text: "Body text",
                 owner_reference: "Louis",
                 current_question_state: {
-                    state_datetime: new Date().toDateString()
+                    state_datetime: new Date(Date.UTC(2018, 6, 25, 8, 52, 38)).toDateString()
                 }
             };
         });
@@ -135,7 +135,7 @@ describe('Questions route', () => {
                         question_body_text: "Body text",
                         owner_reference: "Louis",
                         current_question_state: {
-                            state_datetime: new Date().toDateString(),
+                            state_datetime: new Date(Date.UTC(2018, 6, 25, 8, 52, 38)).toDateString(),
                             state_name: 'question_drafted'
                         }
                     }]
@@ -159,7 +159,6 @@ describe('Questions route', () => {
             });
         });
 
-
         describe('when I have no existing questions', () => {
             beforeEach(() => {
                 cohResponses["GET"][`http://coh-cor-aat.service.core-compute-aat.internal/continuous-online-hearings/${hearingId}/questions`] = {
@@ -177,5 +176,33 @@ describe('Questions route', () => {
             });
         });
 
+    });
+
+    xdescribe('when I create a new question', () => {
+        const caseNumber = "123456789";
+        const questionId = "987654321";
+        const hearingId = "564332";
+
+        describe('when I have an existing coh', () => {
+            beforeEach(() => {
+                cohResponses["GET"][`http://coh-cor-aat.service.core-compute-aat.internal/continuous-online-hearings?case_id=${caseNumber}`] = {
+                    online_hearings: [{
+                        online_hearing_id: hearingId
+                    }]
+                };
+
+                cohResponses["POST"][`http://coh-cor-aat.service.core-compute-aat.internal/continuous-online-hearings/${hearingId}/questions`] = {
+                    question_id: questionId,
+                    question_header_text: "Header text",
+                    question_body_text: "Body text",
+                    owner_reference: "Louis",
+                    current_question_state: {
+                        state_datetime: new Date(Date.UTC(2018, 6, 25, 8, 52, 38)).toDateString().toDateString(),
+                        state_name: 'question_drafted'
+                    }
+                };
+            });
+
+        });
     });
 });

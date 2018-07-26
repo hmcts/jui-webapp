@@ -113,6 +113,15 @@ function formatQuestion(body, userId) {
     };
 }
 
+function getOptions(req) {
+    return {
+        headers: {
+            'Authorization': `Bearer ${req.auth.token}`,
+            'ServiceAuthorization': req.headers.ServiceAuthorization
+        }
+    };
+}
+
 module.exports = (app) => {
     const route = express.Router({mergeParams:true});
     app.use('/cases', route);
@@ -120,12 +129,7 @@ module.exports = (app) => {
     route.get('/:case_id/questions/:question_id', (req, res, next) => {
         const caseId = req.params.case_id;
         const questionId = req.params.question_id;
-        const options = {
-            headers : {
-                'Authorization' : `Bearer ${req.auth.token}`,
-                'ServiceAuthorization' : req.headers.ServiceAuthorization
-            }
-        };
+        const options = getOptions(req);
 
         return getHearingByCase(caseId, options)
             .then(hearing => hearing.online_hearings[0].online_hearing_id)
@@ -145,12 +149,7 @@ module.exports = (app) => {
     route.get('/:case_id/questions', (req, res, next) => {
         const caseId = req.params.case_id;
         const userId = req.auth.userId;
-        const options = {
-            headers : {
-                'Authorization' : `Bearer ${req.auth.token}`,
-                'ServiceAuthorization' : req.headers.ServiceAuthorization
-            }
-        };
+        const options = getOptions(req);
 
         return getQuestionsByCase(caseId, userId, options, 'SSCS')
             .then(response => {
@@ -167,13 +166,9 @@ module.exports = (app) => {
     route.post('/:case_id/questions', (req, res, next) => {
         const caseId = req.params.case_id;
         const userId = req.auth.userId;
-        const body = formatQuestion(req.body, userId);
         const options = {
-            headers : {
-                'Authorization' : `Bearer ${req.auth.token}`,
-                'ServiceAuthorization' : req.headers.ServiceAuthorization
-            },
-            body: body
+            ...getOptions(req),
+            body: formatQuestion(req.body, userId)
         };
 
         return getHearingByCase(caseId, options)
@@ -193,13 +188,9 @@ module.exports = (app) => {
         const caseId = req.params.case_id;
         const questionId = req.params.question_id;
         const userId = req.auth.userId;
-        const body = formatQuestion(req.body, userId);
         const options = {
-            headers : {
-                'Authorization' : `Bearer ${req.auth.token}`,
-                'ServiceAuthorization' : req.headers.ServiceAuthorization
-            },
-            body: body
+            ...getOptions(req),
+            body: formatQuestion(req.body, userId)
         };
 
         return getHearingByCase(caseId, options)
@@ -218,12 +209,7 @@ module.exports = (app) => {
     route.delete('/:case_id/questions/:question_id', (req, res, next) => {
         const caseId = req.params.case_id;
         const questionId = req.params.question_id;
-        const options = {
-            headers : {
-                'Authorization' : `Bearer ${req.auth.token}`,
-                'ServiceAuthorization' : req.headers.ServiceAuthorization
-            }
-        };
+        const options = getOptions(req);
 
         return getHearingByCase(caseId, options)
             .then(hearing => hearing.online_hearings[0].online_hearing_id)
@@ -238,16 +224,10 @@ module.exports = (app) => {
             });
     });
 
-
     route.put('/:case_id/questions/rounds/:round_id', (req, res, next) => {
         const caseId = req.params.case_id;
         const roundId = req.params.round_id;
-        const options = {
-            headers : {
-                'Authorization' : `Bearer ${req.auth.token}`,
-                'ServiceAuthorization' : req.headers.ServiceAuthorization
-            }
-        };
+        const options = getOptions(req);
 
         return getHearingByCase(caseId, options)
             .then(hearing => hearing.online_hearings[0].online_hearing_id)
@@ -261,8 +241,6 @@ module.exports = (app) => {
                 res.status(response.error.status).send(response.error.message);
             });
     });
-
-
 };
 
 module.exports.getQuestions = getQuestions;
