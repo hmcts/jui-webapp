@@ -216,16 +216,6 @@ describe('Questions route', () => {
                         question: 'A new question'
                     })
                     .then(response => {
-                        expect(response.body).toEqual({
-                            question_id: '987654321',
-                            question_header_text: 'A great question',
-                            question_body_text: 'A new question',
-                            owner_reference: '1',
-                            current_question_state: Object({
-                                state_datetime: 'Wed Jul 25 2018',
-                                state_name: 'question_drafted'
-                            })
-                        });
                         expect(httpRequest).toHaveBeenCalledWith('POST',
                             'http://coh-cor-aat.service.core-compute-aat.internal/continuous-online-hearings/564332/questions', {
                             headers: {
