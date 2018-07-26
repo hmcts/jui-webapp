@@ -1,6 +1,7 @@
 const proxyquire = require('proxyquire').noPreserveCache();
 const supertest = require('supertest');
 const express = require('express');
+const bodyParser = require('body-parser');
 
 describe('Questions route', () => {
 
@@ -18,12 +19,15 @@ describe('Questions route', () => {
 
         httpRequest = jasmine.createSpy();
         httpRequest.and.callFake((method, url, options) => {
-            // console.log(`Saw ${method} request to ${url} and returning ${cohResponses[method][url]}`);
+            console.log(`Saw ${method} request to ${url} and returning ${cohResponses[method][url]}`);
 
-            return new Promise(resolve => {resolve(cohResponses[method][url])});
+            return new Promise(resolve => {
+                resolve(cohResponses[method][url])
+            });
         });
 
         app = express();
+        app.use(bodyParser.json());
 
         route = proxyquire('./question.js', {
             '../lib/request': httpRequest
@@ -33,6 +37,7 @@ describe('Questions route', () => {
                 token: '1234567',
                 userId: '1'
             };
+            req.headers.ServiceAuthorization = 'sdhfkajfa;ksfha;kdj'
             next();
         });
         route(app);
@@ -178,7 +183,7 @@ describe('Questions route', () => {
 
     });
 
-    xdescribe('when I create a new question', () => {
+    describe('when I create a new question', () => {
         const caseNumber = "123456789";
         const questionId = "987654321";
         const hearingId = "564332";
@@ -193,16 +198,52 @@ describe('Questions route', () => {
 
                 cohResponses["POST"][`http://coh-cor-aat.service.core-compute-aat.internal/continuous-online-hearings/${hearingId}/questions`] = {
                     question_id: questionId,
-                    question_header_text: "Header text",
-                    question_body_text: "Body text",
-                    owner_reference: "Louis",
+                    question_header_text: "A great question",
+                    question_body_text: "A new question",
+                    owner_reference: "1",
                     current_question_state: {
-                        state_datetime: new Date(Date.UTC(2018, 6, 25, 8, 52, 38)).toDateString().toDateString(),
+                        state_datetime: new Date(Date.UTC(2018, 6, 25, 8, 52, 38)).toDateString(),
                         state_name: 'question_drafted'
                     }
                 };
             });
 
+            it('It should make a post request', (done) => {
+                request.post(`/cases/${caseNumber}/questions`)
+                    .expect(201)
+                    .send({
+                        subject: 'A great question',
+                        question: 'A new question'
+                    })
+                    .then(response => {
+                        expect(response.body).toEqual({
+                            question_id: '987654321',
+                            question_header_text: 'A great question',
+                            question_body_text: 'A new question',
+                            owner_reference: '1',
+                            current_question_state: Object({
+                                state_datetime: 'Wed Jul 25 2018',
+                                state_name: 'question_drafted'
+                            })
+                        });
+                        expect(httpRequest).toHaveBeenCalledWith('POST',
+                            'http://coh-cor-aat.service.core-compute-aat.internal/continuous-online-hearings/564332/questions', {
+                            headers: {
+                                Authorization: 'Bearer 1234567',
+                                ServiceAuthorization: 'sdhfkajfa;ksfha;kdj'
+                            },
+                            body: {
+                                owner_reference: '1',
+                                question_body_text: 'A new question',
+                                question_header_text: 'A great question',
+                                question_ordinal: '1',
+                                question_round: '1',
+                                question_state: 'question_drafted'
+                            }
+                        });
+                        done();
+                    })
+                    });
+            });
         });
     });
-});

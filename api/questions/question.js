@@ -176,6 +176,7 @@ module.exports = (app) => {
             .then(hearingId => postQuestion(hearingId, options))
             .then(response => {
                 res.setHeader('Access-Control-Allow-Origin', '*');
+                res.setHeader('content-type', 'application/json');
                 res.status(201).send(JSON.stringify(response));
             })
             .catch(response => {
