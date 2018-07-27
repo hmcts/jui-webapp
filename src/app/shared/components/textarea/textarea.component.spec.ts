@@ -1,8 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { TextareaComponent } from './textarea.component';
-import {Input} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, FormGroup, FormControl} from '@angular/forms';
+import {ReactiveFormsModule} from "@angular/forms";
 
 describe('TextareaComponent', () => {
     let component: TextareaComponent;
@@ -10,7 +9,7 @@ describe('TextareaComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [FormsModule],
+            imports: [FormsModule, ReactiveFormsModule],
             declarations: [ TextareaComponent ]
         })
             .compileComponents();
@@ -19,6 +18,10 @@ describe('TextareaComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(TextareaComponent);
         component = fixture.componentInstance;
+        component.id = 'bob';
+        component.formGroup = new FormGroup({
+            bob: new FormControl()
+        }, null, null);
         fixture.detectChanges();
     });
 

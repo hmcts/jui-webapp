@@ -1,5 +1,6 @@
 import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {OnChanges} from '@angular/core';
+import {FormGroup} from "@angular/forms";
 
 @Component({
     selector: 'app-radio-buttons',
@@ -14,7 +15,7 @@ export class RadioButtonsComponent {
     @Input() errorMessage: string;
     @Input() error: boolean;
     @Input() disable: boolean;
-    @Input() formGroup;
+    @Input() formGroup: FormGroup;
     @Input() value;
 
     constructor() {}

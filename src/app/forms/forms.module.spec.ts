@@ -1,10 +1,10 @@
-import { FormsModule } from './forms.module';
+import { JUIFormsModule } from './forms.module';
 
-describe('FormsModule', () => {
-  let formsModule: FormsModule;
+describe('JUIFormsModule', () => {
+  let formsModule: JUIFormsModule;
 
   beforeEach(() => {
-    formsModule = new FormsModule();
+    formsModule = new JUIFormsModule();
   });
 
   it('should create an instance', () => {

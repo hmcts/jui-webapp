@@ -15,7 +15,6 @@ import { CaseBarDetailsComponent } from './components/casebar-details/casebar-de
 import { CaseBarComponent } from './components/casebar/casebar.component';
 import { HearingMakeComponent } from './components/hearings/hearing-make/hearing-make.component';
 import { HearingConfirmationComponent } from './components/hearings/hearing-confirmation/hearing-confirmation.component';
-import { DecisionConfirmationComponent } from '../routing/pages/decisions/decision-confirmation/decision-confirmation.component';
 import { HearingCheckComponent } from './components/hearings/hearing-check/hearing-check.component';
 
 import {JUIFormsModule} from "../forms/forms.module";
@@ -39,7 +38,6 @@ import {JUIFormsModule} from "../forms/forms.module";
         ViewQuestionComponent,
         DeleteQuestionComponent,
         EditQuestionComponent,
-        DecisionConfirmationComponent,
         HearingMakeComponent,
         HearingCheckComponent,
         HearingConfirmationComponent,
@@ -54,7 +52,6 @@ import {JUIFormsModule} from "../forms/forms.module";
         ViewQuestionComponent,
         DeleteQuestionComponent,
         EditQuestionComponent,
-        DecisionConfirmationComponent,
         HearingMakeComponent,
         HearingCheckComponent,
         HearingConfirmationComponent,

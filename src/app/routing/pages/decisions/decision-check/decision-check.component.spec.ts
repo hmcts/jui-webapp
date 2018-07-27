@@ -19,7 +19,9 @@ describe('DecisionCheckComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [],
+            declarations: [
+                DecisionCheckComponent
+            ],
             imports: [DomainModule, SharedModule, BrowserTransferStateModule, HttpClientTestingModule, RouterTestingModule],
             providers: [
                 DecisionService,
