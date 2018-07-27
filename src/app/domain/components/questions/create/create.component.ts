@@ -1,4 +1,4 @@
-import {Component, OnInit, Inject, EventEmitter} from '@angular/core';
+import {Component, OnInit, ChangeDetectorRef, EventEmitter} from '@angular/core';
 import { QuestionService } from '../../../services/question.service';
 import { RedirectionService } from '../../../../routing/redirection.service';
 import { ActivatedRoute } from '@angular/router';
@@ -17,7 +17,18 @@ export class CreateQuestionsComponent implements OnInit {
         eventEmitter: this.eventEmitter
     };
 
-    constructor(private fb: FormBuilder, private questionService: QuestionService, private redirectionService: RedirectionService, private route: ActivatedRoute) {
+    error = {
+        server: false,
+        subject: false,
+        question: false
+    };
+
+    constructor(
+        private fb: FormBuilder,
+        private questionService: QuestionService,
+        private redirectionService: RedirectionService,
+        private route: ActivatedRoute,
+        private cdRef : ChangeDetectorRef) {
 
     }
 
@@ -26,6 +37,10 @@ export class CreateQuestionsComponent implements OnInit {
             subject: ['', Validators.required],
             question: ['', Validators.required],
         });
+    }
+
+    ngAfterViewChecked() {
+        this.cdRef.detectChanges();
     }
 
     ngOnInit(): void {
@@ -44,6 +59,10 @@ export class CreateQuestionsComponent implements OnInit {
                 .subscribe(res => {
                     this.redirectionService.redirect(`/viewcase/${this.caseId}/questions?created=success`);
                 }, err => console.log);
+        }
+        else {
+            this.error.subject = !this.form.controls.subject.valid;
+            this.error.question = !this.form.controls.question.valid;
         }
     }
 }
