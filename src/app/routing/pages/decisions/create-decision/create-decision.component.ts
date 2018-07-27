@@ -51,8 +51,6 @@ export class CreateDecisionComponent implements OnInit {
         this.decision = this.route.parent.snapshot.data['decision'];
         this.options = this.case.decision.options;
 
-        console.log(this.decision);
-
         if(this.decision){
             this.decisionAward = this.decision.decision_award;
             this.decisionState = this.decision.decision_state.state_name;

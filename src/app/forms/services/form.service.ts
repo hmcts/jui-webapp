@@ -10,7 +10,7 @@ export class FormService {
 
     }
     getFormValues() {
-        return {};
+        return null;
     }
 
 

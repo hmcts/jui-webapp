@@ -9,11 +9,8 @@ import { FormsModule } from '@angular/forms';
 import {CdkTableModule} from '@angular/cdk/table';
 import {DocumentViewerModule} from './components/document-viewer/document-viewer.module';
 import { RouterModule} from '@angular/router';
-import { TextareaComponent } from './components/textarea/textarea.component';
-import { RadioButtonsComponent } from './components/radio-buttons/radio-buttons.component';
 import { BacklinkComponent } from './components/backlink/backlink.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TextComponent } from './components/text/text.component';
 
 @NgModule({
     imports: [
@@ -30,10 +27,7 @@ import { TextComponent } from './components/text/text.component';
         TableComponent,
         DataListComponent,
         FooterComponent,
-        TextareaComponent,
-        RadioButtonsComponent,
-        BacklinkComponent,
-        TextComponent
+        BacklinkComponent
     ],
     exports: [
         TabComponent,
@@ -41,10 +35,7 @@ import { TextComponent } from './components/text/text.component';
         TableComponent,
         DataListComponent,
         FooterComponent,
-        TextareaComponent,
-        RadioButtonsComponent,
-        BacklinkComponent,
-        TextComponent
+        BacklinkComponent
     ]
 })
 

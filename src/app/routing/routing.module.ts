@@ -12,7 +12,7 @@ import { RedirectionService } from './redirection.service';
 import {DecisionRootComponent} from "./pages/decisions/root/root.component";
 import { CreateDecisionComponent } from './pages/decisions/create-decision/create-decision.component';
 import { HearingMakeComponent } from '../domain/components/hearings/hearing-make/hearing-make.component';
-import { DecisionCheckComponent } from './pages/decisions/decision-check/decision-check.component';
+import { CheckDecisionComponent } from './pages/decisions/check-decision/check-decision.component';
 import { DecisionConfirmationComponent } from './pages/decisions/decision-confirmation/decision-confirmation.component';
 import { HearingCheckComponent } from '../domain/components/hearings/hearing-check/hearing-check.component';
 import { HearingConfirmationComponent } from '../domain/components/hearings/hearing-confirmation/hearing-confirmation.component';
@@ -45,7 +45,7 @@ const routes: Routes = [
         children: [
             { path:'decision', component: DecisionRootComponent, resolve: { decision: DecisionResolve }, children: [
                 {path: 'create', component: CreateDecisionComponent},
-                {path: 'check', component: DecisionCheckComponent},
+                {path: 'check', component: CheckDecisionComponent},
                 {path: 'confirm', component: DecisionConfirmationComponent}
             ]},
             {path: 'hearings-confirmation',component: HearingConfirmationComponent},
@@ -113,7 +113,7 @@ const routes: Routes = [
         HomeComponent,
         ViewCaseComponent,
         CreateDecisionComponent,
-        DecisionCheckComponent,
+        CheckDecisionComponent,
         DecisionRootComponent,
         DecisionConfirmationComponent
     ],

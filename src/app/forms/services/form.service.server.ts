@@ -15,9 +15,8 @@ export class ServerFormService {
     }
 
     getFormValues() {
-        console.log(this.request.body)
-        return this.request.body;
+        const method = this.request.method.toLowerCase();
+        const hasBody = method === 'post' || method === 'put';
+        return hasBody ? this.request.body : null;
     }
-
-
 }
