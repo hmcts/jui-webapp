@@ -114,7 +114,8 @@ const routes: Routes = [
         ViewCaseComponent,
         CreateDecisionComponent,
         DecisionCheckComponent,
-        DecisionRootComponent
+        DecisionRootComponent,
+        DecisionConfirmationComponent
     ],
     providers: [
         CaseService,
