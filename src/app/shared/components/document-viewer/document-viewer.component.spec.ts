@@ -4,8 +4,8 @@ import {DocumentViewerComponent} from './document-viewer.component';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {DebugElement, SimpleChange} from '@angular/core';
 import {DocumentViewerModule} from './document-viewer.module';
-import {DocumentViewerService} from "./document-viewer.service";
-import {of} from "rxjs";
+import {DocumentViewerService} from './document-viewer.service';
+import {of} from 'rxjs';
 const originalUrl = 'http://api-gateway.dm.com/documents/1234-1234-1234';
 const url = '/demproxy/dm/documents/1234-1234-1234';
 
@@ -18,7 +18,7 @@ describe('EmViewerComponent', () => {
 
     const DocumentViewerServiceMock = {
         fetch: () => {
-            return of(mockDocuments)
+            return of(mockDocuments);
         }
     };
 
@@ -177,7 +177,7 @@ describe('EmViewerComponent', () => {
         });
     });
 
-    //TODO reinstate this
+    // TODO reinstate this
     // describe('when the server returns an error', () => {
     //     beforeEach(() => {
     //         const req = httpMock.expectOne(url);

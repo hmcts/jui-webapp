@@ -9,43 +9,44 @@
 </div>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <div *ngFor="let section of panelData.sections">
-            <div attr.data-selector="{{section.id}}" *ngIf="section.id === 'questions-to-appellant'">
-                <h1 attr.data-selector="{{section.id}}-heading">{{section.name}}</h1>
-                <!--<h2 data-selector="round-1" class="govuk-heading-m">Round 1</h2>-->
-                <div data-selector="no-draft-questions" *ngIf="!draftQuestions || !draftQuestions.length">
-                    <p data-selector="no-draft-questions-details">You haven’t asked any questions.</p>
-                    <a data-selector="no-draft-questions-link" class="govuk-button" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/new">Add Questions</a>
-                </div>
-                <div *ngIf="draftQuestions.length">
-                    <div data-selector="draft-questions-list">
-                        <div *ngFor="let question of draftQuestions; let j = index">
-                            <p data-selector="draft-questions-details" *ngIf="j === 0">You have not sent these questions to the appellant</p>
-                            <div data-selector="draft-questions-item" class="jui-questions__item">
-                                <h3 data-selector="questions-subject" class="jui-questions__subject"><a data-selector="questions-subject-link" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/{{question.id}}">{{question.header}}</a>
-                                </h3>
-                                <p data-selector="questions-meta-data" class="jui-questions__meta">Last updated by <span class="jui-questions__author">{{question.owner_reference}}</span> {{question.state_datetime | date: "'at' h:mmaaaaa'm 'on' d MMMM yyyy":'+00:00'}}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div *ngIf="section.sections[0].fields[0].value">
-                        <a data-selector="create-draft-questions-link" class="govuk-button" [ngClass]="{'jui-button--secondary':draftQuestions.length > 0}" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/new">Add Questions</a>
-                        <br>
-                        <a *ngIf="draftQuestions.length > 0" data-selector="send-draft-questions-link" class="govuk-button" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/check">Send Questions</a>
-                    </div>
-                </div>
-                <div *ngIf="sentQuestions && sentQuestions.length">
-                    <div *ngFor="let question of sentQuestions; let j = index">
-                        <p data-selector="sent-questions-details" *ngIf="j === 0">You sent {{sentQuestions.length}} {{sentQuestions.length <= 1 ? 'question' : 'questions'}} to the appellant {{question.state_datetime | date: "'at' h:mmaaaaa'm 'on' d MMMM yyyy":'+00:00'}}</p>
-                        <div data-selector="sent-questions-item" class="jui-questions__item">
-                            <h3 data-selector="questions-subject" class="jui-questions__subject"><a data-selector="questions-subject-link" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/{{question.id}}">{{question.header}}</a>
-                            </h3>
-                            <p data-selector="questions-meta-data" class="jui-questions__meta">Sent by <span class="jui-questions__author">{{question.owner_reference}}</span> {{question.state_datetime | date: "'at' h:mmaaaaa'm 'on' d MMMM yyyy":'+00:00'}}</p>
-                        </div>
-                    </div>
-                </div>
-                <br>
+        <h1 class="govuk-heading-l">Questions to appellant</h1>
+
+        <div data-selector="no-draft-questions" *ngIf="!rounds.length || rounds[0].state !== 'question_drafted'">
+            <h2 attr.data-selector="round-{{rounds.length + 1}}" class="govuk-heading-m">Round {{rounds.length + 1}}</h2>
+            <p data-selector="no-draft-questions-details">You haven’t asked any questions.</p>
+            <a data-selector="no-draft-questions-link" class="govuk-button" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/new">Add questions</a>
+        </div>
+
+        <div *ngFor="let round of rounds">
+            <h2 attr.data-selector="round-{{round.question_round_number}}" class="govuk-heading-m">Round {{round.question_round_number}}</h2>
+            <div data-selector="no-draft-questions" *ngIf="!round.questions.length">
+                <p data-selector="no-draft-questions-details">You haven’t asked any questions.</p>
+                <a data-selector="no-draft-questions-link" class="govuk-button" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/new">Add questions</a>
             </div>
+            <div *ngIf="round.state === 'question_drafted'; else questionsSent" data-selector="draft-questions-list">
+                    <p data-selector="draft-questions-details">You have not sent these questions to the appellant</p>
+                <div *ngFor="let question of round.questions">
+                    <div data-selector="draft-questions-item" class="jui-questions__item">
+                        <h3 data-selector="questions-subject" class="jui-questions__subject"><a data-selector="questions-subject-link" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/{{question.id}}">{{question.header}}</a>
+                        </h3>
+                        <p data-selector="questions-meta-data" class="jui-questions__meta">Last updated by <span class="jui-questions__author">{{question.owner_reference}}</span> {{question.state_datetime | date: "'at' h:mmaaaaa'm 'on' d MMMM yyyy":'+00:00'}}</p>
+                    </div>
+                </div>
+                <div>
+                    <br>
+                    <a data-selector="create-draft-questions-link" class="govuk-button" [ngClass]="{'jui-button--secondary':round.questions.length > 0}" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/new">Add questions</a>
+                    <br>
+                    <a *ngIf="round.questions.length > 0" data-selector="send-draft-questions-link" class="govuk-button" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/check">Send questions</a>
+                </div>
+            </div>
+            <ng-template #questionsSent>
+                <p data-selector="sent-questions-details">You sent {{round.questions.length}} {{round.questions.length <= 1 ? 'question' : 'questions'}} to the appellant {{round.state_datetime | date: "'at' h:mmaaaaa'm 'on' d MMMM yyyy":'+00:00'}}</p>
+                <div *ngFor="let question of round.questions" data-selector="sent-questions-item" class="jui-questions__item">
+                    <h3 data-selector="questions-subject" class="jui-questions__subject"><a data-selector="questions-subject-link" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/{{question.id}}">{{question.header}}</a>
+                    </h3>
+                    <p data-selector="questions-meta-data" class="jui-questions__meta">Sent by <span class="jui-questions__author">{{question.owner_reference}}</span> {{question.state_datetime | date: "'at' h:mmaaaaa'm 'on' d MMMM yyyy":'+00:00'}}</p>
+                </div>
+            </ng-template>
         </div>
     </div>
 </div>

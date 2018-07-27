@@ -22,7 +22,7 @@ export class TabsComponent {
   // constructor(private route: ActivatedRoute) {}
 
   public ngAfterContentInit(): void {
-      if(this.panels && this.panels.length) {
+      if (this.panels && this.panels.length) {
           this.panels.forEach((panel) => this.panelIds.push(panel.id));
       }
 

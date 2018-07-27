@@ -1,17 +1,16 @@
 const app = require('./application');
-require( 'zone.js/dist/zone-node');
+// require( 'zone.js/dist/zone-node');
 const express = require('express');
 const ngExpressEngine = require('@nguniversal/express-engine').ngExpressEngine;
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 const {
     AppServerModuleNgFactory,
     LAZY_MODULE_MAP
-} = require(`./dist-server/main`);
+} = require('./dist-server/main');
 
-const {
-    provideModuleMap
-} = require('@nguniversal/module-map-ngfactory-loader');
+const { provideModuleMap } = require('@nguniversal/module-map-ngfactory-loader');
 
 const provider = provideModuleMap(LAZY_MODULE_MAP);
 
@@ -26,22 +25,18 @@ app.engine(
 app.set('view engine', 'html');
 app.set('views', __dirname);
 
-app.use(express.static(__dirname + '/assets', { index: false }));
-app.use(express.static(__dirname + '/dist', { index: false }));
+app.use(express.static(`${__dirname}/assets`, { index: false }));
+app.use(express.static(`${__dirname}/dist`, { index: false }));
 
 
 app.get('/*', (req, res) => {
     console.time(`GET: ${req.originalUrl}`);
     res.render('./dist/index', {
-        req: req,
-        res: res,
+        req,
+        res,
         providers: [
-            {
-                provide: 'REQUEST', useValue: (req)
-            },
-            {
-                provide: 'RESPONSE', useValue: (res)
-            }
+            { provide: 'REQUEST', useValue: (req) },
+            { provide: 'RESPONSE', useValue: (res) }
         ]
     });
     console.timeEnd(`GET: ${req.originalUrl}`);

@@ -5,7 +5,7 @@ const getTokenFromCode = require('./getTokenFromCode');
 const getUserDetails = require('./getUserDetails');
 
 
-module.exports = function (app) {
+module.exports = function(app) {
     const router = express.Router();
 
     app.use('/oauth2/callback', router);
@@ -21,10 +21,11 @@ module.exports = function (app) {
                     res.redirect('/');
                 });
             }
-        }).catch(e => {
-            console.log('error - ', e);
-            res.redirect('/');
-        });
+        })
+            .catch(e => {
+                console.log('error - ', e);
+                res.redirect('/');
+            });
     });
 
     app.use('/logout', (req, res, next) => {
@@ -33,7 +34,4 @@ module.exports = function (app) {
         const redirectUrl = req.query.redirect || '/';
         res.redirect(redirectUrl);
     });
-
 };
-
-

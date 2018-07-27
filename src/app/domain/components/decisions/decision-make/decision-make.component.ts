@@ -41,6 +41,13 @@ export class DecisionMakeComponent implements OnInit {
             this.decisionState = this.decision.decision_state.state_name;
             this.decisionText = this.decision.decision_text;
         });
+
+        this.route.fragment.subscribe(fragment => {
+            const element = document.querySelector('#' + fragment);
+            if (element) {
+                element.scrollIntoView();
+            }
+        });
     }
 
     onDecisionButtonChange($event: string) {

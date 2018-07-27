@@ -6,8 +6,10 @@
         <div class="jui-header__account">
             <nav class="jui-primary-nav">
                 <ul class="jui-primary-nav__list">
-                    <li class="jui-primary-nav__item"><a class="jui-primary-nav__link" routerLink="/">Dashboard</a></li>
-                    <li class="jui-primary-nav__item"><a class="jui-primary-nav__link" [href]="logoutLink">Signout</a></li>
+                    <li class="jui-primary-nav__item"><a class="jui-primary-nav__link" routerLink="/"
+                                                         data-selector="dashboard-link">Dashboard</a></li>
+                    <li class="jui-primary-nav__item"><a class="jui-primary-nav__link" [href]="logoutLink"
+                                                         data-selector="signout-link">Signout</a></li>
                 </ul>
             </nav>
         </div>

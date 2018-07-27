@@ -1,8 +1,8 @@
 import {Inject, Injectable} from '@angular/core';
-import {CookieService} from "ngx-cookie";
+import {CookieService} from 'ngx-cookie';
 import * as jwtDecode from 'jwt-decode';
-import {ConfigService} from "../config.service";
-import { RedirectionService} from "../routing/redirection.service";
+import {ConfigService} from '../config.service';
+import { RedirectionService} from '../routing/redirection.service';
 
 @Injectable({
     providedIn: 'root'
@@ -29,7 +29,7 @@ export class AuthService {
 
     getAuthHeaders() {
         interface HeaderObject {
-            [key: string]: string
+            [key: string]: string;
         }
         const headers: HeaderObject = {
             Authorization: this.cookieService.get(this.COOKIE_KEYS.TOKEN),
@@ -48,7 +48,7 @@ export class AuthService {
 
     isAuthenticated(): boolean {
         const jwt = this.cookieService.get(this.COOKIE_KEYS.TOKEN);
-        if (!jwt) return false;
+        if (!jwt) { return false; }
         const jwtData = this.decodeJwt(jwt);
         const expired = jwtData.exp > new Date().getTime();
         // do stuff!!

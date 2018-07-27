@@ -4,7 +4,6 @@ const express = require('express');
 const config = require('../../config');
 
 describe('Documents route', () => {
-
     let route, request, app;
     let httpRequest, httpResponse;
 
@@ -13,15 +12,15 @@ describe('Documents route', () => {
             resolve({});
         };
         httpRequest = jasmine.createSpy();
-        httpRequest.and.callFake((url, options) => {
-            return new Promise(httpResponse);
-        });
+        httpRequest.and.callFake((url, options) => new Promise(httpResponse));
 
         app = express();
 
         route = proxyquire('./document.js', {
             '../lib/request': httpRequest,
-            './options': () => {{}}
+            './options': () => {
+                {}
+            }
         });
 
         route(app);
@@ -37,7 +36,7 @@ describe('Documents route', () => {
         });
 
         it('should expose getDocument function', () => {
-           expect(getDocument).toBeTruthy();
+            expect(getDocument).toBeTruthy();
         });
 
         it('should make a request to doc store', () => {
@@ -75,17 +74,17 @@ describe('Documents route', () => {
         });
 
         it('should return a promise of all outstanding requests', () => {
-            expect(getDocuments().then).toBeTruthy()
+            expect(getDocuments().then).toBeTruthy();
         });
 
-        it('should return all documents requested', (done) => {
+        it('should return all documents requested', done => {
             const docIds = ['1234', '5678'];
             httpResponse = (resolve, reject) => {
-                resolve({docId: '1234'});
+                resolve({ docId: '1234' });
             };
 
             getDocuments(docIds, {}).then(documents => {
-                expect(documents).toEqual([{docId: '1234'},{docId: '1234'}]);
+                expect(documents).toEqual([{ docId: '1234' }, { docId: '1234' }]);
                 done();
             });
         });

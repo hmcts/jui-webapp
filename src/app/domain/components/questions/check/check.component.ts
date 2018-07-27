@@ -13,7 +13,7 @@ import 'rxjs/add/operator/filter';
 })
 export class CheckQuestionsComponent implements OnInit {
     caseId: string;
-    rounds$: Observable<any[]>;
+    questions$: Observable<any[]>;
 
     constructor(private questionService: QuestionService,
                 private redirectionService: RedirectionService,
@@ -23,11 +23,9 @@ export class CheckQuestionsComponent implements OnInit {
     ngOnInit(): void {
         this.route.parent.params.subscribe(params => {
             this.caseId = params['case_id'];
-            this.rounds$ = this.questionService.fetchAll(this.caseId)
-                .map(rounds => {
-                    return rounds.filter(round => round).map(round => {
-                        return round.filter(q => q.state === 'question_drafted');
-                    });
+            this.questions$ = this.questionService.fetchAll(this.caseId)
+                .map(questions => {
+                    return questions.filter(question => question.state === 'question_drafted');
                 });
         });
     }

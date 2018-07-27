@@ -24,8 +24,8 @@ function getDocuments(documentIds = [], options) {
     return getDocumentArray(documentIds, options);
 }
 
-module.exports = (app) => {
-    const route = express.Router({mergeParams:true});
+module.exports = app => {
+    const route = express.Router({ mergeParams: true });
     app.use('/documents', route);
 
     route.get('/:document_id/binary', (req, res, next) => {
@@ -38,6 +38,9 @@ module.exports = (app) => {
         getDocument(documentId, getOptions(req)).pipe(res);
     });
 };
+
 module.exports.getDocument = getDocument;
+
 module.exports.getDocuments = getDocuments;
+
 module.exports.getDocumentBinary = getDocumentBinary;

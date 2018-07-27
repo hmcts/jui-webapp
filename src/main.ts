@@ -7,7 +7,7 @@ import { environment } from './environments/environment';
 
 
 if (environment.production) {
-  enableProdMode();
+    enableProdMode();
 }
 
 document.addEventListener('DOMContentLoaded', () => {

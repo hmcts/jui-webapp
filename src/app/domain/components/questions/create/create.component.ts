@@ -15,7 +15,7 @@ export class CreateQuestionsComponent implements OnInit {
         question: new FormControl(),
     });
     caseId: any;
-    model: any = {};
+    submitted = false;
 
     constructor(private fb: FormBuilder, private questionService: QuestionService, private redirectionService: RedirectionService, private route: ActivatedRoute) {
     }
@@ -32,6 +32,13 @@ export class CreateQuestionsComponent implements OnInit {
             this.caseId = params['case_id'];
         });
 
+        this.route.fragment.subscribe(fragment => {
+            const element = document.querySelector('#' + fragment);
+            if (element) {
+                element.scrollIntoView();
+            }
+        });
+
         this.createForm();
     }
 
@@ -42,5 +49,6 @@ export class CreateQuestionsComponent implements OnInit {
                     this.redirectionService.redirect(`/viewcase/${this.caseId}/questions?created=success`);
                 }, err => console.log);
         }
+        this.submitted = true;
     }
 }
