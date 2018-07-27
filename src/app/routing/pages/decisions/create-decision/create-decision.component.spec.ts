@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DecisionMakeComponent } from './decision-make.component';
+import { CreateDecisionComponent } from './create-decision.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {DomainModule} from '../../../../domain/domain.module';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
@@ -11,9 +11,9 @@ import {ConfigService} from '../../../../config.service';
 import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 
-describe('DecisionMakeComponent', () => {
-    let component: DecisionMakeComponent;
-    let fixture: ComponentFixture<DecisionMakeComponent>;
+describe('CreateDecisionComponent', () => {
+    let component: CreateDecisionComponent;
+    let fixture: ComponentFixture<CreateDecisionComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -59,7 +59,7 @@ describe('DecisionMakeComponent', () => {
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(DecisionMakeComponent);
+        fixture = TestBed.createComponent(CreateDecisionComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
