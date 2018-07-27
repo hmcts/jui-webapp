@@ -17,6 +17,7 @@ export class EditQuestionComponent implements OnInit {
     caseId: any;
     questionId: any;
     question: any;
+    submitted = false;
 
     constructor(private fb: FormBuilder, private questionService: QuestionService, private redirectionService: RedirectionService, private route: ActivatedRoute) {
     }
@@ -37,6 +38,13 @@ export class EditQuestionComponent implements OnInit {
             this.questionId = params['question_id'];
         });
 
+        this.route.fragment.subscribe(fragment => {
+            const element = document.querySelector('#' + fragment);
+            if (element) {
+                element.scrollIntoView();
+            }
+        });
+
         this.questionService
             .fetch(this.caseId, this.questionId)
             .subscribe((data: any) => this.createForm(data.header, data.body));
@@ -49,5 +57,6 @@ export class EditQuestionComponent implements OnInit {
                     this.redirectionService.redirect(`/viewcase/${this.caseId}/questions?updated=success`);
                 }, err => console.log);
         }
+        this.submitted = true;
     }
 }

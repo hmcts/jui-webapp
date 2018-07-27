@@ -1,7 +1,7 @@
 const eventsRoute = require('./event');
-const {getEvents} = require('./event');
+const { getEvents } = require('./event');
 
-module.exports = (app) => {
+module.exports = app => {
     eventsRoute(app);
 };
 

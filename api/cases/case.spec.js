@@ -1,6 +1,7 @@
 const proxyquire = require('proxyquire');
 const supertest = require('supertest');
 const express = require('express');
+
 const router = express.Router();
 
 describe('case spec', () => {
@@ -16,12 +17,8 @@ describe('case spec', () => {
 
     const eventsMock = {
         getEvents: () => Promise.resolve([
-            {
-                field: 'value'
-            },
-            {
-                field: 'value'
-            }
+            { field: 'value' },
+            { field: 'value' }
         ])
     };
 
@@ -47,9 +44,7 @@ describe('case spec', () => {
         ])
     };
 
-    const documentsMock = {
-        getDocuments: () => Promise.resolve([])
-    };
+    const documentsMock = { getDocuments: () => Promise.resolve([]) };
 
 
     beforeEach(() => {
@@ -57,7 +52,7 @@ describe('case spec', () => {
             resolve({});
         };
         httpRequest = jasmine.createSpy();
-        httpRequest.and.callFake((url) => {
+        httpRequest.and.callFake(url => {
             if (url.endsWith('events')) {
                 return new Promise(eventsHttpResponse);
             } else if (url.endsWith('?case_id')) {
@@ -66,9 +61,8 @@ describe('case spec', () => {
                 return new Promise(questionsGetHttpResponse);
             } else if (url.endsWith('continuous-online-hearings')) {
                 return new Promise(hearingPostHttpResponse);
-            } else {
-                return new Promise(httpResponse);
             }
+            return new Promise(httpResponse);
         });
 
         route = proxyquire('./case', {
@@ -134,10 +128,8 @@ describe('case spec', () => {
                 });
             };
         });
-        it('should return an error', () => {
-            return request.get('/api/cases/null')
-                .expect(400);
-        });
+        it('should return an error', () => request.get('/api/cases/null')
+            .expect(400));
     });
 
     describe('when all expected case data is returned', () => {
@@ -154,20 +146,14 @@ describe('case spec', () => {
                                 title: 'Mr',
                                 lastName: 'May_146863',
                                 firstName: 'A'
-                            },
+                            }
                         },
-                        benefitType: {
-                            code: 'PIP'
-                        },
+                        benefitType: { code: 'PIP' }
                     },
                     region: 'LEEDS',
                     sscsDocument: [
-                        {
-                            id: 'b4390fb6-8248-49d5-8560-41a7c2f27418',
-                        },
-                        {
-                            id: '6ad97d36-2c85-4aec-9909-e5ca7592faae',
-                        }
+                        { id: 'b4390fb6-8248-49d5-8560-41a7c2f27418' },
+                        { id: '6ad97d36-2c85-4aec-9909-e5ca7592faae' }
                     ],
                     panel: {
                         assignedTo: 'assignedTo',
@@ -177,14 +163,14 @@ describe('case spec', () => {
                 }
             };
             httpResponse = (resolve, reject) => resolve(caseData);
-            eventsHttpResponse = (resolve) => resolve();
-            hearingPostHttpResponse = (resolve) => resolve();
-            hearingGetHttpResponse = (resolve) => resolve();
-            questionsGetHttpResponse = (resolve) => resolve();
+            eventsHttpResponse = resolve => resolve();
+            hearingPostHttpResponse = resolve => resolve();
+            hearingGetHttpResponse = resolve => resolve();
+            questionsGetHttpResponse = resolve => resolve();
         });
 
-        xit('should populate the summary panel given data is in the response', () => {
-            return request.get('/api/cases/1').expect(200).then(response => {
+        xit('should populate the summary panel given data is in the response', () => request.get('/api/cases/1').expect(200)
+            .then(response => {
                 const jsonRes = JSON.parse(response.text);
                 const actualSummarySection = jsonRes.sections.filter(section => section.id === 'summary')[0];
                 const caseDetails = actualSummarySection.sections[0].sections[0];
@@ -221,9 +207,7 @@ describe('case spec', () => {
                 ]);
 
                 const timelineSection = jsonRes.sections.filter(section => section.id === 'timeline')[0];
-                expect(timelineSection.sections[0].fields[0].value[0]).toEqual({
-                    field: 'value'
-                });
+                expect(timelineSection.sections[0].fields[0].value[0]).toEqual({ field: 'value' });
 
                 const draftQuestionsToAppellant = jsonRes.sections
                     .filter(section => section.id === 'questions')[0].sections[0].sections
@@ -245,7 +229,6 @@ describe('case spec', () => {
                     owner_reference: '5899',
                     state_datetime: '2018-07-18 21:16:50.729'
                 });
-            });
-        });
+            }));
     });
 });

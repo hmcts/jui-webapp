@@ -6,7 +6,7 @@ const config = require('../../config/index');
 
 const microservice = config.microservice;
 const secret = process.env.JUI_S2S_SECRET || 'AAAAAAAAAAAAAAAA';
-let _cache = {};
+const _cache = {};
 
 
 function validateCache() {
@@ -21,13 +21,13 @@ function getToken() {
 
 
 function generateToken() {
-    const oneTimePassword = otp({secret: secret}).totp();
+    const oneTimePassword = otp({ secret }).totp();
     let options = {
         url: `${config.services.s2s}/lease`,
         method: 'POST',
         body: {
-            oneTimePassword: oneTimePassword,
-            microservice: microservice
+            oneTimePassword,
+            microservice
         },
         json: true
     };
@@ -37,7 +37,6 @@ function generateToken() {
 
     return new Promise((resolve, reject) => {
         request(options).then(body => {
-
             const tokenData = jwtDecode(body);
             _cache[microservice] = {
                 expiresAt: tokenData.exp,
@@ -45,27 +44,27 @@ function generateToken() {
             };
             console.log(tokenData);
             resolve();
-        }).catch(e => {
-            console.log('Error creating S2S token! S2S service error - ', e.message);
-            reject();
         })
+            .catch(e => {
+                console.log('Error creating S2S token! S2S service error - ', e.message);
+                reject();
+            });
     });
 }
 
 
 function serviceTokenGenerator() {
     return new Promise((resolve, reject) => {
-
         if (validateCache()) {
             resolve(getToken());
-        }
-        else {
+        } else {
             generateToken().then(() => {
                 resolve(getToken());
-            }).catch(e => {
-               console.log('Failed to get S2S token');
-               reject();
-            });
+            })
+                .catch(e => {
+                    console.log('Failed to get S2S token');
+                    reject();
+                });
         }
     });
 }

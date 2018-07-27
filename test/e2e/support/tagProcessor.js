@@ -1,5 +1,5 @@
-module.exports = function (config, argv) {
-    let tags = '';
+module.exports = function(config, argv) {
+    let tags = '@all';
     if (config.defaultTags) {
         tags = config.defaultTags.join(' and ');
     }

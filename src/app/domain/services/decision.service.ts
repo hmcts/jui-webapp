@@ -12,7 +12,7 @@ export class DecisionService {
 
     constructor(private httpClient: HttpClient, private configService: ConfigService, private state: TransferState) { }
 
-    generateDecisionUrl(caseId: string){
+    generateDecisionUrl(caseId: string) {
         return `${this.configService.config.api_base_url}/api/decisions/${caseId}`;
     }
 

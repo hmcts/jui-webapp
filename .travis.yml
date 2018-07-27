@@ -25,14 +25,12 @@ script:
   - yarn --version
   - yarn check --integrity
   - yarn install
-  - yarn build-universal
-#  - yarn setup
+  - yarn build
   - yarn lint
   - yarn test
-#  - yarn test:nsp-warn
-#  - yarn test:coverage
-#  #  - yarn test:routes
-#  #  - yarn test:a11y
+  - yarn test:coverage
+  - yarn test:routes
+  - yarn test:a11y
 after_success:
-#  - yarn test:codacy-upload
-#  - yarn test:codecov-upload
+  - yarn test:codacy-upload
+  - yarn test:codecov-upload

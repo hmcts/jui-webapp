@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 const retrieveDecisionCallback = require('./retrieve');
 const createDecisionCallback = require('./create');

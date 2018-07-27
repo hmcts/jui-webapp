@@ -10,7 +10,7 @@ import {UnsupportedViewerComponent} from './viewers/unsupported-viewer/unsupport
 import {ImgViewerComponent} from './viewers/img-viewer/img-viewer.component';
 import {ViewerAnchorDirective} from './viewers/viewer-anchor.directive';
 import {UrlFixerService} from './url-fixer.service';
-import {DocumentViewerService} from "./document-viewer.service";
+import {DocumentViewerService} from './document-viewer.service';
 
 @NgModule({
     declarations: [

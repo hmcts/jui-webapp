@@ -1,14 +1,14 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { QuestionsPanelComponent } from './questions-panel.component';
-import { CaseViewerModule } from '../../case-viewer.module';
-import { Selector } from '../../../../../../test/selector-helper';
-import { ActivatedRoute } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { ConfigService } from '../../../../config.service';
-import { of } from 'rxjs';
+import {QuestionsPanelComponent} from './questions-panel.component';
+import {CaseViewerModule} from '../../case-viewer.module';
+import {Selector} from '../../../../../../test/selector-helper';
+import {ActivatedRoute} from '@angular/router';
+import {RouterTestingModule} from '@angular/router/testing';
+import {ConfigService} from '../../../../config.service';
+import {of} from 'rxjs';
 
-xdescribe('QuestionsPanelComponent', () => {
+describe('QuestionsPanelComponent', () => {
     let component: QuestionsPanelComponent;
     let fixture: ComponentFixture<QuestionsPanelComponent>;
     let nativeElement;
@@ -62,37 +62,28 @@ xdescribe('QuestionsPanelComponent', () => {
             const data = {
                 'name': 'Questions',
                 'type': 'questions-panel',
-                'sections': [
+                'fields': [
                     {
-                        'id': 'questions-to-appellant',
-                        'name': 'Questions to appellant',
-                        'type': 'data-list',
-                        'sections': [
+                        'value': [
                             {
-                                'id': 'draft-questions',
-                                'name': 'Draft Questions',
-                                'type': 'data-list',
-                                'fields': [
+                                'question_round_number': '1',
+                                'state': 'question_drafted',
+                                'questions': [
                                     {
-                                        'value': [
-                                            null,
-                                            [
-                                                {
-                                                    'id': '5eea164a-62ee-43ee-8051-67b82b5af24f',
-                                                    'header': 'What are you doing?',
-                                                    'body': 'Nothing.',
-                                                    'owner_reference': '5899',
-                                                    'state_datetime': new Date(Date.UTC(2018, 6, 13, 8, 52, 38))
-                                                },
-                                                {
-                                                    'id': '4eea164a-62ee-43ee-8051-67b82b5af24f',
-                                                    'header': 'What are you doing now?',
-                                                    'body': 'Still nothing.',
-                                                    'owner_reference': '5899',
-                                                    'state_datetime': new Date(Date.UTC(2018, 6, 14, 8, 52, 38))
-                                                }
-                                            ]
-                                        ]
+                                        'id': 'be8ac935-ed7a-47b5-84ce-b5aa25e64512',
+                                        'header': 'Test header 1',
+                                        'body': 'Test body 1',
+                                        'owner_reference': '5899',
+                                        'state_datetime': new Date(Date.UTC(2018, 6, 13, 8, 52, 38)),
+                                        'state': 'question_drafted'
+                                    },
+                                    {
+                                        'id': 'c7935438-b54c-4dad-bbe8-34fff72caf81',
+                                        'header': 'Test header 2',
+                                        'body': 'Test Header 2',
+                                        'owner_reference': '5899',
+                                        'state_datetime': new Date(Date.UTC(2018, 6, 14, 8, 52, 38)),
+                                        'state': 'question_drafted'
                                     }
                                 ]
                             }
@@ -122,7 +113,7 @@ xdescribe('QuestionsPanelComponent', () => {
 
             it('should display details of when draft questions were added', () => {
                 expect(nativeElement.querySelector(Selector.selector('draft-questions-details')).textContent)
-                    .toBe('You sent 2 questions to the appellant at 8:52 am on Jul 13, 2018');
+                    .toBe('You have not sent these questions to the appellant');
             });
 
             it('should display two draft questions', () => {
@@ -133,29 +124,29 @@ xdescribe('QuestionsPanelComponent', () => {
             it('should display two draft questions headings with a link to the associated question', () => {
                 const links = nativeElement.querySelectorAll(Selector.selector('questions-subject-link'));
                 expect(links[0].attributes.href.value)
-                    .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/5eea164a-62ee-43ee-8051-67b82b5af24f');
+                    .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/be8ac935-ed7a-47b5-84ce-b5aa25e64512');
                 expect(links[1].attributes.href.value)
-                    .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/4eea164a-62ee-43ee-8051-67b82b5af24f');
+                    .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/c7935438-b54c-4dad-bbe8-34fff72caf81');
             });
 
             it('should display two draft questions meta data', () => {
                 const metadata = nativeElement.querySelectorAll(Selector.selector('questions-meta-data'));
                 expect(metadata[0].textContent)
-                    .toBe('Sent by 5899 on Jul 13, 2018 at 8:52 am');
+                    .toBe('Last updated by 5899 at 8:52am on 13 July 2018');
                 expect(metadata[1].textContent)
-                    .toBe('Sent by 5899 on Jul 14, 2018 at 8:52 am');
+                    .toBe('Last updated by 5899 at 8:52am on 14 July 2018');
             });
 
             it('should display link to add more draft questions', () => {
                 expect(nativeElement.querySelector(Selector.selector('create-draft-questions-link')).textContent)
-                    .toBe('Add Questions');
+                    .toBe('Add questions');
                 expect(nativeElement.querySelector(Selector.selector('create-draft-questions-link')).attributes.href.value)
                     .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/new');
             });
 
             it('should display link to send all draft questions', () => {
                 expect(nativeElement.querySelector(Selector.selector('send-draft-questions-link')).textContent)
-                    .toBe('Send Questions');
+                    .toBe('Send questions');
                 expect(nativeElement.querySelector(Selector.selector('send-draft-questions-link')).attributes.href.value)
                     .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/check');
             });
@@ -188,21 +179,9 @@ xdescribe('QuestionsPanelComponent', () => {
         const data = {
             'name': 'Questions',
             'type': 'questions-panel',
-            'sections': [
+            'fields': [
                 {
-                    'id': 'questions-to-appellant',
-                    'name': 'Questions to appellant',
-                    'type': 'data-list',
-                    'sections': [
-                        {
-                            'id': 'draft-questions',
-                            'name': 'Draft Questions',
-                            'type': 'data-list',
-                            'fields': [
-                                {}
-                            ]
-                        }
-                    ]
+                    'value': []
                 }
             ]
         };
@@ -221,11 +200,6 @@ xdescribe('QuestionsPanelComponent', () => {
                 .toBeTruthy();
         });
 
-        it('should display a title', () => {
-            expect(nativeElement.querySelector(Selector.selector('questions-to-appellant-heading')).textContent)
-                .toBe('Questions to appellant');
-        });
-
         it('should display round 1 title', () => {
             expect(nativeElement.querySelector(Selector.selector('round-1')).textContent)
                 .toBe('Round 1');
@@ -238,14 +212,115 @@ xdescribe('QuestionsPanelComponent', () => {
 
         it('should display link to add draft questions', () => {
             expect(nativeElement.querySelector(Selector.selector('no-draft-questions-link')).textContent)
-                .toBe('Add Questions');
+                .toBe('Add questions');
             expect(nativeElement.querySelector(Selector.selector('no-draft-questions-link')).attributes.href.value)
                 .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/new');
+        });
+
+        it('should not display link to send all draft questions', () => {
+            expect(nativeElement.querySelector(Selector.selector('send-draft-questions-link')))
+                .toBeFalsy();
         });
 
         it('should see no draft questions', () => {
             expect(nativeElement.querySelectorAll(Selector.selector('draft-questions-list')).length)
                 .toBe(0);
+        });
+    });
+
+    describe('When there are sent questions to appellant', () => {
+        beforeEach(async(() => {
+            TestBed
+                .configureTestingModule({
+                    imports: [
+                        CaseViewerModule,
+                        RouterTestingModule
+                    ],
+                    declarations: [],
+                    providers: [
+                        {
+                            provide: ActivatedRoute,
+                            useValue: mockRoute
+                        },
+                        {
+                            provide: ConfigService,
+                            useValue: mockConfigService
+                        }
+                    ]
+                })
+                .compileComponents();
+        }));
+
+        const data = {
+            'name': 'Questions',
+            'type': 'questions-panel',
+            'fields': [
+                {
+                    'value': [{
+                        'question_round_number': '1',
+                        'state': 'question_issued',
+                        'questions': [
+                            {
+                                'id': 'be8ac935-ed7a-47b5-84ce-b5aa25e64512',
+                                'header': 'Test header 1',
+                                'body': 'Test body 1',
+                                'owner_reference': '5899',
+                                'state_datetime': new Date(Date.UTC(2018, 6, 13, 8, 52, 38)),
+                                'state': 'question_issued'
+                            },
+                            {
+                                'id': 'c7935438-b54c-4dad-bbe8-34fff72caf81',
+                                'header': 'Test header 2',
+                                'body': 'Test Header 2',
+                                'owner_reference': '5899',
+                                'state_datetime': new Date(Date.UTC(2018, 6, 14, 8, 52, 38)),
+                                'state': 'question_issued'
+                            }
+                        ]
+                    }]
+                }
+            ]
+        };
+
+        beforeEach(async(() => {
+            fixture = TestBed.createComponent(QuestionsPanelComponent);
+            component = fixture.componentInstance;
+            component.panelData = data;
+            component.caseId = '13eb9981-9360-4d4b-b9fd-506b5818e7ff';
+            nativeElement = fixture.nativeElement;
+            fixture.detectChanges();
+        }));
+
+        it('should create', () => {
+            expect(component)
+                .toBeTruthy();
+        });
+
+        it('should display round 1 title', () => {
+            expect(nativeElement.querySelector(Selector.selector('round-1')).textContent)
+                .toBe('Round 1');
+        });
+
+        it('should display round 2 title', () => {
+            expect(nativeElement.querySelector(Selector.selector('round-2')).textContent)
+                .toBe('Round 2');
+        });
+
+        it('should display details of why no draft questions', () => {
+            expect(nativeElement.querySelector(Selector.selector('no-draft-questions-details')).textContent)
+                .toBe('You haven’t asked any questions.');
+        });
+
+        it('should display link to add draft questions', () => {
+            expect(nativeElement.querySelector(Selector.selector('no-draft-questions-link')).textContent)
+                .toBe('Add questions');
+            expect(nativeElement.querySelector(Selector.selector('no-draft-questions-link')).attributes.href.value)
+                .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/new');
+        });
+
+        it('should display sent questions', () => {
+            expect(nativeElement.querySelectorAll(Selector.selector('sent-questions-item')).length)
+                .toBe(2);
         });
     });
 });

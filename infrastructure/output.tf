@@ -3,9 +3,9 @@ output "microserviceName" {
 }
 
 output "vaultName" {
-  value = "${module.key_vault.key_vault_name}"
+    value = "${local.vault_name}"
 }
 
 output "vaultUri" {
-  value = "${module.key_vault.key_vault_uri}"
+  value = "${data.azurerm_key_vault.key_vault.vault_uri}"
 }

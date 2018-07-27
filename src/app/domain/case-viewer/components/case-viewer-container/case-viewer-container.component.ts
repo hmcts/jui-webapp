@@ -6,7 +6,7 @@ import {ActivatedRoute, Router} from '@angular/router';
     templateUrl: './case-viewer-container.component.html',
     styleUrls: ['./case-viewer-container.component.scss']
 })
-export class CaseViewerContainerComponent implements OnInit{
+export class CaseViewerContainerComponent implements OnInit {
 
     case: any;
     caseid: string;

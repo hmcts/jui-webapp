@@ -3,7 +3,7 @@ import {ViewerAnchorDirective} from './viewers/viewer-anchor.directive';
 import {ViewerFactoryService} from './viewers/viewer-factory.service';
 import {Viewer} from './viewers/viewer';
 import {UrlFixerService} from './url-fixer.service';
-import {DocumentViewerService} from "./document-viewer.service";
+import {DocumentViewerService} from './document-viewer.service';
 
 @Component({
     selector: 'app-document-viewer',
@@ -13,7 +13,7 @@ import {DocumentViewerService} from "./document-viewer.service";
 export class DocumentViewerComponent implements OnChanges, OnInit {
 
     @ViewChild(ViewerAnchorDirective) viewerAnchor: ViewerAnchorDirective;
-    @Input() url: string = '';
+    @Input() url = '';
     @Input() annotate: boolean;
     @Input() page = 1;
     @Output() pageChanged = new EventEmitter<number>();
@@ -59,7 +59,7 @@ export class DocumentViewerComponent implements OnChanges, OnInit {
                 }));
                 this.viewerComponent.page = this.page;
             }
-        },err => {
+        }, err => {
             this.error = err;
         });
     }

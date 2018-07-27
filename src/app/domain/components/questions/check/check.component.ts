@@ -3,6 +3,8 @@ import { QuestionService } from '../../../services/question.service';
 import { RedirectionService } from '../../../../routing/redirection.service';
 import { ActivatedRoute } from '@angular/router';
 import {Observable} from 'rxjs';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/filter';
 
 @Component({
     selector: 'app-check-question',
@@ -11,7 +13,6 @@ import {Observable} from 'rxjs';
 })
 export class CheckQuestionsComponent implements OnInit {
     caseId: string;
-    questionId: string;
     questions$: Observable<any[]>;
 
     constructor(private questionService: QuestionService,
@@ -22,12 +23,16 @@ export class CheckQuestionsComponent implements OnInit {
     ngOnInit(): void {
         this.route.parent.params.subscribe(params => {
             this.caseId = params['case_id'];
-            this.questions$ = this.questionService.fetchAll(this.caseId);
+            this.questions$ = this.questionService.fetchAll(this.caseId)
+                .map(questions => {
+                    return questions.filter(question => question.state === 'question_drafted');
+                });
         });
     }
 
     onSubmit() {
-        this.questionService.save(this.caseId, this.questionId);
-        this.redirectionService.redirect(`/viewcase/${this.caseId}/questions?sent=success`);
+        this.questionService.sendQuestions(this.caseId, 1).subscribe(res => {
+            this.redirectionService.redirect(`/viewcase/${this.caseId}/questions?sent=success`);
+        });
     }
 }
