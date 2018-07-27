@@ -11,9 +11,10 @@
                        class="govuk-radios__input"
                        [attr.name]="id"
                        [attr.value]="option.id"
-                       [attr.checked]="option.id === value?'checked':null"
+                       [value]="option.id"
+                       [attr.checked]="option.id === value?'':null"
                        [attr.disabled]="disable ? '' : null"
-                       formControlName="{{id}}">
+                       formControlName="{{id}}"/>
                 <label class="govuk-label govuk-radios__label" for="{{id}}-radio-{{idx}}">{{option.name}}</label>
             </div>
         </div>
