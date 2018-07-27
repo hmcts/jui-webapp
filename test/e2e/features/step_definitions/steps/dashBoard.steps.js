@@ -31,7 +31,7 @@ defineSupportCode(function ({Given, When, Then}) {
 
 
     When(/^one or more cases are displayed$/,  async function () {
-       await dashBoardPage.parties.isDisplayed();
+//       await dashBoardPage.parties.isDisplayed();
         await dashBoardPage.case_number_links.isDisplayed();
         var no_of_cases = dashBoardPage.number_of_rows.length;
         var no_of_case_reference = dashBoardPage.case_number_links.length;

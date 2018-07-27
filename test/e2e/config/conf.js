@@ -82,7 +82,7 @@ const config = {
         format: ['node_modules/cucumber-pretty'],
         require: [
             '../support/world.js',
-            '../features/step_definitions/**/*_steps.js'
+            '../features/step_definitions/**/*.steps.js'
         ]
     }
 };
