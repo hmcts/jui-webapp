@@ -102,7 +102,7 @@ Then(/^I should expect "(.*)" to( not)? be visible within viewport$/, {retry: 2}
 
 Then(/^I should expect "(.*)" to( not)? exist$/, {retry: 4}, async function (selector, not) {
     selector = this.getSelector(selector);
-    const isPresent = await $(selector).isPresent();
+    const isPresent  = await $(selector).isPresent();
     expect(isPresent).to.equal(!not);
 });
 
