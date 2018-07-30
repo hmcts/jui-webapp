@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
     selector: 'app-decision-make',
     templateUrl: './root.component.html'
 })
-export class DecisionRootComponent implements OnInit {
+export class HearingRootComponent implements OnInit {
 
     case: any;
 

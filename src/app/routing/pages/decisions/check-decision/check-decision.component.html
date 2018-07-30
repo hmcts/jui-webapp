@@ -1,5 +1,4 @@
 <div class="jui-width-container" *ngIf="decisionState !== 'decision_issued'; else issuiedDecision">
-    <app-backlink></app-backlink>
     <main class="govuk-main-wrapper" role="main">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
@@ -14,23 +13,28 @@
                     </div>
                 </div>
 
-                <dl class="app-check-your-answers  app-check-your-answers--short  govuk-!-margin-bottom-6">
-                    <div class="app-check-your-answers__contents">
-                        <dt class="app-check-your-answers__question">Decision</dt>
-                        <dd *ngIf="decisionAward" class="app-check-your-answers__answer">{{decisionAward}}</dd>
-                        <dd class="app-check-your-answers__change">
-                            <a routerLink="../make-decision">Change <span class="govuk-visually-hidden">decision</span></a>
-                        </dd>
-                    </div>
-                    <div class="app-check-your-answers__contents">
-                        <dt class="app-check-your-answers__question">Decision notes</dt>
-                        <dd *ngIf="decisionText" class="app-check-your-answers__answer">{{decisionText}}</dd>
-                        <dd class="app-check-your-answers__change">
-                            <a routerLink="../make-decision">Change <span class="govuk-visually-hidden">decision</span></a>
-                        </dd>
-                    </div>
-                </dl>
-                <button class="govuk-button" (click)="submitDecision()">Submit decision</button>
+                <app-form [callback_options]="callback_options" [formGroup]="form">
+
+                    <dl class="app-check-your-answers  app-check-your-answers--short  govuk-!-margin-bottom-6">
+                        <div class="app-check-your-answers__contents">
+                            <dt class="app-check-your-answers__question">Decision</dt>
+                            <dd *ngIf="decisionAward" class="app-check-your-answers__answer">{{decisionAward}}</dd>
+                            <dd class="app-check-your-answers__change">
+                                <a routerLink="../create">Change <span class="govuk-visually-hidden">decision</span></a>
+                            </dd>
+                        </div>
+                        <div class="app-check-your-answers__contents">
+                            <dt class="app-check-your-answers__question">Decision notes</dt>
+                            <dd *ngIf="decisionText" class="app-check-your-answers__answer">{{decisionText}}</dd>
+                            <dd class="app-check-your-answers__change">
+                                <a routerLink="../create">Change <span class="govuk-visually-hidden">decision</span></a>
+                            </dd>
+                        </div>
+                    </dl>
+                    <button class="govuk-button" type="submit">Submit decision</button>
+                </app-form>
+
+
             </div>
         </div>
     </main>

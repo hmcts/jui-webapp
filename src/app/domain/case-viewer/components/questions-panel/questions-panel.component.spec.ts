@@ -322,6 +322,11 @@ describe('QuestionsPanelComponent', () => {
             expect(nativeElement.querySelectorAll(Selector.selector('sent-questions-item')).length)
                 .toBe(2);
         });
+
+        it('should display a message to say when the questions were sent', () => {
+            expect(nativeElement.querySelector(Selector.selector('sent-questions-details')).textContent)
+                .toEqual('You sent 2 questions to the appellant at 8:52am on 13 July 2018');
+        });
     });
 });
 

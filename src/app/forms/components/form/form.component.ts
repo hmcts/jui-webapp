@@ -34,7 +34,7 @@ export class FormComponent implements OnInit {
 
     checkSubmission() {
         const values = this.formService.getFormValues();
-        if(values && Object.keys(values).length > 0) {
+        if(values) {
             const fields = Object.keys(values);
             fields.forEach(field => {
                this.form.controls[field].setValue(values[field])
@@ -48,5 +48,12 @@ export class FormComponent implements OnInit {
             this.callback_options.eventEmitter.emit(values);
         }
     }
+}
 
+export interface JUIFormInterface {
+    submitCallback(value: Object): void
+    form: FormGroup;
+    eventEmitter: EventEmitter<any>;
+    callback_options: object
+    ngAfterViewChecked(): void
 }

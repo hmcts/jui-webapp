@@ -3,10 +3,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
     selector: 'app-list-for-hearing',
-    templateUrl: './hearing-make.component.html',
-    styleUrls: ['./hearing-make.component.scss']
+    templateUrl: './create-hearing.component.html',
+    styleUrls: ['./create-hearing.component.scss']
 })
-export class HearingMakeComponent implements OnInit {
+export class CreateHearingComponent implements OnInit {
 
     error = false;
 

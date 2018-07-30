@@ -7,6 +7,7 @@ import { of } from 'rxjs';
 import { CaseViewerModule } from '../../case-viewer.module';
 import { ConfigService } from '../../../../config.service';
 import { RouterTestingModule } from '@angular/router/testing';
+import {TransferState} from '@angular/platform-browser';
 
 describe('DocumentPanelComponent', () => {
     let component: DocumentPanelComponent;
@@ -62,7 +63,8 @@ describe('DocumentPanelComponent', () => {
                     {
                         provide: ConfigService,
                         useValue: mockConfigService
-                    }
+                    },
+                    TransferState
                 ]
             })
                 .compileComponents();
@@ -78,12 +80,12 @@ describe('DocumentPanelComponent', () => {
                         {
                             value: [
                                 {
-                                    'id': '7f6e94e0-68cf-4658-95d3-ea8d21a19245',
+                                    'id': '13eb9981-9360-4d4b-b9fd-506b5818e7ff',
                                     'value': {
                                         'documentLink': {
-                                            'document_url': 'http://dm.internal/documents/7f6e94e0-68cf-4658-95d3-ea8d21a19245',
+                                            'document_url': 'http://dm.internal/documents/13eb9981-9360-4d4b-b9fd-506b5818e7ff',
                                             'document_filename': 'H - Medical Notes.pdf',
-                                            'document_binary_url': 'http://dm.internal/documents/7f6e94e0-68cf-4658-95d3-ea8d21a19245/binary'
+                                            'document_binary_url': 'http://dm.internal/documents/13eb9981-9360-4d4b-b9fd-506b5818e7ff/binary'
                                         },
                                         'documentType': 'Medical evidence',
                                         'documentComment': null,
@@ -98,15 +100,20 @@ describe('DocumentPanelComponent', () => {
                 };
                 caseData.documents = [
                     {
+                        id: '13eb9981-9360-4d4b-b9fd-506b5818e7ff',
                         _links: {
                             self: {
-                                href: 'http://dm.internal/documents/7f6e94e0-68cf-4658-95d3-ea8d21a19245'
+                                href: 'http://dm.internal/documents/13eb9981-9360-4d4b-b9fd-506b5818e7ff'
                             }
                         },
                         createdOn: new Date()
                     }
                 ];
                 createComponent();
+
+                fixture.whenStable().then(() => {
+                    fixture.detectChanges();
+                });
             }));
 
             it('should create', () => {
@@ -115,6 +122,11 @@ describe('DocumentPanelComponent', () => {
 
             it('should display a list of documents', () => {
                 expect(nativeElement.querySelectorAll(Selector.selector('document')).length).toBe(1);
+            });
+
+            it('should set the document as current if matches the section id', () => {
+                expect(nativeElement.querySelector(Selector.selector('document')).getAttribute('aria-current'))
+                    .toBeTruthy();
             });
         });
 

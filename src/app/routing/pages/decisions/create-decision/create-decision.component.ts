@@ -2,6 +2,7 @@ import {Component, OnInit, Inject, EventEmitter, ChangeDetectorRef} from '@angul
 import {ActivatedRoute, Router} from '@angular/router';
 import {DecisionService} from '../../../../domain/services/decision.service';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { RedirectionService } from '../../../../routing/redirection.service';
 
 @Component({
     selector: 'app-decision-make',
@@ -34,6 +35,7 @@ export class CreateDecisionComponent implements OnInit {
         private route: ActivatedRoute,
         private router: Router,
         private decisionService: DecisionService,
+        private redirectionService: RedirectionService,
         private cdRef : ChangeDetectorRef
     ) { }
 
@@ -50,8 +52,6 @@ export class CreateDecisionComponent implements OnInit {
         this.case = this.route.parent.snapshot.data['caseData'];
         this.decision = this.route.parent.snapshot.data['decision'];
         this.options = this.case.decision.options;
-
-        console.log(this.decision);
 
         if(this.decision){
             this.decisionAward = this.decision.decision_award;
@@ -73,14 +73,14 @@ export class CreateDecisionComponent implements OnInit {
             if(this.decision) {
                 this.decisionService.updateDecisionDraft(this.case.id, values.decision, values.notes)
                     .subscribe(
-                        () => this.router.navigate(['../check'], {relativeTo: this.route}),
+                        () => this.redirectionService.redirect(`/viewcase/${this.case.id}/decision/check`),
                         error => this.error.server = true
                     );
             }
             else {
                 this.decisionService.submitDecisionDraft(this.case.id, values.decision, values.notes)
                     .subscribe(
-                        () => this.router.navigate(['../check'], {relativeTo: this.route}),
+                        () => this.redirectionService.redirect(`/viewcase/${this.case.id}/decision/check`),
                         error => this.error.server = true
                     );
             }

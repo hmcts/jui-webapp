@@ -1,22 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { HearingCheckComponent } from './hearing-check.component';
+import { CheckHearingComponent } from './check-hearing.component';
 import {RouterTestingModule} from '@angular/router/testing';
-import {DomainModule} from '../../../domain.module';
 import {SharedModule} from '../../../../shared/shared.module';
-import {DecisionService} from '../../../services/decision.service';
+import {DecisionService} from '../../../../domain/services/decision.service';
 import {BrowserTransferStateModule} from '@angular/platform-browser';
 import {ConfigService} from '../../../../config.service';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 
-describe('HearingCheckComponent', () => {
-  let component: HearingCheckComponent;
-  let fixture: ComponentFixture<HearingCheckComponent>;
+describe('CheckHearingComponent', () => {
+  let component: CheckHearingComponent;
+  let fixture: ComponentFixture<CheckHearingComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-        declarations: [],
-        imports: [DomainModule, SharedModule, BrowserTransferStateModule, HttpClientTestingModule, RouterTestingModule],
+        declarations: [
+            CheckHearingComponent
+        ],
+        imports: [SharedModule, BrowserTransferStateModule, HttpClientTestingModule, RouterTestingModule],
         providers: [DecisionService, {
             provide: ConfigService, useValue: {
                 config: {
@@ -28,7 +28,7 @@ describe('HearingCheckComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HearingCheckComponent);
+    fixture = TestBed.createComponent(CheckHearingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -40,7 +40,7 @@
                 </div>
             </div>
             <ng-template #questionsSent>
-                <p data-selector="sent-questions-details">You sent {{round.questions.length}} {{round.questions.length <= 1 ? 'question' : 'questions'}} to the appellant {{round.state_datetime | date: "'at' h:mmaaaaa'm 'on' d MMMM yyyy":'+00:00'}}</p>
+                <p data-selector="sent-questions-details">You sent {{round.questions.length}} {{round.questions.length <= 1 ? 'question' : 'questions'}} to the appellant {{round.questions[0].state_datetime | date: "'at' h:mmaaaaa'm 'on' d MMMM yyyy":'+00:00'}}</p>
                 <div *ngFor="let question of round.questions" data-selector="sent-questions-item" class="jui-questions__item">
                     <h3 data-selector="questions-subject" class="jui-questions__subject"><a data-selector="questions-subject-link" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/{{question.id}}">{{question.header}}</a>
                     </h3>
