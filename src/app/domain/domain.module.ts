@@ -13,9 +13,7 @@ import { DeleteQuestionComponent } from './components/questions/delete/delete.co
 import { EditQuestionComponent } from './components/questions/edit/edit.component';
 import { CaseBarDetailsComponent } from './components/casebar-details/casebar-details.component';
 import { CaseBarComponent } from './components/casebar/casebar.component';
-import { HearingMakeComponent } from './components/hearings/hearing-make/hearing-make.component';
-import { HearingConfirmationComponent } from './components/hearings/hearing-confirmation/hearing-confirmation.component';
-import { HearingCheckComponent } from './components/hearings/hearing-check/hearing-check.component';
+
 
 import {JUIFormsModule} from "../forms/forms.module";
 
@@ -37,10 +35,7 @@ import {JUIFormsModule} from "../forms/forms.module";
         CheckQuestionsComponent,
         ViewQuestionComponent,
         DeleteQuestionComponent,
-        EditQuestionComponent,
-        HearingMakeComponent,
-        HearingCheckComponent,
-        HearingConfirmationComponent,
+        EditQuestionComponent
     ],
     declarations: [
         CaseBarDetailsComponent,
@@ -51,10 +46,7 @@ import {JUIFormsModule} from "../forms/forms.module";
         CheckQuestionsComponent,
         ViewQuestionComponent,
         DeleteQuestionComponent,
-        EditQuestionComponent,
-        HearingMakeComponent,
-        HearingCheckComponent,
-        HearingConfirmationComponent,
+        EditQuestionComponent
     ],
     providers: []
 })

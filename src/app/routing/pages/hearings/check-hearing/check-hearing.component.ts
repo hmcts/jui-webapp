@@ -3,10 +3,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
     selector: 'app-hearing-check',
-    templateUrl: './hearing-check.component.html',
-    styleUrls: ['./hearing-check.component.scss']
+    templateUrl: './check-hearing.component.html',
+    styleUrls: ['./check-hearing.component.scss']
 })
-export class HearingCheckComponent implements OnInit {
+export class CheckHearingComponent implements OnInit {
 
     answer: string;
 
