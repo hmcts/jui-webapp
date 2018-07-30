@@ -1,7 +1,7 @@
 <div class="jui-casefile govuk-!-margin-bottom-6">
         <div class="jui-casefile-files" *ngIf="documents && documents.length; else noDocuments">
             <ul class="jui-casefile-list">
-                <li class="jui-casefile-list__item" *ngFor="let document of documents">
+                <li class="jui-casefile-list__item" attr.data-selector="document-list-item-{{i}}" *ngFor="let document of documents; let i = index;">
                     <a class="jui-casefile-list__link"
                        routerLink="../{{document.id}}"
                        data-selector="document">{{document.name}}</a>
