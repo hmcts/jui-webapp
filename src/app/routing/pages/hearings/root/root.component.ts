@@ -13,7 +13,5 @@ export class HearingRootComponent implements OnInit {
 
     ngOnInit() {
         this.case = this.route.snapshot.data['caseData'];
-        // console.log(this.route.snapshot.data['caseData'])
-        // console.log(this.route.parent.snapshot.data['caseData'])
     }
 }
