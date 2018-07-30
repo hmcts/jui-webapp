@@ -11,7 +11,7 @@ import {ConfigService} from '../../../../config.service';
 import {DecisionService} from '../../../../domain/services/decision.service';
 import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {FormsModule} from '@angular/forms';
+import {JUIFormsModule} from "../../../../forms/forms.module";
 
 describe('CheckDecisionComponent', () => {
     let component: CheckDecisionComponent;
@@ -22,7 +22,7 @@ describe('CheckDecisionComponent', () => {
             declarations: [
                 CheckDecisionComponent
             ],
-            imports: [DomainModule, SharedModule, BrowserTransferStateModule, HttpClientTestingModule, RouterTestingModule],
+            imports: [JUIFormsModule, DomainModule, SharedModule, BrowserTransferStateModule, HttpClientTestingModule, RouterTestingModule],
             providers: [
                 DecisionService,
                 {

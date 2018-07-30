@@ -48,5 +48,12 @@ export class FormComponent implements OnInit {
             this.callback_options.eventEmitter.emit(values);
         }
     }
+}
 
+export interface JUIFormInterface {
+    submitCallback(value: Object): void
+    form: FormGroup;
+    eventEmitter: EventEmitter<any>;
+    callback_options: object
+    ngAfterViewChecked(): void
 }

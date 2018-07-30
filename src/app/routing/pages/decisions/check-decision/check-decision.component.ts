@@ -1,14 +1,16 @@
 import {ChangeDetectorRef, Component, EventEmitter, OnInit} from '@angular/core';
 import {DecisionService} from '../../../../domain/services/decision.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {RedirectionService} from '../../../../routing/redirection.service';
+import {JUIFormInterface} from "../../../../forms/components/form/form.component";
 
 @Component({
     selector: 'app-check-decision',
     templateUrl: './check-decision.component.html',
     styleUrls: ['./check-decision.component.scss']
 })
-export class CheckDecisionComponent implements OnInit {
+export class CheckDecisionComponent implements OnInit, JUIFormInterface {
     form: FormGroup;
     caseId: string;
     case: any;
@@ -26,13 +28,13 @@ export class CheckDecisionComponent implements OnInit {
         eventEmitter: this.eventEmitter
     };
 
-    constructor(
-        private fb: FormBuilder,
-        private route: ActivatedRoute,
-        private router: Router,
-        private decisionService: DecisionService,
-        private cdRef : ChangeDetectorRef
-    ) { }
+    constructor(private fb: FormBuilder,
+                private route: ActivatedRoute,
+                private router: Router,
+                private decisionService: DecisionService,
+                private redirectionService: RedirectionService,
+                private cdRef: ChangeDetectorRef) {
+    }
 
     createForm() {
         this.form = this.fb.group({});
@@ -62,34 +64,17 @@ export class CheckDecisionComponent implements OnInit {
     }
 
     submitCallback(values) {
-
         console.log('woop!!!!', values);
         console.log('is it valid? - ', this.form.valid);
         if (this.form.valid) {
-
+            this.decisionService.issueDecision(this.case.id, this.decision)
+                .subscribe(() => {
+                    this.redirectionService.redirect(`/viewcase/${this.case.id}/decision/confirm`);
+                    }, error => {
+                        this.error = true;
+                        console.error('Something went wrong', error);
+                    }
+                );
         }
-        // else {
-        //     this.error.decision = !this.form.controls.decision.valid;
-        //     this.error.notes = !this.form.controls.notes.valid;
-        // }
     }
-
-    // submitDecision() {
-    //     if (this.decision) {
-    //         this.error = false;
-    //         this.decisionService.issueDecision(this.caseId, this.decision)
-    //             .subscribe(() => {
-    //                     this.router.navigate(['../decision-confirmation'], {relativeTo: this.route});
-    //                 }, error => {
-    //                     this.error = true;
-    //                     console.error('Something went wrong', error);
-    //                 }
-    //             );
-    //     } else {
-    //         this.error = true;
-    //     }
-    // }
-
-
-
 }
