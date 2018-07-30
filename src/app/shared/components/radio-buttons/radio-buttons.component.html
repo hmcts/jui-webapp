@@ -1,4 +1,4 @@
-<div [ngClass]="{'govuk-form-group': true, 'govuk-form-group--error': error}">
+<div [ngClass]="{'govuk-form-group': true, 'govuk-form-group--error': error}" [formGroup]="formGroup">
     <fieldset class="govuk-fieldset">
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
             <h1 id="{{id}}-fragment" class="govuk-fieldset__heading">{{title}}</h1>
@@ -9,11 +9,12 @@
                 <input type="radio"
                        id="{{id}}-radio-{{idx}}"
                        class="govuk-radios__input"
-                       name="{{id}}"
-                       value="{{option.id}}"
+                       [attr.name]="id"
+                       [attr.value]="option.id"
+                       [value]="option.id"
+                       [attr.checked]="option.id === value?'':null"
                        [attr.disabled]="disable ? '' : null"
-                       [ngModel]="inputedId"
-                       (ngModelChange)="radioButtonChanged($event)">
+                       formControlName="{{id}}"/>
                 <label class="govuk-label govuk-radios__label" for="{{id}}-radio-{{idx}}">{{option.name}}</label>
             </div>
         </div>

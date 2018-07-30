@@ -3,51 +3,43 @@
     <div class="govuk-grid-row govuk-main-wrapper">
         <div class="govuk-grid-column-two-thirds">
             <h1 data-selector="create-questions-heading" class="govuk-heading-xl jui-add-another__heading" tabindex="-1">Create question</h1>
-            <form (ngSubmit)="onSubmit()" [formGroup]="form">
-                <div *ngIf="submitted && (form.get('subject').hasError('required') || form.get('question').hasError('required'))"
-                    class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="error-summary">
-                    <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
-                    <div class="govuk-error-summary__body">
-                        <ul data-selector="error-list" class="govuk-list govuk-error-summary__list">
-                            <li data-selector="error-list-item" *ngIf="submitted && form.get('subject').hasError('required')"><a [routerLink]="['.']" fragment="subject-fragment">Enter a subject</a></li>
-                            <li data-selector="error-list-item" *ngIf="submitted && form.get('question').hasError('required')"><a [routerLink]="['.']" fragment="question-fragment">Enter a question</a></li>
-                        </ul>
-                    </div>
+
+            <div *ngIf="error.server || error.subject || error.question"
+                 class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1"
+                 data-module="error-summary">
+                <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
+                <div class="govuk-error-summary__body">
+                    <ul class="govuk-list govuk-error-summary__list">
+                        <li *ngIf="error.server"><a>There Was a Server error</a></li>
+                        <li *ngIf="error.subject"><a [routerLink]="['.']" fragment="subject">Enter a subject</a></li>
+                        <li *ngIf="error.question"><a [routerLink]="['.']" fragment="question">Enter a question</a></li>
+                    </ul>
                 </div>
+            </div>
+
+            <app-form [callback_options]="callback_options" [formGroup]="form">
                 <fieldset class="govuk-fieldset jui-add-another__item">
-                    <div [ngClass]="{'govuk-form-group': true, 'govuk-form-group--error': submitted && form.get('subject').hasError('required')}">
-                        <label id="subject-fragment" data-selector="item-subject-label" class="govuk-label">Subject</label>
-                        <span *ngIf="submitted && form.get('subject').hasError('required')" data-selector="subject-error" class="govuk-error-message">Enter a subject</span>
-                        <input
-                            data-selector="item-subject-input"
-                            type="text"
-                            [ngClass]="{
-                                'govuk-input': true,
-                                'form-control': true,
-                                'govuk-input--width-30x': true,
-                                'govuk-textarea--error': submitted && form.get('subject').hasError('required')
-                            }"
-                            formControlName="subject"
-                        />
-                    </div>
-                    <div [ngClass]="{'govuk-form-group': true, 'govuk-form-group--error': submitted && form.get('question').hasError('required')}">
-                        <label id="question-fragment" data-selector="item-question-label" class="govuk-label">Question</label>
-                        <span *ngIf="submitted && form.get('question').hasError('required')" data-selector="subject-error" class="govuk-error-message">Enter a question</span>
-                        <textarea
-                            data-selector="item-question-textarea"
-                            type="text"
-                            [ngClass]="{
-                                'govuk-textarea': true,
-                                'form-control': true,
-                                'govuk-input--width-30x': true,
-                                'govuk-textarea--error': submitted && form.get('question').hasError('required')
-                            }"
-                            formControlName="question"
-                        ></textarea>
-                    </div>
+                    <app-text
+                            [id]="'subject'"
+                            [label]="'Subject'"
+                            [errorMessage]="'Enter a subject'"
+                            [text]=""
+                            [error]="error.subject"
+                            [formGroup]="form"
+                    ></app-text>
+
+                    <app-textarea
+                            [id]="'question'"
+                            [rows]="'5'"
+                            [label]="'Question'"
+                            [errorMessage]="'Enter a question'"
+                            [text]=""
+                            [error]="error.question"
+                            [formGroup]="form"
+                    ></app-textarea>
                 </fieldset>
                 <button data-selector="save-button" class="govuk-button" type="submit">Save question</button>
-            </form>
+            </app-form>
         </div>
     </div>
 </div>

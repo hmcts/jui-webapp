@@ -1,0 +1,13 @@
+<div [ngClass]="{'govuk-form-group': true, 'govuk-form-group--error': error}" [formGroup]="formGroup">
+    <label class="govuk-label govuk-label--m" for="{{id}}" [attr.data-selector]="id + '-label'">{{label}}</label>
+    <span *ngIf="error" id="{{id}}-error" class="govuk-error-message">{{errorMessage}}</span>
+    <input type="text" [ngClass]="{
+                        'govuk-input': true,
+                        'govuk-input--error': error
+                        }"
+           id="{{id}}"
+           [attr.name]="id"
+           [attr.data-selector]="id + '-input'"
+           [attr.disabled]="disable ? '' : null"
+           formControlName="{{id}}"/>
+</div>

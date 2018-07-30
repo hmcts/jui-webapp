@@ -5,16 +5,15 @@ Feature: Do stuff
         Given I navigate to JUI
         And I login
         Then I should expect "jui-header" to be visible
-        And I click "jui-header|signout-link"
+#        And I click "jui-header|signout-link"
 
-#    @all
-#    Scenario: User is currently logged in
-#        Given I navigate to JUI
-#        And I login
-#        Then I should expect "jui-header" to be visible
-#        And I refresh the page
-#        Then I should expect "jui-header" to be visible
-#        And I click "jui-header|Signout-link"
+    Scenario: User is currently logged in
+        Given I navigate to JUI
+        And I login
+        Then I should expect "jui-header" to be visible
+        And I refresh the page
+        Then I should expect "jui-header" to be visible
+#        And I click "jui-header|signout-link"
 
 #    @all
 #    Scenario: Verify redirection to login page for un authenticated user

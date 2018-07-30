@@ -29,7 +29,7 @@ app.use(express.static(`${__dirname}/assets`, { index: false }));
 app.use(express.static(`${__dirname}/dist`, { index: false }));
 
 
-app.get('/*', (req, res) => {
+app.use('/*', (req, res) => {
     console.time(`GET: ${req.originalUrl}`);
     res.render('./dist/index', {
         req,

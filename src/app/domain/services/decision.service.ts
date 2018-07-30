@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs';
+import { Observable, of } from 'rxjs';
 import 'rxjs-compat/add/observable/of';
 import {ConfigService} from '../../config.service';
+import { makeStateKey, TransferState } from '@angular/platform-browser';
 import {HttpClient} from '@angular/common/http';
 
 @Injectable({
@@ -9,14 +10,18 @@ import {HttpClient} from '@angular/common/http';
 })
 export class DecisionService {
 
-    constructor(private httpClient: HttpClient, private configService: ConfigService) { }
+    constructor(private httpClient: HttpClient, private configService: ConfigService, private state: TransferState) { }
 
     generateDecisionUrl(caseId: string) {
         return `${this.configService.config.api_base_url}/api/decisions/${caseId}`;
     }
 
-    fetchDecision(caseId): Observable<any> {
+    fetch(caseId): Observable<any> {
         const url = this.generateDecisionUrl(caseId);
+        const key = makeStateKey(url);
+        const cache = this.state.get(key, null as any);
+
+        if (cache) return of(cache);
         return this.httpClient.get(url);
     }
 

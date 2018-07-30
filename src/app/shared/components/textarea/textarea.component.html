@@ -1,5 +1,5 @@
-<div [ngClass]="{'govuk-form-group': true, 'govuk-form-group--error': error}">
-    <label id="{{id}}-fragment" class="govuk-label govuk-label--m" for="{{id}}">{{label}}</label>
+<div [ngClass]="{'govuk-form-group': true, 'govuk-form-group--error': error}" [formGroup]="formGroup">
+    <label class="govuk-label govuk-label--m" for="{{id}}" [attr.data-selector]="id + '-label'">{{label}}</label>
     <span *ngIf="error" id="{{id}}-error" class="govuk-error-message">{{errorMessage}}</span>
     <textarea [ngClass]="{
                         'govuk-textarea': true,
@@ -7,9 +7,10 @@
                         'govuk-textarea--error': error
                         }"
               id="{{id}}"
-              name="{{id}}"
+              [attr.name]="id"
               rows="{{rows}}"
-              (change)="textChanged()"
+              [attr.data-selector]="id + '-textarea'"
               [attr.disabled]="disable ? '' : null"
-              [(ngModel)]="text"></textarea>
+              formControlName="{{id}}"
+            >{{text}}</textarea>
 </div>

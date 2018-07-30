@@ -9,13 +9,15 @@ import { ViewCaseComponent } from './pages/view-case/view-case.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CaseService } from '../case.service';
 import { RedirectionService } from './redirection.service';
-import { DecisionMakeComponent } from '../domain/components/decisions/decision-make/decision-make.component';
+import {DecisionRootComponent} from "./pages/decisions/root/root.component";
+import { CreateDecisionComponent } from './pages/decisions/create-decision/create-decision.component';
 import { HearingMakeComponent } from '../domain/components/hearings/hearing-make/hearing-make.component';
-import { DecisionCheckComponent } from '../domain/components/decisions/decision-check/decision-check.component';
-import { DecisionConfirmationComponent } from '../domain/components/decisions/decision-confirmation/decision-confirmation.component';
+import { DecisionCheckComponent } from './pages/decisions/decision-check/decision-check.component';
+import { DecisionConfirmationComponent } from './pages/decisions/decision-confirmation/decision-confirmation.component';
 import { HearingCheckComponent } from '../domain/components/hearings/hearing-check/hearing-check.component';
 import { HearingConfirmationComponent } from '../domain/components/hearings/hearing-confirmation/hearing-confirmation.component';
 import { CaseResolve } from './resolve/case.resolve';
+import { DecisionResolve } from "./resolve/decision.resolve";
 import { CaseViewerContainerComponent } from '../domain/case-viewer/components/case-viewer-container/case-viewer-container.component';
 import { QuestionService } from '../domain/services/question.service';
 import { CreateQuestionsComponent } from '../domain/components/questions/create/create.component';
@@ -23,6 +25,11 @@ import { CheckQuestionsComponent } from '../domain/components/questions/check/ch
 import { ViewQuestionComponent } from '../domain/components/questions/view/view.component';
 import { DeleteQuestionComponent } from '../domain/components/questions/delete/delete.component';
 import { EditQuestionComponent } from '../domain/components/questions/edit/edit.component';
+import { ReactiveFormsModule } from '@angular/forms';
+
+
+
+import {JUIFormsModule} from "../forms/forms.module";
 
 const routes: Routes = [
     {
@@ -36,14 +43,12 @@ const routes: Routes = [
             caseData: CaseResolve
         },
         children: [
-            {
-                path: 'decision-confirmation',
-                component: DecisionConfirmationComponent,
-            },
-            {
-                path: 'hearings-confirmation',
-                component: HearingConfirmationComponent,
-            },
+            { path:'decision', component: DecisionRootComponent, resolve: { decision: DecisionResolve }, children: [
+                {path: 'create', component: CreateDecisionComponent},
+                {path: 'check', component: DecisionCheckComponent},
+                {path: 'confirm', component: DecisionConfirmationComponent}
+            ]},
+            {path: 'hearings-confirmation',component: HearingConfirmationComponent},
             {
                 path: '',
                 component: ViewCaseComponent,
@@ -51,14 +56,6 @@ const routes: Routes = [
                     {
                         path: '',
                         component: CaseViewerContainerComponent,
-                    },
-                    {
-                        path: 'make-decision',
-                        component: DecisionMakeComponent
-                    },
-                    {
-                        path: 'check-decision',
-                        component: DecisionCheckComponent
                     },
                     {
                         path: 'list-for-hearing',
@@ -108,15 +105,22 @@ const routes: Routes = [
         RouterModule.forRoot(routes),
         SharedModule,
         DomainModule,
-        HttpClientModule
+        HttpClientModule,
+        ReactiveFormsModule,
+        JUIFormsModule
     ],
     declarations: [
         HomeComponent,
-        ViewCaseComponent
+        ViewCaseComponent,
+        CreateDecisionComponent,
+        DecisionCheckComponent,
+        DecisionRootComponent,
+        DecisionConfirmationComponent
     ],
     providers: [
         CaseService,
         CaseResolve,
+        DecisionResolve,
         RedirectionService,
         QuestionService,
     ],

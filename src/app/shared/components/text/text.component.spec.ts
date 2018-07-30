@@ -1,22 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TextareaComponent } from './textarea.component';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {FormsModule, FormGroup, FormControl} from '@angular/forms';
 import {ReactiveFormsModule} from "@angular/forms";
+import {TextComponent} from './text.component';
 
-describe('TextareaComponent', () => {
-    let component: TextareaComponent;
-    let fixture: ComponentFixture<TextareaComponent>;
+describe('TextComponent', () => {
+    let component: TextComponent;
+    let fixture: ComponentFixture<TextComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [FormsModule, ReactiveFormsModule],
-            declarations: [ TextareaComponent ]
+            imports: [
+                FormsModule,
+                ReactiveFormsModule
+            ],
+            declarations: [TextComponent]
         })
             .compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(TextareaComponent);
+        fixture = TestBed.createComponent(TextComponent);
         component = fixture.componentInstance;
         component.id = 'bob';
         component.formGroup = new FormGroup({

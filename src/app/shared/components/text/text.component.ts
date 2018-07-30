@@ -1,11 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
-    selector: 'app-textarea',
-    templateUrl: './textarea.component.html',
-    styleUrls: ['./textarea.component.scss']
+  selector: 'app-text',
+  templateUrl: './text.component.html',
+  styleUrls: ['./text.component.scss']
 })
-export class TextareaComponent {
+export class TextComponent {
 
     @Input() id: string;
     @Input() label: string;
@@ -17,4 +17,5 @@ export class TextareaComponent {
     @Input() formGroup;
 
     constructor() { }
+
 }

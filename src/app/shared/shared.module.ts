@@ -12,12 +12,15 @@ import { RouterModule} from '@angular/router';
 import { TextareaComponent } from './components/textarea/textarea.component';
 import { RadioButtonsComponent } from './components/radio-buttons/radio-buttons.component';
 import { BacklinkComponent } from './components/backlink/backlink.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { TextComponent } from './components/text/text.component';
 
 @NgModule({
     imports: [
         CommonModule,
         CdkTableModule,
         FormsModule,
+        ReactiveFormsModule,
         DocumentViewerModule,
         RouterModule
     ],
@@ -29,7 +32,8 @@ import { BacklinkComponent } from './components/backlink/backlink.component';
         FooterComponent,
         TextareaComponent,
         RadioButtonsComponent,
-        BacklinkComponent
+        BacklinkComponent,
+        TextComponent
     ],
     exports: [
         TabComponent,
@@ -39,7 +43,8 @@ import { BacklinkComponent } from './components/backlink/backlink.component';
         FooterComponent,
         TextareaComponent,
         RadioButtonsComponent,
-        BacklinkComponent
+        BacklinkComponent,
+        TextComponent
     ]
 })
 

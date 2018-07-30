@@ -53,6 +53,7 @@ module.exports = (req, res, next) => {
                 replaceSectionValues(schema.details, caseData);
             }
             schema.sections.forEach(section => replaceSectionValues(section, caseData));
+            schema.id = caseData.id;
 
 
             const docIds = (caseData.documents || [])

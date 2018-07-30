@@ -2,13 +2,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DecisionCheckComponent } from './decision-check.component';
 import {RouterTestingModule} from '@angular/router/testing';
-import {DomainModule} from '../../../domain.module';
+import {DomainModule} from '../../../../domain/domain.module';
 import {SharedModule} from '../../../../shared/shared.module';
 import {BrowserTransferStateModule} from '@angular/platform-browser';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {CaseService} from '../../../../case.service';
 import {ConfigService} from '../../../../config.service';
-import {DecisionService} from '../../../services/decision.service';
+import {DecisionService} from '../../../../domain/services/decision.service';
 import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {FormsModule} from '@angular/forms';
@@ -19,7 +19,9 @@ describe('DecisionCheckComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [],
+            declarations: [
+                DecisionCheckComponent
+            ],
             imports: [DomainModule, SharedModule, BrowserTransferStateModule, HttpClientTestingModule, RouterTestingModule],
             providers: [
                 DecisionService,

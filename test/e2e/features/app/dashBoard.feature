@@ -1,10 +1,10 @@
 
 Feature: Dashboard
 
-   Background:
-        Given I navigate to JUI
-        When I am on the dashboard page
-        When one or more cases are displayed
+#   Background:
+#        Given I navigate to JUI
+#        When I am on the dashboard page
+#        When one or more cases are displayed
 
 
     @RIUI_370 @RIUI_418
