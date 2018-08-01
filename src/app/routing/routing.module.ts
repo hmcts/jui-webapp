@@ -106,10 +106,7 @@ const routes: Routes = [
 @NgModule({
     imports: [
         CommonModule,
-        RouterModule.forRoot(routes, {
-            scrollPositionRestoration: 'enabled',
-            anchorScrolling: 'enabled'
-        }),
+        RouterModule.forRoot(routes),
         SharedModule,
         DomainModule,
         HttpClientModule,
