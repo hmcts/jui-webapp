@@ -33,12 +33,25 @@ import {DeleteQuestionComponent} from '../domain/components/questions/delete/del
 import {EditQuestionComponent} from '../domain/components/questions/edit/edit.component';
 import {ReactiveFormsModule} from '@angular/forms';
 import {JUIFormsModule} from "../forms/forms.module";
+import { UnderConstructionComponent } from './pages/under-construction/under-construction.component';
 
 const routes: Routes = [
     {
         path: '',
         component: HomeComponent,
         canActivate: [AuthGuardService]
+    },
+    {
+        path: 'terms',
+        component: UnderConstructionComponent
+    },
+    {
+        path: 'cookies',
+        component: UnderConstructionComponent
+    },
+    {
+        path: 'privacy',
+        component: UnderConstructionComponent
     },
     {
         path: 'viewcase/:case_id',
@@ -123,7 +136,8 @@ const routes: Routes = [
         HearingRootComponent,
         CreateHearingComponent,
         CheckHearingComponent,
-        HearingConfirmationComponent
+        HearingConfirmationComponent,
+        UnderConstructionComponent
     ],
     providers: [
         CaseService,
