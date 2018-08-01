@@ -43,3 +43,12 @@
 .jui-alert__icon--success {
   background-image: url(#{$jui-assets-path}icon-success.svg);
 }
+
+.jui-alert--failure {
+    border-color: govuk-colour("red");
+}
+
+
+.jui-alert__icon--failure {
+    background-image: url(#{$jui-assets-path}icon-failure.svg);
+}
