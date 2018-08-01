@@ -10,7 +10,7 @@ import {BrowserTransferStateModule} from '@angular/platform-browser';
 import {ActivatedRoute, RouterModule} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {RedirectionService} from '../../../../routing/redirection.service';
-import {CaseService} from '../../../../case.service';
+import {CaseService} from '../../../services/case.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {of} from 'rxjs';
 import {JUIFormsModule} from "../../../../forms/forms.module";

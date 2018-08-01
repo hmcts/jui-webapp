@@ -12,8 +12,4 @@ export class HeaderComponent {
     constructor(public authService: AuthService) {
         this.logoutLink = `/logout?redirect=${encodeURIComponent(this.authService.generateLoginUrl())}`;
     }
-
-    get loggedIn() {
-        return this.authService.isAuthenticated();
-    }
 }

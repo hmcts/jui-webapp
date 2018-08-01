@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable, of} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {ConfigService} from './config.service';
+import {ConfigService} from '../../config.service';
 import {makeStateKey, TransferState} from '@angular/platform-browser';
 import {map} from 'rxjs/operators';
 import {catchError} from 'rxjs/operators';

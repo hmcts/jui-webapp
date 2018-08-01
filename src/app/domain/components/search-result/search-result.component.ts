@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {CaseService} from '../../../case.service';
+import {CaseService} from '../../services/case.service';
 import {Observable, of} from 'rxjs';
 import {catchError, shareReplay} from 'rxjs/operators';
 

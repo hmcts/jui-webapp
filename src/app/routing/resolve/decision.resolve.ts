@@ -11,9 +11,7 @@ export class DecisionResolve implements Resolve<any> {
     }
 
     resolve(route: ActivatedRouteSnapshot) {
-        console.log('resolve');
-        return this.decisionService.fetch(route.paramMap.get('case_id'))
-            .pipe(catchError(error => {
+        return this.decisionService.fetch(route.paramMap.get('case_id')).pipe(catchError(error => {
                 console.log(error);
                 return of(null);
             }));

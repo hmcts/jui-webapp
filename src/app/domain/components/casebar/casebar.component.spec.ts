@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CaseBarComponent } from './casebar.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { DomainModule } from '../../domain.module';
-import { CaseService } from '../../../case.service';
+import { CaseService } from '../../services/case.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ConfigService } from '../../../config.service';
 import { BrowserTransferStateModule } from '@angular/platform-browser';

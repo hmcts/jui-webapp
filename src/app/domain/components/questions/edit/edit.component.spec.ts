@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RedirectionService } from '../../../../routing/redirection.service';
-import { CaseService } from '../../../../case.service';
+import { CaseService } from '../../../services/case.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { of } from 'rxjs';
 

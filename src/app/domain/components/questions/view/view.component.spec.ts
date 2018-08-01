@@ -9,7 +9,7 @@ import { BrowserTransferStateModule } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
 import { RouterModule } from '@angular/router';
-import { CaseService } from '../../../../case.service';
+import { CaseService } from '../../../services/case.service';
 import { of } from 'rxjs';
 import { Selector } from '../../../../../../test/selector-helper';
 import { RedirectionService } from '../../../../routing/redirection.service';

@@ -6,7 +6,9 @@ import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
 import { isPlatformBrowser } from '@angular/common';
 import { Response, Request } from 'express';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class ServerConfigService {
 
     config = null;
