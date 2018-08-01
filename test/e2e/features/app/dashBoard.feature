@@ -14,7 +14,7 @@ Feature: Dashboard
         Then I will be redirected to the Case Summary page for that case
 
 
-    @RIUI_417, @all
+    @RIUI_417
     Scenario: Verify date details for SSCS cases
         Given I navigate to JUI
         Then I am logged in as a Judge

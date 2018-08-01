@@ -1,6 +1,5 @@
 Feature: Do stuff
 
-    @all
     Scenario: User can log in
         Given I navigate to JUI
         And I login
