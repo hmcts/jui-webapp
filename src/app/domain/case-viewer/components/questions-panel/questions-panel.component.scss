@@ -115,36 +115,3 @@ p {
     font-size: 16px;
     line-height: 20px;
 }
-
-.jui-alert {
-    border: 5px solid #005ea5;
-    margin-bottom: 30px;
-    position: relative;
-}
-
-.jui-alert--success {
-    border-color: #006435;
-}
-
-.jui-alert__icon--success {
-    background-image: url(../../../../../assets/images/icon-success.svg);
-}
-.jui-alert__icon {
-    background-repeat: no-repeat;
-    background-size: 44px 44px;
-    display: inline-block;
-    height: 44px;
-    text-indent: -9999px;
-    vertical-align: middle;
-    width: 44px;
-}
-
-.jui-alert__icon, .jui-alert__text {
-    padding-left: 0;
-}
-
-.jui-alert__text {
-  display: inline-block;
-  padding: 10px;
-  vertical-align: top;
-}

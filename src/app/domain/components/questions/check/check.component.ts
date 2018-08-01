@@ -33,6 +33,8 @@ export class CheckQuestionsComponent implements OnInit {
     onSubmit() {
         this.questionService.sendQuestions(this.caseId, 1).subscribe(res => {
             this.redirectionService.redirect(`/viewcase/${this.caseId}/questions?sent=success`);
+        }, () => {
+            this.redirectionService.redirect(`/viewcase/${this.caseId}/questions?sent=failure`);
         });
     }
 }

@@ -10,6 +10,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {ActivatedRoute} from '@angular/router';
 import {of} from 'rxjs';
 import {Selector} from '../../../../../../test/selector-helper';
+import {RedirectionService} from '../../../../routing/redirection.service';
 
 const configMock = {
     config: {
@@ -27,6 +28,7 @@ describe('CheckQuestionsComponent', () => {
     let fixture: ComponentFixture<CheckQuestionsComponent>;
     let httpMock: HttpTestingController;
     let nativeElement;
+    let redirectionService;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -59,6 +61,8 @@ describe('CheckQuestionsComponent', () => {
         component = fixture.componentInstance;
         nativeElement = fixture.nativeElement;
         httpMock = TestBed.get(HttpTestingController);
+        redirectionService = TestBed.get(RedirectionService);
+        spyOn(redirectionService, 'redirect');
         fixture.detectChanges();
     });
 
@@ -100,6 +104,35 @@ describe('CheckQuestionsComponent', () => {
 
         it('should have filtered out the issued questions', () => {
             expect(nativeElement.querySelectorAll(Selector.selector('question-check')).length).toBe(1);
+        });
+
+        describe('when we click send questions', () => {
+            beforeEach(() => {
+                nativeElement.querySelector(Selector.selector('send-questions')).click();
+            });
+
+            describe('and it succeeds', () => {
+                beforeEach(() => {
+                    const req = httpMock.expectOne('/api/cases/123456789/questions/rounds/1');
+                    req.flush({});
+                });
+
+                it('should redirect with success', () => {
+                    expect(redirectionService.redirect).toHaveBeenCalledWith('/viewcase/123456789/questions?sent=success');
+                });
+            });
+
+            describe('and it fails', () => {
+                beforeEach(() => {
+                    const req = httpMock.expectOne('/api/cases/123456789/questions/rounds/1');
+                    req.flush({}, {status: 500, statusText: 'It broke'});
+                });
+
+                it('should redirect with failure', () => {
+                    expect(redirectionService.redirect).toHaveBeenCalledWith('/viewcase/123456789/questions?sent=failure');
+                });
+            });
+
         });
     });
 });
