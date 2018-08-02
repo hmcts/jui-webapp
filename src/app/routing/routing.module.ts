@@ -121,11 +121,9 @@ const routes: Routes = [
         HearingConfirmationComponent
     ],
     providers: [
-        // CaseService,
         CaseResolve,
         DecisionResolve,
-        RedirectionService,
-        // QuestionService,
+        RedirectionService
     ],
     exports: [
         RouterModule

@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import 'rxjs/add/operator/filter';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-view-case',
@@ -17,7 +16,7 @@ export class ViewCaseComponent implements OnInit {
     targetSection: any;
 
     constructor(public router: Router, private route: ActivatedRoute) {
-        this.route.params.subscribe( params => this.sectionId = params.section || null);
+        this.route.params.subscribe(params => this.sectionId = params.section || null);
     }
 
     clearFocus(event) {
@@ -39,11 +38,8 @@ export class ViewCaseComponent implements OnInit {
         this.targetSection = (this.case) ? this.case.sections.find(section => section.id === this.sectionId) : null;
         if (!this.targetSection) {
             if (this.links[0]) {
-                this.router.navigate([ this.links[0].id], {relativeTo: this.route})
-                    .then(
-                        nav => {
-                            // console.log(nav);
-                        }, err => {
+                this.router.navigate([this.links[0].id], {relativeTo: this.route})
+                    .catch(err => {
                             console.error(err);
                             this.router.navigate(['']);
                         }
