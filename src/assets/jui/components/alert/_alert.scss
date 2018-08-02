@@ -44,11 +44,10 @@
   background-image: url(#{$jui-assets-path}icon-success.svg);
 }
 
-.jui-alert--failure {
+.jui-alert--unsuccessful {
     border-color: govuk-colour("red");
 }
 
-
-.jui-alert__icon--failure {
-    background-image: url(#{$jui-assets-path}icon-failure.svg);
+.jui-alert__icon--unsuccessful {
+    background-image: url(#{$jui-assets-path}icon-unsuccessful.svg);
 }
