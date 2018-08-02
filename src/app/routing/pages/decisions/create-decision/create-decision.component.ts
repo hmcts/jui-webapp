@@ -34,8 +34,8 @@ export class CreateDecisionComponent implements OnInit {
         private fb: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
-        private decisionService: DecisionService,
-        private redirectionService: RedirectionService,
+        public decisionService: DecisionService,
+        public redirectionService: RedirectionService,
         private cdRef : ChangeDetectorRef
     ) { }
 
