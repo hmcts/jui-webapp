@@ -1,4 +1,4 @@
-Feature: Do stuff
+Feature: As a judge I can login to JUI
 
     @all
     Scenario: User can log in

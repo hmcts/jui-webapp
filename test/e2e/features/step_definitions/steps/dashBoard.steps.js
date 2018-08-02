@@ -69,6 +69,8 @@ defineSupportCode(function ({Given, When, Then}) {
         await expect(dashBoardPage.date_of_last_action.isDisplayed()).to.eventually.be.true;
     });
 
+
+
     When(/^I see Date of latest action by date ascending order$/, async function () {
          await dashBoardPage.last_action_dates.count().then(function(text){
              console.log('Number of Cases: ' + text);
@@ -86,5 +88,42 @@ defineSupportCode(function ({Given, When, Then}) {
             }
          });
      });
+
+    Then('I should see the text displayed as {string}', async function (string) {
+                await caseSummaryPage.casefile.getText().then(async function(text){
+                    await expect(string).equal(string);
+                })
+              });
+
+      Then('I should be able to view image', async function () {
+                await caseSummaryPage.imageViewer.getAttribute('src').then(async function(sourceUrl){
+                    await expect(sourceUrl).equal(config.config.baseUrl + "/api/documents/dd206da2-a3eb-4d35-b081-57ca8a75e812/binary");
+                })
+              });
+
+    Then('I should expect the file on top to be selected', async function () {
+                await caseSummaryPage.firstCaseFile.getCssValue('font-weight').then(async function(color)
+                {
+                    await expect(color).equal('700');
+                });
+
+                await caseSummaryPage.firstCaseFile.getAttribute('aria-current').then(async function(status)
+                {
+                    await expect(status).equal('true');
+                });
+             });
+
+    Then('I should expect the second file to be selected', async function () {
+                await caseSummaryPage.secondCaseFile.getCssValue('font-weight').then(async function(color)
+                {
+                    await expect(color).equal('700');
+                });
+
+                await caseSummaryPage.secondCaseFile.getAttribute('aria-current').then(async function(status)
+                {
+                    await expect(status).equal('true');
+                });
+             });
+
 
 });

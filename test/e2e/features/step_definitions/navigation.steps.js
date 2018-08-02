@@ -1,4 +1,6 @@
+
 const {Given, When, Then} = require('cucumber');
+const config = require('../../config/conf.js');
 
 Given(/^I navigate to "(.*)"/, async function (url) {
     await browser.get(url);
@@ -11,3 +13,8 @@ Given(/^I navigate to "(.*)"/, async function (url) {
 //     await browser.driver.manage().deleteAllCookies();
 //     await browser.refresh();
 // });
+
+When('I navigate to case {string}', async function (url) {
+     url = '/viewcase/' + url + '/casefile';
+     await browser.get(config.config.baseUrl + url);
+});
