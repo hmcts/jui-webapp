@@ -8,7 +8,9 @@ cache:
   directories:
     - node_modules
 
+sudo: required
 addons:
+  chrome: stable
 apt:
   sources:
     - google-chrome
