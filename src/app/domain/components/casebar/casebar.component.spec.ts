@@ -45,6 +45,9 @@ describe('CaseBarComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(CaseBarComponent);
         component = fixture.componentInstance;
+        component.case = {
+            id: '1244'
+        };
         nativeElement = fixture.nativeElement;
         httpMock = TestBed.get(HttpTestingController);
         fixture.detectChanges();
