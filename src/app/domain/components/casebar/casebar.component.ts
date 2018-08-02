@@ -1,8 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
 import 'rxjs/add/operator/filter';
-import { CaseService } from '../../services/case.service';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-casebar',
