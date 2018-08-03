@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import 'rxjs/add/operator/filter';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-view-case',
@@ -11,11 +10,44 @@ import { ActivatedRoute } from '@angular/router';
 export class ViewCaseComponent implements OnInit {
 
     case: any;
+    caseid: string;
+    links = [];
+    sectionId: string;
+    targetSection: any;
 
-    constructor(public router: Router, private route: ActivatedRoute) {}
+    constructor(public router: Router, private route: ActivatedRoute) {
+        this.route.params.subscribe(params => this.sectionId = params.section || null);
+    }
+
+    clearFocus(event) {
+        const target = event.target || event.srcElement || event.currentTarget;
+        target.blur();
+    }
 
     ngOnInit() {
         this.case = this.route.snapshot.data['caseData'];
+        if (this.case) {
+            this.links = this.case.sections.map(section => {
+                return {
+                    href: `/viewcase/${this.case.id}/${section.id}`,
+                    label: section.name,
+                    id: section.id
+                };
+            });
+        }
+        this.targetSection = (this.case) ? this.case.sections.find(section => section.id === this.sectionId) : null;
+        if (!this.targetSection) {
+            if (this.links[0]) {
+                this.router.navigate([this.links[0].id], {relativeTo: this.route})
+                    .catch(err => {
+                            console.error(err);
+                            this.router.navigate(['']);
+                        }
+                    );
+            } else {
+                this.router.navigate(['']);
+            }
+        }
     }
 
 }

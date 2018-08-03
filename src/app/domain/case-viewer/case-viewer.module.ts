@@ -10,7 +10,6 @@ import { QuestionsPanelComponent } from './components/questions-panel/questions-
 import { TimelineComponent } from './components/timeline/timeline.component';
 import { DocumentViewerModule } from '../../shared/components/document-viewer/document-viewer.module';
 import { RouterModule } from '@angular/router';
-import { CaseViewerContainerComponent } from './components/case-viewer-container/case-viewer-container.component';
 
 @NgModule({
     imports: [
@@ -30,8 +29,7 @@ import { CaseViewerContainerComponent } from './components/case-viewer-container
         PartiesPanelComponent,
         TimelinePanelComponent,
         QuestionsPanelComponent,
-        TimelineComponent,
-        CaseViewerContainerComponent
+        TimelineComponent
     ]
 })
 export class CaseViewerModule {

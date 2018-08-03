@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { BrowserTransferStateModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { SearchResultComponent } from './components/search-result/search-result.component';
 import { SharedModule } from '../shared/shared.module';
@@ -13,7 +14,8 @@ import { DeleteQuestionComponent } from './components/questions/delete/delete.co
 import { EditQuestionComponent } from './components/questions/edit/edit.component';
 import { CaseBarDetailsComponent } from './components/casebar-details/casebar-details.component';
 import { CaseBarComponent } from './components/casebar/casebar.component';
-
+import {CaseService} from '../domain/services/case.service';
+import {QuestionService} from '../domain/services/question.service';
 
 import {JUIFormsModule} from "../forms/forms.module";
 
@@ -23,7 +25,8 @@ import {JUIFormsModule} from "../forms/forms.module";
         SharedModule,
         RouterModule,
         JUIFormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        BrowserTransferStateModule
     ],
     exports: [
         CaseBarDetailsComponent,
@@ -48,7 +51,10 @@ import {JUIFormsModule} from "../forms/forms.module";
         DeleteQuestionComponent,
         EditQuestionComponent
     ],
-    providers: []
+    providers: [
+        CaseService,
+        QuestionService
+    ]
 })
 export class DomainModule {
 }

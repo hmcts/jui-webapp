@@ -1,19 +1,18 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CreateQuestionsComponent } from './create.component';
-import { SharedModule } from '../../../../shared/shared.module';
-import { DomainModule } from '../../../domain.module';
-import { QuestionService } from '../../../services/question.service';
-import { Selector } from '../../../../../../test/selector-helper';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { ConfigService } from '../../../../config.service';
-import { BrowserTransferStateModule } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
-import { RouterModule } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { RedirectionService } from '../../../../routing/redirection.service';
-import { CaseService } from '../../../../case.service';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { of } from 'rxjs';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {CreateQuestionsComponent} from './create.component';
+import {SharedModule} from '../../../../shared/shared.module';
+import {DomainModule} from '../../../domain.module';
+import {QuestionService} from '../../../services/question.service';
+import {Selector} from '../../../../../../test/selector-helper';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {ConfigService} from '../../../../config.service';
+import {BrowserTransferStateModule} from '@angular/platform-browser';
+import {ActivatedRoute, RouterModule} from '@angular/router';
+import {RouterTestingModule} from '@angular/router/testing';
+import {RedirectionService} from '../../../../routing/redirection.service';
+import {CaseService} from '../../../services/case.service';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {of} from 'rxjs';
 import {JUIFormsModule} from "../../../../forms/forms.module";
 
 describe('CreateQuestionsComponent', () => {
@@ -24,8 +23,7 @@ describe('CreateQuestionsComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [
-            ],
+            declarations: [],
             imports: [
                 JUIFormsModule,
                 DomainModule,
@@ -41,7 +39,8 @@ describe('CreateQuestionsComponent', () => {
                 {
                     provide: RedirectionService,
                     useValue: {
-                        redirect: () => {}
+                        redirect: () => {
+                        }
                     }
                 },
                 CaseService,
@@ -77,7 +76,7 @@ describe('CreateQuestionsComponent', () => {
                 }
             ]
         })
-               .compileComponents();
+            .compileComponents();
     }));
 
     beforeEach(() => {
@@ -89,17 +88,19 @@ describe('CreateQuestionsComponent', () => {
 
     beforeEach(async(() => {
         fixture.whenStable()
-               .then(() => {
-                   fixture.detectChanges();
-               });
+            .then(() => {
+                fixture.detectChanges();
+            });
     }));
 
-    afterEach( () => {
+    afterEach(() => {
         httpMock.verify();
     });
 
     it('form invalid when empty', () => {
         expect(component.form.valid).toBeFalsy();
+        expect(component.error.subject).toEqual(false);
+        expect(component.error.question).toEqual(false);
     });
 
     it('subject field validity', () => {
@@ -132,26 +133,37 @@ describe('CreateQuestionsComponent', () => {
         expect(errors['required']).toBeFalsy();
     });
 
-    describe('When request is a success', () => {
+    describe('submitting a form', () => {
         beforeEach(async(() => {
             fixture.whenStable()
-                   .then(() => {
-                       fixture.detectChanges();
-                   });
+                .then(() => {
+                    fixture.detectChanges();
+                });
         }));
 
-        // xit('submitting a form emits a put request', () => {
-        //     expect(component.form.valid).toBeFalsy();
-        //     component.form.controls['subject'].setValue('Example subject');
-        //     component.form.controls['question'].setValue('Example question');
-        //     expect(component.form.valid).toBeTruthy();
-        //
-        //     component.onSubmit();
-        //
-        //     httpMock
-        //         .expectOne('/api/cases/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions')
-        //         .flush({question_id: '9727a0fc-11bb-4212-821f-b36e312bbace'});
-        // });
+        it('should send a request for a valid form', () => {
+            expect(component.form.valid).toBeFalsy();
+            component.form.controls['subject'].setValue('Example subject');
+            component.form.controls['question'].setValue('Example question');
+            expect(component.form.valid).toBeTruthy();
+
+            component.submitCallback({});
+            httpMock
+                .expectOne('/api/cases/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions')
+                .flush({question_id: '9727a0fc-11bb-4212-821f-b36e312bbace'});
+        });
+
+        it('should set erros for an invalid form', () => {
+            expect(component.form.valid).toBeFalsy();
+
+            component.submitCallback({});
+
+            expect(component.form.valid).toBeFalsy();
+            expect(component.error.subject).toBeTruthy();
+            expect(component.error.question).toBeTruthy();
+
+
+        });
     });
 
     it('should display a heading', () => {

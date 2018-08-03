@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import 'rxjs/operators/map';
 import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
-import {CaseService} from '../../case.service';
+import {CaseService} from '../../domain/services/case.service';
 
 @Injectable()
 export class CaseResolve implements Resolve<any> {

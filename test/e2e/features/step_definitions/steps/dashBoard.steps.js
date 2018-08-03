@@ -5,6 +5,7 @@ var dashBoardPage = require('../../pages/dashBoardPage');
 var caseSummaryPage = require('../../pages/caseSummaryPage');
 var {defineSupportCode} = require('cucumber');
 const config = require('../../../config/conf.js');
+const EC = protractor.ExpectedConditions;
 
 defineSupportCode(function ({Given, When, Then}) {
 
@@ -17,10 +18,10 @@ defineSupportCode(function ({Given, When, Then}) {
     });
 
     Then(/^I am logged in as a Judge$/, async function () {
-       await signInPage.emailAddress.sendKeys(this.config.username); //replace username and password
+       await  signInPage.emailAddress.sendKeys(this.config.username); //replace username and password
         await signInPage.password.sendKeys(this.config.password);
-        await  signInPage.signinBtn.click();
-
+        browser.sleep(10000);
+        await signInPage.signinBtn.click();
     });
 
     When(/^I am on the dashboard page$/, async function () {

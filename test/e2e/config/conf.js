@@ -34,6 +34,7 @@ const localConfig = [
     {
         browserName: 'chrome',
         acceptInsecureCerts: true,
+        chromeOptions: { args: ['--headless']},
         proxy: {
             proxyType: 'manual',
             httpProxy: 'proxyout.reform.hmcts.net:8080',

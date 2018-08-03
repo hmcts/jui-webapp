@@ -21,7 +21,6 @@ export class QuestionsPanelComponent implements OnInit {
 
     ngOnInit(): void {
         this.rounds = this.panelData.fields[0].value;
-        console.log(this.rounds);
         this.route.queryParams.subscribe(queryParams => {
             this.createdQuestion = queryParams['created'];
             this.deletedQuestion = queryParams['deleted'];

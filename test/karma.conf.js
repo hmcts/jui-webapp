@@ -25,15 +25,22 @@ module.exports = config => {
             clearContext: false
         },
         coverageIstanbulReporter: {
-            dir: join('.', 'reports', 'tests', 'coverage'), reports: ['html', 'lcovonly'],
-            fixWebpackSourcePaths: true
+            dir: './coverage',
+            reports: ['html', 'lcovonly'],
+            fixWebpackSourcePaths: true,
+            thresholds: {
+                statements: 0,
+                lines: 0,
+                branches: 0,
+                functions: 0
+            }
         },
         reporters: ['progress', 'kjhtml'],
         port: 9876,
         colors: true,
         logLevel: config.LOG_INFO,
         autoWatch: true,
-        browsers: ['PhantomJS'],
+        browsers: ['ChromeHeadless'],
         singleRun: true
     });
 };

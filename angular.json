@@ -107,6 +107,10 @@
                 "test": {
                     "builder": "@angular-devkit/build-angular:karma",
                     "options": {
+                        "codeCoverage": true,
+                        "codeCoverageExclude": [
+                            "test/**/*"
+                        ],
                         "main": "src/test.ts",
                         "karmaConfig": "./test/karma.conf.js",
                         "polyfills": "src/polyfills.ts",

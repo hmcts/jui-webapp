@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CaseBarComponent } from './casebar.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { DomainModule } from '../../domain.module';
-import { CaseService } from '../../../case.service';
+import { CaseService } from '../../services/case.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { ConfigService } from '../../../config.service';
 import { BrowserTransferStateModule } from '@angular/platform-browser';
@@ -45,6 +45,9 @@ describe('CaseBarComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(CaseBarComponent);
         component = fixture.componentInstance;
+        component.case = {
+            id: '1244'
+        };
         nativeElement = fixture.nativeElement;
         httpMock = TestBed.get(HttpTestingController);
         fixture.detectChanges();

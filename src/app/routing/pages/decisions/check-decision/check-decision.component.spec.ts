@@ -6,7 +6,7 @@ import {DomainModule} from '../../../../domain/domain.module';
 import {SharedModule} from '../../../../shared/shared.module';
 import {BrowserTransferStateModule} from '@angular/platform-browser';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
-import {CaseService} from '../../../../case.service';
+import {CaseService} from '../../../../domain/services/case.service';
 import {ConfigService} from '../../../../config.service';
 import {DecisionService} from '../../../../domain/services/decision.service';
 import {Observable} from 'rxjs';

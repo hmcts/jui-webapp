@@ -4,7 +4,9 @@ declare function require(name: string);
 const config = require('../../config');
 import {DOCUMENT} from '@angular/common';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root'
+})
 export class ConfigService {
 
     config = null;

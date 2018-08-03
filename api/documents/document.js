@@ -30,7 +30,10 @@ module.exports = app => {
 
     route.get('/:document_id/binary', (req, res, next) => {
         const documentId = req.params.document_id;
-        getDocumentBinary(documentId, getOptions(req)).pipe(res);
+        getDocumentBinary(documentId, getOptions(req))
+            .on('response', function(response) {
+                response.headers['content-disposition'] = 'attachment; ' + response.headers['content-disposition'];
+            }).pipe(res);
     });
 
     route.get('/:document_id', (req, res, next) => {
