@@ -4,15 +4,18 @@
         <ng-container cdkColumnDef="case_id">
             <cdk-header-cell *cdkHeaderCellDef class="govuk-table__header">Case number</cdk-header-cell>
             <cdk-cell class="govuk-table__cell" *cdkCellDef="let row;">
-                <a data-selector="case-reference-link" routerLink="/viewcase/{{row.case_id}}/summary">{{row.case_reference}}</a>
+                <a data-selector="case-reference-link" routerLink="/jurisdiction/{{row.case_jurisdiction}}/casetype/{{row.case_type_id}}/viewcase/{{row.case_id}}/summary">{{row.case_fields.case_ref}}</a>
             </cdk-cell>
         </ng-container>
-        <ng-container *ngFor="let column of resultView.columns" cdkColumnDef="{{column.case_field_id}}">
-            <cdk-header-cell *cdkHeaderCellDef class="govuk-table__header" attr.data-selector="{{column.case_field_id}}-header">{{column.label}}</cdk-header-cell>
-            <cdk-cell class="govuk-table__cell" *cdkCellDef="let row">
-                <span attr.data-selector="{{column.case_field_id}}-value" *ngIf="column.date_format">{{row.case_fields[column.case_field_id] | date: column.date_format:'+0000'}}</span>
-                <span attr.data-selector="{{column.case_field_id}}-value" *ngIf="!column.date_format">{{row.case_fields[column.case_field_id]}}</span>
-            </cdk-cell>
+        <ng-container *ngFor="let column of resultView.columns; let i = index" cdkColumnDef="{{column.case_field_id}}">
+            <ng-container >
+                <cdk-header-cell *cdkHeaderCellDef class="govuk-table__header" attr.data-selector="{{column.case_field_id}}-header">{{column.label}}</cdk-header-cell>
+                <cdk-cell class="govuk-table__cell" *cdkCellDef="let row">
+                    <span attr.data-selector="{{column.case_field_id}}-value" *ngIf="column.date_format">{{row.case_fields[column.case_field_id] | date: column.date_format:'+0000'}}</span>
+                    <span attr.data-selector="{{column.case_field_id}}-value" *ngIf="!column.date_format">{{row.case_fields[column.case_field_id]}}</span>
+                </cdk-cell>
+            </ng-container>
+
         </ng-container>
 
         <thead class="govuk-table__head">

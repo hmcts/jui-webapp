@@ -5,17 +5,23 @@ const valueProcessor = require('../lib/processors/value-processor');
 const { getEvents } = require('../events');
 const { getDocuments } = require('../documents');
 const { getAllQuestionsByCase } = require('../questions');
+const getCaseTemplate = require('./templates/case');
 
 function getCase(caseId, userId, options, caseType = 'Benefit', jurisdiction = 'SSCS') {
     return generateRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}`, options);
 }
 
 function getCaseWithEventsAndQuestions(caseId, userId, options, caseType, jurisdiction) {
-    return Promise.all([
+    const promiseArray = [
         getCase(caseId, userId, options, caseType, jurisdiction),
-        getEvents(caseId, userId, options, caseType, jurisdiction),
-        getAllQuestionsByCase(caseId, userId, options, jurisdiction)
-    ]);
+        getEvents(caseId, userId, options, caseType, jurisdiction)
+    ];
+
+    if(jurisdiction === 'SSCS') {
+        promiseArray.push(getAllQuestionsByCase(caseId, userId, options, jurisdiction));
+    }
+
+    return Promise.all(promiseArray);
 }
 
 function replaceSectionValues(section, caseData) {
@@ -35,6 +41,8 @@ module.exports = (req, res, next) => {
     const token = req.auth.token;
     const userId = req.auth.userId;
     const caseId = req.params.case_id;
+    const jurisdiction = req.params.jur;
+    const casetype = req.params.casetype;
 
     const options = {
         headers: {
@@ -43,17 +51,19 @@ module.exports = (req, res, next) => {
         }
     };
 
-    getCaseWithEventsAndQuestions(caseId, userId, options)
+    getCaseWithEventsAndQuestions(caseId, userId, options, casetype, jurisdiction)
         .then(([caseData, events, questions]) => {
             caseData.questions = questions;
             caseData.events = events;
 
-            const schema = JSON.parse(JSON.stringify(sscsCaseTemplate));
+            const schema = JSON.parse(JSON.stringify(getCaseTemplate(caseData.jurisdiction)));
             if (schema.details) {
                 replaceSectionValues(schema.details, caseData);
             }
             schema.sections.forEach(section => replaceSectionValues(section, caseData));
             schema.id = caseData.id;
+            schema.case_jurisdiction = caseData.jurisdiction;
+            schema.case_type_id = caseData.case_type_id;
 
 
             const docIds = (caseData.documents || [])
