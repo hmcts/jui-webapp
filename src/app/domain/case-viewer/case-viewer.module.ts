@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CaseViewerComponent } from './components/case-viewer/case-viewer.component';
 import { SharedModule } from '../../shared/shared.module';
 import { DocumentPanelComponent } from './components/document-panel/document-panel.component';
@@ -9,7 +11,6 @@ import { TimelinePanelComponent } from './components/timeline-panel/timeline-pan
 import { QuestionsPanelComponent } from './components/questions-panel/questions-panel.component';
 import { TimelineComponent } from './components/timeline/timeline.component';
 import { DocumentViewerModule } from '../../shared/components/document-viewer/document-viewer.module';
-import { RouterModule } from '@angular/router';
 
 @NgModule({
     imports: [
@@ -17,6 +18,7 @@ import { RouterModule } from '@angular/router';
         SharedModule,
         DocumentViewerModule,
         RouterModule,
+        ReactiveFormsModule
     ],
     exports: [
         CaseViewerComponent,

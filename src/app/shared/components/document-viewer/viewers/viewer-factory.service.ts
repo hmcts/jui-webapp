@@ -1,4 +1,4 @@
-import {ComponentFactoryResolver, ComponentRef, Injectable, ViewContainerRef} from '@angular/core';
+import {ComponentFactoryResolver, ComponentRef, EventEmitter, Injectable, Output, ViewContainerRef} from '@angular/core';
 import {PdfViewerComponent} from './pdf-viewer/pdf-viewer.component';
 import {ImgViewerComponent} from './img-viewer/img-viewer.component';
 import {Viewer} from './viewer';
@@ -7,6 +7,8 @@ import {UrlFixerService} from '../url-fixer.service';
 
 @Injectable()
 export class ViewerFactoryService {
+
+    afterLoadComplete = new EventEmitter<any>();
 
     private static determineComponent(mimeType: string, annotate: boolean) {
         if (ViewerFactoryService.isImage(mimeType)) {
@@ -41,6 +43,7 @@ export class ViewerFactoryService {
         const componentRef: ComponentRef<Viewer> = viewContainerRef.createComponent(componentFactory);
         componentRef.instance.originalUrl = documentMetaData._links.self.href;
         componentRef.instance.url = this.urlFixer.fixDm(documentMetaData._links.binary.href, baseUrl);
+        componentRef.instance.afterLoadComplete.subscribe(e => this.afterLoadComplete.emit(e));
         return componentRef.instance;
     }
 

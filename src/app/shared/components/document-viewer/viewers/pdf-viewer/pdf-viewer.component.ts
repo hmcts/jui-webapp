@@ -16,7 +16,7 @@ export class PdfViewerComponent implements OnInit, OnChanges, Viewer {
 
   @Input() url: string;
   @Input() originalUrl: string;
-  @Output() afterLoadComplete = new EventEmitter<PDFDocumentProxy>();
+  @Output() afterLoadComplete = new EventEmitter<any>();
   @Output() pageRendered = new EventEmitter<CustomEvent>();
   @Output() pageChanged = new EventEmitter<number>();
 

@@ -1,7 +1,7 @@
 <div class="grid-row">
   <div [ngClass]="{'column-full': !annotate,
                  'column-two-thirds': annotate && viewerComponent && viewerComponent.numPages > 0}">
-    <ng-template appViewerAnchor></ng-template>
+    <ng-template appViewerAnchor (afterLoadComplete)="alert(1)"></ng-template>
   </div>
 </div>
 
