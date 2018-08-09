@@ -43,7 +43,5 @@ module.exports = app => {
 };
 
 module.exports.getDocument = getDocument;
-
 module.exports.getDocuments = getDocuments;
-
 module.exports.getDocumentBinary = getDocumentBinary;

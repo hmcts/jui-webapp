@@ -19,7 +19,11 @@ const configMock = {
 };
 const routeMock = {
     parent: {
-        params: of({'case_id': '123456789'})
+        params: of({
+            'case_id': '123456789',
+            jur: 'SSCS',
+            casetype: 'Benefit'
+        })
     }
 };
 
@@ -118,7 +122,7 @@ describe('CheckQuestionsComponent', () => {
                 });
 
                 it('should redirect with success', () => {
-                    expect(redirectionService.redirect).toHaveBeenCalledWith('/viewcase/123456789/questions?sent=success');
+                    expect(redirectionService.redirect).toHaveBeenCalledWith('/jurisdiction/SSCS/casetype/Benefit/viewcase/123456789/questions?sent=success');
                 });
             });
 
@@ -129,7 +133,7 @@ describe('CheckQuestionsComponent', () => {
                 });
 
                 it('should redirect with failure', () => {
-                    expect(redirectionService.redirect).toHaveBeenCalledWith('/viewcase/123456789/questions?sent=failure');
+                    expect(redirectionService.redirect).toHaveBeenCalledWith('/jurisdiction/SSCS/casetype/Benefit/viewcase/123456789/questions?sent=failure');
                 });
             });
 
