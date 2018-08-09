@@ -10,6 +10,8 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class DeleteQuestionComponent implements OnInit {
     caseId: any;
+    jurisdiction: string;
+    caseType: string;
     questionId: any;
 
     constructor(private questionService: QuestionService, private redirectionService: RedirectionService, private route: ActivatedRoute) {
@@ -18,6 +20,8 @@ export class DeleteQuestionComponent implements OnInit {
     ngOnInit(): void {
         this.route.parent.params.subscribe(params => {
             this.caseId = params['case_id'];
+            this.jurisdiction = params['jur'];
+            this.caseType = params['casetype'];
         });
         this.route.params.subscribe(params => {
             this.questionId = params['question_id'];
@@ -26,7 +30,7 @@ export class DeleteQuestionComponent implements OnInit {
 
     remove() {
         this.questionService.remove(this.caseId, this.questionId).subscribe(res => {
-            this.redirectionService.redirect(`/viewcase/${this.caseId}/questions?deleted=success`);
+            this.redirectionService.redirect(`/jurisdiction/${this.jurisdiction}/casetype/${this.caseType}/viewcase/${this.caseId}/questions?deleted=success`);
         }, err => console.log);
     }
 }

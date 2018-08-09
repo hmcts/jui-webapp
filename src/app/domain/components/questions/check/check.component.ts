@@ -13,6 +13,9 @@ import 'rxjs/add/operator/filter';
 })
 export class CheckQuestionsComponent implements OnInit {
     caseId: string;
+    jurisdiction: string;
+    caseType: string;
+
     questions$: Observable<any[]>;
 
     constructor(private questionService: QuestionService,
@@ -23,6 +26,8 @@ export class CheckQuestionsComponent implements OnInit {
     ngOnInit(): void {
         this.route.parent.params.subscribe(params => {
             this.caseId = params['case_id'];
+            this.jurisdiction = params['jur'];
+            this.caseType = params['casetype'];
             this.questions$ = this.questionService.fetchAll(this.caseId)
                 .map(questions => {
                     return questions.filter(question => question.state === 'question_drafted');
@@ -32,9 +37,9 @@ export class CheckQuestionsComponent implements OnInit {
 
     onSubmit() {
         this.questionService.sendQuestions(this.caseId, 1).subscribe(res => {
-            this.redirectionService.redirect(`/viewcase/${this.caseId}/questions?sent=success`);
+            this.redirectionService.redirect(`/jurisdiction/${this.jurisdiction}/casetype/${this.caseType}/viewcase/${this.caseId}/questions?sent=success`);
         }, () => {
-            this.redirectionService.redirect(`/viewcase/${this.caseId}/questions?sent=failure`);
+            this.redirectionService.redirect(`/jurisdiction/${this.jurisdiction}/casetype/${this.caseType}/viewcase/${this.caseId}/questions?sent=failure`);
         });
     }
 }

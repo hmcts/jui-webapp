@@ -10,11 +10,15 @@ import { ActivatedRoute } from '@angular/router';
 export class ViewQuestionComponent implements OnInit {
     question: any;
     caseId: string;
+    jurisdiction: string;
+    caseType: string;
     questionId: string;
 
     constructor(private questionService: QuestionService, private route: ActivatedRoute) {
         this.route.parent.params.subscribe(params => {
             this.caseId = params['case_id'];
+            this.jurisdiction = params['jur'];
+            this.caseType = params['casetype'];
         });
 
         this.route.params.subscribe(params => {

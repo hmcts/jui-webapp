@@ -15,6 +15,8 @@ export class EditQuestionComponent implements OnInit {
         question: new FormControl(),
     });
     caseId: any;
+    jurisdiction: string;
+    caseType: string;
     questionId: any;
     question: any;
     submitted = false;
@@ -32,6 +34,8 @@ export class EditQuestionComponent implements OnInit {
     ngOnInit(): void {
         this.route.parent.params.subscribe(params => {
             this.caseId = params['case_id'];
+            this.jurisdiction = params['jur'];
+            this.caseType = params['casetype'];
         });
 
         this.route.params.subscribe(params => {
@@ -54,7 +58,7 @@ export class EditQuestionComponent implements OnInit {
         if (this.form.valid) {
             this.questionService.update(this.caseId, this.questionId, this.form.value)
                 .subscribe(res => {
-                    this.redirectionService.redirect(`/viewcase/${this.caseId}/questions?updated=success`);
+                    this.redirectionService.redirect(`/jurisdiction/${this.jurisdiction}/casetype/${this.caseType}/viewcase/${this.caseId}/questions?updated=success`);
                 }, err => console.log);
         }
         this.submitted = true;
