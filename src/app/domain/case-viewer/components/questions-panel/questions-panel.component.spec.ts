@@ -12,28 +12,48 @@ describe('QuestionsPanelComponent', () => {
     let component: QuestionsPanelComponent;
     let fixture: ComponentFixture<QuestionsPanelComponent>;
     let nativeElement;
-    const mockRoute = {
-        snapshot: {
-            _lastPathIndex: 0
-        },
-        parent: {
-            params: of({
-                'case_id': '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
-            }),
-            snapshot: {
-                params: {
-                    'case_id': '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
-                },
-                queryParams: {}
+    let mockRoute;
+    let mockConfigService;
+    let caseData;
+
+    beforeEach(() => {
+        mockConfigService = {
+            config: {
+                api_base_url: 'http://localhost:3000'
             }
-        },
-        queryParams: of({}),
-    };
-    const mockConfigService = {
-        config: {
-            api_base_url: 'http://localhost:3000'
-        }
-    };
+        };
+        mockRoute = {
+            snapshot: {
+                _lastPathIndex: 0
+            },
+            parent: {
+                snapshot: {
+                    params: {
+                        'case_id': 'case_id'
+                    },
+                    queryParams: {}
+                }
+            },
+            queryParams: of({}),
+        };
+        caseData = {
+            id: 'case_id',
+            case_jurisdiction: 'SSCS',
+            case_type_id: 'Benefit',
+            sections: [{
+                id: 'section_id1',
+                name: 'section_name1'
+            },
+                {
+                    id: 'section_id2',
+                    name: 'section_name2'
+                },
+                {
+                    id: 'section_id3',
+                    name: 'section_name3'
+                }]
+        };
+    });
 
     describe('when no create param is in the url', () => {
         describe('When there is one round of draft questions to appellant', () => {
@@ -44,17 +64,7 @@ describe('QuestionsPanelComponent', () => {
                             CaseViewerModule,
                             RouterTestingModule
                         ],
-                        declarations: [],
-                        providers: [
-                            {
-                                provide: ActivatedRoute,
-                                useValue: mockRoute
-                            },
-                            {
-                                provide: ConfigService,
-                                useValue: mockConfigService
-                            }
-                        ]
+                        declarations: []
                     })
                     .compileComponents();
             }));
@@ -96,7 +106,7 @@ describe('QuestionsPanelComponent', () => {
                 fixture = TestBed.createComponent(QuestionsPanelComponent);
                 component = fixture.componentInstance;
                 component.panelData = data;
-                component.caseId = '13eb9981-9360-4d4b-b9fd-506b5818e7ff';
+                component.case = caseData;
                 nativeElement = fixture.nativeElement;
                 fixture.detectChanges();
             }));
@@ -124,9 +134,9 @@ describe('QuestionsPanelComponent', () => {
             it('should display two draft questions headings with a link to the associated question', () => {
                 const links = nativeElement.querySelectorAll(Selector.selector('questions-subject-link'));
                 expect(links[0].attributes.href.value)
-                    .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/be8ac935-ed7a-47b5-84ce-b5aa25e64512');
+                    .toEqual('/jurisdiction/SSCS/casetype/Benefit/viewcase/case_id/questions/be8ac935-ed7a-47b5-84ce-b5aa25e64512');
                 expect(links[1].attributes.href.value)
-                    .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/c7935438-b54c-4dad-bbe8-34fff72caf81');
+                    .toEqual('/jurisdiction/SSCS/casetype/Benefit/viewcase/case_id/questions/c7935438-b54c-4dad-bbe8-34fff72caf81');
             });
 
             it('should display two draft questions meta data', () => {
@@ -141,14 +151,14 @@ describe('QuestionsPanelComponent', () => {
                 expect(nativeElement.querySelector(Selector.selector('create-draft-questions-link')).textContent)
                     .toBe('Add questions');
                 expect(nativeElement.querySelector(Selector.selector('create-draft-questions-link')).attributes.href.value)
-                    .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/new');
+                    .toEqual('/jurisdiction/SSCS/casetype/Benefit/viewcase/case_id/questions/new');
             });
 
             it('should display link to send all draft questions', () => {
                 expect(nativeElement.querySelector(Selector.selector('send-draft-questions-link')).textContent)
                     .toBe('Send questions');
                 expect(nativeElement.querySelector(Selector.selector('send-draft-questions-link')).attributes.href.value)
-                    .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/check');
+                    .toEqual('/jurisdiction/SSCS/casetype/Benefit/viewcase/case_id/questions/check');
             });
         });
     });
@@ -190,7 +200,7 @@ describe('QuestionsPanelComponent', () => {
             fixture = TestBed.createComponent(QuestionsPanelComponent);
             component = fixture.componentInstance;
             component.panelData = data;
-            component.caseId = '13eb9981-9360-4d4b-b9fd-506b5818e7ff';
+            component.case = caseData;
             nativeElement = fixture.nativeElement;
             fixture.detectChanges();
         }));
@@ -214,7 +224,7 @@ describe('QuestionsPanelComponent', () => {
             expect(nativeElement.querySelector(Selector.selector('no-draft-questions-link')).textContent)
                 .toBe('Add questions');
             expect(nativeElement.querySelector(Selector.selector('no-draft-questions-link')).attributes.href.value)
-                .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/new');
+                .toEqual('/jurisdiction/SSCS/casetype/Benefit/viewcase/case_id/questions/new');
         });
 
         it('should not display link to send all draft questions', () => {
@@ -286,7 +296,7 @@ describe('QuestionsPanelComponent', () => {
             fixture = TestBed.createComponent(QuestionsPanelComponent);
             component = fixture.componentInstance;
             component.panelData = data;
-            component.caseId = '13eb9981-9360-4d4b-b9fd-506b5818e7ff';
+            component.case = caseData;
             nativeElement = fixture.nativeElement;
             fixture.detectChanges();
         }));
@@ -315,7 +325,7 @@ describe('QuestionsPanelComponent', () => {
             expect(nativeElement.querySelector(Selector.selector('no-draft-questions-link')).textContent)
                 .toBe('Add questions');
             expect(nativeElement.querySelector(Selector.selector('no-draft-questions-link')).attributes.href.value)
-                .toEqual('/viewcase/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/new');
+                .toEqual('/jurisdiction/SSCS/casetype/Benefit/viewcase/case_id/questions/new');
         });
 
         it('should display sent questions', () => {

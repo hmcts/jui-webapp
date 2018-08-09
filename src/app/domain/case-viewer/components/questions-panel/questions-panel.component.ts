@@ -8,7 +8,8 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class QuestionsPanelComponent implements OnInit {
     @Input() panelData;
-    caseId;
+    @Input() case;
+
     createdQuestion: string;
     updatedQuestion: string;
     deletedQuestion: string;
@@ -26,9 +27,6 @@ export class QuestionsPanelComponent implements OnInit {
             this.deletedQuestion = queryParams['deleted'];
             this.updatedQuestion = queryParams['updated'];
             this.sentQuestions = queryParams['sent'];
-        });
-        this.route.parent.params.subscribe(params => {
-            this.caseId = params['case_id'];
         });
     }
 }

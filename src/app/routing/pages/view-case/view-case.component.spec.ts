@@ -23,6 +23,8 @@ describe('ViewCaseComponent', () => {
                 data: {
                     caseData: {
                         id: 'case_id',
+                        case_jurisdiction: 'SSCS',
+                        case_type_id: 'Benefit',
                         sections: [{
                             id: 'section_id1',
                             name: 'section_name1'
@@ -84,8 +86,7 @@ describe('ViewCaseComponent', () => {
             expect(linkElements.length).toEqual(3);
             const linkEl = linkElements[0];
             expect(linkEl.tagName).toEqual('A');
-            expect(linkEl.getAttribute('href')).toEqual('/viewcase/case_id/section_id1');
-            expect(linkEl.getAttribute('ng-reflect-router-link')).toEqual('/viewcase/case_id/section_id1');
+            expect(linkEl.getAttribute('href')).toEqual('/jurisdiction/SSCS/casetype/Benefit/viewcase/case_id/section_id1');
             expect(linkEl.innerHTML).toEqual('section_name1');
         });
     });
