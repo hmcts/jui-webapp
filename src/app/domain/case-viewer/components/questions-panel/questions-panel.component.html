@@ -33,7 +33,7 @@
                     <p data-selector="draft-questions-details">You have not sent these questions to the appellant</p>
                 <div *ngFor="let question of round.questions">
                     <div data-selector="draft-questions-item" class="jui-questions__item">
-                        <h3 data-selector="questions-subject" class="jui-questions__subject"><a data-selector="questions-subject-link" routerLink="/jurisdiction/{{case.case_jurisdiction}}/casetype/{{case.case_type_id}}/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/{{question.id}}">{{question.header}}</a></h3>
+                        <h3 data-selector="questions-subject" class="jui-questions__subject"><a data-selector="questions-subject-link" routerLink="/jurisdiction/{{case.case_jurisdiction}}/casetype/{{case.case_type_id}}/viewcase/{{case.id}}/questions/{{question.id}}">{{question.header}}</a></h3>
                         <p data-selector="questions-meta-data" class="jui-questions__meta">Last updated by <span class="jui-questions__author">{{question.owner_reference}}</span> {{question.state_datetime | date: "'on' d MMMM yyyy 'at' h:mmaaaaa'm'":'+00:00'}}</p>
                     </div>
                 </div>

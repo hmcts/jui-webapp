@@ -397,7 +397,7 @@ describe('QuestionsPanelComponent', () => {
             fixture = TestBed.createComponent(QuestionsPanelComponent);
             component = fixture.componentInstance;
             component.panelData = data;
-            component.caseId = '13eb9981-9360-4d4b-b9fd-506b5818e7ff';
+            component.case = caseData;
             nativeElement = fixture.nativeElement;
             fixture.detectChanges();
         }));
