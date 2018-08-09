@@ -42,48 +42,60 @@ function format(state) {
 
 
 function hasCOR(caseData) {
-    return caseData.case_jurisdiction === 'SSCS';
+    return caseData.jurisdiction === 'SSCS';
+}
+
+function getCOR(casesData, options) {
+    let caseIds = casesData.map(caseRow => 'case_id=' + caseRow.id).join("&");
+    return new Promise(resolve => {
+        if (hasCOR(casesData[0])) {
+            getOnlineHearing(caseIds, options)
+                .then(hearings => {
+                    if (hearings.online_hearings) {
+                        let caseStateMap = new Map(hearings.online_hearings
+                            .map(hearing => [Number(hearing.case_id), hearing.current_state]));
+                        casesData.forEach(caseRow => {
+                            let state = caseStateMap.get(Number(caseRow.id));
+                            if (state != undefined && state != null && state.state_name != undefined && state.state_name != null) {
+                                caseRow.status = format(state.state_name);
+                                if (new Date(caseRow.last_modified) < new Date(state.state_datetime)) {
+                                    caseRow.last_modified = state.state_datetime;
+                                }
+                            }
+                        });
+                    }
+                    resolve(casesData);
+                });
+        }
+        else {
+            resolve(casesData);
+        }
+    });
 }
 
 
 
 
-function processCaseList(caseList) {
-    let casesData = caseList;
-    let caseIds = casesData.map(caseRow => 'case_id=' + caseRow.id).join("&");
-
-    if (hasCOR(casesData[0])) {
-        casesData = getOnlineHearing(caseIds, options)
-            .then(hearings => {
-                if (hearings.online_hearings) {
-                    let caseStateMap = new Map(hearings.online_hearings
-                        .map(hearing => [Number(hearing.case_id), hearing.current_state]));
-                    caseData.forEach(caseRow => {
-                        let state = caseStateMap.get(Number(caseRow.id));
-                        if (state != undefined && state != null && state.state_name != undefined && state.state_name != null) {
-                            caseRow.status = format(state.state_name);
-                            if (new Date(caseRow.last_modified) < new Date(state.state_datetime)) {
-                                caseRow.last_modified = state.state_datetime;
-                            }
-                        }
+function processCaseList(caseList, options) {
+    return new Promise((resolve, reject) => {
+        if (caseList && caseList.length) {
+            getCOR(caseList, options).then(casesData => {
+                const jurisdiction = casesData[0].jurisdiction;
+                const caseType = casesData[0].case_type_id;
+                const template = getListTemplate(jurisdiction, caseType);
+                const results = rawCasesReducer(casesData, template.columns)
+                    .filter(row => !!row.case_fields.case_ref)
+                    .sort(function (result1, result2) {
+                        return new Date(result1.case_fields.dateOfLastAction) - new Date(result2.case_fields.dateOfLastAction);
                     });
-                }
-                return caseData;
+
+                resolve(results)
             });
-    }
-
-    const jurisdiction = casesData[0].jurisdiction;
-    const caseType = casesData[0].case_type_id;
-
-    const template = getListTemplate(jurisdiction, caseType);
-
-    const results = rawCasesReducer(casesData, template.columns)
-        .filter(row => !!row.case_fields.case_ref)
-        .sort(function (result1, result2) {
-            return new Date(result1.case_fields.dateOfLastAction) - new Date(result2.case_fields.dateOfLastAction);
-        });
-
-    return results;
+        }
+        else {
+            resolve([]);
+        }
+    });
 }
 
 
@@ -112,7 +124,7 @@ module.exports = (req, res, next) => {
     }];
 
     getCases(userId, jurisdictions, options)
-        .then(caseLists => caseLists.map(caseList => processCaseList(caseList)))
+        .then(caseLists => Promise.all(caseLists.map(caseList => processCaseList(caseList, options))))
         .then(combineLists)
         .then(results => {
             const aggregatedData = {...sscsCaseListTemplate, results: results};
