@@ -1,4 +1,4 @@
-Feature: Do stuff
+Feature: Login
 
     @all
     Scenario: User can log in

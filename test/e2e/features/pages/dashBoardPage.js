@@ -14,6 +14,7 @@ function dashBoardPage() {
     this.case_start_date = element(by.css(('[data-selector="caseStartDate-header"]')));
     this.date_of_last_action = element(by.css(('[data-selector="dateOfLastAction-header"]')));
     this.last_action_dates = element.all(by.css('[data-selector="dateOfLastAction-value"]'));
+    this.sign_out_link = element(by.css('[data-selector="signout-link"]'));
 
     this.select_first_case_number = function() {
         this.case_number_links.first().click();
@@ -29,4 +30,4 @@ function dashBoardPage() {
     };
 }
 
-module.exports = new dashBoardPage();
+module.exports = new dashBoardPage;

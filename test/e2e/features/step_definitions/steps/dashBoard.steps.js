@@ -5,75 +5,74 @@ var dashBoardPage = require('../../pages/dashBoardPage');
 var caseSummaryPage = require('../../pages/caseSummaryPage');
 var {defineSupportCode} = require('cucumber');
 const config = require('../../../config/conf.js');
+
 const EC = protractor.ExpectedConditions;
 
 defineSupportCode(function ({Given, When, Then}) {
 
 
     Given(/^I navigate to JUI$/, async function () {
-       // await browser.get(this.config.serverUrls[this.config.targetEnv]);
         await browser.get(config.config.baseUrl);
         await browser.driver.manage().deleteAllCookies();
         await browser.refresh();
     });
 
+
     Then(/^I am logged in as a Judge$/, async function () {
-       await  signInPage.emailAddress.sendKeys(this.config.username); //replace username and password
+        await signInPage.emailAddress.sendKeys(this.config.username); //replace username and password
         await signInPage.password.sendKeys(this.config.password);
         browser.sleep(10000);
         await signInPage.signinBtn.click();
     });
 
     When(/^I am on the dashboard page$/, async function () {
-        var dashboard_header_text = dashBoardPage.dashboard_header;
-//        await expect(dashboard_header_text).to.be.present;
-        await dashBoardPage.table.isDisplayed();
+        browser.sleep(3000);
+        await expect(dashBoardPage.sign_out_link.isDisplayed()).to.eventually.be.true;
+        await expect(dashBoardPage.dashboard_header.isDisplayed()).to.eventually.be.true;
+
     });
 
 
-    When(/^one or more cases are displayed$/,  async function () {
-       await dashBoardPage.parties.isDisplayed();
-        await dashBoardPage.case_number_links.isDisplayed();
-        var no_of_cases = dashBoardPage.number_of_rows.length;
-        var no_of_case_reference = dashBoardPage.case_number_links.length;
-        assert(no_of_cases === no_of_case_reference, 'no table present');
+    When(/^one or more cases are displayed$/, async function () {
+        var no_of_cases = dashBoardPage.number_of_rows.count().then(function (count) {
+            if (count > 0) {
+
+                dashBoardPage.case_number_links.first().getAttribute('href').then(function (attr) {
+                    var re = new RegExp(config.config.baseUrl+'/viewcase/(.+)/summary').compile();
+                    expect(attr).to.match(re);
+                });
+
+            } else
+                console.log('no case reference links present', +count);
+        });
+
     });
 
-
-    When(/^all case numbers are hyperlinked$/,  async function () {
-        var case_nums = dashBoardPage.case_number_links;
-        await case_nums.first().getText().then(async function(text){
-            var expectedRefNum = conf.baseUrl + '/viewcase/' + text + '/summary'
-            await expect(case_nums.first().getAttribute('href')).to.eventually.equal(expectedRefNum);
-        })
-    });
 
 
     When(/^I select a case reference$/, async function () {
-        await dashBoardPage.case_number_links.last().click();
+        await dashBoardPage.case_number_links.first().click();
     });
 
 
     Then(/^I will be redirected to the Case Summary page for that case$/, async function () {
-        var caseSummary_header_text = caseSummaryPage.caseSummary_header_text;
-        await expect(caseSummary_header_text.isDisplayed()).to.eventually.be.true;
-//        var case_num = caseSummaryPage.selected_case;
-//        await expect(case_num.first().isDisplayed()).to.eventually.be.true;
+        browser.sleep(3000);
+        await expect(caseSummaryPage.caseSummary_header_text.isDisplayed()).to.eventually.be.true;
+        await expect(caseSummaryPage.caseSummary_header_text.getText()).to.eventually.equal('Summary');
     });
 
 
     Then(/^I will see date details for the list of cases displayed$/, async function () {
-       // await expect(dashBoardPage.case_reference_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.parties_header.isDisplayed()).to.eventually.be.true;
-        await expect(dashBoardPage.type_header.isDisplayed()).to.eventually.be.true.and;
+        await expect(dashBoardPage.type_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.case_start_date.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.date_of_last_action.isDisplayed()).to.eventually.be.true;
     });
 
     When(/^I see Date of latest action by date ascending order$/, async function () {
-         await dashBoardPage.last_action_dates.count().then(function(text){
-             console.log('Number of Cases: ' + text);
-             if (text>1) {
+        await dashBoardPage.last_action_dates.count().then(function (text) {
+            console.log('Number of Cases: ' + text);
+            if (text > 1) {
                 dashBoardPage.last_action_dates.map(function (elm) {
                     return elm.getText().then(function (text) {
                         return (text);
@@ -85,7 +84,7 @@ defineSupportCode(function ({Given, When, Then}) {
                     expect(lastActionDates).equals(sortedLastActionDates);
                 });
             }
-         });
-     });
+        });
+    });
 
 });
