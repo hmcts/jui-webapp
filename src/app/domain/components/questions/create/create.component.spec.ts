@@ -153,7 +153,7 @@ describe('CreateQuestionsComponent', () => {
                 .flush({question_id: '9727a0fc-11bb-4212-821f-b36e312bbace'});
         });
 
-        it('should set erros for an invalid form', () => {
+        it('should set errors for an invalid form', () => {
             expect(component.form.valid).toBeFalsy();
 
             component.submitCallback({});
@@ -161,8 +161,26 @@ describe('CreateQuestionsComponent', () => {
             expect(component.form.valid).toBeFalsy();
             expect(component.error.subject).toBeTruthy();
             expect(component.error.question).toBeTruthy();
+        });
 
+        it('should set an error for an invalid subject with whitespace only', () => {
+            expect(component.form.valid).toBeFalsy();
+            component.form.controls['subject'].setValue('      ');
+            expect(component.form.valid).toBeFalsy();
 
+            component.submitCallback({});
+
+            expect(component.form.valid).toBeFalsy();
+        });
+
+        it('should set an error for an invalid question with whitespace only', () => {
+            expect(component.form.valid).toBeFalsy();
+            component.form.controls['question'].setValue('       ');
+            expect(component.form.valid).toBeFalsy();
+
+            component.submitCallback({});
+
+            expect(component.form.valid).toBeFalsy();
         });
     });
 

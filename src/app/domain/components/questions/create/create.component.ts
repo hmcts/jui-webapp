@@ -57,8 +57,9 @@ export class CreateQuestionsComponent implements OnInit {
     }
 
     submitCallback(values) {
-        console.log('woop!!!!', values);
-        console.log('is it valid? - ', this.form.valid);
+        values.subject && this.form.controls.subject.setValue(values.subject.trim());
+        values.question && this.form.controls.question.setValue(values.question.trim());
+
         if (this.form.valid) {
             this.questionService.create(this.caseId, values)
                 .subscribe(res => {
