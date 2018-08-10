@@ -76,6 +76,30 @@ module.exports = {
                             type: 'tab',
                             fields: [
                                 {
+                                    label: 'Full name',
+                                    value: ['$.case_data.appeal.appellant.name.firstName', '$.case_data.appeal.appellant.name.lastName']
+                                },
+                                {
+                                    label: 'Date of birth',
+                                    value: '$.case_type_id'
+                                },
+                                {
+                                    label: 'Address',
+                                    value: '$.case_type_id'
+                                },
+                                {
+                                    label: 'Phone',
+                                    value: '$.case_type_id'
+                                },
+                                {
+                                    label: 'Email',
+                                    value: '$.case_type_id'
+                                },
+                                {
+                                    label: 'Representative',
+                                    value: '$.case_type_id'
+                                },
+                                {
                                     label: 'Parties',
                                     value: '$.id'
                                 },

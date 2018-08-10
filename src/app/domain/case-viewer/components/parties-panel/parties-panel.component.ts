@@ -1,4 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
     selector: 'app-parties-panel',
@@ -8,11 +9,30 @@ import {Component, Input, OnInit} from '@angular/core';
 export class PartiesPanelComponent implements OnInit {
 
     @Input() panelData;
+    params: any;
+    tabContent: any;
 
-    constructor() {
+    constructor(public router: Router, private route: ActivatedRoute) {
+        this.route.params.subscribe(params => {
+            this.params = params;
+            this.switchTabs(this.panelData);
+        });
     }
 
     ngOnInit() {
+        this.switchTabs(this.panelData);
+        if (this.params.section_item_id === undefined) {
+            this.router.navigate([`/viewcase/${this.params.case_id}/${this.params.section}/petitioner`]);
+        }
     }
 
+    switchTabs(data) {
+        if (data) {
+            for (let dataTab of data.sections) {
+                if (dataTab.id === this.params.section_item_id) {
+                    this.tabContent = dataTab;
+                }
+            }
+        }
+    }
 }
