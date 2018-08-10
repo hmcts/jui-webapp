@@ -2,8 +2,8 @@ const divorce = require('./divorce.template.json');
 const sscs = require('./sscs.template.json');
 
 const templates = {
-    divorce: divorce,
-    sscs, sscs
+    divorce,
+    sscs
 };
 
 module.exports = (jurisdiction, caseType) => {

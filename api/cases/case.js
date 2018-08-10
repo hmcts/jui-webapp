@@ -1,4 +1,3 @@
-const sscsCaseTemplate = require('./sscsCase.template');
 const generateRequest = require('../lib/request');
 const config = require('../../config');
 const valueProcessor = require('../lib/processors/value-processor');
@@ -17,11 +16,15 @@ function getCaseWithEventsAndQuestions(caseId, userId, options, caseType, jurisd
         getEvents(caseId, userId, options, caseType, jurisdiction)
     ];
 
-    if(jurisdiction === 'SSCS') {
+    if(hasCOR(jurisdiction, caseType)) {
         promiseArray.push(getAllQuestionsByCase(caseId, userId, options, jurisdiction));
     }
 
     return Promise.all(promiseArray);
+}
+
+function hasCOR(jurisdiction, caseType) {
+    return jurisdiction === 'SSCS';
 }
 
 function replaceSectionValues(section, caseData) {
