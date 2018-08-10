@@ -111,6 +111,7 @@ module.exports = (req, res, next) => {
         }
     };
 
+    //As requested by Chelsea - The below is hardcoded. In future this should not be hardcoded but driven by the user.
     const jurisdictions = [{
         jur: 'DIVORCE',
         caseType: 'DIVORCE'
