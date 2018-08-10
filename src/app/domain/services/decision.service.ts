@@ -56,7 +56,7 @@ export class DecisionService {
             decision_header: decision.decision_header,
             decision_reason: decision.decision_reason,
             decision_text: decision.decision_text,
-            decision_state: 'decision_issued'
+            decision_state: 'decision_issue_pending'
         };
         return this.httpClient.put(url, body);
     }
