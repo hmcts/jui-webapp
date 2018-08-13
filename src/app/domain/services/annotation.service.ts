@@ -24,12 +24,12 @@ export class AnnotationService {
         const params = new HttpParams().set('url', documentUrl);
         return this.httpClient.get(url, { params: params }).pipe(map(data => {
             const firstAnnotationSet = null;
-            if (data._embedded && data._embedded.annotationSets && data._embedded.annotationSets.length > 0) {
-                firstAnnotationSet = data._embedded.annotationSets[0];
-                this.state.set(key, firstAnnotationSet);
-            } else {
-                //CREATE ANNOTATION SET
-            }
+            // if (data._embedded && data._embedded.annotationSets && data._embedded.annotationSets.length > 0) {
+            //     // firstAnnotationSet = data._embedded.annotationSets[0];
+            //     // this.state.set(key, firstAnnotationSet);
+            // } else {
+            //     //CREATE ANNOTATION SET
+            // }
             return firstAnnotationSet;
         }));
     }
