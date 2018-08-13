@@ -102,6 +102,27 @@
         "id": "decision",
         "name": "Make a decision",
         "type": "decision-page",
-        "options": [ ]
+        "options": [
+            {
+                "id": "approve-consent-order",
+                "name": "Approve consent order"
+            },
+            {
+                "id": "ask-for-more-information",
+                "name": "Ask for more information"
+            },
+            {
+                "id": "send-annotated-order-to-solicitors",
+                "name": "Send annotated order to solicitors"
+            },
+            {
+                "id": "list-for-hearing",
+                "name": "List for hearing"
+            },
+            {
+                "id": "reject-consent-order",
+                "name": "Reject consent order"
+            }
+        ]
     }
 }
