@@ -35,7 +35,7 @@ export class AnnotationService {
     }
 
     update(annotationSet): Observable<Object> {
-
+        return null;
     }
 
 }
