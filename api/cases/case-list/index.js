@@ -1,17 +1,14 @@
-const sscsCaseListTemplate = require('./templates/caseList/sscs.template.json');
-const generateRequest = require('../lib/request');
-const config = require('../../config');
-const valueProcessor = require('../lib/processors/value-processor');
-const getListTemplate = require('./templates/caseList');
+const sscsCaseListTemplate = require('./templates/sscs/benefit');
+const generateRequest = require('../../lib/request');
+const config = require('../../../config');
+const valueProcessor = require('../../lib/processors/value-processor');
+const getListTemplate = require('./templates');
 
-function getCases(userId, options, caseType = 'Benefit', caseStateId = 'appealCreated', jurisdiction = 'SSCS', benefitType = 'case.appeal.benefitType.code=PIP&') {
-    return generateRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases?sortDirection=DESC`, options)
-}
 
 function getCases(userId, jurisdictions, options) {
     const promiseArray = [];
     jurisdictions.forEach(jurisdiction => {
-        promiseArray.push(generateRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction.jur}/case-types/${jurisdiction.caseType}/cases?sortDirection=DESC`, options))
+        promiseArray.push(generateRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction.jur}/case-types/${jurisdiction.caseType}/cases?sortDirection=DESC${jurisdiction.filter}`, options))
     });
     return Promise.all(promiseArray);
 }
@@ -72,9 +69,6 @@ function getCOR(casesData, options) {
     });
 }
 
-
-
-
 function processCaseList(caseList, options) {
     return new Promise((resolve, reject) => {
         if (caseList && caseList.length) {
@@ -94,7 +88,6 @@ function processCaseList(caseList, options) {
     });
 }
 
-
 function combineLists(lists) {
     return [].concat(...lists);
 }
@@ -111,23 +104,41 @@ module.exports = (req, res, next) => {
         }
     };
 
-    //As requested by Chelsea - The below is hardcoded. In future this should not be hardcoded but driven by the user.
-    const jurisdictions = [{
-        jur: 'DIVORCE',
-        caseType: 'DIVORCE'
-    }, {
-        jur: 'SSCS',
-        caseType: 'Benefit'
-    }];
+    const jurisdictions = [
+        {
+            jur: 'DIVORCE',
+            caseType: 'DIVORCE',
+            filter: ''
+        },
+        {
+            jur: 'SSCS',
+            caseType: 'Benefit',
+            filter: '&state=appealCreated&case.appeal.benefitType.code=PIP'
+        },
+        {
+            jur: 'DIVORCE',
+            caseType: 'FinancialRemedyMVP2',
+            filter: ''
+        },
+        // {
+        //     jur: 'CMC',
+        //     caseType: 'MoneyClaimCase',
+        //     filter: ''
+        // },
+        // {
+        //     jur: 'PROBATE',
+        //     caseType: 'GrantOfRepresentation',
+        //     filter: ''
+        // }
+    ];
 
     getCases(userId, jurisdictions, options)
         .then(caseLists => Promise.all(caseLists.map(caseList => processCaseList(caseList, options))))
         .then(combineLists)
         .then(results => {
-            results.sort(function (result1, result2) {
-                return new Date(result1.case_fields.dateOfLastAction) - new Date(result2.case_fields.dateOfLastAction);
-            });
-            const aggregatedData = {...sscsCaseListTemplate, results: results};
+            return results.sort((result1, result2) => new Date(result1.case_fields.dateOfLastAction) - new Date(result2.case_fields.dateOfLastAction));
+        }).then(results => {
+            const aggregatedData = {...sscsCaseListTemplate, results};
             res.setHeader('Access-Control-Allow-Origin', '*');
             res.setHeader('content-type', 'application/json');
             res.status(200).send(JSON.stringify(aggregatedData));

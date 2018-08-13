@@ -50,10 +50,3 @@ variable "common_tags" {
 variable "capacity" {
   default = "1"
 }
-
-////////////////////////////////////////////////
-// Endpoints
-////////////////////////////////////////////////
-variable "vault_section" {
-  default = "test"
-}

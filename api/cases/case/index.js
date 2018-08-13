@@ -1,10 +1,10 @@
-const generateRequest = require('../lib/request');
-const config = require('../../config');
-const valueProcessor = require('../lib/processors/value-processor');
-const { getEvents } = require('../events');
-const { getDocuments } = require('../documents');
-const { getAllQuestionsByCase } = require('../questions');
-const getCaseTemplate = require('./templates/case');
+const generateRequest = require('../../lib/request');
+const config = require('../../../config/index');
+const valueProcessor = require('../../lib/processors/value-processor');
+const { getEvents } = require('../../events');
+const { getDocuments } = require('../../documents');
+const { getAllQuestionsByCase } = require('../../questions');
+const getCaseTemplate = require('./templates');
 
 function getCase(caseId, userId, options, caseType = 'Benefit', jurisdiction = 'SSCS') {
     return generateRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}`, options);
@@ -59,7 +59,7 @@ module.exports = (req, res, next) => {
             caseData.questions = questions;
             caseData.events = events;
 
-            const schema = JSON.parse(JSON.stringify(getCaseTemplate(caseData.jurisdiction)));
+            const schema = JSON.parse(JSON.stringify(getCaseTemplate(caseData.jurisdiction, caseData.case_type_id)));
             if (schema.details) {
                 replaceSectionValues(schema.details, caseData);
             }

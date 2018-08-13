@@ -3,7 +3,7 @@ const supertest = require('supertest');
 const express = require('express');
 
 const router = express.Router();
-const sscsCaseListTemplate = require('./templates/caseList/sscs.template.json');
+const sscsCaseListTemplate = require('./templates/sscs/benefit');
 
 describe('case-list spec', () => {
     let sscsCaseData;
@@ -35,7 +35,7 @@ describe('case-list spec', () => {
             return Promise.resolve(sscsCaseData);
         });
 
-        route = proxyquire('./case-list', { '../lib/request': httpRequest });
+        route = proxyquire('./index', { '../../lib/request': httpRequest });
         router.get('/', route);
         app = express();
         app.use((req, res, next) => {
@@ -146,7 +146,7 @@ describe('case-list spec', () => {
             request.get('/api/cases')
                 .expect(200)
                 .then(response => {
-                    expect(response.body.results.length).toBe(2);
+                    expect(response.body.results.length).toBe(3);
                     expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
 
                     expect(response.body.results[0]).toEqual({
@@ -180,7 +180,6 @@ describe('case-list spec', () => {
 
 
     });
-
 
 
     describe('when 2 cases exist, one with valid and other with missing case reference', () => {

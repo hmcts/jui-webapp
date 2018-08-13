@@ -1,16 +1,14 @@
 {
     "details": {
         "fields": [
-            {
-                "value": "$.case_data.caseReference"
-            },
-            {
-                "value": [
-                    "$.case_data.appeal.appellant.name.firstName",
-                    "$.case_data.appeal.appellant.name.lastName",
-                    "v DWP"
-                ]
-            }
+            { "value": "$.case_data.caseReference" },
+            { "value": [
+                "$.case_data.applicantFMName",
+                "$.case_data.applicantLName",
+                "v",
+                "$.case_data.appRespondentFMName",
+                "$.case_data.appRespondentLName"
+            ] }
         ]
     },
     "sections": [
@@ -30,9 +28,11 @@
                                 {
                                     "label": "Parties",
                                     "value": [
-                                        "$.case_data.appeal.appellant.name.firstName",
-                                        "$.case_data.appeal.appellant.name.lastName",
-                                        "v DWP"
+                                        "$.case_data.applicantFMName",
+                                        "$.case_data.applicantLName",
+                                        "v",
+                                        "$.case_data.appRespondentFMName",
+                                        "$.case_data.appRespondentLName"
                                     ]
                                 },
                                 {
@@ -41,36 +41,24 @@
                                 },
                                 {
                                     "label": "Case type",
-                                    "value": "$.case_data.appeal.benefitType.code"
+                                    "value": "$.case_data.caseType"
                                 }
                             ]
                         },
                         {
-                            "name": "Panel members",
+                            "name": "Related cases",
                             "type": "data-list",
                             "fields": [
                                 {
-                                    "label": "Judge",
-                                    "value": "$.case_data.panel.assignedTo"
-                                },
-                                {
-                                    "label": "Medical Member",
-                                    "value": "$.case_data.panel.medicalMember"
-                                },
-                                {
-                                    "label": "Disability qualified member",
-                                    "value": "$.case_data.panel.disabilityQualifiedMember"
+                                    "label": "Divorce",
+                                    "value": "$.divorceCaseNumber"
                                 }
                             ]
                         },
                         {
                             "name": "Recent events",
                             "type": "timeline",
-                            "fields": [
-                                {
-                                    "value": "$.events"
-                                }
-                            ]
+                            "fields": [{ "value": "$.events" }]
                         }
                     ]
                 }
@@ -86,9 +74,12 @@
                     "name": "Case file",
                     "type": "document-panel",
                     "fields": [
-                        {
-                            "value": "$.case_data.sscsDocument|document_processor"
-                        }
+                        { "value": "$.case_data.frDocument|document_processor" },
+                        { "value": "$.case_data.d81Applicant|document_processor" },
+                        { "value": "$.case_data.d81Respondent|document_processor" },
+                        { "value": "$.case_data.consentOrder|document_processor" },
+                        { "value": "$.case_data.consentOrderText|document_processor" },
+                        { "value": "$.case_data.divorceUploadEvidence1|document_processor" }
                     ]
                 }
             ]
@@ -102,11 +93,7 @@
                     "id": "events",
                     "name": "Timeline",
                     "type": "timeline-panel",
-                    "fields": [
-                        {
-                            "value": "$.events"
-                        }
-                    ]
+                    "fields": [{ "value": "$.events" }]
                 }
             ]
         }
@@ -115,15 +102,6 @@
         "id": "decision",
         "name": "Make a decision",
         "type": "decision-page",
-        "options": [
-            {
-                "id": "appeal-upheld",
-                "name": "Appeal upheld"
-            },
-            {
-                "id": "appeal-denied",
-                "name": "Appeal denied"
-            }
-        ]
+        "options": [ ]
     }
 }
