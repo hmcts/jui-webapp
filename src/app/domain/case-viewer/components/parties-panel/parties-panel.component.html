@@ -1,9 +1,9 @@
 <div class="govuk-tabs" data-module="tabs">
     <ul class="govuk-tabs__list" role="tablist">
         <li class="govuk-tabs__list-item" role="presentation" *ngFor="let tab of panelData.sections; let i = index">
-            <a class="govuk-tabs__tab"  [attr.aria-selected]="tab.id===params.section_item_id ? true : false" routerLink="/viewcase/{{params.case_id}}/{{params.section}}/{{tab.id}}">
-                {{tab.name}}
-            </a>
+            <!--<a class="govuk-tabs__tab"  [attr.aria-selected]="tab.id===params.section_item_id ? true : false" routerLink="/jurisdiction/{{params.jur}}/casetype/{{params.casetype}}/viewcase/{{params.case_id}}/{{params.section}}/{{tab.id}}">-->
+                <!--{{tab.name}}-->
+            <!--</a>-->
         </li>
     </ul>
     <section *ngIf="tabContent" class="govuk-tabs__panel">
