@@ -19,13 +19,8 @@ describe('PartiesPanelComponent', () => {
     beforeEach(() => {
         fixture = TestBed.createComponent(PartiesPanelComponent);
         component = fixture.componentInstance;
-       // fixture.detectChanges();
-        fixture.whenStable().then(() => {
-            // after something in the component changes, you should detect changes
-            fixture.detectChanges();
-        });
 
-        let panelData =  {
+        component.panelData =  {
             "id": "parties",
             "name": "Parties",
             "type": "page",
@@ -125,8 +120,9 @@ describe('PartiesPanelComponent', () => {
                 }
             ]
         };
+        fixture.detectChanges();
     });
     it('should create PartiesComponent', () => {
-    expect(component).toBeTruthy();
+        expect(component).toBeTruthy();
     });
 });
