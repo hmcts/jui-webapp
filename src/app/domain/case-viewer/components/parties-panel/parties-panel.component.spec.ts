@@ -3,22 +3,26 @@ import { PartiesPanelComponent } from './parties-panel.component';
 
 import {RouterTestingModule} from '@angular/router/testing';
 
-describe('PartiesPanelComponent', () => {
+fdescribe('Component: PartiesPanelComponent', () => {
     let component: PartiesPanelComponent;
     let fixture: ComponentFixture<PartiesPanelComponent>;
 
-    beforeEach(async(() => {
-        TestBed
-            .configureTestingModule({
-                imports: [
-                    RouterTestingModule
-                ],
+    beforeEach(async(() => {TestBed.configureTestingModule({
+                imports: [RouterTestingModule],
                 declarations: [PartiesPanelComponent]
-            })
-            .compileComponents(); }));
+            }).compileComponents();
+    }));
+
     beforeEach(() => {
         fixture = TestBed.createComponent(PartiesPanelComponent);
         component = fixture.componentInstance;
+
+        component.params = {
+            jur: "DIVORCE",
+            casetype: "DIVORCE",
+            case_id: '1533043850228176',
+            section: 'parties'
+        };
 
         component.panelData =  {
             "id": "parties",
@@ -124,5 +128,11 @@ describe('PartiesPanelComponent', () => {
     });
     it('should create PartiesComponent', () => {
         expect(component).toBeTruthy();
+    });
+
+    describe('when parties page loaded', () => {
+        it('open the first tab url', () => {
+            expect(true).toBe(true);
+        });
     });
 });
