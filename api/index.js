@@ -7,6 +7,7 @@ const auth = require('./auth');
 const questions = require('./questions');
 const events = require('./events');
 const documents = require('./documents');
+const definitions = require('./definitions');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const authInterceptor = require('./middleware/auth');
@@ -18,6 +19,7 @@ router.use(authInterceptor);
 questions(router);
 events(router);
 documents(router);
+definitions(router);
 
 router.use('/cases', caseRoutes);
 router.use('/decisions', decisionRoutes);

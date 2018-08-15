@@ -1,7 +1,3 @@
-const jp = require('jsonpath');
-const express = require('express');
-
-const router = express.Router();
 const documentsRoute = require('./document');
 const { getDocuments } = require('./document');
 

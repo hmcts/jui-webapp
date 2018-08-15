@@ -1,6 +1,7 @@
 module.exports = {
     services: {
         ccd_data_api: 'https://ccd-data-store-api-prod.service.core-compute-prod.internal',
+        ccd_def_api: 'https://ccd-definition-store-api-prod.service.core-compute-prod.internal',
         idam_web: 'http://idam-web-public-idam-prod.service.core-compute-prod.internal',
         idam_api: 'http://idam-api-idam-prod.service.core-compute-prod.internal',
         s2s: 'http://rpe-service-auth-provider-prod.service.core-compute-prod.internal',

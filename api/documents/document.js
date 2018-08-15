@@ -1,7 +1,6 @@
 const express = require('express');
 const generateRequest = require('../lib/request');
 const config = require('../../config');
-const proxy = require('../lib/proxy');
 const getOptions = require('./options');
 
 function getDocumentBinary(docId, options) {

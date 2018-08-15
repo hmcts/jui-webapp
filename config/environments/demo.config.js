@@ -1,6 +1,7 @@
 module.exports = {
     services: {
         ccd_data_api: 'https://ccd-data-store-api-demo.service.core-compute-demo.internal',
+        ccd_def_api: 'https://ccd-definition-store-api-aat.service.core-compute-aat.internal',
         // idam_web: "http://idam-web-public-idam-demo.service.core-compute-demo.internal",
         // idam_api: "http://idam-api-idam-demo.service.core-compute-demo.internal",
         idam_api: 'https://preprod-idamapi.reform.hmcts.net:3511',
