@@ -54,7 +54,9 @@ function getCOR(casesData, options) {
                             let state = caseStateMap.get(Number(caseRow.id));
                             if (state !== undefined && state !== null && state.state_name !== undefined && state.state_name !== null) {
                                 // TODO: this state should only change if CCD is the COH state else default to CCD state
-                                caseRow.state = format(state.state_name);
+                                // if(caseRow.state === 'COH'){
+                                    caseRow.state = format(state.state_name);
+                                // }
                                 if (new Date(caseRow.last_modified) < new Date(state.state_datetime)) {
                                     caseRow.last_modified = state.state_datetime;
                                 }
@@ -79,6 +81,13 @@ function processCaseList(caseList, options) {
                 const template = getListTemplate(jurisdiction, caseType);
                 const results = rawCasesReducer(casesData, template.columns)
                     .filter(row => !!row.case_fields.case_ref);
+
+
+                console.dir(results);
+                results.forEach(caseD => {
+                    console.log(caseD.case_fields.status);
+                    caseD.case_fields.status = 'bob';
+                });
 
                 resolve(results)
             });
