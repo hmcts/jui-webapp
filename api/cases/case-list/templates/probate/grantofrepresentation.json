@@ -1,0 +1,44 @@
+{
+    "case_number": {
+        "label": "$.case_data.ihtReferenceNumber"
+    },
+    "columns": [
+        {
+            "label": "Case Reference",
+            "case_field_id": "case_ref",
+            "value": "$.case_data.ihtReferenceNumber"
+        },
+        {
+            "label": "Parties",
+            "case_field_id": "parties",
+            "value": [
+                "$.case_data.deceasedForenames",
+                "$.case_data.deceasedSurname"]
+        },
+        {
+            "label": "Type",
+            "case_field_id": "type",
+            "value": [
+                "Grant of Representation"
+            ]
+        },
+        {
+            "label": "Action needed",
+            "case_field_id": "status",
+            "value": "$.state"
+        },
+        {
+            "label": "Case Start Date",
+            "case_field_id": "caseStartDate",
+            "value": "$.created_date",
+            "date_format": "d MMM yyyy"
+        },
+        {
+            "label": "Date of Last Action",
+            "case_field_id": "dateOfLastAction",
+            "value": "$.last_modified",
+            "date_format": "d MMM yyyy"
+        }
+    ]
+}
+

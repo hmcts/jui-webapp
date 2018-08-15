@@ -1,0 +1,128 @@
+{
+    "details": {
+        "fields": [
+            { "value": "$.case_data.caseReference" },
+            { "value": [
+                "$.case_data.applicantFMName",
+                "$.case_data.applicantLName",
+                "v",
+                "$.case_data.appRespondentFMName",
+                "$.case_data.appRespondentLName"
+            ] }
+        ]
+    },
+    "sections": [
+        {
+            "id": "summary",
+            "name": "Summary",
+            "type": "page",
+            "sections": [
+                {
+                    "name": "Summary",
+                    "type": "summary-panel",
+                    "sections": [
+                        {
+                            "name": "Case details",
+                            "type": "data-list",
+                            "fields": [
+                                {
+                                    "label": "Parties",
+                                    "value": [
+                                        "$.case_data.applicantFMName",
+                                        "$.case_data.applicantLName",
+                                        "v",
+                                        "$.case_data.appRespondentFMName",
+                                        "$.case_data.appRespondentLName"
+                                    ]
+                                },
+                                {
+                                    "label": "Case number",
+                                    "value": "$.case_data.caseReference"
+                                },
+                                {
+                                    "label": "Case type",
+                                    "value": "$.case_data.caseType"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Related cases",
+                            "type": "data-list",
+                            "fields": [
+                                {
+                                    "label": "Divorce",
+                                    "value": "$.divorceCaseNumber"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Recent events",
+                            "type": "timeline",
+                            "fields": [{ "value": "$.events" }]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "casefile",
+            "name": "Case file",
+            "type": "page",
+            "sections": [
+                {
+                    "id": "documents",
+                    "name": "Case file",
+                    "type": "document-panel",
+                    "fields": [
+                        { "value": "$.case_data.frDocument|document_processor" },
+                        { "value": "$.case_data.d81Applicant|document_processor" },
+                        { "value": "$.case_data.d81Respondent|document_processor" },
+                        { "value": "$.case_data.consentOrder|document_processor" },
+                        { "value": "$.case_data.consentOrderText|document_processor" },
+                        { "value": "$.case_data.divorceUploadEvidence1|document_processor" }
+                    ]
+                }
+            ]
+        },
+        {
+            "id": "timeline",
+            "name": "Timeline",
+            "type": "page",
+            "sections": [
+                {
+                    "id": "events",
+                    "name": "Timeline",
+                    "type": "timeline-panel",
+                    "fields": [{ "value": "$.events" }]
+                }
+            ]
+        }
+    ],
+    "decision": {
+        "id": "decision",
+        "name": "Make a decision",
+        "type": "decision-page",
+        "options": [
+            {
+                "id": "approve-consent-order",
+                "name": "Approve consent order"
+            },
+            {
+                "id": "ask-for-more-information",
+                "name": "Ask for more information"
+            },
+            {
+                "id": "send-annotated-order-to-solicitors",
+                "name": "Send annotated order to solicitors"
+            },
+            {
+                "id": "list-for-hearing",
+                "name": "List for hearing"
+            },
+            {
+                "id": "reject-consent-order",
+                "name": "Reject consent order"
+            }
+        ]
+    }
+}

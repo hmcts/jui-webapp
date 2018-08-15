@@ -1,35 +1,38 @@
 {
-
-    "case_number": { "label": "$.case_data.caseReference" },
+    "case_number": {
+        "label": "$.id"
+    },
     "columns": [
         {
             "label": "Case Reference",
             "case_field_id": "case_ref",
-            "value": "$.case_data.caseReference"
+            "value": "$.id"
         },
         {
             "label": "Parties",
             "case_field_id": "parties",
-            "value": ["$.case_data.appeal.appellant.name.firstName", "$.case_data.appeal.appellant.name.lastName", "v DWP"]
+            "value": []
         },
         {
             "label": "Type",
             "case_field_id": "type",
-            "value": "$.case_data.appeal.benefitType.code"
+            "value": ["$.jurisdiction","(","$.case_type_id",")"]
+
         },
         {
-            "label": "Status",
+            "label": "Action needed",
             "case_field_id": "status",
             "value": "$.status"
+
         },
         {
-            "label": "Start date",
+            "label": "Case Start Date",
             "case_field_id": "caseStartDate",
             "value": "$.created_date",
             "date_format": "d MMM yyyy"
         },
         {
-            "label": "Date of last event",
+            "label": "Date of Last Action",
             "case_field_id": "dateOfLastAction",
             "value": "$.last_modified",
             "date_format": "d MMM yyyy"

@@ -65,11 +65,11 @@ describe('case spec', () => {
             return new Promise(httpResponse);
         });
 
-        route = proxyquire('./case', {
-            '../lib/request': httpRequest,
-            '../questions': questionsMock,
-            '../events': eventsMock,
-            '../documents': documentsMock
+        route = proxyquire('./index', {
+            '../../lib/request': httpRequest,
+            '../../questions': questionsMock,
+            '../../events': eventsMock,
+            '../../documents': documentsMock
         });
         router.get('/:case_id', route);
         app = express();
