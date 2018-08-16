@@ -1,7 +1,7 @@
 {
     "details": {
         "fields": [
-            { "value": "$.case_data.caseReference" },
+            { "value": "$.id" },
             { "value": [
                 "$.case_data.applicantFMName",
                 "$.case_data.applicantLName",
