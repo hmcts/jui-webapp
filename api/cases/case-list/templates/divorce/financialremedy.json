@@ -28,7 +28,7 @@
         {
             "label": "Action needed",
             "case_field_id": "status",
-            "value": "$.state"
+            "value": "$.state|case_status_processor"
 
         },
         {
