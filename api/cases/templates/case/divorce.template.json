@@ -114,18 +114,6 @@
                                 {
                                     "label": "Representative",
                                     "value": "$.case_type_id"
-                                },
-                                {
-                                    "label": "Parties",
-                                    "value": "$.id"
-                                },
-                                {
-                                    "label": "Case number",
-                                    "value": "$.id"
-                                },
-                                {
-                                    "label": "Case type",
-                                    "value": "$.case_type_id"
                                 }
                             ]
                         },
@@ -156,18 +144,6 @@
                                 },
                                 {
                                     "label": "Representative",
-                                    "value": "$.case_type_id"
-                                },
-                                {
-                                    "label": "Parties",
-                                    "value": "$.id"
-                                },
-                                {
-                                    "label": "Case number",
-                                    "value": "$.id"
-                                },
-                                {
-                                    "label": "Case type",
                                     "value": "$.case_type_id"
                                 }
                             ]
