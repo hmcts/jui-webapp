@@ -119,13 +119,6 @@ function processCaseList(caseList, options) {
                 const results = rawCasesReducer(casesData, template.columns)
                     .filter(row => !!row.case_fields.case_ref);
 
-
-                console.dir(results);
-                results.forEach(caseD => {
-                    console.log(caseD.case_fields.status);
-                    caseD.case_fields.status = 'bob';
-                });
-
                 resolve(results)
             });
         }
