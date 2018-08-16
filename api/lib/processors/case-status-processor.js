@@ -1,7 +1,7 @@
-const caseStatusMapper = require('../../../api/cases/case-list/case-status-mapper');
+const caseStatusMap = require('./case-status-map');
 
 const statusLookUp = (jurisdiction, caseType) => {
-    const jud = caseStatusMapper[jurisdiction.toLowerCase()];
+    const jud = caseStatusMap[jurisdiction.toLowerCase()];
     const template = jud ? jud[caseType.toLowerCase()] : {};
     return (template) ? template : {};
 };
