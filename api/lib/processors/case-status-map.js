@@ -1,6 +1,9 @@
 module.exports = {
     sscs: {
-        benefit: {}
+        benefit: {
+            continuous_online_hearing_started: 'DWP response received',
+            questions_answered: 'Questions answered'
+        }
     },
     cmc: {
         moneyclaimcase: {}
