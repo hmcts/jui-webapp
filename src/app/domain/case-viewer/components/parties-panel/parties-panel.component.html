@@ -1,4 +1,4 @@
-<div class="govuk-tabs" data-module="tabs">
+<div class="govuk-tabs" data-module="tabs" data-selector="parties-panel-component">
     <ul class="govuk-tabs__list" role="tablist">
         <li class="govuk-tabs__list-item" role="presentation" *ngFor="let tab of panelData.sections; let i = index">
             <a class="govuk-tabs__tab"  [attr.aria-selected]="tab.id===params.section_item_id ? true : false" routerLink="/jurisdiction/{{params.jur}}/casetype/{{params.casetype}}/viewcase/{{params.case_id}}/{{params.section}}/{{tab.id}}">
@@ -9,12 +9,12 @@
     <section *ngIf="tabContent" class="govuk-tabs__panel">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-half">
-                <h2 class="govuk-heading-s  govuk-!-margin-bottom-2  govuk-!-margin-top-6">{{ tabContent.name }}</h2>
+                <h2 data-selector="parties-tab-title" class="govuk-heading-s  govuk-!-margin-bottom-2  govuk-!-margin-top-6">{{ tabContent.name }}</h2>
                 <table class="govuk-table jui-table">
                     <tbody class="govuk-table__body">
                     <tr class="govuk-table__row" *ngFor="let tabcontent of tabContent.fields">
-                        <th class="govuk-table__header" scope="row">{{ tabcontent.label }}</th>
-                        <td class="govuk-table__cell ">{{ tabcontent.value }}</td>
+                        <th data-selector="parties-tab-label" class="govuk-table__header" scope="row">{{ tabcontent.label }}</th>
+                        <td data-selector="parties-tab-value" class="govuk-table__cell ">{{ tabcontent.value }}</td>
                     </tr>
                     </tbody>
                 </table>

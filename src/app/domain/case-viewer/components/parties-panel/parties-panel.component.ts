@@ -22,7 +22,7 @@ export class PartiesPanelComponent implements OnInit {
     ngOnInit() {
         this.switchTabs(this.panelData);
         if (this.params.section_item_id === undefined) {
-            this.router.navigate([`/jurisdiction/${this.params.jur}/casetype/${this.params.casetype}/viewcase/${this.params.case_id}/${this.params.section}/${this.panelData.sections[0].sections[0].id}`]);
+            this.router.navigate([`/jurisdiction/${this.params.jur}/casetype/${this.params.casetype}/viewcase/${this.params.case_id}/${this.params.section}/${this.panelData.sections[0].id}`]);
         }
     }
 
