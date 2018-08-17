@@ -80,7 +80,7 @@ module.exports = (req, res, next) => {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     ServiceAuthorization: req.headers.ServiceAuthorization,
-                    'user-roles': req.auth.data
+                    'user-roles': 'caseworker'
                 }
             }).then(documents => {
                 documents = documents.map(doc => {
@@ -92,7 +92,8 @@ module.exports = (req, res, next) => {
                 schema.documents = documents;
                 res.setHeader('Access-Control-Allow-Origin', '*');
                 res.setHeader('content-type', 'application/json');
-                res.status(200).send(JSON.stringify(schema));
+                // res.status(200).send(JSON.stringify(schema));
+                res.status(200).send(JSON.stringify(caseData));
             });
         })
         .catch(response => {

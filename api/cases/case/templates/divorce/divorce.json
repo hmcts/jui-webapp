@@ -125,7 +125,7 @@
                     "id": "documents",
                     "name": "Case file",
                     "type": "document-panel",
-                    "fields": [{ "value": "$.case_data.sscsDocument|document_processor" }]
+                    "value": "$.case_data.D8DocumentsGenerated[].value.DocumentLink.document_url|document_processor"
                 }
             ]
         },

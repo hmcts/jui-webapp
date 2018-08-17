@@ -7,7 +7,7 @@ module.exports = req => {
         headers: {
             Authorization: `Bearer ${token}`,
             ServiceAuthorization: req.headers.ServiceAuthorization,
-            'user-roles': req.auth.data
+            'user-roles': 'caseworker'
         },
         json: true
     };
