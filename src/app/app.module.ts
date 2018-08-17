@@ -8,6 +8,8 @@ import { DomainModule } from './domain/domain.module';
 import { RoutingModule } from './routing/routing.module';
 import { ConfigService } from './config.service';
 import {AuthModule} from './auth/auth.module';
+import {HmctsModule} from './hmcts/hmcts.module';
+import {GovukModule} from './govuk/govuk.module';
 
 @NgModule({
     declarations: [
@@ -21,6 +23,8 @@ import {AuthModule} from './auth/auth.module';
         HttpClientModule,
         SharedModule,
         DomainModule,
+        HmctsModule,
+        GovukModule,
         AuthModule
     ],
     providers: [

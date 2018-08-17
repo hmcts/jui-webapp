@@ -84,5 +84,5 @@ import { GovukWarningTextComponent } from './components/govuk-warning-text/govuk
     ]
 })
 
-export class GovUkModule {
+export class GovukModule {
 }

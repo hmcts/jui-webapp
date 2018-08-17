@@ -29,7 +29,7 @@ import { TermsAndConditionsComponent } from './pages/terms-and-conditions/terms-
 import { CookiesComponent } from './pages/cookies/cookies.component';
 import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
 import {DemoComponent} from './pages/demo/demo.component';
-import {GovUkModule} from '../govuk/govuk.module';
+import {GovukModule} from '../govuk/govuk.module';
 import {HmctsModule} from '../hmcts/hmcts.module';
 
 const routes: Routes = [
@@ -122,7 +122,7 @@ const routes: Routes = [
         HttpClientModule,
         ReactiveFormsModule,
         JUIFormsModule,
-        GovUkModule,
+        GovukModule,
         HmctsModule
     ],
     declarations: [

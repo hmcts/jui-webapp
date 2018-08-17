@@ -15,7 +15,7 @@ import { HmctsSubNavigationComponent } from './components/hmcts-sub-navigation/h
         HmctsPrimaryNavigationComponent,
         HmctsSubNavigationComponent
     ],
-    exports[
+    exports: [
         HmctsGlobalHeaderComponent,
         HmctsProgressBarComponent,
         HmctsPrimaryNavigationComponent,

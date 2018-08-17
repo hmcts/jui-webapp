@@ -14,10 +14,12 @@ import { DeleteQuestionComponent } from './components/questions/delete/delete.co
 import { EditQuestionComponent } from './components/questions/edit/edit.component';
 import { CaseBarDetailsComponent } from './components/casebar-details/casebar-details.component';
 import { CaseBarComponent } from './components/casebar/casebar.component';
-import {CaseService} from '../domain/services/case.service';
-import {QuestionService} from '../domain/services/question.service';
+import {CaseService} from './services/case.service';
+import {QuestionService} from './services/question.service';
 
-import {JUIFormsModule} from "../forms/forms.module";
+import {JUIFormsModule} from '../forms/forms.module';
+import {GovukModule} from '../govuk/govuk.module';
+import {HmctsModule} from '../hmcts/hmcts.module';
 
 @NgModule({
     imports: [
@@ -26,7 +28,9 @@ import {JUIFormsModule} from "../forms/forms.module";
         RouterModule,
         JUIFormsModule,
         ReactiveFormsModule,
-        BrowserTransferStateModule
+        BrowserTransferStateModule,
+        GovukModule,
+        HmctsModule
     ],
     exports: [
         CaseBarDetailsComponent,
