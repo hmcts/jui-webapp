@@ -16,6 +16,8 @@ const dataLookup = (lookup, caseData) => {
         }
 
         return value;
+    } else if (typeof lookup === 'number') {
+        return lookup
     } else if (Array.isArray(lookup)) {
         return lookup.map(part => dataLookup(part, caseData)).join(' ');
     }
