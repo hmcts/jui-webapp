@@ -8,18 +8,11 @@ $govuk-global-styles: true;
 @import "~@hmcts/frontend/all";
 @import "./assets/sass/application";
 
-//body {
-//    @include govuk-font($size: 16);
-//}
-//
-//.jui-casefile-list__link {
-//    //background-image: url(/assets/images/icon-document.svg);
-//}
-//
 //a:hover {
 //    cursor: pointer;
 //}
-//
-//.hmcts-primary-navigation {
-//    margin-bottom: 0;
-//}
+
+// current bug in @hmcts/frontend will be fixed soon
+.hmcts-primary-navigation {
+    margin-bottom: 0;
+}
