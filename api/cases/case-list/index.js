@@ -38,8 +38,7 @@ function format(state) {
 
 
 function hasCOR(caseData) {
-     return caseData.jurisdiction === 'SSCS';
-   // return false;
+    return caseData.jurisdiction === 'SSCS';
 }
 
 function getCOR(casesData, options) {
