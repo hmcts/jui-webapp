@@ -66,9 +66,6 @@ export class CreateDecisionComponent implements OnInit {
     }
 
     submitCallback(values) {
-
-        console.log('woop!!!!', values);
-        console.log('is it valid? - ', this.form.valid);
         if (this.form.valid) {
             if(this.decision) {
                 this.decisionService.updateDecisionDraft(this.case.id, values.decision, values.notes)

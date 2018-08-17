@@ -1,6 +1,8 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {HeaderComponent} from './header.component';
-import {AuthService} from "../../../auth/auth.service";
+import {AuthService} from '../../../auth/auth.service';
+import {HmctsGlobalHeaderComponent} from '../../../hmcts/components/hmcts-global-header/hmcts-global-header.component';
+import {HmctsPrimaryNavigationComponent} from '../../../hmcts/components/hmcts-primary-navigation/hmcts-primary-navigation.component';
 
 describe('HeaderComponent', () => {
     let component: HeaderComponent;
@@ -8,7 +10,7 @@ describe('HeaderComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [HeaderComponent],
+            declarations: [HeaderComponent, HmctsGlobalHeaderComponent, HmctsPrimaryNavigationComponent],
             providers: [
                 { provide: AuthService, useValue: {
                     generateLoginUrl: () => {}

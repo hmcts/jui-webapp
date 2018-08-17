@@ -16,6 +16,20 @@ describe('HmctsGlobalHeaderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HmctsGlobalHeaderComponent);
     component = fixture.componentInstance;
+    component.serviceName = {
+        name: 'Service name',
+        url: '#'
+    };
+    component.navigation = {
+        label: 'Account navigation',
+        items: [{
+            text: 'Nav item 1',
+            href: '#1'
+        }, {
+            text: 'Nav item 2',
+            href: '#1'
+        }]
+    };
     fixture.detectChanges();
   });
 
