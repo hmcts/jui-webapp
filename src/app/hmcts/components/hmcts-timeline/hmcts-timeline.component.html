@@ -1,0 +1,12 @@
+<div class="hmcts-timeline" *ngFor="let event of events">
+    <div class="hmcts-timeline__item">
+        <div class="hmcts-timeline__header">
+            <h2 class="hmcts-timeline__title">{{event.title}}</h2>
+            <p class="hmcts-timeline__by"> {{event.by}}</p>
+        </div>
+        <p class="hmcts-timeline__date"><time attr.datetime="{{event.dateUtc}}">{{event.date}} at {{event.time}}</time></p>
+        <ul class="hmcts-timeline__documents" *ngFor="let document of event.documents">
+            <li class="hmcts-timeline__document-item"><a class="hmcts-timeline__document-link" href="{{document.href}}">{{document.name}}</a></li>
+        </ul>
+    </div>
+</div>

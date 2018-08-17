@@ -4,6 +4,7 @@ import { HmctsGlobalHeaderComponent } from './components/hmcts-global-header/hmc
 import { HmctsProgressBarComponent } from './components/hmcts-progress-bar/hmcts-progress-bar.component';
 import { HmctsPrimaryNavigationComponent } from './components/hmcts-primary-navigation/hmcts-primary-navigation.component';
 import { HmctsSubNavigationComponent } from './components/hmcts-sub-navigation/hmcts-sub-navigation.component';
+import { HmctsTimelineComponent } from './components/hmcts-timeline/hmcts-timeline.component';
 
 @NgModule({
     imports: [
@@ -13,13 +14,15 @@ import { HmctsSubNavigationComponent } from './components/hmcts-sub-navigation/h
         HmctsGlobalHeaderComponent,
         HmctsProgressBarComponent,
         HmctsPrimaryNavigationComponent,
-        HmctsSubNavigationComponent
+        HmctsSubNavigationComponent,
+        HmctsTimelineComponent
     ],
     exports: [
         HmctsGlobalHeaderComponent,
         HmctsProgressBarComponent,
         HmctsPrimaryNavigationComponent,
-        HmctsSubNavigationComponent
+        HmctsSubNavigationComponent,
+        HmctsTimelineComponent
     ]
 })
 export class HmctsModule {
