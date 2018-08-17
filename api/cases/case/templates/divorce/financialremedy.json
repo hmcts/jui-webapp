@@ -37,11 +37,11 @@
                                 },
                                 {
                                     "label": "Case number",
-                                    "value": "$.case_data.caseReference"
+                                    "value": "$.id"
                                 },
                                 {
                                     "label": "Case type",
-                                    "value": "$.case_data.caseType"
+                                    "value": "Financial Remedy"
                                 }
                             ]
                         },
@@ -51,7 +51,7 @@
                             "fields": [
                                 {
                                     "label": "Divorce",
-                                    "value": "$.divorceCaseNumber"
+                                    "value": "$.case_data.divorceCaseNumber"
                                 }
                             ]
                         },

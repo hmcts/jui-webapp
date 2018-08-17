@@ -53,7 +53,8 @@ function getCOR(casesData, options) {
                         casesData.forEach(caseRow => {
                             let state = caseStateMap.get(Number(caseRow.id));
                             if (state !== undefined && state !== null && state.state_name !== undefined && state.state_name !== null) {
-                                caseRow.status = format(state.state_name);
+                                // TODO: this state should only change if CCD is the COH state else default to CCD state
+                                caseRow.state = format(state.state_name);
                                 if (new Date(caseRow.last_modified) < new Date(state.state_datetime)) {
                                     caseRow.last_modified = state.state_datetime;
                                 }
@@ -137,7 +138,8 @@ module.exports = (req, res, next) => {
         .then(combineLists)
         .then(results => {
             return results.sort((result1, result2) => new Date(result1.case_fields.dateOfLastAction) - new Date(result2.case_fields.dateOfLastAction));
-        }).then(results => {
+        })
+        .then(results => {
             const aggregatedData = {...sscsCaseListTemplate, results};
             res.setHeader('Access-Control-Allow-Origin', '*');
             res.setHeader('content-type', 'application/json');

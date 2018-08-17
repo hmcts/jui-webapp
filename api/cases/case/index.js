@@ -91,7 +91,7 @@ module.exports = (req, res, next) => {
 
                 schema.documents = documents;
                 res.setHeader('Access-Control-Allow-Origin', '*');
-                res.setHeader('Content-type', 'application/json');
+                res.setHeader('content-type', 'application/json');
                 res.status(200).send(JSON.stringify(schema));
             });
         })

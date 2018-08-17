@@ -27,7 +27,7 @@
         {
             "label": "Status",
             "case_field_id": "status",
-            "value": "$.status"
+            "value": "$.state"
         },
         {
             "label": "Start date",
