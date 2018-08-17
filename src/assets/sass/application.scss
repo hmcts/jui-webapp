@@ -1,0 +1,178 @@
+// Path to assets for use with the file-url function
+// in the govuk frontend toolkit"s url-helpers partial
+$path: "/public/images/";
+
+// global styles for <a> and <p> tags
+$govuk-global-styles: true;
+
+
+// Width of main container
+$hmcts-page-width: 1220px;
+
+
+// Import GOV.UK Frontend
+@import "~govuk-frontend/all";
+@import "~@hmcts/frontend/all";
+
+// Patterns that aren't in Frontend
+@import "patterns/check-your-answers";
+@import "patterns/task-list";
+@import "patterns/related-items";
+
+// Components that aren't in Frontend
+@import "components/cookie-banner";
+
+// JUI styles
+@import "jui/all";
+
+html {
+  background-color: govuk-colour("grey-3");
+}
+
+.js-enabled .js-hidden {
+  display: none !important;
+}
+
+mark.comment {
+  background-color: govuk-colour(orange);
+}
+
+.medium-toolbar-arrow-under:after {
+  border-color: #2f1e07 transparent transparent;
+}
+
+.medium-toolbar-arrow-over:before {
+  border-color: transparent transparent #2f1e07 ;
+}
+
+.jui-measure {
+  max-width: 833px;
+}
+
+// .jui-case-action-alert {
+//   background-color: govuk-colour("blue");
+//   color: govuk-colour("white");
+//   padding: govuk-spacing(4);
+//   margin-bottom: govuk-spacing(6);
+// }
+
+// .jui-case-action-alert h2 {
+//   color: govuk-colour("white");
+// }
+
+// .jui-case-action-alert p {
+//   margin-bottom: 0;
+//   color: govuk-colour("white");
+// }
+
+// .jui-case-action-alert a {
+//   color: govuk-colour("white");
+// }
+
+
+
+.jui-case-action-alert {
+  background-color: govuk-colour("blue");
+  color: govuk-colour("white");
+  margin-bottom: govuk-spacing(6);
+  padding: govuk-spacing(4);
+}
+
+.jui-case-action-alert__heading {
+  color: inherit;
+}
+
+.jui-case-action-alert__content {
+  color: inherit;
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+
+}
+
+.jui-case-action-alert__link:link,
+.jui-case-action-alert__link:visited {
+  color: govuk-colour("white");
+}
+
+
+// Path to assets for use with the file-url function
+// in the govuk frontend toolkit"s url-helpers partial
+$path: "/public/images/";
+
+// global styles for <a> and <p> tags
+$govuk-global-styles: true;
+
+// Import GOV.UK Frontend
+@import "node_modules/govuk-frontend/all";
+
+@import "node_modules/@hmcts/frontend/all";
+
+// Patterns that aren't in Frontend
+@import "patterns/check-your-answers";
+@import "patterns/task-list";
+@import "patterns/related-items";
+
+// Components that aren't in Frontend
+@import "components/cookie-banner";
+
+// JUI styles
+@import "jui/all";
+
+html {
+  background-color: govuk-colour("grey-3");
+}
+
+.js-enabled .js-hidden {
+  display: none !important;
+}
+
+mark.comment {
+  background-color: govuk-colour(orange);
+}
+
+.medium-toolbar-arrow-under:after {
+  border-color: #2f1e07 transparent transparent;
+}
+
+.medium-toolbar-arrow-over:before {
+  border-color: transparent transparent #2f1e07 ;
+}
+
+.jui-measure {
+  max-width: 833px;
+}
+
+
+// CASE ACTION ALERT
+.jui-case-action-alert {
+  background-color: govuk-colour("blue");
+  color: govuk-colour("white");
+  margin-bottom: govuk-spacing(6);
+  padding: govuk-spacing(4);
+}
+
+.jui-case-action-alert__heading {
+  @include govuk-font(
+    $size: 24,
+    $weight: bold
+  );
+  color: inherit;
+  margin-bottom: govuk-spacing(2);
+  margin-top: 0;
+}
+
+.jui-case-action-alert__content {
+  color: inherit;
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+
+}
+
+.jui-case-action-alert__link:link {
+  color: govuk-colour("white");
+}
+// END CASE ACTION ALERT

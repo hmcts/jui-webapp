@@ -1,0 +1,57 @@
+/* ==========================================================================
+   #ALERT
+   ========================================================================== */
+
+.jui-alert {
+  border: 5px solid govuk-colour("blue");
+  margin-bottom: govuk-spacing(6);
+  position: relative;
+}
+
+
+.jui-alert__icon {
+  background-repeat: no-repeat;
+  background-size: 44px 44px;
+  display: inline-block;
+  height: 44px;
+  text-indent: -9999px;
+  vertical-align: middle;
+  width: 44px;
+}
+
+
+.jui-alert__icon + .jui-alert__text {
+  padding-left: 0;
+}
+
+
+.jui-alert__text {
+  @include govuk-font($size: 19);
+  display: inline-block;
+  padding: govuk-spacing(2);
+  vertical-align: top;
+}
+
+
+/* Style variants
+   ========================================================================== */
+
+
+// Success
+.jui-alert--success {
+  border-color: govuk-colour("green");
+}
+
+.jui-alert__icon--success {
+  background-image: url(#{$jui-assets-path}icon-success.svg);
+}
+
+
+// Unsuccessfull
+.jui-alert--unsuccessful {
+  border-color: govuk-colour("red");
+}
+
+.jui-alert__icon--unsuccessful {
+  background-image: url(#{$jui-assets-path}icon-unsuccessful.svg);
+}
