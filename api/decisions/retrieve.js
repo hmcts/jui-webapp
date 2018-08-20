@@ -1,5 +1,6 @@
-const generateRequest = require('../lib/request');
+const express = require('express');
 const config = require('../../config');
+const generateRequest = require('../lib/request');
 
 function postHearing(caseId, userId, headers, jurisdictionId = 'SSCS') {
     const body = {
@@ -23,22 +24,29 @@ function getDecision(hearingId, headers) {
     return generateRequest('GET', `${config.services.coh_cor_api}/continuous-online-hearings/${hearingId}/decisions`, { headers });
 }
 
-module.exports = (req, res, next) => {
-    const userId = req.auth.userId;
-    const caseId = req.params.case_id;
-    const headers = {
-        Authorization: `Bearer ${req.auth.token}`,
-        ServiceAuthorization: req.headers.ServiceAuthorization
-    };
+module.exports = app => {
+    const router = express.Router({ mergeParams: true });
+    app.use('/decisions', router);
 
-    getHearingId(caseId, userId, headers)
-        .then(hearingId => getDecision(hearingId, headers))
-        .then(response => {
-            res.setHeader('Access-Control-Allow-Origin', '*');
-            res.setHeader('content-type', 'application/json');
-            res.status(201).send(JSON.stringify(response));
-        })
-        .catch(response => {
-            res.status(response.statusCode).send(response.error.message);
-        });
+    router.get('/:case_id', (req, res, next) => {
+        const userId = req.auth.userId;
+        const caseId = req.params.case_id;
+        const headers = {
+            Authorization: `Bearer ${req.auth.token}`,
+            ServiceAuthorization: req.headers.ServiceAuthorization
+        };
+
+        getHearingId(caseId, userId, headers)
+            .then(hearingId => getDecision(hearingId, headers))
+            .then(response => {
+                res.setHeader('Access-Control-Allow-Origin', '*');
+                res.setHeader('content-type', 'application/json');
+                res.status(201)
+                    .send(JSON.stringify(response));
+            })
+            .catch(response => {
+                res.status(response.statusCode)
+                    .send(response.error.message);
+            });
+    });
 };

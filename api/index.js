@@ -18,6 +18,6 @@ events(router);
 documents(router);
 hearings(router);
 router.use('/cases', caseRoutes);
-router.use('/decisions', decisionRoutes);
+decisionRoutes(router);
 
 module.exports = router;
