@@ -1,8 +1,11 @@
 {
     "details": {
         "fields": [
-            { "value": "$.id" },
-            { "value": ["-"] }
+            { "value": "$.case_data.ihtReferenceNumber" },
+            { "value": [
+                "$.case_data.deceasedForenames",
+                "$.case_data.deceasedSurname"
+            ]}
         ]
     },
     "sections": [
@@ -21,27 +24,30 @@
                             "fields": [
                                 {
                                     "label": "Parties",
-                                    "value": []
+                                    "value": [
+                                        "$.case_data.deceasedForenames",
+                                        "$.case_data.deceasedSurname"
+                                    ]
+                                },
+                                {
+                                    "label": "Case type",
+                                    "value": "Grant of Representation"
                                 },
                                 {
                                     "label": "Case number",
                                     "value": "$.id"
+                                },
+
+                                {
+                                    "label": "ProbateMan Case number",
+                                    "value": "$.case_data.ihtReferenceNumber"
                                 }
                             ]
                         },
                         {
-                            "name": "Case details",
+                            "name": "",
                             "type": "data-list",
-                            "fields": [
-                                {
-                                    "label": "Parties",
-                                    "value": []
-                                },
-                                {
-                                    "label": "Case number",
-                                    "value": "$.id"
-                                }
-                            ]
+                            "fields": []
                         },
                         {
                             "name": "Recent events",

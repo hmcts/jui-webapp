@@ -1,7 +1,7 @@
 {
     "details": {
         "fields": [
-            { "value": "$.id" },
+            { "value": "$.case_data.D8caseReference" },
             { "value": [
                 "$.case_data.D8PetitionerFirstName",
                 "$.case_data.D8PetitionerLastName",
@@ -27,27 +27,32 @@
                             "fields": [
                                 {
                                     "label": "Parties",
-                                    "value": []
+                                    "value": [
+                                        "$.case_data.D8PetitionerFirstName",
+                                        "$.case_data.D8PetitionerLastName",
+                                        "v",
+                                        "$.case_data.D8RespondentFirstName",
+                                        "$.case_data.D8RespondentLastName"
+                                    ]
                                 },
                                 {
                                     "label": "Case number",
                                     "value": "$.id"
+                                },
+                                {
+                                    "label": "FamilyMan Case number",
+                                    "value": "$.case_data.D8caseReference"
                                 }
                             ]
                         },
                         {
-                            "name": "Case details",
+                            "name": "",
                             "type": "data-list",
                             "fields": [
                                 {
-                                    "label": "Parties",
-                                    "value": []
-                                },
-                                {
                                     "label": "Case number",
                                     "value": "$.id"
-                                }
-                            ]
+                                }]
                         },
                         {
                             "name": "Recent events",
@@ -125,7 +130,9 @@
                     "id": "documents",
                     "name": "Case file",
                     "type": "document-panel",
-                    "value": "$.case_data.D8DocumentsGenerated[].value.DocumentLink.document_url|document_processor"
+                    "fields": [
+                        { "xvalue": "$.case_data.D8DocumentsGenerated.value.DocumentLink.document_url" }
+                    ]
                 }
             ]
         },

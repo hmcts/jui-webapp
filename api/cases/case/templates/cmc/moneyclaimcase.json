@@ -18,30 +18,12 @@
                         {
                             "name": "Case details",
                             "type": "data-list",
-                            "fields": [
-                                {
-                                    "label": "Parties",
-                                    "value": []
-                                },
-                                {
-                                    "label": "Case number",
-                                    "value": "$.id"
-                                }
-                            ]
+                            "fields": []
                         },
                         {
                             "name": "Case details",
                             "type": "data-list",
-                            "fields": [
-                                {
-                                    "label": "Parties",
-                                    "value": []
-                                },
-                                {
-                                    "label": "Case number",
-                                    "value": "$.id"
-                                }
-                            ]
+                            "fields": []
                         },
                         {
                             "name": "Recent events",
@@ -61,7 +43,9 @@
                     "id": "documents",
                     "name": "Case file",
                     "type": "document-panel",
-                    "fields": [{ "value": "$.case_data.sscsDocument|document_processor" }]
+                    "fields": [
+                        { "value": "" }
+                    ]
                 }
             ]
         },
