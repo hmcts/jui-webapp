@@ -3,6 +3,8 @@ import { CaseViewerModule } from '../../case-viewer.module';
 import { DebugElement } from '@angular/core';
 import { Selector } from '../../../../../../test/selector-helper';
 import {TimelineComponent} from './timeline.component';
+import {GovukModule} from '../../../../govuk/govuk.module';
+import {HmctsModule} from '../../../../hmcts/hmcts.module';
 
 describe('TimelineComponent', () => {
     let component: TimelineComponent;
@@ -11,9 +13,9 @@ describe('TimelineComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [CaseViewerModule]
+            imports: [CaseViewerModule, GovukModule, HmctsModule]
         })
-               .compileComponents();
+            .compileComponents();
     }));
 
     beforeEach(() => {
@@ -31,16 +33,20 @@ describe('TimelineComponent', () => {
         beforeEach(async(() => {
             component.events = [
                 {
-                    event_name: 'HEARING',
-                    user_first_name: 'John',
-                    user_last_name: 'Smith',
-                    created_date: new Date()
+                    title: 'HEARING',
+                    by: 'John Smith',
+                    dateUtc: '2018-08-06T15:14:11Z',
+                    date: '6 Aug 2018',
+                    time: '15:14pm',
+                    documents: []
                 },
                 {
-                    event_name: 'CREATED_EVENT',
-                    user_first_name: 'Gilbert',
-                    user_last_name: 'Smith',
-                    created_date: new Date()
+                    title: 'CREATED_EVENT',
+                    by: 'Gilbert Smith',
+                    dateUtc: '2018-08-06T15:14:11Z',
+                    date: '6 Aug 2018',
+                    time: '15:14pm',
+                    documents: []
                 }
             ];
 
