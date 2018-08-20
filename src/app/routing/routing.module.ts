@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { SharedModule } from '../shared/shared.module';
 import { DomainModule } from '../domain/domain.module';
 import { AuthGuardService } from '../auth/auth-guard.service';
@@ -35,8 +35,8 @@ import {HmctsModule} from '../hmcts/hmcts.module';
 const routes: Routes = [
     {
         path: '',
-        component: HomeComponent,
-        canActivate: [AuthGuardService]
+        component: DashboardComponent,
+        canActivate: [AuthGuardService],
     },
     {
         path: 'demo',
@@ -126,7 +126,7 @@ const routes: Routes = [
         HmctsModule
     ],
     declarations: [
-        HomeComponent,
+        DashboardComponent,
         CookiesComponent,
         PrivacyPolicyComponent,
         TermsAndConditionsComponent,

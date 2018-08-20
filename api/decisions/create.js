@@ -1,5 +1,6 @@
-const generateRequest = require('../lib/request');
+const express = require('express');
 const config = require('../../config');
+const generateRequest = require('../lib/request');
 
 function postHearing(caseId, userId, headers, jurisdictionId = 'SSCS') {
     const body = {
@@ -23,23 +24,30 @@ function postDraftDecision(hearingId, headers, body) {
     return generateRequest('POST', `${config.services.coh_cor_api}/continuous-online-hearings/${hearingId}/decisions`, { headers, body });
 }
 
-module.exports = (req, res, next) => {
-    const userId = req.auth.userId;
-    const caseId = req.params.case_id;
-    const headers = {
-        Authorization: `Bearer ${req.auth.token}`,
-        ServiceAuthorization: req.headers.ServiceAuthorization
-    };
+module.exports = app => {
+    const router = express.Router({ mergeParams: true });
+    app.use('/decisions', router);
 
-    getHearingId(caseId, userId, headers)
-        .then(hearingId => postDraftDecision(hearingId, headers, req.body))
-        .then(response => {
-            res.setHeader('Access-Control-Allow-Origin', '*');
-            res.setHeader('content-type', 'application/json');
-            res.status(201).send(JSON.stringify(response));
-        })
-        .catch(response => {
-            console.log(response.error || response);
-            res.status(response.error.status).send(response.error.message);
-        });
+    router.post('/:case_id', (req, res, next) => {
+        const userId = req.auth.userId;
+        const caseId = req.params.case_id;
+        const headers = {
+            Authorization: `Bearer ${req.auth.token}`,
+            ServiceAuthorization: req.headers.ServiceAuthorization
+        };
+
+        getHearingId(caseId, userId, headers)
+            .then(hearingId => postDraftDecision(hearingId, headers, req.body))
+            .then(response => {
+                res.setHeader('Access-Control-Allow-Origin', '*');
+                res.setHeader('content-type', 'application/json');
+                res.status(201)
+                    .send(JSON.stringify(response));
+            })
+            .catch(response => {
+                console.log(response.error || response);
+                res.status(response.error.status)
+                    .send(response.error.message);
+            });
+    });
 };

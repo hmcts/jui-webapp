@@ -1,9 +1,46 @@
-const sscsCaseListTemplate = require('./templates/sscs/benefit');
-const generateRequest = require('../../lib/request');
+const express = require('express');
 const config = require('../../../config');
-const valueProcessor = require('../../lib/processors/value-processor');
 const getListTemplate = require('./templates');
+const generateRequest = require('../../lib/request');
+const valueProcessor = require('../../lib/processors/value-processor');
+const sscsCaseListTemplate = require('./templates/sscs/benefit');
 
+const jurisdictions = [
+    {
+        jur: 'DIVORCE',
+        caseType: 'DIVORCE',
+        filter: ''
+    },
+    {
+        jur: 'SSCS',
+        caseType: 'Benefit',
+        filter: '&state=appealCreated&case.appeal.benefitType.code=PIP'
+    },
+    {
+        jur: 'DIVORCE',
+        caseType: 'FinancialRemedyMVP2',
+        filter: ''
+    },
+    // {
+    //     jur: 'CMC',
+    //     caseType: 'MoneyClaimCase',
+    //     filter: ''
+    // },
+    // {
+    //     jur: 'PROBATE',
+    //     caseType: 'GrantOfRepresentation',
+    //     filter: ''
+    // }
+];
+
+function getOptions(req) {
+    return {
+        headers: {
+            'Authorization': `Bearer ${req.auth.token}`,
+            'ServiceAuthorization': req.headers.ServiceAuthorization
+        }
+    };
+}
 
 function getCases(userId, jurisdictions, options) {
     const promiseArray = [];
@@ -93,59 +130,51 @@ function combineLists(lists) {
     return [].concat(...lists);
 }
 
+module.exports = app => {
+    const router = express.Router({ mergeParams: true });
 
-//List of cases
-module.exports = (req, res, next) => {
-    const token = req.auth.token;
-    const userId = req.auth.userId;
-    const options = {
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'ServiceAuthorization': req.headers.ServiceAuthorization
-        }
-    };
+    console.log("hello router")
 
-    const jurisdictions = [
-        {
-            jur: 'DIVORCE',
-            caseType: 'DIVORCE',
-            filter: ''
-        },
-        {
-            jur: 'SSCS',
-            caseType: 'Benefit',
-            filter: '&state=appealCreated&case.appeal.benefitType.code=PIP'
-        },
-        {
-            jur: 'DIVORCE',
-            caseType: 'FinancialRemedyMVP2',
-            filter: ''
-        },
-        // {
-        //     jur: 'CMC',
-        //     caseType: 'MoneyClaimCase',
-        //     filter: ''
-        // },
-        // {
-        //     jur: 'PROBATE',
-        //     caseType: 'GrantOfRepresentation',
-        //     filter: ''
-        // }
-    ];
+    router.get('/', (req, res, next) => {
+        const userId = req.auth.userId;
+        const options = getOptions(req);
 
-    getCases(userId, jurisdictions, options)
-        .then(caseLists => Promise.all(caseLists.map(caseList => processCaseList(caseList, options))))
-        .then(combineLists)
-        .then(results => {
-            return results.sort((result1, result2) => new Date(result1.case_fields.dateOfLastAction) - new Date(result2.case_fields.dateOfLastAction));
-        })
-        .then(results => {
-            const aggregatedData = {...sscsCaseListTemplate, results};
-            res.setHeader('Access-Control-Allow-Origin', '*');
-            res.setHeader('content-type', 'application/json');
-            res.status(200).send(JSON.stringify(aggregatedData));
-        }).catch(response => {
-        console.log(response.error || response);
-        res.status(response.statusCode || 500).send(response);
+        getCases(userId, jurisdictions, options)
+            .then(caseLists => Promise.all(caseLists.map(caseList => processCaseList(caseList, options))))
+            .then(combineLists)
+            .then(results => {
+                return results.sort((result1, result2) => new Date(result1.case_fields.dateOfLastAction) - new Date(result2.case_fields.dateOfLastAction));
+            })
+            .then(results => {
+                const aggregatedData = {...sscsCaseListTemplate, results};
+                res.setHeader('Access-Control-Allow-Origin', '*');
+                res.setHeader('content-type', 'application/json');
+                res.status(200).send(JSON.stringify(aggregatedData));
+            })
+            .catch(response => {
+                console.log(response.error || response);
+                res.status(response.statusCode || 500)
+                    .send(response);
+            });
     });
+
+    router.get('/raw', (req, res, next) => {
+        const userId = req.auth.userId;
+        const options = getOptions(req);
+
+        getCases(userId, jurisdictions, options)
+            .then(combineLists)
+            .then(results => {
+                res.setHeader('Access-Control-Allow-Origin', '*');
+                res.setHeader('content-type', 'application/json');
+                res.status(200).send(JSON.stringify(results));
+            })
+            .catch(response => {
+                console.log(response.error || response);
+                res.status(response.statusCode || 500)
+                    .send(response);
+            });
+    });
+
+    app.use('/cases', router);
 };

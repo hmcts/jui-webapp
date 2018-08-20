@@ -1,25 +1,23 @@
 const express = require('express');
-
 const router = express.Router();
+const auth = require('./auth');
 const caseRoutes = require('./cases');
 const decisionRoutes = require('./decisions');
-const auth = require('./auth');
 const questions = require('./questions');
 const events = require('./events');
+const hearings = require('./hearings');
 const documents = require('./documents');
-
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 const authInterceptor = require('./middleware/auth');
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 auth(router);
-
 router.use(authInterceptor);
-
 questions(router);
 events(router);
 documents(router);
-
-router.use('/cases', caseRoutes);
-router.use('/decisions', decisionRoutes);
+hearings(router);
+caseRoutes(router);
+decisionRoutes(router);
 
 module.exports = router;

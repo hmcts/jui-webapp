@@ -148,12 +148,12 @@
                     "name": "Case file",
                     "type": "document-panel",
                     "fields": [
-                        { "value": "$.case_data.frDocument|document_processor" },
-                        { "value": "$.case_data.d81Applicant|document_processor" },
-                        { "value": "$.case_data.d81Respondent|document_processor" },
-                        { "value": "$.case_data.consentOrder|document_processor" },
-                        { "value": "$.case_data.consentOrderText|document_processor" },
-                        { "value": "$.case_data.divorceUploadEvidence1|document_processor" }
+                        { "value": "$.case_data.frDocument.document_url|document_processor" },
+                        { "value": "$.case_data.d81Applicant.document_url|document_processor" },
+                        { "value": "$.case_data.d81Respondent.document_url|document_processor" },
+                        { "value": "$.case_data.consentOrder.document_url|document_processor" },
+                        { "value": "$.case_data.consentOrderText.document_url|document_processor" },
+                        { "value": "$.case_data.divorceUploadEvidence1.document_url|document_processor" }
                     ]
                 }
             ]

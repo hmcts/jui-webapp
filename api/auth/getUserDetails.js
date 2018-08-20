@@ -1,8 +1,8 @@
 const request = require('request-promise');
-const proxy = require('../lib/proxy');
 const config = require('../../config');
+const proxy = require('../lib/proxy');
 
-module.exports = function getUserDetails(jwt) {
+module.exports = jwt => {
     const Authorization = `Bearer ${jwt}`;
     const url = `${config.services.idam_api}/details`;
     let options = {
