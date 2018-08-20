@@ -36,15 +36,13 @@ describe('TimelinePanelComponent', () => {
                     {
                         value: [
                             {
-                                event_name: 'HEARING',
-                                user_first_name: 'John',
-                                user_last_name: 'Smith',
+                                title: 'HEARING',
+                                by: 'John Smith',
                                 created_date: new Date()
                             },
                             {
-                                event_name: 'CREATED_EVENT',
-                                user_first_name: 'Gilbert',
-                                user_last_name: 'Smith',
+                                title: 'CREATED_EVENT',
+                                by: 'Gilbert Smith',
                                 created_date: new Date()
                             }
                         ]
@@ -61,9 +59,9 @@ describe('TimelinePanelComponent', () => {
             expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-item')).length).toBe(2);
         });
 
-        it('should see Hearing first and Created_event second', () => {
-            expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-event-name'))[0].textContent).toBe('Hearing');
-            expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-event-name'))[1].textContent).toBe('Created_event');
+        it('should see HEARING first and CREATED_EVENT second', () => {
+            expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-event-name'))[0].textContent).toBe('HEARING');
+            expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-event-name'))[1].textContent).toBe('CREATED_EVENT');
         });
 
         it('should see John first and Gilbert second', () => {

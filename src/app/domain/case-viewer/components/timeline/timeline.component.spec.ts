@@ -59,9 +59,9 @@ describe('TimelineComponent', () => {
             expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-item')).length).toBe(2);
         });
 
-        it('should see Hearing first and Created_event second', () => {
-            expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-event-name'))[0].textContent).toBe('Hearing');
-            expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-event-name'))[1].textContent).toBe('Created_event');
+        it('should see HEARING first and CREATED_EVENT second', () => {
+            expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-event-name'))[0].textContent).toBe('HEARING');
+            expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-event-name'))[1].textContent).toBe('CREATED_EVENT');
         });
 
         it('should see John first and Gilbert second', () => {

@@ -1,7 +1,7 @@
 <div class="hmcts-timeline">
     <div class="hmcts-timeline__item" data-selector="timeline-item" *ngFor="let event of events">
         <div class="hmcts-timeline__header">
-            <h2 class="hmcts-timeline__title" data-selector="timeline-event-name">{{event.title | titlecase}}</h2>
+            <h2 class="hmcts-timeline__title" data-selector="timeline-event-name">{{event.title}}</h2>
             <p class="hmcts-timeline__by" data-selector="timeline-by"> by {{event.by}}</p>
         </div>
         <p class="hmcts-timeline__date" data-selector="timeline-date"><time attr.datetime="{{event.dateUtc}}">{{event.date}} at {{event.time}}</time></p>
