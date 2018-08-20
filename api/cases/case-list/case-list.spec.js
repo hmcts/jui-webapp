@@ -1,6 +1,6 @@
+const express = require('express');
 const proxyquire = require('proxyquire');
 const supertest = require('supertest');
-const express = require('express');
 
 const router = express.Router();
 const sscsCaseListTemplate = require('./templates/sscs/benefit');
