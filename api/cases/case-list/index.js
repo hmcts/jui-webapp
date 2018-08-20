@@ -130,9 +130,12 @@ function combineLists(lists) {
     return [].concat(...lists);
 }
 
+module.exports = app => {
+    const router = express.Router({ mergeParams: true });
 
-//List of cases
-module.exports = (req, res, next) => {
+    console.log("hello router")
+
+    router.get('/', (req, res, next) => {
         const userId = req.auth.userId;
         const options = getOptions(req);
 
@@ -153,4 +156,25 @@ module.exports = (req, res, next) => {
                 res.status(response.statusCode || 500)
                     .send(response);
             });
+    });
+
+    router.get('/raw', (req, res, next) => {
+        const userId = req.auth.userId;
+        const options = getOptions(req);
+
+        getCases(userId, jurisdictions, options)
+            .then(combineLists)
+            .then(results => {
+                res.setHeader('Access-Control-Allow-Origin', '*');
+                res.setHeader('content-type', 'application/json');
+                res.status(200).send(JSON.stringify(results));
+            })
+            .catch(response => {
+                console.log(response.error || response);
+                res.status(response.statusCode || 500)
+                    .send(response);
+            });
+    });
+
+    app.use('/cases', router);
 };

@@ -17,7 +17,7 @@ questions(router);
 events(router);
 documents(router);
 hearings(router);
-router.use('/cases', caseRoutes);
+caseRoutes(router);
 decisionRoutes(router);
 
 module.exports = router;
