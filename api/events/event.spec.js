@@ -14,7 +14,7 @@ describe('Events route', () => {
                     event_name: 'event_name',
                     user_first_name: 'user_first_name',
                     user_last_name: 'user_last_name',
-                    created_date: 'created_date'
+                    created_date: '2018-08-06T16:14:11.898'
                 }
             ]);
         };
@@ -57,13 +57,13 @@ describe('Events route', () => {
                         event_name: 'event_name',
                         user_first_name: 'user_first_name',
                         user_last_name: 'user_last_name',
-                        created_date: 'created_date'
+                        created_date: '2018-08-06T16:14:11.898'
                     },
                     {
                         event_name: 'event_name2',
                         user_first_name: 'user_first_name2',
                         user_last_name: 'user_last_name2',
-                        created_date: 'created_date2'
+                        created_date: '2018-08-06T16:14:11.898'
                     }
                 ]);
             };
@@ -71,16 +71,20 @@ describe('Events route', () => {
             getEvents().then(events => {
                 expect(events).toEqual([
                     {
-                        event_name: 'event_name',
-                        user_first_name: 'user_first_name',
-                        user_last_name: 'user_last_name',
-                        created_date: 'created_date'
+                        title: 'event_name',
+                        by: 'user_first_name user_last_name',
+                        dateUtc: '2018-08-06T15:14:11Z',
+                        date: '6 Aug 2018',
+                        time: '15:14pm',
+                        documents: []
                     },
                     {
-                        event_name: 'event_name2',
-                        user_first_name: 'user_first_name2',
-                        user_last_name: 'user_last_name2',
-                        created_date: 'created_date2'
+                        title: 'event_name2',
+                        by: 'user_first_name2 user_last_name2',
+                        dateUtc: '2018-08-06T15:14:11Z',
+                        date: '6 Aug 2018',
+                        time: '15:14pm',
+                        documents: []
                     }
                 ]);
                 done();

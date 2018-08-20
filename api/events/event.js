@@ -13,7 +13,7 @@ function reduceEvents(events) {
     events = events || [];
     return events.map(event => {
         const createdDate = moment(event.created_date);
-        const dateUtc = createdDate.utc();
+        const dateUtc = createdDate.utc().format();
         const date = createdDate.format('D MMM YYYY');
         const time = createdDate.format('HH:mma');
 
