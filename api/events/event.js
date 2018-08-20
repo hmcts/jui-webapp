@@ -1,12 +1,6 @@
 const express = require('express');
-const generateRequest = require('../lib/request');
 const config = require('../../config');
-
-
-function getEvents(caseId, userId, options, caseType = 'Benefit', jurisdiction = 'SSCS') {
-    return generateRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`, options)
-        .then(reduceEvents);
-}
+const generateRequest = require('../lib/request');
 
 function reduceEvents(events) {
     events = events || [];
@@ -20,20 +14,37 @@ function reduceEvents(events) {
     });
 }
 
+function getEvents(caseId, userId, jurisdiction, caseType, options) {
+    return generateRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`, options)
+        .then(events => reduceEvents(events));
+}
+
+
 module.exports = app => {
     const router = express.Router({ mergeParams: true });
     app.use('/cases', router);
 
-    router.get('/:case_id/events', (req, res, next) => {
+    router.get('/jurisdiction/:jur/casetype/:casetype/:case_id/events', (req, res, next) => {
         const userId = req.auth.userId;
         const caseId = req.params.case_id;
-        getEvents(caseId, userId, {
+        const jurisdiction = req.params.jur;
+        const caseType = req.params.casetype;
+
+
+        getEvents(caseId, userId, jurisdiction, caseType, {
             headers: {
                 Authorization: `Bearer ${req.auth.token}`,
                 ServiceAuthorization: req.headers.ServiceAuthorization
             }
-        }).pipe(res);
+        })
+            .then(events => {
+                res.setHeader('Access-Control-Allow-Origin', '*');
+                res.setHeader('content-type', 'application/json');
+                res.status(200).send(JSON.stringify(events));
+            });
     });
 };
 
 module.exports.getEvents = getEvents;
+
+module.exports.reduceEvents = reduceEvents;
