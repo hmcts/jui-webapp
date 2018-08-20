@@ -1,6 +1,7 @@
 const express = require('express');
 const generateRequest = require('../lib/request');
 const config = require('../../config');
+const moment = require('moment');
 
 
 function getEvents(caseId, userId, options, caseType = 'Benefit', jurisdiction = 'SSCS') {
@@ -11,11 +12,18 @@ function getEvents(caseId, userId, options, caseType = 'Benefit', jurisdiction =
 function reduceEvents(events) {
     events = events || [];
     return events.map(event => {
+        const createdDate = moment(event.created_date);
+        const dateUtc = createdDate.utc();
+        const date = createdDate.format('D MMM YYYY');
+        const time = createdDate.format('HH:mma');
+
         return {
-            event_name: event.event_name,
-            user_first_name: event.user_first_name,
-            user_last_name: event.user_last_name,
-            created_date: event.created_date
+            title: event.event_name,
+            by: `${event.user_first_name} ${event.user_last_name}`,
+            dateUtc,
+            date,
+            time,
+            documents: []
         };
     });
 }

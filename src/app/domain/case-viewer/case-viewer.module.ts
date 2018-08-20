@@ -10,6 +10,8 @@ import { QuestionsPanelComponent } from './components/questions-panel/questions-
 import { TimelineComponent } from './components/timeline/timeline.component';
 import { DocumentViewerModule } from '../../shared/components/document-viewer/document-viewer.module';
 import { RouterModule } from '@angular/router';
+import {HmctsModule} from '../../hmcts/hmcts.module';
+import {GovukModule} from '../../govuk/govuk.module';
 
 @NgModule({
     imports: [
@@ -17,6 +19,8 @@ import { RouterModule } from '@angular/router';
         SharedModule,
         DocumentViewerModule,
         RouterModule,
+        HmctsModule,
+        GovukModule
     ],
     exports: [
         CaseViewerComponent,
