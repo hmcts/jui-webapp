@@ -5,10 +5,12 @@ import { HmctsProgressBarComponent } from './components/hmcts-progress-bar/hmcts
 import { HmctsPrimaryNavigationComponent } from './components/hmcts-primary-navigation/hmcts-primary-navigation.component';
 import { HmctsSubNavigationComponent } from './components/hmcts-sub-navigation/hmcts-sub-navigation.component';
 import { HmctsTimelineComponent } from './components/hmcts-timeline/hmcts-timeline.component';
+import {SharedModule} from '../shared/shared.module';
 
 @NgModule({
     imports: [
-        CommonModule
+        CommonModule,
+        SharedModule
     ],
     declarations: [
         HmctsGlobalHeaderComponent,

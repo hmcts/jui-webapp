@@ -9,6 +9,7 @@ import {DocumentViewerModule} from './components/document-viewer/document-viewer
 import { RouterModule} from '@angular/router';
 import { BacklinkComponent } from './components/backlink/backlink.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import {SentenceCasePipe} from './pipes/sentence-case-pipe';
 
 @NgModule({
     imports: [
@@ -23,13 +24,15 @@ import { ReactiveFormsModule } from '@angular/forms';
         TableComponent,
         DataListComponent,
         FooterComponent,
-        BacklinkComponent
+        BacklinkComponent,
+        SentenceCasePipe
     ],
     exports: [
         TableComponent,
         DataListComponent,
         FooterComponent,
-        BacklinkComponent
+        BacklinkComponent,
+        SentenceCasePipe
     ]
 })
 
