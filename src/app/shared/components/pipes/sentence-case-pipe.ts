@@ -2,7 +2,6 @@ import {
     Pipe,
     PipeTransform
 } from '@angular/core';
-import {isUpperCase} from 'tslint/lib/utils';
 @Pipe({
     name: 'sentencecase'
 })
