@@ -1,7 +1,4 @@
 {
-    "case_number": {
-        "label": "$.id"
-    },
     "columns": [
         {
             "label": "Case Reference",

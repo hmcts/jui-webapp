@@ -2,7 +2,7 @@
     "details": {
         "fields": [
             { "value": "$.id" },
-            { "value": [] }
+            { "value": ["-"] }
         ]
     },
     "sections": [
@@ -16,37 +16,21 @@
                     "type": "summary-panel",
                     "sections": [
                         {
-                            "name": "Case details",
+                            "name": "",
                             "type": "data-list",
-                            "fields": [
-                                {
-                                    "label": "Parties",
-                                    "value": []
-                                },
-                                {
-                                    "label": "Case number",
-                                    "value": "$.id"
-                                }
-                            ]
+                            "fields": []
                         },
                         {
-                            "name": "Case details",
+                            "name": "",
                             "type": "data-list",
-                            "fields": [
-                                {
-                                    "label": "Parties",
-                                    "value": []
-                                },
-                                {
-                                    "label": "Case number",
-                                    "value": "$.id"
-                                }
-                            ]
+                            "fields": []
                         },
                         {
                             "name": "Recent events",
                             "type": "timeline",
-                            "fields": [{ "value": "$.events" }]
+                            "fields": [
+                                { "value": "$.events" }
+                            ]
                         }
                     ]
                 }
@@ -61,7 +45,9 @@
                     "id": "documents",
                     "name": "Case file",
                     "type": "document-panel",
-                    "fields": [{ "value": "$.case_data.sscsDocument|document_processor" }]
+                    "fields": [
+                        { "value": "" }
+                    ]
                 }
             ]
         },
@@ -83,6 +69,15 @@
         "id": "decision",
         "name": "Make a decision",
         "type": "decision-page",
-        "options": [ ]
+        "options": [
+            {
+                "id": "true",
+                "name": "True"
+            },
+            {
+                "id": "false",
+                "name": "False"
+            }
+        ]
     }
 }

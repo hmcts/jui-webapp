@@ -38,12 +38,20 @@
                                     ]
                                 },
                                 {
-                                    "label": "Case number",
-                                    "value": "$.case_data.caseReference"
+                                    "label": "Case type",
+                                    "value": "Benefit"
                                 },
                                 {
-                                    "label": "Case type",
+                                    "label": "Benefit type",
                                     "value": "$.case_data.appeal.benefitType.code"
+                                },
+                                {
+                                    "label": "Case number",
+                                    "value": "$.id"
+                                },
+                                {
+                                    "label": "GAPS2 Case number",
+                                    "value": "$.case_data.caseReference"
                                 }
                             ]
                         },
@@ -123,7 +131,8 @@
                     "type": "document-panel",
                     "fields": [
                         {
-                            "value": "$.case_data.sscsDocument[].value.documentLink.document_url|document_processor"
+                            "value": "$.case_data.sscsDocument|document_processor",
+                            "xvalue": "$.case_data.sscsDocument[].value.documentLink.document_url|document_processor"
                         }
                     ]
                 }

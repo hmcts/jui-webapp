@@ -1,12 +1,11 @@
 {
-    "case_number": {
-        "label": "$.case_data.caseReference"
-    },
     "columns": [
         {
             "label": "Case Reference",
             "case_field_id": "case_ref",
-            "value": "$.case_data.caseReference"
+            "value": "$.case_data.caseReference",
+            "oldValue": "$.id"
+
         },
         {
             "label": "Parties",

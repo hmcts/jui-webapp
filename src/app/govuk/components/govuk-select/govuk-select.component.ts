@@ -1,15 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
-  selector: 'app-govuk-select',
-  templateUrl: './govuk-select.component.html',
-  styleUrls: ['./govuk-select.component.scss']
+    selector: 'app-govuk-select',
+    templateUrl: './govuk-select.component.html',
+    styleUrls: ['./govuk-select.component.scss']
 })
-export class GovukSelectComponent implements OnInit {
+export class GovukSelectComponent {
 
-  constructor() { }
+    @Input() id = 'sort';
+    @Input() name = 'sort';
+    @Input() label = {
+        text: 'Sort by'
+    };
+    @Input() items = [
+        {
+            value: 'published',
+            text: 'Recently published'
+        },
+        {
+            value: 'updated',
+            text: 'Recently updated',
+            selected: true
+        },
+        {
+            value: 'views',
+            text: 'Most views'
+        },
+        {
+            value: 'comments',
+            text: 'Most comments'
+        }
+    ];
 
-  ngOnInit() {
-  }
+    constructor() { }
 
 }

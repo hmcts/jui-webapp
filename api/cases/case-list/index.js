@@ -133,8 +133,6 @@ function combineLists(lists) {
 module.exports = app => {
     const router = express.Router({ mergeParams: true });
 
-    console.log("hello router")
-
     router.get('/', (req, res, next) => {
         const userId = req.auth.userId;
         const options = getOptions(req);

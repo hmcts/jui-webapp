@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
-  selector: 'app-govuk-fieldset',
-  templateUrl: './govuk-fieldset.component.html',
-  styleUrls: ['./govuk-fieldset.component.scss']
+    selector: 'app-govuk-fieldset',
+    templateUrl: './govuk-fieldset.component.html',
+    styleUrls: ['./govuk-fieldset.component.scss']
 })
-export class GovukFieldsetComponent implements OnInit {
+export class GovukFieldsetComponent {
 
-  constructor() { }
+    @Input() legend = {
+        text: 'Legend text goes here',
+        classes: 'govuk-fieldset__legend--xl',
+        isPageHeading: true
+    };
 
-  ngOnInit() {
-  }
+    constructor() { }
 
 }

@@ -1,19 +1,18 @@
 {
-    "case_number": {
-        "label": "$.case_data.ihtReferenceNumber"
-    },
     "columns": [
         {
             "label": "Case Reference",
             "case_field_id": "case_ref",
-            "value": "$.case_data.ihtReferenceNumber"
+            "value": "$.id",
+            "futureValue": "$.case_data.ihtReferenceNumber"
         },
         {
             "label": "Parties",
             "case_field_id": "parties",
             "value": [
                 "$.case_data.deceasedForenames",
-                "$.case_data.deceasedSurname"]
+                "$.case_data.deceasedSurname"
+            ]
         },
         {
             "label": "Type",

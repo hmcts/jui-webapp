@@ -1,7 +1,7 @@
 {
     "details": {
         "fields": [
-            { "value": "$.id" },
+            { "value": "$.case_data.D8caseReference" },
             { "value": [
                 "$.case_data.applicantFMName",
                 "$.case_data.applicantLName",
@@ -36,12 +36,16 @@
                                     ]
                                 },
                                 {
+                                    "label": "Case type",
+                                    "value": "Financial Remedy"
+                                },
+                                {
                                     "label": "Case number",
                                     "value": "$.id"
                                 },
                                 {
-                                    "label": "Case type",
-                                    "value": "Financial Remedy"
+                                    "label": "FamilyMan Case Number",
+                                    "value": "$.case_data.D8caseReference"
                                 }
                             ]
                         },
@@ -148,12 +152,12 @@
                     "name": "Case file",
                     "type": "document-panel",
                     "fields": [
-                        { "value": "$.case_data.frDocument.document_url|document_processor" },
-                        { "value": "$.case_data.d81Applicant.document_url|document_processor" },
-                        { "value": "$.case_data.d81Respondent.document_url|document_processor" },
-                        { "value": "$.case_data.consentOrder.document_url|document_processor" },
-                        { "value": "$.case_data.consentOrderText.document_url|document_processor" },
-                        { "value": "$.case_data.divorceUploadEvidence1.document_url|document_processor" }
+                        { "value": "$.case_data.frDocument.document_url" },
+                        { "value": "$.case_data.d81Applicant.document_url" },
+                        { "value": "$.case_data.d81Respondent.document_url" },
+                        { "value": "$.case_data.consentOrder.document_url" },
+                        { "value": "$.case_data.consentOrderText.document_url" },
+                        { "value": "$.case_data.divorceUploadEvidence1.document_url" }
                     ]
                 }
             ]
@@ -167,7 +171,9 @@
                     "id": "events",
                     "name": "Timeline",
                     "type": "timeline-panel",
-                    "fields": [{ "value": "$.events" }]
+                    "fields": [
+                        { "value": "$.events" }
+                    ]
                 }
             ]
         }

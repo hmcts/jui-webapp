@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
-  selector: 'app-govuk-warning-text',
-  templateUrl: './govuk-warning-text.component.html',
-  styleUrls: ['./govuk-warning-text.component.scss']
+    selector: 'app-govuk-warning-text',
+    templateUrl: './govuk-warning-text.component.html',
+    styleUrls: ['./govuk-warning-text.component.scss']
 })
-export class GovukWarningTextComponent implements OnInit {
+export class GovukWarningTextComponent {
 
-  constructor() { }
+    @Input() text = 'You can be fined up to £5,000 if you don’t register.';
+    @Input() iconFallbackText = 'Warning';
 
-  ngOnInit() {
-  }
+    constructor() { }
 
 }

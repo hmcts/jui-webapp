@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
-  selector: 'app-govuk-footer',
-  templateUrl: './govuk-footer.component.html',
-  styleUrls: ['./govuk-footer.component.scss']
+    selector: 'app-govuk-footer',
+    templateUrl: './govuk-footer.component.html',
+    styleUrls: ['./govuk-footer.component.scss']
 })
-export class GovukFooterComponent implements OnInit {
+export class GovukFooterComponent {
 
-  constructor() { }
-
-  ngOnInit() {
-  }
+    constructor() { }
 
 }

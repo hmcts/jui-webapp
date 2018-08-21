@@ -1,3 +1,16 @@
-<p>
-  govuk-table works!
-</p>
+<table class="govuk-table">
+    <caption class="govuk-table__caption">{{caption}}</caption>
+    <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+        <th class="govuk-table__header" scope="col" *ngFor="let h of head">{{h.text}}</th>
+    </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+    <tr class="govuk-table__row" *ngFor="let r of rows">
+        <ng-container *ngFor="let col of r; first as isFirst">
+            <th class="govuk-table__header" scope="row"  *ngIf="isFirst && firstCellIsHeader">{{col.text}}</th>
+            <td class="govuk-table__cell"  *ngIf="!(isFirst && firstCellIsHeader)">{{col.text}}</td>
+        </ng-container>
+    </tr>
+    </tbody>
+</table>

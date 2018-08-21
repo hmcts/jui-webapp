@@ -1,13 +1,14 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
     selector: 'app-hmcts-timeline',
     templateUrl: './hmcts-timeline.component.html',
     styleUrls: ['./hmcts-timeline.component.scss']
 })
-export class HmctsTimelineComponent implements OnInit {
+export class HmctsTimelineComponent {
 
-    @Input() events = [{
+    @Input() events = [
+        {
             title: 'Response submitted',
             by: 'DWP Appeals Officer',
             dateUtc: '2018-01-25T14:04',
@@ -42,8 +43,5 @@ export class HmctsTimelineComponent implements OnInit {
     ];
 
     constructor() { }
-
-    ngOnInit() {
-    }
 
 }

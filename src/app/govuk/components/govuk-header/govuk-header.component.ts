@@ -1,15 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
-  selector: 'app-govuk-header',
-  templateUrl: './govuk-header.component.html',
-  styleUrls: ['./govuk-header.component.scss']
+    selector: 'app-govuk-header',
+    templateUrl: './govuk-header.component.html',
+    styleUrls: ['./govuk-header.component.scss']
 })
-export class GovukHeaderComponent implements OnInit {
+export class GovukHeaderComponent  {
 
-  constructor() { }
+    @Input() homepageUrl = '#';
 
-  ngOnInit() {
-  }
+    constructor() { }
 
 }
