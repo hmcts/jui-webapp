@@ -14,8 +14,10 @@ export class SentenceCasePipe implements PipeTransform {
     }
 
     private toLower(value: string) {
+        // will match (D81), D81, A
+        const regex = /^\(.*\)$|^[A-Z]\d+$|^[A-Z]$/g;
         return value.split(' ').map(function(wrd) {
-                return (wrd.length === 1 && isUpperCase(wrd)) ?  wrd : wrd.substring(0, 1).toLowerCase() + wrd.substr(1);
+                return wrd.match(regex) ? wrd : wrd.toLowerCase();
             }).join(' ');
     }
 
