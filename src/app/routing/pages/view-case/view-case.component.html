@@ -2,13 +2,7 @@
 <div data-selector="case-viewer-component">
     <div class="jui-width-container">
         <main id="content" role="main" class="govuk-main-wrapper">
-            <nav class="jui-secondary-nav">
-                <ul class="jui-secondary-nav__list">
-                    <li class="jui-secondary-nav__item" *ngFor="let link of links" (click)="clearFocus($event)">
-                        <a data-selector="case-link" class="jui-secondary-nav__link" [attr.aria-current]="link.id===sectionId ? 'page' : null" [routerLink]="link.href">{{link.label}}</a>
-                    </li>
-                </ul>
-            </nav>
+            <app-hmcts-sub-navigation [items]="links"></app-hmcts-sub-navigation>
             <app-case-viewer [case]="case" [sectionId]="sectionId"></app-case-viewer>
         </main>
     </div>
