@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
-  selector: 'app-govuk-skip-link',
-  templateUrl: './govuk-skip-link.component.html',
-  styleUrls: ['./govuk-skip-link.component.scss']
+    selector: 'app-govuk-skip-link',
+    templateUrl: './govuk-skip-link.component.html',
+    styleUrls: ['./govuk-skip-link.component.scss']
 })
-export class GovukSkipLinkComponent implements OnInit {
+export class GovukSkipLinkComponent {
 
-  constructor() { }
+    @Input() text = 'Skip to main content';
+    @Input() href = '#content';
 
-  ngOnInit() {
-  }
+    constructor() { }
 
 }

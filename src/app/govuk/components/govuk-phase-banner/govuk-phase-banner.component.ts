@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
-  selector: 'app-govuk-phase-banner',
-  templateUrl: './govuk-phase-banner.component.html',
-  styleUrls: ['./govuk-phase-banner.component.scss']
+    selector: 'app-govuk-phase-banner',
+    templateUrl: './govuk-phase-banner.component.html',
+    styleUrls: ['./govuk-phase-banner.component.scss']
 })
-export class GovukPhaseBannerComponent implements OnInit {
+export class GovukPhaseBannerComponent {
 
-  constructor() { }
+    @Input() tag = {
+        text: 'alpha'
+    };
+    @Input() html = 'This is a new service – your <a class="govuk-link" href="#">feedback</a> will help us to improve it.';
 
-  ngOnInit() {
-  }
+    constructor() { }
 
 }
