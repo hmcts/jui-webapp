@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HmctsTimelineComponent } from './hmcts-timeline.component';
+import {SentenceCasePipe} from '../../../shared/pipes/sentence-case-pipe';
 
 describe('HmctsTimelineComponent', () => {
   let component: HmctsTimelineComponent;
@@ -8,7 +9,7 @@ describe('HmctsTimelineComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HmctsTimelineComponent ]
+      declarations: [ HmctsTimelineComponent, SentenceCasePipe]
     })
     .compileComponents();
   }));

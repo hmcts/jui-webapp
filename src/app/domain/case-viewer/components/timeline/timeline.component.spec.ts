@@ -3,8 +3,8 @@ import { CaseViewerModule } from '../../case-viewer.module';
 import { DebugElement } from '@angular/core';
 import { Selector } from '../../../../../../test/selector-helper';
 import {TimelineComponent} from './timeline.component';
-import {GovukModule} from '../../../../govuk/govuk.module';
-import {HmctsModule} from '../../../../hmcts/hmcts.module';
+import {HmctsTimelineComponent} from '../../../../hmcts/components/hmcts-timeline/hmcts-timeline.component';
+import {SentenceCasePipe} from '../../../../shared/pipes/sentence-case-pipe';
 
 describe('TimelineComponent', () => {
     let component: TimelineComponent;
@@ -13,7 +13,7 @@ describe('TimelineComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [CaseViewerModule, GovukModule, HmctsModule]
+            declarations: [TimelineComponent, HmctsTimelineComponent, SentenceCasePipe]
         })
             .compileComponents();
     }));
@@ -59,9 +59,9 @@ describe('TimelineComponent', () => {
             expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-item')).length).toBe(2);
         });
 
-        it('should see HEARING first and CREATED_EVENT second', () => {
-            expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-event-name'))[0].textContent).toBe('HEARING');
-            expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-event-name'))[1].textContent).toBe('CREATED_EVENT');
+        it('should see Hearing first and Created_event second', () => {
+            expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-event-name'))[0].textContent).toBe('Hearing');
+            expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-event-name'))[1].textContent).toBe('Created_event');
         });
 
         it('should see John first and Gilbert second', () => {

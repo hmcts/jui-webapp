@@ -3,6 +3,9 @@ import { CaseViewerModule } from '../../case-viewer.module';
 import { TimelinePanelComponent } from './timeline-panel.component';
 import { DebugElement } from '@angular/core';
 import { Selector } from '../../../../../../test/selector-helper';
+import {SentenceCasePipe} from '../../../../shared/pipes/sentence-case-pipe';
+import {HmctsTimelineComponent} from '../../../../hmcts/components/hmcts-timeline/hmcts-timeline.component';
+import {TimelineComponent} from '../timeline/timeline.component';
 
 describe('TimelinePanelComponent', () => {
     let component: TimelinePanelComponent;
@@ -11,7 +14,7 @@ describe('TimelinePanelComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [CaseViewerModule]
+            declarations: [TimelinePanelComponent, TimelineComponent, HmctsTimelineComponent, SentenceCasePipe]
         })
             .compileComponents();
     }));
@@ -38,12 +41,18 @@ describe('TimelinePanelComponent', () => {
                             {
                                 title: 'HEARING',
                                 by: 'John Smith',
-                                created_date: new Date()
+                                dateUtc: '2018-08-06T15:14:11Z',
+                                date: '6 Aug 2018',
+                                time: '15:14pm',
+                                documents: []
                             },
                             {
                                 title: 'CREATED_EVENT',
                                 by: 'Gilbert Smith',
-                                created_date: new Date()
+                                dateUtc: '2018-08-06T15:14:11Z',
+                                date: '6 Aug 2018',
+                                time: '15:14pm',
+                                documents: []
                             }
                         ]
                     }
@@ -59,9 +68,9 @@ describe('TimelinePanelComponent', () => {
             expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-item')).length).toBe(2);
         });
 
-        it('should see HEARING first and CREATED_EVENT second', () => {
-            expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-event-name'))[0].textContent).toBe('HEARING');
-            expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-event-name'))[1].textContent).toBe('CREATED_EVENT');
+        it('should see Hearing first and Created_event second', () => {
+            expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-event-name'))[0].textContent).toBe('Hearing');
+            expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-event-name'))[1].textContent).toBe('Created_event');
         });
 
         it('should see John first and Gilbert second', () => {
