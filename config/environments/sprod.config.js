@@ -6,6 +6,7 @@ module.exports = {
         idam_web: 'https://idam-test.dev.ccidam.reform.hmcts.net',
         idam_api: 'http://betaDevBccidamAppLB.reform.hmcts.net',
         s2s: 'http://rpe-service-auth-provider-sprod.service.core-compute-sprod.internal',
+        draft_store_api: 'https://draft-store-service-sprod.service.core-compute-sprod.internal',
         dm_store_api: 'http://dm-store-sprod.service.core-compute-sprod.internal',
         em_anno_api: 'http://em-anno-sprod.service.core-compute-sprod.internal',
         em_redact_api: 'http://em-redact-sprod.service.core-compute-sprod.internal',

@@ -4,6 +4,7 @@ module.exports = {
         idam_web: 'https://localhost:3501',
         idam_api: 'http://localhost:4501',
         s2s: 'http://localhost:4502',
+        draft_store_api: 'http://localhost:8080',
         dm_store_api: 'http://localhost:4603',
         em_anno_api: 'http://localhost:3621',
         em_redact_api: 'http://localhost:3623',
