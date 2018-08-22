@@ -23,8 +23,9 @@ function reduceEvents(events) {
 }
 
 function getEvents(caseId, userId, jurisdiction, caseType, options) {
-    return generateRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`, options)
-        .then(events => reduceEvents(events));
+    const promiseArray = [];
+     promiseArray.push(generateRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`, options));
+     return Promise.all(promiseArray);
 }
 
 
@@ -46,6 +47,7 @@ module.exports = app => {
             }
         })
             .then(events => {
+                console.log('events '+ events)
                 res.setHeader('Access-Control-Allow-Origin', '*');
                 res.setHeader('content-type', 'application/json');
                 res.status(200).send(JSON.stringify(events));
