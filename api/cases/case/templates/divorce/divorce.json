@@ -129,7 +129,9 @@
                     "name": "Case file",
                     "type": "document-panel",
                     "fields": [
-                        { "value": "$.case_data.D8DocumentsGenerated.value.DocumentLink.document_url" }
+                        {
+                            "value": "$.case_data.D8DocumentsGenerated[:1].value.DocumentLink|document_processor"
+                        }
                     ]
                 }
             ]

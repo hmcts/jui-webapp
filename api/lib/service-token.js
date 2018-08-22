@@ -42,7 +42,6 @@ function generateToken() {
                 expiresAt: tokenData.exp,
                 token: body
             };
-            console.log(tokenData);
             resolve();
         })
             .catch(e => {

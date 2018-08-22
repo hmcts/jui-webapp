@@ -152,12 +152,34 @@
                     "name": "Case file",
                     "type": "document-panel",
                     "fields": [
-                        { "value": "$.case_data.frDocument.document_url" },
-                        { "value": "$.case_data.d81Applicant.document_url" },
-                        { "value": "$.case_data.d81Respondent.document_url" },
-                        { "value": "$.case_data.consentOrder.document_url" },
-                        { "value": "$.case_data.consentOrderText.document_url" },
-                        { "value": "$.case_data.divorceUploadEvidence1.document_url" }
+                        {
+                            "label": "frDocument",
+                            "value": "$.case_data.frDocument|document_processor"
+                        },
+                        {
+                            "label": "d81Joint",
+                            "value": "$.case_data.d81Joint|document_processor"
+                        },
+                        {
+                            "label": "d81Applicant",
+                            "value": "$.case_data.d81Applicant|document_processor"
+                        },
+                        {
+                            "label": "d81Respondent",
+                            "value": "$.case_data.d81Respondent|document_processor"
+                        },
+                        {
+                            "label": "consentOrder",
+                            "value": "$.case_data.consentOrder|document_processor"
+                        },
+                        {
+                            "label": "consentOrderText",
+                            "value": "$.case_data.consentOrderText|document_processor"
+                        },
+                        {
+                            "label": "divorceUploadEvidence1",
+                            "value": "$.case_data.divorceUploadEvidence1|document_processor"
+                        }
                     ]
                 }
             ]
