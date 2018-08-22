@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {Location} from '@angular/common';
 
 @Component({
     selector: 'app-govuk-back-link',
@@ -11,5 +12,11 @@ export class GovukBackLinkComponent {
     @Input() href = '#';
 
     constructor() { }
+
+    // constructor(private location: Location) {}
+
+    // back() {
+    //     this.location.back();
+    // }
 
 }
