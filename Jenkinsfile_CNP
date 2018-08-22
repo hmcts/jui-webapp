@@ -79,7 +79,7 @@ withPipeline(type , product, component) {
 //            allowMissing         : true,
 //            alwaysLinkToLastBuild: true,
 //            keepAll              : true,
-//            reportDir            : "functionalTests/build/reports/tests/functional/",
+//            reportDir            : "reports/tests/functional/",
 //            reportFiles          : 'index.html',
 //            reportName           : 'DEMO Functional Test'
 //        ])
@@ -101,7 +101,7 @@ withPipeline(type , product, component) {
 //            allowMissing         : true,
 //            alwaysLinkToLastBuild: true,
 //            keepAll              : true,
-//            reportDir            : "functionalTests/build/reports/tests/functional/",
+//            reportDir            : "reports/tests/functional/",
 //            reportFiles          : 'index.html',
 //            reportName           : 'PREVIEW Functional Test'
 //        ])
@@ -123,7 +123,7 @@ withPipeline(type , product, component) {
 //            allowMissing         : true,
 //            alwaysLinkToLastBuild: true,
 //            keepAll              : true,
-//            reportDir            : "functionalTests/build/reports/tests/functional/",
+//            reportDir            : "reports/tests/functional/",
 //            reportFiles          : 'index.html',
 //            reportName           : 'AAT Functional Test'
 //        ])
