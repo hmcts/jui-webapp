@@ -1,13 +1,13 @@
-const documentProcessor = (documents, caseData) => {
+module.exports = (documents, caseData) => {
+
     if (!Array.isArray(documents)) {
         documents = [documents];
     }
+
     documents = documents
-        .filter(doc => doc.value && doc.value.documentLink)
         .map(doc => {
-            const splitURL = doc.value.documentLink.document_url.split('/');
-            const id = splitURL[splitURL.length - 1];
-            doc.id = id;
+            const splitURL = doc.document_url.split('/');
+            doc.id = splitURL[splitURL.length - 1];
             return doc;
         });
 
@@ -17,5 +17,3 @@ const documentProcessor = (documents, caseData) => {
 
     return documents;
 };
-
-module.exports = documentProcessor;
