@@ -5,28 +5,29 @@ import { HmctsProgressBarComponent } from './components/hmcts-progress-bar/hmcts
 import { HmctsPrimaryNavigationComponent } from './components/hmcts-primary-navigation/hmcts-primary-navigation.component';
 import { HmctsSubNavigationComponent } from './components/hmcts-sub-navigation/hmcts-sub-navigation.component';
 import { HmctsTimelineComponent } from './components/hmcts-timeline/hmcts-timeline.component';
-import {SharedModule} from '../shared/shared.module';
 import {RouterModule} from '@angular/router';
+import {SentenceCasePipe} from './pipes/sentence-case/sentence-case-pipe';
 
 @NgModule({
     imports: [
         CommonModule,
-        RouterModule,
-        SharedModule
+        RouterModule
     ],
     declarations: [
         HmctsGlobalHeaderComponent,
         HmctsProgressBarComponent,
         HmctsPrimaryNavigationComponent,
         HmctsSubNavigationComponent,
-        HmctsTimelineComponent
+        HmctsTimelineComponent,
+        SentenceCasePipe
     ],
     exports: [
         HmctsGlobalHeaderComponent,
         HmctsProgressBarComponent,
         HmctsPrimaryNavigationComponent,
         HmctsSubNavigationComponent,
-        HmctsTimelineComponent
+        HmctsTimelineComponent,
+        SentenceCasePipe
     ]
 })
 export class HmctsModule {
