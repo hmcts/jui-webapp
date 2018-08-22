@@ -5,7 +5,7 @@
 'use strict';
 
 function timelinePage() {
-    this.timelineLink = element(by.xpath('//*[@id="content"]/nav/ul/li[3]/a'));
+    this.timelineLink = element(by.css('.jui-secondary-nav__list .jui-secondary-nav__item:nth-of-type(4) .jui-secondary-nav__link'));
     this.timeline_header = element(by.css(('[data-selector ="heading"]')));
     this.timeline_eventname = element.all(by.css(('[data-selector ="timeline-event-name"]')));
     this.timeline_by = element.all(by.css(('[data-selector ="timeline-by"]')));

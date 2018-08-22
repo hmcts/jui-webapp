@@ -80,7 +80,7 @@ const config = {
     cucumberOpts: {
         strict: true,
         // format: ['node_modules/cucumber-pretty'],
-        format: 'json:.tmp/results.json',
+        format: 'json: reports_json/results.json',
         require: [
             '../support/world.js',
             '../support/*.js',
@@ -95,8 +95,8 @@ const config = {
             removeExistingJsonReportFile: true,
             reportName: 'JUI Functional Tests',
             // openReportInBrowser: true,
-            jsonDir: 'test/json-output',
-            reportPath: 'test/reports'
+            // jsonDir: 'reports/tests/functional',
+            reportPath: 'reports/tests/functional'
         }
     }]
 
