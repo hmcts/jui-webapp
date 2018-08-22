@@ -7,6 +7,7 @@ const questions = require('./questions');
 const events = require('./events');
 const hearingRoutes = require('./hearings');
 const documents = require('./documents');
+const definitions = require('./definitions');
 const authInterceptor = require('./middleware/auth');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
@@ -17,6 +18,7 @@ questions(router);
 events(router);
 documents(router);
 hearingRoutes(router);
+definitions(router);
 caseRoutes(router);
 decisionRoutes(router);
 
