@@ -16,3 +16,7 @@ $govuk-global-styles: true;
 .hmcts-primary-navigation {
     margin-bottom: 0;
 }
+
+div.govuk-prose-scope, p {
+    white-space: pre;
+}

@@ -11,6 +11,8 @@ import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {JUIFormsModule} from "../../../../forms/forms.module";
+import {GovukModule} from '../../../../govuk/govuk.module';
+import {HmctsModule} from '../../../../hmcts/hmcts.module';
 
 describe('DecisionConfirmationComponent', () => {
     let component: DecisionConfirmationComponent;
@@ -21,8 +23,18 @@ describe('DecisionConfirmationComponent', () => {
             declarations: [
                 DecisionConfirmationComponent
             ],
-            imports: [JUIFormsModule, DomainModule, SharedModule, BrowserTransferStateModule, HttpClientTestingModule, RouterTestingModule],
-            providers: [                DecisionService,
+            imports: [
+                JUIFormsModule,
+                DomainModule,
+                SharedModule,
+                BrowserTransferStateModule,
+                HttpClientTestingModule,
+                RouterTestingModule,
+                GovukModule,
+                HmctsModule
+            ],
+            providers: [
+                DecisionService,
                 {
                     provide: ConfigService, useValue: {
                         config: {

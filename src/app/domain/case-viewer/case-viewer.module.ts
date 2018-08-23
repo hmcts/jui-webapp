@@ -7,7 +7,6 @@ import { SummaryPanelComponent } from './components/summary-panel/summary-panel.
 import { PartiesPanelComponent } from './components/parties-panel/parties-panel.component';
 import { TimelinePanelComponent } from './components/timeline-panel/timeline-panel.component';
 import { QuestionsPanelComponent } from './components/questions-panel/questions-panel.component';
-import { TimelineComponent } from './components/timeline/timeline.component';
 import { DocumentViewerModule } from '../../shared/components/document-viewer/document-viewer.module';
 import { RouterModule } from '@angular/router';
 import {HmctsModule} from '../../hmcts/hmcts.module';
@@ -32,8 +31,7 @@ import {GovukModule} from '../../govuk/govuk.module';
         SummaryPanelComponent,
         PartiesPanelComponent,
         TimelinePanelComponent,
-        QuestionsPanelComponent,
-        TimelineComponent
+        QuestionsPanelComponent
     ]
 })
 export class CaseViewerModule {
