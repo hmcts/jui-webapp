@@ -74,16 +74,16 @@ withPipeline(type , product, component) {
 //        ])
 //    }
 //
-    after('functionalTest:demo') {
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/functional/",
-            reportFiles          : 'index.html',
-            reportName           : 'DEMO Functional Test'
-        ])
-    }
+//    after('functionalTest:demo') {
+//        publishHTML([
+//            allowMissing         : true,
+//            alwaysLinkToLastBuild: true,
+//            keepAll              : true,
+//            reportDir            : "reports/tests/functional/",
+//            reportFiles          : 'index.html',
+//            reportName           : 'DEMO Functional Test'
+//        ])
+//    }
 //
 //    after('smoketest:preview') {
 //        publishHTML([
@@ -96,16 +96,16 @@ withPipeline(type , product, component) {
 //        ])
 //    }
 //
-    after('functionalTest:preview') {
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/functional/",
-            reportFiles          : 'index.html',
-            reportName           : 'PREVIEW Functional Test'
-        ])
-    }
+//    after('functionalTest:preview') {
+//        publishHTML([
+//            allowMissing         : true,
+//            alwaysLinkToLastBuild: true,
+//            keepAll              : true,
+//            reportDir            : "reports/tests/functional/",
+//            reportFiles          : 'index.html',
+//            reportName           : 'PREVIEW Functional Test'
+//        ])
+//    }
 //
 //    after('smoketest:aat') {
 //        publishHTML([
@@ -118,16 +118,16 @@ withPipeline(type , product, component) {
 //        ])
 //    }
 //
-    after('functionalTest:aat') {
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/functional/",
-            reportFiles          : 'index.html',
-            reportName           : 'AAT Functional Test'
-        ])
-    }
+//    after('functionalTest:aat') {
+//        publishHTML([
+//            allowMissing         : true,
+//            alwaysLinkToLastBuild: true,
+//            keepAll              : true,
+//            reportDir            : "reports/tests/functional/",
+//            reportFiles          : 'index.html',
+//            reportName           : 'AAT Functional Test'
+//        ])
+//    }
 //
 //    after('smoketest:prod'){
 //        publishHTML([
