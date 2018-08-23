@@ -62,6 +62,84 @@ withPipeline(type , product, component) {
                 ])
      }
 
+
+//  after('smoketest:demo') {
+//        publishHTML([
+//            allowMissing         : true,
+//            alwaysLinkToLastBuild: true,
+//            keepAll              : true,
+//            reportDir            : "smokeTests/build/reports/tests/smoke/",
+//            reportFiles          : 'index.html',
+//            reportName           : 'DEMO Smoke Test'
+//        ])
+//    }
+//
+    after('functionalTest:demo') {
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/tests/functional/",
+            reportFiles          : 'index.html',
+            reportName           : 'DEMO Functional Test'
+        ])
+    }
+//
+//    after('smoketest:preview') {
+//        publishHTML([
+//            allowMissing         : true,
+//            alwaysLinkToLastBuild: true,
+//            keepAll              : true,
+//            reportDir            : "smokeTests/build/reports/tests/smoke/",
+//            reportFiles          : 'index.html',
+//            reportName           : 'PREVIEW Smoke Test'
+//        ])
+//    }
+//
+    after('functionalTest:preview') {
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/tests/functional/",
+            reportFiles          : 'index.html',
+            reportName           : 'PREVIEW Functional Test'
+        ])
+    }
+//
+//    after('smoketest:aat') {
+//        publishHTML([
+//            allowMissing         : true,
+//            alwaysLinkToLastBuild: true,
+//            keepAll              : true,
+//            reportDir            : "smokeTests/build/reports/tests/smoke/",
+//            reportFiles          : 'index.html',
+//            reportName           : 'AAT Smoke Test'
+//        ])
+//    }
+//
+    after('functionalTest:aat') {
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/tests/functional/",
+            reportFiles          : 'index.html',
+            reportName           : 'AAT Functional Test'
+        ])
+    }
+//
+//    after('smoketest:prod'){
+//        publishHTML([
+//            allowMissing         : true,
+//            alwaysLinkToLastBuild: true,
+//            keepAll              : true,
+//            reportDir            : "smokeTests/build/reports/tests/smoke/",
+//            reportFiles          : 'index.html',
+//            reportName           : 'PROD Smoke Test'
+//        ])
+//    }
+
     loadVaultSecrets(secrets)
     enableSlackNotifications(channel)
 }
