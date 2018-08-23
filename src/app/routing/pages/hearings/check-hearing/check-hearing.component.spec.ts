@@ -6,34 +6,43 @@ import {DecisionService} from '../../../../domain/services/decision.service';
 import {BrowserTransferStateModule} from '@angular/platform-browser';
 import {ConfigService} from '../../../../config.service';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {GovukModule} from '../../../../govuk/govuk.module';
+import {HmctsModule} from '../../../../hmcts/hmcts.module';
 
 describe('CheckHearingComponent', () => {
-  let component: CheckHearingComponent;
-  let fixture: ComponentFixture<CheckHearingComponent>;
+    let component: CheckHearingComponent;
+    let fixture: ComponentFixture<CheckHearingComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-        declarations: [
-            CheckHearingComponent
-        ],
-        imports: [SharedModule, BrowserTransferStateModule, HttpClientTestingModule, RouterTestingModule],
-        providers: [DecisionService, {
-            provide: ConfigService, useValue: {
-                config: {
-                    api_base_url: ''
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [
+                CheckHearingComponent
+            ],
+            imports: [
+                SharedModule,
+                BrowserTransferStateModule,
+                HttpClientTestingModule,
+                RouterTestingModule,
+                GovukModule,
+                HmctsModule
+            ],
+            providers: [DecisionService, {
+                provide: ConfigService, useValue: {
+                    config: {
+                        api_base_url: ''
+                    }
                 }
-            }
-        }]    })
-    .compileComponents();
-  }));
+            }]    })
+            .compileComponents();
+    }));
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(CheckHearingComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(() => {
+        fixture = TestBed.createComponent(CheckHearingComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

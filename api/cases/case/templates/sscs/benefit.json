@@ -131,8 +131,7 @@
                     "type": "document-panel",
                     "fields": [
                         {
-                            "value": "$.case_data.sscsDocument|document_processor",
-                            "xvalue": "$.case_data.sscsDocument[].value.documentLink.document_url|document_processor"
+                            "value": "$.case_data.sscsDocument[:1].value.documentLink|document_processor"
                         }
                     ]
                 }

@@ -8,6 +8,8 @@ import {ConfigService} from '../../../../config.service';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
+import {GovukModule} from '../../../../govuk/govuk.module';
+import {HmctsModule} from '../../../../hmcts/hmcts.module';
 
 describe('HearingConfirmationComponent', () => {
     let component: HearingConfirmationComponent;
@@ -18,7 +20,14 @@ describe('HearingConfirmationComponent', () => {
             declarations: [
                 HearingConfirmationComponent
             ],
-            imports: [SharedModule, BrowserTransferStateModule, HttpClientTestingModule, RouterTestingModule],
+            imports: [
+                SharedModule,
+                BrowserTransferStateModule,
+                HttpClientTestingModule,
+                RouterTestingModule,
+                GovukModule,
+                HmctsModule
+            ],
             providers: [
                 {
                     provide: ConfigService, useValue: {

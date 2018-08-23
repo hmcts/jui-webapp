@@ -3,9 +3,9 @@ import { CaseViewerModule } from '../../case-viewer.module';
 import { TimelinePanelComponent } from './timeline-panel.component';
 import { DebugElement } from '@angular/core';
 import { Selector } from '../../../../../../test/selector-helper';
-import {SentenceCasePipe} from '../../../../shared/pipes/sentence-case-pipe';
+import {SentenceCasePipe} from '../../../../hmcts/pipes/sentence-case/sentence-case-pipe';
 import {HmctsTimelineComponent} from '../../../../hmcts/components/hmcts-timeline/hmcts-timeline.component';
-import {TimelineComponent} from '../timeline/timeline.component';
+import {TimelineComponent} from '../../../../shared/components/timeline/timeline.component';
 
 describe('TimelinePanelComponent', () => {
     let component: TimelinePanelComponent;

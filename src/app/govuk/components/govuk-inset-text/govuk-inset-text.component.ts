@@ -7,7 +7,7 @@ import {Component, Input} from '@angular/core';
 })
 export class GovukInsetTextComponent {
 
-    @Input() text = 'It can take up to 8 weeks to register a lasting power of attorney if there are no mistakes in the application.'
+    @Input() text = 'It can take up to 8 weeks to register a lasting power of attorney if there are no mistakes in the application.';
 
     constructor() { }
 

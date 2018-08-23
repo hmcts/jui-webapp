@@ -3,6 +3,8 @@ import { DataListComponent } from './data-list.component';
 import { SharedModule } from '../../shared.module';
 import { DebugElement } from '@angular/core';
 import { Selector } from '../../../../../test/selector-helper';
+import {HmctsModule} from '../../../hmcts/hmcts.module';
+import {GovukModule} from '../../../govuk/govuk.module';
 
 describe('DataListComponent', () => {
     let component: DataListComponent;
@@ -11,7 +13,7 @@ describe('DataListComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [SharedModule]
+            imports: [SharedModule, GovukModule, HmctsModule]
         })
                .compileComponents();
     }));
@@ -23,8 +25,7 @@ describe('DataListComponent', () => {
     });
 
     it('should create', () => {
-        expect(component)
-            .toBeTruthy();
+        expect(component).toBeTruthy();
     });
 
     describe('Setting inputs:: ', () => {

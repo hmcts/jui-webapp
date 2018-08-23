@@ -7,15 +7,8 @@ describe('Document Processor', () => {
     beforeEach(() => {
         caseData = {};
         documents = [
-            {
-                id: 'ccdID1',
-                value: { documentLink: { document_url: 'something.com/docStoreId1' } }
-            },
-            { id: 'ccdID2' },
-            {
-                id: 'ccdID3',
-                value: { documentLink: { document_url: 'something.com/docStoreId3' } }
-            }
+            { document_url: 'something.com/docStoreId1' },
+            { document_url: 'something.com/docStoreId3' }
         ];
     });
 
@@ -33,14 +26,8 @@ describe('Document Processor', () => {
     it('should attach all valid case Ids to the case body', () => {
         documentProcessor(documents, caseData);
         expect(caseData.documents).toEqual([
-            {
-                id: 'docStoreId1',
-                value: { documentLink: { document_url: 'something.com/docStoreId1' } }
-            },
-            {
-                id: 'docStoreId3',
-                value: { documentLink: { document_url: 'something.com/docStoreId3' } }
-            }
+            { id: 'docStoreId1', document_url: 'something.com/docStoreId1' },
+            { id: 'docStoreId3', document_url: 'something.com/docStoreId3' }
         ]);
     });
 });

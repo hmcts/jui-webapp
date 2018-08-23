@@ -11,6 +11,8 @@ import {ConfigService} from '../../../../config.service';
 import {Observable, throwError, of} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {JUIFormsModule} from "../../../../forms/forms.module";
+import {GovukModule} from '../../../../govuk/govuk.module';
+import {HmctsModule} from '../../../../hmcts/hmcts.module';
 
 describe('CreateDecisionComponent', () => {
     let component: CreateDecisionComponent;
@@ -58,15 +60,17 @@ describe('CreateDecisionComponent', () => {
                 SharedModule,
                 BrowserTransferStateModule,
                 HttpClientTestingModule,
-                RouterTestingModule
+                RouterTestingModule,
+                GovukModule,
+                HmctsModule
             ],
             providers: [DecisionService,
                 {
                     provide: ConfigService, useValue: {
-                    config: {
-                        api_base_url: ''
+                        config: {
+                            api_base_url: ''
+                        }
                     }
-                }
                 },
                 {
                     provide: ActivatedRoute, useValue: activatedRouteMock

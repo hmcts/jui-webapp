@@ -12,6 +12,8 @@ import {of} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {JUIFormsModule} from "../../../../forms/forms.module";
 import {RedirectionService} from "../../../redirection.service";
+import {GovukModule} from '../../../../govuk/govuk.module';
+import {HmctsModule} from '../../../../hmcts/hmcts.module';
 
 describe('CheckDecisionComponent', () => {
     let component: CheckDecisionComponent;
@@ -26,45 +28,54 @@ describe('CheckDecisionComponent', () => {
             declarations: [
                 CheckDecisionComponent
             ],
-            imports: [JUIFormsModule, DomainModule, SharedModule, BrowserTransferStateModule, HttpClientTestingModule, RouterTestingModule],
+            imports: [
+                JUIFormsModule,
+                DomainModule,
+                SharedModule,
+                BrowserTransferStateModule,
+                HttpClientTestingModule,
+                RouterTestingModule,
+                GovukModule,
+                HmctsModule
+            ],
             providers: [
                 {
                     provide: DecisionService, useValue: {
-                    fetch: () => {
-                        return of(decision);
-                    },
-                    issueDecision: () => {
-                        return of({});
+                        fetch: () => {
+                            return of(decision);
+                        },
+                        issueDecision: () => {
+                            return of({});
+                        }
                     }
-                }
                 },
                 {
                     provide: ConfigService, useValue: {
-                    config: {
-                        api_base_url: ''
+                        config: {
+                            api_base_url: ''
+                        }
                     }
-                }
                 },
                 {
                     provide: ActivatedRoute, useValue: {
-                    snapshot: {
-                        _lastPathIndex: 0
-                    },
-                    parent: {
                         snapshot: {
-                            data: {
-                                caseData: {
-                                    id: '1234',
-                                    decision: {
-                                        options: [
-                                            {id: 'test', name: 'test'}
-                                        ]
+                            _lastPathIndex: 0
+                        },
+                        parent: {
+                            snapshot: {
+                                data: {
+                                    caseData: {
+                                        id: '1234',
+                                        decision: {
+                                            options: [
+                                                {id: 'test', name: 'test'}
+                                            ]
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                }
                 }
             ]
         })
