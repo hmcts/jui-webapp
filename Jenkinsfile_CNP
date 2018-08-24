@@ -74,7 +74,6 @@ withPipeline(type , product, component) {
 //        ])
 //    }
 //
-
     after('functionalTest:demo') {
         publishHTML([
             allowMissing         : true,
@@ -97,7 +96,7 @@ withPipeline(type , product, component) {
 //        ])
 //    }
 //
-    after('functionalTest:preview') {
+   after('functionalTest:preview') {
         publishHTML([
             allowMissing         : true,
             alwaysLinkToLastBuild: true,

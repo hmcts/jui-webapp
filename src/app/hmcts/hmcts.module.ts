@@ -7,6 +7,7 @@ import { HmctsSubNavigationComponent } from './components/hmcts-sub-navigation/h
 import { HmctsTimelineComponent } from './components/hmcts-timeline/hmcts-timeline.component';
 import {RouterModule} from '@angular/router';
 import {SentenceCasePipe} from './pipes/sentence-case/sentence-case-pipe';
+import { HmctsAlertComponent } from './components/hmcts-alert/hmcts-alert.component';
 
 @NgModule({
     imports: [
@@ -19,6 +20,7 @@ import {SentenceCasePipe} from './pipes/sentence-case/sentence-case-pipe';
         HmctsPrimaryNavigationComponent,
         HmctsSubNavigationComponent,
         HmctsTimelineComponent,
+        HmctsAlertComponent,
         SentenceCasePipe
     ],
     exports: [
@@ -27,6 +29,7 @@ import {SentenceCasePipe} from './pipes/sentence-case/sentence-case-pipe';
         HmctsPrimaryNavigationComponent,
         HmctsSubNavigationComponent,
         HmctsTimelineComponent,
+        HmctsAlertComponent,
         SentenceCasePipe
     ]
 })
