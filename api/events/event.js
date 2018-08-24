@@ -24,7 +24,7 @@ function reduceEvents(events) {
 
 function getHistory(arrObject) {
    return arrObject.map(arr => arr.history)
-        .reduce((history, item) => {
+       .reduce((history, item) => {
             return history.concat(item);
         }, []);
 }
@@ -55,7 +55,7 @@ function mergeCohEvents(eventsJson) {
 
 function sortEvents(events) {
     return events.sort((result1, result2) => {
-        moment.utc(result2.dateUtc).diff(moment.utc(result1.dateUtc));
+        return moment.duration(moment(result2.dateUtc).diff(moment(result1.dateUtc))).asMilliseconds();
     })
 }
 
@@ -72,16 +72,17 @@ function getCohEvents(caseId, userId, options) {
                 .then(reduceCohEvents);
         })
 }
+function combineLists(lists) {
+    return [].concat(...lists);
+}
 
 function getEvents(caseId, userId, jurisdiction, caseType, options) {
     const promiseArray = [];
      promiseArray.push(getCcdEvents(caseId, userId, jurisdiction, caseType, options));
      promiseArray.push(getCohEvents(caseId, userId, options));
       return Promise.all(promiseArray)
-          .then(results => {
-              let events = [...results[0], ...results[1]];
-              return sortEvents(events);
-          });
+          .then(combineLists)
+          .then(sortEvents);
 }
 
 function postHearing(caseId, userId, options, jurisdictionId = 'SSCS') {
@@ -114,7 +115,6 @@ function getOptions(req) {
     };
 }
 
-
 module.exports = app => {
     const router = express.Router({ mergeParams: true });
     app.use('/cases', router);
@@ -135,5 +135,4 @@ module.exports = app => {
 };
 
 module.exports.getEvents = getEvents;
-
 module.exports.reduceEvents = reduceEvents;
