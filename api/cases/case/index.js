@@ -75,9 +75,8 @@ module.exports = app => {
 
 
                 const docIds = (caseData.documents || [])
-                    .filter(document => document.value.documentLink)
                     .map(document => {
-                        const splitDocLink = document.value.documentLink.document_url.split('/');
+                        const splitDocLink = document.document_url.split('/');
                         return splitDocLink[splitDocLink.length - 1];
                     });
 
@@ -138,9 +137,8 @@ module.exports = app => {
 
 
                 const docIds = (caseData.documents || [])
-                    .filter(document => document.value.documentLink)
                     .map(document => {
-                        const splitDocLink = document.value.documentLink.document_url.split('/');
+                        const splitDocLink = document.document_url.split('/');
                         return splitDocLink[splitDocLink.length - 1];
                     });
 

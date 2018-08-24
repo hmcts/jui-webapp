@@ -1,13 +1,15 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
-import {ViewCaseComponent} from "./view-case.component";
+import {ViewCaseComponent} from './view-case.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {CaseViewerModule} from '../../../domain/case-viewer/case-viewer.module';
 import {ActivatedRoute} from '@angular/router';
 import {Observable} from 'rxjs';
 import 'rxjs-compat/add/observable/of';
-import {DomainModule} from "../../../domain/domain.module";
+import {DomainModule} from '../../../domain/domain.module';
 import {Selector} from '../../../../../test/selector-helper';
 import {Router} from '@angular/router';
+import {HmctsModule} from '../../../hmcts/hmcts.module';
+import {SharedModule} from '../../../shared/shared.module';
 
 describe('ViewCaseComponent', () => {
     let component: ViewCaseComponent;
@@ -25,10 +27,11 @@ describe('ViewCaseComponent', () => {
                         id: 'case_id',
                         case_jurisdiction: 'SSCS',
                         case_type_id: 'Benefit',
-                        sections: [{
-                            id: 'section_id1',
-                            name: 'section_name1'
-                        },
+                        sections: [
+                            {
+                                id: 'section_id1',
+                                name: 'section_name1'
+                            },
                             {
                                 id: 'section_id2',
                                 name: 'section_name2'
@@ -36,7 +39,8 @@ describe('ViewCaseComponent', () => {
                             {
                                 id: 'section_id3',
                                 name: 'section_name3'
-                            }]
+                            }
+                        ]
                     }
                 }
             }
@@ -47,10 +51,8 @@ describe('ViewCaseComponent', () => {
     function setupModule(providers = []) {
 
         TestBed.configureTestingModule({
-            declarations: [
-                ViewCaseComponent
-            ],
-            imports: [DomainModule, CaseViewerModule, RouterTestingModule],
+            declarations: [ViewCaseComponent],
+            imports: [DomainModule, CaseViewerModule, RouterTestingModule, HmctsModule, SharedModule],
             providers: [
                 { provide: ActivatedRoute, useFactory: () => activeRouteMock },
                 ...providers
@@ -82,7 +84,7 @@ describe('ViewCaseComponent', () => {
         });
 
         it('should render anchor links for each link', () => {
-            const linkElements = document.querySelectorAll(Selector.selector('case-viewer-component|case-link'));
+            const linkElements = document.querySelectorAll(Selector.selector('case-viewer-component|sub-nav-link'));
             expect(linkElements.length).toEqual(3);
             const linkEl = linkElements[0];
             expect(linkEl.tagName).toEqual('A');

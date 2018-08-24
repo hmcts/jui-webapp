@@ -7,6 +7,8 @@ import {BrowserTransferStateModule} from '@angular/platform-browser';
 import {SharedModule} from '../../../../shared/shared.module';
 import {DecisionService} from '../../../../domain/services/decision.service';
 import {ConfigService} from '../../../../config.service';
+import {GovukModule} from '../../../../govuk/govuk.module';
+import {HmctsModule} from '../../../../hmcts/hmcts.module';
 
 describe('CreateHearingComponent', () => {
     let component: CreateHearingComponent;
@@ -17,7 +19,14 @@ describe('CreateHearingComponent', () => {
             declarations: [
                 CreateHearingComponent
             ],
-            imports: [SharedModule, BrowserTransferStateModule, HttpClientTestingModule, RouterTestingModule],
+            imports: [
+                SharedModule,
+                BrowserTransferStateModule,
+                HttpClientTestingModule,
+                RouterTestingModule,
+                GovukModule,
+                HmctsModule
+            ],
             providers: [DecisionService, {
                 provide: ConfigService, useValue: {
                     config: {
