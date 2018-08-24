@@ -1,0 +1,128 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "Dashboard",
+    "line": 1,
+    "id": "dashboard",
+    "tags": [],
+    "uri": "test/e2e/features/app/dashBoard.feature",
+    "elements": [
+      {
+        "id": "dashboard;verify-date-details-for-sscs-cases",
+        "keyword": "Scenario",
+        "line": 18,
+        "name": "Verify date details for SSCS cases",
+        "tags": [
+          {
+            "name": "@RIUI_417,",
+            "line": 17
+          },
+          {
+            "name": "@all",
+            "line": 17
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "I navigate to JUI",
+            "match": {
+              "location": "test/e2e/features/step_definitions/steps/dashBoard.steps.js:14"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3205000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 5,
+            "name": "I am logged in as a Judge",
+            "match": {
+              "location": "test/e2e/features/step_definitions/steps/dashBoard.steps.js:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 14649000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 6,
+            "name": "I am on the dashboard page",
+            "match": {
+              "location": "test/e2e/features/step_definitions/steps/dashBoard.steps.js:28"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3057000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 19,
+            "name": "I will see date details for the list of cases displayed",
+            "match": {
+              "location": "test/e2e/features/step_definitions/steps/dashBoard.steps.js:65"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 98000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 20,
+            "name": "I see Date of latest action by date ascending order",
+            "match": {
+              "location": "test/e2e/features/step_definitions/steps/dashBoard.steps.js:72"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 973000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "match": {
+              "location": "test/e2e/support/hooks.js:94"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "match": {
+              "location": "node_modules/protractor-cucumber-framework/lib/resultsCapturer.js:25"
+            },
+            "result": {
+              "status": "passed"
+            }
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "browser": {
+        "name": "chrome",
+        "version": "68.0.3440.106"
+      },
+      "device": "",
+      "platform": {
+        "name": "",
+        "version": ""
+      }
+    }
+  }
+]

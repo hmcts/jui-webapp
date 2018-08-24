@@ -1,0 +1,441 @@
+[
+  {
+    "keyword": "Feature",
+    "name": "Dashboard",
+    "line": 1,
+    "id": "dashboard",
+    "tags": [],
+    "uri": "test/e2e/features/app/dashBoard.feature",
+    "elements": [
+      {
+        "id": "dashboard;verify-date-details-for-sscs-cases",
+        "keyword": "Scenario",
+        "line": 18,
+        "name": "Verify date details for SSCS cases",
+        "tags": [
+          {
+            "name": "@RIUI_417,",
+            "line": 17
+          },
+          {
+            "name": "@all",
+            "line": 17
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "I navigate to JUI",
+            "match": {
+              "location": "test/e2e/features/step_definitions/steps/dashBoard.steps.js:14"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3205000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 5,
+            "name": "I am logged in as a Judge",
+            "match": {
+              "location": "test/e2e/features/step_definitions/steps/dashBoard.steps.js:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 14649000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 6,
+            "name": "I am on the dashboard page",
+            "match": {
+              "location": "test/e2e/features/step_definitions/steps/dashBoard.steps.js:28"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3057000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 19,
+            "name": "I will see date details for the list of cases displayed",
+            "match": {
+              "location": "test/e2e/features/step_definitions/steps/dashBoard.steps.js:65"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 98000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 20,
+            "name": "I see Date of latest action by date ascending order",
+            "match": {
+              "location": "test/e2e/features/step_definitions/steps/dashBoard.steps.js:72"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 973000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "match": {
+              "location": "test/e2e/support/hooks.js:94"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "match": {
+              "location": "node_modules/protractor-cucumber-framework/lib/resultsCapturer.js:25"
+            },
+            "result": {
+              "status": "passed"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "keyword": "Feature",
+    "name": "RecentEvents",
+    "line": 1,
+    "id": "recentevents",
+    "tags": [],
+    "uri": "test/e2e/features/app/recentEvents.feature",
+    "elements": [
+      {
+        "id": "recentevents;verify-timeline-and-recent-events",
+        "keyword": "Scenario",
+        "line": 9,
+        "name": "Verify timeline and recent events",
+        "tags": [
+          {
+            "name": "@RIUI_647,",
+            "line": 8
+          },
+          {
+            "name": "@all",
+            "line": 8
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "I navigate to JUI",
+            "match": {
+              "location": "test/e2e/features/step_definitions/steps/dashBoard.steps.js:14"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1783000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 5,
+            "name": "I am logged in as a Judge",
+            "match": {
+              "location": "test/e2e/features/step_definitions/steps/dashBoard.steps.js:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 14632000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 6,
+            "name": "I select a case reference",
+            "match": {
+              "location": "test/e2e/features/step_definitions/steps/dashBoard.steps.js:53"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 74000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 10,
+            "name": "I see the timeline link",
+            "match": {
+              "location": "test/e2e/features/step_definitions/steps/recentEvents.steps.js:11"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2029000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 11,
+            "name": "I click on timeline should see the recent events",
+            "match": {
+              "location": "test/e2e/features/step_definitions/steps/recentEvents.steps.js:16"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2157000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "match": {
+              "location": "test/e2e/support/hooks.js:94"
+            },
+            "result": {
+              "status": "passed"
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "match": {
+              "location": "node_modules/protractor-cucumber-framework/lib/resultsCapturer.js:25"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "recentevents;verify-recent-events-on-summary-page",
+        "keyword": "Scenario",
+        "line": 15,
+        "name": "Verify recent events on summary page",
+        "tags": [
+          {
+            "name": "@RIUI_648,",
+            "line": 14
+          },
+          {
+            "name": "@all",
+            "line": 14
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "I navigate to JUI",
+            "match": {
+              "location": "test/e2e/features/step_definitions/steps/dashBoard.steps.js:14"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1548000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 5,
+            "name": "I am logged in as a Judge",
+            "match": {
+              "location": "test/e2e/features/step_definitions/steps/dashBoard.steps.js:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 14266000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 6,
+            "name": "I select a case reference",
+            "match": {
+              "location": "test/e2e/features/step_definitions/steps/dashBoard.steps.js:53"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 75000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 16,
+            "name": "I see the recent events with all details displayed",
+            "match": {
+              "location": "test/e2e/features/step_definitions/steps/recentEvents.steps.js:25"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3104000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 17,
+            "name": "I see the latest three events showing",
+            "match": {
+              "location": "test/e2e/features/step_definitions/steps/recentEvents.steps.js:33"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3013000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 18,
+            "name": "I click on view all events it should take to timeline page",
+            "match": {
+              "location": "test/e2e/features/step_definitions/steps/recentEvents.steps.js:43"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3106000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "match": {
+              "location": "test/e2e/support/hooks.js:94"
+            },
+            "result": {
+              "status": "passed"
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "match": {
+              "location": "node_modules/protractor-cucumber-framework/lib/resultsCapturer.js:25"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1000000
+            }
+          }
+        ]
+      },
+      {
+        "id": "recentevents;verify-judge-panel",
+        "keyword": "Scenario",
+        "line": 21,
+        "name": "Verify Judge Panel",
+        "tags": [
+          {
+            "name": "@RIUI_654,",
+            "line": 20
+          },
+          {
+            "name": "@all",
+            "line": 20
+          }
+        ],
+        "type": "scenario",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 4,
+            "name": "I navigate to JUI",
+            "match": {
+              "location": "test/e2e/features/step_definitions/steps/dashBoard.steps.js:14"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 2912000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 5,
+            "name": "I am logged in as a Judge",
+            "match": {
+              "location": "test/e2e/features/step_definitions/steps/dashBoard.steps.js:21"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 13660000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 6,
+            "name": "I select a case reference",
+            "match": {
+              "location": "test/e2e/features/step_definitions/steps/dashBoard.steps.js:53"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 74000000
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 22,
+            "name": "I see the Judge Panel Details",
+            "match": {
+              "location": "test/e2e/features/step_definitions/steps/recentEvents.steps.js:50"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 3059000000
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "match": {
+              "location": "test/e2e/support/hooks.js:94"
+            },
+            "result": {
+              "status": "passed"
+            }
+          },
+          {
+            "keyword": "After",
+            "hidden": true,
+            "match": {
+              "location": "node_modules/protractor-cucumber-framework/lib/resultsCapturer.js:25"
+            },
+            "result": {
+              "status": "passed"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
