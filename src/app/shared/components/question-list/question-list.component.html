@@ -1,0 +1,27 @@
+<div class="jui-questions govuk-!-margin-bottom-6">
+    <div data-selector="questions-item" class="jui-questions__item" *ngFor="let question of questions" >
+        <h3 data-selector="questions-subject" class="jui-questions__subject">
+            <a data-selector="questions-subject-link" routerLink="./{{question.id}}">{{question.header}}</a>
+            <ng-container [ngSwitch]="question.state">
+                <strong *ngSwitchCase="'question_drafted'" class="jui-status">Draft</strong>
+                <strong *ngSwitchCase="'question_issue_pending'" class="jui-status">Issue Pending</strong>
+                <strong *ngSwitchCase="'question_issued'" class="jui-status">Issued</strong>
+                <strong *ngSwitchCase="'question_deadline_elapsed'" class="jui-status">Deadline elapsed</strong>
+                <strong *ngSwitchCase="'question_extension_requested'" class="jui-status">Extension requested</strong>
+                <strong *ngSwitchCase="'question_deadline_extension_denied'" class="jui-status">Deadline extension denied</strong>
+                <strong *ngSwitchCase="'question_deadline_extension_granted'" class="jui-status">Deadline extension granted</strong>
+                <strong *ngSwitchCase="'question_answered'" class="jui-status">Replied</strong>
+            </ng-container>
+        </h3>
+
+        <ng-container [ngSwitch]="question.state">
+            <p data-selector="questions-meta-data" *ngSwitchCase="'question_drafted'" class="jui-questions__meta">Last updated by <span class="jui-questions__author">{{question.owner_reference}}</span> {{question.state_datetime | date: "'on' d MMMM yyyy 'at' h:mmaaaaa'm'":'+00:00'}}</p>
+            <p data-selector="questions-issued-meta-data" *ngSwitchCase="'question_issued'" class="jui-questions__meta">Sent by <span class="jui-questions__author">{{question.owner_reference}}</span> {{question.state_datetime | date: "'on' d MMMM yyyy 'at' h:mmaaaaa'm'":'+00:00'}}</p>
+            <p data-selector="questions-answered-meta-data" *ngSwitchCase="'question_answered'" class="jui-questions__meta">Responded by <span class="jui-questions__author">Appellant</span> {{question.state_datetime | date: "'on' d MMMM yyyy 'at' h:mmaaaaa'm'":'+00:00'}}</p>
+        </ng-container>
+    </div>
+</div>
+
+
+
+

@@ -3,10 +3,8 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {QuestionsPanelComponent} from './questions-panel.component';
 import {CaseViewerModule} from '../../case-viewer.module';
 import {Selector} from '../../../../../../test/selector-helper';
-import {ActivatedRoute} from '@angular/router';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ConfigService} from '../../../../config.service';
-import {of} from 'rxjs';
 
 describe('QuestionsPanelComponent', () => {
     let component: QuestionsPanelComponent;
@@ -14,44 +12,12 @@ describe('QuestionsPanelComponent', () => {
     let nativeElement;
     let mockRoute;
     let mockConfigService;
-    let caseData;
 
     beforeEach(() => {
         mockConfigService = {
             config: {
                 api_base_url: 'http://localhost:3000'
             }
-        };
-        mockRoute = {
-            snapshot: {
-                _lastPathIndex: 0
-            },
-            parent: {
-                snapshot: {
-                    params: {
-                        'case_id': 'case_id'
-                    },
-                    queryParams: {}
-                }
-            },
-            queryParams: of({}),
-        };
-        caseData = {
-            id: 'case_id',
-            case_jurisdiction: 'SSCS',
-            case_type_id: 'Benefit',
-            sections: [{
-                id: 'section_id1',
-                name: 'section_name1'
-            },
-                {
-                    id: 'section_id2',
-                    name: 'section_name2'
-                },
-                {
-                    id: 'section_id3',
-                    name: 'section_name3'
-                }]
         };
     });
 
@@ -106,7 +72,6 @@ describe('QuestionsPanelComponent', () => {
                 fixture = TestBed.createComponent(QuestionsPanelComponent);
                 component = fixture.componentInstance;
                 component.panelData = data;
-                component.case = caseData;
                 nativeElement = fixture.nativeElement;
                 fixture.detectChanges();
             }));
@@ -117,26 +82,26 @@ describe('QuestionsPanelComponent', () => {
             });
 
             it('should display a list of draft questions to appellant', () => {
-                expect(nativeElement.querySelectorAll(Selector.selector('draft-questions-item')).length)
+                expect(nativeElement.querySelectorAll(Selector.selector('questions-item')).length)
                     .toBe(2);
             });
 
             it('should display details of when draft questions were added', () => {
                 expect(nativeElement.querySelector(Selector.selector('draft-questions-details')).textContent)
-                    .toBe('You have not sent these questions to the appellant');
+                    .toBe('You have not sent these questions to the appellant.');
             });
 
             it('should display two draft questions', () => {
-                expect(nativeElement.querySelectorAll(Selector.selector('draft-questions-item')).length)
+                expect(nativeElement.querySelectorAll(Selector.selector('questions-item')).length)
                     .toBe(2);
             });
 
             it('should display two draft questions headings with a link to the associated question', () => {
                 const links = nativeElement.querySelectorAll(Selector.selector('questions-subject-link'));
                 expect(links[0].attributes.href.value)
-                    .toEqual('/jurisdiction/SSCS/casetype/Benefit/viewcase/case_id/questions/be8ac935-ed7a-47b5-84ce-b5aa25e64512');
+                    .toEqual('/be8ac935-ed7a-47b5-84ce-b5aa25e64512');
                 expect(links[1].attributes.href.value)
-                    .toEqual('/jurisdiction/SSCS/casetype/Benefit/viewcase/case_id/questions/c7935438-b54c-4dad-bbe8-34fff72caf81');
+                    .toEqual('/c7935438-b54c-4dad-bbe8-34fff72caf81');
             });
 
             it('should display two draft questions meta data', () => {
@@ -151,14 +116,14 @@ describe('QuestionsPanelComponent', () => {
                 expect(nativeElement.querySelector(Selector.selector('create-draft-questions-link')).textContent)
                     .toBe('Add questions');
                 expect(nativeElement.querySelector(Selector.selector('create-draft-questions-link')).attributes.href.value)
-                    .toEqual('/jurisdiction/SSCS/casetype/Benefit/viewcase/case_id/questions/new');
+                    .toEqual('/new/1');
             });
 
             it('should display link to send all draft questions', () => {
                 expect(nativeElement.querySelector(Selector.selector('send-draft-questions-link')).textContent)
                     .toBe('Send questions');
                 expect(nativeElement.querySelector(Selector.selector('send-draft-questions-link')).attributes.href.value)
-                    .toEqual('/jurisdiction/SSCS/casetype/Benefit/viewcase/case_id/questions/check');
+                    .toEqual('/check/1');
             });
         });
     });
@@ -173,10 +138,6 @@ describe('QuestionsPanelComponent', () => {
                     ],
                     declarations: [],
                     providers: [
-                        {
-                            provide: ActivatedRoute,
-                            useValue: mockRoute
-                        },
                         {
                             provide: ConfigService,
                             useValue: mockConfigService
@@ -200,7 +161,6 @@ describe('QuestionsPanelComponent', () => {
             fixture = TestBed.createComponent(QuestionsPanelComponent);
             component = fixture.componentInstance;
             component.panelData = data;
-            component.case = caseData;
             nativeElement = fixture.nativeElement;
             fixture.detectChanges();
         }));
@@ -221,10 +181,10 @@ describe('QuestionsPanelComponent', () => {
         });
 
         it('should display link to add draft questions', () => {
-            expect(nativeElement.querySelector(Selector.selector('no-draft-questions-link')).textContent)
+            expect(nativeElement.querySelector(Selector.selector('no-draft-add-questions-link')).textContent)
                 .toBe('Add questions');
-            expect(nativeElement.querySelector(Selector.selector('no-draft-questions-link')).attributes.href.value)
-                .toEqual('/jurisdiction/SSCS/casetype/Benefit/viewcase/case_id/questions/new');
+            expect(nativeElement.querySelector(Selector.selector('no-draft-add-questions-link')).attributes.href.value)
+                .toEqual('/new/1');
         });
 
         it('should not display link to send all draft questions', () => {
@@ -248,10 +208,6 @@ describe('QuestionsPanelComponent', () => {
                     ],
                     declarations: [],
                     providers: [
-                        {
-                            provide: ActivatedRoute,
-                            useValue: mockRoute
-                        },
                         {
                             provide: ConfigService,
                             useValue: mockConfigService
@@ -296,7 +252,6 @@ describe('QuestionsPanelComponent', () => {
             fixture = TestBed.createComponent(QuestionsPanelComponent);
             component = fixture.componentInstance;
             component.panelData = data;
-            component.case = caseData;
             nativeElement = fixture.nativeElement;
             fixture.detectChanges();
         }));
@@ -322,14 +277,14 @@ describe('QuestionsPanelComponent', () => {
         });
 
         it('should display link to add draft questions', () => {
-            expect(nativeElement.querySelector(Selector.selector('no-draft-questions-link')).textContent)
+            expect(nativeElement.querySelector(Selector.selector('no-draft-add-questions-link')).textContent)
                 .toBe('Add questions');
-            expect(nativeElement.querySelector(Selector.selector('no-draft-questions-link')).attributes.href.value)
-                .toEqual('/jurisdiction/SSCS/casetype/Benefit/viewcase/case_id/questions/new');
+            expect(nativeElement.querySelector(Selector.selector('no-draft-add-questions-link')).attributes.href.value)
+                .toEqual('/new/2');
         });
 
         it('should display sent questions', () => {
-            expect(nativeElement.querySelectorAll(Selector.selector('sent-questions-item')).length)
+            expect(nativeElement.querySelectorAll(Selector.selector('questions-item')).length)
                 .toBe(2);
         });
 
@@ -349,10 +304,6 @@ describe('QuestionsPanelComponent', () => {
                     ],
                     declarations: [],
                     providers: [
-                        {
-                            provide: ActivatedRoute,
-                            useValue: mockRoute
-                        },
                         {
                             provide: ConfigService,
                             useValue: mockConfigService
@@ -397,7 +348,6 @@ describe('QuestionsPanelComponent', () => {
             fixture = TestBed.createComponent(QuestionsPanelComponent);
             component = fixture.componentInstance;
             component.panelData = data;
-            component.case = caseData;
             nativeElement = fixture.nativeElement;
             fixture.detectChanges();
         }));
@@ -408,7 +358,7 @@ describe('QuestionsPanelComponent', () => {
         });
 
         it('should display sent questions', () => {
-            expect(nativeElement.querySelectorAll(Selector.selector('sent-questions-item')).length)
+            expect(nativeElement.querySelectorAll(Selector.selector('questions-item')).length)
                 .toBe(2);
         });
 
