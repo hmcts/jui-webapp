@@ -10,17 +10,17 @@
             "label": "Parties",
             "case_field_id": "parties",
             "value": [
-                "$.case_data.D8PetitionerFirstName",
-                "$.case_data.D8PetitionerLastName",
-                "v",
-                "$.case_data.D8RespondentFirstName",
+                "$.case_data.D8PetitionerFirstName", " ",
+                "$.case_data.D8PetitionerLastName", " ",
+                "v", " ",
+                "$.case_data.D8RespondentFirstName", " ",
                 "$.case_data.D8RespondentLastName"
             ]
         },
         {
             "label": "Type",
             "case_field_id": "type",
-            "value": ["Divorce"]
+            "value": "Divorce"
 
         },
         {

@@ -20,12 +20,15 @@ const dataLookup = (lookup, caseData) => {
         if (value && processor && processor === 'document_processor') {
             value = documentProcessor(value, caseData);
         }
+        if (value && processor && processor === 'newline_processor') {
+            value = value ? (`${value}\n`) : '';
+        }
 
         return value;
     } else if (typeof lookup === 'number') {
         return lookup;
     } else if (Array.isArray(lookup)) {
-        return lookup.map(part => dataLookup(part, caseData)).join(' ');
+        return lookup.map(part => dataLookup(part, caseData)).join('');
     }
     throw new Error('lookup is neither a string or an array.');
 };

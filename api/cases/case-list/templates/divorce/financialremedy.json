@@ -10,17 +10,17 @@
             "label": "Parties",
             "case_field_id": "parties",
             "value": [
-                "$.case_data.applicantFMName",
-                "$.case_data.applicantLName",
-                "v",
-                "$.case_data.appRespondentFMName",
+                "$.case_data.applicantFMName", " ",
+                "$.case_data.applicantLName", " ",
+                "v", " ",
+                "$.case_data.appRespondentFMName", " ",
                 "$.case_data.appRespondentLName"
             ]
         },
         {
             "label": "Type",
             "case_field_id": "type",
-            "value": ["Financial remedy"]
+            "value": "Financial remedy"
 
         },
         {

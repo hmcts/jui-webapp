@@ -9,7 +9,7 @@
     <section *ngIf="tabContent" class="govuk-tabs__panel">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-half">
-                <h2 data-selector="parties-tab-title" class="govuk-heading-s  govuk-!-margin-bottom-2  govuk-!-margin-top-6">{{ tabContent.name }}</h2>
+                <h2 data-selector="parties-tab-title" class="govuk-heading-l">{{ tabContent.name }}</h2>
                 <table class="govuk-table jui-table">
                     <tbody class="govuk-table__body">
                     <tr class="govuk-table__row" *ngFor="let tabcontent of tabContent.fields">

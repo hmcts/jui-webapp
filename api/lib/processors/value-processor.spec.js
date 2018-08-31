@@ -27,11 +27,11 @@ describe('Value Processor Helper', () => {
 
     describe('array values', () => {
         it('should process all array values and concatonate', () => {
-            expect(valueProcessor(['$.simpleField1', '$.simpleField2'], sampleObject)).toEqual('simpleField1 simpleField2');
+            expect(valueProcessor(['$.simpleField1', ' ', '$.simpleField2'], sampleObject)).toEqual('simpleField1 simpleField2');
         });
 
         it('should be able to combine lookups and hard values', () => {
-            expect(valueProcessor(['$.simpleField1', 'one', '$.simpleField2', 'two'], sampleObject)).toEqual('simpleField1 one simpleField2 two');
+            expect(valueProcessor(['$.simpleField1', ' ', 'one', ' ', '$.simpleField2', ' ', 'two'], sampleObject)).toEqual('simpleField1 one simpleField2 two');
         });
     });
 

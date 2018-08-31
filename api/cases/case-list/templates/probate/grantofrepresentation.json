@@ -10,16 +10,14 @@
             "label": "Parties",
             "case_field_id": "parties",
             "value": [
-                "$.case_data.deceasedForenames",
+                "$.case_data.deceasedForenames", " ",
                 "$.case_data.deceasedSurname"
             ]
         },
         {
             "label": "Type",
             "case_field_id": "type",
-            "value": [
-                "Grant of Representation"
-            ]
+            "value": "Grant of Representation"
         },
         {
             "label": "Action needed",

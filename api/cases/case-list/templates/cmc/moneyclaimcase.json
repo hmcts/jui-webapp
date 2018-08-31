@@ -17,7 +17,7 @@
         {
             "label": "Type",
             "case_field_id": "type",
-            "value": ["CMC"]
+            "value": "CMC"
 
         },
         {
