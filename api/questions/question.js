@@ -163,12 +163,14 @@ function formatAnswer(body) {
     if (body) {
         return {
             answer_text: body.text || 'foo bar',
-            answer_state: body.state || 'answer_drafted'
+            // answer_state: body.state || 'answer_drafted'
+            answer_state: body.state || 'answer_submitted'
         };
     } else {
         return {
             answer_text: 'foo bar',
-            answer_state: 'answer_drafted'
+            // answer_state: 'answer_drafted'
+            answer_state: 'answer_submitted'
         };
     }
 }
