@@ -31,9 +31,7 @@ describe('DataListComponent', () => {
     describe('Setting inputs:: ', () => {
         it('should display the title', () => {
             component.title = 'Example';
-
             fixture.detectChanges();
-
             expect(element.nativeElement.querySelector(Selector.selector('title')).textContent).toBe(component.title);
         });
 
@@ -49,8 +47,11 @@ describe('DataListComponent', () => {
                 }
             ];
 
-            fixture.detectChanges();
+            component.ngOnChanges({
+                dataList: []
+            });
 
+            fixture.detectChanges();
             expect(element.nativeElement.querySelectorAll(Selector.selector('table-row')).length).toBe(2);
         });
 
@@ -65,6 +66,10 @@ describe('DataListComponent', () => {
                     value: 'value 2'
                 }
             ];
+
+            component.ngOnChanges({
+                dataList: []
+            });
 
             fixture.detectChanges();
 
@@ -85,6 +90,10 @@ describe('DataListComponent', () => {
                     value: 'value 2'
                 }
             ];
+
+            component.ngOnChanges({
+                dataList: []
+            });
 
             fixture.detectChanges();
 

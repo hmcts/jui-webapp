@@ -1,5 +1,5 @@
 <div data-selector="data-list-component">
-    <h2 data-selector="title" class="govuk-heading-m  govuk-!-margin-bottom-2">{{title}}</h2>
+    <h2 data-selector="title" class="{{classes || 'govuk-heading-m  govuk-!-margin-bottom-2'}}">{{title}}</h2>
     <app-govuk-table
         [classes]="'govuk-!-margin-bottom-7  jui-table  jui-table--fixed'"
         [caption]="''"
