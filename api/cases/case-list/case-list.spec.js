@@ -1,8 +1,7 @@
+const express = require('express');
 const proxyquire = require('proxyquire');
 const supertest = require('supertest');
-const express = require('express');
 
-const router = express.Router();
 const sscsCaseListTemplate = require('./templates/sscs/benefit');
 
 describe('case-list spec', () => {
@@ -35,23 +34,25 @@ describe('case-list spec', () => {
             return Promise.resolve(sscsCaseData);
         });
 
-        route = proxyquire('./index', { '../../lib/request': httpRequest });
-        router.get('/', route);
         app = express();
+
+        route = proxyquire('./index', { '../../lib/request': httpRequest });
         app.use((req, res, next) => {
             req.auth = {
                 token: '1234567',
                 userId: '1'
             };
+            req.headers.ServiceAuthorization = 'sdhfkajfa;ksfha;kdj';
             next();
         });
-        app.use('/api/cases', router);
 
+        route(app);
         request = supertest(app);
     });
 
+
     describe('when no case data is returned', () => {
-        it('should return the columns with no rows', (done) => request.get('/api/cases')
+        it('should return the columns with no rows', (done) => request.get('/cases')
             .expect(200)
             .then(response => {
                 expect(response.body.results.length).toBe(0);
@@ -101,7 +102,7 @@ describe('case-list spec', () => {
         });
 
         it('for a single jurisdiction it should only return 1 row', () => {
-            request.get('/api/cases')
+            request.get('/cases')
                 .expect(200)
                 .then(response => {
                     expect(response.body.results.length).toBe(1);
@@ -143,7 +144,7 @@ describe('case-list spec', () => {
                 last_modified: updatedDate
             });
 
-            request.get('/api/cases')
+            request.get('/cases')
                 .expect(200)
                 .then(response => {
                     expect(response.body.results.length).toBe(3);
@@ -251,7 +252,7 @@ describe('case-list spec', () => {
             };
         });
 
-        it('should filter cases to show only valid case reference', () => request.get('/api/cases')
+        it('should filter cases to show only valid case reference', () => request.get('/cases')
             .expect(200)
             .then(response => {
                 expect(response.body.results.length).toBe(1);
@@ -379,7 +380,7 @@ describe('case-list spec', () => {
         });
 
 
-        it('should return the columns with multiple rows order by ascending order of last updated date', () => request.get('/api/cases')
+        it('should return the columns with multiple rows order by ascending order of last updated date', () => request.get('/cases')
             .expect(200)
             .then(response => {
                 expect(response.body.results.length).toBe(3);
@@ -444,7 +445,7 @@ describe('case-list spec', () => {
                 last_modified: updatedDate1
 
             });
-            return request.get('/api/cases')
+            return request.get('/cases')
                 .expect(200)
                 .then(response => {
                     expect(response.body.results.length).toBe(3);

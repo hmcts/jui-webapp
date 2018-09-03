@@ -1,28 +1,26 @@
 {
-    "case_number": {
-        "label": "$.id"
-    },
     "columns": [
         {
             "label": "Case Reference",
             "case_field_id": "case_ref",
-            "value": "$.id"
+            "value": "$.id",
+            "futureValue" : "$.case_data.D8caseReference"
         },
         {
             "label": "Parties",
             "case_field_id": "parties",
             "value": [
-                "$.case_data.D8PetitionerFirstName",
-                "$.case_data.D8PetitionerLastName",
-                "v",
-                "$.case_data.D8RespondentFirstName",
+                "$.case_data.D8PetitionerFirstName", " ",
+                "$.case_data.D8PetitionerLastName", " ",
+                "v", " ",
+                "$.case_data.D8RespondentFirstName", " ",
                 "$.case_data.D8RespondentLastName"
             ]
         },
         {
             "label": "Type",
             "case_field_id": "type",
-            "value": ["Divorce"]
+            "value": "Divorce"
 
         },
         {

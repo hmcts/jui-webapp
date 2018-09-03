@@ -1,0 +1,8 @@
+<div class="govuk-breadcrumbs">
+    <ol class="govuk-breadcrumbs__list">
+        <ng-container *ngFor="let item of items; last as isLast">
+            <li class="govuk-breadcrumbs__list-item"><a class="govuk-breadcrumbs__link" href="{{item.href}}" *ngIf="!isLast">{{item.text}}</a></li>
+            <li class="govuk-breadcrumbs__list-item" aria-current="page" *ngIf="isLast">{{item.text}}</li>
+        </ng-container>
+    </ol>
+</div>

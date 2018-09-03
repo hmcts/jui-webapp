@@ -1,28 +1,26 @@
 {
-    "case_number": {
-        "label": "$.id"
-    },
     "columns": [
         {
             "label": "Case Reference",
             "case_field_id": "case_ref",
-            "value": "$.id"
+            "value": "$.id",
+            "futureValue" : ""
         },
         {
             "label": "Parties",
             "case_field_id": "parties",
             "value": [
-                "$.case_data.applicantFMName",
-                "$.case_data.applicantLName",
-                "v",
-                "$.case_data.appRespondentFMName",
+                "$.case_data.applicantFMName", " ",
+                "$.case_data.applicantLName", " ",
+                "v", " ",
+                "$.case_data.appRespondentFMName", " ",
                 "$.case_data.appRespondentLName"
             ]
         },
         {
             "label": "Type",
             "case_field_id": "type",
-            "value": ["Financial remedy"]
+            "value": "Financial remedy"
 
         },
         {

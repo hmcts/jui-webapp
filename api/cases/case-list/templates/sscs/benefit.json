@@ -1,27 +1,26 @@
 {
-    "case_number": {
-        "label": "$.case_data.caseReference"
-    },
     "columns": [
         {
             "label": "Case Reference",
             "case_field_id": "case_ref",
-            "value": "$.case_data.caseReference"
+            "value": "$.case_data.caseReference",
+            "oldValue": "$.id"
+
         },
         {
             "label": "Parties",
             "case_field_id": "parties",
             "value": [
-                "$.case_data.appeal.appellant.name.firstName",
-                "$.case_data.appeal.appellant.name.lastName",
-                "v",
+                "$.case_data.appeal.appellant.name.firstName", " ",
+                "$.case_data.appeal.appellant.name.lastName", " ",
+                "v", " ",
                 "DWP"
             ]
         },
         {
             "label": "Type",
             "case_field_id": "type",
-            "value": ["$.case_data.appeal.benefitType.code"]
+            "value": "$.case_data.appeal.benefitType.code"
 
         },
         {

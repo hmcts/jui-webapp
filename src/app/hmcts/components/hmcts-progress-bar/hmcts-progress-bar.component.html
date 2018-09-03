@@ -1,0 +1,13 @@
+<div class="hmcts-progress-bar">
+    <ol class="hmcts-progress-bar__list">
+        <ng-container *ngFor="let item of items">
+            <li class="hmcts-progress-bar__list-item" attr.aria-current="{{item.active}}">
+            <span [ngClass]="{
+             'hmcts-progress-bar__icon': true,
+             'hmcts-progress-bar__icon--complete': item.complete
+              }"></span>
+                <span class="hmcts-progress-bar__label">{{item.label.text}}</span>
+            </li>
+        </ng-container>
+    </ol>
+</div>

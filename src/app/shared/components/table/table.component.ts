@@ -17,7 +17,7 @@ export class TableComponent implements OnChanges {
     displayedColumns() {
         const columns = this.resultView.columns.map(column => column.case_field_id);
 
-        columns.splice(0,1);
+        columns.splice(0, 1);
         columns.unshift('case_id');
 
         return columns;

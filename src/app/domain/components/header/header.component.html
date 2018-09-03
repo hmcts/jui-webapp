@@ -1,17 +1,16 @@
-<header class="jui-header" role="banner" data-selector="jui-header">
-    <div class="jui-width-container">
-        <div class="jui-header__service">
-            <a routerLink="/">Judicial case manager</a>
-        </div>
-        <div class="jui-header__account">
-            <nav class="jui-primary-nav">
-                <ul class="jui-primary-nav__list">
-                    <li class="jui-primary-nav__item"><a class="jui-primary-nav__link" routerLink="/"
-                                                         data-selector="dashboard-link">Dashboard</a></li>
-                    <li class="jui-primary-nav__item"><a class="jui-primary-nav__link" [href]="logoutLink"
-                                                         data-selector="signout-link">Signout</a></li>
-                </ul>
-            </nav>
-        </div>
-    </div>
-</header>
+<app-hmcts-global-header [serviceName]="{
+        name: 'Judicial case manager',
+        url: '/'
+    }" [navigation]="{
+        label: 'Account navigation',
+        items: [{
+            text: 'Sign out',
+            href: logoutLink
+        }]
+    }" ></app-hmcts-global-header>
+
+<app-hmcts-primary-navigation [label]="" [items]="[{
+        text: 'Dashboard',
+        href: '/',
+        active: true
+    }]"></app-hmcts-primary-navigation>

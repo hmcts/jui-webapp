@@ -1,14 +1,16 @@
 <div data-selector="search-result">
-    <h1 class="govuk-heading-l">Dashboard</h1>
     <div *ngIf="data$ | async as data">
         <span class="govuk-heading-m">Your cases</span>
         <app-table *ngIf="data.results && data.results.length; else noResultsOrError" [data]="data"></app-table>
         <ng-template #noResultsOrError>
-            <span *ngIf="data.error; else noResults" data-selector="error-text" class="govuk-error-message">There was an error getting your cases</span>
+            <span *ngIf="data.error; else noResults" data-selector="error-text" class="govuk-error-message">
+                There was an error getting your cases
+            </span>
             <ng-template #noResults>
-                <span data-selector="no-results-text">You have have no cases to work on.</span>
+                <span data-selector="no-results-text">
+                    You have have no cases to work on.
+                </span>
             </ng-template>
         </ng-template>
-
     </div>
 </div>

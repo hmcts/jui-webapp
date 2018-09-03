@@ -30,8 +30,10 @@ export class ViewCaseComponent implements OnInit {
             this.links = this.case.sections.map(section => {
                 return {
                     href: `/jurisdiction/${this.case.case_jurisdiction}/casetype/${this.case.case_type_id}/viewcase/${this.case.id}/${section.id}`,
+                    text: section.name,
                     label: section.name,
-                    id: section.id
+                    id: section.id,
+                    active: this.sectionId === section.id
                 };
             });
         }

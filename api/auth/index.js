@@ -5,7 +5,7 @@ const getTokenFromCode = require('./getTokenFromCode');
 const getUserDetails = require('./getUserDetails');
 
 
-module.exports = function(app) {
+module.exports = app => {
     const router = express.Router();
 
     app.use('/oauth2/callback', router);

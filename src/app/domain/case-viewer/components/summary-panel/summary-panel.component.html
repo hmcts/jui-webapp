@@ -12,6 +12,6 @@
     <div class="govuk-grid-column-one-third">
         <h2 class="govuk-heading-m  govuk-!-margin-bottom-4">{{panelData.sections[2].name || "Recent Events"}}</h2>
         <app-timeline *ngIf="panelData.sections[2].fields[0].value" [events]="panelData.sections[2].fields[0].value" [maxHistory]="3"></app-timeline>
-        <p><a routerLink="../timeline">View all events</a></p>
+        <p><a routerLink="../timeline">View full timeline</a></p>
     </div>
 </div>

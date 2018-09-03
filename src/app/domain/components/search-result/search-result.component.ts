@@ -1,7 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {CaseService} from '../../services/case.service';
-import {Observable, of} from 'rxjs';
-import {catchError, shareReplay} from 'rxjs/operators';
 
 @Component({
     selector: 'app-search-result',

@@ -1,0 +1,13 @@
+<div class="govuk-tabs" data-module="tabs">
+    <h2 class="govuk-tabs__title" *ngIf="contents">{{contents}}</h2>
+
+    <ul class="govuk-tabs__list">
+        <li class="govuk-tabs__list-item" *ngFor="let item of items">
+            <a class="govuk-tabs__tab" href="#{{item.id}}">{{item.label}}</a>
+        </li>
+    </ul>
+
+    <section class="govuk-tabs__panel" id="{{item.id}}" *ngFor="let item of items" [innerHTML]="item.panel.html"></section>
+
+</div>
+

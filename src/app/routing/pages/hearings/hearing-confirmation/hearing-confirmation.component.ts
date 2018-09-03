@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 
 @Component({
-    selector: 'app-hearing-confirmation',
+    selector: 'app-list-for-hearing',
     templateUrl: './hearing-confirmation.component.html',
     styleUrls: ['./hearing-confirmation.component.scss']
 })

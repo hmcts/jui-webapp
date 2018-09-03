@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { SharedModule } from '../shared/shared.module';
 import { DomainModule } from '../domain/domain.module';
 import { AuthGuardService } from '../auth/auth-guard.service';
@@ -28,12 +28,19 @@ import { JUIFormsModule } from '../forms/forms.module';
 import { TermsAndConditionsComponent } from './pages/terms-and-conditions/terms-and-conditions.component';
 import { CookiesComponent } from './pages/cookies/cookies.component';
 import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
+import {DemoComponent} from './pages/demo/demo.component';
+import {GovukModule} from '../govuk/govuk.module';
+import {HmctsModule} from '../hmcts/hmcts.module';
 
 const routes: Routes = [
     {
         path: '',
-        component: HomeComponent,
-        canActivate: [AuthGuardService]
+        component: DashboardComponent,
+        canActivate: [AuthGuardService],
+    },
+    {
+        path: 'demo',
+        component: DemoComponent,
     },
     {
         path: 'terms-and-conditions',
@@ -114,10 +121,12 @@ const routes: Routes = [
         DomainModule,
         HttpClientModule,
         ReactiveFormsModule,
-        JUIFormsModule
+        JUIFormsModule,
+        GovukModule,
+        HmctsModule
     ],
     declarations: [
-        HomeComponent,
+        DashboardComponent,
         CookiesComponent,
         PrivacyPolicyComponent,
         TermsAndConditionsComponent,
@@ -129,7 +138,8 @@ const routes: Routes = [
         HearingRootComponent,
         CreateHearingComponent,
         CheckHearingComponent,
-        HearingConfirmationComponent
+        HearingConfirmationComponent,
+        DemoComponent
     ],
     providers: [
         CaseResolve,

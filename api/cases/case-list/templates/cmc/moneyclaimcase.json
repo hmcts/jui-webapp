@@ -1,7 +1,4 @@
 {
-    "case_number": {
-        "label": "$.id"
-    },
     "columns": [
         {
             "label": "Case Reference",
@@ -20,7 +17,7 @@
         {
             "label": "Type",
             "case_field_id": "type",
-            "value": ["CMC"]
+            "value": "CMC"
 
         },
         {

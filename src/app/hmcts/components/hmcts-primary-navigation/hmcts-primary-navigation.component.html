@@ -1,0 +1,9 @@
+<nav class="hmcts-primary-navigation" attr.aria-label="{{label}}">
+    <div class="hmcts-primary-navigation__container">
+        <ul class="hmcts-primary-navigation__list" *ngFor="let item of items">
+            <li class="hmcts-primary-navigation__item">
+                <a class="hmcts-primary-navigation__link" [attr.aria-current]="item.active" href="{{item.href}}">{{item.text}}</a>
+            </li>
+        </ul>
+    </div>
+</nav>

@@ -1,0 +1,46 @@
+/* ==========================================================================
+   #CASE BAR
+   ========================================================================== */
+
+   .jui-casebar {
+    @include govuk-clearfix;
+    background-color: govuk-colour("blue");
+    color: govuk-colour("white");
+    padding-top: govuk-spacing(3);
+    padding-bottom: govuk-spacing(3);
+  }
+
+
+  @include mq($until: tablet) {
+
+    .jui-casebar__options {
+      @include govuk-clearfix;
+      margin-top: govuk-spacing(2);
+    }
+
+  }
+
+  .jui-casebar__details {
+    @include govuk-font(16);
+  }
+
+
+  @include mq($from: tablet) {
+
+    .jui-casebar__details {
+      float: left;
+    }
+
+    .jui-casebar__options {
+      float: right;
+      margin-top: - govuk-spacing(1) - 1; // 6px
+      margin-bottom: - govuk-spacing(1) - 1; // 6px
+    }
+
+  }
+
+
+  .jui-casebar__title {
+    font-weight: bold;
+    margin-left: govuk-spacing(2);
+  }

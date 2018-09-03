@@ -45,3 +45,6 @@ testem.log
 Thumbs.db
 version
 reports/
+.tmp/
+
+ reports_json/

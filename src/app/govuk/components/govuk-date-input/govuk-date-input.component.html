@@ -1,0 +1,16 @@
+<div class="govuk-form-group">
+    <fieldset class="govuk-fieldset" attr.aria-describedby="{{id + '-hint'}}" role="group">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+            <h1 class="govuk-fieldset__heading">{{fieldset.legend.text}}</h1>
+        </legend>
+        <span id="{{id + '-hint'}}" class="govuk-hint">{{hint.text}}</span>
+        <div class="govuk-date-input" id="{{id}}">
+            <div class="govuk-date-input__item" *ngFor="let item of items">
+                <div class="govuk-form-group">
+                    <label class="govuk-label govuk-date-input__label" for="{{id + '-' + item.name}}">{{item.name}}</label>
+                    <input class="govuk-input govuk-date-input__input govuk-input--width-2 " id="{{id + '-' + item.name}}" name="{{name + '-' + item.name}}" type="number" pattern="[0-9]*">
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</div>

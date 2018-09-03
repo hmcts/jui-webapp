@@ -64,8 +64,6 @@ export class CheckDecisionComponent implements OnInit, JUIFormInterface {
     }
 
     submitCallback(values) {
-        console.log('woop!!!!', values);
-        console.log('is it valid? - ', this.form.valid);
         if (this.form.valid) {
             this.decisionService.issueDecision(this.case.id, this.decision)
                 .subscribe(() => {
