@@ -1,0 +1,22 @@
+<div class="govuk-tabs" data-module="tabs" data-selector="tabs-component">
+    <ul class="govuk-tabs__list" role="tablist">
+        <li class="govuk-tabs__list-item" role="presentation" *ngFor="let tab of data.sections; let i = index">
+            <a class="govuk-tabs__tab"  [attr.aria-selected]="tab.id===fragment ? true : false" routerLink="./" fragment="{{tab.id}}">
+                {{tab.name}}
+            </a>
+        </li>
+    </ul>
+    <section *ngIf="tabContent" class="govuk-tabs__panel">
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-one-half">
+                <app-data-list
+                    data-selector="data-list"
+                    *ngIf="tabContent"
+                    [classes]="'govuk-heading-l'"
+                    [title]="tabContent.name"
+                    [dataList]="tabContent.fields">
+                </app-data-list>
+            </div>
+        </div>
+    </section>
+</div>

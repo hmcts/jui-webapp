@@ -11,6 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {GovukModule} from '../govuk/govuk.module';
 import {HmctsModule} from '../hmcts/hmcts.module';
 import {TimelineComponent} from './components/timeline/timeline.component';
+import { TabsComponent } from './components/tabs/tabs.component';
 
 @NgModule({
     imports: [
@@ -27,13 +28,15 @@ import {TimelineComponent} from './components/timeline/timeline.component';
         TableComponent,
         DataListComponent,
         FooterComponent,
-        TimelineComponent
+        TimelineComponent,
+        TabsComponent
     ],
     exports: [
         TableComponent,
         DataListComponent,
         FooterComponent,
-        TimelineComponent
+        TimelineComponent,
+        TabsComponent
     ]
 })
 
