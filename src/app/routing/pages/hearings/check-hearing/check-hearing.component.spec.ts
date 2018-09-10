@@ -16,7 +16,6 @@ import {RedirectionService} from '../../../redirection.service';
 
 class MockHearingService {
     isError = false;
-    currentMessage = of({});
 
     listForHearing(caseId: string, relist_reason: string): Observable<any> {
         if (this.isError) {
@@ -67,10 +66,8 @@ describe('CheckHearingComponent', () => {
                                 data: {
                                     caseData: {
                                         id: '1234',
-                                        decision: {
-                                            options: [
-                                                {id: 'test', name: 'test'}
-                                            ]
+                                        hearing: {
+                                            reason: 'some reason'
                                         }
                                     }
                                 }

@@ -31,6 +31,7 @@ import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.co
 import {DemoComponent} from './pages/demo/demo.component';
 import {GovukModule} from '../govuk/govuk.module';
 import {HmctsModule} from '../hmcts/hmcts.module';
+import {HearingResolve} from './resolve/hearing.resolve';
 
 const routes: Routes = [
     {
@@ -68,7 +69,7 @@ const routes: Routes = [
                 ]
             },
             {
-                    path: 'hearing', component: HearingRootComponent, children: [
+                    path: 'hearing', component: HearingRootComponent, resolve: {hearing: HearingResolve}, children: [
                     {path: 'list', component: CreateHearingComponent},
                     {path: 'check', component: CheckHearingComponent},
                     {path: 'confirm', component: HearingConfirmationComponent}
@@ -144,6 +145,7 @@ const routes: Routes = [
     providers: [
         CaseResolve,
         DecisionResolve,
+        HearingResolve,
         RedirectionService
     ],
     exports: [

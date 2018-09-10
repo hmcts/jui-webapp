@@ -35,9 +35,9 @@ function getHearing(hearingId, options) {
 
 module.exports = app => {
     const router = express.Router({ mergeParams: true });
-    app.use('/cases', router);
+    app.use('/hearings', router);
 
-    router.get('/jurisdiction/:jur/casetype/:casetype/:case_id/hearing', (req, res, next) => {
+    router.get('/:case_id', (req, res, next) => {
         const userId = req.auth.userId;
         const caseId = req.params.case_id;
         const options = getOptions(req);
