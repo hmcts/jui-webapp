@@ -61,20 +61,20 @@ describe('DecisionService', () => {
 
 
     it('should fetch decisions via http GET', () => {
-        const mockDecisionData = [{ id: 1 }, { id: 2 }];
+        const mockDummyData = [{ id: 1 }, { id: 2 }];
         //const mockCaseId='123';
         const url = decisionService.generateDecisionUrl(mockCaseId);
 
         decisionService.fetch(mockCaseId).subscribe(data => {
             expect(data.length).toBe(2);
-            expect(data).toEqual(mockDecisionData);
+            expect(data).toEqual(mockDummyData);
         });
 
 
         const mockReq = httpMock.expectOne(url);
         expect(mockReq.request.method).toBe('GET');
         expect(mockReq.request.responseType).toEqual('json');
-        mockReq.flush(mockDecisionData);
+        mockReq.flush(mockDummyData);
         httpMock.verify();
 
 
@@ -83,7 +83,7 @@ describe('DecisionService', () => {
 
     it('should submit draft decision via http POST', () => {
 
-        const mockDecisionData = [{ id: 1 }, { id: 2 }];
+        const mockDummyData = [{ id: 1 }, { id: 2 }];
         const mockAward = "award data";
         const mockText = "text data";
         
@@ -100,7 +100,7 @@ describe('DecisionService', () => {
         expect(mockReq.request.body.decision_award).toBe(mockAward);
         expect(mockReq.request.url).toBe(url);
 
-        mockReq.flush(mockDecisionData);
+        mockReq.flush(mockDummyData);
         httpMock.verify();
 
     })
@@ -115,7 +115,6 @@ describe('DecisionService', () => {
         const mockText = "text data";
 
         decisionService.updateDecisionDraft(mockCaseId, mockAward, mockText).subscribe(data => {
-            console.log('@@@', data);
              expect(data).toBe(mockDummyData); 
 
         })
