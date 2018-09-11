@@ -17,7 +17,11 @@ const configMock = {
 let decisionService: DecisionService;
 let httpMock: HttpTestingController;
 
-fdescribe('DecisionService', () => {
+describe('DecisionService', () => {
+
+    let url;
+    const mockCaseId = "123";
+
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
@@ -39,7 +43,7 @@ fdescribe('DecisionService', () => {
 
         decisionService = TestBed.get(DecisionService);
         httpMock = TestBed.get(HttpTestingController);
-
+        url = decisionService.generateDecisionUrl(mockCaseId);
     });
 
 
@@ -50,34 +54,102 @@ fdescribe('DecisionService', () => {
     });
 
 
-    it('should contain case id',() => {
-        const mockCaseId='123';
+    it('should contain case id', () => {
         expect(decisionService.generateDecisionUrl(mockCaseId)).toContain(mockCaseId);
-            
+
     });
 
 
-    it('should fetch',() => {
-        const mockDecisionData = [{is:1},{id:2}];
-        const mockCaseId='123';
-        const url = decisionService.generateDecisionUrl( mockCaseId);
+    it('should fetch decisions via http GET', () => {
+        const mockDecisionData = [{ id: 1 }, { id: 2 }];
+        //const mockCaseId='123';
+        const url = decisionService.generateDecisionUrl(mockCaseId);
 
-        decisionService.fetch(mockCaseId).subscribe(data =>{
-           expect(data.length).toBe(2); 
-           expect(data).toEqual(mockDecisionData); 
+        decisionService.fetch(mockCaseId).subscribe(data => {
+            expect(data.length).toBe(2);
+            expect(data).toEqual(mockDecisionData);
         });
 
-        
+
         const mockReq = httpMock.expectOne(url);
         expect(mockReq.request.method).toBe('GET');
         expect(mockReq.request.responseType).toEqual('json');
         mockReq.flush(mockDecisionData);
         httpMock.verify();
-            
+
+
     });
 
 
+    it('should submit draft decision via http POST', () => {
 
-    
+        const mockDecisionData = [{ id: 1 }, { id: 2 }];
+        const mockAward = "award data";
+        const mockText = "text data";
+        
+        decisionService.submitDecisionDraft(mockCaseId, mockAward, mockText).subscribe(data => {
+            expect(data.length).toBe(2);
+
+        });
+
+
+        const mockReq = httpMock.expectOne(url);
+        expect(mockReq.request.method).toBe('POST');
+        expect(mockReq.request.responseType).toEqual('json');
+        expect(mockReq.request.body.decision_text).toBe(mockText);
+        expect(mockReq.request.body.decision_award).toBe(mockAward);
+        expect(mockReq.request.url).toBe(url);
+
+        mockReq.flush(mockDecisionData);
+        httpMock.verify();
+
+    })
+
+
+
+
+    it('should update draft decision via http PUT', () => {
+
+        const mockDummyData = [{ id: 1 }, { id: 2 }];
+        const mockAward = "award data";
+        const mockText = "text data";
+
+        decisionService.updateDecisionDraft(mockCaseId, mockAward, mockText).subscribe(data => {
+            console.log('@@@', data);
+             expect(data).toBe(mockDummyData); 
+
+        })
+
+        const mockReq = httpMock.expectOne(url);
+        expect(mockReq.request.method).toBe('PUT');
+        expect(mockReq.request.responseType).toEqual('json');
+
+        mockReq.flush(mockDummyData);
+        httpMock.verify();
+
+
+    })
+
+
+
+    it('should issue decision via http PUT', () => {
+
+        const mockDummyData = [{ id: 1 }, { id: 2 }];
+        const mockAward = "award data";
+        const mockText = "text data";
+
+        decisionService.updateDecisionDraft(mockCaseId, mockAward, mockText).subscribe(data => {
+             expect(data).toBe(mockDummyData); 
+
+        })
+
+        const mockReq = httpMock.expectOne(url);
+        expect(mockReq.request.method).toBe('PUT');
+        expect(mockReq.request.responseType).toEqual('json');
+
+        mockReq.flush(mockDummyData);
+        httpMock.verify();
+
+    })
 
 });
