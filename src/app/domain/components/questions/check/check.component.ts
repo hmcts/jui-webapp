@@ -33,10 +33,10 @@ export class CheckQuestionsComponent implements OnInit {
             this.route.params.subscribe(params => {
                 this.roundNumber = params['round'];
                 this.questions$ = this.questionService
-                    .fetchRound(this.caseId, this.roundNumber)
+                     .fetchRound(this.caseId, this.roundNumber)
                     .map(x => {console.dir(x); return x; })
                     .map(r => r.question_references ? r.question_references.filter(q => q.current_question_state.state_name === 'question_drafted') : []);
-            });
+             });
         });
 
     }
