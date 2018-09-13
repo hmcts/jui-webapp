@@ -57,3 +57,10 @@ setup test ccd data (note you need to find your own ccd def file)
 
 ## Run test...
 WIP
+
+##Run Mock Server for CCD data for Development
+```bash
+yarn install
+yarn start-json-server
+```
+This will run a mock server (json-server) on port 3004 and sets the JUI_ENV as ```mock```.

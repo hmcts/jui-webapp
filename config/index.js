@@ -9,7 +9,8 @@ const config = {
     preview: require('./environments/preview.config.js'),
     demo: require('./environments/demo.config.js'),
     aat: require('./environments/aat.config.js'),
-    prod: require('./environments/prod.config.js')
+    prod: require('./environments/prod.config.js'),
+    mock: require('./environments/mock.config.js')
 };
 
 const configEnv = typeof (process) !== 'undefined' ? (process.env.JUI_ENV || 'local') : 'local';

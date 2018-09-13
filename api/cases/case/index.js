@@ -6,9 +6,11 @@ const valueProcessor = require('../../lib/processors/value-processor');
 const { getEvents } = require('../../events');
 const { getDocuments } = require('../../documents');
 const { getAllQuestionsByCase } = require('../../questions');
+const mockRequest = require('../../lib/mockRequest');
 
 function getCase(caseId, userId, jurisdiction, caseType, options) {
-    return generateRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}`, options);
+    let url = `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}`;
+    return process.env.JUI_ENV === 'mock' ? mockRequest('GET', url, options) : generateRequest('GET', url, options);
 }
 
 function hasCOR(jurisdiction, caseType) {
