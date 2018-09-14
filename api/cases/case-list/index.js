@@ -4,6 +4,9 @@ const getListTemplate = require('./templates');
 const generateRequest = require('../../lib/request');
 const valueProcessor = require('../../lib/processors/value-processor');
 const sscsCaseListTemplate = require('./templates/sscs/benefit');
+const getRounds = require('../../questions');
+const getCaseDecisionState = require('../../lib/case-decision-state');
+const getCaseQuestionState = require('../../lib/case-questions-state');
 
 const jurisdictions = [
     {
@@ -78,6 +81,11 @@ function hasCOR(caseData) {
     return caseData.jurisdiction === 'SSCS';
 }
 
+function getCaseState(jurisdiction, caseTypeId, hearing, options) {
+    const caseDecisionState = getCaseDecisionState(jurisdiction, caseTypeId, hearing, options);
+    return caseDecisionState ? caseDecisionState : getCaseQuestionState(jurisdiction, caseTypeId, hearing, options);
+}
+
 function getCOR(casesData, options) {
     let caseIds = casesData.map(caseRow => 'case_id=' + caseRow.id).join("&");
     return new Promise(resolve => {
@@ -85,13 +93,23 @@ function getCOR(casesData, options) {
             getOnlineHearing(caseIds, options)
                 .then(hearings => {
                     if (hearings.online_hearings) {
-                        let caseStateMap = new Map(hearings.online_hearings
-                            .map(hearing => [Number(hearing.case_id), hearing.current_state]));
+
+                        let newCaseStateMap = new Map(hearings.online.map(hearing => {
+                            const caseState = getCaseState(hearing, options);
+                            [Number(hearing.case_id), caseState ? caseState : hearing.current_state]
+                        }));
+
+                        let caseStateMap = new Map(hearings.online_hearings.map(hearing => [Number(hearing.case_id), hearing.current_state]));
                         casesData.forEach(caseRow => {
                             let state = caseStateMap.get(Number(caseRow.id));
+                            console.log('==================');
+                            console.log('caseStateMap ----->', caseStateMap);
+                            console.log('==================');
+
                             if (state !== undefined && state !== null && state.state_name !== undefined && state.state_name !== null) {
                                 // TODO: this state should only change if CCD is the COH state else default to CCD state
                                 // if(caseRow.state === 'COH'){
+
                                     caseRow.state = format(state.state_name);
                                 // }
                                 if (new Date(caseRow.last_modified) < new Date(state.state_datetime)) {

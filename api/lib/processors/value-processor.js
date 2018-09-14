@@ -25,11 +25,7 @@ const dataLookup = (lookup, caseData) => {
             value = value ? (`${value}\n`) : '';
         }
 
-        if(value && processor && processor === 'case_status_processor') {
-            value = caseStatusProcessor(value, caseData);
-        }
-
-        if(value && processor && processor === 'case_status_processor') {
+        if (value && processor && processor === 'case_status_processor') {
             value = caseStatusProcessor(value, caseData);
         }
 

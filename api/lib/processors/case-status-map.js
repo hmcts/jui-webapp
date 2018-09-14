@@ -2,9 +2,10 @@ module.exports = {
     sscs: {
         benefit: {
             continuous_online_hearing_started: 'DWP response received',
-            questions_answered: 'Appellant\'s answers received',
+            answer_submitted: 'Appellant\'s answers received',
             question_deadline_elapsed: 'Question deadline expired',
-            question_issued: 'Questions sent'
+            questions_issued: 'Questions sent',
+            question_deadline_extension_elapsed: 'Question deadline extension expired'
         }
     },
     cmc: {
