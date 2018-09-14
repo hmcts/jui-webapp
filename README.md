@@ -62,18 +62,28 @@ WIP
 
 Install JSON Server
 
+
+```bash
+npm install -g json-server
 ```
 
 Set the environment variable :
 
+Mac :
+ ```
+ export JUI_ENV=mock;
+ ```
+ Windows: 
+ 
+ ```
+ set JUI_ENV=mock
+ echo %JUI_ENV%
+ ```
+ 
+
 Run the mock Server
 
-
 ```
-
-
-```bash
-export JUI_ENV=mock;
 yarn install
 yarn start-json-server
 ```
