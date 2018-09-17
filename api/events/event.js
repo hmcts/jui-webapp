@@ -80,27 +80,13 @@ function getCcdEvents(caseId, userId, jurisdiction, caseType, options) {
     return (process.env.JUI_ENV === 'mock' ? mockRequest('GET', url, options) : generateRequest('GET', url, options))
         .then(events => reduceEvents(events));
 }
-
-function getCohEvents(caseId, userId, options) {
-    return getHearingId(caseId, userId, options)
-        .then(hearingId => getOnlineHearingConversation(hearingId, options)
-            .then(mergeCohEvents)
-            .then(reduceCohEvents)
-        );
-}
-function combineLists(lists) {
-    return [].concat(...lists);
+function getCcdEventsRaw(caseId, userId, jurisdiction, caseType, options) {
+    return generateRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`, options)
 }
 
-function getEvents(caseId, userId, jurisdiction, caseType, options) {
-    const promiseArray = [];
-    promiseArray.push(getCcdEvents(caseId, userId, jurisdiction, caseType, options));
-    if (hasCOR(jurisdiction, caseType)) {
-        promiseArray.push(getCohEvents(caseId, userId, options));
-    }
-    return Promise.all(promiseArray)
-        .then(combineLists)
-        .then(sortEvents);
+function getCcdEvents(caseId, userId, jurisdiction, caseType, options) {
+    return getCcdEventsRaw(caseId, userId, jurisdiction, caseType, options)
+        .then(events => reduceEvents(events));
 }
 
 function postHearing(caseId, userId, options, jurisdictionId = 'SSCS') {
@@ -123,6 +109,34 @@ function getHearingId(caseId, userId, options) {
 function getOnlineHearingConversation(onlineHearingId, options) {
     return generateRequest('GET', `${config.services.coh_cor_api}/continuous-online-hearings/${onlineHearingId}/conversations`, options);
 }
+
+function getCohEventsRaw(caseId, userId, options) {
+    return getHearingId(caseId, userId, options)
+        .then(hearingId => getOnlineHearingConversation(hearingId, options));
+}
+
+function getCohEvents(caseId, userId, options) {
+    return getCohEventsRaw(caseId, userId, options)
+        .then(mergeCohEvents)
+        .then(reduceCohEvents);
+}
+
+
+function combineLists(lists) {
+    return [].concat(...lists);
+}
+
+function getEvents(caseId, userId, jurisdiction, caseType, options) {
+    const promiseArray = [];
+    promiseArray.push(getCcdEvents(caseId, userId, jurisdiction, caseType, options));
+    if (hasCOR(jurisdiction, caseType)) {
+        promiseArray.push(getCohEvents(caseId, userId, options));
+    }
+    return Promise.all(promiseArray)
+        .then(combineLists)
+        .then(sortEvents);
+}
+
 
 function getOptions(req) {
     return {
@@ -150,8 +164,44 @@ module.exports = app => {
                 res.status(200).send(JSON.stringify(events));
             });
     });
+
+    router.get('/jurisdiction/:jur/casetype/:casetype/:case_id/events/raw', (req, res, next) => {
+        const userId = req.auth.userId;
+        const caseId = req.params.case_id;
+        const jurisdiction = req.params.jur;
+        const caseType = req.params.casetype;
+
+        getCcdEventsRaw(caseId, userId, jurisdiction, caseType, getOptions(req))
+            .then(events => {
+                res.setHeader('Access-Control-Allow-Origin', '*');
+                res.setHeader('content-type', 'application/json');
+                res.status(200).send(JSON.stringify(events));
+            });
+    });
+
+    router.get('/:case_id/events/coh', (req, res, next) => {
+        const userId = req.auth.userId;
+        const caseId = req.params.case_id;
+
+        getCohEvents(caseId, userId, getOptions(req))
+            .then(events => {
+                res.setHeader('Access-Control-Allow-Origin', '*');
+                res.setHeader('content-type', 'application/json');
+                res.status(200).send(JSON.stringify(events));
+            });
+    });
+
+    router.get('/:case_id/events/coh/raw', (req, res, next) => {
+        const userId = req.auth.userId;
+        const caseId = req.params.case_id;
+
+        getCohEventsRaw(caseId, userId, getOptions(req))
+            .then(events => {
+                res.setHeader('Access-Control-Allow-Origin', '*');
+                res.setHeader('content-type', 'application/json');
+                res.status(200).send(JSON.stringify(events));
+            });
+    });
 };
 
 module.exports.getEvents = getEvents;
-
-module.exports.reduceEvents = reduceEvents;
