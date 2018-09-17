@@ -159,7 +159,7 @@ module.exports = {
             type: 'page',
             sections: [
                 {
-                    name: 'Questions',
+                    name: 'Questions to appellant',
                     type: 'questions-panel',
                     fields: [{ value: '$.questions' }]
                 }

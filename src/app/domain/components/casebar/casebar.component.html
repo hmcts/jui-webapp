@@ -1,17 +1,8 @@
 <div class="jui-casebar">
     <div class="jui-width-container">
-        <app-casebar-details [case]="case"></app-casebar-details>
-        <div class="jui-casebar__options">
-            <nav class="jui-case-actions">
-                <ul class="jui-case-actions__list">
-                    <li class="jui-case-actions__item">
-                        <a class="jui-case-actions__link" routerLink="/jurisdiction/{{case.case_jurisdiction}}/casetype/{{case.case_type_id}}/viewcase/{{case.id}}/decision/create">Make decision</a>
-                    </li>
-                    <li class="jui-case-actions__item">
-                        <a class="jui-case-actions__link" routerLink="/jurisdiction/{{case.case_jurisdiction}}/casetype/{{case.case_type_id}}/viewcase/{{case.id}}/hearing/list">List for hearing</a>
-                    </li>
-                </ul>
-            </nav>
+        <div class="jui-casebar__details">
+            <span data-selector="data-casebar-details-component" class="jui-casebar__reference">{{case.details?.fields[0].value || ""}}</span>
+            <span data-selector="data-casebar-title-component" class="jui-casebar__title"> <b>{{case.details?.fields[1].value || ""}}</b></span>
         </div>
     </div>
 </div>

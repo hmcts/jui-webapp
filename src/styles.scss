@@ -8,14 +8,6 @@ $govuk-global-styles: true;
 @import "~@hmcts/frontend/all";
 @import "./assets/sass/application";
 
-//a:hover {
-//    cursor: pointer;
-//}
-
-// current bug in @hmcts/frontend will be fixed soon
-.hmcts-primary-navigation {
-    margin-bottom: 0;
-}
 
 div.govuk-prose-scope, p {
     white-space: pre-wrap;

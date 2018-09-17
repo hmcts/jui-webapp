@@ -1,46 +1,50 @@
 /* ==========================================================================
-   #CASE BAR
+   #CASEBAR
    ========================================================================== */
 
-   .jui-casebar {
-    @include govuk-clearfix;
-    background-color: govuk-colour("blue");
-    color: govuk-colour("white");
-    padding-top: govuk-spacing(3);
-    padding-bottom: govuk-spacing(3);
-  }
+.jui-casebar {
+  @include govuk-clearfix;
+  background-color: govuk-colour("blue");
+  color: govuk-colour("white");
+  padding-top: govuk-spacing(3);
+  padding-bottom: govuk-spacing(3);
+}
 
 
-  @include mq($until: tablet) {
-
-    .jui-casebar__options {
-      @include govuk-clearfix;
-      margin-top: govuk-spacing(2);
-    }
-
-  }
-
-  .jui-casebar__details {
-    @include govuk-font(16);
-  }
+.jui-casebar__details {
+  font-size: .1px; // Fix to remove extra white space when using inline-block
+}
 
 
-  @include mq($from: tablet) {
+.jui-casebar__reference {
+  @include govuk-font(16);
+  margin-right: govuk-spacing(2);
+}
 
-    .jui-casebar__details {
-      float: left;
-    }
 
-    .jui-casebar__options {
-      float: right;
-      margin-top: - govuk-spacing(1) - 1; // 6px
-      margin-bottom: - govuk-spacing(1) - 1; // 6px
-    }
+.jui-casebar__title {
+  @include govuk-font(16);
+}
 
-  }
 
+.jui-casebar__link {
+  float: left;
+  text-decoration: none;
+}
+
+
+.jui-casebar__link:link,
+.jui-casebar__link:visited,
+.jui-casebar__link:active {
+  color: govuk-colour("white");
 
   .jui-casebar__title {
-    font-weight: bold;
-    margin-left: govuk-spacing(2);
+    text-decoration: underline;
   }
+
+  &:focus {
+    background-color: $govuk-focus-colour;
+    color: govuk-colour("black");
+  }
+
+}
