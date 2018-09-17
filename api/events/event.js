@@ -52,7 +52,7 @@ function mergeCohEvents(eventsJson) {
     const questionHistory = eventsJson.online_hearing.questions ? getHistory(eventsJson.online_hearing.questions) : [];
     const answersHistory = eventsJson.online_hearing.answers ? getHistory(eventsJson.online_hearing.answers) : [];
     const decisionHistory = eventsJson.online_hearing.decision ? eventsJson.online_hearing.decision.history : [];
-    return [...history, ...questionHistory, ...answersHistory, ...decisionHistory];
+    return [ ...questionHistory, ...answersHistory, ...decisionHistory];
 }
 
 function sortEvents(events) {
