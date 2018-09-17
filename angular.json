@@ -6,6 +6,8 @@
         "jui": {
             "root": "",
             "projectType": "application",
+            "cli": {},
+            "schematics": {},
             "architect": {
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
@@ -62,14 +64,14 @@
                         }
                     }
                 },
-              "server": {
-                "builder": "@angular-devkit/build-angular:server",
-                "options": {
-                  "outputPath": "dist-server",
-                  "main": "src/server.main.ts",
-                  "tsConfig": "src/tsconfig.server.json"
-                }
-              },
+                "server": {
+                    "builder": "@angular-devkit/build-angular:server",
+                    "options": {
+                        "outputPath": "dist-server",
+                        "main": "src/server.main.ts",
+                        "tsConfig": "src/tsconfig.server.json"
+                    }
+                },
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "options": {
@@ -82,22 +84,22 @@
                         }
                     }
                 },
-              "udk": {
-                "builder": "udk:udk-builder",
-                "options": {
-                  "main": "src/server.main.ts",
-                  "browserTarget": "jui:build",
-                  "serverTarget": "jui:server",
-                  "deleteOutputPath": false
+                "udk": {
+                    "builder": "udk:udk-builder",
+                    "options": {
+                        "main": "src/server.main.ts",
+                        "browserTarget": "jui:build",
+                        "serverTarget": "jui:server",
+                        "deleteOutputPath": false
+                    },
+                    "configurations": {
+                        "production": {
+                            "browserTarget": "jui:build:production",
+                            "serverTarget": "jui:server:production",
+                            "verbose": true
+                        }
+                    }
                 },
-                "configurations": {
-                  "production": {
-                    "browserTarget": "jui:build:production",
-                    "serverTarget": "jui:server:production",
-                    "verbose": true
-                  }
-                }
-              },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
@@ -145,7 +147,6 @@
                         ]
                     }
                 }
-
             }
         }
     },

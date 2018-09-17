@@ -20,9 +20,14 @@ export class EditQuestionComponent implements OnInit {
     questionId: any;
     question: any;
     submitted = false;
+    roundNumber;
 
-    constructor(private fb: FormBuilder, private questionService: QuestionService, private redirectionService: RedirectionService, private route: ActivatedRoute) {
-    }
+    constructor(
+        private fb: FormBuilder,
+        private questionService: QuestionService,
+        private redirectionService: RedirectionService,
+        private route: ActivatedRoute
+    ) { }
 
     createForm(subject, question) {
         this.form = this.fb.group({
@@ -51,12 +56,19 @@ export class EditQuestionComponent implements OnInit {
 
         this.questionService
             .fetch(this.caseId, this.questionId)
-            .subscribe((data: any) => this.createForm(data.header, data.body));
+            .subscribe((data: any) => {
+                this.createForm(data.header, data.body);
+                this.roundNumber = data.round;
+            });
     }
 
     onSubmit() {
         if (this.form.valid) {
-            this.questionService.update(this.caseId, this.questionId, this.form.value)
+            const values = {
+                ...this.form.value,
+                rounds: this.roundNumber
+            };
+            this.questionService.update(this.caseId, this.questionId, values)
                 .subscribe(res => {
                     this.redirectionService.redirect(`/jurisdiction/${this.jurisdiction}/casetype/${this.caseType}/viewcase/${this.caseId}/questions?updated=success`);
                 }, err => console.log);

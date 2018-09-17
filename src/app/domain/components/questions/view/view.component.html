@@ -19,10 +19,10 @@
             </div>
             <div class="jui-button-actions  govuk-!-margin-top-7" *ngIf="!question.answer">
                 <div class="jui-button-actions__item  jui-button-actions__item--inline">
-                    <a data-selector="edit-question-link" class="govuk-button" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/{{this.route.snapshot.params.question_id}}/edit">Edit question</a>
+                    <a data-selector="edit-question-link" class="govuk-button" routerLink="./edit">Edit question</a>
                 </div>
                 <div class="jui-button-actions__item  jui-button-actions__item--inline">
-                    <a data-selector="delete-question-link" class="govuk-button jui-button--secondary" routerLink="/viewcase/{{this.route.parent.snapshot.params.case_id}}/questions/{{this.route.snapshot.params.question_id}}/delete">Delete question</a>
+                    <a data-selector="delete-question-link" class="govuk-button jui-button--secondary" routerLink="./delete">Delete question</a>
                 </div>
             </div>
         </div>

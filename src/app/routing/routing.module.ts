@@ -75,11 +75,11 @@ const routes: Routes = [
                 ]
             },
             {
-                path: 'questions/new',
+                path: 'questions/new/:round',
                 component: CreateQuestionsComponent
             },
             {
-                path: 'questions/check',
+                path: 'questions/check/:round',
                 component: CheckQuestionsComponent
             },
             {

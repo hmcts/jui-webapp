@@ -8,7 +8,6 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class QuestionsPanelComponent implements OnInit {
     @Input() panelData;
-    @Input() case;
 
     createdQuestion: string;
     updatedQuestion: string;
@@ -17,16 +16,15 @@ export class QuestionsPanelComponent implements OnInit {
 
     rounds = [];
 
-    constructor(private route: ActivatedRoute) {
-    }
+    constructor(private route: ActivatedRoute) {}
 
     ngOnInit(): void {
-        this.rounds = this.panelData.fields[0].value;
         this.route.queryParams.subscribe(queryParams => {
             this.createdQuestion = queryParams['created'];
             this.deletedQuestion = queryParams['deleted'];
             this.updatedQuestion = queryParams['updated'];
             this.sentQuestions = queryParams['sent'];
         });
+        this.rounds = this.panelData.fields[0].value;
     }
 }

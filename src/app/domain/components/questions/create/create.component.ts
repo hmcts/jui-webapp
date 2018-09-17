@@ -25,13 +25,14 @@ export class CreateQuestionsComponent implements OnInit {
         subject: false,
         question: false
     };
+    roundNumber;
 
     constructor(
         private fb: FormBuilder,
         private questionService: QuestionService,
         private redirectionService: RedirectionService,
         private route: ActivatedRoute,
-        private cdRef : ChangeDetectorRef) {
+        private cdRef: ChangeDetectorRef) {
 
     }
 
@@ -53,12 +54,16 @@ export class CreateQuestionsComponent implements OnInit {
             this.jurisdiction = params['jur'];
             this.caseType = params['casetype'];
         });
+        this.route.params.subscribe(params => {
+            this.roundNumber = params['round'];
+        });
         this.createForm();
     }
 
     submitCallback(values) {
         values.subject && this.form.controls.subject.setValue(values.subject.trim());
         values.question && this.form.controls.question.setValue(values.question.trim());
+        values.rounds = this.roundNumber;
 
         if (this.form.valid) {
             this.questionService.create(this.caseId, values)

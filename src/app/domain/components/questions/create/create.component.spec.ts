@@ -13,7 +13,7 @@ import {RedirectionService} from '../../../../routing/redirection.service';
 import {CaseService} from '../../../services/case.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {of} from 'rxjs';
-import {JUIFormsModule} from "../../../../forms/forms.module";
+import {JUIFormsModule} from '../../../../forms/forms.module';
 
 describe('CreateQuestionsComponent', () => {
     let component: CreateQuestionsComponent;
@@ -49,15 +49,22 @@ describe('CreateQuestionsComponent', () => {
                     provide: ActivatedRoute,
                     useValue: {
                         snapshot: {
-                            _lastPathIndex: 0
+                            _lastPathIndex: 0,
+                            params: {
+                                round: '1'
+                            },
+                            queryParams: {}
                         },
+                        params: of({
+                            round: '1'
+                        }),
                         parent: {
                             params: of({
-                                'case_id': '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
+                                case_id: '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
                             }),
                             snapshot: {
                                 params: {
-                                    'case_id': '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
+                                    case_id: '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
                                 },
                                 queryParams: {}
                             }
@@ -84,17 +91,16 @@ describe('CreateQuestionsComponent', () => {
         component = fixture.componentInstance;
         nativeElement = fixture.nativeElement;
         httpMock = TestBed.get(HttpTestingController);
+        fixture.detectChanges();
     });
-
-    beforeEach(async(() => {
-        fixture.whenStable()
-            .then(() => {
-                fixture.detectChanges();
-            });
-    }));
 
     afterEach(() => {
         httpMock.verify();
+    });
+
+    it('should create', () => {
+        expect(component)
+            .toBeTruthy();
     });
 
     it('form invalid when empty', () => {
