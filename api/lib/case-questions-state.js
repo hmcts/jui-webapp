@@ -1,26 +1,49 @@
 const getRounds = require('../questions');
+const moment = require('moment');
 
-function questionDeadlineExtensionElapsed(questionRound) {
-    return questionRound.deadline_extension_count > 0
-        && questionRound.question_round_state.state_name === 'question_deadline_elapsed';
+function stateDatetimeDiff(question1, question2) {
+    const question1StateDateTime = moment.utc(question1.current_question_state.state_datetime);
+    const question2StateDateTime = moment.utc(question2.current_question_state.state_datetime);
+
+    return moment.duration(moment(question2StateDateTime).diff(moment(question1StateDateTime))).asMilliseconds();
 }
+
+function sortByStateDateTime(questionReferences) {
+    return questionReferences.sort((question1, question2) => stateDatetimeDiff(question1, question2));
+}
+
 function latestQuestionRounds(questionRounds) {
-    return questionRounds.question_rounds
-        .find(round => round.question_round_number === questionRounds.current_question_round);
+    if (questionRounds) {
+        return questionRounds.question_rounds
+            .find(round => round.question_round_number === questionRounds.current_question_round);
+    }
+    return {};
 }
 
-function getHearingRound(hearing, options) {
+function latestQuestionRound(hearing, options) {
     return getRounds(hearing.online_hearing_id, options).then(latestQuestionRounds);
 }
 
-function getQuestionRoundState(hearing, options) {
-    const questionRound = getHearingRound(hearing, options);
-    return questionDeadlineExtensionElapsed(questionRound) ? { state_name: 'question_deadline_extension_elapsed' } : {};
+function roundWithDeadlineExtensionElapsed(questionRound) {
+    return questionRound && questionRound.deadline_extension_count > 0
+        && questionRound.question_round_state.state_name === 'question_deadline_elapsed';
 }
 
-function getCaseQuestionState(jurisdiction, caseTypeId, hearing, options) {
-    const questionRoundState = getQuestionRoundState(hearing, options);
-    return questionRoundState ? questionRoundState : hearing.current_state;
+function caseState(questionsRound) {
+    const question = sortByStateDateTime(questionsRound.question_references)
+        .find(questionReference => questionReference.current_question_state.state_name === 'question_answered');
+
+    return {
+        state_datetime: question.current_question_state.state_datetime,
+        state_name: 'question_deadline_extension_elapsed'
+    };
 }
 
-module.exports.getCaseQuestionState = getCaseQuestionState;
+function getRoundState(hearing, options) {
+    const questionRound = latestQuestionRound(hearing, options);
+    return roundWithDeadlineExtensionElapsed(questionRound) ? caseState(questionRound) : {};
+}
+
+module.exports = (hearing, options) => {
+    return getRoundState(hearing, options);
+};

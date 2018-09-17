@@ -4,9 +4,7 @@ const getListTemplate = require('./templates');
 const generateRequest = require('../../lib/request');
 const valueProcessor = require('../../lib/processors/value-processor');
 const sscsCaseListTemplate = require('./templates/sscs/benefit');
-const getRounds = require('../../questions');
-const getCaseDecisionState = require('../../lib/case-decision-state');
-const getCaseQuestionState = require('../../lib/case-questions-state');
+const getQuestionRoundState = require('../../lib/case-questions-state');
 
 const jurisdictions = [
     {
@@ -81,9 +79,8 @@ function hasCOR(caseData) {
     return caseData.jurisdiction === 'SSCS';
 }
 
-function getCaseState(jurisdiction, caseTypeId, hearing, options) {
-    const caseDecisionState = getCaseDecisionState(jurisdiction, caseTypeId, hearing, options);
-    return caseDecisionState ? caseDecisionState : getCaseQuestionState(jurisdiction, caseTypeId, hearing, options);
+function getCaseState(hearing, options) {
+    return getQuestionRoundState(hearing, options);
 }
 
 function getCOR(casesData, options) {
@@ -94,7 +91,7 @@ function getCOR(casesData, options) {
                 .then(hearings => {
                     if (hearings.online_hearings) {
 
-                        let newCaseStateMap = new Map(hearings.online.map(hearing => {
+                        let newCaseStateMap = new Map(hearings.online_hearings.map(hearing => {
                             const caseState = getCaseState(hearing, options);
                             [Number(hearing.case_id), caseState ? caseState : hearing.current_state]
                         }));
