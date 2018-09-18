@@ -30,6 +30,9 @@ describe('case-list spec', () => {
             if(url.includes('jurisdictions/DIVORCE')) {
                 return Promise.resolve(divorceCaseData);
             }
+            if(url.endsWith('/details')) {
+                return Promise.resolve({'email' : 'test@test.com'});
+            }
 
             return Promise.resolve(sscsCaseData);
         });
@@ -72,6 +75,7 @@ describe('case-list spec', () => {
                 case_type_id: 'Benefit',
                 case_data: {
                     caseReference: '123-123-123',
+                    assignedToJudge: 'test@test.com',
                     appeal: {
                         appellant: {
                             name: {
@@ -105,6 +109,7 @@ describe('case-list spec', () => {
             request.get('/cases')
                 .expect(200)
                 .then(response => {
+                    console.log(response.body.results[0]);
                     expect(response.body.results.length).toBe(1);
                     expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
                     expect(response.body.results[0]).toEqual({
@@ -118,7 +123,8 @@ describe('case-list spec', () => {
                             status: 'Continuous online hearing started',
                             caseStartDate: createdDate.toISOString(),
                             dateOfLastAction: updatedDate.toISOString()
-                        }
+                        },
+                        assignedToJudge: 'test@test.com'
                     });
                 });
         });
@@ -131,6 +137,7 @@ describe('case-list spec', () => {
                 case_type_id: 'DIVORCE',
                 case_data: {
                     caseReference: '456-456-456',
+                    assignedToJudge: 'test@test.com',
                     appeal: {
                         appellant: {
                             name: {
@@ -160,7 +167,8 @@ describe('case-list spec', () => {
                             type: 'Divorce',
                             caseStartDate: createdDate.toISOString(),
                             dateOfLastAction: updatedDate.toISOString()
-                        }
+                        },
+                        assignedToJudge: 'test@test.com'
                     });
 
                     expect(response.body.results[1]).toEqual({
@@ -174,7 +182,8 @@ describe('case-list spec', () => {
                             status: 'Continuous online hearing started',
                             caseStartDate: createdDate.toISOString(),
                             dateOfLastAction: updatedDate.toISOString()
-                        }
+                        },
+                        assignedToJudge: 'test@test.com'
                     });
                 });
         });
@@ -195,6 +204,7 @@ describe('case-list spec', () => {
                 case_type_id: 'Benefit',
                 case_data: {
                     caseReference: '123-123-123',
+                    assignedToJudge: 'test@test.com',
                     appeal: {
                         appellant: {
                             name: {
@@ -213,6 +223,7 @@ describe('case-list spec', () => {
                 id: 987654322,
                 jurisdiction: 'SSCS',
                 case_type_id: 'Benefit',
+                assignedToJudge: 'test@test.com',
                 case_data: {
                     appeal: {
                         appellant: {
@@ -268,7 +279,8 @@ describe('case-list spec', () => {
                         status: 'Continuous online hearing started',
                         caseStartDate: createdDate.toISOString(),
                         dateOfLastAction: updatedDate.toISOString()
-                    }
+                    },
+                    assignedToJudge: 'test@test.com'
                 });
             }));
     });
@@ -295,6 +307,7 @@ describe('case-list spec', () => {
                 case_type_id: 'Benefit',
                 case_data: {
                     caseReference: '123-123-123',
+                    assignedToJudge: 'test@test.com',
                     appeal: {
                         appellant: {
                             name: {
@@ -315,6 +328,7 @@ describe('case-list spec', () => {
                 case_type_id: 'Benefit',
                 case_data: {
                     caseReference: '123-123-124',
+                    assignedToJudge: 'test@test.com',
                     appeal: {
                         appellant: {
                             name: {
@@ -336,6 +350,7 @@ describe('case-list spec', () => {
                 case_type_id: 'Benefit',
                 case_data: {
                     caseReference: '123-123-125',
+                    assignedToJudge: 'test@test.com',
                     appeal: {
                         appellant: {
                             name: {
@@ -395,7 +410,8 @@ describe('case-list spec', () => {
                         type: 'PIP',
                         caseStartDate: createdDate3.toISOString(),
                         dateOfLastAction: updatedDate3.toISOString()
-                    }
+                    },
+                    assignedToJudge: 'test@test.com'
                 });
             }));
 
@@ -406,6 +422,7 @@ describe('case-list spec', () => {
                 case_type_id: 'Benefit',
                 case_data: {
                     caseReference: '',
+                    assignedToJudge: 'test@test.com',
                     appeal: {
                         appellant: {
                             name: {
@@ -429,6 +446,7 @@ describe('case-list spec', () => {
                 case_type_id: 'Benefit',
                 case_data: {
                     caseReference: null,
+                    assignedToJudge: 'test@test.com',
                     appeal: {
                         appellant: {
                             name: {
@@ -460,7 +478,8 @@ describe('case-list spec', () => {
                             type: 'PIP',
                             caseStartDate: createdDate3.toISOString(),
                             dateOfLastAction: updatedDate3.toISOString()
-                        }
+                        },
+                        assignedToJudge: 'test@test.com'
                     });
                     expect(response.body.results[1]).toEqual({
                         case_id: sscsCaseData[0].id,
@@ -473,7 +492,8 @@ describe('case-list spec', () => {
                             status: 'Continuous online hearing started',
                             caseStartDate: createdDate1.toISOString(),
                             dateOfLastAction: lastModifiedDate1.toISOString()
-                        }
+                        },
+                        assignedToJudge: 'test@test.com'
                     });
                     expect(response.body.results[2]).toEqual({
                         case_id: sscsCaseData[1].id,
@@ -486,9 +506,227 @@ describe('case-list spec', () => {
                             status: 'Question drafted',
                             caseStartDate: createdDate2.toISOString(),
                             dateOfLastAction: lastModifiedDate2.toISOString()
-                        }
+                        },
+                        assignedToJudge: 'test@test.com'
                     });
                 });
         });
+
+        it('should return cases assigned to me', () => {
+            // adding a case which is not assigned to current user.
+            sscsCaseData.push({
+                id: 987654326,
+                jurisdiction: 'SSCS',
+                case_type_id: 'Benefit',
+                case_data: {
+                    caseReference: '',
+                    assignedToJudge: 'test1@test.com',
+                    appeal: {
+                        appellant: {
+                            name: {
+                                firstName: 'Harry',
+                                lastName: 'Houghton'
+                            }
+                        },
+                        benefitType: {
+                            code: 'PIP'
+                        }
+                    }
+                },
+                created_date: createdDate1,
+                last_modified: updatedDate1
+
+            });
+
+            return request.get('/cases')
+                .expect(200)
+                .then(response => {
+                    expect(response.body.results.length).toBe(3);
+                    expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
+                    expect(response.body.results[0]).toEqual({
+                        case_id: sscsCaseData[2].id,
+                        case_jurisdiction: 'SSCS',
+                        case_type_id: 'Benefit',
+                        case_fields: {
+                            case_ref: sscsCaseData[2].case_data.caseReference,
+                            parties: 'Roopa Ramisetty v DWP',
+                            type: 'PIP',
+                            caseStartDate: createdDate3.toISOString(),
+                            dateOfLastAction: updatedDate3.toISOString()
+                        },
+                        assignedToJudge: 'test@test.com'
+                    });
+                    expect(response.body.results[1]).toEqual({
+                        case_id: sscsCaseData[0].id,
+                        case_jurisdiction: 'SSCS',
+                        case_type_id: 'Benefit',
+                        case_fields: {
+                            case_ref: sscsCaseData[0].case_data.caseReference,
+                            parties: 'Louis Houghton v DWP',
+                            type: 'PIP',
+                            status: 'Continuous online hearing started',
+                            caseStartDate: createdDate1.toISOString(),
+                            dateOfLastAction: lastModifiedDate1.toISOString()
+                        },
+                        assignedToJudge: 'test@test.com'
+                    });
+                    expect(response.body.results[2]).toEqual({
+                        case_id: sscsCaseData[1].id,
+                        case_jurisdiction: 'SSCS',
+                        case_type_id: 'Benefit',
+                        case_fields: {
+                            case_ref: sscsCaseData[1].case_data.caseReference,
+                            parties: 'Padmaja Ramisetti v DWP',
+                            type: 'PIP',
+                            status: 'Question drafted',
+                            caseStartDate: createdDate2.toISOString(),
+                            dateOfLastAction: lastModifiedDate2.toISOString()
+                        },
+                        assignedToJudge: 'test@test.com'
+                    });
+                });
+
+        })
+    });
+
+    describe('when cases assigned to me ', () => {
+        const createdDate1 = new Date(2018, 6, 25);
+        const updatedDate1 = new Date(2018, 6, 30, 10, 10);
+
+        const createdDate2 = new Date(2018, 6, 25);
+        const updatedDate2 = new Date(2018, 6, 29, 12, 10);
+
+        const createdDate3 = new Date(2018, 6, 25);
+        const updatedDate3 = new Date(2018, 6, 30, 9, 10);
+
+        const lastModifiedDate1 = new Date(2018, 7, 24, 10, 30, 1);
+        const lastModifiedDate2 = new Date(2018, 7, 25, 10, 30, 1);
+
+        beforeEach(() => {
+            sscsCaseData.length = 0;
+
+            sscsCaseData.push({
+                id: 987654322,
+                jurisdiction: 'SSCS',
+                case_type_id: 'Benefit',
+                case_data: {
+                    caseReference: '123-123-123',
+                    assignedToJudge: 'test2@test.com',
+                    appeal: {
+                        appellant: {
+                            name: {
+                                firstName: 'Louis',
+                                lastName: 'Houghton'
+                            }
+                        },
+                        benefitType: { code: 'PIP' }
+                    }
+                },
+                created_date: createdDate1,
+                last_modified: updatedDate1
+
+            });
+            sscsCaseData.push({
+                id: 987654323,
+                jurisdiction: 'SSCS',
+                case_type_id: 'Benefit',
+                case_data: {
+                    caseReference: '123-123-124',
+                    assignedToJudge: 'test1@test.com',
+                    appeal: {
+                        appellant: {
+                            name: {
+                                firstName: 'Padmaja',
+                                lastName: 'Ramisetti'
+                            }
+                        },
+                        benefitType: { code: 'PIP' }
+                    }
+                },
+                created_date: createdDate2,
+                last_modified: updatedDate2
+
+            });
+
+            multipleOnlineHearingData = {
+                online_hearings: [
+                    {
+                        online_hearing_id: '2',
+                        case_id: 987654322,
+                        start_date: '2018-06-30T12:56:49.145+0000',
+                        current_state: {
+                            state_name: 'continuous_online_hearing_started',
+                            state_datetime: lastModifiedDate1
+                        }
+                    },
+                    {
+                        online_hearing_id: '3',
+                        case_id: 987654323,
+                        start_date: '2018-06-29T12:56:49Z',
+                        current_state: {
+                            state_name: 'question_drafted',
+                            state_datetime: lastModifiedDate2
+                        }
+                    },
+                    {
+                        online_hearing_id: '4',
+                        case_id: 987654324,
+                        start_date: '2018-07-189T12:56:49.145+0000'
+                    }
+                ]
+            };
+        });
+
+        it('should not return cases that are not assigned to me', () => {
+            request.get('/cases')
+                .expect(200)
+                .then(response => {
+                    expect(response.body.results.length).toBe(0);
+                });
+        });
+
+        it('should return cases assigned to the me', () => {
+            sscsCaseData.push({
+                id: 987654324,
+                jurisdiction: 'SSCS',
+                case_type_id: 'Benefit',
+                case_data: {
+                    caseReference: '123-123-125',
+                    assignedToJudge: 'test@test.com',
+                    appeal: {
+                        appellant: {
+                            name: {
+                                firstName: 'Roopa',
+                                lastName: 'Ramisetty'
+                            }
+                        },
+                        benefitType: { code: 'PIP' }
+                    }
+                },
+                created_date: createdDate3,
+                last_modified: updatedDate3
+
+            });
+            request.get('/cases')
+                    .expect(200)
+                    .then(response => {
+                        expect(response.body.results.length).toBe(1);
+                        expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
+                        expect(response.body.results[0]).toEqual({
+                            case_id: sscsCaseData[2].id,
+                            case_jurisdiction: 'SSCS',
+                            case_type_id: 'Benefit',
+                            case_fields: {
+                                case_ref: sscsCaseData[2].case_data.caseReference,
+                                parties: 'Roopa Ramisetty v DWP',
+                                type: 'PIP',
+                                caseStartDate: createdDate3.toISOString(),
+                                dateOfLastAction: updatedDate3.toISOString()
+                            },
+                            assignedToJudge: 'test@test.com'
+                        });
+                    })
+            }
+        );
     });
 });
