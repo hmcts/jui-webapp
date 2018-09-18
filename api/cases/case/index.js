@@ -24,7 +24,6 @@ function getCaseWithEventsAndQuestions(caseId, userId, jurisdiction, caseType, o
     if (hasCOR(jurisdiction, caseType)) {
         promiseArray.push(getAllQuestionsByCase(caseId, userId, options, jurisdiction));
     }
-console.log("userId",userId);
 
     return Promise.all(promiseArray);
 }

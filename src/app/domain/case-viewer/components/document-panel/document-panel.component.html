@@ -19,19 +19,5 @@
              medium-editor-index="ca3cfb8f-8b6a-8f73-1ed5-fa7679703446" data-placeholder="Type your text">
             <app-document-viewer [url]="selectedDocument.url" [baseUrl]="documentUrl"></app-document-viewer>
         </div>
-        <ng-template #noDocuments>
-            <p data-selector="no-documents">This case file is empty.</p>
-        </ng-template>
-        <div class="jui-casefile-document-wrapper" *ngIf="selectedDocument">
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds">
-                    <app-document-viewer [url]="selectedDocument.url" [baseUrl]="documentUrl"></app-document-viewer>
-                </div>
-                <div class="govuk-grid-column-one-third">
-                    <app-form [formGroup]="caseGroup">
-                        <app-textarea [label]="caseform.label" [text]="caseform.text" id="caseform.label"></app-textarea>
-                    </app-form>
-                </div>
-            </div>
-        </div>
+    </div>
 </div>
