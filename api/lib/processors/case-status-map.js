@@ -5,7 +5,8 @@ module.exports = {
             answer_submitted: 'Appellant\'s answers received',
             question_deadline_elapsed: 'Incomplete response from appellant',
             questions_issued: 'Questions sent',
-            question_deadline_extension_elapsed: 'Incomplete response from appellant'
+            question_deadline_extension_elapsed: 'Incomplete response from appellant',
+            question_drafted: 'Question drafted'
         }
     },
     cmc: {
