@@ -46,9 +46,60 @@ function hasCOR(caseData) {
     return caseData.jurisdiction === 'SSCS';
 }
 
-// TODO put this is the coh-cor microserver module
+
+function getParams(req) {
+    return {
+        headers: {
+            'Authorization': `Bearer ${req.auth.token}`
+        }
+    };
+}
+
+function getCases(userId, jurisdictions, options) {
+    const promiseArray = [];
+    if (process.env.JUI_ENV === 'mock') {
+        jurisdictions.forEach(jurisdiction => {
+            promiseArray.push(mockRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction.jur}/case-types/${jurisdiction.caseType}/cases?sortDirection=DESC${jurisdiction.filter}`, options))
+        });
+    } else {
+        jurisdictions.forEach(jurisdiction => {
+            promiseArray.push(generateRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction.jur}/case-types/${jurisdiction.caseType}/cases?sortDirection=DESC${jurisdiction.filter}`, options))
+        });
+    }
+    return Promise.all(promiseArray);
+}
+
 function getOnlineHearing(caseIds, options) {
     return generateRequest('GET', `${config.services.coh_cor_api}/continuous-online-hearings/?${caseIds}`, options);
+}
+
+function getUserDetails(options) {
+    return Promise.resolve(generateRequest('GET', `${config.services.idam_api}/details`, options));
+}
+
+function rawCasesReducer(cases, columns) {
+    return cases.map(caseRow => {
+        return {
+            case_id: caseRow.id,
+            case_jurisdiction: caseRow.jurisdiction,
+            case_type_id: caseRow.case_type_id,
+            case_fields: columns.reduce((row, column) => {
+                row[column.case_field_id] = valueProcessor(column.value, caseRow);
+                return row;
+            }, {}),
+            assignedToJudge : caseRow.case_data.assignedToJudge
+        };
+    });
+}
+
+function format(state) {
+    let formattedState = state.split("_").join(" ");
+    return formattedState[0].toUpperCase() + formattedState.slice(1);
+}
+
+
+function hasCOR(caseData) {
+    return caseData.jurisdiction === 'SSCS';
 }
 
 function getCOR(casesData, options) {
@@ -227,6 +278,11 @@ function aggregatedData(results) {
     return {...sscsCaseListTemplate, results};
 }
 
+function filterCases(caseList, options) {
+    return getUserDetails(options)
+        .then(details => caseList.filter(case1 => case1.assignedToJudge === details.email));
+}
+
 
 
 function getOptions(req) {
@@ -252,7 +308,7 @@ module.exports = app => {
     router.get('/', (req, res, next) => {
         const userId = req.auth.userId;
         const options = getOptions(req);
-        const userDetailsOptions = getUserDetailsOption(req);
+        const params = getParams(req);
 
         getMutiJudCCDCases(userId, jurisdictions, options)
             .then(caseLists => appendCOR(caseLists, options))
@@ -261,7 +317,7 @@ module.exports = app => {
             .then(applyStateFilter)
             .then(convertCaselistToTemplate)
             .then(combineLists)
-            .then(caseLists => applyAssignedToFilter(caseLists, userDetailsOptions))
+            .then(caseList => filterCases(caseList, params))
             .then(sortCases)
             .then(aggregatedData)
             .then(results => {
