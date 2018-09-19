@@ -9,6 +9,7 @@ const questions = require('./questions');
 const events = require('./events');
 const hearingRoutes = require('./hearings');
 const documents = require('./documents');
+const annotationsRoutes = require('./annotations');
 const authInterceptor = require('./middleware/auth');
 
 
@@ -27,6 +28,7 @@ documents(router);
 hearingRoutes(router);
 caseRoutes(router);
 decisionRoutes(router);
+annotationsRoutes(router);
 
 
 // Uncomment to enable direct access to Microservices
