@@ -107,7 +107,7 @@ describe('case-question-state', () => {
             getCaseState = route.getCaseState;
         });
 
-        it('should return no case status', () => {
+        it('should return question_answered state', () => {
             getCaseState(onlineHearing, {}).then(val => {
                 expect(val).toEqual({
                     state_datetime: '2018-09-12T14:04:17Z',
@@ -128,7 +128,7 @@ describe('case-question-state', () => {
             getCaseState = route.getCaseState;
         });
 
-        it('it should return case status', () => {
+        it('it should return deadline-extension-elapsed state', () => {
             getCaseState(onlineHearing, {}).then(val => {
                 expect(val).toEqual({
                     state_datetime: '2018-09-12T14:04:17Z',
