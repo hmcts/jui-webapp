@@ -9,6 +9,7 @@ const questions = require('./questions');
 const events = require('./events');
 const hearingRoutes = require('./hearings');
 const documents = require('./documents');
+const definitions = require('./definitions');
 const authInterceptor = require('./middleware/auth');
 
 
@@ -25,6 +26,7 @@ questions(router);
 events(router);
 documents(router);
 hearingRoutes(router);
+definitions(router);
 caseRoutes(router);
 decisionRoutes(router);
 
