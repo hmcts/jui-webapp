@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CaseViewerComponent } from './components/case-viewer/case-viewer.component';
 import { SharedModule } from '../../shared/shared.module';
 import { DocumentPanelComponent } from './components/document-panel/document-panel.component';
@@ -18,6 +20,7 @@ import {GovukModule} from '../../govuk/govuk.module';
         SharedModule,
         DocumentViewerModule,
         RouterModule,
+        ReactiveFormsModule,
         HmctsModule,
         GovukModule
     ],

@@ -14,6 +14,7 @@ export class UnsupportedViewerComponent implements OnInit, Viewer {
   @Input() url: string;
   @Input() originalUrl: string;
   @Output() pageChanged = new EventEmitter<number>();
+  @Output() afterLoadComplete = new EventEmitter<any>();
 
   constructor() { }
 

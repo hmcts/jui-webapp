@@ -7,9 +7,11 @@ const questions = require('./questions');
 const events = require('./events');
 const hearingRoutes = require('./hearings');
 const documents = require('./documents');
-const authInterceptor = require('./middleware/auth');
+const annotations = require('./annotations');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
+const authInterceptor = require('./middleware/auth'); 
 
 auth(router);
 router.use(authInterceptor);
@@ -20,4 +22,5 @@ hearingRoutes(router);
 caseRoutes(router);
 decisionRoutes(router);
 
+router.use('/annotation-sets', annotations);
 module.exports = router;

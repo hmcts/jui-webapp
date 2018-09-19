@@ -43,6 +43,7 @@ module "app" {
 
         JUI_S2S_SECRET = "${data.azurerm_key_vault_secret.s2s_secret.value}"
         IDAM_SECRET = "${data.azurerm_key_vault_secret.oauth2_secret.value}"
+        ANNOTATION_ACCESSOR_API_SECRET = "${data.azurerm_key_vault_secret.annotation_accessor_oauth2_client_secret.value}"
     }
 }
 
@@ -59,4 +60,8 @@ data "azurerm_key_vault_secret" "s2s_secret" {
 data "azurerm_key_vault_secret" "oauth2_secret" {
     name = "jui-oauth2-token"
     vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
+}
+
+data "vault_generic_secret" "annotation_accessor_oauth2_client_secret" {
+    path = "secret/${var.vault_section}/ccidam/idam-api/oauth2/client-secrets/ccd-gateway"
 }

@@ -5,29 +5,43 @@ const proxy = require('./proxy');
 const config = require('../../config/index');
 
 const microservice = config.microservice;
+const annotationAccessorMicroservice = config.annotationAccessorMicroservice;
 const secret = process.env.JUI_S2S_SECRET || 'AAAAAAAAAAAAAAAA';
+const annotationAccessorSecret = process.env.ANNOTATION_ACCESSOR_API_SECRET || 'AAAAAAAAAAAAAAAA';
+const microServiceMapping = {};
+
+microServiceMapping[microservice] = secret;
+microServiceMapping[annotationAccessorMicroservice] = annotationAccessorSecret;
+
 const _cache = {};
 
 
-function validateCache() {
+function validateCache(aRequest) {
     const currentTime = Math.floor(Date.now() / 1000);
-    if (!_cache[microservice]) return false;
-    return currentTime < _cache[microservice].expiresAt;
+    if (!_cache[getMicroservice(aRequest)]) return false;
+    return currentTime < _cache[getMicroservice(aRequest)].expiresAt;
 }
 
-function getToken() {
-    return _cache[microservice];
+function getToken(aRequest) {
+    return _cache[getMicroservice(aRequest)];
 }
 
+function getMicroservice(aRequest) {
+    return aRequest.url.indexOf('/annotation') >=0  ? annotationAccessorMicroservice : microservice;
+}
 
-function generateToken() {
-    const oneTimePassword = otp({ secret }).totp();
+function generateToken(aRequest) {
+
+    const aMicroServiceName = getMicroservice(aRequest);
+
+    const oneTimePassword = otp({ 'secret': microServiceMapping[aMicroServiceName] }).totp();
+
     let options = {
         url: `${config.services.s2s}/lease`,
         method: 'POST',
         body: {
-            oneTimePassword,
-            microservice
+            'oneTimePassword':oneTimePassword,
+            'microservice':aMicroServiceName
         },
         json: true
     };
@@ -38,27 +52,27 @@ function generateToken() {
     return new Promise((resolve, reject) => {
         request(options).then(body => {
             const tokenData = jwtDecode(body);
-            _cache[microservice] = {
+            _cache[aMicroServiceName] = {
                 expiresAt: tokenData.exp,
                 token: body
             };
             resolve();
         })
-            .catch(e => {
-                console.log('Error creating S2S token! S2S service error - ', e.message);
-                reject();
-            });
+        .catch(e => {
+            console.log('Error creating S2S token! S2S service error - ', e.message);
+            reject();
+        });
     });
 }
 
 
-function serviceTokenGenerator() {
+function serviceTokenGenerator(aRequest) {
     return new Promise((resolve, reject) => {
-        if (validateCache()) {
-            resolve(getToken());
+        if (validateCache(aRequest)) {
+            resolve(getToken(aRequest));
         } else {
-            generateToken().then(() => {
-                resolve(getToken());
+            generateToken(aRequest).then(() => {
+                resolve(getToken(aRequest));
             })
                 .catch(e => {
                     console.log('Failed to get S2S token');

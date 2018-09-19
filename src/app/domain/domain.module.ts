@@ -16,6 +16,7 @@ import { CaseBarDetailsComponent } from './components/casebar-details/casebar-de
 import { CaseBarComponent } from './components/casebar/casebar.component';
 import {CaseService} from './services/case.service';
 import {QuestionService} from './services/question.service';
+import {AnnotationService} from '../domain/services/annotation.service';
 
 import {JUIFormsModule} from '../forms/forms.module';
 import {GovukModule} from '../govuk/govuk.module';
@@ -57,7 +58,8 @@ import {HmctsModule} from '../hmcts/hmcts.module';
     ],
     providers: [
         CaseService,
-        QuestionService
+        QuestionService,
+        AnnotationService
     ]
 })
 export class DomainModule {
