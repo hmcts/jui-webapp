@@ -1,12 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-
 import { DomainModule } from '../../../domain.module';
 import { CaseViewerModule } from '../../case-viewer.module';
 import { PartiesPanelComponent } from './parties-panel.component';
 import { Observable } from 'rxjs';
-import {Selector} from '../../../../../../test/selector-helper';
+import { SharedModule } from '../../../../shared/shared.module';
 
 describe('Component: PartiesPanelComponent', () => {
     let component: PartiesPanelComponent;
@@ -24,6 +23,7 @@ describe('Component: PartiesPanelComponent', () => {
                 case_id: '1234',
                 section_item_id: 'petitioner'
             }),
+            fragment: Observable.of('petitioner'),
             snapshot: {
                 data: {
                     'id': 'parties-tabs',
@@ -103,7 +103,7 @@ describe('Component: PartiesPanelComponent', () => {
 
         TestBed.configureTestingModule({
             declarations: [],
-            imports: [DomainModule, CaseViewerModule, RouterTestingModule],
+            imports: [ SharedModule, DomainModule, CaseViewerModule, RouterTestingModule],
             providers: [
                 { provide: ActivatedRoute, useFactory: () => activeRouteMock },
                 ...providers
@@ -117,11 +117,7 @@ describe('Component: PartiesPanelComponent', () => {
     function createComponent() {
         fixture = TestBed.createComponent(PartiesPanelComponent);
         component = fixture.componentInstance;
-        activeRouteMock.params.subscribe(params => {
-            component.params = params;
-        });
         component.panelData = activeRouteMock.snapshot.data;
-        component.tabContent = component.panelData.sections[0];
         fixture.detectChanges();
     }
 
@@ -131,59 +127,5 @@ describe('Component: PartiesPanelComponent', () => {
 
     it('should create PartiesComponent', () => {
         expect(component).toBeTruthy();
-    });
-
-    describe('when parties page loaded', () => {
-        it('should create links for each tab', () => {
-            expect(component.panelData.sections.length).toEqual(2);
-        });
-        it('should redirect to the first tab\'s url', () => {
-            activeRouteMock.params = Observable.of({
-                section: 'parties',
-                jur: 'SSCS',
-                casetype: 'Benefit',
-                case_id: '1234'
-            });
-            TestBed.resetTestingModule();
-            setupModule([
-                {
-                    provide: ActivatedRoute,
-                    useValue: activeRouteMock
-                }
-            ]);
-            createComponent();
-            expect(routerNavigateSpy).toHaveBeenCalledWith(['/jurisdiction/SSCS/casetype/Benefit/viewcase/1234/parties/petitioner']);
-        });
-
-        it('should render tab\'s data', () => {
-            const labelElements = document.querySelectorAll(Selector.selector('parties-panel-component|parties-tab-label'));
-            const valueElements = document.querySelectorAll(Selector.selector('parties-panel-component|parties-tab-value'));
-            for (const index of component.tabContent.fields.keys()) {
-                expect(component.tabContent.fields[index].label).toEqual(labelElements[index].innerHTML);
-                expect(component.tabContent.fields[index].value).toEqual(valueElements[index].innerHTML);
-            }
-        });
-
-        it('should switch tabs', () => {
-            const titleElementBeforeSwitch = document.querySelector(Selector.selector('parties-panel-component|parties-tab-title'));
-            activeRouteMock.params = Observable.of({
-                section: 'parties',
-                jur: 'SSCS',
-                casetype: 'Benefit',
-                case_id: '1234',
-                section_item_id: 'respondent'
-            });
-            TestBed.resetTestingModule();
-            setupModule([
-                {
-                    provide: ActivatedRoute,
-                    useValue: activeRouteMock
-                }
-            ]);
-            createComponent();
-            routerNavigateSpy();
-            const titleElementAfterSwitch = document.querySelector(Selector.selector('parties-panel-component|parties-tab-title'));
-            expect(titleElementBeforeSwitch).not.toEqual(titleElementAfterSwitch);
-        });
     });
 });

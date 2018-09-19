@@ -49,13 +49,11 @@ export class QuestionService {
                    .delete(`${this.configService.config.api_base_url}/api/cases/${caseId}/questions/${questionId}`);
     }
 
-    save(caseId, question) {
-        /**
-         * To Do
-         */
+    sendQuestions(caseId, roundId) {
+        return this.http.put(`${this.configService.config.api_base_url}/api/cases/${caseId}/rounds/${roundId}`, {});
     }
 
-    sendQuestions(caseId, roundId) {
-        return this.http.put(`${this.configService.config.api_base_url}/api/cases/${caseId}/questions/rounds/${roundId}`, {});
+    fetchRound(caseId, roundId): any {
+        return this.http.get(`${this.configService.config.api_base_url}/api/cases/${caseId}/rounds/${roundId}`);
     }
 }

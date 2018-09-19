@@ -1,0 +1,54 @@
+<!-- If no question have been asked for the next round or -->
+<ng-container data-selector="no-draft-questions" *ngIf="draft">
+    <strong></strong>
+    <h2 attr.data-selector="round-{{rounds.length + 1}}" class="govuk-heading-m">Round {{rounds.length + 1}}</h2>
+    <!-- No Question asked-->
+    <p data-selector="no-draft-questions-details">You haven’t asked any questions.</p>
+    <a data-selector="no-draft-add-questions-link" class="govuk-button" routerLink="./new/{{rounds.length + 1}}">Add questions</a>
+    <br>
+</ng-container>
+
+
+
+
+<!-- List out all other rounds -->
+<!-- TODO: need to put it in reverse -->
+<ng-container *ngFor="let round of rounds | reverse">
+    <h2 attr.data-selector="round-{{round.question_round_number}}" class="govuk-heading-m">Round {{round.question_round_number}}</h2>
+
+    <!--  -->
+    <ng-container *ngIf="!round.questions.length;then questionsNone else questionsSome"></ng-container>
+    <ng-template #questionsSome>
+        <ng-container *ngIf="round.state === 'question_drafted';then questionsDraft else questionsSent" ></ng-container>
+    </ng-template>
+
+    <!-- No Question asked-->
+    <ng-template #questionsNone data-selector="no-draft-questions">
+        <p data-selector="no-draft-questions-details">You haven’t asked any questions.</p>
+        <a data-selector="no-draft-add-questions-link" class="govuk-button" routerLink="./new/{{round.length + 1}}">Add questions</a>
+        <br>
+    </ng-template>
+
+    <!-- Question in draft state-->
+    <ng-template #questionsDraft>
+        <p data-selector="draft-questions-details">You have not sent these questions to the appellant.</p>
+
+        <app-question-list [questions]="round.questions"></app-question-list>
+        <div class="jui-button-action">
+            <a data-selector="create-draft-questions-link" class="govuk-button" [ngClass]="{'jui-button--secondary':round.questions.length > 0, 'govuk-!-margin-bottom-4': true} " routerLink="./new/{{round.question_round_number}}">Add questions</a>
+        </div>
+        <div *ngIf="round.questions.length > 0" class="jui-button-action">
+            <a data-selector="send-draft-questions-link" class="govuk-button" routerLink="./check/{{round.question_round_number}}">Send questions</a>
+        </div>
+        <br>
+    </ng-template>
+
+    <!-- Question in Sent state-->
+    <ng-template #questionsSent>
+        <p data-selector="sent-questions-details">You sent {{round.questions.length}} {{round.questions.length <= 1 ? 'question' : 'questions'}} to the appellant {{round.questions[0].state_datetime | date: "'at' h:mmaaaaa'm 'on' d MMMM yyyy":'+00:00'}}</p>
+        <p *ngIf="round.state === 'question_issued' && !round.question_deadline_expired">The appellant has until <time [attr.datetime]="round.expires.dateUtc">{{round.expires.time}} on {{round.expires.date}}</time> to reply.</p>
+        <p *ngIf="round.state === 'question_issued' && round.question_deadline_expired"><b>The appellant has not answered all the {{round.questions.length <= 1 ? 'the question' : 'all the questions'}} in time.</b></p>
+        <p *ngIf="round.state === 'questions_answered'"><b>The appellant has answered {{round.questions.length <= 1 ? 'the question' : 'all the questions'}} in time.</b></p>
+        <app-question-list [questions]="round.questions"></app-question-list>
+    </ng-template>
+</ng-container>

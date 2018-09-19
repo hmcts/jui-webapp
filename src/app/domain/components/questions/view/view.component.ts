@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { QuestionService } from '../../../services/question.service';
 import { ActivatedRoute } from '@angular/router';
+import { QuestionService } from '../../../services/question.service';
 
 @Component({
     selector: 'app-view-question',
@@ -14,7 +14,7 @@ export class ViewQuestionComponent implements OnInit {
     caseType: string;
     questionId: string;
 
-    constructor(private questionService: QuestionService, private route: ActivatedRoute) {
+    constructor( private route: ActivatedRoute, private questionService: QuestionService ) {
         this.route.parent.params.subscribe(params => {
             this.caseId = params['case_id'];
             this.jurisdiction = params['jur'];

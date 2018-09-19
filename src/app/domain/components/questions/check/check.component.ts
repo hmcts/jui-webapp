@@ -1,10 +1,10 @@
-import { Component, Input, OnInit  } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { QuestionService } from '../../../services/question.service';
 import { RedirectionService } from '../../../../routing/redirection.service';
 import { ActivatedRoute } from '@angular/router';
-import {Observable} from 'rxjs';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/filter';
+import {Observable} from 'rxjs';
 
 @Component({
     selector: 'app-check-question',
@@ -17,6 +17,7 @@ export class CheckQuestionsComponent implements OnInit {
     caseType: string;
 
     questions$: Observable<any[]>;
+    roundNumber: number;
 
     constructor(private questionService: QuestionService,
                 private redirectionService: RedirectionService,
@@ -24,19 +25,24 @@ export class CheckQuestionsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.route.parent.params.subscribe(params => {
-            this.caseId = params['case_id'];
-            this.jurisdiction = params['jur'];
-            this.caseType = params['casetype'];
-            this.questions$ = this.questionService.fetchAll(this.caseId)
-                .map(questions => {
-                    return questions.filter(question => question.state === 'question_drafted');
-                });
+        this.route.parent.params.subscribe(parentParams => {
+            this.caseId = parentParams['case_id'];
+            this.jurisdiction = parentParams['jur'];
+            this.caseType = parentParams['casetype'];
+
+            this.route.params.subscribe(params => {
+                this.roundNumber = params['round'];
+                this.questions$ = this.questionService
+                     .fetchRound(this.caseId, this.roundNumber)
+                    .map(x => {console.dir(x); return x; })
+                    .map(r => r.question_references ? r.question_references.filter(q => q.current_question_state.state_name === 'question_drafted') : []);
+             });
         });
+
     }
 
     onSubmit() {
-        this.questionService.sendQuestions(this.caseId, 1).subscribe(res => {
+        this.questionService.sendQuestions(this.caseId, this.roundNumber).subscribe(res => {
             this.redirectionService.redirect(`/jurisdiction/${this.jurisdiction}/casetype/${this.caseType}/viewcase/${this.caseId}/questions?sent=success`);
         }, () => {
             this.redirectionService.redirect(`/jurisdiction/${this.jurisdiction}/casetype/${this.caseType}/viewcase/${this.caseId}/questions?sent=failure`);

@@ -57,3 +57,44 @@ setup test ccd data (note you need to find your own ccd def file)
 
 ## Run test...
 WIP
+
+##Run Mock Server for CCD data for Development
+
+Install JSON Server
+
+
+```bash
+npm install -g json-server
+```
+
+Set the environment variable :
+
+Mac :
+ ```
+ export JUI_ENV=mock;
+ ```
+ Windows: 
+ 
+ ```
+ set JUI_ENV=mock
+ echo %JUI_ENV%
+ ```
+ 
+
+Run the mock Server
+
+```
+yarn install
+yarn start-json-server
+```
+This will run a mock server (json-server) on port 3004 and sets the JUI_ENV as ```mock```.
+
+Now, run the below in the terminal and then start running the api (node)
+ ```bash
+export JUI_ENV=mock;
+yarn build
+yarn start
+```
+
+Note : Here is the git repo for json-server : https://github.com/typicode/json-server
+

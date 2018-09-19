@@ -17,6 +17,8 @@ module "app" {
     additional_host_name = "${!(var.env == "preview" || var.env == "spreview") ? "${local.app_full_name}-${var.env}.service.${var.env}.platform.hmcts.net" : "null"}"
     https_only="false"
     common_tags  = "${var.common_tags}"
+    asp_rg                = "jui-webapp-${var.env}"
+    asp_name              = "jui-webapp-${var.env}"
 
     app_settings = {
         # REDIS_HOST = "${module.redis-cache.host_name}"

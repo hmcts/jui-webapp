@@ -83,7 +83,7 @@ describe('case-question-state', () => {
 
         beforeEach(() => {
             route = proxyquire('./case-state', {
-                '../questions': { getRounds: () => Promise.resolve() }
+                '../questions': { getAllRounds: () => Promise.resolve() }
             });
 
             getCaseState = route.getCaseState;
@@ -101,7 +101,7 @@ describe('case-question-state', () => {
 
         beforeEach(() => {
             route = proxyquire('./case-state', {
-                '../questions': { getRounds: () => Promise.resolve(questionAnswered) }
+                '../questions': { getAllRounds: () => Promise.resolve(questionAnswered) }
             });
 
             getCaseState = route.getCaseState;
@@ -122,7 +122,7 @@ describe('case-question-state', () => {
 
         beforeEach(() => {
             route = proxyquire('./case-state', {
-                '../questions': { getRounds: () => Promise.resolve(deadlineExtensionExpired) }
+                '../questions': { getAllRounds: () => Promise.resolve(deadlineExtensionExpired) }
             });
 
             getCaseState = route.getCaseState;

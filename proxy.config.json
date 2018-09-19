@@ -1,5 +1,10 @@
 {
-    "/demproxy/dm/*": {
+    "/health": {
+        "target": "http://localhost:3001",
+        "secure": false,
+        "logLevel": "debug"
+    },
+    "/info": {
         "target": "http://localhost:3001",
         "secure": false,
         "logLevel": "debug"

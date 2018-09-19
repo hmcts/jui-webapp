@@ -2,6 +2,7 @@ const express = require('express');
 const moment = require('moment');
 const config = require('../../config');
 const generateRequest = require('../lib/request');
+const mockRequest = require('../lib/mockRequest');
 
 function hasCOR(jurisdiction, caseType) {
     return jurisdiction === 'SSCS';
@@ -60,7 +61,8 @@ function sortEvents(events) {
 }
 
 function getCcdEvents(caseId, userId, jurisdiction, caseType, options) {
-    return generateRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`, options)
+    let url = `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`;
+    return (process.env.JUI_ENV === 'mock' ? mockRequest('GET', url, options) : generateRequest('GET', url, options))
         .then(events => reduceEvents(events));
 }
 

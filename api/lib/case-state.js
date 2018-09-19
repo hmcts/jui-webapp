@@ -1,4 +1,4 @@
-const { getRounds } = require('../questions');
+const { getAllRounds } = require('../questions');
 const moment = require('moment');
 
 const EMPTY = {};
@@ -51,7 +51,7 @@ function caseState(questionRounds) {
 }
 
 function getCaseState(hearing, options) {
-    return getRounds(hearing.online_hearing_id, options)
+    return getAllRounds(hearing.online_hearing_id, options)
         .then(latestQuestionRounds)
         .then(questionRound => {
             return questionRoundExists(questionRound) ? caseState(questionRound) : hearing.current_state;

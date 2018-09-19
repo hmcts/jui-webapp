@@ -128,7 +128,7 @@ module.exports = {
                     id: 'documents',
                     name: 'Case file',
                     type: 'document-panel',
-                    fields: [{ value: '$.case_data.D8DocumentsGenerated[:1].value.DocumentLink|document_processor' }]
+                    fields: [{ value: '$.case_data.D8DocumentsUploaded[:1].value.DocumentLink|document_processor' }]
                 }
             ]
         },
