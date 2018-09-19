@@ -1,6 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {FormArray, FormControl, FormGroup} from '@angular/forms';
 import {ConfigService} from '../../../../config.service';
+import {ViewerFactoryService} from '../../../../shared/components/document-viewer/viewers/viewer-factory.service';
+import {AnnotationService} from '../../../services/annotation.service';
 
 @Component({
     selector: 'app-document-panel',
@@ -14,10 +17,13 @@ export class DocumentPanelComponent implements OnInit {
     documents: any[] = [];
     selectedDocument: any;
     documentUrl: string;
+    commentsForm: FormGroup;
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
-                private configService: ConfigService) {
+                private configService: ConfigService,
+                private annotationService: AnnotationService,
+                private viewerFactoryService: ViewerFactoryService) {
         this.documentUrl = `${configService.config.api_base_url}/api`;
     }
 
@@ -56,10 +62,27 @@ export class DocumentPanelComponent implements OnInit {
         this.documents = documents;
     }
 
+    saveAnnotations(commentIndex: number): void {
+        const value = (<FormArray>this.commentsForm.get('comments')).at(commentIndex).value;
+
+        alert(`save value ${value} for page ${commentIndex + 1} to doc:${this.selectedDocument.url}`);
+    }
 
     ngOnInit(): void {
         this.getDocuments();
-
+        this.commentsForm = new FormGroup({
+            'comments': new FormArray([])
+        });
+        this.viewerFactoryService.afterLoadComplete.subscribe(( e => {
+            var arrayOfControls = new Array<FormControl>(e.numPages);
+            for (var i=0; i<e.numPages; i++) {
+                arrayOfControls[i] = new FormControl(null, null);
+            }
+            this.commentsForm.setControl('comments', new FormArray(arrayOfControls));
+            this.annotationService
+                .fetch(this.selectedDocument.url)
+                .subscribe(data => { alert(data); });
+        }).bind(this));
         if (this.documents.length) {
             this.route.params.subscribe(params => {
                 if (params['section_item_id']) {
@@ -71,3 +94,6 @@ export class DocumentPanelComponent implements OnInit {
         }
     }
 }
+
+
+

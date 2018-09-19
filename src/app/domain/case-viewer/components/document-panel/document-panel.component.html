@@ -1,23 +1,51 @@
-<div class="jui-casefile govuk-!-margin-bottom-6">
-    <div class="jui-casefile-files" *ngIf="documents && documents.length; else noDocuments">
-        <ul class="jui-casefile-list">
-            <li class="jui-casefile-list__item" attr.data-selector="document-list-item-{{i}}" *ngFor="let document of documents; let i = index;">
-                <a class="jui-casefile-list__link"
-                   [attr.aria-current]="(selectedDocument && document.id === selectedDocument.id) || null"
-                   routerLink="../{{document.id}}"
-                   data-selector="document">{{document.name}}</a>
-            </li>
-        </ul>
-    </div>
-    <ng-template #noDocuments>
-        <p data-selector="no-documents">This case file is empty.</p>
-    </ng-template>
+
+        <div class="jui-casefile-files" *ngIf="documents && documents.length; else noDocuments">
+            <ul class="jui-casefile-list">
+                <li class="jui-casefile-list__item" attr.data-selector="document-list-item-{{i}}" *ngFor="let document of documents; let i = index;">
+                    <a class="jui-casefile-list__link"
+                       [attr.aria-current]="(selectedDocument && document.id === selectedDocument.id) || null"
+                       routerLink="../{{document.id}}"
+                       data-selector="document">{{document.name}}</a>
+                </li>
+            </ul>
+        <div class="" *ngIf="documents && documents.length; else noDocuments">
+            <ul class="jui-casefile-list">
+                <li class="jui-casefile-list__item" attr.data-selector="document-list-item-{{i}}" *ngFor="let document of documents; let i = index;">
+                    <a class="jui-casefile-list__link"
+                       [attr.aria-current]="(selectedDocument && document.id === selectedDocument.id) || null"
+                       routerLink="../{{document.id}}"
+                       data-selector="document">{{document.name}}</a>
+                </li>
+            </ul>
+        </div>
+        <ng-template #noDocuments>
+            <p data-selector="no-documents">This case file is empty.</p>
+        </ng-template>
+        <div class="jui-casefile-document-wrapper" *ngIf="selectedDocument">
+            <div class="jui-casefile-page editable medium-editor-element" data-medium-editor-element="true"
+                 role="textbox"
+                 aria-multiline="true" data-medium-editor-editor-index="1"
+                 medium-editor-index="ca3cfb8f-8b6a-8f73-1ed5-fa7679703446" data-placeholder="Type your text">
+                <app-document-viewer [url]="selectedDocument.url" [baseUrl]="documentUrl"></app-document-viewer>
+
+
+</div>
+
+<div class="jui-x">
     <div class="jui-casefile-document-wrapper" *ngIf="selectedDocument">
         <div class="jui-casefile-page editable medium-editor-element" data-medium-editor-element="true"
              role="textbox"
              aria-multiline="true" data-medium-editor-editor-index="1"
              medium-editor-index="ca3cfb8f-8b6a-8f73-1ed5-fa7679703446" data-placeholder="Type your text">
-            <app-document-viewer [url]="selectedDocument.url" [baseUrl]="documentUrl"></app-document-viewer>
+            <app-document-viewer [url]="'http://dm-store-aat.service.core-compute-aat.internal/documents/227aff87-17e6-4b8c-a43f-ff96b4a14c90'" [baseUrl]="documentUrl"></app-document-viewer>
         </div>
     </div>
+    <form [formGroup]="commentsForm" (onSubmit)="saveAnnotations()">
+        <div class="jui-comments" formArrayName="comments">
+            <div *ngFor="let commentControl of commentsForm.get('comments').controls; let i = index">
+                <textarea placeholder="add some comments..." [formControlName]="i"></textarea>
+                <button class="govuk-button" (click)="saveAnnotations(i)" data-selector="save-button" type="submit">Save comments</button>
+            </div>
+        </div>
+    </form>
 </div>

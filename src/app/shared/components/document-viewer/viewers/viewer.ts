@@ -6,6 +6,7 @@ export interface Viewer {
   page: number;
   numPages: number;
   pageChanged: EventEmitter<number>;
+  afterLoadComplete: EventEmitter<any>;
   prevPage();
   nextPage();
 }
