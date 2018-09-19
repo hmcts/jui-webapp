@@ -1,5 +1,5 @@
 const express = require('express');
-const proxyquire = require('proxyquire');
+const proxyquire = require('proxyquire').noPreserveCache();
 const supertest = require('supertest');
 
 const sscsCaseListTemplate = require('./templates/sscs/benefit');
@@ -13,6 +13,18 @@ describe('case-list spec', () => {
     let route;
     let app;
     let request;
+
+    function getLastModifiedDate(hearing) {
+        const hearingId = parseInt(hearing.online_hearing_id);
+
+        if(hearingId === 2) {
+            return '2018-08-24T09:30:01.000Z';
+        } else if (hearingId === 3) {
+            return '2018-08-25T09:30:01.000Z';
+        }
+
+        return  '2018-06-30T12:56:49Z';
+    }
 
     beforeEach(() => {
         sscsCaseData = [];
@@ -36,7 +48,15 @@ describe('case-list spec', () => {
 
         app = express();
 
-        route = proxyquire('./index', { '../../lib/request': httpRequest });
+        route = proxyquire('./index', {
+            '../../lib/request': httpRequest,
+            '../../lib/case-state': { getCaseState: (hearing, options) => Promise.resolve({
+                 state_name: 'continuous_online_hearing_started',
+                 state_datetime: getLastModifiedDate(hearing)
+            })
+            }
+        });
+
         app.use((req, res, next) => {
             req.auth = {
                 token: '1234567',
@@ -115,7 +135,7 @@ describe('case-list spec', () => {
                             case_ref: sscsCaseData[0].case_data.caseReference,
                             parties: 'Louis Houghton v DWP',
                             type: 'PIP',
-                            status: 'Continuous online hearing started',
+                            status: 'DWP response received',
                             caseStartDate: createdDate.toISOString(),
                             dateOfLastAction: updatedDate.toISOString()
                         }
@@ -171,7 +191,7 @@ describe('case-list spec', () => {
                             case_ref: sscsCaseData[0].case_data.caseReference,
                             parties: 'Louis Houghton v DWP',
                             type: 'PIP',
-                            status: 'Continuous online hearing started',
+                            status: 'DWP response received',
                             caseStartDate: createdDate.toISOString(),
                             dateOfLastAction: updatedDate.toISOString()
                         }
@@ -265,7 +285,7 @@ describe('case-list spec', () => {
                         case_ref: sscsCaseData[0].case_data.caseReference,
                         parties: 'Louis Houghton v DWP',
                         type: 'PIP',
-                        status: 'Continuous online hearing started',
+                        status: 'DWP response received',
                         caseStartDate: createdDate.toISOString(),
                         dateOfLastAction: updatedDate.toISOString()
                     }
@@ -373,7 +393,11 @@ describe('case-list spec', () => {
                     {
                         online_hearing_id: '4',
                         case_id: 987654324,
-                        start_date: '2018-07-189T12:56:49.145+0000'
+                        start_date: '2018-07-189T12:56:49.145+0000',
+                        current_state: {
+                            state_name: 'question_drafted',
+                            state_datetime: lastModifiedDate2
+                        }
                     }
                 ]
             };
@@ -393,6 +417,7 @@ describe('case-list spec', () => {
                         case_ref: sscsCaseData[2].case_data.caseReference,
                         parties: 'Roopa Ramisetty v DWP',
                         type: 'PIP',
+                        status: 'DWP response received',
                         caseStartDate: createdDate3.toISOString(),
                         dateOfLastAction: updatedDate3.toISOString()
                     }
@@ -458,6 +483,7 @@ describe('case-list spec', () => {
                             case_ref: sscsCaseData[2].case_data.caseReference,
                             parties: 'Roopa Ramisetty v DWP',
                             type: 'PIP',
+                            status: 'DWP response received',
                             caseStartDate: createdDate3.toISOString(),
                             dateOfLastAction: updatedDate3.toISOString()
                         }
@@ -470,7 +496,7 @@ describe('case-list spec', () => {
                             case_ref: sscsCaseData[0].case_data.caseReference,
                             parties: 'Louis Houghton v DWP',
                             type: 'PIP',
-                            status: 'Continuous online hearing started',
+                            status: 'DWP response received',
                             caseStartDate: createdDate1.toISOString(),
                             dateOfLastAction: lastModifiedDate1.toISOString()
                         }
@@ -483,7 +509,7 @@ describe('case-list spec', () => {
                             case_ref: sscsCaseData[1].case_data.caseReference,
                             parties: 'Padmaja Ramisetti v DWP',
                             type: 'PIP',
-                            status: 'Question drafted',
+                            status: 'DWP response received',
                             caseStartDate: createdDate2.toISOString(),
                             dateOfLastAction: lastModifiedDate2.toISOString()
                         }

@@ -50,16 +50,15 @@ function caseState(questionRounds) {
     };
 }
 
-
-function getQuestionRoundState(hearing, options) {
+function getCaseState(hearing, options) {
     return getRounds(hearing.online_hearing_id, options)
         .then(latestQuestionRounds)
         .then(questionRound => {
             return questionRoundExists(questionRound) ? caseState(questionRound) : hearing.current_state;
         }).catch(error => {
-            console.log('getQuestionRoundState error-->', error);
+            console.log('getCaseState error-->', error);
             return hearing.current_state;
         });
 }
 
-module.exports.getQuestionRoundState = getQuestionRoundState;
+module.exports.getCaseState = getCaseState;

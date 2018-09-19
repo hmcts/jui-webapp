@@ -78,37 +78,37 @@ describe('case-question-state', () => {
         };
     });
 
-    fdescribe('no question rounds exist', () => {
-        let getQuestionRoundState;
+    describe('no question rounds exist', () => {
+        let getCaseState;
 
         beforeEach(() => {
             route = proxyquire('./case-state', {
                 '../questions': { getRounds: () => Promise.resolve() }
             });
 
-            getQuestionRoundState = route.getQuestionRoundState;
+            getCaseState = route.getCaseState;
         });
 
         it('should return case hearing status', () => {
-            getQuestionRoundState(onlineHearing, {}).then(val => {
+            getCaseState(onlineHearing, {}).then(val => {
                 expect(val).toEqual(onlineHearing.current_state);
             });
         });
     });
 
-    fdescribe('question rounds exist with question answered', () => {
-        let getQuestionRoundState;
+    describe('question rounds exist with question answered', () => {
+        let getCaseState;
 
         beforeEach(() => {
             route = proxyquire('./case-state', {
                 '../questions': { getRounds: () => Promise.resolve(questionAnswered) }
             });
 
-            getQuestionRoundState = route.getQuestionRoundState;
+            getCaseState = route.getCaseState;
         });
 
         it('should return no case status', () => {
-            getQuestionRoundState(onlineHearing, {}).then(val => {
+            getCaseState(onlineHearing, {}).then(val => {
                 expect(val).toEqual({
                     state_datetime: '2018-09-12T14:04:17Z',
                     state_name: 'question_answered'
@@ -117,19 +117,19 @@ describe('case-question-state', () => {
         });
     });
 
-    fdescribe('question rounds exist with expired deadline extension', () => {
-        let getQuestionRoundState;
+    describe('question rounds exist with expired deadline extension', () => {
+        let getCaseState;
 
         beforeEach(() => {
             route = proxyquire('./case-state', {
                 '../questions': { getRounds: () => Promise.resolve(deadlineExtensionExpired) }
             });
 
-            getQuestionRoundState = route.getQuestionRoundState;
+            getCaseState = route.getCaseState;
         });
 
         it('it should return case status', () => {
-            getQuestionRoundState(onlineHearing, {}).then(val => {
+            getCaseState(onlineHearing, {}).then(val => {
                 expect(val).toEqual({
                     state_datetime: '2018-09-12T14:04:17Z',
                     state_name: 'question_deadline_extension_elapsed'
