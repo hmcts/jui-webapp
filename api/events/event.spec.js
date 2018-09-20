@@ -127,24 +127,24 @@ describe('Events route', () => {
                         title: 'event_name',
                         by: 'user_first_name user_last_name',
                         dateUtc: utcDate1.utc().format(),
-                        date: utcDate1.format('D MMM YYYY'),
-                        time: utcDate1.format('HH:mma'),
+                        date: utcDate1.format('D MMMM YYYY'),
+                        time: utcDate1.format('h:mma'),
                         documents: []
                     },
                     {
                         title: 'event_name2',
                         by: 'user_first_name2 user_last_name2',
                         dateUtc: utcDate2.utc().format(),
-                        date: utcDate2.format('D MMM YYYY'),
-                        time: utcDate2.format('HH:mma'),
+                        date: utcDate2.format('D MMMM YYYY'),
+                        time: utcDate2.format('h:mma'),
                         documents: []
                     },
                     {
                         title: 'Continuous Online Hearing Started',
                         by: 'coh',
                         dateUtc: utcDate3.utc().format(),
-                        date: utcDate3.format('D MMM YYYY'),
-                        time: utcDate3.format('HH:mma'),
+                        date: utcDate3.format('D MMMM YYYY'),
+                        time: utcDate3.format('h:mma'),
                         documents: []
                     },
                     {
@@ -152,8 +152,8 @@ describe('Events route', () => {
                         by: 'coh',
 
                         dateUtc: utcDate4.utc().format(),
-                        date: utcDate4.format('D MMM YYYY'),
-                        time: utcDate4.format('HH:mma'),
+                        date: utcDate4.format('D MMMM YYYY'),
+                        time: utcDate4.format('h:mma'),
                         documents: []
                     }
                 ]);
@@ -183,16 +183,16 @@ describe('Events route', () => {
                         title: 'event_name',
                         by: 'user_first_name user_last_name',
                         dateUtc: utcDate1.utc().format(),
-                        date: utcDate1.format('D MMM YYYY'),
-                        time: utcDate1.format('HH:mma'),
+                        date: utcDate1.format('D MMMM YYYY'),
+                        time: utcDate1.format('h:mma'),
                         documents: []
                     },
                     {
                         title: 'event_name2',
                         by: 'user_first_name2 user_last_name2',
                         dateUtc: utcDate2.utc().format(),
-                        date: utcDate2.format('D MMM YYYY'),
-                        time: utcDate2.format('HH:mma'),
+                        date: utcDate2.format('D MMMM YYYY'),
+                        time: utcDate2.format('h:mma'),
                         documents: []
                     }
                 ]);
