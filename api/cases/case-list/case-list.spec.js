@@ -13,8 +13,10 @@ describe('case-list spec', () => {
     let route;
     let app;
     let request;
+    let casesData;
 
     beforeEach(() => {
+        casesData = [];
         sscsCaseData = [];
         divorceCaseData = [];
         onlineHearingData = {};
@@ -26,17 +28,22 @@ describe('case-list spec', () => {
             } else if (url.includes('continuous-online-hearings/?case_id=987654322&case_id=987654323&case_id=987654324')) {
                 return Promise.resolve(multipleOnlineHearingData);
             }
-
-            if(url.includes('jurisdictions/DIVORCE')) {
-                return Promise.resolve(divorceCaseData);
-            }
-
-            return Promise.resolve(sscsCaseData);
+            //
+            //     if(url.includes('jurisdictions/DIVORCE')) {
+            //         return Promise.resolve(divorceCaseData);
+            //     }
+            //
+            //     return Promise.resolve(sscsCaseData);
         });
 
         app = express();
+        let ccdStoreMock = {
+            getCCDCases: () => Promise.resolve(casesData)
+        };
 
-        route = proxyquire('./index', { '../../lib/request': httpRequest });
+        route = proxyquire('./index', {'../../lib/request': httpRequest,
+            '../../services/ccd-store-api/ccd-store': {getCCDCases: () => Promise.resolve(casesData)},
+        });
         app.use((req, res, next) => {
             req.auth = {
                 token: '1234567',
@@ -79,13 +86,14 @@ describe('case-list spec', () => {
                                 lastName: 'Houghton'
                             }
                         },
-                        benefitType: { code: 'PIP' }
+                        benefitType: {code: 'PIP'}
                     }
                 },
                 created_date: createdDate,
                 last_modified: updatedDate
 
             });
+            casesData.push(sscsCaseData);
             onlineHearingData = {
                 online_hearings: [
                     {
@@ -109,7 +117,7 @@ describe('case-list spec', () => {
                     expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
                     expect(response.body.results[0]).toEqual({
                         case_id: sscsCaseData[0].id,
-                        case_jurisdiction: 'SSCS',
+                        case_jurisdiction: sscsCaseData[0].jurisdiction,
                         case_type_id: 'Benefit',
                         case_fields: {
                             case_ref: sscsCaseData[0].case_data.caseReference,
@@ -124,7 +132,7 @@ describe('case-list spec', () => {
         });
 
 
-        it('for multiple jurisdictions it should return 2 rows - 1 for each jur', () =>{
+        it('for multiple jurisdictions it should return 2 rows - 1 for each jur', () => {
             divorceCaseData.push({
                 id: 123456789,
                 jurisdiction: 'DIVORCE',
@@ -143,14 +151,14 @@ describe('case-list spec', () => {
                 created_date: createdDate,
                 last_modified: updatedDate
             });
+            casesData.push(divorceCaseData);
 
             request.get('/cases')
                 .expect(200)
                 .then(response => {
-                    expect(response.body.results.length).toBe(3);
+                    expect(response.body.results.length).toBe(2);
                     expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
-
-                    expect(response.body.results[0]).toEqual({
+                    expect(response.body.results[1]).toEqual({
                         case_id: divorceCaseData[0].id,
                         case_jurisdiction: 'DIVORCE',
                         case_type_id: 'DIVORCE',
@@ -163,7 +171,7 @@ describe('case-list spec', () => {
                         }
                     });
 
-                    expect(response.body.results[1]).toEqual({
+                    expect(response.body.results[0]).toEqual({
                         case_id: sscsCaseData[0].id,
                         case_jurisdiction: 'SSCS',
                         case_type_id: 'Benefit',
@@ -179,15 +187,14 @@ describe('case-list spec', () => {
                 });
         });
 
-
     });
-
 
     describe('when 2 cases exist, one with valid and other with missing case reference', () => {
         const createdDate = new Date();
         const updatedDate = new Date();
 
         beforeEach(() => {
+            casesData.length = 0;
             sscsCaseData.length = 0;
             sscsCaseData.push({
                 id: 987654321,
@@ -202,7 +209,7 @@ describe('case-list spec', () => {
                                 lastName: 'Houghton'
                             }
                         },
-                        benefitType: { code: 'PIP' }
+                        benefitType: {code: 'PIP'}
                     }
                 },
                 created_date: createdDate,
@@ -221,13 +228,14 @@ describe('case-list spec', () => {
                                 lastName: 'Bond'
                             }
                         },
-                        benefitType: { code: 'PIP' }
+                        benefitType: {code: 'PIP'}
                     }
                 },
                 created_date: createdDate,
                 last_modified: updatedDate
 
             });
+            casesData.push(sscsCaseData);
             onlineHearingData = {
                 online_hearings: [
                     {
@@ -288,6 +296,7 @@ describe('case-list spec', () => {
         const lastModifiedDate2 = new Date(2018, 7, 25, 10, 30, 1);
 
         beforeEach(() => {
+            casesData.length = 0;
             sscsCaseData.length = 0;
             sscsCaseData.push({
                 id: 987654322,
@@ -302,7 +311,7 @@ describe('case-list spec', () => {
                                 lastName: 'Houghton'
                             }
                         },
-                        benefitType: { code: 'PIP' }
+                        benefitType: {code: 'PIP'}
                     }
                 },
                 created_date: createdDate1,
@@ -322,7 +331,7 @@ describe('case-list spec', () => {
                                 lastName: 'Ramisetti'
                             }
                         },
-                        benefitType: { code: 'PIP' }
+                        benefitType: {code: 'PIP'}
                     }
                 },
                 created_date: createdDate2,
@@ -343,13 +352,14 @@ describe('case-list spec', () => {
                                 lastName: 'Ramisetty'
                             }
                         },
-                        benefitType: { code: 'PIP' }
+                        benefitType: {code: 'PIP'}
                     }
                 },
                 created_date: createdDate3,
                 last_modified: updatedDate3
 
             });
+            casesData.push(sscsCaseData);
             multipleOnlineHearingData = {
                 online_hearings: [
                     {
