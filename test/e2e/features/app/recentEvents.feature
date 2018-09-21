@@ -17,6 +17,7 @@ Feature: RecentEvents
         Then I see the latest three events showing
         When I click on view all events it should take to timeline page
 
-    @RIUI_654, @all
+# Require judge to be an SSCS judge
+    @RIUI_654
     Scenario: Verify Judge Panel
         Then I see the Judge Panel Details

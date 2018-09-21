@@ -81,7 +81,7 @@ const config = {
     cucumberOpts: {
         strict: true,
         // format: ['node_modules/cucumber-pretty'],
-        format: 'json: reports_json/results.json',
+        format: 'json:reports_json/results.json',
         require: [
             '../support/world.js',
             '../support/*.js',
