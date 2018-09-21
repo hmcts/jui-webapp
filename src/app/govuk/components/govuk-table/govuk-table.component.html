@@ -8,8 +8,11 @@
     <tbody class="govuk-table__body">
     <tr data-selector="table-row" class="govuk-table__row" *ngFor="let r of rows">
         <ng-container *ngFor="let col of r; first as isFirst">
-            <th data-selector="table-header" class="govuk-table__header" scope="row"  *ngIf="isFirst && firstCellIsHeader">{{col.text}}</th>
-            <td data-selector="table-cell" class="govuk-table__cell"  *ngIf="!(isFirst && firstCellIsHeader)">{{col.text}}</td>
+            <th data-selector="table-header" class="govuk-table__header" scope="row"  *ngIf="isFirst && firstCellIsHeader && !col.html">{{col.text}}</th>
+            <td data-selector="table-cell" class="govuk-table__cell"  *ngIf="!(isFirst && firstCellIsHeader) && !col.html" >{{col.text}}</td>
+
+            <th data-selector="table-header" class="govuk-table__header" scope="row"  *ngIf="isFirst && firstCellIsHeader && col.html" [innerHTML]="col.html">{{col.text}}</th>
+            <td data-selector="table-cell" class="govuk-table__cell"  *ngIf="!(isFirst && firstCellIsHeader) && col.html" [innerHTML]="col.html">{{col.text}}</td>
         </ng-container>
     </tr>
     </tbody>
