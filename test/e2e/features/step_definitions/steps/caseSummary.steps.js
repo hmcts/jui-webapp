@@ -36,13 +36,6 @@ defineSupportCode(function({ Given, When, Then }) {
                 .to
                 .eventually
                 .equal('Case number');
-            await expect(caseSummaryPage.casefields.get(3)
-                .isDisplayed()).to.eventually.be.true;
-            await expect(caseSummaryPage.casefields.get(3)
-                .getText())
-                .to
-                .eventually
-                .equal('FamilyMan Case Number');
         }
         else {
             await expect(caseSummaryPage.caseDetails_header_text.first().isDisplayed()).to.eventually.be.true;

@@ -12,4 +12,4 @@ function caseSummaryPage() {
     };
 }
 
-module.exports = new caseSummaryPage;
+module.exports = new caseSummaryPage();

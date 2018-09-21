@@ -39,9 +39,8 @@ defineSupportCode(function({ Given, When, Then }) {
 
     When(/^I select a case(.*)$/, async function(type) {
         browser.sleep(3000);
-        await dashBoardPage.case_number_links.first()
-            .click();
-        browser.sleep(3000);
+        await dashBoardPage.case_number_links.first().click();
+        browser.sleep(5000);
 
     });
 
@@ -51,7 +50,7 @@ defineSupportCode(function({ Given, When, Then }) {
         var no_of_types = dashBoardPage.type_links.count()
             .then(function(count) {
 
-                console.log('count', count);
+                console.log('count', +count);
                 if (count > 0) {
 
                     dashBoardPage.case_links.first()

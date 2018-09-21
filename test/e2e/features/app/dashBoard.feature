@@ -18,7 +18,7 @@ Feature: Dashboard
 
 
 
-    @RIUI_417
+    @RIUI_417 @all
     Scenario: Verify date details for SSCS cases
         Then I will see date details for the list of cases displayed
         When I see Date of latest action by date ascending order

@@ -2,6 +2,7 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const minimist = require('minimist');
 const tagProcessor = require('../support/tagProcessor');
+
 const argv = minimist(process.argv.slice(2));
 
 chai.use(chaiAsPromised);
@@ -65,8 +66,8 @@ const config = {
     multiCapabilities: cap,
 
     onPrepare() {
-
-        browser.manage().window().maximize();
+        browser.manage().window()
+            .maximize();
         browser.waitForAngularEnabled(false);
         global.expect = chai.expect;
         global.assert = chai.assert;
@@ -85,20 +86,22 @@ const config = {
             '../support/world.js',
             '../support/*.js',
             '../features/step_definitions/**/*.steps.js'
-        ],
+        ]
     },
 
-    plugins: [{
-        package: 'protractor-multiple-cucumber-html-reporter-plugin',
-        options:{
-            automaticallyGenerateReport: true,
-            removeExistingJsonReportFile: true,
-            reportName: 'JUI Functional Tests',
-            // openReportInBrowser: true,
-            jsonDir: 'reports/tests/functional',
-            reportPath: 'reports/tests/functional'
+    plugins: [
+        {
+            package: 'protractor-multiple-cucumber-html-reporter-plugin',
+            options: {
+                automaticallyGenerateReport: true,
+                removeExistingJsonReportFile: true,
+                reportName: 'JUI Functional Tests',
+                // openReportInBrowser: true,
+                jsonDir: 'reports/tests/functional',
+                reportPath: 'reports/tests/functional'
+            }
         }
-    }]
+    ]
 
     // plugins: [{
     //     package: 'jasmine2-protractor-utils',
