@@ -44,10 +44,6 @@ module.exports = {
                                 {
                                     label: 'Case number',
                                     value: '$.id'
-                                },
-                                {
-                                    label: 'FamilyMan Case Number',
-                                    value: '$.case_data.D8caseReference'
                                 }
                             ]
                         },
