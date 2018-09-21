@@ -48,6 +48,7 @@ import { StatusComponent } from './components/status/status.component';
         QuestionComponent,
         ReversePipe,
         TabsComponent,
+        StatusComponent,
         DocumentViewerModule
     ]
 })
