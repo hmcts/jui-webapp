@@ -33,14 +33,14 @@ const columns = [
     {
         'label': 'Case Start Date',
         'order': 4,
-        'case_field_id': 'caseStartDate',
+        'case_field_id': 'createdDate',
         'lookup': '$.created_date',
         'date_format': 'd MMMM yyyy \'at\' h:mmaaaaa\'m\''
     },
     {
         'label': 'Date of Last Action',
         'order': 5,
-        'case_field_id': 'dateOfLastAction',
+        'case_field_id': 'lastModified',
         'lookup': '$.last_modified',
         'date_format': 'd MMMM yyyy \'at\' h:mmaaaaa\'m\''
     }
@@ -158,8 +158,8 @@ describe('SearchResultComponent', () => {
                     case_fields: {
                         parties: 'Louis Houghton versus DWP',
                         type: 'PIP',
-                        caseStartDate: '2018-06-21T12:56:12.466Z',
-                        dateOfLastAction: '2018-06-21T12:58:12.466Z'
+                        createdDate: '2018-06-21T12:56:12.466Z',
+                        lastModified: '2018-06-21T12:58:12.466Z'
                     }
                 }
             ];
@@ -186,10 +186,10 @@ describe('SearchResultComponent', () => {
             });
 
             it('should have have dates formatted properly', () => {
-                expect(nativeElement.querySelector(Selector.selector('caseStartDate-value')).textContent)
+                expect(nativeElement.querySelector(Selector.selector('createdDate-value')).textContent)
                     .toEqual('21 June 2018 at 12:56pm');
 
-                expect(nativeElement.querySelector(Selector.selector('dateOfLastAction-value')).textContent)
+                expect(nativeElement.querySelector(Selector.selector('lastModified-value')).textContent)
                     .toEqual('21 June 2018 at 12:58pm');
             });
         });
@@ -203,8 +203,8 @@ describe('SearchResultComponent', () => {
                 case_fields: {
                     parties: 'Louis Houghton versus DWP',
                     type: 'PIP',
-                    caseStartDate: '2018-06-21T12:56:12.466Z',
-                    dateOfLastAction: '2018-06-21T12:56:12.466Z'
+                    createdDate: '2018-06-21T12:56:12.466Z',
+                    lastModified: '2018-06-21T12:56:12.466Z'
                 }
             }
         ];

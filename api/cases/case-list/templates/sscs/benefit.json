@@ -3,9 +3,7 @@
         {
             "label": "Case Reference",
             "case_field_id": "case_ref",
-            "value": "$.case_data.caseReference",
-            "oldValue": "$.id"
-
+            "value": "$.case_data.caseReference"
         },
         {
             "label": "Parties",
@@ -24,19 +22,19 @@
 
         },
         {
-            "label": "Status",
+            "label": "Decision needed on",
             "case_field_id": "status",
             "value": "$.state"
         },
         {
             "label": "Start date",
-            "case_field_id": "caseStartDate",
+            "case_field_id": "createdDate",
             "value": "$.created_date",
             "date_format": "d MMM yyyy"
         },
         {
             "label": "Date of last event",
-            "case_field_id": "dateOfLastAction",
+            "case_field_id": "lastModified",
             "value": "$.last_modified",
             "date_format": "d MMM yyyy"
         }

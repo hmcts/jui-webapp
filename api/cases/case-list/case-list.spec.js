@@ -116,8 +116,8 @@ describe('case-list spec', () => {
                             parties: 'Louis Houghton v DWP',
                             type: 'PIP',
                             status: 'Continuous online hearing started',
-                            caseStartDate: createdDate.toISOString(),
-                            dateOfLastAction: updatedDate.toISOString()
+                            createdDate: createdDate.toISOString(),
+                            lastModified: updatedDate.toISOString()
                         }
                     });
                 });
@@ -158,8 +158,8 @@ describe('case-list spec', () => {
                             case_ref: divorceCaseData[0].id,
                             parties: '  v  ',
                             type: 'Divorce',
-                            caseStartDate: createdDate.toISOString(),
-                            dateOfLastAction: updatedDate.toISOString()
+                            createdDate: createdDate.toISOString(),
+                            lastModified: updatedDate.toISOString()
                         }
                     });
 
@@ -172,8 +172,8 @@ describe('case-list spec', () => {
                             parties: 'Louis Houghton v DWP',
                             type: 'PIP',
                             status: 'Continuous online hearing started',
-                            caseStartDate: createdDate.toISOString(),
-                            dateOfLastAction: updatedDate.toISOString()
+                            createdDate: createdDate.toISOString(),
+                            lastModified: updatedDate.toISOString()
                         }
                     });
                 });
@@ -266,8 +266,8 @@ describe('case-list spec', () => {
                         parties: 'Louis Houghton v DWP',
                         type: 'PIP',
                         status: 'Continuous online hearing started',
-                        caseStartDate: createdDate.toISOString(),
-                        dateOfLastAction: updatedDate.toISOString()
+                        createdDate: createdDate.toISOString(),
+                        lastModified: updatedDate.toISOString()
                     }
                 });
             }));
@@ -393,8 +393,8 @@ describe('case-list spec', () => {
                         case_ref: sscsCaseData[2].case_data.caseReference,
                         parties: 'Roopa Ramisetty v DWP',
                         type: 'PIP',
-                        caseStartDate: createdDate3.toISOString(),
-                        dateOfLastAction: updatedDate3.toISOString()
+                        createdDate: createdDate3.toISOString(),
+                        lastModified: updatedDate3.toISOString()
                     }
                 });
             }));
@@ -458,8 +458,8 @@ describe('case-list spec', () => {
                             case_ref: sscsCaseData[2].case_data.caseReference,
                             parties: 'Roopa Ramisetty v DWP',
                             type: 'PIP',
-                            caseStartDate: createdDate3.toISOString(),
-                            dateOfLastAction: updatedDate3.toISOString()
+                            createdDate: createdDate3.toISOString(),
+                            lastModified: updatedDate3.toISOString()
                         }
                     });
                     expect(response.body.results[1]).toEqual({
@@ -471,8 +471,8 @@ describe('case-list spec', () => {
                             parties: 'Louis Houghton v DWP',
                             type: 'PIP',
                             status: 'Continuous online hearing started',
-                            caseStartDate: createdDate1.toISOString(),
-                            dateOfLastAction: lastModifiedDate1.toISOString()
+                            createdDate: createdDate1.toISOString(),
+                            lastModified: lastModifiedDate1.toISOString()
                         }
                     });
                     expect(response.body.results[2]).toEqual({
@@ -484,8 +484,8 @@ describe('case-list spec', () => {
                             parties: 'Padmaja Ramisetti v DWP',
                             type: 'PIP',
                             status: 'Question drafted',
-                            caseStartDate: createdDate2.toISOString(),
-                            dateOfLastAction: lastModifiedDate2.toISOString()
+                            createdDate: createdDate2.toISOString(),
+                            lastModified: lastModifiedDate2.toISOString()
                         }
                     });
                 });

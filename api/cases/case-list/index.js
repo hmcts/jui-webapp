@@ -148,7 +148,7 @@ module.exports = app => {
             .then(caseLists => Promise.all(caseLists.map(caseList => processCaseList(caseList, options))))
             .then(combineLists)
             .then(results => {
-                return results.sort((result1, result2) => new Date(result1.case_fields.dateOfLastAction) - new Date(result2.case_fields.dateOfLastAction));
+                return results.sort((result1, result2) => new Date(result1.case_fields.lastModified) - new Date(result2.case_fields.lastModified));
             })
             .then(results => {
                 const aggregatedData = {...sscsCaseListTemplate, results};
