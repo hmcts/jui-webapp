@@ -26,6 +26,7 @@ const dataLookup = (lookup, caseData) => {
         }
 
         if (value && processor && processor === 'case_status_processor') {
+            console.log('status', value);
             value = caseStatusProcessor(value, caseData);
         }
 

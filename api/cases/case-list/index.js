@@ -81,6 +81,13 @@ function format(state) {
     return formattedState[0].toUpperCase() + formattedState.slice(1);
 }
 
+function allCasesStatuses(hearings, options) {
+    const promiseArray = [];
+    if (hearings.online_hearings) {
+        promiseArray.push(hearings.online_hearings.forEach(hearing => promiseArray.push(getCaseState(hearing, options))));
+    }
+    return promiseArray;
+}
 
 function hasCOR(caseData) {
     return caseData.jurisdiction === 'SSCS';
@@ -91,42 +98,63 @@ function getCOR(casesData, options) {
     return new Promise(resolve => {
         if (hasCOR(casesData[0])) {
             getOnlineHearing(caseIds, options)
-                .then(hearings => {
-                    if (hearings.online_hearings) {
-
-                         let caseStateMap = new Map(hearings.online_hearings.map(hearing => [Number(hearing.case_id), getCaseState(hearing, options)]));
-                        //  let caseStateMap = new Map(hearings.online_hearings.map(hearing => [Number(hearing.case_id), hearing.current_state]));
-
+                .then(hearings => Promise.all(allCasesStatuses(hearings, options)))
+                .then(statuses => {
+                    if (statuses !== undefined && statuses !== null) {
+                        const stateMap = new Map(statuses.map(status => [Number(status.case_id), status.currentState]))
                         casesData.forEach(caseRow => {
-                            const result = caseStateMap.get(Number(caseRow.id));
-                            if(result !== undefined && result !== null) {
-                                result.then(state => {
+                            let state = caseStateMap.get(Number(caseRow.id));
+                            if (state !== undefined && state !== null && state.state_name !== undefined && state.state_name !== null) {
 
-                                    if (state !== undefined && state !== null && state.state_name !== undefined && state.state_name !== null) {
-                                        caseRow.state = state.state_name;
-                                        if (new Date(caseRow.last_modified) < new Date(state.state_datetime)) {
-                                            caseRow.last_modified = state.state_datetime;
-                                        }
-                                    }
-
-                                });
+                                caseRow.state = state.state_name;
+                                if (new Date(caseRow.last_modified) < new Date(state.state_datetime)) {
+                                    caseRow.last_modified = state.state_datetime;
+                                }
                             }
-                            // let state = caseStateMap.get(Number(caseRow.id));
-                            //
-                            // if (state !== undefined && state !== null && state.state_name !== undefined && state.state_name !== null) {
-                            //     // TODO: this state should only change if CCD is the COH state else default to CCD state
-                            //     // if(caseRow.state === 'COH'){
-                            //
-                            //         caseRow.state = format(state.state_name);
-                            //     // }
-                            //     if (new Date(caseRow.last_modified) < new Date(state.state_datetime)) {
-                            //         caseRow.last_modified = state.state_datetime;
-                            //     }
-                            // }
                         });
                     }
+
                     resolve(casesData);
-                });
+                })
+                // .then(hearings => {
+                //     if (hearings.online_hearings) {
+                //
+                //          let caseStateMap = new Map(hearings.online_hearings.map(hearing => [Number(hearing.case_id), getCaseState(hearing, options)]));
+                //         //  let caseStateMap = new Map(hearings.online_hearings.map(hearing => [Number(hearing.case_id), hearing.current_state]));
+                //
+                //         casesData.forEach(caseRow => {
+                //             let state = caseStateMap.get(Number(caseRow.id));
+                //
+                //              if(state !== undefined && state !== null) {
+                //                  state.then(state => {
+                //                     if (state !== undefined && state !== null && state.state_name !== undefined && state.state_name !== null) {
+                //
+                //                         caseRow.state = state.state_name;
+                //                         if (new Date(caseRow.last_modified) < new Date(state.state_datetime)) {
+                //                             caseRow.last_modified = state.state_datetime;
+                //                         }
+                //                     }
+                //
+                //                      console.log('state--->', state);
+                //                 });
+                //             }
+                //             // let state = caseStateMap.get(Number(caseRow.id));
+                //             //
+                //             // if (state !== undefined && state !== null && state.state_name !== undefined && state.state_name !== null) {
+                //             //     // TODO: this state should only change if CCD is the COH state else default to CCD state
+                //             //     // if(caseRow.state === 'COH'){
+                //             //
+                //             //         caseRow.state = format(state.state_name);
+                //             //     // }
+                //             //     if (new Date(caseRow.last_modified) < new Date(state.state_datetime)) {
+                //             //         caseRow.last_modified = state.state_datetime;
+                //             //     }
+                //             // }
+                //
+                //         });
+                //     }
+                //     resolve(casesData);
+                // });
         }
         else {
             resolve(casesData);
@@ -138,6 +166,7 @@ function processCaseList(caseList, options) {
     return new Promise((resolve, reject) => {
         if (caseList && caseList.length) {
             getCOR(caseList, options).then(casesData => {
+                // console.log('casesData--->', casesData[0].state);
                 const jurisdiction = casesData[0].jurisdiction;
                 const caseType = casesData[0].case_type_id;
                 const template = getListTemplate(jurisdiction, caseType);

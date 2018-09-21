@@ -40,8 +40,10 @@ function roundWithDeadlineExtensionElapsed(questionRound) {
 }
 
 function caseState(questionRounds) {
-    const question = sortByStateDateTime(questionRounds.question_references)
-        .find(questionReference => questionReference.current_question_state.state_name === 'question_answered');
+    const question = sortByStateDateTime(questionRounds.question_references)[0];
+        // .find(questionReference => questionReference.current_question_state.state_name === 'question_answered');
+
+    // console.log('=======question=======', question);
 
     const stateName = roundWithDeadlineExtensionElapsed(questionRounds) ? 'question_deadline_extension_elapsed' : question.current_question_state.state_name;
     return {
