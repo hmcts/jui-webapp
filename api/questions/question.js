@@ -417,3 +417,4 @@ module.exports = (app) => {
 
 module.exports.postHearing = postHearing;
 module.exports.getAllQuestionsByCase = getAllQuestionsByCase;
+module.exports.getAllRounds = getAllRounds;
