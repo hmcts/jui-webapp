@@ -36,20 +36,12 @@ module.exports = {
                                     ]
                                 },
                                 {
-                                    label: 'Case type',
-                                    value: 'Benefit'
-                                },
-                                {
-                                    label: 'Benefit type',
-                                    value: '$.case_data.appeal.benefitType.code'
-                                },
-                                {
                                     label: 'Case number',
-                                    value: '$.id'
+                                    value: '$.case_data.caseReference'
                                 },
                                 {
-                                    label: 'GAPS2 Case number',
-                                    value: '$.case_data.caseReference'
+                                    label: 'Case type',
+                                    value: '$.case_data.appeal.benefitType.code'
                                 }
                             ]
                         },
