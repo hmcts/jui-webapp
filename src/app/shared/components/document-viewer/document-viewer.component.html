@@ -3,6 +3,12 @@
                  'column-two-thirds': annotate && viewerComponent && viewerComponent.numPages > 0}">
     <ng-template appViewerAnchor></ng-template>
   </div>
+    <app-notes *ngIf="annotate && viewerComponent && viewerComponent.numPages > 0"
+               class="column-one-third"
+               [url]="url"
+               [page]="viewerComponent.page"
+               [numPages]="viewerComponent.numPages">
+    </app-notes>
 </div>
 
 <div class="grid-row">

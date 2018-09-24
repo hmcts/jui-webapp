@@ -1,0 +1,18 @@
+<form id="notesForm" name="notesForm" #notesForm="ngForm">
+  <label class="form-label" for="currentNote">
+    Notes:
+    <span class="form-hint" *ngIf="numPages > 1">Page {{_page}}</span>
+  </label>
+
+  <textarea class="form-control" id="currentNote" name="currentNote" [(ngModel)]="currentNote.content"></textarea>
+
+  <div class="button-start">
+    <button class="button" [disabled]="!notesForm.form.dirty"
+            data-hook="dm.viewer.save-note"
+            (click)="save()">Save</button>
+
+    <button class="button button-warning" [disabled]="!notesForm.form.dirty"
+            data-hook="dm.viewer.cancel-note"
+            (click)="clear()">Cancel</button>
+  </div>
+</form>

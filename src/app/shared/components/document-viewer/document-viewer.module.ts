@@ -11,6 +11,8 @@ import {ImgViewerComponent} from './viewers/img-viewer/img-viewer.component';
 import {ViewerAnchorDirective} from './viewers/viewer-anchor.directive';
 import {UrlFixerService} from './url-fixer.service';
 import {DocumentViewerService} from './document-viewer.service';
+import {NotesComponent} from './annotations/notes/notes.component';
+import {NotesService} from './annotations/notes.service';
 
 @NgModule({
     declarations: [
@@ -18,7 +20,8 @@ import {DocumentViewerService} from './document-viewer.service';
         PdfViewerComponent,
         ImgViewerComponent,
         UnsupportedViewerComponent,
-        ViewerAnchorDirective
+        ViewerAnchorDirective,
+        NotesComponent
     ],
     entryComponents: [
         PdfViewerComponent,
@@ -34,7 +37,8 @@ import {DocumentViewerService} from './document-viewer.service';
     providers: [
         ViewerFactoryService,
         UrlFixerService,
-        DocumentViewerService
+        DocumentViewerService,
+        NotesService
     ],
 })
 export class DocumentViewerModule {
