@@ -93,7 +93,7 @@ module.exports = {
                                     label: 'Email',
                                     value: '$.case_data.D8PetitionerEmail'
                                 },
-                                { label: 'Representative', value: '' }
+                                { label: 'Representative', value: '$.case_data.PetitionerSolicitorName' }
                             ]
                         },
                         {
@@ -109,10 +109,10 @@ module.exports = {
                                     ]
                                 },
                                 { label: 'Date of birth', value: '' },
-                                { label: 'Address', value: '$.case_data.D8DerivedRespondentHomeAddress' },
-                                { label: 'Phone', value: '' },
-                                { label: 'Email', value: '' },
-                                { label: 'Representative', value: '' }
+                                { label: 'Address', value: '$.case_data.D8RespondentHomeAddress' },
+                                { label: 'Phone', value: '$.case_data.RespPhoneNumber' },
+                                { label: 'Email', value: '$.case_data.RespEmailAddress' },
+                                { label: 'Representative', value: '$.case_data.D8RespondentSolicitorName' }
                             ]
                         }
                     ]
@@ -128,7 +128,7 @@ module.exports = {
                     id: 'documents',
                     name: 'Case file',
                     type: 'document-panel',
-                    fields: [{ value: '$.case_data.D8DocumentsUploaded[:1].value.DocumentLink|document_processor' }]
+                    fields: [{ value: 'A$.case_data.D8DocumentsUploaded[*].value.DocumentLink|document_processor' }]
                 }
             ]
         },

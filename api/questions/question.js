@@ -301,8 +301,9 @@ module.exports = (app) => {
         const caseId = req.params.case_id;
         const roundId = req.params.round_id;
         const options = getOptions(req);
-
-        return getHearingByCase(caseId, options)
+        //res.setHeader('Access-Control-Allow-Origin', '*');
+       //res.status(400).send(JSON.stringify(response));
+       return getHearingByCase(caseId, options)
             .then(hearing => hearing.online_hearings[0].online_hearing_id)
             .then(hearingId => updateRoundToIssued(hearingId, roundId, options))
             .then(response => {

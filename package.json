@@ -15,7 +15,7 @@
     "start-dev-docker-node": "export JUI_ENV=docker; node dev-server.js",
     "dev": "yarn build-universal && concurrently \"yarn dev-frontend\" \"yarn dev-backend\"",
     "dev-backend": "nodemon server.js --watch api --watch src --watch middleware --watch lib --watch proxies --watch config --delay 3000ms -e js,ts,html,scss",
-    "start-json-server" : "export JUI_ENV=mock; node ./mock-server/mockserver.js",
+    "start-json-server": "export JUI_ENV=mock; node ./mock-server/mockserver.js",
     "dev-frontend": "ng-udkc",
     "lint": "yarn lint:ng && yarn lint:node || true",
     "lint:fix": "(yarn lint:ng:fix || true) && (yarn lint:node:fix || true)",

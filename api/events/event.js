@@ -8,13 +8,27 @@ function hasCOR(jurisdiction, caseType) {
     return jurisdiction === 'SSCS';
 }
 
+function convertDateTime(dateObj) {
+    const conDateTime = moment(dateObj);
+    const dateUtc = conDateTime.utc().format();
+    const date = conDateTime.format('D MMMM YYYY');
+    const time = conDateTime.format('h:mma');
+
+    return {
+        dateUtc,
+        date,
+        time
+    };
+}
+
+
 function reduceEvents(events) {
     events = events || [];
     return events.map(event => {
-        const createdDate = moment(event.created_date);
-        const dateUtc = createdDate.utc().format();
-        const date = createdDate.format('D MMM YYYY');
-        const time = createdDate.format('HH:mma');
+        const dateObj = convertDateTime(event.created_date);
+        const dateUtc = dateObj.dateUtc;
+        const date = dateObj.date;
+        const time = dateObj.time;
 
         return {
             title: event.event_name,
@@ -33,10 +47,11 @@ function getHistory(arrObject) {
 }
 function reduceCohEvents(events) {
     return events.map(event => {
-        const createdDate = moment(event.state_datetime);
-        const dateUtc = createdDate.utc().format();
-        const date = createdDate.format('D MMM YYYY');
-        const time = createdDate.format('HH:mma');
+        const dateObj = convertDateTime(event.state_datetime);
+        const dateUtc = dateObj.dateUtc;
+        const date = dateObj.date;
+        const time = dateObj.time;
+
         return {
             title: event.state_desc,
             by: 'coh',
@@ -61,7 +76,7 @@ function sortEvents(events) {
 }
 
 function getCcdEvents(caseId, userId, jurisdiction, caseType, options) {
-    let url = `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`;
+    const url = `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`;
     return (process.env.JUI_ENV === 'mock' ? mockRequest('GET', url, options) : generateRequest('GET', url, options))
         .then(events => reduceEvents(events));
 }

@@ -21,9 +21,7 @@ module.exports = config => {
             karmaCoverageIstanbulReporter,
             generated
         ],
-        client: {
-            clearContext: false
-        },
+        client: { clearContext: false },
         coverageIstanbulReporter: {
             dir: './coverage',
             reports: ['html', 'lcovonly'],

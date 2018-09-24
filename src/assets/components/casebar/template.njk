@@ -5,18 +5,19 @@
   <div class="jui-width-container">
 
     <div class="jui-casebar__details">
-      {{params.caseId}}<span class="jui-casebar__title"> {{params.parties}}</span>
+
+      {% if params.caseUrl %}
+        <a class="jui-casebar__link" href="{{params.caseUrl}}">
+          <span class="jui-casebar__reference">{{params.caseId}}</span>
+          <span class="jui-casebar__title"> {{params.parties | safe}}</span>
+        </a>
+      {% else %}
+        <span class="jui-casebar__reference">{{params.caseId}}</span>
+        <span class="jui-casebar__title"> {{params.parties | safe}}</span>
+      {% endif %}
+
     </div>
 
-    {% if params.caseActions.actions %}
-      <div class="jui-casebar__options">
-
-        {{juiCaseActions({
-          actions: params.caseActions.actions
-        })}}
-
-      </div>
-    {% endif %}
   </div>
 
 </div>

@@ -5,4 +5,4 @@ function questionSuccessPage() {
     this.question_added_success_alert_text = element(by.css('.jui-alert__text'));
 }
 
-module.exports = new questionSuccessPage;
+module.exports = new questionSuccessPage();

@@ -10,6 +10,7 @@ properties([
     [$class: 'GitHubPushTrigger']
   ])
 ])
+
 @Library("Infrastructure")
 
 def type = "nodejs"
@@ -33,6 +34,9 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 }
 
 withPipeline(type , product, component) {
+    enableSlackNotifications(channel)
+    loadVaultSecrets(secrets)
+
     after('checkout') {sh 'yarn cache clean'}
     after('build') {sh 'npm run build'}
     after('test') {
@@ -140,6 +144,5 @@ withPipeline(type , product, component) {
 //        ])
 //    }
 
-    loadVaultSecrets(secrets)
-    enableSlackNotifications(channel)
+
 }
