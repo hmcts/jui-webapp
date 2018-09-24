@@ -9,16 +9,22 @@ const EC = protractor.ExpectedConditions;
 
 defineSupportCode(function({ Given, When, Then }) {
 
-    Then(/^I should see case summary details of that (.*)$/, async function(type) {
+    Then(/^I should see case summary details of that case (.*)$/, async function(type) {
 
-        if (type === 'Financial Remedy') {
-            await expect(caseSummaryPage.caseDetails_header_text.first()
+        if (type === 'Financial remedy') {
+            await expect(caseSummaryPage.caseDetails_header_text.get(0)
                 .isDisplayed()).to.eventually.be.true;
-            await expect(caseSummaryPage.caseDetails_header_text.first()
+            await expect(caseSummaryPage.caseDetails_header_text.get(0)
                 .getText())
                 .to
                 .eventually
                 .equal('Case details');
+            await expect(caseSummaryPage.caseDetails_header_text.get(1)
+                .getText())
+                .to
+                .eventually
+                .equal('Related cases');
+
             await expect(caseSummaryPage.casefields.get(0)
                 .getText())
                 .to
@@ -45,7 +51,7 @@ defineSupportCode(function({ Given, When, Then }) {
             await expect(caseSummaryPage.casefields.get(1).isDisplayed()).to.eventually.equal('Case type');
             await expect(caseSummaryPage.casefields.get(2).isDisplayed()).to.eventually.equal('Benefit type');
             await expect(caseSummaryPage.casefields.get(3).getText()).to.eventually.equal('Case number');
-            await expect(caseSummaryPage.casefields.get(4).getText()).to.eventually.equal('GAPS2 Case number');
+            // await expect(caseSummaryPage.casefields.get(4).getText()).to.eventually.equal('GAPS2 Case number');
 
         }
 
@@ -53,7 +59,7 @@ defineSupportCode(function({ Given, When, Then }) {
             });
 
 
-    Then(/^I should see related cases or panel members details for that(.*)$/, async function(type) {
+    Then(/^I should see related cases or panel members details for that case (.*)$/, async function(type) {
         if (type === 'PIP')
 
         {

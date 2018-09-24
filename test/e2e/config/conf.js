@@ -13,6 +13,7 @@ const jenkinsConfig = [
     //     acceptInsecureCerts: true,
     //     'moz:firefoxOptions': { args: [ '--headless' ] }
     // },
+
     {
         browserName: 'chrome',
         acceptInsecureCerts: true,

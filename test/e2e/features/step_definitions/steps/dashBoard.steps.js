@@ -1,6 +1,5 @@
 'use strict';
 
-var signInPage = require('../../pages/signInPage');
 var dashBoardPage = require('../../pages/dashBoardPage');
 var caseSummaryPage = require('../../pages/caseSummaryPage');
 var { defineSupportCode } = require('cucumber');
@@ -10,21 +9,6 @@ const EC = protractor.ExpectedConditions;
 
 defineSupportCode(function({ Given, When, Then }) {
 
-
-    Given(/^I navigate to JUI$/, async function() {
-        await browser.get(config.config.baseUrl);
-        await browser.driver.manage()
-            .deleteAllCookies();
-        await browser.refresh();
-    });
-
-
-    Then(/^I am logged in as a Judge$/, async function() {
-        await signInPage.emailAddress.sendKeys(this.config.username); //replace username and password
-        await signInPage.password.sendKeys(this.config.password);
-        browser.sleep(10000);
-        await signInPage.signinBtn.click();
-    });
 
 
     When(/^I am on the dashboard page$/, async function() {
@@ -40,9 +24,10 @@ defineSupportCode(function({ Given, When, Then }) {
     When(/^I select a case(.*)$/, async function(type) {
         browser.sleep(3000);
         await dashBoardPage.case_number_links.first().click();
-        browser.sleep(5000);
 
     });
+
+
 
 
     When(/^one or more cases (.*) are displayed$/, async function(type) {
@@ -73,21 +58,20 @@ defineSupportCode(function({ Given, When, Then }) {
 
     Then(/^I will be redirected to the Case Summary page for that case$/, async function() {
         browser.sleep(3000);
+
         await expect(caseSummaryPage.caseSummary_header_text.isDisplayed()).to.eventually.be.true;
-        await expect(caseSummaryPage.caseSummary_header_text.getText())
-            .to
-            .eventually
-            .equal('Summary');
-        await expect(caseSummaryPage.caseDetails_header_text.get(0)
-            .getText())
-            .to
-            .eventually
-            .equal('Case details');
-        await expect(caseSummaryPage.caseDetails_header_text.get(1)
-            .getText())
-            .to
-            .eventually
-            .equal('Related cases');
+        await expect(caseSummaryPage.caseSummary_header_text.getText()).to.eventually.equal('Summary');
+
+            await expect(caseSummaryPage.caseDetails_header_text.get(0)
+                .getText())
+                .to
+                .eventually
+                .equal('Case details');
+            await expect(caseSummaryPage.caseDetails_header_text.get(1)
+                .getText())
+                .to
+                .eventually
+                .equal('Related cases');
 
     });
 
@@ -98,6 +82,8 @@ defineSupportCode(function({ Given, When, Then }) {
         await expect(dashBoardPage.case_start_date.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.date_of_last_action.isDisplayed()).to.eventually.be.true;
     });
+
+
 
     When(/^I see Date of latest action by date ascending order$/, async function() {
         await dashBoardPage.last_action_dates.count()

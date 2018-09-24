@@ -1,8 +1,8 @@
 Feature: RecentEvents
 
    Background:
-        Given I navigate to JUI
-        Then I am logged in as a Judge
+        Given I navigate to JUI Url
+        Then I am logged into JUI web app
         When I select a case reference
 
     @RIUI_647, @all

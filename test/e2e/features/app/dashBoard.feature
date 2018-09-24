@@ -1,9 +1,10 @@
+@dashboard
 Feature: Dashboard
 
    Background:
-        Given I navigate to JUI
-        Then I am logged in as a Judge
-        When I am on the dashboard page
+      Given I navigate to JUI Url
+        When I am logged into JUI web app
+        Then I am on the dashboard page
 
 
 
@@ -14,7 +15,7 @@ Feature: Dashboard
         Then I will be redirected to the Case Summary page for that case
         Examples:
         |type|
-        |Financial Remedy|
+        |Financial remedy|
 
 
 
