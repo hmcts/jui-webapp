@@ -72,53 +72,69 @@ module.exports = {
                 }
             ]
         },
-        // {
-        //     id: 'parties',
-        //     name: 'Parties',
-        //     type: 'page',
-        //     sections: [
-        //         {
-        //             id: 'parties-tabs',
-        //             name: 'Parties',
-        //             type: 'parties-panel',
-        //             sections: [
-        //                 {
-        //                     id: 'appellant',
-        //                     name: 'Appellant',
-        //                     type: 'tab',
-        //                     fields: [
-        //                         {
-        //                             label: 'Full name',
-        //                             value: [
-        //                                 '$.case_data.appeal.appellant.name.firstName', ' ',
-        //                                 '$.case_data.appeal.appellant.name.lastName'
-        //                             ]
-        //                         },
-        //                         { label: 'Date of birth', value: '$.case_data.appeal.appellant.identity.dob' },
-        //                         { label: 'Address', value: '' },
-        //                         { label: 'Phone', value: '$.case_data.appeal.appellant.contact.phone' },
-        //                         { label: 'Email', value: '$.case_data.appeal.appellant.contact.email' },
-        //                         { label: 'Representative', value: '' },
-        //                         { label: 'National insurances no.', value: '$.case_data.appeal.appellant.identity.nino' }
-        //                     ]
-        //                 },
-        //                 {
-        //                     id: 'respondent',
-        //                     name: 'Respondent',
-        //                     type: 'tab',
-        //                     fields: [
-        //                         { label: 'Name', value: 'Department of work and pensions' },
-        //                         { label: 'Decision maker', value: '' },
-        //                         { label: 'Presenting officer', value: '' },
-        //                         { label: 'DWP office', value: '' },
-        //                         { label: 'Email', value: '' },
-        //                         { label: 'Phone', value: '' }
-        //                     ]
-        //                 }
-        //             ]
-        //         }
-        //     ]
-        // },
+        {
+            id: 'parties',
+            name: 'Parties',
+            type: 'page',
+            sections: [
+                {
+                    id: 'parties-tabs',
+                    name: 'Parties',
+                    type: 'parties-panel',
+                    sections: [
+                        {
+                            id: 'appellant',
+                            name: 'Appellant',
+                            type: 'tab',
+                            fields: [
+                                {
+                                    label: 'Full name',
+                                    value: [
+                                        '$.case_data.appeal.appellant.name.title', ' ',
+                                        '$.case_data.appeal.appellant.name.firstName', ' ',
+                                        '$.case_data.appeal.appellant.name.middlename', ' ',
+                                        '$.case_data.appeal.appellant.name.lastName'
+                                    ]
+                                },
+                                { label: 'Date of birth', value: '$.case_data.appeal.appellant.identity.dob' },
+                                { label: 'National insurances no.', value: '$.case_data.appeal.appellant.identity.nino' },
+                                {
+                                    label: 'Address', value: [
+                                        '$.case_data.appeal.appellant.address.line1|newline_processor',
+                                        '$.case_data.appeal.appellant.address.line2|newline_processor',
+                                        '$.case_data.appeal.appellant.address.line3|newline_processor',
+                                        '$.case_data.appeal.appellant.address.town|newline_processor',
+                                        '$.case_data.appeal.appellant.address.county|newline_processor',
+                                        '$.case_data.appeal.appellant.address.postcode|newline_processor',
+                                        '$.case_data.appeal.appellant.address.country|newline_processor'
+                                    ]
+                                },
+                                { label: 'Phone', value: '$.case_data.appeal.appellant.contact.phone' },
+                                { label: 'Mobile', value: '$.case_data.appeal.appellant.contact.mobile' },
+                                { label: 'Email', value: '$.case_data.appeal.appellant.contact.email' },
+                                { label: 'Appointee', value: '$.case_data.appeal.appellant.isAppointee' },
+                            ]
+                        },
+                        {
+                            id: 'representative',
+                            name: 'Representative',
+                            type: 'tab',
+                            fields: [
+                                {
+                                    label: 'Representative', value: [
+                                        '$.case_data.appeal.representative.hasRepresentative|newline_processor',
+                                        '$.case_data.appeal.representative.organisation|newline_processor',
+                                        '$.case_data.appeal.representative.name.firstName|newline_processor',
+                                        '$.case_data.appeal.representative.name.middleName|newline_processor',
+                                        '$.case_data.appeal.representative.name.lastName|newline_processor',
+                                    ]
+                                },
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
         {
             id: 'casefile',
             name: 'Case file',
