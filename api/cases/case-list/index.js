@@ -45,15 +45,13 @@ function getOptions(req) {
 
 function getCases(userId, jurisdictions, options) {
     const promiseArray = [];
-    if (process.env.JUI_ENV === 'mock') {
-        jurisdictions.forEach(jurisdiction => {
+    jurisdictions.forEach(jurisdiction => {
+        if (process.env.JUI_ENV === 'mock') {
             promiseArray.push(mockRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction.jur}/case-types/${jurisdiction.caseType}/cases?sortDirection=DESC${jurisdiction.filter}`, options))
-        });
-    } else {
-        jurisdictions.forEach(jurisdiction => {
+        } else {
             promiseArray.push(generateRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction.jur}/case-types/${jurisdiction.caseType}/cases?sortDirection=DESC${jurisdiction.filter}`, options))
-        });
-    }
+        }
+    });
     return Promise.all(promiseArray);
 }
 
@@ -92,18 +90,8 @@ function getCOR(casesData, options) {
             getOnlineHearing(caseIds, options)
                 .then(hearings => {
                     if (hearings.online_hearings) {
-                        let caseStateMap = new Map(hearings.online_hearings
-                            .map(hearing => [Number(hearing.case_id), hearing.current_state]));
-                        casesData.forEach(caseRow => {
-                            let state = caseStateMap.get(Number(caseRow.id));
-                            if (state !== undefined && state !== null && state.state_name !== undefined && state.state_name !== null) {
-                                // TODO: this state should only change if CCD is the COH state else default to CCD state
-                                caseRow.state = format(state.state_name);
-                                if (new Date(caseRow.last_modified) < new Date(state.state_datetime)) {
-                                    caseRow.last_modified = state.state_datetime;
-                                }
-                            }
-                        });
+                        let caseStateMap = new Map(hearings.online_hearings.map(hearing => [Number(hearing.case_id), hearing]));
+                        casesData.forEach(caseRow => {caseRow.hearing_data = caseStateMap.get(Number(caseRow.id));});
                     }
                     resolve(casesData);
                 });
@@ -114,28 +102,85 @@ function getCOR(casesData, options) {
     });
 }
 
-function processCaseList(caseList, options) {
-    return new Promise((resolve, reject) => {
-        if (caseList && caseList.length) {
-            getCOR(caseList, options).then(casesData => {
-                const jurisdiction = casesData[0].jurisdiction;
-                const caseType = casesData[0].case_type_id;
-                const template = getListTemplate(jurisdiction, caseType);
-                const results = rawCasesReducer(casesData, template.columns)
-                    .filter(row => !!row.case_fields.case_ref);
+function appendCOR(caseLists, options) {
+    return Promise.all(caseLists.map(caseList => {
+        return new Promise((resolve, reject) => {
+            if (caseList && caseList.length) {
+                getCOR(caseList, options).then(casesDataWithCor => resolve(casesDataWithCor));
+            } else {
+                resolve([]);
+            }
+        })
+    }));
+}
 
-                resolve(results)
+function processCOR(caseLists) {
+    return caseLists.map(
+        caselist => {
+            caselist.map(caseRow => {
+                let hearingData = caseRow.hearing_data;
+                let state = (hearingData) ? hearingData.current_state : undefined;
+                if (state !== undefined && state !== null && state.state_name !== undefined && state.state_name !== null) {
+                    caseRow.state = format(state.state_name);
+                    if (new Date(caseRow.last_modified) < new Date(state.state_datetime)) {
+                        caseRow.last_modified = state.state_datetime;
+                    }
+                }
+                return caseRow;
             });
-        }
-        else {
-            resolve([]);
-        }
-    });
+            return caselist
+        });
+}
+
+function processEngine(param) {
+    return 'a future state';
+}
+
+function processState(caseLists) {
+    return caseLists.map(
+        caselist => {
+            caselist.map(caseRow => {
+                const jurisdiction = caseRow.jurisdiction;
+                const caseType = caseRow.case_type_id;
+                const ccdState = caseRow.state;
+                const hearingData = caseRow.hearing_data;
+                const hearingState = (hearingData) ? hearingData.current_state : undefined;
+
+                // TODO: Added State Process Engine here
+                // caseRow.state = processEngine({
+                //     jurisdiction,
+                //     caseType,
+                //     ccdState,
+                //     hearingState
+                // });
+
+                return caseRow;
+            });
+            return caselist
+        });
+}
+
+function convertCaselistToTemplate(caseLists) {
+    return caseLists.map(
+        caselist => {
+            const jurisdiction = caselist[0].jurisdiction;
+            const caseType = caselist[0].case_type_id;
+            const template = getListTemplate(jurisdiction, caseType);
+            return results = rawCasesReducer(caselist, template.columns)
+                .filter(row => !!row.case_fields.case_ref);
+        });
 }
 
 function combineLists(lists) {
     return [].concat(...lists);
 }
+
+
+function sortByLastModified(results) {
+    return results.sort((result1, result2) => new Date(result1.case_fields.lastModified) - new Date(result2.case_fields.lastModified));
+}
+
+
 
 module.exports = app => {
     const router = express.Router({mergeParams: true});
@@ -145,11 +190,12 @@ module.exports = app => {
         const options = getOptions(req);
 
         getCases(userId, jurisdictions, options)
-            .then(caseLists => Promise.all(caseLists.map(caseList => processCaseList(caseList, options))))
+            .then(caseLists => appendCOR(caseLists,options))
+            .then(processCOR)
+            .then(processState)
+            .then(convertCaselistToTemplate)
             .then(combineLists)
-            .then(results => {
-                return results.sort((result1, result2) => new Date(result1.case_fields.lastModified) - new Date(result2.case_fields.lastModified));
-            })
+            .then(sortByLastModified)
             .then(results => {
                 const aggregatedData = {...sscsCaseListTemplate, results};
                 res.setHeader('Access-Control-Allow-Origin', '*');
@@ -168,6 +214,26 @@ module.exports = app => {
         const options = getOptions(req);
 
         getCases(userId, jurisdictions, options)
+            .then(combineLists)
+            .then(results => {
+                res.setHeader('Access-Control-Allow-Origin', '*');
+                res.setHeader('content-type', 'application/json');
+                res.status(200).send(JSON.stringify(results));
+            })
+            .catch(response => {
+                console.log(response.error || response);
+                res.status(response.statusCode || 500)
+                    .send(response);
+            });
+    });
+
+    router.get('/raw/coh', (req, res, next) => {
+        const userId = req.auth.userId;
+        const options = getOptions(req);
+
+        getCases(userId, jurisdictions, options)
+            .then(caseLists => appendCOR(caseLists,options))
+            .then(processCOR)
             .then(combineLists)
             .then(results => {
                 res.setHeader('Access-Control-Allow-Origin', '*');
