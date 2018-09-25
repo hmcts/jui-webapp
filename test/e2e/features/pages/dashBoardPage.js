@@ -13,9 +13,10 @@ function dashBoardPage() {
     this.type_rows = element.all(by.css('.govuk-table__row'));
     this.type = element.all(by.css("[data-selector='type-value']"));
     this.parties = (by.css('cdk-row.govuk-table__row:nth-child(2) > cdk-cell:nth-child(2) > span:nth-child(1)'));
-    this.case_start_date = element(by.css(('[data-selector="caseStartDate-header"]')));
-    this.date_of_last_action = element(by.css(('[data-selector="dateOfLastAction-header"]')));
-    this.last_action_dates = element.all(by.css('[data-selector="dateOfLastAction-value"]'));
+    this.case_start_date_header = element(by.css(('[data-selector="createdDate-header"]')));
+    this.case_start_dates = element.all(by.css(('[data-selector="createdDate-value"]')));
+    this.date_of_last_action_header = element(by.css(('[data-selector="lastModified-header"]')));
+    this.last_action_dates = element.all(by.css('[data-selector="lastModified-value"]'));
     this.sign_out_link = element(by.css('a.hmcts-header__navigation-link'));
     this.case_links = element.all(by.css('.cdk-column-case_id >a[href]'));
     this.ng_links_FR_DIV = element.all(by.css('[ng-reflect-router-link="/jurisdiction/DIVORCE/casetype"][href]'));

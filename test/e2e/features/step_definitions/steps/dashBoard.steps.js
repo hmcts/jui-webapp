@@ -79,8 +79,8 @@ defineSupportCode(function({ Given, When, Then }) {
     Then(/^I will see date details for the list of cases displayed$/, async function() {
         await expect(dashBoardPage.parties_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.type_header.isDisplayed()).to.eventually.be.true;
-        await expect(dashBoardPage.case_start_date.isDisplayed()).to.eventually.be.true;
-        await expect(dashBoardPage.date_of_last_action.isDisplayed()).to.eventually.be.true;
+        await expect(dashBoardPage.case_start_date_header.isDisplayed()).to.eventually.be.true;
+        await expect(dashBoardPage.date_of_last_action_header.isDisplayed()).to.eventually.be.true;
     });
 
 
