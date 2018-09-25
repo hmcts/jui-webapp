@@ -52,18 +52,17 @@ xdescribe('ccd-store spec', () => {
         request = supertest(app);
     });
 
-    describe('when ccd request and process.env.JUI_ENV is not set', () => {
-        it('should create CCD request with CCD endpoints', () => {
-            // const stub = sinon.stub(process.env, 'JUI_ENV', 'local');
-            const ccdCases = getCCDCases(1, jurisdictions, {
-                headers: {
-                    Authorization: 'Bearer 1234567',
-                    ServiceAuthorization: 'sdhfkajfa;ksfha;kdj'
-                }
-            });
-            expect(ccdCases.length).toBe(0);
-        });
-    });
+ describe("when ccd request and process.env.JUI_ENV is not set", ()=> {
+     it('should create CCD request with CCD endpoints', () => {
+         let ccdCases = getCCDCases(1, jurisdictions, {
+             headers: {
+                 'Authorization': `Bearer 1234567`,
+                 'ServiceAuthorization': 'sdhfkajfa;ksfha;kdj'
+             }
+         });
+             expect(ccdCases.length).toBe(0);
+     })
+ })
 
     afterEach(()=> {
         delete process.env.JUI_ENV;
