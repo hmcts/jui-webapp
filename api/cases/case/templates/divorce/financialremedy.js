@@ -77,8 +77,8 @@ module.exports = {
                     type: 'parties-panel',
                     sections: [
                         {
-                            id: 'petitioner',
-                            name: 'Petitioner',
+                            id: 'applicant',
+                            name: 'Applicant',
                             type: 'tab',
                             fields: [
                                 {
