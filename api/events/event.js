@@ -51,11 +51,14 @@ function convertDateTime(dateObj) {
 
 function reduceCcdEvents(events) {
     return events.map(event => {
-        console.log(event);
         const dateObj = convertDateTime(event.created_date);
         const dateUtc = dateObj.dateUtc;
         const date = dateObj.date;
         const time = dateObj.time;
+
+        const documents = [];
+
+        console.dir(event.data);
 
         return {
             title: event.event_name,
@@ -63,14 +66,18 @@ function reduceCcdEvents(events) {
             dateUtc,
             date,
             time,
-            documents: []
+            documents
         };
     });
 }
 
-function getCcdEvents(caseId, userId, jurisdiction, caseType, options) {
+function getCcdEventsRaw(caseId, userId, jurisdiction, caseType, options) {
     const url = `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`;
-    return (process.env.JUI_ENV === 'mock' ? mockRequest('GET', url, options) : generateRequest('GET', url, options)).then(reduceCcdEvents);
+    return (process.env.JUI_ENV === 'mock' ? mockRequest('GET', url, options) : generateRequest('GET', url, options));
+}
+
+function getCcdEvents(caseId, userId, jurisdiction, caseType, options) {
+    return getCcdEventsRaw(caseId, userId, jurisdiction, caseType, options).then(reduceCcdEvents);
 }
 
 //////////////////////////
@@ -160,6 +167,20 @@ module.exports = app => {
         const caseType = req.params.casetype;
 
         getEvents(caseId, userId, jurisdiction, caseType, getOptions(req))
+            .then(events => {
+                res.setHeader('Access-Control-Allow-Origin', '*');
+                res.setHeader('content-type', 'application/json');
+                res.status(200).send(JSON.stringify(events));
+            });
+    });
+
+    router.get('/jurisdiction/:jur/casetype/:casetype/:case_id/events/raw', (req, res, next) => {
+        const userId = req.auth.userId;
+        const caseId = req.params.case_id;
+        const jurisdiction = req.params.jur;
+        const caseType = req.params.casetype;
+
+        getCcdEventsRaw(caseId, userId, jurisdiction, caseType, getOptions(req))
             .then(events => {
                 res.setHeader('Access-Control-Allow-Origin', '*');
                 res.setHeader('content-type', 'application/json');
