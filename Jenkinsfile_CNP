@@ -40,7 +40,17 @@ withPipeline(type , product, component) {
     after('checkout') {sh 'yarn cache clean'}
     after('build') {sh 'npm run build'}
     after('test') {
-                publishHTML([
+
+        publishHTML ( [
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "coverage",
+            reportFiles          : "index.html",
+            reportName           : "JUI Angular Unit Tests Report"
+        ])
+
+               publishHTML([
                     allowMissing         : true,
                     alwaysLinkToLastBuild: true,
                     keepAll              : true,

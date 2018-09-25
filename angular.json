@@ -111,7 +111,9 @@
                     "options": {
                         "codeCoverage": true,
                         "codeCoverageExclude": [
-                            "test/**/*"
+                            "test/**/*",
+                            "config/**/*",
+                            "src/environments/**"
                         ],
                         "main": "src/test.ts",
                         "karmaConfig": "./test/karma.conf.js",
