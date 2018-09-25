@@ -28,12 +28,6 @@ describe('case-list spec', () => {
             } else if (url.includes('continuous-online-hearings/?case_id=987654322&case_id=987654323&case_id=987654324')) {
                 return Promise.resolve(multipleOnlineHearingData);
             }
-            //
-            //     if(url.includes('jurisdictions/DIVORCE')) {
-            //         return Promise.resolve(divorceCaseData);
-            //     }
-            //
-            //     return Promise.resolve(sscsCaseData);
         });
 
         app = express();

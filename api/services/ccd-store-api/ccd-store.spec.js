@@ -50,7 +50,7 @@ xdescribe('ccd-store spec', () => {
         request = supertest(app);
     });
 
- fdescribe("when ccd request and process.env.JUI_ENV is not set", ()=> {
+ describe("when ccd request and process.env.JUI_ENV is not set", ()=> {
      it('should create CCD request with CCD endpoints', () => {
          let ccdCases = getCCDCases(1, jurisdictions, {
              headers: {
