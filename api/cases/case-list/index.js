@@ -4,7 +4,6 @@ const getListTemplate = require('./templates');
 const generateRequest = require('../../lib/request');
 const valueProcessor = require('../../lib/processors/value-processor');
 const sscsCaseListTemplate = require('./templates/sscs/benefit');
-const mockRequest = require('../../lib/mockRequest');
 const { getCCDCases } = require('../../services/ccd-store-api/ccd-store');
 
 
@@ -43,20 +42,6 @@ function getOptions(req) {
             'ServiceAuthorization': req.headers.ServiceAuthorization
         }
     };
-}
-
-function getCases(userId, jurisdictions, options) {
-    const promiseArray = [];
-    if (process.env.JUI_ENV === 'mock') {
-        jurisdictions.forEach(jurisdiction => {
-            promiseArray.push(mockRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction.jur}/case-types/${jurisdiction.caseType}/cases?sortDirection=DESC${jurisdiction.filter}`, options))
-        });
-    } else {
-        jurisdictions.forEach(jurisdiction => {
-            promiseArray.push(generateRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction.jur}/case-types/${jurisdiction.caseType}/cases?sortDirection=DESC${jurisdiction.filter}`, options))
-        });
-    }
-    return Promise.all(promiseArray);
 }
 
 function getOnlineHearing(caseIds, options) {
@@ -164,10 +149,6 @@ module.exports = app => {
             .then(sortCases)
             .then(aggregatedData)
             .then(results => {
-                return results.sort((result1, result2) => new Date(result1.case_fields.lastModified) - new Date(result2.case_fields.lastModified));
-            })
-            .then(results => {
-                const aggregatedData = {...sscsCaseListTemplate, results};
                 res.setHeader('Access-Control-Allow-Origin', '*');
                 res.setHeader('content-type', 'application/json');
                 res.status(200).send(JSON.stringify(results));

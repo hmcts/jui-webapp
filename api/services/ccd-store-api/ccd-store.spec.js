@@ -5,11 +5,11 @@ const { getCCDCases } = require('./ccd-store');
 
 xdescribe('ccd-store spec', () => {
     let httpRequest;
-    let divorceCaseData = [];
+    const divorceCaseData = [];
     let app;
     let route;
     let request;
-    let sscsCaseData = [];
+    const sscsCaseData = [];
     const jurisdictions = [
         {
             jur: 'DIVORCE',
@@ -20,21 +20,21 @@ xdescribe('ccd-store spec', () => {
             jur: 'SSCS',
             caseType: 'Benefit',
             filter: '&state=appealCreated&case.appeal.benefitType.code=PIP'
-        }];
-    beforeEach(() =>
-    {
+        }
+    ];
+    app = express();
+
+
+    beforeEach(() => {
         httpRequest = jasmine.createSpy();
         httpRequest.and.callFake((method, url) => {
-            if(url.includes('jurisdictions/DIVORCE')) {
+            if (url.includes('jurisdictions/DIVORCE')) {
+                console.log('divorce', url);
                 return Promise.resolve(divorceCaseData);
-            } else if(url.includes('jurisdictions/SSCS')) {
+            } else if (url.includes('jurisdictions/SSCS')) {
+                console.log('SSCS', url);
                 return Promise.resolve(sscsCaseData);
             }
-
-    });
-        app = express();
-        route = proxyquire('./index', {
-            '../../lib/request': httpRequest
         });
 
         app.use((req, res, next) => {
@@ -46,20 +46,27 @@ xdescribe('ccd-store spec', () => {
             next();
         });
 
+        route = proxyquire('./index', { '../../lib/request': httpRequest });
+
         route(app);
         request = supertest(app);
     });
 
- fdescribe("when ccd request and process.env.JUI_ENV is not set", ()=> {
-     it('should create CCD request with CCD endpoints', () => {
-         let ccdCases = getCCDCases(1, jurisdictions, {
-             headers: {
-                 'Authorization': `Bearer 1234567`,
-                 'ServiceAuthorization': 'sdhfkajfa;ksfha;kdj'
-             }
-         });
-             expect(ccdCases.length).toBe(0);
-     })
- })
+    describe('when ccd request and process.env.JUI_ENV is not set', () => {
+        it('should create CCD request with CCD endpoints', () => {
+            // const stub = sinon.stub(process.env, 'JUI_ENV', 'local');
+            const ccdCases = getCCDCases(1, jurisdictions, {
+                headers: {
+                    Authorization: 'Bearer 1234567',
+                    ServiceAuthorization: 'sdhfkajfa;ksfha;kdj'
+                }
+            });
+            expect(ccdCases.length).toBe(0);
+        });
+    });
 
+    afterEach(()=> {
+        delete process.env.JUI_ENV;
+
+    });
 });
