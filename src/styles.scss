@@ -1,12 +1,12 @@
 // Path to assets for use with the file-url function
 // in the govuk frontend toolkit"s url-helpers partial
 $path: "/public/images/";
-$jui-assets-path : "/assets/images/";
+$jui-assets-path : "/public/images/";
 
 $govuk-global-styles: true;
 @import "~govuk-frontend/all";
 @import "~@hmcts/frontend/all";
-@import "./assets/sass/application";
+@import "public/sass/application";
 
 
 div.govuk-prose-scope, p {

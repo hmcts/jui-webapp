@@ -143,6 +143,7 @@ function formatQuestionRes(question, answers) {
         header: question.question_header_text,
         body: question.question_body_text,
         owner_reference: question.owner_reference,
+        state_name: question.current_question_state.state_name,
         state_datetime: question.current_question_state.state_datetime,
         answer: (answers !== undefined && answers.length > 0 ? answers[0] : null)
     };

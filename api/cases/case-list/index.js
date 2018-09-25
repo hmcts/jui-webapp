@@ -6,7 +6,6 @@ const valueProcessor = require('../../lib/processors/value-processor');
 const sscsCaseListTemplate = require('./templates/sscs/benefit');
 const { getCCDCases } = require('../../services/ccd-store-api/ccd-store');
 
-
 const jurisdictions = [
     {
         jur: 'DIVORCE',

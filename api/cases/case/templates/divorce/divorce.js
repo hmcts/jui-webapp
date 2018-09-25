@@ -27,28 +27,36 @@ module.exports = {
                             name: 'Case details',
                             type: 'data-list',
                             fields: [
-                                {
-                                    label: 'Parties',
-                                    value: [
-                                        '$.case_data.D8PetitionerFirstName', ' ',
-                                        '$.case_data.D8PetitionerLastName', ' ',
-                                        'v', ' ',
-                                        '$.case_data.D8RespondentFirstName', ' ',
-                                        '$.case_data.D8RespondentLastName'
-                                    ]
-                                },
+                                // {
+                                //     label: 'Parties',
+                                //     value: [
+                                //         '$.case_data.D8PetitionerFirstName', ' ',
+                                //         '$.case_data.D8PetitionerLastName', ' ',
+                                //         'v', ' ',
+                                //         '$.case_data.D8RespondentFirstName', ' ',
+                                //         '$.case_data.D8RespondentLastName'
+                                //     ]
+                                // },
                                 {
                                     label: 'Case number',
-                                    value: '$.id'
+                                    value: '$.case_data.D8caseReference'
                                 },
                                 {
-                                    label: 'FamilyMan Case number',
-                                    value: '$.case_data.D8caseReference'
+                                    label: 'Case type',
+                                    value: 'Divorce'
+                                },
+                                {
+                                    label: 'Case status',
+                                    value: ''
+                                },
+                                {
+                                    label: 'Reason for divorce',
+                                    value: ''
                                 }
                             ]
                         },
                         {
-                            name: '',
+                            name: 'Linked cases',
                             type: 'data-list',
                             fields: []
                         },
@@ -56,6 +64,20 @@ module.exports = {
                             name: 'Recent events',
                             type: 'timeline',
                             fields: [{ value: '$.events' }]
+                        },
+                        {
+                            name: 'Representatives',
+                            type: 'data-list',
+                            fields: [
+                                {
+                                    label: 'Petitioner',
+                                    value: '$.case_data.D8RespondentSolicitorName|if_empty_processor|Unrepresented'
+                                },
+                                {
+                                    label: 'Respondent',
+                                    value: '$.case_data.D8RespondentSolicitorName|if_empty_processor|Unrepresented'
+                                }
+                            ]
                         }
                     ]
                 }
@@ -85,15 +107,9 @@ module.exports = {
                                 },
                                 { label: 'Date of birth', value: '' },
                                 { label: 'Address', value: '$.case_data.D8DerivedPetitionerHomeAddress' },
-                                {
-                                    label: 'Phone',
-                                    value: '$.case_data.D8PetitionerPhoneNumber'
-                                },
-                                {
-                                    label: 'Email',
-                                    value: '$.case_data.D8PetitionerEmail'
-                                },
-                                { label: 'Representative', value: '$.case_data.PetitionerSolicitorName' }
+                                { label: 'Phone', value: '$.case_data.D8PetitionerPhoneNumber' },
+                                { label: 'Email', value: '$.case_data.D8PetitionerEmail' },
+                                { label: 'Representative', value: '$.case_data.PetitionerSolicitorName|if_empty_processor|Unrepresented' }
                             ]
                         },
                         {
@@ -109,10 +125,10 @@ module.exports = {
                                     ]
                                 },
                                 { label: 'Date of birth', value: '' },
-                                { label: 'Address', value: '$.case_data.D8RespondentHomeAddress' },
+                                { label: 'Address', value: '$.case_data.D8DerivedRespondentHomeAddress' },
                                 { label: 'Phone', value: '$.case_data.RespPhoneNumber' },
                                 { label: 'Email', value: '$.case_data.RespEmailAddress' },
-                                { label: 'Representative', value: '$.case_data.D8RespondentSolicitorName' }
+                                { label: 'Representative', value: '$.case_data.D8RespondentSolicitorName|if_empty_processor|Unrepresented' }
                             ]
                         }
                     ]

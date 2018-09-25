@@ -23,6 +23,9 @@ const dataLookup = (lookup, caseData) => {
         if (value && processor && processor === 'newline_processor') {
             value = value ? (`${value}\n`) : '';
         }
+        if (splitLookup.length > 1 && processor === 'if_empty_processor') {
+            value = (value) ? value : splitLookup[2] ? splitLookup[2] : '';
+        }
 
         return value;
     } else if (typeof lookup === 'number') {
