@@ -77,7 +77,7 @@ defineSupportCode(function({ Given, When, Then }) {
                 .getText())
                 .to
                 .eventually
-                .equal('Medical Member');
+                .equal('Medical member');
             await expect(caseSummaryPage.casefields.get(7)
                 .isDisplayed()).to.eventually.be.true;
             await expect(caseSummaryPage.casefields.get(7)

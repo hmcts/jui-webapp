@@ -5,11 +5,11 @@ const { getCCDCases } = require('./ccd-store');
 
 xdescribe('ccd-store spec', () => {
     let httpRequest;
-    let divorceCaseData = [];
+    const divorceCaseData = [];
     let app;
     let route;
     let request;
-    let sscsCaseData = [];
+    const sscsCaseData = [];
     const jurisdictions = [
         {
             jur: 'DIVORCE',
@@ -20,21 +20,21 @@ xdescribe('ccd-store spec', () => {
             jur: 'SSCS',
             caseType: 'Benefit',
             filter: '&state=appealCreated&case.appeal.benefitType.code=PIP'
-        }];
-    beforeEach(() =>
-    {
+        }
+    ];
+    app = express();
+
+
+    beforeEach(() => {
         httpRequest = jasmine.createSpy();
         httpRequest.and.callFake((method, url) => {
-            if(url.includes('jurisdictions/DIVORCE')) {
+            if (url.includes('jurisdictions/DIVORCE')) {
+                console.log('divorce', url);
                 return Promise.resolve(divorceCaseData);
-            } else if(url.includes('jurisdictions/SSCS')) {
+            } else if (url.includes('jurisdictions/SSCS')) {
+                console.log('SSCS', url);
                 return Promise.resolve(sscsCaseData);
             }
-
-    });
-        app = express();
-        route = proxyquire('./index', {
-            '../../lib/request': httpRequest
         });
 
         app.use((req, res, next) => {
@@ -45,6 +45,8 @@ xdescribe('ccd-store spec', () => {
             req.headers.ServiceAuthorization = 'sdhfkajfa;ksfha;kdj';
             next();
         });
+
+        route = proxyquire('./index', { '../../lib/request': httpRequest });
 
         route(app);
         request = supertest(app);
@@ -62,4 +64,8 @@ xdescribe('ccd-store spec', () => {
      })
  })
 
+    afterEach(()=> {
+        delete process.env.JUI_ENV;
+
+    });
 });

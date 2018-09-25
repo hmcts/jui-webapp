@@ -11,7 +11,7 @@ Feature: RecentEvents
         When I click on timeline should see the recent events
 
 
-    @RIUI_648, @all
+    @RIUI_648
     Scenario: Verify recent events on summary page
         Then I see the recent events with all details displayed
         Then I see the latest three events showing

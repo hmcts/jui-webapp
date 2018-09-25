@@ -42,6 +42,14 @@ module.exports = {
                                 {
                                     label: 'Case type',
                                     value: '$.case_data.appeal.benefitType.code'
+                                },
+                                {
+                                    label: 'Tribunal centre',
+                                    value: ''
+                                },
+                                {
+                                    label: 'Additional requirements',
+                                    value: ''
                                 }
                             ]
                         },
@@ -54,7 +62,7 @@ module.exports = {
                                     value: '$.case_data.panel.assignedTo'
                                 },
                                 {
-                                    label: 'Medical Member',
+                                    label: 'Medical member',
                                     value: '$.case_data.panel.medicalMember'
                                 },
                                 {

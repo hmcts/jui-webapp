@@ -189,7 +189,7 @@ xdescribe('case spec', () => {
                         value: caseData.case_data.panel.assignedTo
                     },
                     {
-                        label: 'Medical Member',
+                        label: 'Medical member',
                         value: caseData.case_data.panel.medicalMember
                     },
                     {
