@@ -6,7 +6,8 @@
         </div>
         <p class="hmcts-timeline__date" data-selector="timeline-date"><time attr.datetime="{{event.dateUtc}}">{{event.date}} at {{event.time}}</time></p>
         <ul class="hmcts-timeline__documents" *ngIf="event.documents && event.documents.length > 0">
-            <li class="hmcts-timeline__document-item" *ngFor="let document of event.documents"><a class="hmcts-timeline__document-link" href="{{document.href}}">{{document.name}}</a></li>
+            <!--<li class="hmcts-timeline__document-item" *ngFor="let document of event.documents"><a class="hmcts-timeline__document-link" href="{{document.href}}">{{document.name}}</a></li>-->
+            <li class="hmcts-timeline__document-item" *ngFor="let document of event.documents"><a class="hmcts-timeline__document-link" routerLink="{{document.href}}">{{document.name}}</a></li>
         </ul>
     </div>
 </div>
