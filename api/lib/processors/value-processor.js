@@ -1,5 +1,6 @@
 const jp = require('jsonpath');
 const documentProcessor = require('./document-processor');
+const caseStatusProcessor = require('./case-status-processor');
 
 const dataLookup = (lookup, caseData) => {
     if (typeof lookup === 'string') {
@@ -24,6 +25,10 @@ const dataLookup = (lookup, caseData) => {
         }
         if (splitLookup.length > 1 && processor === 'if_empty_processor') {
             value = (value) ? value : splitLookup[2] ? splitLookup[2] : '';
+        }
+
+        if (value && processor && processor === 'case_status_processor') {
+            value = caseStatusProcessor(value, caseData);
         }
 
         return value;
