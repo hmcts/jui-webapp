@@ -55,7 +55,7 @@ const routes: Routes = [
         component: PrivacyPolicyComponent
     },
     {
-        path: 'jurisdiction/:jur/casetype/:casetype/viewcase/:case_id',
+        path: 'jurisdiction/:jur/casetype/:casetype/:case_id',
         resolve: {
             caseData: CaseResolve
         },

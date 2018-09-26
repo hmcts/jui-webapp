@@ -67,7 +67,7 @@ export class CheckDecisionComponent implements OnInit, JUIFormInterface {
         if (this.form.valid) {
             this.decisionService.issueDecision(this.case.id, this.decision)
                 .subscribe(() => {
-                    this.redirectionService.redirect(`/jurisdiction/${this.case.case_jurisdiction}/casetype/${this.case.case_type_id}/viewcase/${this.case.id}/decision/confirm`);
+                    this.redirectionService.redirect(`/jurisdiction/${this.case.case_jurisdiction}/casetype/${this.case.case_type_id}/${this.case.id}/decision/confirm`);
                     }, error => {
                         this.error = true;
                         console.error('Something went wrong', error);

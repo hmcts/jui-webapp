@@ -43,7 +43,7 @@ defineSupportCode(function({ Given, When, Then }) {
                         .getAttribute('href')
                         .then(function(attr) {
                             console.log('test', attr);
-                            var re = new RegExp('(.+)/viewcase/(.+)/summary').compile();
+                            var re = new RegExp('(.+)/(.+)/summary').compile();
                             expect(attr)
                                 .to
                                 .match(re);

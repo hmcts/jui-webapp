@@ -160,7 +160,7 @@ fdescribe('CheckQuestionsComponent', () => {
             //     });
             //
             //     it('should redirect with success', () => {
-            //         expect(redirectionService.redirect).toHaveBeenCalledWith('/jurisdiction/SSCS/casetype/Benefit/viewcase/123456789/questions?sent=success');
+            //         expect(redirectionService.redirect).toHaveBeenCalledWith('/jurisdiction/SSCS/casetype/Benefit/123456789/questions?sent=success');
             //     });
             // });
 
@@ -171,7 +171,7 @@ fdescribe('CheckQuestionsComponent', () => {
             //     });
             //
             //     it('should redirect with failure', () => {
-            //         expect(redirectionService.redirect).toHaveBeenCalledWith('/jurisdiction/SSCS/casetype/Benefit/viewcase/123456789/questions?sent=failure');
+            //         expect(redirectionService.redirect).toHaveBeenCalledWith('/jurisdiction/SSCS/casetype/Benefit/123456789/questions?sent=failure');
             //     });
             // });
 

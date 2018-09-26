@@ -9,7 +9,7 @@ Feature: View Case Summary Page
 
     @RIUI_299 @all
     Scenario: I can see the summary page
-        Then I should expect the url to "match" "(.+)/viewcase/(.+)/summary"
+        Then I should expect the url to "match" "(.+)/(.+)/summary"
 
     @RIUI_299 @all
     Scenario Outline: I can see case summary and panel members information

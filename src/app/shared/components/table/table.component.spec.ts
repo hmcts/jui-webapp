@@ -218,7 +218,7 @@ describe('TableComponent', () => {
         it('should have a clickable case reference link to summary', () => {
             const links =
                 element.nativeElement.querySelectorAll(Selector.selector('table-component|case-reference-link'));
-            expect(links[0].attributes.href.value).toEqual('/jurisdiction/SSCS/casetype/Benefit/viewcase/1528476356357908/summary');
+            expect(links[0].attributes.href.value).toEqual('/jurisdiction/SSCS/casetype/Benefit/1528476356357908/summary');
         });
 
         it('should have ALL the headers', () => {
