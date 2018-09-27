@@ -1,3 +1,5 @@
+const { COH_STATE, Q_DEADLINE_ELAPSED_STATE, Q_DEADLINE_EXT_ELAPSED_STATE, DECISION_ISSUED_STATE, RELISTED_STATE } = require('./case-state-util');
+
 const ccdCohStateCondition = {
     init: () => {
         return {
@@ -18,18 +20,18 @@ const ccdCohStateCondition = {
 };
 
 const cohStateCondition = {
-    init: (state = 'continuous_online_hearing_started') => {
+    init: () => {
         return {
             evaluate: context => {
                 const hearingData = context.caseData.hearingData;
                 const hearingState = (hearingData) ? hearingData.current_state.state_name : undefined;
-                return context.ccdCohStateCheck && hearingState && hearingState === state;
+                return context.ccdCohStateCheck && hearingState && hearingState === COH_STATE;
             },
             consequence: context => {
                 context.cohStateCheck = true;
                 const hearingData = context.caseData.hearingData;
                 context.outcome = {
-                    stateName: state,
+                    stateName: COH_STATE,
                     stateDateTime: hearingData.current_state.state_datetime,
                     actionGoTo: ''
                 };
@@ -61,16 +63,16 @@ const questionStateCondition = {
 };
 
 const deadlineElapsedCondition = {
-    init: (state = 'question_deadline_elapsed') => {
+    init: () => {
         return {
             evaluate: context => {
                 const questionRound = context.caseData.questionRoundData;
-                return context.cohStateCheck && questionRound && questionRound.state === state;
+                return context.cohStateCheck && questionRound && questionRound.state === Q_DEADLINE_ELAPSED_STATE;
             },
             consequence: context => {
                 const questionRound = context.caseData.questionRoundData;
                 context.outcome = {
-                    stateName: state,
+                    stateName: Q_DEADLINE_ELAPSED_STATE,
                     stateDateTime: questionRound.questions[0].state_datetime,
                     actionGoTo: ''
                 };
@@ -80,17 +82,17 @@ const deadlineElapsedCondition = {
 };
 
 const deadlineExtensionExpiredCondition = {
-    init: (state = 'question_deadline_elapsed') => {
+    init: () => {
         return {
             evaluate: context => {
                 const questionRound = context.caseData.questionRoundData;
-                const questionDeadlineElapsed = context.cohStateCheck && questionRound && questionRound.state === state;
+                const questionDeadlineElapsed = context.cohStateCheck && questionRound && questionRound.state === Q_DEADLINE_ELAPSED_STATE;
                 return questionDeadlineElapsed && questionRound.deadline_extension_count > 0;
             },
             consequence: context => {
                 const questionRound = context.caseData.questionRoundData;
                 context.outcome = {
-                    stateName: 'question_deadline_extension_elapsed',
+                    stateName: Q_DEADLINE_EXT_ELAPSED_STATE,
                     stateDateTime: questionRound.questions[0].state_datetime,
                     actionGoTo: ''
                 };
@@ -101,16 +103,16 @@ const deadlineExtensionExpiredCondition = {
 };
 
 const cohDecisionStateCondition = {
-    init: (state = 'continuous_online_hearing_decision_issued') => {
+    init: () => {
         return {
             evaluate: context => {
                 const hearingData = context.caseData.hearingData;
                 // TODO add check for ccd-state as well
-                return hearingData && hearingData.current_state && hearingData.current_state.state_name === state;
+                return hearingData && hearingData.current_state && hearingData.current_state.state_name === DECISION_ISSUED_STATE;
             },
             consequence: context => {
                 context.outcome = {
-                    stateName: state,
+                    stateName: DECISION_ISSUED_STATE,
                     actionGoTo: ''
                 };
 
@@ -121,16 +123,16 @@ const cohDecisionStateCondition = {
 };
 
 const cohRelistStateCondition = {
-    init: (state = 'continuous_online_hearing_relisted') => {
+    init: () => {
         return {
             evaluate: context => {
                 const hearingData = context.caseData.hearingData;
                 // TODO add check for ccd-state as well
-                return hearingData && hearingData.current_state && hearingData.current_state.state_name === state;
+                return hearingData && hearingData.current_state && hearingData.current_state.state_name === RELISTED_STATE;
             },
             consequence: context => {
                 context.outcome = {
-                    stateName: state,
+                    stateName: RELISTED_STATE,
                     actionGoTo: ''
                 };
                 context.stop = true;
