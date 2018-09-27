@@ -50,6 +50,15 @@ withPipeline(type , product, component) {
             reportName           : "JUI Angular Unit Tests Report"
         ])
 
+        publishHTML ( [
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "coverage/lcov-report",
+            reportFiles          : "index.html",
+            reportName           : "JUI API Unit Tests Report"
+        ])
+
                publishHTML([
                     allowMissing         : true,
                     alwaysLinkToLastBuild: true,
