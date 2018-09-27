@@ -58,8 +58,6 @@ function reduceCcdEvents(events) {
 
         const documents = [];
 
-        console.dir(event.data);
-
         return {
             title: event.event_name,
             by: `${event.user_first_name} ${event.user_last_name}`,
@@ -98,7 +96,6 @@ function mergeCohEvents(eventsJson) {
 }
 
 function reduceCohEvents(events) {
-    console.log('reduceCohEvents()');
     return events.map(event => {
         const dateObj = convertDateTime(event.state_datetime);
         const dateUtc = dateObj.dateUtc;

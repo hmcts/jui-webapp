@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {of} from 'rxjs';
-import {map, catchError} from 'rxjs/operators';
+import {catchError} from 'rxjs/operators';
 import {ActivatedRouteSnapshot, Resolve} from '@angular/router';
 import {DecisionService} from '../../domain/services/decision.service';
 

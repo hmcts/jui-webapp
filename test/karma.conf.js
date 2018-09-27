@@ -7,7 +7,6 @@ const karmaPhantomjsLauncher = require('karma-phantomjs-launcher');
 const karmaJasmineHtmlReporter = require('karma-jasmine-html-reporter');
 const karmaCoverageIstanbulReporter = require('karma-coverage-istanbul-reporter');
 const generated = require('@angular-devkit/build-angular/plugins/karma');
-const { join } = require('path');
 
 module.exports = config => {
     config.set({
@@ -23,7 +22,7 @@ module.exports = config => {
         ],
         client: { clearContext: false },
         coverageIstanbulReporter: {
-            dir: './coverage',
+            dir: './reports/test/coverage/ng',
             reports: ['html', 'lcovonly'],
             fixWebpackSourcePaths: true,
             thresholds: {

@@ -24,24 +24,23 @@
     "lint:node": "eslint . -f node_modules/eslint-html-reporter/reporter.js -o ./reports/lint/node/index.html",
     "lint:node:fix": "eslint . --fix",
     "test": "npm run test:node && npm run test:ng",
-    "test:node": "jasmine --config=spec/support/jasmine.json",
+    "test:node": "jasmine --config=test/unit/node/jasmine.json",
     "test:ng": "ng test",
     "test:nsp": "nsp check",
     "test:a11y": "echo 'ally testing not implemented'",
     "test:routes": "echo 'routes testing not implemented'",
     "test:coverage": "npm run test:coverage:node && npm run test:coverage:ng",
     "test:coverage:ng": "ng test --code-coverage",
-    "test:coverage:node": "yarn istanbul cover -x \"**//**/**.spec.js\" -x \"**//config/**\" -x \"**//spec/**\" jasmine --config=spec/support/jasmine.json",
+    "test:coverage:node": "nyc jasmine --config=test/unit/node/jasmine.json",
     "test-all": "echo 'test all not implemented'",
-    "test:nsp-warn": "echo \"Test nsp warn\"",
     "test:snyk": "snyk test",
     "test:smoke": "echo 'smoke test not implemented'",
     "test:functional": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/conf.js",
     "test:functional:local": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/conf.js --local",
     "health-check": "echo 'healthcheck not implemented'",
     "sonar-scan": "node_modules/sonar-scanner/bin/sonar-scanner",
-    "test:codacy-upload": "cat ./reports/tests/coverage/lcov.info | codacy-coverage",
-    "test:codecov-upload": "codecov -f ./reports/tests/coverage/lcov.info",
+    "test:codacy-upload": "cat ./reports/test/coverage/ng/lcov.info | codacy-coverage",
+    "test:codecov-upload": "codecov -f ./reports/test/coverage/ng/lcov.info",
     "snyk-protect": "snyk protect",
     "e2e": "protractor ./test/e2e/config/conf.js",
     "pree2e": "webdriver-manager update --standalone false --gecko false --quiet"
@@ -137,6 +136,7 @@
     "minimist": "^1.2.0",
     "nodemon": "^1.17.5",
     "nsp": "^3.2.1",
+    "nyc": "^13.0.1",
     "postcss-import": "^11.0.0",
     "postcss-loader": "^2.0.10",
     "postcss-url": "^7.1.2",
@@ -157,5 +157,26 @@
     "uglifyjs-webpack-plugin": "^1.1.8",
     "url-loader": "^0.6.2"
   },
-  "snyk": true
+  "snyk": true,
+  "nyc": {
+    "check-coverage": true,
+    "per-file": true,
+    "lines": 0,
+    "statements": 0,
+    "functions": 0,
+    "branches": 0,
+    "include": [
+      "**/api/**/**"
+    ],
+    "exclude": [],
+    "reporter": [
+      "lcov",
+      "html",
+      "text-summary"
+    ],
+    "require": [],
+    "cache": true,
+    "all": true,
+    "report-dir": "./reports/test/coverage/node"
+  }
 }

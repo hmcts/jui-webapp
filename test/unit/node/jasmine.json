@@ -1,0 +1,9 @@
+{
+    "spec_dir": "tests/unit/node",
+    "spec_files": [
+        "../../../api/*[sS]pec.js",
+        "../../../api/**/*[sS]pec.js"
+    ],
+    "stopSpecOnExpectationFailure": false,
+    "random": false
+}
