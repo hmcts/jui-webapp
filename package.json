@@ -25,6 +25,7 @@
     "lint:node:fix": "eslint . --fix",
     "test": "npm run test:node && npm run test:ng",
     "test:node": "jasmine --config=spec/support/jasmine.json",
+    "test:apicoverage": "yarn istanbul cover -x \"**//**/**.spec.js\" -x \"**//config/**\" -x \"**//spec/**\" jasmine --config=spec/support/jasmine.json",
     "test:ng": "ng test",
     "test:nsp": "nsp check",
     "test:a11y": "echo 'ally testing not implemented'",
