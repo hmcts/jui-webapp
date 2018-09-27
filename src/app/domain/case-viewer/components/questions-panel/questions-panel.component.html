@@ -5,6 +5,12 @@
 <app-hmcts-alert *ngIf="updatedQuestion === 'success'" [type]="'success'" [iconFallbackText]="'Success!'" [text]="'Question updated'"></app-hmcts-alert>
 <app-hmcts-alert *ngIf="deletedQuestion === 'success'" [type]="'success'" [iconFallbackText]="'Success!'" [text]="'Question deleted'"></app-hmcts-alert>
 
+<app-case-actions
+    [header]="panelData.name"
+    [actionPrimaryButton]="{href: '../decision/create', text: 'Make decision'}"
+    [actionSecondaryButton]="{href: '../hearing/list', text: 'List for hearing'}"
+></app-case-actions>
+
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <app-question [rounds]="rounds"></app-question>

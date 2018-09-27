@@ -3,7 +3,6 @@ const documentProcessor = require('./document-processor');
 
 const dataLookup = (lookup, caseData) => {
     if (typeof lookup === 'string') {
-
         const splitLookup = lookup.split('|');
         let value = splitLookup[0];
         const processor = splitLookup.length > 1 ? splitLookup[1] : null;

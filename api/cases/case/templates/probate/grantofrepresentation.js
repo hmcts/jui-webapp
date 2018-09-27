@@ -25,6 +25,16 @@ module.exports = {
                             type: 'data-list',
                             fields: [
                                 {
+                                    name: 'Recent events',
+                                    type: 'timeline',
+                                    fields: [{ value: '$.events' }]
+                                },
+                                // {
+                                //     name: 'Action on',
+                                //     type: 'case-action-alert',
+                                //     fields: [{ value: '$.state' }]
+                                // },
+                                {
                                     label: 'Parties',
                                     value: [
                                         '$.case_data.deceasedForenames', ' ',
@@ -50,11 +60,6 @@ module.exports = {
                             name: '',
                             type: 'data-list',
                             fields: []
-                        },
-                        {
-                            name: 'Recent events',
-                            type: 'timeline',
-                            fields: [{ value: '$.events' }]
                         }
                     ]
                 }

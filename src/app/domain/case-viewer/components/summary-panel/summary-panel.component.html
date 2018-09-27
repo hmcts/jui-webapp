@@ -1,17 +1,29 @@
+<app-case-actions
+    [header]="panelData.name"
+    [actionPrimaryButton]="{href: '../decision/create', text: 'Make decision'}"
+    [actionSecondaryButton]="{href: '../hearing/list', text: 'List for hearing'}"
+></app-case-actions>
+
 <div data-selector="summary-panel-component" class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <ng-container *ngFor="let section of panelData.sections">
-            <app-data-list
-                data-selector="data-list"
-                *ngIf="section.type === 'data-list'"
-                [title]="section.name"
-                [dataList]="section.fields">
-            </app-data-list>
+        <ng-container *ngFor="let section of panelData.sections | slice:1">
+            <ng-container [ngSwitch]="section.type" >
+                <app-data-list data-selector="data-list" *ngSwitchCase="'data-list'"
+                               [title]="section.name"
+                               [dataList]="section.fields"></app-data-list>
+                <!--<app-timeline data-selector="timeline" *ngSwitchCase="'timeline'"-->
+                              <!--[events]="section.fields[0].value"-->
+                              <!--[maxHistory]="3"></app-timeline>-->
+                <!--<app-case-action-alert data-selector="case-action-alert" *ngSwitchCase="'case-action-alert'"-->
+                                       <!--[title]="'Decision needed'"-->
+                                       <!--[status]="section.fields[0].value"-->
+                                       <!--[href]="'#'"></app-case-action-alert>-->
+            </ng-container>
         </ng-container>
     </div>
     <div class="govuk-grid-column-one-third">
-        <h2 class="govuk-heading-m  govuk-!-margin-bottom-4">{{panelData.sections[2].name || "Recent Events"}}</h2>
-        <app-timeline *ngIf="panelData.sections[2].fields[0].value" [events]="panelData.sections[2].fields[0].value" [maxHistory]="3"></app-timeline>
+        <h2 class="govuk-heading-m  govuk-!-margin-bottom-4">{{panelData.sections[0].name || "Recent Events"}}</h2>
+        <app-timeline [events]="panelData.sections[0].fields[0].value" [maxHistory]="3"></app-timeline>
         <p><a routerLink="../timeline">View full timeline</a></p>
     </div>
 </div>

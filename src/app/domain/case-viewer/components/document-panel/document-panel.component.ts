@@ -10,7 +10,7 @@ import {ConfigService} from '../../../../config.service';
 export class DocumentPanelComponent implements OnInit {
 
     @Input() panelData;
-    @Input() case: any;
+    @Input() docList: any;
     documents: any[] = [];
     selectedDocument: any;
     documentUrl: string;
@@ -32,20 +32,20 @@ export class DocumentPanelComponent implements OnInit {
                 .map(x => x.id);
         }
 
-        let documents = this.case.documents
+        let docs = this.docList
             .filter(document => {
                 const splitURL = document._links.self.href.split('/');
                 const id = splitURL[splitURL.length - 1];
                 return docIds.indexOf(id) > -1;
             });
 
-        documents.sort((a, b) => {
+        docs.sort((a, b) => {
             const dateA = new Date(a.createdOn);
             const dateB = new Date(b.createdOn);
             return dateA < dateB;
         });
 
-        documents = documents.map(doc => {
+        docs = docs.map(doc => {
             return {
                 id: doc.id,
                 name: doc.originalDocumentName,
@@ -53,7 +53,7 @@ export class DocumentPanelComponent implements OnInit {
             };
         });
 
-        this.documents = documents;
+        this.documents = docs;
     }
 
 

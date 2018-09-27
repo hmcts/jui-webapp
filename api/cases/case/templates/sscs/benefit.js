@@ -23,6 +23,16 @@ module.exports = {
                     type: 'summary-panel',
                     sections: [
                         {
+                            name: 'Recent events',
+                            type: 'timeline',
+                            fields: [{ value: '$.events' }]
+                        },
+                        // {
+                        //     name: 'Action on',
+                        //     type: 'case-action-alert',
+                        //     fields: [{ value: '$.state' }]
+                        // },
+                        {
                             name: 'Case details',
                             type: 'data-list',
                             fields: [
@@ -70,11 +80,6 @@ module.exports = {
                                     value: '$.case_data.panel.disabilityQualifiedMember'
                                 }
                             ]
-                        },
-                        {
-                            name: 'Recent events',
-                            type: 'timeline',
-                            fields: [{ value: '$.events' }]
                         }
                     ]
                 }
