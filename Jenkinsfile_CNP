@@ -39,7 +39,8 @@ withPipeline(type , product, component) {
 
     after('checkout') {sh 'yarn cache clean'}
     after('build') {sh 'npm run build'}
-    after('test') {sh 'yarn test:apicoverage'} {
+    before('test') {sh 'yarn test:apicoverage'}
+    after('test')  {
 
         publishHTML ( [
             allowMissing         : true,
