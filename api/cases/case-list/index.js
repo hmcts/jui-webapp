@@ -6,6 +6,9 @@ const valueProcessor = require('../../lib/processors/value-processor');
 const sscsCaseListTemplate = require('./templates/sscs/benefit');
 const mockRequest = require('../../lib/mockRequest');
 const { getAllRounds } = require('../../questions');
+const { getAllQuestionsByCase } = require('../../questions');
+const moment = require('moment');
+const processCaseStateEngine = require('../../lib/processors/case-state-model');
 
 const jurisdictions = [
     {
@@ -84,72 +87,53 @@ function hasCOR(caseData) {
     return caseData.jurisdiction === 'SSCS';
 }
 
-function questionRoundsExist(questionRounds) {
-    return questionRounds !== undefined
-        && questionRounds !== null
-        && questionRounds.question_rounds !== undefined
-        && questionRounds.question_rounds !== null
-        && questionRounds.question_rounds.length > 0;
+function stateDatetimeDiff(a, b) {
+    const dateTime1 = moment.utc(a.state_datetime);
+    const dateTime2 = moment.utc(b.state_datetime);
+
+    return moment.duration(moment(dateTime2).diff(moment(dateTime1))).asMilliseconds();
 }
 
-function latestQuestionRounds(questionRounds) {
-    if (questionRoundsExist(questionRounds)) {
-        return questionRounds.question_rounds
-            .find(round => parseInt(round.question_round_number) === questionRounds.current_question_round);
-    }
-    return undefined;
+function latestQuestionRounds(questionsRounds) {
+    return (questionsRounds) ? questionsRounds.sort((a, b) => (a.question_round_number < b.question_round_number))[0] : [];
 }
 
-function getHearingWithQuestionData(hearing, options) {
-    return getAllRounds(hearing.online_hearing_id, options)
+function sortQuestions(questionsRounds) {
+    return (questionsRounds) ? questionsRounds.questions.sort((a, b) => stateDatetimeDiff(a, b)) : [];
+}
+
+const questionData = async (hearing, userId, options) => {
+    let result = await getAllQuestionsByCase(hearing.case_id, userId, options);
+    return (result) ? sortQuestions(latestQuestionRounds(result)) : [];
+};
+
+function getHearingWithQuestionData(hearing, userId, options) {
+    return getAllQuestionsByCase(hearing.case_id, userId, options)
         .then(latestQuestionRounds)
         .then(questionRound => {
+            if(questionRound) {
+                questionRound.questions.sort((a, b) => stateDatetimeDiff(a, b))
+            }
             return {
-                caseId: hearing.case_id,
-                latestQuestionRound: questionRound
+                hearing: hearing,
+                latest_question_round: questionRound
             }
         });
+
 }
 
-function getAllLatestQuestionRoundData(hearings, options) {
-    const promiseArray = [];
-    if (hearings.online_hearings) {
-        hearings.online_hearings.forEach(hearing => promiseArray.push(getHearingWithQuestionData(hearing, options)));
-    }
-
-    return promiseArray;
-}
-
-function getCOR(casesData, options) {
+function getCOR(casesData, userId, options) {
     let caseIds = casesData.map(caseRow => 'case_id=' + caseRow.id).join("&");
     return new Promise(resolve => {
         if (hasCOR(casesData[0])) {
             getOnlineHearing(caseIds, options)
-               .then(hearings => {
-                   if (hearings.online_hearings) {
-                       let caseStateMap = new Map(hearings.online_hearings.map(hearing => [Number(hearing.case_id), hearing]));
-                       casesData.forEach(caseRow => {
-                           caseRow.hearing_data = caseStateMap.get(Number(caseRow.id));
-
-                       });
-                   }
-                })
-                .then(hearings => Promise.all(getAllLatestQuestionRoundData(hearings, options)))
-                .then(allQuestionRoundData => {
-                        if (allQuestionRoundData !== undefined && allQuestionRoundData !== null) {
-                        let caseQuestionRoundMap = new Map(allQuestionRoundData.map(questionRoundData => [Number(questionRoundData.caseId), questionRoundData.latestQuestionRound]));
-                        casesData.forEach(caseRow => {caseRow.latest_question_round = caseStateMap.get(Number(caseRow.id));});
+                .then(hearings => {
+                    if (hearings.online_hearings) {
+                        let caseStateMap = new Map(hearings.online_hearings.map(hearing => [Number(hearing.case_id), hearing]));
+                        casesData.forEach(caseRow => {caseRow.hearing_data = caseStateMap.get(Number(caseRow.id));});
                     }
                     resolve(casesData);
-                })
-                //
-                // .then(hearings => {
-                //     if (hearings.online_hearings) {
-                //         let caseStateMap = new Map(hearings.online_hearings.map(hearing => [Number(hearing.case_id), hearing]));
-                //         casesData.forEach(caseRow => {caseRow.hearing_data = caseStateMap.get(Number(caseRow.id));});
-                //     }
-                //     resolve(casesData);
-                // });
+                });
         }
         else {
             resolve(casesData);
@@ -158,11 +142,11 @@ function getCOR(casesData, options) {
 }
 
 
-function appendCOR(caseLists, options) {
+function appendCOR(caseLists, userId, options) {
     return Promise.all(caseLists.map(caseList => {
         return new Promise((resolve, reject) => {
             if (caseList && caseList.length) {
-                getCOR(caseList, options).then(casesDataWithCor => {
+                getCOR(caseList, userId, options).then(casesDataWithCor => {
                     resolve(casesDataWithCor);
                 })
 
@@ -173,165 +157,33 @@ function appendCOR(caseLists, options) {
     }));
 }
 
-function processCOR(caseLists) {
-    return caseLists.map(
-        caselist => {
-            caselist.map(caseRow => {
-                let hearingData = caseRow.hearing_data;
-                let state = (hearingData) ? hearingData.current_state : undefined;
-                if (state !== undefined && state !== null && state.state_name !== undefined && state.state_name !== null) {
-                    caseRow.state = format(state.state_name);
-                    if (new Date(caseRow.last_modified) < new Date(state.state_datetime)) {
-                        caseRow.last_modified = state.state_datetime;
-                    }
-                }
-                return caseRow;
-            });
-            return caselist
+function hearingsWithQuestionData(caseLists, userId, options) {
+    const promiseArray = [];
+        caseLists.forEach(caseRow => {
+            if(caseRow.hearing_data) {
+                promiseArray.push(getHearingWithQuestionData(caseRow.hearing_data, userId, options))
+            }
         });
+    return Promise.all(promiseArray);
 }
 
-function processEngine(param) {
-    const ccdCohStateCondition = {
-        init: () => {
-            return {
-                evaluate: (context) => {
-                    // don't know yet what would CCD state like for COH
-                    return true; //context.caseData.ccdState === 'continuous_online_hearing_started'??;
-                },
-                consequence: (context) => {
-                    context.outcome = {
-                        stateName: context.caseData.ccdState,
-                        actionGoTo: ''
-                    };
-                    context.ccdCohStateCheck = true;
-                }
+function appendQuestionsRound(caseLists, userId, options) {
+    return Promise.all(caseLists.map(caseList => {
+        return new Promise((resolve, reject) => {
+            if (caseList && caseList.length) {
+                hearingsWithQuestionData(caseList, userId, options).then(hearingsWithQuestionData => {
+                    if(hearingsWithQuestionData){
+                        let caseStateMap = new Map(hearingsWithQuestionData.map(hearing_data => [Number(hearing_data.hearing.case_id), hearing_data]));
+                        caseList.forEach(caseRow => caseRow.hearing_data = caseStateMap.get(Number(caseRow.id)));
+                    }
+                    resolve(caseList);
+                })
+
+            } else {
+                resolve([]);
             }
-        }
-    };
-
-    const cohStateCondition = {
-        init: ( state = 'continuous_online_hearing_started') => {
-            return {
-                evaluate: (context) => {
-                    const hearingData = context.caseData.hearingData.online_hearing;
-                    const hearingState = (hearingData) ? hearingData.current_state.state_name : undefined;
-                    return context.ccdCohStateCheck && hearingState && hearingState === state;
-                },
-                consequence: (context) => {
-                    context.cohStateCheck = true;
-                    context.outcome = {
-                        stateName: state,
-                        actionGoTo: ''
-                    };
-                }
-            }
-        }
-    };
-
-    const cohAnswerStateCondition  = {
-        init: (state = 'question_answered') => {
-            return {
-                evaluate: (context) => {
-                    const caseData = context.caseData;
-                    const answerState = '';
-
-                    return context.cohStateCheck && answerState === state;
-                },
-                consequence: (context) => {
-                    context.outcome = {
-                        stateName: state,
-                        actionGoTo: ''
-                    };
-                }
-            }
-        }
-    };
-
-    const cohQuestionStateCondition = {
-        init: ( state = 'question_deadline_elapsed') => {
-            return {
-                evaluate: (context) => {
-                    const caseData = context.caseData;
-                    const questionState = '';
-
-                    return context.cohStateCheck && questionState === state;
-                },
-                consequence: (context) => {
-                    context.outcome = {
-                        stateName: state,
-                        actionGoTo: ''
-                    };
-
-
-                }
-            }
-        }
-    };
-
-    const cohDecisionStateCondition = {
-        init: (state) => {
-            return {
-                evaluate: (context) => {
-                    const hearingData = context.caseData.hearingData;
-                    return /*what_would_ccd_statek && */ hearingData && hearingData.current_state && hearingData.current_state.state_name === state;
-                },
-                consequence: (context) => {
-                    context.outcome = {
-                        stateName: state,
-                        actionGoTo: ''
-                    };
-
-                    context.stop = true;
-                }
-            }
-        }
-    };
-
-    const cohRelistStateCondition = {
-        init: (state) => {
-            return {
-                evaluate: (context) => {
-                    const hearingData = context.caseData.hearingData;
-                    return /*what_would_ccd_statek && */ hearingData && hearingData.current_state && hearingData.current_state.state_name === state;
-                },
-                consequence: (context) => {
-                    context.outcome = {
-                        stateName: state,
-                        actionGoTo: ''
-                    };
-                    context.stop = true;
-                }
-            }
-        }
-    };
-
-
-    const conditions = [
-        ccdCohStateCondition.init(),
-        cohDecisionStateCondition.init('continuous_online_hearing_decision_issued'),
-        cohRelistStateCondition.init('continuous_online_hearing_relisted'),
-        cohStateCondition.init(),
-        cohQuestionStateCondition.init(),
-        cohAnswerStateCondition.init()
-    ];
-
-    const context = {
-        caseData : param,
-        stop: false,
-        outcome: {}
-    };
-
-    conditions.forEach(condition => {
-        if (!context.stop) {
-            const result = condition.evaluate(context);
-            if (result) {
-                condition.consequence(context);
-            }
-        }
-    });
-
-    return context.outcome;
+        })
+    }));
 }
 
 function processState(caseLists) {
@@ -341,21 +193,35 @@ function processState(caseLists) {
                 const jurisdiction = caseRow.jurisdiction;
                 const caseType = caseRow.case_type_id;
                 const ccdState = caseRow.state;
-                const hearingData = caseRow.hearing_data;
+                const hearingData = caseRow.hearing_data ? caseRow.hearing_data.hearing : undefined;
+                const questionRoundData = hearingData ? caseRow.hearing_data.latest_question_round : undefined;
 
-
-                // TODO: Added State Process Engine here
-                caseRow.state = processEngine({
+                const caseState = processCaseStateEngine({
                     jurisdiction,
                     caseType,
                     ccdState,
-                    hearingData
-                }).stateName;
+                    hearingData,
+                    questionRoundData
+                });
+
+                caseRow.state = caseState.stateName;
+                if(caseState.stateDateTime) {
+                    if (new Date(caseRow.last_modified) < new Date(caseState.stateDateTime)) {
+                        caseRow.last_modified = caseState.stateDateTime;
+                    }
+                }
 
                 return caseRow;
             });
             return caselist
         });
+}
+
+function applyStateFilter(caseLists) {
+    return caseLists.map(
+        caseList => {
+            return caseList.filter(row => row.state !== 'continuous_online_hearing_decision_issued' && row.state !== 'question_deadline_extension_granted' && row.state !== 'question_issued');
+    });
 }
 
 function convertCaselistToTemplate(caseLists) {
@@ -385,9 +251,10 @@ module.exports = app => {
         const options = getOptions(req);
 
         getCases(userId, jurisdictions, options)
-            .then(caseLists => appendCOR(caseLists,options))
-            .then(processCOR)
+            .then(caseLists => appendCOR(caseLists, userId, options))
+            .then(caseLists => appendQuestionsRound(caseLists, userId, options))
             .then(processState)
+            .then(applyStateFilter)
             .then(convertCaselistToTemplate)
             .then(combineLists)
             .then(sortByLastModified)
@@ -428,8 +295,7 @@ module.exports = app => {
         const options = getOptions(req);
 
         getCases(userId, jurisdictions, options)
-            .then(caseLists => appendCOR(caseLists,options))
-            .then(processCOR)
+            .then(caseLists => appendCOR(caseLists, userId, options, jurisdictions))
             .then(combineLists)
             .then(results => {
                 res.setHeader('Access-Control-Allow-Origin', '*');

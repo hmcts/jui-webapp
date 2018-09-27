@@ -102,6 +102,7 @@ function formatRounds(rounds) {
             number_question: numberQuestion,
             number_question_answer: numberQuestionAnswer,
             question_deadline_expired: questionDeadlineExpired,
+            deadline_extension_count: round.deadline_extension_count,
             questions: round.question_references ? formatQuestions(round.question_references) : []
         }
     });
