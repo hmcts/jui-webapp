@@ -17,7 +17,20 @@ module.exports = {
         grantofrepresentation: {}
     },
     divorce: {
-        divorce: {},
-        financialremedymvp2: { consentOrderMade: 'Consent Order Made' }
+        divorce: {
+            AwaitingPayment: 'Awaiting payment',
+            AosAwaiting: 'Aos awaiting',
+            AosStarted: 'Aos started',
+            AwaitingHWFDecision: 'Awaiting HWF decision'
+        },
+        financialremedymvp2: {
+            consentOrderMade: 'Consent Order Made',
+            awaitingPaymentResponse: 'Awaiting payment response',
+            awaitingHWFDecision: 'Awaiting HWF decision',
+            caseAdded: 'Case added',
+            consentOrderApproved: 'Consent order approved',
+            referredToJudge: 'Referred to judge',
+            applicationIssued: 'Application issued',
+        }
     }
 };

@@ -94,6 +94,7 @@ const deadlineExtensionExpiredCondition = {
                     stateDateTime: questionRound.questions[0].state_datetime,
                     actionGoTo: ''
                 };
+                context.stop = true;
             }
         };
     }
@@ -138,9 +139,10 @@ const cohRelistStateCondition = {
     }
 };
 
+const CCD_COH_CONDITON = ccdCohStateCondition.init();
 
 const conditions = [
-    ccdCohStateCondition.init(),
+    CCD_COH_CONDITON,
     cohDecisionStateCondition.init(),
     cohRelistStateCondition.init(),
     cohStateCondition.init(),
@@ -149,15 +151,40 @@ const conditions = [
     questionStateCondition.init()
 ];
 
+const processEngineMap = {
+    sscs: {
+        benefit: {
+            stateConditions: conditions
+        }
+    },
+    cmc: {
+        moneyclaimcase: { stateConditions: [CCD_COH_CONDITON] }
+    },
+    probate: {
+        grantofrepresentation: { stateConditions: [CCD_COH_CONDITON] }
+    },
+    divorce: {
+        divorce: { stateConditions: [CCD_COH_CONDITON] },
+        financialremedymvp2: { stateConditions: [CCD_COH_CONDITON] }
+    }
+};
+
+function getProcessEngine(jurisdiction, caseType) {
+    const jud = processEngineMap[jurisdiction.toLowerCase()];
+    const conditionsList = jud ? jud[caseType.toLowerCase()] : null;
+    return (conditionsList) ? conditionsList : [CCD_COH_CONDITON];
+}
 
 module.exports = param => {
+    const processEngine = getProcessEngine(param.jurisdiction, param.caseType);
+
     const context = {
         caseData: param,
         stop: false,
         outcome: {}
     };
 
-    conditions.forEach(condition => {
+    processEngine.stateConditions.forEach(condition => {
         if (!context.stop) {
             const result = condition.evaluate(context);
             if (result) {

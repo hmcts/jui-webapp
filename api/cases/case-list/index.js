@@ -9,6 +9,7 @@ const { getAllRounds } = require('../../questions');
 const { getAllQuestionsByCase } = require('../../questions');
 const moment = require('moment');
 const processCaseStateEngine = require('../../lib/processors/case-state-model');
+const { caseStateFilter } = require('../../lib/processors/case-state-util');
 
 const jurisdictions = [
     {
@@ -77,12 +78,6 @@ function rawCasesReducer(cases, columns) {
     });
 }
 
-function format(state) {
-    let formattedState = state.split("_").join(" ");
-    return formattedState[0].toUpperCase() + formattedState.slice(1);
-}
-
-
 function hasCOR(caseData) {
     return caseData.jurisdiction === 'SSCS';
 }
@@ -98,15 +93,6 @@ function latestQuestionRounds(questionsRounds) {
     return (questionsRounds) ? questionsRounds.sort((a, b) => (a.question_round_number < b.question_round_number))[0] : [];
 }
 
-function sortQuestions(questionsRounds) {
-    return (questionsRounds) ? questionsRounds.questions.sort((a, b) => stateDatetimeDiff(a, b)) : [];
-}
-
-const questionData = async (hearing, userId, options) => {
-    let result = await getAllQuestionsByCase(hearing.case_id, userId, options);
-    return (result) ? sortQuestions(latestQuestionRounds(result)) : [];
-};
-
 function getHearingWithQuestionData(hearing, userId, options) {
     return getAllQuestionsByCase(hearing.case_id, userId, options)
         .then(latestQuestionRounds)
@@ -119,10 +105,9 @@ function getHearingWithQuestionData(hearing, userId, options) {
                 latest_question_round: questionRound
             }
         });
-
 }
 
-function getCOR(casesData, userId, options) {
+function getCOR(casesData, options) {
     let caseIds = casesData.map(caseRow => 'case_id=' + caseRow.id).join("&");
     return new Promise(resolve => {
         if (hasCOR(casesData[0])) {
@@ -141,12 +126,11 @@ function getCOR(casesData, userId, options) {
     });
 }
 
-
-function appendCOR(caseLists, userId, options) {
+function appendCOR(caseLists, options) {
     return Promise.all(caseLists.map(caseList => {
         return new Promise((resolve, reject) => {
             if (caseList && caseList.length) {
-                getCOR(caseList, userId, options).then(casesDataWithCor => {
+                getCOR(caseList, options).then(casesDataWithCor => {
                     resolve(casesDataWithCor);
                 })
 
@@ -178,7 +162,6 @@ function appendQuestionsRound(caseLists, userId, options) {
                     }
                     resolve(caseList);
                 })
-
             } else {
                 resolve([]);
             }
@@ -220,7 +203,7 @@ function processState(caseLists) {
 function applyStateFilter(caseLists) {
     return caseLists.map(
         caseList => {
-            return caseList.filter(row => row.state !== 'continuous_online_hearing_decision_issued' && row.state !== 'question_deadline_extension_granted' && row.state !== 'question_issued');
+            return caseList.filter(caseStateFilter);
     });
 }
 
@@ -251,7 +234,7 @@ module.exports = app => {
         const options = getOptions(req);
 
         getCases(userId, jurisdictions, options)
-            .then(caseLists => appendCOR(caseLists, userId, options))
+            .then(caseLists => appendCOR(caseLists, options))
             .then(caseLists => appendQuestionsRound(caseLists, userId, options))
             .then(processState)
             .then(applyStateFilter)
