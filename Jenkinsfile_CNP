@@ -39,7 +39,8 @@ withPipeline(type , product, component) {
 
     after('checkout') {sh 'yarn cache clean'}
     after('build') {sh 'npm run build'}
-    after('test') {
+    before('test') {sh 'yarn test:apicoverage'}
+    after('test')  {
 
         publishHTML ( [
             allowMissing         : true,
@@ -48,6 +49,15 @@ withPipeline(type , product, component) {
             reportDir            : "coverage",
             reportFiles          : "index.html",
             reportName           : "JUI Angular Unit Tests Report"
+        ])
+
+        publishHTML ( [
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "coverage/lcov-report",
+            reportFiles          : "index.html",
+            reportName           : "JUI API Unit Tests Report"
         ])
 
                publishHTML([
