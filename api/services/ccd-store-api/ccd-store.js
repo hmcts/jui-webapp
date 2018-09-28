@@ -24,17 +24,16 @@ function getOptions(req) {
 
 function getCCDCases(userId, jurisdictions, options) {
     const promiseArray = [];
-    if (process.env.JUI_ENV === 'mock') {
-        jurisdictions.forEach(jurisdiction => {
+    jurisdictions.forEach(jurisdiction => {
+        if (process.env.JUI_ENV === 'mock') {
             promiseArray.push(mockRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction.jur}/case-types/${jurisdiction.caseType}/cases?sortDirection=DESC${jurisdiction.filter}`, options))
-        });
-    } else {
-        jurisdictions.forEach(jurisdiction => {
+        } else {
             promiseArray.push(generateRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction.jur}/case-types/${jurisdiction.caseType}/cases?sortDirection=DESC${jurisdiction.filter}`, options))
-        });
-    }
+        }
+    });
     return Promise.all(promiseArray);
 }
+
 
 module.exports = app => {
     const router = express.Router({ mergeParams: true });

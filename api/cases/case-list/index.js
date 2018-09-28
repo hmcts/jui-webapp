@@ -4,8 +4,8 @@ const getListTemplate = require('./templates');
 const generateRequest = require('../../lib/request');
 const valueProcessor = require('../../lib/processors/value-processor');
 const sscsCaseListTemplate = require('./templates/sscs/benefit');
-const mockRequest = require('../../lib/mockRequest');
 const { getAllQuestionsByCase } = require('../../questions');
+const { getCCDCases } = require('../../services/ccd-store-api/ccd-store');
 const moment = require('moment');
 const processCaseStateEngine = require('../../lib/processors/case-state-model');
 const { caseStateFilter } = require('../../lib/processors/case-state-util');
@@ -38,27 +38,7 @@ const jurisdictions = [
     // }
 ];
 
-function getOptions(req) {
-    return {
-        headers: {
-            'Authorization': `Bearer ${req.auth.token}`,
-            'ServiceAuthorization': req.headers.ServiceAuthorization
-        }
-    };
-}
-
-function getCases(userId, jurisdictions, options) {
-    const promiseArray = [];
-    jurisdictions.forEach(jurisdiction => {
-        if (process.env.JUI_ENV === 'mock') {
-            promiseArray.push(mockRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction.jur}/case-types/${jurisdiction.caseType}/cases?sortDirection=DESC${jurisdiction.filter}`, options))
-        } else {
-            promiseArray.push(generateRequest('GET', `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction.jur}/case-types/${jurisdiction.caseType}/cases?sortDirection=DESC${jurisdiction.filter}`, options))
-        }
-    });
-    return Promise.all(promiseArray);
-}
-
+// TODO put this is the coh-cor microserver module
 function getOnlineHearing(caseIds, options) {
     return generateRequest('GET', `${config.services.coh_cor_api}/continuous-online-hearings/?${caseIds}`, options);
 }
@@ -96,76 +76,72 @@ function getHearingWithQuestionData(hearing, userId, options) {
     return getAllQuestionsByCase(hearing.case_id, userId, options)
         .then(latestQuestionRounds)
         .then(questionRound => {
-            if(questionRound) {
-                questionRound.questions.sort((a, b) => stateDatetimeDiff(a, b))
+            if (questionRound) {
+                questionRound.questions.sort((a, b) => stateDatetimeDiff(a, b));
             }
             return {
-                hearing: hearing,
+                hearing,
                 latest_question_round: questionRound
-            }
+            };
         });
 }
 
 function getCOR(casesData, options) {
-    let caseIds = casesData.map(caseRow => 'case_id=' + caseRow.id).join("&");
+    const caseIds = casesData.map(caseRow => `case_id=${caseRow.id}`).join('&');
     return new Promise(resolve => {
         if (hasCOR(casesData[0])) {
             getOnlineHearing(caseIds, options)
                 .then(hearings => {
                     if (hearings.online_hearings) {
-                        let caseStateMap = new Map(hearings.online_hearings.map(hearing => [Number(hearing.case_id), hearing]));
-                        casesData.forEach(caseRow => {caseRow.hearing_data = caseStateMap.get(Number(caseRow.id));});
+                        const caseStateMap = new Map(hearings.online_hearings.map(hearing => [Number(hearing.case_id), hearing]));
+                        casesData.forEach(caseRow => {
+                            caseRow.hearing_data = caseStateMap.get(Number(caseRow.id));
+                        });
                     }
                     resolve(casesData);
                 });
-        }
-        else {
+        } else {
             resolve(casesData);
         }
     });
 }
 
 function appendCOR(caseLists, options) {
-    return Promise.all(caseLists.map(caseList => {
-        return new Promise((resolve, reject) => {
-            if (caseList && caseList.length) {
-                getCOR(caseList, options).then(casesDataWithCor => {
-                    resolve(casesDataWithCor);
-                })
-
-            } else {
-                resolve([]);
-            }
-        })
-    }));
+    return Promise.all(caseLists.map(caseList => new Promise((resolve, reject) => {
+        if (caseList && caseList.length) {
+            getCOR(caseList, options).then(casesDataWithCor => {
+                resolve(casesDataWithCor);
+            });
+        } else {
+            resolve([]);
+        }
+    })));
 }
 
 function hearingsWithQuestionData(caseLists, userId, options) {
     const promiseArray = [];
-        caseLists.forEach(caseRow => {
-            if(caseRow.hearing_data) {
-                promiseArray.push(getHearingWithQuestionData(caseRow.hearing_data, userId, options))
-            }
-        });
+    caseLists.forEach(caseRow => {
+        if (caseRow.hearing_data) {
+            promiseArray.push(getHearingWithQuestionData(caseRow.hearing_data, userId, options));
+        }
+    });
     return Promise.all(promiseArray);
 }
 
 function appendQuestionsRound(caseLists, userId, options) {
-    return Promise.all(caseLists.map(caseList => {
-        return new Promise((resolve, reject) => {
-            if (caseList && caseList.length) {
-                hearingsWithQuestionData(caseList, userId, options).then(hearingsWithQuestionData => {
-                    if(hearingsWithQuestionData){
-                        let caseStateMap = new Map(hearingsWithQuestionData.map(hearing_data => [Number(hearing_data.hearing.case_id), hearing_data]));
-                        caseList.forEach(caseRow => caseRow.hearing_data = caseStateMap.get(Number(caseRow.id)));
-                    }
-                    resolve(caseList);
-                })
-            } else {
-                resolve([]);
-            }
-        })
-    }));
+    return Promise.all(caseLists.map(caseList => new Promise((resolve, reject) => {
+        if (caseList && caseList.length) {
+            hearingsWithQuestionData(caseList, userId, options).then(hearingsWithQuestionData => {
+                if (hearingsWithQuestionData) {
+                    const caseStateMap = new Map(hearingsWithQuestionData.map(hearing_data => [Number(hearing_data.hearing.case_id), hearing_data]));
+                    caseList.forEach(caseRow => caseRow.hearing_data = caseStateMap.get(Number(caseRow.id)));
+                }
+                resolve(caseList);
+            });
+        } else {
+            resolve([]);
+        }
+    })));
 }
 
 function processState(caseLists) {
@@ -187,7 +163,7 @@ function processState(caseLists) {
                 });
 
                 caseRow.state = caseState.stateName;
-                if(caseState.stateDateTime) {
+                if (caseState.stateDateTime) {
                     if (new Date(caseRow.last_modified) < new Date(caseState.stateDateTime)) {
                         caseRow.last_modified = caseState.stateDateTime;
                     }
@@ -195,26 +171,24 @@ function processState(caseLists) {
 
                 return caseRow;
             });
-            return caselist
+            return caselist;
         });
 }
 
 function applyStateFilter(caseLists) {
     return caseLists.map(
-        caseList => {
-                return caseList.filter(caseStateFilter);
-    });
+        caseList => caseList.filter(caseStateFilter));
 }
 
 function convertCaselistToTemplate(caseLists) {
     return caseLists.map(
         caselist => {
-            if(caselist && caselist.length) {
+            if (caselist && caselist.length) {
                 const jurisdiction = caselist[0].jurisdiction;
                 const caseType = caselist[0].case_type_id;
                 const template = getListTemplate(jurisdiction, caseType);
                 return results = rawCasesReducer(caselist, template.columns)
-                    .filter(row => !!row.case_fields.case_ref);
+                    .filter(row => Boolean(row.case_fields.case_ref));
             }
             return caselist;
         });
@@ -224,30 +198,43 @@ function combineLists(lists) {
     return [].concat(...lists);
 }
 
-function sortByLastModified(results) {
+function sortCases(results) {
     return results.sort((result1, result2) => new Date(result1.case_fields.lastModified) - new Date(result2.case_fields.lastModified));
 }
 
+function aggregatedData(results) {
+    return {...sscsCaseListTemplate, results};
+}
+
+function getOptions(req) {
+    return {
+        headers: {
+            Authorization: `Bearer ${req.auth.token}`,
+            ServiceAuthorization: req.headers.ServiceAuthorization
+        }
+    };
+}
+
 module.exports = app => {
-    const router = express.Router({mergeParams: true});
+    const router = express.Router({ mergeParams: true });
 
     router.get('/', (req, res, next) => {
         const userId = req.auth.userId;
         const options = getOptions(req);
 
-        getCases(userId, jurisdictions, options)
+        getCCDCases(userId, jurisdictions, options)
             .then(caseLists => appendCOR(caseLists, options))
             .then(caseLists => appendQuestionsRound(caseLists, userId, options))
             .then(processState)
             .then(applyStateFilter)
             .then(convertCaselistToTemplate)
             .then(combineLists)
-            .then(sortByLastModified)
+            .then(sortCases)
+            .then(aggregatedData)
             .then(results => {
-                const aggregatedData = {...sscsCaseListTemplate, results};
                 res.setHeader('Access-Control-Allow-Origin', '*');
                 res.setHeader('content-type', 'application/json');
-                res.status(200).send(JSON.stringify(aggregatedData));
+                res.status(200).send(JSON.stringify(results));
             })
             .catch(response => {
                 console.log(response.error || response);
@@ -260,7 +247,7 @@ module.exports = app => {
         const userId = req.auth.userId;
         const options = getOptions(req);
 
-        getCases(userId, jurisdictions, options)
+        getCCDCases(userId, jurisdictions, options)
             .then(combineLists)
             .then(results => {
                 res.setHeader('Access-Control-Allow-Origin', '*');
@@ -279,7 +266,7 @@ module.exports = app => {
         const userId = req.auth.userId;
         const options = getOptions(req);
 
-        getCases(userId, jurisdictions, options)
+        getCCDCases(userId, jurisdictions, options)
             .then(caseLists => appendCOR(caseLists, userId, options, jurisdictions))
             .then(combineLists)
             .then(results => {
