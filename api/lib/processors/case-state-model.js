@@ -111,8 +111,11 @@ const cohDecisionStateCondition = {
                 return hearingData && hearingData.current_state && hearingData.current_state.state_name === DECISION_ISSUED_STATE;
             },
             consequence: context => {
+                const hearingData = context.caseData.hearingData;
+
                 context.outcome = {
                     stateName: DECISION_ISSUED_STATE,
+                    stateDateTime: hearingData.current_state.state_datetime,
                     actionGoTo: ''
                 };
 
@@ -131,8 +134,11 @@ const cohRelistStateCondition = {
                 return hearingData && hearingData.current_state && hearingData.current_state.state_name === RELISTED_STATE;
             },
             consequence: context => {
+                const hearingData = context.caseData.hearingData;
+
                 context.outcome = {
                     stateName: RELISTED_STATE,
+                    stateDateTime: hearingData.current_state.state_datetime,
                     actionGoTo: ''
                 };
                 context.stop = true;
