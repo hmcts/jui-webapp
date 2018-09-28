@@ -8,7 +8,7 @@ Feature: Dashboard
 
 
 
-    @RIUI_370 @RIUI_418 @all
+    @RIUI_370 @RIUI_418
     Scenario Outline: Verify available SSCS cases
         When one or more cases <type> are displayed
         When I select a case <type>
