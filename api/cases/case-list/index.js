@@ -1,14 +1,14 @@
 const express = require('express');
-const config = require('../../../config');
-const getListTemplate = require('./templates');
-const generateRequest = require('../../lib/request');
-const valueProcessor = require('../../lib/processors/value-processor');
-const sscsCaseListTemplate = require('./templates/sscs/benefit');
-const { getAllQuestionsByCase } = require('../../questions');
-const { getCCDCases } = require('../../services/ccd-store-api/ccd-store');
 const moment = require('moment');
+const getListTemplate = require('./templates');
+const sscsCaseListTemplate = require('./templates/sscs/benefit');
 const processCaseStateEngine = require('../../lib/processors/case-state-model');
 const { caseStateFilter } = require('../../lib/processors/case-state-util');
+const valueProcessor = require('../../lib/processors/value-processor');
+const generateRequest = require('../../lib/request');
+const { getAllQuestionsByCase } = require('../../questions');
+const { getCCDCases } = require('../../services/ccd-store-api/ccd-store');
+const config = require('../../../config');
 
 const jurisdictions = [
     {
@@ -38,52 +38,13 @@ const jurisdictions = [
     // }
 ];
 
-// TODO put this is the coh-cor microserver module
-function getOnlineHearing(caseIds, options) {
-    return generateRequest('GET', `${config.services.coh_cor_api}/continuous-online-hearings/?${caseIds}`, options);
-}
-
-function rawCasesReducer(cases, columns) {
-    return cases.map(caseRow => {
-        return {
-            case_id: caseRow.id,
-            case_jurisdiction: caseRow.jurisdiction,
-            case_type_id: caseRow.case_type_id,
-            case_fields: columns.reduce((row, column) => {
-                row[column.case_field_id] = valueProcessor(column.value, caseRow);
-                return row;
-            }, {})
-        };
-    });
-}
-
 function hasCOR(caseData) {
     return caseData.jurisdiction === 'SSCS';
 }
 
-function stateDatetimeDiff(a, b) {
-    const dateTime1 = moment.utc(a.state_datetime);
-    const dateTime2 = moment.utc(b.state_datetime);
-
-    return moment.duration(moment(dateTime2).diff(moment(dateTime1))).asMilliseconds();
-}
-
-function latestQuestionRounds(questionsRounds) {
-    return (questionsRounds) ? questionsRounds.sort((a, b) => (a.question_round_number < b.question_round_number))[0] : [];
-}
-
-function getHearingWithQuestionData(hearing, userId, options) {
-    return getAllQuestionsByCase(hearing.case_id, userId, options)
-        .then(latestQuestionRounds)
-        .then(questionRound => {
-            if (questionRound) {
-                questionRound.questions.sort((a, b) => stateDatetimeDiff(a, b));
-            }
-            return {
-                hearing,
-                latest_question_round: questionRound
-            };
-        });
+// TODO put this is the coh-cor microserver module
+function getOnlineHearing(caseIds, options) {
+    return generateRequest('GET', `${config.services.coh_cor_api}/continuous-online-hearings/?${caseIds}`, options);
 }
 
 function getCOR(casesData, options) {
@@ -116,6 +77,31 @@ function appendCOR(caseLists, options) {
             resolve([]);
         }
     })));
+}
+
+function latestQuestionRounds(questionsRounds) {
+    return (questionsRounds) ? questionsRounds.sort((a, b) => (a.question_round_number < b.question_round_number))[0] : [];
+}
+
+function stateDatetimeDiff(a, b) {
+    const dateTime1 = moment.utc(a.state_datetime);
+    const dateTime2 = moment.utc(b.state_datetime);
+
+    return moment.duration(moment(dateTime2).diff(moment(dateTime1))).asMilliseconds();
+}
+
+function getHearingWithQuestionData(hearing, userId, options) {
+    return getAllQuestionsByCase(hearing.case_id, userId, options)
+        .then(latestQuestionRounds)
+        .then(questionRound => {
+            if (questionRound) {
+                questionRound.questions.sort((a, b) => stateDatetimeDiff(a, b));
+            }
+            return {
+                hearing,
+                latest_question_round: questionRound
+            };
+        });
 }
 
 function hearingsWithQuestionData(caseLists, userId, options) {
@@ -176,8 +162,21 @@ function processState(caseLists) {
 }
 
 function applyStateFilter(caseLists) {
-    return caseLists.map(
-        caseList => caseList.filter(caseStateFilter));
+    return caseLists.map(caseList => caseList.filter(caseStateFilter));
+}
+
+function rawCasesReducer(cases, columns) {
+    return cases.map(caseRow => {
+        return {
+            case_id: caseRow.id,
+            case_jurisdiction: caseRow.jurisdiction,
+            case_type_id: caseRow.case_type_id,
+            case_fields: columns.reduce((row, column) => {
+                row[column.case_field_id] = valueProcessor(column.value, caseRow);
+                return row;
+            }, {})
+        };
+    });
 }
 
 function convertCaselistToTemplate(caseLists) {
