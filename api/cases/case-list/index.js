@@ -5,7 +5,6 @@ const generateRequest = require('../../lib/request');
 const valueProcessor = require('../../lib/processors/value-processor');
 const sscsCaseListTemplate = require('./templates/sscs/benefit');
 const mockRequest = require('../../lib/mockRequest');
-const { getAllRounds } = require('../../questions');
 const { getAllQuestionsByCase } = require('../../questions');
 const moment = require('moment');
 const processCaseStateEngine = require('../../lib/processors/case-state-model');
@@ -203,18 +202,21 @@ function processState(caseLists) {
 function applyStateFilter(caseLists) {
     return caseLists.map(
         caseList => {
-            return caseList.filter(caseStateFilter);
+                return caseList.filter(caseStateFilter);
     });
 }
 
 function convertCaselistToTemplate(caseLists) {
     return caseLists.map(
         caselist => {
-            const jurisdiction = caselist[0].jurisdiction;
-            const caseType = caselist[0].case_type_id;
-            const template = getListTemplate(jurisdiction, caseType);
-            return results = rawCasesReducer(caselist, template.columns)
-                .filter(row => !!row.case_fields.case_ref);
+            if(caselist && caselist.length) {
+                const jurisdiction = caselist[0].jurisdiction;
+                const caseType = caselist[0].case_type_id;
+                const template = getListTemplate(jurisdiction, caseType);
+                return results = rawCasesReducer(caselist, template.columns)
+                    .filter(row => !!row.case_fields.case_ref);
+            }
+            return caselist;
         });
 }
 
