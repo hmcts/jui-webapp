@@ -48,5 +48,4 @@ reports/
 .tmp/
 
 reports_json/
-
-\.nyc_output/
+.nyc_output/

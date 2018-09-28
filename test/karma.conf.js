@@ -22,7 +22,7 @@ module.exports = config => {
         ],
         client: { clearContext: false },
         coverageIstanbulReporter: {
-            dir: './reports/test/coverage/ng',
+            dir: './reports/tests/coverage/ng',
             reports: ['html', 'lcovonly'],
             fixWebpackSourcePaths: true,
             thresholds: {

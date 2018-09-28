@@ -4,46 +4,40 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "build": "npm run build-universal",
-    "build-universal": "npm run build:client-and-server-bundles",
-    "build:client-and-server-bundles": "ng build --prod && ng run jui:server",
+    "build": "ng build --prod && ng run jui:server",
     "start": "node server.js",
     "start-dev": "ng serve",
     "start-dev-proxy": "ng serve --proxy-config proxy.config.json",
     "start-dev-node": "export JUI_ENV=local; node dev-server.js",
     "start-dev-docker-proxy": "export JUI_ENV=docker; ng serve --proxy-config proxy.config.json",
     "start-dev-docker-node": "export JUI_ENV=docker; node dev-server.js",
-    "dev": "yarn build-universal && concurrently \"yarn dev-frontend\" \"yarn dev-backend\"",
-    "dev-backend": "nodemon server.js --watch api --watch src --watch middleware --watch lib --watch proxies --watch config --delay 3000ms -e js,ts,html,scss",
     "start-json-server": "export JUI_ENV=mock; node ./mock-server/mockserver.js",
-    "dev-frontend": "ng-udkc",
-    "lint": "yarn lint:ng && yarn lint:node || true",
-    "lint:fix": "(yarn lint:ng:fix || true) && (yarn lint:node:fix || true)",
+    "lint": "npm run lint:node || npm run lint:ng || true",
+    "lint:node": "eslint -f node_modules/eslint-html-reporter/reporter.js -o ./reports/lint/node/index.html .",
     "lint:ng": "ng lint jui",
-    "lint:ng:fix": "ng lint jui --fix",
-    "lint:node": "eslint . -f node_modules/eslint-html-reporter/reporter.js -o ./reports/lint/node/index.html",
-    "lint:node:fix": "eslint . --fix",
+    "lint:fix": "npm run lint:node:fix || npm run lint:ng:fix || true",
+    "lint:fix:node": "eslint . --fix",
+    "lint:fix:ng": "ng lint jui --fix",
     "test": "npm run test:node && npm run test:ng",
     "test:node": "jasmine --config=test/unit/node/jasmine.json",
     "test:ng": "ng test",
     "test:nsp": "nsp check",
-    "test:a11y": "echo 'ally testing not implemented'",
-    "test:routes": "echo 'routes testing not implemented'",
     "test:coverage": "npm run test:coverage:node && npm run test:coverage:ng",
-    "test:coverage:ng": "ng test --code-coverage",
     "test:coverage:node": "nyc jasmine --config=test/unit/node/jasmine.json",
-    "test-all": "echo 'test all not implemented'",
-    "test:snyk": "snyk test",
-    "test:smoke": "echo 'smoke test not implemented'",
+    "test:coverage:ng": "ng test --code-coverage",
+    "test:a11y": "echo 'not implemented'",
+    "test:smoke": "echo 'not implemented'",
     "test:functional": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/conf.js",
     "test:functional:local": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/conf.js --local",
-    "health-check": "echo 'healthcheck not implemented'",
+    "test:crossbrowser": "echo 'not implemented'",
+    "test:fullfunctional": "echo 'not implemented'",
+    "test:mutation": "echo 'not implemented'",
+    "test:apiGateway": "echo 'not implemented'",
     "sonar-scan": "node_modules/sonar-scanner/bin/sonar-scanner",
-    "test:codacy-upload": "cat ./reports/test/coverage/ng/lcov.info | codacy-coverage",
-    "test:codecov-upload": "codecov -f ./reports/test/coverage/ng/lcov.info",
-    "snyk-protect": "snyk protect",
-    "e2e": "protractor ./test/e2e/config/conf.js",
-    "pree2e": "webdriver-manager update --standalone false --gecko false --quiet"
+    "test:codacy-upload": "cat ./reports/tests/coverage/ng/lcov.info | codacy-coverage",
+    "test:codecov-upload": "codecov -f ./reports/tests/coverage/ng/lcov.info",
+    "snyk": "snyk test",
+    "snyk-protect": "snyk protect"
   },
   "private": true,
   "dependencies": {
@@ -177,6 +171,30 @@
     "require": [],
     "cache": true,
     "all": true,
-    "report-dir": "./reports/test/coverage/node"
-  }
+    "report-dir": "./reports/tests/coverage/node"
+  },
+  "eslintConfig": {
+    "extends": "@hmcts",
+    "env": {
+      "es6": true,
+      "node": true
+    },
+    "parserOptions": {
+      "sourceType": "module"
+    },
+    "rules": {
+      "indent": [
+        "error",
+        4
+      ],
+      "max-len": [
+        2,
+        120
+      ]
+    }
+  },
+  "eslintIgnore": [
+    "**/node_modules/**",
+    "src/public/**"
+  ]
 }
