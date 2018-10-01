@@ -1,4 +1,5 @@
 const { COH_STATE, Q_DEADLINE_ELAPSED_STATE, Q_DEADLINE_EXT_ELAPSED_STATE, DECISION_ISSUED_STATE, RELISTED_STATE } = require('./case-state-util');
+const { createCaseState } = require('./case-state-util');
 
 const ccdCohStateCondition = {
     init: () => {
@@ -9,10 +10,7 @@ const ccdCohStateCondition = {
                 // TODO add check for ccd-state
                 true,
             consequence: context => {
-                context.outcome = {
-                    stateName: context.caseData.ccdState,
-                    actionGoTo: ''
-                };
+                context.outcome = createCaseState(context.caseData.ccdState, null, '');
                 context.ccdCohStateCheck = true;
             }
         };
@@ -30,11 +28,7 @@ const cohStateCondition = {
             consequence: context => {
                 context.cohStateCheck = true;
                 const hearingData = context.caseData.hearingData;
-                context.outcome = {
-                    stateName: COH_STATE,
-                    stateDateTime: hearingData.current_state.state_datetime,
-                    actionGoTo: ''
-                };
+                context.outcome = createCaseState(COH_STATE, hearingData.current_state.state_datetime, '');
             }
         };
     }
@@ -51,12 +45,7 @@ const questionStateCondition = {
             },
             consequence: context => {
                 const questionRound = context.caseData.questionRoundData;
-
-                context.outcome = {
-                    stateName: questionRound.questions[0].state,
-                    stateDateTime: questionRound.questions[0].state_datetime,
-                    actionGoTo: ''
-                };
+                context.outcome = createCaseState(questionRound.questions[0].state, questionRound.questions[0].state_datetime, 'questions');
             }
         };
     }
@@ -71,11 +60,7 @@ const deadlineElapsedCondition = {
             },
             consequence: context => {
                 const questionRound = context.caseData.questionRoundData;
-                context.outcome = {
-                    stateName: Q_DEADLINE_ELAPSED_STATE,
-                    stateDateTime: questionRound.questions[0].state_datetime,
-                    actionGoTo: ''
-                };
+                context.outcome = createCaseState(Q_DEADLINE_ELAPSED_STATE, questionRound.questions[0].state_datetime, 'questions');
             }
         };
     }
@@ -91,11 +76,7 @@ const deadlineExtensionExpiredCondition = {
             },
             consequence: context => {
                 const questionRound = context.caseData.questionRoundData;
-                context.outcome = {
-                    stateName: Q_DEADLINE_EXT_ELAPSED_STATE,
-                    stateDateTime: questionRound.questions[0].state_datetime,
-                    actionGoTo: ''
-                };
+                context.outcome = createCaseState(Q_DEADLINE_EXT_ELAPSED_STATE, questionRound.questions[0].state_datetime, 'questions');
                 context.stop = true;
             }
         };
@@ -112,12 +93,7 @@ const cohDecisionStateCondition = {
             },
             consequence: context => {
                 const hearingData = context.caseData.hearingData;
-
-                context.outcome = {
-                    stateName: DECISION_ISSUED_STATE,
-                    stateDateTime: hearingData.current_state.state_datetime,
-                    actionGoTo: ''
-                };
+                context.outcome = createCaseState(DECISION_ISSUED_STATE, hearingData.current_state.state_datetime, '');
 
                 context.stop = true;
             }
@@ -135,12 +111,7 @@ const cohRelistStateCondition = {
             },
             consequence: context => {
                 const hearingData = context.caseData.hearingData;
-
-                context.outcome = {
-                    stateName: RELISTED_STATE,
-                    stateDateTime: hearingData.current_state.state_datetime,
-                    actionGoTo: ''
-                };
+                context.outcome = createCaseState(RELISTED_STATE, hearingData.current_state.state_datetime, '');
                 context.stop = true;
             }
         };

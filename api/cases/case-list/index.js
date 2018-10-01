@@ -231,6 +231,7 @@ module.exports = app => {
             .then(sortCases)
             .then(aggregatedData)
             .then(results => {
+                console.log('cases from--->', results);
                 res.setHeader('Access-Control-Allow-Origin', '*');
                 res.setHeader('content-type', 'application/json');
                 res.status(200).send(JSON.stringify(results));

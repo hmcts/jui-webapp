@@ -3,6 +3,14 @@ function caseStateFilter(caseData) {
         && caseData.state !== 'question_issued';
 }
 
+function createCaseState(state, date, actionUrl) {
+    return {
+        stateName: state,
+        stateDateTime: date,
+        actionGoTo: actionUrl
+    };
+}
+
 module.exports.COH_STATE = 'continuous_online_hearing_started';
 
 module.exports.Q_DEADLINE_ELAPSED_STATE = 'question_deadline_elapsed';
@@ -14,3 +22,5 @@ module.exports.DECISION_ISSUED_STATE = 'continuous_online_hearing_decision_issue
 module.exports.RELISTED_STATE = 'continuous_online_hearing_relisted';
 
 module.exports.caseStateFilter = caseStateFilter;
+
+module.exports.createCaseState = createCaseState;
