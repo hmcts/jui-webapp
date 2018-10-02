@@ -29,8 +29,8 @@ module.exports = {
             awaitingHWFDecision: 'Awaiting HWF decision',
             caseAdded: 'Case added',
             consentOrderApproved: 'Consent order approved',
-            referredToJudge: 'Referred to judge',
-            applicationIssued: 'Application issued',
+            referredToJudge: 'Draft consent order',
+            applicationIssued: 'Application issued'
         }
     }
 };

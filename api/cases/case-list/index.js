@@ -148,7 +148,7 @@ function processState(caseLists) {
                     questionRoundData
                 });
 
-                caseRow.state = caseState.stateName;
+                caseRow.state = caseState;
                 if (caseState.stateDateTime) {
                     if (new Date(caseRow.last_modified) < new Date(caseState.stateDateTime)) {
                         caseRow.last_modified = caseState.stateDateTime;
@@ -231,7 +231,6 @@ module.exports = app => {
             .then(sortCases)
             .then(aggregatedData)
             .then(results => {
-                console.log('cases from--->', results);
                 res.setHeader('Access-Control-Allow-Origin', '*');
                 res.setHeader('content-type', 'application/json');
                 res.status(200).send(JSON.stringify(results));
