@@ -2,25 +2,25 @@ const { CONSTANTS } = require('./case-state-util');
 const { createCaseState } = require('./case-state-util');
 
 const CCD_STATE = {
-    when: function(context) {
+    when(context) {
         // don't know yet what would CCD state like for COH
         // context.caseData.ccdState === 'continuous_online_hearing_started'??;
         // TODO add check for ccd-state
         return true;
     },
-    then: function(context) {
+    then(context) {
         context.outcome = createCaseState(context.caseData.ccdState, null, '');
         context.ccdCohStateCheck = true;
     }
 };
 
 const cohState = {
-    when: function(context) {
+    when(context) {
         const hearingData = context.caseData.hearingData;
         const hearingState = (hearingData) ? hearingData.current_state.state_name : undefined;
         return context.ccdCohStateCheck && hearingState && hearingState === CONSTANTS.COH_STATE;
     },
-    then: function(context) {
+    then(context) {
         context.cohStateCheck = true;
         const hearingData = context.caseData.hearingData;
         context.outcome = createCaseState(CONSTANTS.COH_STATE, hearingData.current_state.state_datetime, '');
@@ -28,13 +28,13 @@ const cohState = {
 };
 
 const questionState = {
-    when: function(context) {
+    when(context) {
         const questionRound = context.caseData.questionRoundData;
         const currentState = questionRound && questionRound.questions && questionRound.questions[0].state;
 
         return context.cohStateCheck && currentState;
     },
-    then: function(context) {
+    then(context) {
         const questionRound = context.caseData.questionRoundData;
         context.outcome = createCaseState(questionRound.questions[0].state, questionRound.questions[0].state_datetime, 'questions');
     }
@@ -42,23 +42,23 @@ const questionState = {
 };
 
 const deadlineElapsed = {
-    when: function(context) {
+    when(context) {
         const questionRound = context.caseData.questionRoundData;
         return context.cohStateCheck && questionRound && questionRound.state === CONSTANTS.Q_DEADLINE_ELAPSED_STATE;
     },
-    then: function(context) {
+    then(context) {
         const questionRound = context.caseData.questionRoundData;
         context.outcome = createCaseState(CONSTANTS.Q_DEADLINE_ELAPSED_STATE, questionRound.questions[0].state_datetime, 'questions');
     }
 };
 
 const deadlineExtensionExpired = {
-    when: function(context) {
+    when(context) {
         const questionRound = context.caseData.questionRoundData;
         const questionDeadlineElapsed = context.cohStateCheck && questionRound && questionRound.state === CONSTANTS.Q_DEADLINE_ELAPSED_STATE;
         return questionDeadlineElapsed && questionRound.deadline_extension_count > 0;
     },
-    then: function(context) {
+    then(context) {
         const questionRound = context.caseData.questionRoundData;
         context.outcome = createCaseState(CONSTANTS.Q_DEADLINE_EXT_ELAPSED_STATE, questionRound.questions[0].state_datetime, CONSTANTS.QUESTIONS_GO_TO);
         context.stop = true;
@@ -66,12 +66,12 @@ const deadlineExtensionExpired = {
 };
 
 const cohDecisionState = {
-    when: function(context) {
+    when(context) {
         const hearingData = context.caseData.hearingData;
         // TODO add check for ccd-state as well
         return hearingData && hearingData.current_state && hearingData.current_state.state_name === CONSTANTS.DECISION_ISSUED_STATE;
     },
-    then: function(context) {
+    then(context) {
         const hearingData = context.caseData.hearingData;
         context.outcome = createCaseState(CONSTANTS.DECISION_ISSUED_STATE, hearingData.current_state.state_datetime, '');
 
@@ -80,12 +80,12 @@ const cohDecisionState = {
 };
 
 const cohRelistState = {
-    when: function(context) {
+    when(context) {
         const hearingData = context.caseData.hearingData;
         // TODO add check for ccd-state as well
         return hearingData && hearingData.current_state && hearingData.current_state.state_name === CONSTANTS.RELISTED_STATE;
     },
-    then: function (context) {
+    then(context) {
         const hearingData = context.caseData.hearingData;
         context.outcome = createCaseState(CONSTANTS.RELISTED_STATE, hearingData.current_state.state_datetime, '');
         context.stop = true;
@@ -93,10 +93,10 @@ const cohRelistState = {
 };
 
 const referredToJudge = {
-    when: function(context) {
+    when(context) {
         return context.caseData.ccdState === CONSTANTS.REFER_TO_JUDGE;
     },
-    then: function (context) {
+    then(context) {
         context.outcome = createCaseState(context.caseData.ccdState, null, CONSTANTS.CASE_FILE_GO_TO);
     }
 };
@@ -111,12 +111,8 @@ const processEngineMap = {
             ]
         }
     },
-    cmc: {
-        moneyclaimcase: { stateConditions: [CCD_STATE] }
-    },
-    probate: {
-        grantofrepresentation: { stateConditions: [CCD_STATE] }
-    },
+    cmc: { moneyclaimcase: { stateConditions: [CCD_STATE] } },
+    probate: { grantofrepresentation: { stateConditions: [CCD_STATE] } },
     divorce: {
         divorce: { stateConditions: [CCD_STATE] },
         financialremedymvp2: { stateConditions: [CCD_STATE, referredToJudge] }

@@ -4,7 +4,7 @@ function createState(map, status) {
 
     return {
         name: (map && map[status.stateName]) ? map[status.stateName] : status.stateName,
-        action_goto: status.actionGoTo
+        actionGoTo: status.actionGoTo
 
     };
 }

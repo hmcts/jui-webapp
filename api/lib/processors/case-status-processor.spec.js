@@ -14,7 +14,7 @@ describe('Case Status Processor', () => {
             case_type_id: 'BENEFIT'
         });
         expect(result.name).toEqual('DWP response received');
-        expect(result.action_goto).toEqual('url');
+        expect(result.actionGoTo).toEqual('url');
     });
 
     it('it should return same status back for unrecognised Jurisdiction', () => {
@@ -23,7 +23,7 @@ describe('Case Status Processor', () => {
             case_type_id: 'BENEFIT'
         });
         expect(result.name).toEqual('continuous_online_hearing_started');
-        expect(result.action_goto).toEqual('url');
+        expect(result.actionGoTo).toEqual('url');
     });
 
     it('it should return same status back for unrecognised case type', () => {
@@ -32,7 +32,7 @@ describe('Case Status Processor', () => {
             case_type_id: 'BENEFIT_BLAH'
         });
         expect(result.name).toEqual('continuous_online_hearing_started');
-        expect(result.action_goto).toEqual('url');
+        expect(result.actionGoTo).toEqual('url');
     });
 
     it('it should return same status back for undefined case status mapping', () => {
@@ -44,6 +44,6 @@ describe('Case Status Processor', () => {
             case_type_id: 'BENEFIT'
         });
         expect(result.name).toEqual('continuous_online_hearing_started_1');
-        expect(result.action_goto).toEqual('');
+        expect(result.actionGoTo).toEqual('');
     });
 });
