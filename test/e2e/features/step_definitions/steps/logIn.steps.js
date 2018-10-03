@@ -18,7 +18,7 @@ defineSupportCode(function({ Given, When, Then }) {
         await password.sendKeys(this.config.password);
         await submit.click();
         await browser.wait(() => {
-            return $(this.getSelector('jui-header'))
+            return $(this.getSelector("jui-header"))
                 .isPresent();
         }, 5000);
     });
@@ -43,7 +43,7 @@ defineSupportCode(function({ Given, When, Then }) {
 
     Then (/^I should see failure error summary$/, async function(){
         await expect(loginPage.failure_error_heading.isDisplayed()).to.eventually.be.true;
-        await expect(loginPage.failure_error_heading.getText()).to.eventually.equal('Incorrect email/password combination');
+        await expect(loginPage.failure_error_heading.getText()).to.eventually.equal("Incorrect email/password combination");
 
     });
 
