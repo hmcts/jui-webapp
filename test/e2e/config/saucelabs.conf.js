@@ -46,20 +46,30 @@ const config = {
 
 
     multiCapabilities: [
+        // {
+        //     browserName: 'firefox',
+        //     version: '61.0',
+        //     platform: 'macOS 10.13',
+        //     name: 'firefox-tests',
+        //     shardTestFiles: false,
+        //     maxInstances: 1
+        // },
+
+
         {
-            browserName: 'firefox',
-            version: '61.0',
-            platform: 'macOS 10.13',
-            name: 'firefox-tests',
-            shardTestFiles: true,
-            maxInstances: 1
-        }, {
             browserName: 'chrome',
+             'args':['disable-web-security'],
+            proxy: {
+                proxyType: 'manual',
+                httpProxy: 'proxyout.reform.hmcts.net:8080',
+                sslProxy: 'proxyout.reform.hmcts.net:8080',
+                // noProxy: 'localhost:3000'
+            },
             version: 'latest',
             platform: 'Windows 7',
-            name: 'chrome-tests',
-            shardTestFiles: true,
-            maxInstances: 1
+            name: 'chrome-tests'
+            // shardTestFiles: false,
+            //   maxInstances: 1
         }
     ],
 
@@ -68,15 +78,17 @@ const config = {
 
     exclude: [],
 
-    getPageTimeout: 500000,
-    allScriptsTimeout: 600000,
-    restartBrowserBetweenTests: true,
-    untrackOutstandingTimeouts: true,
+    // getPageTimeout: 500000,
+    // allScriptsTimeout: 600000,
+    // restartBrowserBetweenTests: true,
+    // untrackOutstandingTimeouts: true,
 
 
     cucumberOpts: {
-        require: ['../support/world.js', '../support/*.js', '../features/step_definitions/**/*.steps.js'],
-        format: 'pretty'
+        strict: true,
+        // format: 'json:reports_json/results.json',
+        require: ['../support/world.js', '../support/*.js', '../features/step_definitions/**/*.steps.js']
+        // format: 'pretty'
         // tags: '@login'
     },
 
