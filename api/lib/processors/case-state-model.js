@@ -102,7 +102,7 @@ const referredToJudge = {
 };
 
 const conditionProcessor = {
-    init: context => {
+    init: (context) => {
         return {
             evaluate: (when) => when(context),
             consequence: (then) => then(context)
@@ -144,7 +144,7 @@ module.exports = param => {
     };
 
     const processor = conditionProcessor.init(context);
-    stateConditions.forEach(condition => {
+    stateConditions.forEach((condition) => {
         if (!context.stop) {
             const result = processor.evaluate(condition.when);
             if (result) {
