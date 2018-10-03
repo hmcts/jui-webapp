@@ -3,10 +3,7 @@ const RELISTED = 'continuous_online_hearing_relisted';
 
 function caseStateFilter(caseData) {
     const stateName = caseData.state.stateName;
-    return stateName !== DECISION_ISSUED
-        && stateName !== RELISTED
-        && stateName !== 'question_issue_pending'
-        && stateName !== 'question_issued';
+    return stateName !== DECISION_ISSUED && stateName !== RELISTED && stateName !== 'question_issue_pending' && stateName !== 'question_issued';
 }
 
 function createCaseState(state, date, actionUrl) {
