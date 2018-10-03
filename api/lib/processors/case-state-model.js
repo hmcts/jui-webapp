@@ -102,10 +102,10 @@ const referredToJudge = {
 };
 
 const conditionProcessor = {
-    init: (context) => {
+    init: context => {
         return {
-            evaluate: (when) => when(context),
-            consequence: (then) => then(context)
+            evaluate: when => when(context),
+            consequence: then => then(context)
         };
     }
 };
