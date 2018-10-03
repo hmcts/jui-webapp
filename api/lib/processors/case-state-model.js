@@ -1,5 +1,4 @@
-const { CONSTANTS } = require('./case-state-util');
-const { createCaseState } = require('./case-state-util');
+const { CONSTANTS, createCaseState } = require('./case-state-util');
 
 const CCD_STATE = {
     when(context) {
@@ -36,9 +35,8 @@ const questionState = {
     },
     then(context) {
         const questionRound = context.caseData.questionRoundData;
-        context.outcome = createCaseState(questionRound.questions[0].state, questionRound.questions[0].state_datetime, 'questions');
+        context.outcome = createCaseState(questionRound.questions[0].state, questionRound.questions[0].state_datetime, CONSTANTS.QUESTIONS_GO_TO);
     }
-
 };
 
 const deadlineElapsed = {
@@ -48,7 +46,7 @@ const deadlineElapsed = {
     },
     then(context) {
         const questionRound = context.caseData.questionRoundData;
-        context.outcome = createCaseState(CONSTANTS.Q_DEADLINE_ELAPSED_STATE, questionRound.questions[0].state_datetime, 'questions');
+        context.outcome = createCaseState(CONSTANTS.Q_DEADLINE_ELAPSED_STATE, questionRound.questions[0].state_datetime, CONSTANTS.QUESTIONS_GO_TO);
     }
 };
 
