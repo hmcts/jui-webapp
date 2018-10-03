@@ -101,6 +101,15 @@ const referredToJudge = {
     }
 };
 
+const conditionProcessor = {
+    init: context => {
+        return {
+            evaluate: (when) => when(context),
+            consequence: (then) => then(context)
+        };
+    }
+};
+
 const processEngineMap = {
     sscs: {
         benefit: {
@@ -124,15 +133,6 @@ function getProcessEngine(jurisdiction, caseType) {
     const conditionsList = jud ? jud[caseType.toLowerCase()] : null;
     return (conditionsList) ? conditionsList : [CCD_STATE];
 }
-
-const conditionProcessor = {
-    init: context => {
-        return {
-            evaluate: when => when(context),
-            consequence: then => then(context)
-        };
-    }
-};
 
 module.exports = param => {
     const stateConditions = getProcessEngine(param.jurisdiction, param.caseType).stateConditions;
