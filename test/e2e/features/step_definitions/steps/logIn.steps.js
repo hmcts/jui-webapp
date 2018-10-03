@@ -29,6 +29,8 @@ defineSupportCode(function({ Given, When, Then }) {
         await loginPage.password.sendKeys(this.config.password);
         browser.sleep(5000);
         await loginPage.signinBtn.click();
+        browser.sleep(2000);
+
     });
 
 
@@ -88,6 +90,7 @@ defineSupportCode(function({ Given, When, Then }) {
     Then(/^I select the sign out link$/, async function() {
         browser.sleep(3000);
         await expect(dashBoardPage.sign_out_link.isDisplayed()).to.eventually.be.true;
+        browser.sleep(2000);
         await dashBoardPage.sign_out_link.click();
         browser.sleep(3000);
     });
@@ -97,7 +100,8 @@ defineSupportCode(function({ Given, When, Then }) {
         browser.sleep(3000);
         await expect(dashBoardPage.dashboard_header.isDisplayed()).to.eventually.be.true;
         await dashBoardPage.table.isDisplayed();
-        await expect(dashBoardPage.your_cases.getText()).to.eventually.equal('Your cases');
+        await expect(dashBoardPage.your_cases.getText()).to.eventually.equal("Your cases");
+        browser.sleep(3000);
 
     });
 });
