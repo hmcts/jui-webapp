@@ -1,0 +1,632 @@
+[
+  {
+    "description": "un-authenticated user login",
+    "assertions": [
+      {
+        "passed": true
+      },
+      {
+        "passed": true
+      },
+      {
+        "passed": true
+      },
+      {
+        "passed": true
+      },
+      {
+        "passed": true
+      },
+      {
+        "passed": true
+      },
+      {
+        "passed": true
+      }
+    ],
+    "events": [
+      {
+        "emitterEvent": "testPass",
+        "name": "Then I am on Idam login page",
+        "category": "Login: un-authenticated user login",
+        "durationMillis": 5941,
+        "sourceLocation": {
+          "filePath": "test/e2e/features/app/login.feature",
+          "line": 9,
+          "column": 9
+        },
+        "progress": {
+          "step": 1,
+          "steps": 4
+        }
+      },
+      {
+        "emitterEvent": "testPass",
+        "name": "When I enter an Invalid email-address and password to login",
+        "category": "Login: un-authenticated user login",
+        "durationMillis": 3223,
+        "sourceLocation": {
+          "filePath": "test/e2e/features/app/login.feature",
+          "line": 10,
+          "column": 9
+        },
+        "progress": {
+          "step": 2,
+          "steps": 4
+        }
+      },
+      {
+        "emitterEvent": "testPass",
+        "name": "Then I should be redirected to the Idam login page",
+        "category": "Login: un-authenticated user login",
+        "durationMillis": 2099,
+        "sourceLocation": {
+          "filePath": "test/e2e/features/app/login.feature",
+          "line": 11,
+          "column": 9
+        },
+        "progress": {
+          "step": 3,
+          "steps": 4
+        }
+      },
+      {
+        "emitterEvent": "testPass",
+        "name": "Then I should see failure error summary",
+        "category": "Login: un-authenticated user login",
+        "durationMillis": 3762,
+        "sourceLocation": {
+          "filePath": "test/e2e/features/app/login.feature",
+          "line": 12,
+          "column": 9
+        },
+        "progress": {
+          "step": 4,
+          "steps": 4
+        }
+      }
+    ],
+    "emitToTestRunner": [
+      [
+        "testPass",
+        {
+          "name": "Then I am on Idam login page",
+          "category": "Login: un-authenticated user login",
+          "durationMillis": 5941,
+          "sourceLocation": {
+            "filePath": "test/e2e/features/app/login.feature",
+            "line": 9,
+            "column": 9
+          },
+          "progress": {
+            "step": 1,
+            "steps": 4
+          }
+        }
+      ],
+      [
+        "testPass",
+        {
+          "name": "When I enter an Invalid email-address and password to login",
+          "category": "Login: un-authenticated user login",
+          "durationMillis": 3223,
+          "sourceLocation": {
+            "filePath": "test/e2e/features/app/login.feature",
+            "line": 10,
+            "column": 9
+          },
+          "progress": {
+            "step": 2,
+            "steps": 4
+          }
+        }
+      ],
+      [
+        "testPass",
+        {
+          "name": "Then I should be redirected to the Idam login page",
+          "category": "Login: un-authenticated user login",
+          "durationMillis": 2099,
+          "sourceLocation": {
+            "filePath": "test/e2e/features/app/login.feature",
+            "line": 11,
+            "column": 9
+          },
+          "progress": {
+            "step": 3,
+            "steps": 4
+          }
+        }
+      ],
+      [
+        "testPass",
+        {
+          "name": "Then I should see failure error summary",
+          "category": "Login: un-authenticated user login",
+          "durationMillis": 3762,
+          "sourceLocation": {
+            "filePath": "test/e2e/features/app/login.feature",
+            "line": 12,
+            "column": 9
+          },
+          "progress": {
+            "step": 4,
+            "steps": 4
+          }
+        }
+      ]
+    ],
+    "duration": 17033
+  },
+  {
+    "description": "authenticated user login",
+    "assertions": [
+      {
+        "passed": true
+      },
+      {
+        "passed": true
+      },
+      {
+        "passed": true
+      },
+      {
+        "passed": true
+      },
+      {
+        "passed": true
+      },
+      {
+        "passed": true
+      }
+    ],
+    "events": [
+      {
+        "emitterEvent": "testPass",
+        "name": "Given I am on Idam login page",
+        "category": "Login: authenticated user login",
+        "durationMillis": 3727,
+        "sourceLocation": {
+          "filePath": "test/e2e/features/app/login.feature",
+          "line": 17,
+          "column": 9
+        },
+        "progress": {
+          "step": 1,
+          "steps": 3
+        }
+      },
+      {
+        "emitterEvent": "testPass",
+        "name": "When I enter an valid email-address and password to login",
+        "category": "Login: authenticated user login",
+        "durationMillis": 3156,
+        "sourceLocation": {
+          "filePath": "test/e2e/features/app/login.feature",
+          "line": 18,
+          "column": 9
+        },
+        "progress": {
+          "step": 2,
+          "steps": 3
+        }
+      },
+      {
+        "emitterEvent": "testPass",
+        "name": "Then I should be redirected to JUI dashboard page",
+        "category": "Login: authenticated user login",
+        "durationMillis": 12241,
+        "sourceLocation": {
+          "filePath": "test/e2e/features/app/login.feature",
+          "line": 19,
+          "column": 9
+        },
+        "progress": {
+          "step": 3,
+          "steps": 3
+        }
+      }
+    ],
+    "emitToTestRunner": [
+      [
+        "testPass",
+        {
+          "name": "Given I am on Idam login page",
+          "category": "Login: authenticated user login",
+          "durationMillis": 3727,
+          "sourceLocation": {
+            "filePath": "test/e2e/features/app/login.feature",
+            "line": 17,
+            "column": 9
+          },
+          "progress": {
+            "step": 1,
+            "steps": 3
+          }
+        }
+      ],
+      [
+        "testPass",
+        {
+          "name": "When I enter an valid email-address and password to login",
+          "category": "Login: authenticated user login",
+          "durationMillis": 3156,
+          "sourceLocation": {
+            "filePath": "test/e2e/features/app/login.feature",
+            "line": 18,
+            "column": 9
+          },
+          "progress": {
+            "step": 2,
+            "steps": 3
+          }
+        }
+      ],
+      [
+        "testPass",
+        {
+          "name": "Then I should be redirected to JUI dashboard page",
+          "category": "Login: authenticated user login",
+          "durationMillis": 12241,
+          "sourceLocation": {
+            "filePath": "test/e2e/features/app/login.feature",
+            "line": 19,
+            "column": 9
+          },
+          "progress": {
+            "step": 3,
+            "steps": 3
+          }
+        }
+      ]
+    ],
+    "duration": 24736
+  },
+  {
+    "description": "log out from JUI",
+    "assertions": [
+      {
+        "passed": true
+      },
+      {
+        "passed": true
+      },
+      {
+        "passed": true
+      },
+      {
+        "passed": true
+      },
+      {
+        "passed": true
+      },
+      {
+        "passed": true
+      },
+      {
+        "passed": true
+      }
+    ],
+    "events": [
+      {
+        "emitterEvent": "testPass",
+        "name": "Given I am logged into JUI web app",
+        "category": "Login: log out from JUI",
+        "durationMillis": 5639,
+        "sourceLocation": {
+          "filePath": "test/e2e/features/app/login.feature",
+          "line": 24,
+          "column": 9
+        },
+        "progress": {
+          "step": 1,
+          "steps": 4
+        }
+      },
+      {
+        "emitterEvent": "testPass",
+        "name": "Then I should be redirected to JUI dashboard page",
+        "category": "Login: log out from JUI",
+        "durationMillis": 13302,
+        "sourceLocation": {
+          "filePath": "test/e2e/features/app/login.feature",
+          "line": 25,
+          "column": 9
+        },
+        "progress": {
+          "step": 2,
+          "steps": 4
+        }
+      },
+      {
+        "emitterEvent": "testPass",
+        "name": "When I select the sign out link",
+        "category": "Login: log out from JUI",
+        "durationMillis": 5207,
+        "sourceLocation": {
+          "filePath": "test/e2e/features/app/login.feature",
+          "line": 26,
+          "column": 9
+        },
+        "progress": {
+          "step": 3,
+          "steps": 4
+        }
+      },
+      {
+        "emitterEvent": "testPass",
+        "name": "Then I should be redirected to the Idam login page",
+        "category": "Login: log out from JUI",
+        "durationMillis": 8964,
+        "sourceLocation": {
+          "filePath": "test/e2e/features/app/login.feature",
+          "line": 27,
+          "column": 9
+        },
+        "progress": {
+          "step": 4,
+          "steps": 4
+        }
+      }
+    ],
+    "emitToTestRunner": [
+      [
+        "testPass",
+        {
+          "name": "Given I am logged into JUI web app",
+          "category": "Login: log out from JUI",
+          "durationMillis": 5639,
+          "sourceLocation": {
+            "filePath": "test/e2e/features/app/login.feature",
+            "line": 24,
+            "column": 9
+          },
+          "progress": {
+            "step": 1,
+            "steps": 4
+          }
+        }
+      ],
+      [
+        "testPass",
+        {
+          "name": "Then I should be redirected to JUI dashboard page",
+          "category": "Login: log out from JUI",
+          "durationMillis": 13302,
+          "sourceLocation": {
+            "filePath": "test/e2e/features/app/login.feature",
+            "line": 25,
+            "column": 9
+          },
+          "progress": {
+            "step": 2,
+            "steps": 4
+          }
+        }
+      ],
+      [
+        "testPass",
+        {
+          "name": "When I select the sign out link",
+          "category": "Login: log out from JUI",
+          "durationMillis": 5207,
+          "sourceLocation": {
+            "filePath": "test/e2e/features/app/login.feature",
+            "line": 26,
+            "column": 9
+          },
+          "progress": {
+            "step": 3,
+            "steps": 4
+          }
+        }
+      ],
+      [
+        "testPass",
+        {
+          "name": "Then I should be redirected to the Idam login page",
+          "category": "Login: log out from JUI",
+          "durationMillis": 8964,
+          "sourceLocation": {
+            "filePath": "test/e2e/features/app/login.feature",
+            "line": 27,
+            "column": 9
+          },
+          "progress": {
+            "step": 4,
+            "steps": 4
+          }
+        }
+      ]
+    ],
+    "duration": 36861
+  },
+  {
+    "description": "I can log out from any page within the JUI Service",
+    "assertions": [
+      {
+        "passed": true
+      },
+      {
+        "passed": true
+      },
+      {
+        "passed": true
+      },
+      {
+        "passed": false,
+        "errorMsg": "No element found using locator: By(css selector, [data-selector='heading'])",
+        "stackTrace": "NoSuchElementError: No element found using locator: By(css selector, [data-selector='heading'])\n    at elementArrayFinder.getWebElements.then (/Users/roopa/Documents/auto/jui-webapp/node_modules/protractor/lib/element.ts:819:17)\n    at ManagedPromise.invokeCallback_ (/Users/roopa/Documents/auto/jui-webapp/node_modules/protractor/node_modules/selenium-webdriver/lib/promise.js:1366:14)\n    at TaskQueue.execute_ (/Users/roopa/Documents/auto/jui-webapp/node_modules/protractor/node_modules/selenium-webdriver/lib/promise.js:2970:14)\n    at TaskQueue.executeNext_ (/Users/roopa/Documents/auto/jui-webapp/node_modules/protractor/node_modules/selenium-webdriver/lib/promise.js:2953:27)\n    at asyncRun (/Users/roopa/Documents/auto/jui-webapp/node_modules/protractor/node_modules/selenium-webdriver/lib/promise.js:2813:27)\n    at /Users/roopa/Documents/auto/jui-webapp/node_modules/protractor/node_modules/selenium-webdriver/lib/promise.js:676:7\n    at <anonymous>\n    at process._tickCallback (internal/process/next_tick.js:188:7)Error\n    at ElementArrayFinder.applyAction_ (/Users/roopa/Documents/auto/jui-webapp/node_modules/protractor/lib/element.ts:463:23)\n    at ElementArrayFinder.(anonymous function).args [as isDisplayed] (/Users/roopa/Documents/auto/jui-webapp/node_modules/protractor/lib/element.ts:95:21)\n    at ElementFinder.(anonymous function).args [as isDisplayed] (/Users/roopa/Documents/auto/jui-webapp/node_modules/protractor/lib/element.ts:841:14)\n    at World.<anonymous> (/Users/roopa/Documents/auto/jui-webapp/test/e2e/features/step_definitions/steps/dashBoard.steps.js:63:62)"
+      },
+      {
+        "passed": true
+      },
+      {
+        "passed": true
+      }
+    ],
+    "events": [
+      {
+        "emitterEvent": "testPass",
+        "name": "Given I am logged into JUI web app",
+        "category": "Login: I can log out from any page within the JUI Service",
+        "durationMillis": 3678,
+        "sourceLocation": {
+          "filePath": "test/e2e/features/app/login.feature",
+          "line": 32,
+          "column": 9
+        },
+        "progress": {
+          "step": 1,
+          "steps": 5
+        }
+      },
+      {
+        "emitterEvent": "testPass",
+        "name": "When I select a case Financial remedy",
+        "category": "Login: I can log out from any page within the JUI Service",
+        "durationMillis": 12548,
+        "sourceLocation": {
+          "filePath": "test/e2e/features/app/login.feature",
+          "line": 33,
+          "column": 9
+        },
+        "progress": {
+          "step": 2,
+          "steps": 5
+        }
+      },
+      {
+        "emitterEvent": "testPass",
+        "name": "Then I will be redirected to the Case Summary page for that case",
+        "category": "Login: I can log out from any page within the JUI Service",
+        "durationMillis": 3923,
+        "sourceLocation": {
+          "filePath": "test/e2e/features/app/login.feature",
+          "line": 34,
+          "column": 9
+        },
+        "progress": {
+          "step": 3,
+          "steps": 5
+        }
+      },
+      {
+        "emitterEvent": "testFail",
+        "name": "When I select the sign out link",
+        "category": "Login: I can log out from any page within the JUI Service",
+        "durationMillis": 3378,
+        "sourceLocation": {
+          "filePath": "test/e2e/features/app/login.feature",
+          "line": 35,
+          "column": 9
+        },
+        "progress": {
+          "step": 4,
+          "steps": 5
+        }
+      },
+      {
+        "emitterEvent": "testPass",
+        "name": "Then I should be redirected to the Idam login page",
+        "category": "Login: I can log out from any page within the JUI Service",
+        "sourceLocation": {
+          "filePath": "test/e2e/features/app/login.feature",
+          "line": 36,
+          "column": 9
+        },
+        "progress": {
+          "step": 5,
+          "steps": 5
+        }
+      }
+    ],
+    "emitToTestRunner": [
+      [
+        "testPass",
+        {
+          "name": "Given I am logged into JUI web app",
+          "category": "Login: I can log out from any page within the JUI Service",
+          "durationMillis": 3678,
+          "sourceLocation": {
+            "filePath": "test/e2e/features/app/login.feature",
+            "line": 32,
+            "column": 9
+          },
+          "progress": {
+            "step": 1,
+            "steps": 5
+          }
+        }
+      ],
+      [
+        "testPass",
+        {
+          "name": "When I select a case Financial remedy",
+          "category": "Login: I can log out from any page within the JUI Service",
+          "durationMillis": 12548,
+          "sourceLocation": {
+            "filePath": "test/e2e/features/app/login.feature",
+            "line": 33,
+            "column": 9
+          },
+          "progress": {
+            "step": 2,
+            "steps": 5
+          }
+        }
+      ],
+      [
+        "testPass",
+        {
+          "name": "Then I will be redirected to the Case Summary page for that case",
+          "category": "Login: I can log out from any page within the JUI Service",
+          "durationMillis": 3923,
+          "sourceLocation": {
+            "filePath": "test/e2e/features/app/login.feature",
+            "line": 34,
+            "column": 9
+          },
+          "progress": {
+            "step": 3,
+            "steps": 5
+          }
+        }
+      ],
+      [
+        "testFail",
+        {
+          "name": "When I select the sign out link",
+          "category": "Login: I can log out from any page within the JUI Service",
+          "durationMillis": 3378,
+          "sourceLocation": {
+            "filePath": "test/e2e/features/app/login.feature",
+            "line": 35,
+            "column": 9
+          },
+          "progress": {
+            "step": 4,
+            "steps": 5
+          }
+        }
+      ],
+      [
+        "testPass",
+        {
+          "name": "Then I should be redirected to the Idam login page",
+          "category": "Login: I can log out from any page within the JUI Service",
+          "sourceLocation": {
+            "filePath": "test/e2e/features/app/login.feature",
+            "line": 36,
+            "column": 9
+          },
+          "progress": {
+            "step": 5,
+            "steps": 5
+          }
+        }
+      ]
+    ],
+    "duration": null
+  }
+]

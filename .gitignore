@@ -49,3 +49,8 @@ reports/
 
 reports_json/
 .nyc_output/
+cb_reports/
+cb_reports_json/
+cb_report_json/
+
+

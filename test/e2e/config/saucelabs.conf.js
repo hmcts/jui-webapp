@@ -7,24 +7,6 @@ const minimist = require('minimist');
 
 const argv = minimist(process.argv.slice(2));
 
-
-// exports.config = {
-/**
- * Angular 2 configuration
- *
- * useAllAngular2AppRoots: tells Protractor to wait for any angular2 apps on the page instead of just the one matching
- * `rootEl`
- *
- */
-
-// directConnect: true,
-
-// framework: 'custom',
-// frameworkPath: require.resolve('protractor-cucumber-framework'),
-
-// specs: ['../features/**/*.feature'],
-
-
 const config = {
     framework: 'custom',
     frameworkPath: require.resolve('protractor-cucumber-framework'),
@@ -40,56 +22,57 @@ const config = {
 
     useAllAngular2AppRoots: true,
 
-    /* SAUCELABS CONFIG */
     sauceUser: process.env.SAUCE_USERNAME,
     sauceKey: process.env.SAUCE_ACCESS_KEY,
 
 
     multiCapabilities: [
-        // {
-        //     browserName: 'firefox',
-        //     version: '61.0',
-        //     platform: 'macOS 10.13',
-        //     name: 'firefox-tests',
-        //     shardTestFiles: false,
-        //     maxInstances: 1
-        // },
-
-
         {
             browserName: 'chrome',
-             'args':['disable-web-security'],
-            proxy: {
-                proxyType: 'manual',
-                httpProxy: 'proxyout.reform.hmcts.net:8080',
-                sslProxy: 'proxyout.reform.hmcts.net:8080',
-                // noProxy: 'localhost:3000'
-            },
             version: 'latest',
-            platform: 'Windows 7',
-            name: 'chrome-tests'
-            // shardTestFiles: false,
+            platform: 'Windows 10',
+            name: 'chrome-tests',
+            'tunnel-identifier': 'saucelabs'
+            // shardTestFiles: true,
             //   maxInstances: 1
+
         }
+
+        // {
+        //     browserName: 'firefox',
+        //     name: 'FF-tests',
+        //     platform: 'Windows 10',
+        //     version: '60.0',
+        //     'tunnel-identifier': 'saucelabs'
+        // }
+
+
+        // {
+        //     browserName: 'MicrosoftEdge',
+        //     version: 'latest',
+        //     platform: 'Windows 10',
+        //     name: 'IEEdge_LATEST',
+        //     'tunnel-identifier': 'saucelabs'
+        //
+        // }
+
+
     ],
 
 
-    // baseUrl:'https://jui-webapp-aat.service.core-compute-aat.internal/',
-
     exclude: [],
 
-    // getPageTimeout: 500000,
-    // allScriptsTimeout: 600000,
-    // restartBrowserBetweenTests: true,
-    // untrackOutstandingTimeouts: true,
+    getPageTimeout: 500000,
+    allScriptsTimeout: 6000000,
+    restartBrowserBetweenTests: true,
+    untrackOutstandingTimeouts: true,
 
 
     cucumberOpts: {
         strict: true,
-        // format: 'json:reports_json/results.json',
-        require: ['../support/world.js', '../support/*.js', '../features/step_definitions/**/*.steps.js']
-        // format: 'pretty'
-        // tags: '@login'
+        format: 'json:cb_reports/saucelab_results.json',
+        require: ['../support/world.js', '../support/*.js', '../features/step_definitions/**/*.steps.js'],
+        tags: ''
     },
 
 
@@ -99,50 +82,26 @@ const config = {
                 .then(session => {
                     console.log(`SauceOnDemandSessionID=${session.getId()} job-name=${jobName}`);
                 });
+            printSessionId(jobName);
         };
-        printSessionId('Insert Job Name Here');
+
     },
 
 
-    // multiCapabilities: [
-    //     {
-    //         'platform': 'Windows 8',
-    //         'browserName': 'chrome',
-    //         'version': 'latest',
-    //         name: "chrome-tests",
-    //         // shardTestFiles: true,
-    //         // maxInstances: 1
-    //         // "tunnel-identifier": 'saucelabs-crossbrowser'
-    //     }
-    //
-    //
-    //     // {
-    //     //     'platform': 'Windows 7',
-    //     //     'browserName': 'firefox',
-    //     //     'version': '60.0'
-    //     // },
-    //     //
-    //     // {
-    //     //     'browserName': 'internet explorer',
-    //     //     'name': 'IE11_Win7',
-    //     //     'platform': 'Windows 7',
-    //     //     'version': '11'
-    //     // },
-    //     //
-    //     //
-    //     // {
-    //     //     'browserName': 'internet explorer',
-    //     //     'name': 'IE10_Win7',
-    //     //     'platform': 'Windows 7',
-    //     // },
-    //     //
-    //     // {
-    //     //     'browserName': 'MicrosoftEdge',
-    //     //     'name': 'IEEdge_LATEST',
-    //     //     'platform': 'Windows 10',
-    //     //     'version': 'latest'
-    //     // }
-    // ],
+    plugins: [
+        {
+            package: 'protractor-multiple-cucumber-html-reporter-plugin',
+            options: {
+                automaticallyGenerateReport: true,
+                removeExistingJsonReportFile: true,
+                reportName: 'JUI CrossBrowser Tests',
+                jsonDir: 'cb_reports/e2e/crossbrowser',
+                reportPath: 'cb_reports/e2e/crossbrowser'
+
+
+            }
+        }
+    ],
 
 
     onPrepare() {
