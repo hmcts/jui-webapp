@@ -82,9 +82,9 @@ const config = {
                 .then(session => {
                     console.log(`SauceOnDemandSessionID=${session.getId()} job-name=${jobName}`);
                 });
-            printSessionId(jobName);
-        };
 
+        };
+        printSessionId('Insert the Job Name');
     },
 
 
