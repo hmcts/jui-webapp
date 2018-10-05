@@ -36,15 +36,15 @@ const config = {
             // shardTestFiles: true,
             //   maxInstances: 1
 
-        }
+        },
 
-        // {
-        //     browserName: 'firefox',
-        //     name: 'FF-tests',
-        //     platform: 'Windows 10',
-        //     version: '60.0',
-        //     'tunnel-identifier': 'saucelabs'
-        // }
+        {
+            browserName: 'firefox',
+            name: 'FF-tests',
+            platform: 'Windows 10',
+            version: '60.0',
+            'tunnel-identifier': 'saucelabs'
+        }
 
 
         // {
@@ -62,8 +62,8 @@ const config = {
 
     exclude: [],
 
-    getPageTimeout: 500000,
-    allScriptsTimeout: 6000000,
+    // getPageTimeout: 500000,
+    // allScriptsTimeout: 6000000,
     restartBrowserBetweenTests: true,
     untrackOutstandingTimeouts: true,
 
