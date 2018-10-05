@@ -10,7 +10,11 @@ const argv = minimist(process.argv.slice(2));
 const config = {
     framework: 'custom',
     frameworkPath: require.resolve('protractor-cucumber-framework'),
-    specs: ['../features/**/*.feature'],
+    // specs: ['../features/**/*.feature'],
+    suites: {
+        e2e: `../features/**/*.feature`
+    },
+
     baseUrl: process.env.TEST_URL || 'http://localhost:3000/',
     params: {
         serverUrls: process.env.TEST_URL || 'http://localhost:3000/',
@@ -29,26 +33,41 @@ const config = {
     multiCapabilities: [
         {
             browserName: 'chrome',
+            name: 'WIN_CHROME_LATEST',
+            platform: 'Windows 10',
             version: 'latest',
-            platform: 'Windows 7',
-            name: 'chrome-tests',
-            'tunnel-identifier': 'reformtunnel',
-            shardTestFiles: true,
-            maxInstances: 1
-
+            'tunnel-identifier': 'reformtunnel'
         },
 
-
         {
-            browserName: 'firefox',
-            name: 'FF-tests',
-            platform: 'Windows 7',
-            version: '60.0',
-            'tunnel-identifier': 'reformtunnel',
-            shardTestFiles: true,
-            maxInstances: 1
-
+            browserName: 'chrome',
+            name: 'MAC_CHROME_LATEST',
+            platform: 'macOS 10.13',
+            version: 'latest',
+            'tunnel-identifier': 'reformtunnel'
         }
+
+
+        // {
+        //     browserName: 'firefox',
+        //     name: 'WIN_FIREFOX_LATEST',
+        //     platform: 'Windows 10',
+        //     version: 'latest',
+        //     'tunnel-identifier': 'saucelabs',
+        //     shardTestFiles: true,
+        //     maxInstances: 1
+        //
+        // },
+        //
+        // {
+        //     browserName: 'firefox',
+        //     name: 'MAC_FIREFOX_LATEST',
+        //     platform: 'macOS 10.13',
+        //     version: 'latest',
+        //     'tunnel-identifier': 'saucelabs',
+        //     shardTestFiles: true,
+        //     maxInstances: 1
+        // }
 
 
     ],
@@ -89,8 +108,8 @@ const config = {
                 automaticallyGenerateReport: true,
                 removeExistingJsonReportFile: true,
                 reportName: 'JUI CrossBrowser Tests',
-                jsonDir: 'cb_reports/e2e/crossbrowser',
-                reportPath: 'cb_reports/e2e/crossbrowser'
+                jsonDir: 'reports/crossbrowser/functional-output',
+                reportPath: 'reports/crossbrowser/functional-output'
 
 
             }
