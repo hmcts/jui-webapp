@@ -38,6 +38,7 @@ const config = {
 
         },
 
+
         {
             browserName: 'firefox',
             name: 'FF-tests',
@@ -47,23 +48,15 @@ const config = {
         }
 
 
-        // {
-        //     browserName: 'MicrosoftEdge',
-        //     version: 'latest',
-        //     platform: 'Windows 10',
-        //     name: 'IEEdge_LATEST',
-        //     'tunnel-identifier': 'saucelabs'
-        //
-        // }
-
 
     ],
 
 
     exclude: [],
 
-    // getPageTimeout: 500000,
-    // allScriptsTimeout: 6000000,
+    // getPageTimeout: 600000,
+    // allScriptsTimeout: 500000,
+
     restartBrowserBetweenTests: true,
     untrackOutstandingTimeouts: true,
 
@@ -84,7 +77,7 @@ const config = {
                 });
 
         };
-        printSessionId('Insert the Job Name');
+         printSessionId('Insert the Job Name');
     },
 
 
