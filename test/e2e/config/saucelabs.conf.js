@@ -30,11 +30,11 @@ const config = {
         {
             browserName: 'chrome',
             version: 'latest',
-            platform: 'Windows 10',
+            platform: 'Windows 7',
             name: 'chrome-tests',
-            'tunnel-identifier': 'saucelabs'
-            // shardTestFiles: true,
-            //   maxInstances: 1
+            'tunnel-identifier': 'reformtunnel',
+            shardTestFiles: true,
+            maxInstances: 1
 
         },
 
@@ -42,11 +42,13 @@ const config = {
         {
             browserName: 'firefox',
             name: 'FF-tests',
-            platform: 'Windows 10',
+            platform: 'Windows 7',
             version: '60.0',
-            'tunnel-identifier': 'saucelabs'
-        }
+            'tunnel-identifier': 'reformtunnel',
+            shardTestFiles: true,
+            maxInstances: 1
 
+        }
 
 
     ],
@@ -57,8 +59,8 @@ const config = {
     // getPageTimeout: 600000,
     // allScriptsTimeout: 500000,
 
-    restartBrowserBetweenTests: true,
-    untrackOutstandingTimeouts: true,
+    // restartBrowserBetweenTests: true,
+    // untrackOutstandingTimeouts: true,
 
 
     cucumberOpts: {
@@ -75,9 +77,8 @@ const config = {
                 .then(session => {
                     console.log(`SauceOnDemandSessionID=${session.getId()} job-name=${jobName}`);
                 });
-
         };
-         printSessionId('Insert the Job Name');
+        printSessionId('Insert the Job Name');
     },
 
 
