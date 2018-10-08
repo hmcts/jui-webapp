@@ -12,13 +12,12 @@ import { FormsService } from '../../../../../shared/services/forms.service';
 
 export class ReasonsCoNotApprovedComponent implements OnInit {
 
-    rejectReasonsForm: any;
+    rejectReasonsForm: FormGroup;
     Object = Object;
-    draft: string;
     options: any;
     decision: any;
     request: any;
-    pageValues: any;
+    pageValues: any = null;
     case: any;
 
     @Input() pageitems;
@@ -40,7 +39,9 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
             this.decision = decision;
             this.pageitems = this.decision.meta;
             this.pageValues = this.decision.formValues;
-            console.log(this.pageitems);
+
+            console.log("pageitems", this.pageitems);
+            console.log("pageValues", this.pageValues);
 
             this.createForm(this.pageitems, this.pageValues) ;
         });
@@ -50,7 +51,7 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
         delete this.rejectReasonsForm.value.createButton;
         this.request = { formValues: this.rejectReasonsForm.value, event: event };
         console.log(this.pageitems.name, this.request);
-            
+
         this.decisionService.submitDecisionDraft('fr',this.activatedRoute.snapshot.parent.data.caseData.id, this.pageitems.name, this.request).subscribe(decision => {
             console.log(decision.newRoute);
             this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});

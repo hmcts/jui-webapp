@@ -22,6 +22,8 @@ export class FormsService {
                                 if (radioEl.value === someData[someJson.control]) {
                                     console.log("Trace3", radioEl.value, someData[someJson.control]);
                                     this.FormControls[someJson.control] = new FormControl(radioEl.value);
+                                } else {
+                                    this.FormControls[someJson.control] = new FormControl();
                                 }
                             }
                         } else {
@@ -43,7 +45,7 @@ export class FormsService {
         }
     }
     defineformControls(someJson: any, someData: any): any {
-        console.log('Before= ',this.FormControls);
+        console.log('Before= ',this.FormControls, someData);
         console.log(someJson, someData);
         this.create(someJson, someData);
         console.log('After= ',this.FormControls);
