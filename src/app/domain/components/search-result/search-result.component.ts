@@ -12,12 +12,20 @@ export class SearchResultComponent implements OnInit {
 
     data$: Object;
     error: string;
+    selectedJurisdiction: string;
 
     constructor(private caseService: CaseService,  private route: ActivatedRoute ,private redirectionService: RedirectionService) {
     }
 
     ngOnInit() {
-        this.data$ = this.caseService.search();
+        this.route.queryParams.subscribe(params =>  {
+            this.selectedJurisdiction = params['selectedJurisdiction'] || undefined;
+        });
+        if(this.selectedJurisdiction) {
+            this.data$ = this.caseService.getNewCase(this.selectedJurisdiction);
+        } else {
+            this.data$ = this.caseService.search();
+        }
     }
 
     onSubmit() {
