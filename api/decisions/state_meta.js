@@ -38,7 +38,7 @@ module.exports = {
                 }
             ]
         },
-        'reject-reasons':  {
+        'reject-reasons': {
             idPrefix: 'reject-reasons',
             name: 'reject-reasons',
             header: 'What should appear in the directions order?',
@@ -207,7 +207,32 @@ module.exports = {
         },
         check: {
             idPrefix: 'check',
-            name: 'check'
+            header: 'Check your decision',
+            name: 'check',
+            groups: [
+                {
+                    header: {
+                        text: 'Approve the draft consent order?',
+                        classes: 'govuk-heading-m'
+                    },
+                    table: {
+                        classes: 'app-check-your-answers app-check-your-answers--short govuk-!-margin-bottom-8',
+                        label: 'Decision',
+                        description: '',
+                        link: {
+                            text: 'Change decision',
+                            url: ''
+                        }
+                    }
+                }
+            ],
+            buttons: [
+                {
+                    control: 'createButton',
+                    value: 'Continue',
+                    onEvent: 'continue'
+                }
+            ]
         },
         'decision-confirmation': {
             idPrefix: 'decision-confirmation',
