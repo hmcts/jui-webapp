@@ -39,4 +39,7 @@ withNightlyPipeline(type, product, component) {
 
     after('checkout') {sh 'yarn cache clean'}
     after('build') {sh 'npm run build'}
+
+    enableCrossBrowserTest(120)
+
 }

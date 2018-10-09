@@ -41,7 +41,7 @@ withPipeline(type , product, component) {
 //    enableApiGatewayTest(15)
 //    enableFullFunctionalTest(30)
 //    enableMutationTest(120)
-//    enableCrossBrowserTest(120)
+    enableCrossBrowserTest(120)
 //    enableDockerBuild()
 //    enableDeployToAKS()
 
@@ -185,5 +185,32 @@ withPipeline(type , product, component) {
             reportName           : 'PROD Smoke Test'
         ])
     }
+
+
+after('crossbrowserTest:preview') {
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/crossbrowser/functional-output/",
+            reportFiles          : 'index.html',
+            reportName           : 'PREVIEW Crossbrowser Test'
+        ])
+    }
+
+
+     after('crossbrowserTest:aat') {
+            publishHTML([
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "reports/crossbrowser/functional-output/",
+                reportFiles          : 'index.html',
+                reportName           : 'AAT Crossbrowser Test'
+            ])
+        }
+
+
+
 
 }

@@ -7,6 +7,53 @@ const minimist = require('minimist');
 
 const argv = minimist(process.argv.slice(2));
 
+const jenkinsConfig = [
+    // {
+    //     browserName: 'firefox',
+    //     acceptInsecureCerts: true,
+    //     'moz:firefoxOptions': { args: [ '--headless' ] }
+    // },
+
+    {
+        browserName: 'chrome',
+        acceptInsecureCerts: true,
+        nogui: true,
+
+        chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote '] }
+    }
+];
+
+const localConfig = [
+    // {
+    //     browserName: 'firefox',
+    //     acceptInsecureCerts: true,
+    //     proxy: {
+    //         proxyType: 'manual',
+    //         httpProxy: 'proxyout.reform.hmcts.net:8080',
+    //         sslProxy: 'proxyout.reform.hmcts.net:8080',
+    //         noProxy: 'localhost:3000'
+    //     }
+    //  },
+    {
+        browserName: 'chrome',
+        acceptInsecureCerts: true,
+
+
+        chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote '] },
+        proxy: {
+            proxyType: 'manual',
+            httpProxy: 'proxyout.reform.hmcts.net:8080',
+            sslProxy: 'proxyout.reform.hmcts.net:8080',
+            noProxy: 'localhost:3000'
+        }
+    }
+];
+
+const cap = (argv.local) ? localConfig : jenkinsConfig;
+
+
+
+
 const config = {
     framework: 'custom',
     frameworkPath: require.resolve('protractor-cucumber-framework'),
