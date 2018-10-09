@@ -1,3 +1,4 @@
+const Store = require('../lib/store');
 const express = require('express');
 const stateMeta = require('./state_meta');
 
@@ -7,47 +8,50 @@ let dummyFormDataStore = {};
 /* eslint-disable-next-line complexity */
 function handlePostState(req, res, responseJSON, theState) {
     const formValues = req.body.formValues;
+    const store = new Store(req);
+
     if (formValues) {
         // TODO: some data validation should be here ?
-        dummyFormDataStore = formValues;
-        console.log(dummyFormDataStore);
-    }
+        store.set(`decisions_${inCaseId}`, formValues);
 
+        //   console.log(dummyFormDataStore);
+    }
+    /* eslint-disable indent */
     if (req.body.event === 'continue') {
         switch (theState.inStateId) {
-        case 'create':
-            if (formValues.approveDraftConsent === 'yes') {
-                responseJSON.newRoute = 'notes-for-court-administrator';
-            } else {
-                responseJSON.newRoute = 'reject-reasons';
-            }
-            break;
-        case 'notes-for-court-administrator':
-            responseJSON.newRoute = 'check';
-            break;
-        case 'check':
-            responseJSON.newRoute = 'decision-confirmation';
-            break;
-        case 'reject-reasons':
-            if (formValues.includeAnnotatedVersionDraftConsOrder === 'yes') {
-                responseJSON.newRoute = 'draft-consent-order';
-            } else if (formValues.partiesNeedAttend === true) {
-                responseJSON.newRoute = 'hearing-details';
-            } else {
-                responseJSON.newRoute = 'notes-for-court-administrator';
-            }
-            break;
-        case 'draft-consent-order':
-            if (formValues.partiesNeedAttend === true) {
-                responseJSON.newRoute = 'hearing-details';
-            } else {
-                responseJSON.newRoute = 'notes-for-court-administrator';
-            }
-            break;
-        default:
-            break;
+            case 'create':
+                if (formValues.approveDraftConsent === 'yes') {
+                    responseJSON.newRoute = 'notes-for-court-administrator';
+                } else {
+                    responseJSON.newRoute = 'reject-reasons';
+                }
+                break;
+            case 'notes-for-court-administrator':
+                responseJSON.newRoute = 'check';
+                break;
+            case 'check':
+                responseJSON.newRoute = 'decision-confirmation';
+                break;
+            case 'reject-reasons':
+                if (formValues.includeAnnotatedVersionDraftConsOrder === 'yes') {
+                    responseJSON.newRoute = 'draft-consent-order';
+                } else if (formValues.partiesNeedAttend === true) {
+                    responseJSON.newRoute = 'hearing-details';
+                } else {
+                    responseJSON.newRoute = 'notes-for-court-administrator';
+                }
+                break;
+            case 'draft-consent-order':
+                if (formValues.partiesNeedAttend === true) {
+                    responseJSON.newRoute = 'hearing-details';
+                } else {
+                    responseJSON.newRoute = 'notes-for-court-administrator';
+                }
+                break;
+            default:
+                break;
         }
-
+        /* eslint-enable indent */
         // update meta data according to newly selected state
         if (responseJSON.newRoute) {
             responseJSON.meta = stateMeta[theState.inJurisdiction][responseJSON.newRoute];
@@ -68,6 +72,7 @@ function handleStateRoute(req, res) {
     const inJurisdiction = req.params.jur_id;
     const inCaseId = req.params.case_id;
     const inStateId = req.params.state_id;
+    const store = new Store(req);
 
     const theState = {
         inJurisdiction,
@@ -77,8 +82,14 @@ function handleStateRoute(req, res) {
 
     const responseJSON = {};
 
-    if (responseAssert(res, responseJSON, stateMeta[inJurisdiction], 'Input parameter route_id: uknown jurisdiction')
-        && responseAssert(res, responseJSON, stateMeta[inJurisdiction][inStateId], 'Input parameter route_id wrong: no route with this id inside jurisdiction ${inRouteJur}')
+    if (
+        responseAssert(res, responseJSON, stateMeta[inJurisdiction], 'Input parameter route_id: uknown jurisdiction') &&
+        responseAssert(
+            res,
+            responseJSON,
+            stateMeta[inJurisdiction][inStateId],
+            'Input parameter route_id wrong: no route with this id inside jurisdiction ${inRouteJur}'
+        )
     ) {
         // for GET we return meta for the state requested by inStateId
         // however, for POST, the meta may get overwritten if the change of state occurs
@@ -87,11 +98,12 @@ function handleStateRoute(req, res) {
         if (req.method === 'POST') {
             handlePostState(req, res, responseJSON, theState);
         }
-        responseJSON.formValues = dummyFormDataStore;
+        responseJSON.formValues = store.get(`decisions_${inCaseId}`);
     }
 
+    store.get('foo');
     res.send(JSON.stringify(responseJSON));
-};
+}
 
 module.exports = app => {
     const router = express.Router({ mergeParams: true });
