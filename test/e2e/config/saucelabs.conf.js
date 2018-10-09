@@ -10,11 +10,6 @@ const argv = minimist(process.argv.slice(2));
 
 
 const jenkinsConfig = [
-    // {
-    //     browserName: 'firefox',
-    //     acceptInsecureCerts: true,
-    //     'moz:firefoxOptions': { args: [ '--headless' ] }
-    // },
 
     {
         browserName: 'chrome',
@@ -46,6 +41,7 @@ const config = {
     sauceKey: process.env.SAUCE_ACCESS_KEY,
 
 
+
     multiCapabilities: [
         {
             browserName: 'chrome',
@@ -56,41 +52,8 @@ const config = {
                 // shardTestFiles: true,
                 // maxInstances: 1
 
-        },
+        }
 
-        {
-            browserName: 'chrome',
-            name: 'MAC_CHROME_LATEST',
-            platform: 'macOS 10.13',
-            version: 'latest',
-            'tunnel-identifier': 'reformtunnel'
-                // shardTestFiles: true,
-                // maxInstances: 1
-
-        },
-
-
-        // {
-        //     browserName: 'firefox',
-        //     name: 'WIN_FIREFOX_LATEST',
-        //     platform: 'Windows 10',
-        //     version: 'latest',
-        //     'tunnel-identifier': 'reformtunne',
-        //     shardTestFiles: true,
-        //     maxInstances: 1
-        //
-        // },
-        //
-        // {
-        //     browserName: 'firefox',
-        //     name: 'MAC_FIREFOX_LATEST',
-        //     platform: 'macOS 10.13',
-        //     version: 'latest',
-        //     'tunnel-identifier': 'reformtunne',
-        //     shardTestFiles: true,
-        //     maxInstances: 1
-        // }
-        //
 
     ],
 
@@ -118,10 +81,11 @@ const config = {
         const printSessionId = function(jobName) {
             browser.getSession()
                 .then(session => {
-                    console.log(`SauceOnDemandSessionID=${session.getId()}`, `job-name=${jobName}`);
+
+                    console.log('SauceOnDemandSessionID=' + session.getId() + ' job-name=' + jobName);
                 });
         };
-         printSessionId('Insert the Job Name');
+         printSessionId('JUI CB Tests');
     },
 
 
@@ -132,8 +96,8 @@ const config = {
                 automaticallyGenerateReport: true,
                 removeExistingJsonReportFile: true,
                 reportName: 'JUI CrossBrowser Tests',
-                jsonDir: 'reports/crossbrowser/functional-output',
-                reportPath: 'reports/crossbrowser/functional-output'
+                jsonDir: './functional-output/crossbrowser/reports',
+                reportPath: './functional-output/crossbrowser/reports'
 
 
             }
