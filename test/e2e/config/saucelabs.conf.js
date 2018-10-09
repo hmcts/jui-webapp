@@ -19,7 +19,7 @@ const jenkinsConfig = [
     {
         browserName: 'chrome',
         acceptInsecureCerts: true,
-        nogui: true,
+        nogui: true
 
         // chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote '] }
     }
@@ -125,7 +125,7 @@ const config = {
                     console.log(`SauceOnDemandSessionID=${session.getId()}`, `job-name=${jobName}`);
                 });
         };
-        // printSessionId('Insert the Job Name');
+         printSessionId('Insert the Job Name');
     },
 
 
