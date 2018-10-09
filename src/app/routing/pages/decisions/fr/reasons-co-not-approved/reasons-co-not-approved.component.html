@@ -2,14 +2,14 @@
 <main class="govuk-main-wrapper" role="main">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <h1 *ngIf="pageitems; else loading" class="govuk-heading-xl">{{pageitems.header}}</h1>
-            <form *ngIf="pageitems; else loading" [formGroup]="rejectReasonsForm" (ngSubmit)="onSubmit()">
+            <h1 *ngIf="pageitems" class="govuk-heading-xl">{{pageitems.header}}</h1>
+            <form *ngIf="pageitems" [formGroup]="rejectReasonsForm" (ngSubmit)="onSubmit()">
                 <div class="govuk-form-group"  *ngFor="let group of pageitems.groups; let gIndex = index">
                     <fieldset *ngIf="group.fieldset" class="govuk-fieldset">
-                        <legend *ngIf="group.fieldset.legend" class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
                           {{ group.fieldset.legend.text}}
                         </legend>
-                        <span *ngIf="group.fieldset.hint" class="govuk-hint">{{group.fieldset.hint.text}}</span>
+                        <span class="govuk-hint">{{group.fieldset.hint.text}}</span>
                         <div *ngIf="group.fieldset.checkboxes" class="govuk-checkboxes">
                             <ng-container  *ngFor="let item of group.fieldset.checkboxes; let i = index">
                                 <div class="govuk-checkboxes__item">
@@ -52,22 +52,20 @@
                                 </div>
                             </ng-container>
                         </div>
-                        <ng-container *ngIf="pageitems; else loading">
-                            <div *ngIf="group.fieldset.radios; else loading" class="govuk-radios govuk-radios--inline">
-                                <div class="govuk-radios__item" *ngFor="let item of group.fieldset.radios.radioGroup; let r = index">
-                                    <input class="govuk-radios__input" id="{{pageitems.idPrefix + '-' + (r+1)}}" type="radio" [value]= "item.value" formControlName="{{group.fieldset.radios.control}}">
-                                    <label class="govuk-label govuk-radios__label" for="{{pageitems.idPrefix + '-' + (r+1)}}">
-                                        {{item.text}}<span class="govuk-visually-hidden">{{item.hiddenAccessibilityText}}</span>
-                                    </label>
-                                </div>
+                        <div *ngIf="group.fieldset.radios" class="govuk-radios govuk-radios--inline">
+                            <div class="govuk-radios__item" *ngFor="let item of group.fieldset.radios.radioGroup; let r = index">
+                                <input class="govuk-radios__input" id="{{pageitems.idPrefix + '-' + (r+1)}}" type="radio" [value]= "item.value" formControlName="{{group.fieldset.radios.control}}">
+                                <label class="govuk-label govuk-radios__label" for="{{pageitems.idPrefix + '-' + (r+1)}}">
+                                    {{item.text}}<span class="govuk-visually-hidden">{{item.hiddenAccessibilityText}}</span>
+                                </label>
                             </div>
-                        </ng-container>
+                        </div>
                     </fieldset>
                     <ng-container *ngIf="group.textarea">
                         <label *ngIf="group.textarea.label" class="govuk-label govuk-label--m" for="{{group.textarea.label}}">
                             {{group.textarea.label}}
                         </label>
-                        <textarea class="govuk-textarea" formControlName="{{group.textarea.control}}" name="{{group.textarea.label}}" rows="5"></textarea>
+                        <textarea class="govuk-textarea" formControlName="{{group.textarea.control}}" name="{{group.textarea.label}}" id="{{group.textarea.label}}" rows="5"></textarea>
                     </ng-container>
                 </div>
                 <ng-container *ngIf="pageitems.buttons">
@@ -79,6 +77,4 @@
         </div>
     </div>
 </main>
-<ng-template #loading>
-    Loading Form...
-</ng-template>
+

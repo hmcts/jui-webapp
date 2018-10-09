@@ -38,7 +38,7 @@ module.exports = {
                 }
             ]
         },
-        'reject-reasons':  {
+        'reject-reasons': {
             idPrefix: 'reject-reasons',
             name: 'reject-reasons',
             header: 'What should appear in the directions order?',
@@ -207,19 +207,135 @@ module.exports = {
         },
         check: {
             idPrefix: 'check',
-            name: 'check'
+            header: 'Check your decision',
+            name: 'check',
+            groups: [
+                {
+                    header: {
+                        text: 'Approve the draft consent order?',
+                        classes: 'govuk-heading-m'
+                    },
+                    table: {
+                        classes: 'app-check-your-answers app-check-your-answers--short govuk-!-margin-bottom-8',
+                        label: 'Decision',
+                        description: '',
+                        link: {
+                            text: 'Change decision',
+                            url: ''
+                        }
+                    }
+                }
+            ],
+            buttons: [
+                {
+                    control: 'createButton',
+                    value: 'Continue',
+                    onEvent: 'continue'
+                }
+            ]
         },
         'decision-confirmation': {
             idPrefix: 'decision-confirmation',
-            name: 'decision-confirmation'
+            name: 'decision-confirmation',
+            buttons: [
+                {
+                    control: 'createButton',
+                    value: 'Continue',
+                    onEvent: 'continue'
+                }
+            ]
         },
         'draft-consent-order': {
             idPrefix: 'draft-consent-order',
-            name: 'draft-consent-order'
+            name: 'draft-consent-order',
+            header: 'Add or change comments',
+            buttons: [
+                {
+                    control: 'createButton',
+                    value: 'Continue',
+                    onEvent: 'continue'
+                }
+            ]
         },
         'hearing-details': {
             idPrefix: 'hearing-details',
-            name: 'hearing-details'
+            name: 'hearing-details',
+            header: 'Hearing details',
+            groups: [
+                {
+                    inputs: [
+                        {
+                            label: {
+                                text: 'Estimate length of hearing in minutes',
+                                classes: 'govuk-label--m'
+                            },
+                            control: 'estimateLengthOfHearing',
+                            classes: 'govuk-input--width-3'
+                        }
+                    ]
+                },
+                {
+                    inputs: [
+                        {
+                            label: {
+                                text: 'When should the hearing take place?',
+                                classes: 'govuk-label--m'
+                            },
+                            hint: { text: 'For example, ‘fix hearing for first available date’' },
+                            control: 'whenHearingPlaced'
+                        }
+                    ]
+                },
+                {
+                    fieldset: {
+                        legend: {
+                            text: 'Which court?',
+                            isPageHeading: true,
+                            classes: 'govuk-fieldset__legend--m'
+                        },
+                        radios: {
+                            control: 'whichCourt',
+                            radioGroup: [
+                                {
+                                    value: 'southWest',
+                                    text: 'South West Divorce Centre',
+                                    hint: { text: 'Southampton' }
+                                },
+                                {
+                                    value: 'eastMidlands',
+                                    text: 'East Midlands Divorce Centre',
+                                    hint: { text: 'Nottingham' }
+                                },
+                                {
+                                    value: 'westMidlands',
+                                    text: 'West Midlands Divorce Centre',
+                                    hint: { text: 'Stoke' }
+                                },
+                                {
+                                    value: 'northWest',
+                                    text: 'North West Divorce Centre',
+                                    hint: { text: 'Liverpool' }
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    textarea: {
+                        label: 'Any other hearing details (optional)',
+                        hint: { text: 'For example, if you need to hear the case. Or if you need to transfer either the financial remedy or entire divorce case to another court.' },
+                        control: 'otherHearingDetails',
+                        value: 'Other hearing details text'
+                    }
+                }
+            ],
+            buttons: [
+                {
+                    control: 'createButton',
+                    value: 'Continue',
+                    onEvent: 'continue'
+                }
+            ]
         }
     }
 };
