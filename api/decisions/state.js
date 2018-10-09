@@ -2,20 +2,18 @@ const Store = require('../lib/store');
 const express = require('express');
 const stateMeta = require('./state_meta');
 
-// The dummy "draft store" below
-let dummyFormDataStore = {};
+const ERROR404 = 404;
 
 /* eslint-disable-next-line complexity */
 function handlePostState(req, res, responseJSON, theState) {
-    const formValues = req.body.formValues;
     const store = new Store(req);
+    const inCaseId = req.params.case_id;
 
+    const formValues = req.body.formValues;
     if (formValues) {
-        // TODO: some data validation should be here ?
         store.set(`decisions_${inCaseId}`, formValues);
-
-        //   console.log(dummyFormDataStore);
     }
+
     /* eslint-disable indent */
     if (req.body.event === 'continue') {
         switch (theState.inStateId) {
@@ -48,34 +46,32 @@ function handlePostState(req, res, responseJSON, theState) {
                     responseJSON.newRoute = 'notes-for-court-administrator';
                 }
                 break;
-            case 'hearing-details':
-                responseJSON.newRoute = 'notes-for-court-administrator';
-                break;
             default:
                 break;
         }
-        /* eslint-enable indent */
         // update meta data according to newly selected state
         if (responseJSON.newRoute) {
             responseJSON.meta = stateMeta[theState.inJurisdiction][responseJSON.newRoute];
         }
     }
+    /* eslint-enable indent */
 }
 
-function responseAssert(res, responseJSON, condition, statusHint) {
-    if (!condition) {
-        res.status(404);
+function responseAssert(res, responseJSON, inJurisdiction, inStateId, statusHint) {
+    if (stateMeta[inJurisdiction] && stateMeta[inJurisdiction][inStateId]) {
+        res.status(ERROR404);
         responseJSON.statusHint = statusHint;
+        return false;
     }
 
-    return condition;
+    return true;
 }
 
 function handleStateRoute(req, res) {
+    const store = new Store(req);
     const inJurisdiction = req.params.jur_id;
     const inCaseId = req.params.case_id;
     const inStateId = req.params.state_id;
-    const store = new Store(req);
 
     const theState = {
         inJurisdiction,
@@ -101,11 +97,10 @@ function handleStateRoute(req, res) {
         if (req.method === 'POST') {
             handlePostState(req, res, responseJSON, theState);
         }
+
         responseJSON.formValues = store.get(`decisions_${inCaseId}`);
     }
-
-    store.get('foo');
-    res.send(JSON.stringify(responseJSON));
+    req.session.save(() => res.send(JSON.stringify(responseJSON)));
 }
 
 module.exports = app => {

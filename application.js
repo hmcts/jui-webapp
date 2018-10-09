@@ -33,7 +33,7 @@ app.use(
         })
     })
 );
-console.log(config.sessionSecret);
+
 appInsights
     .setup(appInsightsInstrumentationKey)
     .setAutoDependencyCorrelation(true)
