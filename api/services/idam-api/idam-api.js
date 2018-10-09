@@ -12,6 +12,10 @@ function getInfo(options) {
     return generateRequest('GET', `${url}/info`, options);
 }
 
+function getUserDetails(options) {
+    return generateRequest('GET', `${url}/details`, options);
+}
+
 function getOptions(req) {
     return {
         headers: {
@@ -33,3 +37,5 @@ module.exports = app => {
         getInfo(getOptions(req)).pipe(res);
     });
 };
+
+module.exports.getUserDetails = getUserDetails;
