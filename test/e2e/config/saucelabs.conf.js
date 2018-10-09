@@ -23,34 +23,23 @@ const config = {
     },
     sauceUser: process.env.SAUCE_USERNAME,
     sauceKey: process.env.SAUCE_ACCESS_KEY,
+    allScriptsTimeout: 111000,
 
 
     useAllAngular2AppRoots: true,
     multiCapabilities: [
         {
             browserName: 'chrome',
-            name: 'WIN_CHROME_LATEST',
-            platform: 'Windows 10',
-            version: 'latest',
-            'tunnel-identifier': 'reformtunnel'
-                // shardTestFiles: true,
-                // maxInstances: 1
-
-        }
-
-
-    ],
+           name: 'MAC_CHROME_LATEST',
+          platform: 'macOS 10.13',
+           version: 'latest',
+           'tunnel-identifier': 'reformtunnel',
+        shardTestFiles: true,
+        maxInstances: 2
+        }],
 
 
     exclude: [],
-
-    // getPageTimeout: 600000,
-    // allScriptsTimeout: 500000,
-
-    // restartBrowserBetweenTests: true,
-    // untrackOutstandingTimeouts: true,
-
-    // multiCapabilities: cap,
 
 
     cucumberOpts: {
