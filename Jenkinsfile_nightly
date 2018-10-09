@@ -37,9 +37,25 @@ withNightlyPipeline(type, product, component) {
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
 
-    after('checkout') {sh 'yarn cache clean'}
-    after('build') {sh 'npm run build'}
-
     enableCrossBrowserTest(120)
+
+    after('checkout') {sh 'yarn cache clean'}
+    after('build') {
+    sh 'npm run build'
+    }
+
+
+     after('functionalTest:aat') {
+            publishHTML([
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "reports/crossbrowser/functional-output/",
+                reportFiles          : 'index.html',
+                reportName           : 'AAT Crossbrowser Test'
+            ])
+        }
+
+
 
 }
