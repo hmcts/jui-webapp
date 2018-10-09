@@ -9,19 +9,6 @@ const argv = minimist(process.argv.slice(2));
 
 
 
-// const jenkinsConfig = [
-//
-//     {
-//         browserName: 'chrome',
-//         acceptInsecureCerts: true,
-//         nogui: true
-//
-//         // chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote '] }
-//     }
-// ];
-
-
-
 const config = {
     framework: 'custom',
     frameworkPath: require.resolve('protractor-cucumber-framework'),
@@ -38,7 +25,7 @@ const config = {
     sauceKey: process.env.SAUCE_ACCESS_KEY,
 
 
-
+    useAllAngular2AppRoots: true,
     multiCapabilities: [
         {
             browserName: 'chrome',
@@ -68,7 +55,7 @@ const config = {
 
     cucumberOpts: {
         strict: true,
-        format: './saucelab_results.json/json:cb_reports',
+        format: 'json:cb_reports/saucelab_results.json',
         require: ['../support/world.js', '../support/*.js', '../features/step_definitions/**/*.steps.js'],
         tags: ''
     },
@@ -113,7 +100,7 @@ const config = {
         global.should = chai.should;
     }
 
-    useAllAngular2AppRoots: true,
+
 
 };
 config.cucumberOpts.tags = tagProcessor(config, argv);

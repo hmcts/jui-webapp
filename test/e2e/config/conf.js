@@ -103,8 +103,8 @@ const config = {
                 removeExistingJsonReportFile: true,
                 reportName: 'JUI Functional Tests',
                 // openReportInBrowser: true,
-                jsonDir: 'reports/tests/functional',
-                reportPath: 'reports/tests/functional'
+                jsonDir: './functional/tests/reports',
+                reportPath: './functional/tests/reports'
             }
         }
     ]
