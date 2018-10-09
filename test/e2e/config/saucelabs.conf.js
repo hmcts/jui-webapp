@@ -128,6 +128,8 @@ const config = {
     // restartBrowserBetweenTests: true,
     // untrackOutstandingTimeouts: true,
 
+    multiCapabilities: cap,
+
 
     cucumberOpts: {
         strict: true,
