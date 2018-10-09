@@ -37,7 +37,13 @@ withNightlyPipeline(type, product, component) {
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
 
+    env.TEST_URL = 'https://jui-webapp-aat.service.core-compute-aat.internal'
+
     enableCrossBrowserTest()
+
+    after('crossBrowserTest') {
+            steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
+        }
 
     after('checkout') {sh 'yarn cache clean'}
     after('build') {

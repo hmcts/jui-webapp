@@ -9,16 +9,16 @@ const argv = minimist(process.argv.slice(2));
 
 
 
-const jenkinsConfig = [
-
-    {
-        browserName: 'chrome',
-        acceptInsecureCerts: true,
-        nogui: true
-
-        // chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote '] }
-    }
-];
+// const jenkinsConfig = [
+//
+//     {
+//         browserName: 'chrome',
+//         acceptInsecureCerts: true,
+//         nogui: true
+//
+//         // chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote '] }
+//     }
+// ];
 
 
 
@@ -26,7 +26,7 @@ const config = {
     framework: 'custom',
     frameworkPath: require.resolve('protractor-cucumber-framework'),
     specs: ['../features/**/*.feature'],
-    baseUrl: process.env.TEST_URL || 'http://localhost:3000/',
+    baseUrl: (process.env.TEST_URL || 'http://localhost:3000/').replace('https', 'http'),
     params: {
         serverUrls: process.env.TEST_URL || 'http://localhost:3000/',
         targetEnv: argv.env || 'local',
@@ -34,9 +34,6 @@ const config = {
         password: process.env.TEST_PASSWORD
 
     },
-
-    useAllAngular2AppRoots: true,
-
     sauceUser: process.env.SAUCE_USERNAME,
     sauceKey: process.env.SAUCE_ACCESS_KEY,
 
@@ -71,7 +68,7 @@ const config = {
 
     cucumberOpts: {
         strict: true,
-        format: 'json:cb_reports/saucelab_results.json',
+        format: './saucelab_results.json/json:cb_reports',
         require: ['../support/world.js', '../support/*.js', '../features/step_definitions/**/*.steps.js'],
         tags: ''
     },
@@ -116,6 +113,7 @@ const config = {
         global.should = chai.should;
     }
 
+    useAllAngular2AppRoots: true,
 
 };
 config.cucumberOpts.tags = tagProcessor(config, argv);
