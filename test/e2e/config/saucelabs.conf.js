@@ -7,6 +7,8 @@ const minimist = require('minimist');
 
 const argv = minimist(process.argv.slice(2));
 
+
+
 const jenkinsConfig = [
     // {
     //     browserName: 'firefox',
@@ -19,38 +21,9 @@ const jenkinsConfig = [
         acceptInsecureCerts: true,
         nogui: true,
 
-        chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote '] }
+        // chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote '] }
     }
 ];
-
-const localConfig = [
-    // {
-    //     browserName: 'firefox',
-    //     acceptInsecureCerts: true,
-    //     proxy: {
-    //         proxyType: 'manual',
-    //         httpProxy: 'proxyout.reform.hmcts.net:8080',
-    //         sslProxy: 'proxyout.reform.hmcts.net:8080',
-    //         noProxy: 'localhost:3000'
-    //     }
-    //  },
-    {
-        browserName: 'chrome',
-        acceptInsecureCerts: true,
-
-
-        chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote '] },
-        proxy: {
-            proxyType: 'manual',
-            httpProxy: 'proxyout.reform.hmcts.net:8080',
-            sslProxy: 'proxyout.reform.hmcts.net:8080',
-            noProxy: 'localhost:3000'
-        }
-    }
-];
-
-const cap = (argv.local) ? localConfig : jenkinsConfig;
-
 
 
 
@@ -83,7 +56,10 @@ const config = {
             name: 'WIN_CHROME_LATEST',
             platform: 'Windows 10',
             version: 'latest',
-            'tunnel-identifier': 'reformtunnel'
+            'tunnel-identifier': 'reformtunnel',
+                shardTestFiles: true,
+                maxInstances: 1
+
         },
 
         {
@@ -91,8 +67,11 @@ const config = {
             name: 'MAC_CHROME_LATEST',
             platform: 'macOS 10.13',
             version: 'latest',
-            'tunnel-identifier': 'reformtunnel'
-        }
+            'tunnel-identifier': 'reformtunnel',
+                shardTestFiles: true,
+                maxInstances: 1
+
+        },
 
 
         // {
@@ -100,7 +79,7 @@ const config = {
         //     name: 'WIN_FIREFOX_LATEST',
         //     platform: 'Windows 10',
         //     version: 'latest',
-        //     'tunnel-identifier': 'saucelabs',
+        //     'tunnel-identifier': 'reformtunne',
         //     shardTestFiles: true,
         //     maxInstances: 1
         //
@@ -111,11 +90,11 @@ const config = {
         //     name: 'MAC_FIREFOX_LATEST',
         //     platform: 'macOS 10.13',
         //     version: 'latest',
-        //     'tunnel-identifier': 'saucelabs',
+        //     'tunnel-identifier': 'reformtunne',
         //     shardTestFiles: true,
         //     maxInstances: 1
         // }
-
+        //
 
     ],
 
@@ -128,7 +107,7 @@ const config = {
     // restartBrowserBetweenTests: true,
     // untrackOutstandingTimeouts: true,
 
-    multiCapabilities: cap,
+    // multiCapabilities: cap,
 
 
     cucumberOpts: {

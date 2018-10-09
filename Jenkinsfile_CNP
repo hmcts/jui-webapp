@@ -187,28 +187,7 @@ withPipeline(type , product, component) {
     }
 
 
-after('crossbrowserTest:preview') {
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/crossbrowser/functional-output/",
-            reportFiles          : 'index.html',
-            reportName           : 'PREVIEW Crossbrowser Test'
-        ])
-    }
 
-
-     after('crossbrowserTest:aat') {
-            publishHTML([
-                allowMissing         : true,
-                alwaysLinkToLastBuild: true,
-                keepAll              : true,
-                reportDir            : "reports/crossbrowser/functional-output/",
-                reportFiles          : 'index.html',
-                reportName           : 'AAT Crossbrowser Test'
-            ])
-        }
 
 
 
