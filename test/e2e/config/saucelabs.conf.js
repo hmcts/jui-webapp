@@ -30,11 +30,7 @@ const jenkinsConfig = [
 const config = {
     framework: 'custom',
     frameworkPath: require.resolve('protractor-cucumber-framework'),
-    // specs: ['../features/**/*.feature'],
-    suites: {
-        e2e: `../features/**/*.feature`
-    },
-
+    specs: ['../features/**/*.feature'],
     baseUrl: process.env.TEST_URL || 'http://localhost:3000/',
     params: {
         serverUrls: process.env.TEST_URL || 'http://localhost:3000/',
@@ -56,9 +52,9 @@ const config = {
             name: 'WIN_CHROME_LATEST',
             platform: 'Windows 10',
             version: 'latest',
-            'tunnel-identifier': 'reformtunnel',
-                shardTestFiles: true,
-                maxInstances: 1
+            'tunnel-identifier': 'reformtunnel'
+                // shardTestFiles: true,
+                // maxInstances: 1
 
         },
 
@@ -67,9 +63,9 @@ const config = {
             name: 'MAC_CHROME_LATEST',
             platform: 'macOS 10.13',
             version: 'latest',
-            'tunnel-identifier': 'reformtunnel',
-                shardTestFiles: true,
-                maxInstances: 1
+            'tunnel-identifier': 'reformtunnel'
+                // shardTestFiles: true,
+                // maxInstances: 1
 
         },
 

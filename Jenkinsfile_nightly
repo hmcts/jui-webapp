@@ -45,14 +45,14 @@ withNightlyPipeline(type, product, component) {
     }
 
 
-     after('functionalTest:aat') {
+     after('crossbrowserTest:aat') {
             publishHTML([
                 allowMissing         : true,
                 alwaysLinkToLastBuild: true,
                 keepAll              : true,
                 reportDir            : "reports/crossbrowser/functional-output/",
                 reportFiles          : 'index.html',
-                reportName           : 'AAT Crossbrowser Test'
+                reportName           : 'JUI CrossBrowser Tests'
             ])
         }
 

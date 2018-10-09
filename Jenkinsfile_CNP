@@ -187,6 +187,16 @@ withPipeline(type , product, component) {
     }
 
 
+after('crossbrowserTest:aat') {
+            publishHTML([
+                allowMissing         : true,
+                alwaysLinkToLastBuild: true,
+                keepAll              : true,
+                reportDir            : "reports/crossbrowser/functional-output/",
+                reportFiles          : 'index.html',
+                reportName           : 'JUI CrossBrowser Tests'
+            ])
+        }
 
 
 
