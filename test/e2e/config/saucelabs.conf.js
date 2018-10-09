@@ -125,7 +125,7 @@ const config = {
                     console.log(`SauceOnDemandSessionID=${session.getId()}`, `job-name=${jobName}`);
                 });
         };
-        printSessionId('Insert the Job Name');
+        // printSessionId('Insert the Job Name');
     },
 
 
