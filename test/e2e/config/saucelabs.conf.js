@@ -34,37 +34,34 @@ const config = {
         'tunnel-identifier': 'reformtunnel',
         'extendedDebugging': true,
         'shardTestFiles': true,
-        'maxInstances': 1
+        'maxInstances': 2
     },
 
 
         {
-            browserName: 'firefox',
-            name: 'MAC_FIREFOX_LATEST',
-            platform: 'macOS 10.13',
-            version: 'latest',
+            'browserName': 'firefox',
+            'name': 'MAC_FIREFOX_LATEST',
+            'platform': 'macOS 10.13',
+            'version': 'latest',
             'tunnel-identifier': 'reformtunnel',
             'extendedDebugging': true,
             'shardTestFiles': true,
-            'maxInstances': 1
+            'maxInstances': 2
 
         },
 
 
         {
-            browserName: 'chrome',
-            version: 'latest',
-            platform: 'Windows 10',
-            name: 'chrome-tests',
+            'browserName': 'chrome',
+            'version': 'latest',
+            'platform': 'Windows 10',
+            'name': 'chrome-tests',
             'tunnel-identifier': 'reformtunnel',
             'extendedDebugging': true,
-            shardTestFiles: true,
-            maxInstances: 1
+            'shardTestFiles': true,
+            'maxInstances': 2
 
         },
-
-
-
 
 
     ],
@@ -77,14 +74,14 @@ const config = {
         strict: true,
         format: 'json:cb_reports/saucelab_results.json',
         require: ['../support/world.js', '../support/*.js', '../features/step_definitions/**/*.steps.js'],
-        print: function() {
+        print: function () {
         },
         tags: ''
     },
 
 
     onComplete() {
-        const printSessionId = function(jobName) {
+        const printSessionId = function (jobName) {
             browser.getSession()
                 .then(session => {
 
