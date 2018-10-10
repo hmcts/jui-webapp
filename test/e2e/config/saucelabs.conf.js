@@ -8,7 +8,6 @@ const minimist = require('minimist');
 const argv = minimist(process.argv.slice(2));
 
 
-
 const config = {
     framework: 'custom',
     frameworkPath: require.resolve('protractor-cucumber-framework'),
@@ -23,20 +22,20 @@ const config = {
     },
     sauceUser: process.env.SAUCE_USERNAME,
     sauceKey: process.env.SAUCE_ACCESS_KEY,
-    allScriptsTimeout: 111000,
+    // allScriptsTimeout: 111000,
 
 
     useAllAngular2AppRoots: true,
-    multiCapabilities: [
-        {
-            browserName: 'chrome',
-           name: 'MAC_CHROME_LATEST',
-          platform: 'macOS 10.13',
-           version: 'latest',
-           'tunnel-identifier': 'reformtunnel',
-        shardTestFiles: true,
-        maxInstances: 2
-        }],
+    multiCapabilities: [{
+        'browserName': 'internet explorer',
+        'platform': 'Windows 10',
+        'version': '11.103',
+        'name': 'JUI-IE-TEST',
+        'tunnel-identifier': 'reformtunnel',
+        'extendedDebugging': true,
+        'shardTestFiles': true,
+        'maxInstances': 2
+    }],
 
 
     exclude: [],
@@ -46,6 +45,8 @@ const config = {
         strict: true,
         format: 'json:cb_reports/saucelab_results.json',
         require: ['../support/world.js', '../support/*.js', '../features/step_definitions/**/*.steps.js'],
+        print: function() {
+        },
         tags: ''
     },
 
@@ -58,7 +59,7 @@ const config = {
                     console.log('SauceOnDemandSessionID=' + session.getId() + ' job-name=' + jobName);
                 });
         };
-         printSessionId('JUI CB Tests');
+        printSessionId('JUI CB Tests');
     },
 
 
@@ -88,7 +89,6 @@ const config = {
         global.assert = chai.assert;
         global.should = chai.should;
     }
-
 
 
 };
