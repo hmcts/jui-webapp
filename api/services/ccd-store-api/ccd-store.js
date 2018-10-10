@@ -23,11 +23,22 @@ function getCCDCases(userId, jurisdiction, caseType, filter, options) {
 
 // TODO: This should eventually replace ccd better mutijud search
 function getMutiJudCCDCases(userId, jurisdictions, options) {
+    function handle(promise) {
+        return promise.then(v => {
+            return { v, status: true };
+        },
+        failure => {
+            return { failure, status: false };
+        });
+    }
     const promiseArray = [];
     jurisdictions.forEach(jurisdiction => {
         promiseArray.push(getCCDCases(userId, jurisdiction.jur, jurisdiction.caseType, jurisdiction.filter, options));
     });
-    return Promise.all(promiseArray);
+
+    return Promise.all(promiseArray.map(handle)).then(results => {
+        return results.filter(x => x.status).map(x => x.v);
+    });
 }
 
 function getHealth(options) {
