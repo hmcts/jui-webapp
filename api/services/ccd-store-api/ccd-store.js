@@ -30,6 +30,17 @@ function getMutiJudCCDCases(userId, jurisdictions, options) {
     return Promise.all(promiseArray);
 }
 
+function getCCDEventToken(userId, jurisdiction, caseType, caseId, eventId, options) {
+    const urlX = `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/event-triggers/${eventId}/token`;
+    return process.env.JUI_ENV === 'mock' ? mockRequest('GET', urlX, options) : generateRequest('GET', urlX, options);
+}
+
+function postCCDEvent(userId, jurisdiction, caseType, caseId, options) {
+    const urlX = `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`;
+    return process.env.JUI_ENV === 'mock' ? mockRequest('POST', urlX, options) : generateRequest('POST', urlX, options);
+    
+}
+
 function getHealth(options) {
     return generateRequest('GET', `${url}/health`, options);
 }
@@ -66,3 +77,6 @@ module.exports.getCCDEvents = getCCDEvents;
 module.exports.getCCDCases = getCCDCases;
 
 module.exports.getMutiJudCCDCases = getMutiJudCCDCases;
+
+module.exports.getCCDEventToken = getCCDEventToken;
+module.exports.postCCDEvent = postCCDEvent;

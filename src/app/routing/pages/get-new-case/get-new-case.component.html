@@ -1,0 +1,36 @@
+<div class="jui-width-container">
+<main class="govuk-main-wrapper" role="main">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form [formGroup]="getCaseForm" (ngSubmit)="onSubmit()">
+                <div class="govuk-form-group">
+
+                    <fieldset class="govuk-fieldset" aria-describedby="get-next-case-hint">
+
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+                            <h1 class="govuk-fieldset__heading">
+                                Get new case
+                            </h1>
+                        </legend>
+
+
+                        <span id="get-next-case-hint" class="govuk-hint">
+                            You’re ticketed for the following case types
+                        </span>
+                        <div class="govuk-radios">
+                            <div class="govuk-radios__item" *ngFor="let jurisdiction of data; let i = index" >
+                                <input class="govuk-radios__input" id="getNextCase + '-' +(i+1)" formControlName="getNextCase"
+                                       type="radio" value="{{jurisdiction.jur}}_{{jurisdiction.caseType}}">
+                                <label class="govuk-label govuk-radios__label" for="getNextCase + '-' +(i+1)">
+                                    {{jurisdiction.label}}
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                    <button data-selector="get-new-case" class="govuk-button">Get new case</button>
+            </form>
+        </div>
+    </div>
+</main>
+</div>

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { GetNewCaseComponent} from "./pages/get-new-case/get-new-case.component";
 import { SharedModule } from '../shared/shared.module';
 import { DomainModule } from '../domain/domain.module';
 import { AuthGuardService } from '../auth/auth-guard.service';
@@ -53,6 +54,15 @@ const routes: Routes = [
     {
         path: 'privacy-policy',
         component: PrivacyPolicyComponent
+    },
+    {
+        path: 'get-new-case',
+        component: GetNewCaseComponent
+    },
+
+    {
+        path: 'newcase/jurisdiction/:jur/casetype/:casetype',
+        component: GetNewCaseComponent
     },
     {
         path: 'jurisdiction/:jur/casetype/:casetype/viewcase/:case_id',
@@ -139,7 +149,8 @@ const routes: Routes = [
         CreateHearingComponent,
         CheckHearingComponent,
         HearingConfirmationComponent,
-        DemoComponent
+        DemoComponent,
+        GetNewCaseComponent
     ],
     providers: [
         CaseResolve,
