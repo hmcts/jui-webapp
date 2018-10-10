@@ -98,7 +98,7 @@ function handleStateRoute(req, res) {
             handlePostState(req, res, responseJSON, theState);
         }
 
-        responseJSON.formValues = store.get(`decisions_${inCaseId}`);
+        responseJSON.formValues = store.get(`decisions_${inCaseId}`) || {};
     }
     req.session.save(() => res.send(JSON.stringify(responseJSON)));
 }
