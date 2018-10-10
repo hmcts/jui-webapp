@@ -12,14 +12,13 @@
 
 
 <!-- List out all other rounds -->
-<!-- TODO: need to put it in reverse -->
-<ng-container *ngFor="let round of rounds | reverse">
+<ng-container *ngFor="let round of rounds">
     <h2 attr.data-selector="round-{{round.question_round_number}}" class="govuk-heading-m">Round {{round.question_round_number}}</h2>
 
     <!--  -->
-    <ng-container *ngIf="!round.questions.length;then questionsNone else questionsSome"></ng-container>
+    <ng-container *ngIf="!round.questions.length; then questionsNone else questionsSome"></ng-container>
     <ng-template #questionsSome>
-        <ng-container *ngIf="round.state === 'question_drafted';then questionsDraft else questionsSent" ></ng-container>
+        <ng-container *ngIf="round.state === 'question_drafted'; then questionsDraft else questionsSent" ></ng-container>
     </ng-template>
 
     <!-- No Question asked-->

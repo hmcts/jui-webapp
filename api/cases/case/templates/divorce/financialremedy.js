@@ -24,6 +24,16 @@ module.exports = {
                     type: 'summary-panel',
                     sections: [
                         {
+                            name: 'Recent events',
+                            type: 'timeline',
+                            fields: [{ value: '$.events' }]
+                        },
+                        {
+                            name: 'Action on',
+                            type: 'case-action-alert',
+                            fields: [{ value: '$.state|case_status_processor' }]
+                        },
+                        {
                             name: 'Case details',
                             type: 'data-list',
                             fields: [
@@ -44,10 +54,6 @@ module.exports = {
                                 {
                                     label: 'Case number',
                                     value: '$.id'
-                                },
-                                {
-                                    label: 'FamilyMan Case Number',
-                                    value: '$.case_data.D8caseReference'
                                 }
                             ]
                         },
@@ -60,11 +66,6 @@ module.exports = {
                                     value: '$.case_data.divorceCaseNumber'
                                 }
                             ]
-                        },
-                        {
-                            name: 'Recent events',
-                            type: 'timeline',
-                            fields: [{ value: '$.events' }]
                         }
                     ]
                 }
@@ -81,24 +82,23 @@ module.exports = {
                     type: 'parties-panel',
                     sections: [
                         {
-                            id: 'petitioner',
-                            name: 'Petitioner',
+                            id: 'applicant',
+                            name: 'Applicant',
                             type: 'tab',
                             fields: [
                                 {
                                     label: 'Full name',
                                     value: ['$.case_data.applicantFMName', ' ', '$.case_data.applicantLName']
                                 },
-                                { label: 'Date of birth', value: '' },
                                 { label: 'Address', value: '' },
                                 { label: 'Phone', value: '' },
                                 { label: 'Email', value: '' },
-                                { label: 'Representative', value: '' }
+                                { label: 'Representative', value: '$.case_data.solicitorName|if_empty_processor|Unrepresented' }
                             ]
                         },
                         {
-                            id: 'petitioner-sol',
-                            name: 'Petitioner Solicitor',
+                            id: 'applicant-sol',
+                            name: 'Applicant\'s solicitor',
                             type: 'tab',
                             fields: [
                                 { label: 'Reference no.', value: '$.case_data.solicitorReference' },
@@ -127,20 +127,28 @@ module.exports = {
                                     label: 'Full name',
                                     value: ['$.case_data.appRespondentFMName', ' ', '$.case_data.appRespondentLName']
                                 },
-                                { label: 'Date of birth', value: '' },
-                                { label: 'Address', value: '' },
-                                { label: 'Phone', value: '' },
-                                { label: 'Email', value: '' },
-                                { label: 'Representative', value: '$.case_data.appRespondentRep' }
+                                {
+                                    label: 'Address', value: [
+                                        '$.case_data.respondentAddress1|newline_processor',
+                                        '$.case_data.respondentAddress2|newline_processor',
+                                        '$.case_data.respondentAddress3|newline_processor',
+                                        '$.case_data.respondentAddress4|newline_processor',
+                                        '$.case_data.respondentAddress5|newline_processor',
+                                        '$.case_data.respondentAddress6'
+                                    ]
+                                },
+                                { label: 'Phone', value: '$.case_data.respondentPhone' },
+                                { label: 'Email', value: '$.case_data.respondentEmail' },
+                                { label: 'Representative', value: '$.case_data.rSolicitorName|if_empty_processor|Unrepresented' }
                             ]
                         },
                         {
                             id: 'respondent-sol',
-                            name: 'Respondent Solicitor',
+                            name: 'Respondent\'s solicitor',
                             type: 'tab',
                             fields: [
                                 { label: 'Reference no.', value: '$.case_data.rSolicitorReference' },
-                                { label: 'Name', value: '$.case_data.rSolicitorName' },
+                                { label: 'Full name', value: '$.case_data.rSolicitorName' },
                                 { label: 'Solicitor firm', value: '$.case_data.rSolicitorFirm' },
                                 {
                                     label: 'Address', value: [

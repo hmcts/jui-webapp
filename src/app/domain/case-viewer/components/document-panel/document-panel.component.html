@@ -1,3 +1,9 @@
+<app-case-actions
+    [header]="panelData.name"
+    [actionPrimaryButton]="{href: '../decision/create', text: 'Make decision'}"
+    [actionSecondaryButton]="{href: '../hearing/list', text: 'List for hearing'}"
+></app-case-actions>
+
 <div class="jui-casefile govuk-!-margin-bottom-6">
     <div class="jui-casefile-files" *ngIf="documents && documents.length; else noDocuments">
         <ul class="jui-casefile-list">

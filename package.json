@@ -4,9 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "build": "npm run build-universal",
-    "build-universal": "npm run build:client-and-server-bundles",
-    "build:client-and-server-bundles": "ng build --prod && ng run jui:server",
+    "build": "ng build --prod && ng run jui:server",
     "start": "node server.js",
     "start-dev": "ng serve",
     "start-dev-proxy": "ng serve --proxy-config proxy.config.json",
@@ -19,30 +17,33 @@
     "dev-frontend": "ng-udkc",
     "lint": "yarn lint:ng && yarn lint:node || true",
     "lint:fix": "(yarn lint:ng:fix || true) && (yarn lint:node:fix || true)",
+    "start-json-server": "export JUI_ENV=mock; node ./mock-server/mockserver.js",
+    "lint": "npm run lint:node || npm run lint:ng || true",
+    "lint:node": "eslint -f node_modules/eslint-html-reporter/reporter.js -o ./reports/lint/node/index.html .",
     "lint:ng": "ng lint jui",
-    "lint:ng:fix": "ng lint jui --fix",
-    "lint:node": "eslint . -f node_modules/eslint-html-reporter/reporter.js -o ./reports/lint/node/index.html",
-    "lint:node:fix": "eslint . --fix",
+    "lint:fix": "npm run lint:node:fix || npm run lint:ng:fix || true",
+    "lint:fix:node": "eslint . --fix",
+    "lint:fix:ng": "ng lint jui --fix",
     "test": "npm run test:node && npm run test:ng",
-    "test:node": "jasmine --config=spec/support/jasmine.json",
+    "test:node": "jasmine --config=test/unit/node/jasmine.json",
     "test:ng": "ng test",
     "test:nsp": "nsp check",
-    "test:a11y": "echo 'ally testing not implemented'",
-    "test:routes": "echo 'routes testing not implemented'",
-    "test:coverage": "ng test --code-coverage",
-    "test-all": "echo 'test all not implemented'",
-    "test:nsp-warn": "echo \"Test nsp warn\"",
-    "test:snyk": "snyk test",
-    "test:smoke": "echo 'smoke test not implemented'",
+    "test:coverage": "npm run test:coverage:node && npm run test:coverage:ng",
+    "test:coverage:node": "nyc jasmine --config=test/unit/node/jasmine.json",
+    "test:coverage:ng": "ng test --code-coverage",
+    "test:a11y": "echo 'not implemented'",
+    "test:smoke": "echo 'not implemented'",
     "test:functional": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/conf.js",
     "test:functional:local": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/conf.js --local",
-    "health-check": "echo 'healthcheck not implemented'",
+    "test:crossbrowser": "echo 'not implemented'",
+    "test:fullfunctional": "echo 'not implemented'",
+    "test:mutation": "echo 'not implemented'",
+    "test:apiGateway": "echo 'not implemented'",
     "sonar-scan": "node_modules/sonar-scanner/bin/sonar-scanner",
-    "test:codacy-upload": "cat ./reports/tests/coverage/lcov.info | codacy-coverage",
-    "test:codecov-upload": "codecov -f ./reports/tests/coverage/lcov.info",
-    "snyk-protect": "snyk protect",
-    "e2e": "protractor ./test/e2e/config/conf.js",
-    "pree2e": "webdriver-manager update --standalone false --gecko false --quiet"
+    "test:codacy-upload": "cat ./reports/tests/coverage/ng/lcov.info | codacy-coverage",
+    "test:codecov-upload": "codecov -f ./reports/tests/coverage/ng/lcov.info",
+    "snyk": "snyk test",
+    "snyk-protect": "snyk protect"
   },
   "private": true,
   "dependencies": {
@@ -84,10 +85,11 @@
     "request-promise": "^4.2.2",
     "rxjs": "^6.2.2",
     "rxjs-compat": "^6.1.0",
+    "stable": "^0.1.8",
     "ts-loader": "^4.0.1",
     "udk": "^0.3.12",
     "url": "^0.11.0",
-    "yarn": "1.6.0",
+    "yarn": "^1.6.0",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
@@ -135,6 +137,7 @@
     "minimist": "^1.2.0",
     "nodemon": "^1.17.5",
     "nsp": "^3.2.1",
+    "nyc": "^13.0.1",
     "postcss-import": "^11.0.0",
     "postcss-loader": "^2.0.10",
     "postcss-url": "^7.1.2",
@@ -156,5 +159,50 @@
     "uglifyjs-webpack-plugin": "^1.1.8",
     "url-loader": "^0.6.2"
   },
-  "snyk": true
+  "snyk": true,
+  "nyc": {
+    "check-coverage": true,
+    "per-file": true,
+    "lines": 0,
+    "statements": 0,
+    "functions": 0,
+    "branches": 0,
+    "include": [
+      "**/api/**/**"
+    ],
+    "exclude": [],
+    "reporter": [
+      "lcov",
+      "html",
+      "text-summary"
+    ],
+    "require": [],
+    "cache": true,
+    "all": true,
+    "report-dir": "./reports/tests/coverage/node"
+  },
+  "eslintConfig": {
+    "extends": "@hmcts",
+    "env": {
+      "es6": true,
+      "node": true
+    },
+    "parserOptions": {
+      "sourceType": "module"
+    },
+    "rules": {
+      "indent": [
+        "error",
+        4
+      ],
+      "max-len": [
+        2,
+        120
+      ]
+    }
+  },
+  "eslintIgnore": [
+    "**/node_modules/**",
+    "src/public/**"
+  ]
 }

@@ -9,11 +9,7 @@ function questionsPage() {
     this.question_raised_already = element(by.css('[data-selector="questions-subject-link"]'));
     this.send_questions_btn = element(by.css('[data-selector="send-draft-questions-link"]'));
     this.draft_questions_details = element(by.css('[data-selector="draft-questions-details"]'));
-    this.questions_nav_link= element.all(by.css('a.jui-secondary-nav__link'));
-
-
-
-
+    this.questions_nav_link = element.all(by.css('a.jui-secondary-nav__link'));
 }
 
-module.exports = new questionsPage;
+module.exports = new questionsPage();

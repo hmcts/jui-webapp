@@ -7,6 +7,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { ConfigService } from '../../../config.service';
 import { BrowserTransferStateModule } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import {Selector} from '../../../../../test/selector-helper';
 
 const caseUrl = '/api/cases/1531309876267122';
 const configMock = {
@@ -20,6 +21,7 @@ describe('CaseBarComponent', () => {
     let fixture: ComponentFixture<CaseBarComponent>;
     let httpMock: HttpTestingController;
     let nativeElement;
+    let element;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -48,6 +50,7 @@ describe('CaseBarComponent', () => {
         component.case = {
             id: '1244'
         };
+        element = fixture.debugElement;
         nativeElement = fixture.nativeElement;
         httpMock = TestBed.get(HttpTestingController);
         fixture.detectChanges();
@@ -56,4 +59,45 @@ describe('CaseBarComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+
+
+    describe('Setting inputs', () => {
+        beforeEach(() => {
+            component.case = {
+                details: {
+                    fields: [
+                        {
+                            value: '1234'
+                        },
+                        {
+                            value: 'Alec DT v DWP',
+                        }
+                    ]
+                }
+            };
+
+            fixture.detectChanges();
+        });
+
+        it('should set a DataList Component for each section in panelData', () => {
+            expect(element.nativeElement.querySelectorAll(Selector.selector('data-casebar-details-component')).length)
+                .toBe(1);
+        });
+
+        it(`should set the DataList Component's title to the sections name`, () => {
+            const actualDetails = element.nativeElement.querySelectorAll(Selector.selector('data-casebar-details-component'));
+            expect(actualDetails.textContent)
+                .toEqual(component.case.details.fields[0].textContent);
+        });
+
+        it(`should set the DataList Component's title to the sections name`, () => {
+            const actualTitles = element.nativeElement.querySelectorAll(Selector.selector('data-casebar-title-component'));
+            expect(actualTitles.textContent)
+                .toEqual(component.case.details.fields[1].textContent);
+        });
+    });
+
+
+
+
 });

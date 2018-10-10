@@ -1,7 +1,8 @@
-var reporter = require("cucumberjs-allure-reporter");
-var fs = require("fs");
-var mkdirp = require("mkdirp");
-var xmlReports = process.cwd() + "/reports/xml";
+const reporter = require('cucumberjs-allure-reporter');
+const fs = require('fs');
+const mkdirp = require('mkdirp');
+
+const xmlReports = `${process.cwd()}/reports/xml`;
 
 // var createXmlDir = (function() {
 //     if (!fs.existsSync(xmlReports)) {
@@ -9,7 +10,6 @@ var xmlReports = process.cwd() + "/reports/xml";
 //     }
 // })();
 
-reporter.config({
-    targetDir: xmlReports
-});
+reporter.config({ targetDir: xmlReports });
+
 module.exports = reporter;
