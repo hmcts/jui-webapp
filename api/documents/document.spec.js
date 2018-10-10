@@ -3,7 +3,7 @@ const supertest = require('supertest');
 const express = require('express');
 const config = require('../../config');
 
-describe('Documents route', () => {
+xdescribe('Documents route', () => {
     let route, request, app;
     let httpRequest, httpResponse;
 

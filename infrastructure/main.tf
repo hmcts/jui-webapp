@@ -2,11 +2,14 @@ locals {
     app_full_name = "${var.product}-${var.component}"
     ase_name = "${data.terraform_remote_state.core_apps_compute.ase_name[0]}"
     local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
-    vault_name = "${var.shared_product_name}-${local.local_env}"
+    shared_vault_name = "${var.shared_product_name}-${local.local_env}"
 }
+# "${local.ase_name}"
+# "${local.app_full_name}"
+# "${local.local_env}"
 
 module "app" {
-    source = "git@github.com:hmcts/moj-module-webapp?ref=master"
+    source = "git@github.com:hmcts/cnp-module-webapp?ref=master"
     product = "${local.app_full_name}"
     location = "${var.location}"
     env = "${var.env}"
@@ -17,8 +20,8 @@ module "app" {
     additional_host_name = "${!(var.env == "preview" || var.env == "spreview") ? "${local.app_full_name}-${var.env}.service.${var.env}.platform.hmcts.net" : "null"}"
     https_only="false"
     common_tags  = "${var.common_tags}"
-    asp_rg                = "jui-webapp-${var.env}"
-    asp_name              = "jui-webapp-${var.env}"
+    asp_rg = "${var.shared_product_name}-${var.env}"
+    asp_name = "${var.shared_product_name}-${var.env}"
 
     app_settings = {
         # REDIS_HOST = "${module.redis-cache.host_name}"
@@ -47,8 +50,8 @@ module "app" {
 }
 
 data "azurerm_key_vault" "key_vault" {
-    name = "${local.vault_name}"
-    resource_group_name = "${local.vault_name}"
+    name = "${local.shared_vault_name}"
+    resource_group_name = "${local.shared_vault_name}"
 }
 
 data "azurerm_key_vault_secret" "s2s_secret" {

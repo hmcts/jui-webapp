@@ -1,16 +1,6 @@
 const express = require('express');
-const generateRequest = require('../lib/request');
-const config = require('../../config');
-const proxy = require('../lib/proxy');
 const getOptions = require('./options');
-
-function getDocumentBinary(docId, options) {
-    return generateRequest('GET', `${config.services.dm_store_api}/documents/${docId}/binary`, options);
-}
-
-function getDocument(docId, options) {
-    return generateRequest('GET', `${config.services.dm_store_api}/documents/${docId}`, options);
-}
+const { getDocument, getDocumentBinary } = require('../services/dm-store-api/dm-store-api');
 
 function getDocumentArray(docIds = [], options) {
     const promiseArray = [];
@@ -31,9 +21,10 @@ module.exports = app => {
     route.get('/:document_id/binary', (req, res, next) => {
         const documentId = req.params.document_id;
         getDocumentBinary(documentId, getOptions(req))
-            .on('response', function(response) {
-                response.headers['content-disposition'] = 'attachment; ' + response.headers['content-disposition'];
-            }).pipe(res);
+            .on('response', response => {
+                response.headers['content-disposition'] = `attachment; ${response.headers['content-disposition']}`;
+            })
+            .pipe(res);
     });
 
     route.get('/:document_id', (req, res, next) => {
@@ -43,5 +34,7 @@ module.exports = app => {
 };
 
 module.exports.getDocument = getDocument;
+
 module.exports.getDocuments = getDocuments;
+
 module.exports.getDocumentBinary = getDocumentBinary;

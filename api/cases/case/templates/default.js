@@ -16,19 +16,24 @@ module.exports = {
                     type: 'summary-panel',
                     sections: [
                         {
-                            name: '',
-                            type: 'data-list',
-                            fields: []
-                        },
-                        {
-                            name: '',
-                            type: 'data-list',
-                            fields: []
-                        },
-                        {
                             name: 'Recent events',
                             type: 'timeline',
                             fields: [{ value: '$.events' }]
+                        },
+                        // {
+                        //     name: 'Action on',
+                        //     type: 'case-action-alert',
+                        //     fields: [{ value: '$.state' }]
+                        // },
+                        {
+                            name: '',
+                            type: 'data-list',
+                            fields: []
+                        },
+                        {
+                            name: '',
+                            type: 'data-list',
+                            fields: []
                         }
                     ]
                 }

@@ -1,0 +1,64 @@
+  
+  .toolbar {
+    vertical-align: top;
+    position: relative;
+    background-color: #eaeaea;
+    border-bottom: 1px solid #d0d0d0;
+    height: 35px;
+    width: 100%;
+    text-shadow: 1px 1px 0 #fff;
+    z-index: 10;
+    -webkit-box-shadow: inset 0px 1px 1px 0px rgba(255,255,255,1);
+       -moz-box-shadow: inset 0px 1px 1px 0px rgba(255,255,255,1);
+            box-shadow: inset 0px 1px 1px 0px rgba(255,255,255,1);
+  }
+
+  .toolbar .spacer {
+    display: inline-block;
+    border-left: 1px solid #c1c1c1;
+    height: 34px;
+    margin: 0 5px -11px;
+  }
+  
+  .toolbar a {
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  .toolbar button {
+    background-color: #eaeaea;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    font-size: 15px;
+    // padding: 3px;
+    padding: govuk-spacing(4);
+    margin: 0;
+    text-align: center;
+    text-shadow: 1px 1px 0 #fff;
+    position: relative;
+    min-width: 27px;
+    min-height: 27px;
+  }
+  .toolbar button:after {
+    content: ' ';
+    display: block;
+  }
+  .toolbar button.active {
+    border-color: #bababa;
+    -webkit-box-shadow: inset 0 0 1px rgba(0,0,0,0.25);
+       -moz-box-shadow: inset 0 0 1px rgba(0,0,0,0.25);
+            box-shadow: inset 0 0 1px rgba(0,0,0,0.25);
+  }
+  .toolbar button:hover,
+  .toolbar button:focus {
+    border-color: #bababa;
+  }
+  
+  .toolbar button.highlight:after {
+    width: 17px;
+    height: 17px;
+    background: yellow;
+    position: absolute;
+    top: 4px;
+    left: 4px;
+  }

@@ -12,7 +12,6 @@ import { CheckQuestionsComponent } from './components/questions/check/check.comp
 import { ViewQuestionComponent } from './components/questions/view/view.component';
 import { DeleteQuestionComponent } from './components/questions/delete/delete.component';
 import { EditQuestionComponent } from './components/questions/edit/edit.component';
-import { CaseBarDetailsComponent } from './components/casebar-details/casebar-details.component';
 import { CaseBarComponent } from './components/casebar/casebar.component';
 import {CaseService} from './services/case.service';
 import {QuestionService} from './services/question.service';
@@ -33,7 +32,6 @@ import {HmctsModule} from '../hmcts/hmcts.module';
         HmctsModule
     ],
     exports: [
-        CaseBarDetailsComponent,
         CaseBarComponent,
         SearchResultComponent,
         HeaderComponent,
@@ -45,7 +43,6 @@ import {HmctsModule} from '../hmcts/hmcts.module';
         EditQuestionComponent
     ],
     declarations: [
-        CaseBarDetailsComponent,
         CaseBarComponent,
         SearchResultComponent,
         HeaderComponent,

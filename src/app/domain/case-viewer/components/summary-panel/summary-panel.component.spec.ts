@@ -58,7 +58,7 @@ describe('SummaryPanelComponent', () => {
                                 'value': 'na'
                             },
                             {
-                                'label': 'Medical Member',
+                                'label': 'Medical member',
                                 'value': 'na'
                             },
                             {

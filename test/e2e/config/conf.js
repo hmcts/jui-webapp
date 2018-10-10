@@ -2,6 +2,7 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const minimist = require('minimist');
 const tagProcessor = require('../support/tagProcessor');
+
 const argv = minimist(process.argv.slice(2));
 
 chai.use(chaiAsPromised);
@@ -12,11 +13,14 @@ const jenkinsConfig = [
     //     acceptInsecureCerts: true,
     //     'moz:firefoxOptions': { args: [ '--headless' ] }
     // },
+
     {
         browserName: 'chrome',
         acceptInsecureCerts: true,
-        chromeOptions: { args: ['--headless'] }
-    }
+        nogui: true,
+
+        chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote '] }
+     }
 ];
 
 const localConfig = [
@@ -29,11 +33,12 @@ const localConfig = [
     //         sslProxy: 'proxyout.reform.hmcts.net:8080',
     //         noProxy: 'localhost:3000'
     //     }
-    // },
+    //  },
     {
         browserName: 'chrome',
         acceptInsecureCerts: true,
-      // chromeOptions: { args: ['--headless']},
+
+       chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote '] },
         proxy: {
             proxyType: 'manual',
             httpProxy: 'proxyout.reform.hmcts.net:8080',
@@ -50,9 +55,9 @@ const config = {
     frameworkPath: require.resolve('protractor-cucumber-framework'),
     specs: ['../features/**/*.feature'],
 
-    baseUrl: process.env.TEST_URL || 'http://localhost:3000',
+    baseUrl: process.env.TEST_URL || 'http://localhost:3000/',
     params: {
-        serverUrls: process.env.TEST_URL || 'http://localhost:3000',
+        serverUrls: process.env.TEST_URL || 'http://localhost:3000/',
         targetEnv: argv.env || 'local',
         username: process.env.TEST_EMAIL,
         password: process.env.TEST_PASSWORD
@@ -65,8 +70,8 @@ const config = {
     multiCapabilities: cap,
 
     onPrepare() {
-
-        browser.manage().window().maximize();
+        browser.manage().window()
+            .maximize();
         browser.waitForAngularEnabled(false);
         global.expect = chai.expect;
         global.assert = chai.assert;
@@ -80,25 +85,27 @@ const config = {
     cucumberOpts: {
         strict: true,
         // format: ['node_modules/cucumber-pretty'],
-        format: 'json: reports_json/results.json',
+        format: 'json:reports_json/results.json',
         require: [
             '../support/world.js',
             '../support/*.js',
             '../features/step_definitions/**/*.steps.js'
-        ],
+        ]
     },
 
-    plugins: [{
-        package: 'protractor-multiple-cucumber-html-reporter-plugin',
-        options:{
-            automaticallyGenerateReport: true,
-            removeExistingJsonReportFile: true,
-            reportName: 'JUI Functional Tests',
-            // openReportInBrowser: true,
-            jsonDir: 'reports/tests/functional',
-            reportPath: 'reports/tests/functional'
+    plugins: [
+        {
+            package: 'protractor-multiple-cucumber-html-reporter-plugin',
+            options: {
+                automaticallyGenerateReport: true,
+                removeExistingJsonReportFile: true,
+                reportName: 'JUI Functional Tests',
+                // openReportInBrowser: true,
+                jsonDir: 'reports/tests/functional',
+                reportPath: 'reports/tests/functional'
+            }
         }
-    }]
+    ]
 
     // plugins: [{
     //     package: 'jasmine2-protractor-utils',

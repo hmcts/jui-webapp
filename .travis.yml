@@ -30,6 +30,7 @@ script:
   - yarn build
   - yarn lint
   - yarn test
+  - yarn test:coverage
   - yarn test:a11y
 after_success:
   - yarn test:codacy-upload

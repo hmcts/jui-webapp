@@ -19,4 +19,4 @@ function timelinePage() {
     this.panel_table = element(by.xpath('//*[@id="content"]/app-case-viewer/app-summary-panel/div/div[1]/app-data-list[2]/div'));
 }
 
-module.exports = new timelinePage;
+module.exports = new timelinePage();

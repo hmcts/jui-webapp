@@ -14,8 +14,12 @@ import {TimelineComponent} from './components/timeline/timeline.component';
 import {QuestionListComponent} from './components/question-list/question-list.component';
 import {QuestionComponent} from './components/question/question.component';
 import {ReversePipe} from './pipes/array-reverse/reverse.pipe';
+import {CaseStatusGoto} from './pipes/case-status-goto/case.status.goto';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
+import { StatusComponent } from './components/status/status.component';
+import { CaseActionAlertComponent } from './components/case-action-alert/case-action-alert.component';
+import {CaseActionsComponent} from './components/case-actions/case-actions.component';
 
 @NgModule({
     imports: [
@@ -37,7 +41,12 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component';
         QuestionComponent,
         ReversePipe,
         TabsComponent,
-        CheckboxComponent
+        CheckboxComponent,
+        CaseStatusGoto,
+        TabsComponent,
+        StatusComponent,
+        CaseActionsComponent,
+        CaseActionAlertComponent,
     ],
     exports: [
         TableComponent,
@@ -48,7 +57,13 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component';
         QuestionComponent,
         ReversePipe,
         TabsComponent,
-        CheckboxComponent
+        CheckboxComponent,
+        CaseStatusGoto,
+        TabsComponent,
+        StatusComponent,
+        CaseActionsComponent,
+        CaseActionAlertComponent,
+        DocumentViewerModule
     ]
 })
 

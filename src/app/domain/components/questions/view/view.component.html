@@ -17,7 +17,7 @@
                     <p data-selector="answer-body">{{question.answer.answer_text}}</p>
                 </div>
             </div>
-            <div class="jui-button-actions  govuk-!-margin-top-7" *ngIf="!question.answer">
+            <div class="jui-button-actions  govuk-!-margin-top-7" *ngIf="!question.answer && question.state_name === 'question_drafted'">
                 <div class="jui-button-actions__item  jui-button-actions__item--inline">
                     <a data-selector="edit-question-link" class="govuk-button" routerLink="./edit">Edit question</a>
                 </div>

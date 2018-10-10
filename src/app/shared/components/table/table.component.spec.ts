@@ -121,7 +121,10 @@ describe('TableComponent', () => {
                 'caseRef': null,
                 'parties': 'A v May_146863',
                 'type': 'SSCS',
-                'status': 'unknown',
+                'status': {
+                    'name': 'Draft Consent Order',
+                    'action_goto': 'casefile'
+                },
                 'caseCreated': '2018-06-08T16:45:56.301',
                 'caseLastActioned': '2018-06-11T10:36:58.652'
             }
@@ -135,7 +138,10 @@ describe('TableComponent', () => {
                 'caseRef': null,
                 'parties': 'B v May_417228',
                 'type': 'SSCS',
-                'status': 'unknown',
+                'status': {
+                    'name': 'Draft Consent Order',
+                    'action_goto': 'casefile'
+                },
                 'caseCreated': '2018-06-08T16:45:58.349',
                 'caseLastActioned': '2018-06-08T16:45:58.349'
             }
@@ -219,6 +225,12 @@ describe('TableComponent', () => {
             const links =
                 element.nativeElement.querySelectorAll(Selector.selector('table-component|case-reference-link'));
             expect(links[0].attributes.href.value).toEqual('/jurisdiction/SSCS/casetype/Benefit/viewcase/1528476356357908/summary');
+        });
+
+        it('should have a clickable case status link', () => {
+            const links =
+                element.nativeElement.querySelectorAll(Selector.selector('table-component|case-status-reference-link'));
+            expect(links[0].attributes.href.value).toEqual('/jurisdiction/SSCS/casetype/Benefit/viewcase/1528476356357908/casefile');
         });
 
         it('should have ALL the headers', () => {

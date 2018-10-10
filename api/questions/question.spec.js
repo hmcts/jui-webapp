@@ -3,7 +3,7 @@ const supertest = require('supertest');
 const express = require('express');
 const bodyParser = require('body-parser');
 
-describe('Questions route', () => {
+xdescribe('Questions route', () => {
     let route, request, app;
     let httpRequest, httpResponse;
     let cohResponses;

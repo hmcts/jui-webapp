@@ -17,20 +17,20 @@
 
         },
         {
-            "label": "Action needed",
+            "label": "Decision needed on",
             "case_field_id": "status",
             "value": "$.status"
 
         },
         {
             "label": "Case Start Date",
-            "case_field_id": "caseStartDate",
+            "case_field_id": "createdDate",
             "value": "$.created_date",
             "date_format": "d MMM yyyy"
         },
         {
             "label": "Date of Last Action",
-            "case_field_id": "dateOfLastAction",
+            "case_field_id": "lastModified",
             "value": "$.last_modified",
             "date_format": "d MMM yyyy"
         }
