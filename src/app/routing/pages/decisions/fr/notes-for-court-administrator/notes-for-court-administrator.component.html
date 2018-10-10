@@ -2,21 +2,22 @@
 <main class="govuk-main-wrapper" role="main">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <form [formGroup]="notesForCourtAdminForm" (ngSubmit)="onSubmit()">
+            <form *ngIf="pageitems; else loading" [formGroup]="notesForCourtAdminForm" (ngSubmit)="onSubmit()">
                 <div class="govuk-form-group">
-                    <h1 class="govuk-label-wrapper">
-                        <label class="govuk-label govuk-label--xl" for="notes-for-court-administrator">
-                            Notes for court administrator (optional)
-                        </label>
-                    </h1>
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+                        <h1 class="govuk-fieldset__heading">{{pageitems.header}}</h1>
+                    </legend>
                     <span id="copyconsentorder-hint" class="govuk-hint">
-                        This won’t be seen by the parties.
+                        {{pageitems.hint}}
                     </span>
-                    <textarea class="govuk-textarea" id="directions" name="directions" rows="5"></textarea>
+                    <textarea class="govuk-textarea" formControlName="{{pageitems.textarea.control}}" rows="5"></textarea>
                 </div>
-                <button class="govuk-button" type="submit">Continue</button>
+                <input class="govuk-button" type="submit" formControlName="{{pageitems.button.control}}">
             </form>
         </div>
     </div>
 </main>
+<ng-template #loading>
+    Loading Form...
+</ng-template>
 

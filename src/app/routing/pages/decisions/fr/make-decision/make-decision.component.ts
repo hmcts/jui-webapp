@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormGroup} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DecisionService} from '../../../../../domain/services/decision.service';
 import {FormsService} from '../../../../../shared/services/forms.service';
@@ -10,14 +10,14 @@ import {FormsService} from '../../../../../shared/services/forms.service';
   styleUrls: ['./make-decision.component.scss']
 })
 export class MakeDecisionComponent implements OnInit {
-    formDraft: any;
+    formDraft: FormGroup;
     draft: string;
     options: any;
     decision: any;
-    req: any;
+    request: any;
     pageValues: any;
+    case: any;
 
-    @Input() case;
     @Input() pageitems;
 
     constructor(
@@ -26,19 +26,28 @@ export class MakeDecisionComponent implements OnInit {
         public decisionService: DecisionService,
         private formsService: FormsService
     ) {}
+    createForm(pageitems, pageValues) {
+        this.formDraft = new FormGroup(this.formsService.defineformControls(pageitems, pageValues));
+    }
     ngOnInit() {
-        this.activatedRoute.params.subscribe();
-        this.decision = this.activatedRoute.parent.snapshot.data['decision'];
-        this.pageitems = this.decision.meta;
-        this.pageValues = this.decision.formValues;
-        this.formDraft = new FormGroup(this.formsService.defineformControls(this.pageitems, this.pageValues));
+        this.activatedRoute.parent.data.subscribe(data => {
+            this.case = data.caseData;
+        });
+        const caseId = this.case.id;
+        const pageId = 'create';
+        const jurId = 'fr';
+        this.decisionService.fetch(jurId, caseId, pageId).subscribe(decision => {
+            this.decision = decision;
+            this.pageitems = this.decision.meta;
+            this.pageValues = this.decision.formValues;
+            this.createForm(this.pageitems, this.pageValues) ;
+        });
     }
     onSubmit() {
         const event = this.formDraft.value.createButton.toLowerCase();
         delete this.formDraft.value.createButton;
-        this.req = { formValues: this.formDraft.value, event: event };
-        // console.log(`to http://localhost:3000/api/decisions/state/fr/${this.activatedRoute.snapshot.parent.data.caseData.id}/${this.pageitems.name}`);
-        this.decisionService.submitDecisionDraft('fr',this.activatedRoute.snapshot.parent.data.caseData.id, this.pageitems.name, this.req).subscribe(decision => {
+        this.request = { formValues: this.formDraft.value, event: event };
+        this.decisionService.submitDecisionDraft('fr',this.activatedRoute.snapshot.parent.data.caseData.id, this.pageitems.name, this.request).subscribe(decision => {
             console.log(decision.newRoute);
             this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
         });

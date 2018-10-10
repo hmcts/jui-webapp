@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import 'rxjs-compat/add/observable/of';
 import {ConfigService} from '../../config.service';
-import { makeStateKey, TransferState } from '@angular/platform-browser';
 import {HttpClient} from '@angular/common/http';
-import {ActivatedRoute, Router, UrlSegment } from '@angular/router';
 
 @Injectable({
     providedIn: 'root'
@@ -12,43 +10,24 @@ import {ActivatedRoute, Router, UrlSegment } from '@angular/router';
 export class DecisionService {
     constructor(
             private httpClient: HttpClient,
-            private configService: ConfigService,
-            private state: TransferState,
-            private activatedRoute: ActivatedRoute,
-            private router: Router
+            private configService: ConfigService
     ) { }
 
     generateDecisionUrl( jurId: string, caseId: string, pageId: string ) {
-        // old Mike implementation
-        // return `${this.configService.config.api_base_url}/api/decisions/${caseId}`;
         return `${this.configService.config.api_base_url}/api/decisions/state/${jurId}/${caseId}/${pageId}`;
     }
 
-    fetch(caseId: string): Observable<any> {
-        const pageId = 'create';
-        const jurId = 'fr';
+    fetch(jurId:string, caseId: string, pageId: string): Observable<any> {
         const url = this.generateDecisionUrl(jurId, caseId, pageId);
         console.log('fetch', url);
-
         return this.httpClient.get(url);
     }
 
     submitDecisionDraft(jurId: string, caseId: string, pageId: string, body: any): Observable<any> {
-        const url = this.generateDecisionUrl('fr', caseId, 'create');
+        const url = this.generateDecisionUrl(jurId, caseId, pageId);
         console.log('Submit', url);
         return this.httpClient.post(url, body);
     }
-
-    // submitDecisionDraft(caseId: string, award: string, text: string): Observable<any> {
-    //     const url = this.generateDecisionUrl('fr', caseId, 'create');
-    //     const body = {
-    //         decision_award: award,
-    //         decision_header: award,
-    //         decision_reason: text,
-    //         decision_text: text
-    //     };
-    //     return this.httpClient.post(url, body);
-    // }
 
     updateDecisionDraft(caseId: string, award: string, text: string) {
         const url = this.generateDecisionUrl('fr', caseId, 'create');

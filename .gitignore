@@ -47,5 +47,9 @@ Thumbs.db
 version
 reports/
 .tmp/
+!.sessions/
+.sessions/*
+
+
 
  reports_json/

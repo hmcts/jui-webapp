@@ -15,7 +15,7 @@
 const request = require('request-promise');
 const should = require('should');
 
-const cookie = '_ga=GA1.1.547948358.1537962322; _gid=GA1.1.1892659864.1538391089; __userid__=123141; _gat=1; __auth__=eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJ0M3ZyMjg1OTltdDBqOTg4N3Aydmptb3BtNiIsInN1YiI6IjEyMzE0MSIsImlhdCI6MTUzODY2MDc5NiwiZXhwIjoxNTM4Njg5NTk2LCJkYXRhIjoiY2FzZXdvcmtlci1wcm9iYXRlLGNhc2V3b3JrZXItcHJvYmF0ZS1leGFtaW5lcixjYXNld29ya2VyLXByb2JhdGUtYXV0aG9yaXNlcixjYXNld29ya2VyLWNtYyxjYXNld29ya2VyLXNzY3MsY2FzZXdvcmtlci1kaXZvcmNlLGNhc2V3b3JrZXItZGl2b3JjZS1jb3VydGFkbWluLGNhc2V3b3JrZXItdGVzdCxjYXNld29ya2VyLXJlZmVyZW5jZS1kYXRhLGNhc2V3b3JrZXItc3Njcy1jYWxsYWdlbnQsY2FzZXdvcmtlcixjYXNld29ya2VyLXByb2JhdGUtaXNzdWVyLGNhc2V3b3JrZXItc3Njcy1qdWRnZSxjYXNld29ya2VyLHBheW1lbnRzLGNhc2V3b3JrZXItcHJvYmF0ZS1sb2ExLGNhc2V3b3JrZXItcHJvYmF0ZS1leGFtaW5lci1sb2ExLGNhc2V3b3JrZXItcHJvYmF0ZS1hdXRob3Jpc2VyLWxvYTEsY2FzZXdvcmtlci1jbWMtbG9hMSxjYXNld29ya2VyLXNzY3MtbG9hMSxjYXNld29ya2VyLWRpdm9yY2UtbG9hMSxjYXNld29ya2VyLWRpdm9yY2UtY291cnRhZG1pbi1sb2ExLGNhc2V3b3JrZXItdGVzdC1sb2ExLGNhc2V3b3JrZXItcmVmZXJlbmNlLWRhdGEtbG9hMSxjYXNld29ya2VyLXNzY3MtY2FsbGFnZW50LWxvYTEsY2FzZXdvcmtlci1sb2ExLGNhc2V3b3JrZXItcHJvYmF0ZS1pc3N1ZXItbG9hMSxjYXNld29ya2VyLXNzY3MtanVkZ2UtbG9hMSxjYXNld29ya2VyLWxvYTEscGF5bWVudHMtbG9hMSIsInR5cGUiOiJBQ0NFU1MiLCJpZCI6IjEyMzE0MSIsImZvcmVuYW1lIjoidGVzdEBURVNULkNPTSIsInN1cm5hbWUiOiJ0ZXN0QFRFU1QuQ09NIiwiZGVmYXVsdC1zZXJ2aWNlIjoiQ0NEIiwibG9hIjoxLCJkZWZhdWx0LXVybCI6Imh0dHBzOi8vd3d3LmNjZC5kZW1vLnBsYXRmb3JtLmhtY3RzLm5ldCIsImdyb3VwIjoiY2FzZXdvcmtlciJ9.Z9Xzw3d2sTH8euwjWjXOkgkThLfZ7Lk1UaxQDVLjTBE';
+const cookie = '_ga=GA1.1.547948358.1537962322; _gid=GA1.1.1892659864.1538391089; seen_cookie_message=yes; io=6TStM8bTcixqKGmcAAC0; __auth__=eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJiNGNsbWJ1b3VidTZkZTl0MzIyYzMwdWhqZSIsInN1YiI6IjEyMzE0MSIsImlhdCI6MTUzODczOTA2MiwiZXhwIjoxNTM4NzY3ODYyLCJkYXRhIjoiY2FzZXdvcmtlci1wcm9iYXRlLGNhc2V3b3JrZXItcHJvYmF0ZS1leGFtaW5lcixjYXNld29ya2VyLXByb2JhdGUtYXV0aG9yaXNlcixjYXNld29ya2VyLWNtYyxjYXNld29ya2VyLXNzY3MsY2FzZXdvcmtlci1kaXZvcmNlLGNhc2V3b3JrZXItZGl2b3JjZS1jb3VydGFkbWluLGNhc2V3b3JrZXItdGVzdCxjYXNld29ya2VyLXJlZmVyZW5jZS1kYXRhLGNhc2V3b3JrZXItc3Njcy1jYWxsYWdlbnQsY2FzZXdvcmtlcixjYXNld29ya2VyLXByb2JhdGUtaXNzdWVyLGNhc2V3b3JrZXItc3Njcy1qdWRnZSxjYXNld29ya2VyLHBheW1lbnRzLGNhc2V3b3JrZXItcHJvYmF0ZS1sb2ExLGNhc2V3b3JrZXItcHJvYmF0ZS1leGFtaW5lci1sb2ExLGNhc2V3b3JrZXItcHJvYmF0ZS1hdXRob3Jpc2VyLWxvYTEsY2FzZXdvcmtlci1jbWMtbG9hMSxjYXNld29ya2VyLXNzY3MtbG9hMSxjYXNld29ya2VyLWRpdm9yY2UtbG9hMSxjYXNld29ya2VyLWRpdm9yY2UtY291cnRhZG1pbi1sb2ExLGNhc2V3b3JrZXItdGVzdC1sb2ExLGNhc2V3b3JrZXItcmVmZXJlbmNlLWRhdGEtbG9hMSxjYXNld29ya2VyLXNzY3MtY2FsbGFnZW50LWxvYTEsY2FzZXdvcmtlci1sb2ExLGNhc2V3b3JrZXItcHJvYmF0ZS1pc3N1ZXItbG9hMSxjYXNld29ya2VyLXNzY3MtanVkZ2UtbG9hMSxjYXNld29ya2VyLWxvYTEscGF5bWVudHMtbG9hMSIsInR5cGUiOiJBQ0NFU1MiLCJpZCI6IjEyMzE0MSIsImZvcmVuYW1lIjoidGVzdEBURVNULkNPTSIsInN1cm5hbWUiOiJ0ZXN0QFRFU1QuQ09NIiwiZGVmYXVsdC1zZXJ2aWNlIjoiQ0NEIiwibG9hIjoxLCJkZWZhdWx0LXVybCI6Imh0dHBzOi8vd3d3LmNjZC5kZW1vLnBsYXRmb3JtLmhtY3RzLm5ldCIsImdyb3VwIjoiY2FzZXdvcmtlciJ9.FrYZHwmaKFOl4KOELw8Lxnyum537UR5ATwQ2T4Y2CH0; __userid__=123141; _gat=1';
 const mainURL = 'http://localhost:3000';
 // TODO: this shouldn't be hardcoded - should go to some real caseID
 const mainCaseID = 1;
@@ -52,44 +52,55 @@ suite('API/DECISIONS -> FR case -> simple GET-s', () => {
         return generateAPIRequestForFR('GET', '/blahBlah', {})
             .catch(error => {
                 const response = error.response;
-                response.statusCode.should.be.eql(404)
-                response.body.should.have.property('statusHint')
-                response.body.statusHint.should.startWith('Input parameter route_id wrong')
-                response.body.should.not.have.property('meta')
+                response.statusCode.should.be.eql(404);
+                response.body.should.have.property('statusHint');
+                response.body.statusHint.should.startWith('Input parameter route_id wrong');
+                response.body.should.not.have.property('meta');
             });
     });
     test('GET 1st step (/create)', () => {
         return generateAPIRequestForFR('GET', '/create', {})
             .then(response => {
-                response.statusCode.should.be.eql(200)
-                response.body.should.have.property('meta')
-                response.body.meta.should.have.property('idPrefix')
-                response.body.meta.should.have.property('name')
-                response.body.meta.idPrefix.should.be.eql('create')
-                response.body.should.have.property('formValues')
+                response.statusCode.should.be.eql(200);
+                response.body.should.have.property('meta');
+                response.body.meta.should.have.property('idPrefix');
+                response.body.meta.should.have.property('name');
+                response.body.meta.idPrefix.should.be.eql('create');
+                response.body.should.have.property('formValues');
             });
     });
     test('GET 2nd step (/reject-reasons)', () => {
         return generateAPIRequestForFR('GET', '/reject-reasons', {})
             .then(response => {
-                response.statusCode.should.be.eql(200)
-                response.body.should.have.property('meta')
-                response.body.meta.should.have.property('idPrefix')
-                response.body.should.have.property('formValues')
+                response.statusCode.should.be.eql(200);
+                response.body.should.have.property('meta');
+                response.body.meta.should.have.property('idPrefix');
+                response.body.should.have.property('formValues');
             });
     });
 });
 
+function checkResponseIsOkAndHasFormValues(response) {
+    response.statusCode.should.be.eql(200);
+    response.body.should.have.property('formValues');
+}
+
+function checkResponseIsOkAndHasFormValuesAndReturnedNewStepId(response, nextStepId) {
+    checkResponseIsOkAndHasFormValues(response);
+    response.body.should.have.property('newRoute');
+    response.body.newRoute.should.be.eql(nextStepId);
+    response.body.should.have.property('meta');
+    response.body.meta.should.have.property('idPrefix');
+    response.body.meta.idPrefix.should.be.eql(nextStepId);
+}
+
 suite('API/DECISIONS -> any case -> testing of values persistency (generic, no specific case-type related)', () => {
-    testValuesObjectA = {
-        testKey: 'testValue'
-    };
+    const testValuesObjectA = { testKey: 'testValue' };
     test('GET - should have empty formValues', () => {
         return generateAPIRequestForFR('GET', '/create', {})
             .then(response => {
-                response.statusCode.should.be.eql(200)
-                response.body.should.have.property('formValues')
-                response.body.formValues.should.be.eql({})
+                checkResponseIsOkAndHasFormValues(response);
+                response.body.formValues.should.be.eql({});
             });
     });
     test('POST - set some formValues', () => {
@@ -99,16 +110,14 @@ suite('API/DECISIONS -> any case -> testing of values persistency (generic, no s
             }
         })
             .then(response => {
-                response.statusCode.should.be.eql(200)
-                response.body.should.have.property('formValues')
+                checkResponseIsOkAndHasFormValues(response)
                 response.body.formValues.should.be.eql(testValuesObjectA)
             });
     });
     test('GET - should have formValues set in the previous one', () => {
         return generateAPIRequestForFR('GET', '/create', {})
             .then(response => {
-                response.statusCode.should.be.eql(200)
-                response.body.should.have.property('formValues')
+                checkResponseIsOkAndHasFormValues(response);
                 response.body.formValues.should.be.eql(testValuesObjectA)
             });
     });
@@ -119,13 +128,12 @@ suite('API/DECISIONS -> FR case -> Full scenario of user "APPROVE the draft"', (
     test('GET 1st step (/create)', () => {
         return generateAPIRequestForFR('GET', '/create', {})
             .then(response => {
-                response.statusCode.should.be.eql(200)
-                response.body.should.have.property('meta')
+                checkResponseIsOkAndHasFormValues(response)
                 response.body.meta.should.have.property('idPrefix')
                 response.body.should.have.property('formValues')
             });
     });
-    test('POST - approve the draft', () => {
+    test('POST - approved the draft', () => {
         return generateAPIRequestForFR('POST', `/${nextStepId}`, {
             body: {
                 formValues: { approveDraftConsent: 'yes' },
@@ -134,16 +142,10 @@ suite('API/DECISIONS -> FR case -> Full scenario of user "APPROVE the draft"', (
         })
             .then(response => {
                 nextStepId = 'notes-for-court-administrator'
-                response.statusCode.should.be.eql(200)
-                response.body.should.have.property('formValues')
-                response.body.should.have.property('newRoute')
-                response.body.newRoute.should.be.eql(nextStepId)
-                response.body.should.have.property('meta')
-                response.body.meta.should.have.property('idPrefix')
-                response.body.meta.idPrefix.should.be.eql(nextStepId)
+                checkResponseIsOkAndHasFormValuesAndReturnedNewStepId(response, nextStepId)
             });
     });
-    test('POST - notes for court admin', () => {
+    test('POST - filled notes for court admin', () => {
         return generateAPIRequestForFR('POST', `/${nextStepId}`, {
             body: {
                 formValues: { approveDraftConsent: 'yes' },
@@ -152,29 +154,33 @@ suite('API/DECISIONS -> FR case -> Full scenario of user "APPROVE the draft"', (
         })
             .then(response => {
                 nextStepId = 'check'
-                response.statusCode.should.be.eql(200)
-                response.body.should.have.property('formValues')
-                response.body.should.have.property('newRoute')
-                response.body.newRoute.should.be.eql(nextStepId)
-                response.body.should.have.property('meta')
-                response.body.meta.should.have.property('idPrefix')
-                response.body.meta.idPrefix.should.be.eql(nextStepId)
+                checkResponseIsOkAndHasFormValuesAndReturnedNewStepId(response, nextStepId)
             });
     });
-
+    test('POST - final submit', () => {
+        return generateAPIRequestForFR('POST', `/${nextStepId}`, {
+            body: {
+                formValues: { approveDraftConsent: 'yes' },
+                event: 'continue'
+            }
+        })
+            .then(response => {
+                nextStepId = 'decision-confirmation';
+                checkResponseIsOkAndHasFormValuesAndReturnedNewStepId(response, nextStepId);
+            });
+    });
 });
 
 suite('API/DECISIONS -> FR case -> Full scenario of user "REJECT the draft"', () => {
     test('GET 1st step (/create)', () => {
         return generateAPIRequestForFR('GET', '/create', {})
             .then(response => {
-                response.statusCode.should.be.eql(200)
-                response.body.should.have.property('meta')
-                response.body.meta.should.have.property('idPrefix')
-                response.body.should.have.property('formValues')
+                checkResponseIsOkAndHasFormValues(response);
+                response.body.meta.should.have.property('idPrefix');
+                response.body.should.have.property('formValues');
             });
     });
-    test('POST - reject the draft', () => {
+    test('POST - rejected the draft', () => {
         return generateAPIRequestForFR('POST', '/create', {
             body: {
                 formValues: { approveDraftConsent: 'no' },
@@ -182,13 +188,62 @@ suite('API/DECISIONS -> FR case -> Full scenario of user "REJECT the draft"', ()
             }
         })
             .then(response => {
-                response.statusCode.should.be.eql(200)
-                response.body.should.have.property('formValues')
-                response.body.should.have.property('newRoute')
-                response.body.newRoute.should.be.eql('reject-reasons')
-                response.body.should.have.property('meta')
-                response.body.meta.should.have.property('idPrefix')
-                response.body.meta.idPrefix.should.be.eql('reject-reasons')
+                checkResponseIsOkAndHasFormValuesAndReturnedNewStepId(response, 'reject-reasons');
+            });
+    });
+    test('POST - rejected the draft, NO hearing needed, NO annotated version needed', () => {
+        return generateAPIRequestForFR('POST', '/reject-reasons', {
+            body: {
+                formValues: { approveDraftConsent: 'no' },
+                event: 'continue'
+            }
+        })
+            .then(response => {
+                checkResponseIsOkAndHasFormValuesAndReturnedNewStepId(response, 'notes-for-court-administrator');
+            });
+    });
+    test('POST - rejected the draft, hearing needed, NO annotated version needed', () => {
+        return generateAPIRequestForFR('POST', '/reject-reasons', {
+            body: {
+                formValues: { partiesNeedAttend: true },
+                event: 'continue'
+            }
+        })
+            .then(response => {
+                checkResponseIsOkAndHasFormValuesAndReturnedNewStepId(response, 'hearing-details');
+            });
+    });
+    test('POST - rejected the draft, annotated version needed', () => {
+        return generateAPIRequestForFR('POST', '/reject-reasons', {
+            body: {
+                formValues: { includeAnnotatedVersionDraftConsOrder: 'yes' },
+                event: 'continue'
+            }
+        })
+            .then(response => {
+                checkResponseIsOkAndHasFormValuesAndReturnedNewStepId(response, 'draft-consent-order');
+            });
+    });
+    test('POST - filled annotation, after rejecting the draft, now looking for hearing', () => {
+        return generateAPIRequestForFR('POST', '/draft-consent-order', {
+            body: {
+                formValues: { partiesNeedAttend: true },
+                event: 'continue'
+            }
+        })
+            .then(response => {
+                checkResponseIsOkAndHasFormValuesAndReturnedNewStepId(response, 'hearing-details');
+            });
+    });
+    test('POST - filled annotation, after rejecting the draft, hearing NOT needed', () => {
+        return generateAPIRequestForFR('POST', '/draft-consent-order', {
+            body: {
+                formValues: { partiesNeedAttend: false },
+                event: 'continue'
+            }
+        })
+            .then(response => {
+                checkResponseIsOkAndHasFormValuesAndReturnedNewStepId(response, 'notes-for-court-administrator');
             });
     });
 });
