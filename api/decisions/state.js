@@ -1,4 +1,6 @@
 const Store = require('../lib/store');
+const generateRequest = require('../lib/request');
+const config = require('../../config');
 const express = require('express');
 const stateMeta = require('./state_meta');
 
@@ -13,15 +15,18 @@ function getOptions(req) {
     };
 }
 
-async function getEventToken(userId, jurisdictioneventId) {
-    response = await generateRequest(
+async function getCaseWithEventToken(userId, jurisdiction, caseType, caseId, eventId, options) {
+    let response = await generateRequest(
         'GET',
-        `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction.jur}/case-types/${
-            jurisdiction.caseType
-        }/cases?sortDirection=DESC${jurisdiction.filter}`,
+        `${
+            config.services.ccd_data_api
+        }/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/event-triggers/${eventId}/token`,
         options
     );
+    return { token: response.token, caseDetails: response.case_details };
 }
+
+async function postCaseWithEventToken(userId,jurisdiction,caseType,caseId,options)
 
 /* eslint-disable-next-line complexity */
 function handlePostState(req, res, responseJSON, theState) {
@@ -29,6 +34,7 @@ function handlePostState(req, res, responseJSON, theState) {
     const inCaseId = req.params.case_id;
 
     const formValues = req.body.formValues;
+
     if (formValues) {
         store.set(`decisions_${inCaseId}`, formValues);
     }
@@ -76,6 +82,7 @@ function handlePostState(req, res, responseJSON, theState) {
             responseJSON.meta = stateMeta[theState.inJurisdiction][responseJSON.newRoute];
         }
     }
+
     /* eslint-enable indent */
 }
 
@@ -89,7 +96,7 @@ function responseAssert(res, responseJSON, inJurisdiction, inStateId, statusHint
     return true;
 }
 
-function handleStateRoute(req, res) {
+async function handleStateRoute(req, res) {
     const store = new Store(req);
     const inJurisdiction = req.params.jur_id;
     const inCaseId = req.params.case_id;
@@ -129,6 +136,26 @@ function handleStateRoute(req, res) {
     console.log(theState);
     console.log('########################');
     console.log(req.session);
+    console.log('########################');
+    
+    let { token, caseDetails } = await postCaseWithEventToken(
+        req.auth.userId,
+        'DIVORCE',
+        'FinancialRemedyMVP2',
+        inCaseId,
+        'FR_approveApplication',
+        getOptions(req)
+    );
+
+
+
+    // .then(response => {
+    //     console.log(response);
+    // })
+    // .catch(e => {
+    //     console.log('error ');
+    // });
+
     req.session.save(() => res.send(JSON.stringify(responseJSON)));
 }
 
