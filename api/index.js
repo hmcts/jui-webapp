@@ -18,6 +18,7 @@ const cohCorApiRoutes = require('./services/coh-cor-api/coh-cor-api');
 const dmStoreApiRoutes = require('./services/dm-store-api/dm-store-api');
 const draftStoreApiRoutes = require('./services/draft-store-api/draft-store-api');
 const emAnnoApiRoutes = require('./services/em-anno-api/em-anno-api');
+const emNpaApiRoutes = require('./services/em-npa-api/em-npa-api');
 const feeApiRoutes = require('./services/fee-api/fee-api');
 const idamApiRoutes = require('./services/idam-api/idam-api');
 const payApiRoutes = require('./services/pay-api/pay-api');
@@ -33,7 +34,8 @@ documents(router);
 hearingRoutes(router);
 caseRoutes(router);
 decisionRoutes(router);
-
+emAnnoApiRoutes(router);
+emNpaApiRoutes(router);
 
 // Uncomment to enable direct access to Microservices
 // barApiRoutes(router);

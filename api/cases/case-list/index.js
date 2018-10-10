@@ -9,6 +9,10 @@ const generateRequest = require('../../lib/request');
 const { getAllQuestionsByCase } = require('../../questions/question');
 const { getMutiJudCCDCases } = require('../../services/ccd-store-api/ccd-store');
 const config = require('../../../config');
+const getUserDetails = require('../../auth/getUserDetails');
+
+const DIVORCE_JUR = 'DIVORCE';
+const FR_JUR = 'FinancialRemedyMVP2';
 
 const jurisdictions = [
     {
@@ -167,6 +171,20 @@ function applyStateFilter(caseLists) {
     return caseLists.map(caseList => caseList.filter(caseStateFilter));
 }
 
+function applyAssignedToFilter(caseList, options) {
+    function applyFilter(case1, details) {
+        // TODO this should finally be applicable to all jurisdictions, at the moment its only FR.
+        if(case1.case_jurisdiction.toLowerCase() === DIVORCE_JUR.toLowerCase()
+            && case1.case_type_id.toLowerCase() === FR_JUR.toLowerCase()) {
+            return case1.assignedToJudge === details.email
+        } else {
+            return true;
+        }
+    }
+    return getUserDetails(options)
+        .then(details => caseList.filter(case1 => applyFilter(case1, details)));
+}
+
 function rawCasesReducer(cases, columns) {
     return cases.map(caseRow => {
         return {
@@ -176,7 +194,8 @@ function rawCasesReducer(cases, columns) {
             case_fields: columns.reduce((row, column) => {
                 row[column.case_field_id] = valueProcessor(column.value, caseRow);
                 return row;
-            }, {})
+            }, {}),
+            assignedToJudge : caseRow.case_data.assignedToJudge ? caseRow.case_data.assignedToJudge : undefined
         };
     });
 }
@@ -222,6 +241,7 @@ module.exports = app => {
     router.get('/', (req, res, next) => {
         const userId = req.auth.userId;
         const options = getOptions(req);
+        const userAuthToken = req.auth.token;
 
         getMutiJudCCDCases(userId, jurisdictions, options)
             .then(caseLists => appendCOR(caseLists, options))
@@ -230,6 +250,7 @@ module.exports = app => {
             .then(applyStateFilter)
             .then(convertCaselistToTemplate)
             .then(combineLists)
+            .then(caseLists => applyAssignedToFilter(caseLists, userAuthToken))
             .then(sortCases)
             .then(aggregatedData)
             .then(results => {

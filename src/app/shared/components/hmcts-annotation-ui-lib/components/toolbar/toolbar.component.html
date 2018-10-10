@@ -1,0 +1,41 @@
+<div class="toolbar">
+  <button class="cursor" type="button" title="Cursor" data-tooltype="cursor"
+  #pointerTool
+  (click)="handlePointerClick()"
+  [class.active]="tool === 'cursor'"
+  >➚</button>
+
+  <div class="spacer"></div>
+
+  <button class="highlight" type="button" title="Highlight" data-tooltype="highlight"
+    #highlightTool
+    (click)="handleHighlightClick()"
+    [class.active]="tool === 'highlight'"
+  >&nbsp;</button>
+
+  <div class="spacer"></div>
+
+  <button type="button" title="Save"
+  (click)="onSaveClick()"
+  >Save</button>
+
+  <div class="spacer"></div>
+
+  <button type="button" title="Export" (click)="onExportClick()">Export</button>
+
+
+
+  <div class="spacer"></div>
+  <!-- <select #zoomTool (click)="handleScaleChange($event)" class="scale">
+      <option [value]=".5">50%</option>
+      <option [value]="1">100%</option>
+      <option selected [value]="1.33">133%</option>
+      <option [value]="1.5">150%</option>
+      <option [value]="2">200%</option>
+  </select>
+  <div class="spacer"></div> -->
+
+  <a href="javascript://" class="clear" title="Clear" (click)="handleClearAnnotations()">×</a>
+
+    <span *ngIf="outputDocumentId">Output DOC ID: {{outputDocumentId}}</span>
+</div>
