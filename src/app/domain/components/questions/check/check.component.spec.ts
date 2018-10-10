@@ -142,9 +142,6 @@ fdescribe('CheckQuestionsComponent', () => {
         });
 
         xit('should have filtered out the issued questions', () => {
-            console.log('I am natie element', nativeElement);
-            console.log('I am elements', nativeElement.querySelectorAll(Selector.selector('question-check')));
-
             expect(nativeElement.querySelectorAll(Selector.selector('question-check')).length).toBe(1);
         });
 

@@ -2,17 +2,18 @@ const express = require('express');
 const config = require('../../../config');
 const generateRequest = require('../../lib/request');
 
+const url = config.services.ccd_def_api;
 
 function getJurisdictions(options) {
-    return generateRequest('GET', `${config.services.ccd_def_api}/api/data/jurisdictions`, options);
+    return generateRequest('GET', `${url}/api/data/jurisdictions`, options);
 }
 
 function getCaseTypes(jurisdictions, options) {
-    return generateRequest('GET', `${config.services.ccd_def_api}/api/data/jurisdictions/${jurisdictions}/case-type`, options);
+    return generateRequest('GET', `${url}/api/data/jurisdictions/${jurisdictions}/case-type`, options);
 }
 
 function getHealth(options) {
-    return generateRequest('GET', `${config.services.ccd_def_api}/health`, options);
+    return generateRequest('GET', `${url}/health`, options);
 }
 
 function getInfo(options) {
@@ -30,7 +31,7 @@ function getOptions(req) {
 
 module.exports = app => {
     const router = express.Router({ mergeParams: true });
-    app.use('/definitions', router);
+    app.use('/ccd-def', router);
 
     router.get('/jurisdictions', (req, res, next) => {
         getJurisdictions(getOptions(req)).pipe(res);

@@ -52,4 +52,5 @@ reports/
 
 
 
- reports_json/
+reports_json/
+.nyc_output/

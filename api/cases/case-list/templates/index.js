@@ -6,15 +6,9 @@ const financialRemedy = require('./divorce/financialremedy');
 const defaultTemplate = require('./default');
 
 const templates = {
-    sscs: {
-        benefit: sscsBenefit
-    },
-    cmc: {
-        moneyclaimcase: cmc
-    },
-    probate: {
-        grantofrepresentation: probate
-    },
+    sscs: { benefit: sscsBenefit },
+    cmc: { moneyclaimcase: cmc },
+    probate: { grantofrepresentation: probate },
     divorce: {
         divorce,
         financialremedymvp2: financialRemedy

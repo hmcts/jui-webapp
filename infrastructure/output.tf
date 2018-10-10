@@ -3,7 +3,7 @@ output "microserviceName" {
 }
 
 output "vaultName" {
-    value = "${local.vault_name}"
+    value = "${local.shared_vault_name}"
 }
 
 output "vaultUri" {

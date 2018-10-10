@@ -15,12 +15,7 @@ export class QuestionComponent implements AfterViewInit  {
 
     checkForDraft() {
        setTimeout(() => {
-           console.log(this.rounds);
-            if (!this.rounds.length || this.rounds[this.rounds.length - 1].state !== 'question_drafted') {
-                this.draft = true;
-            } else {
-                this.draft = false;
-            }
+            this.draft = this.draft = !this.rounds.length || !(this.rounds[0].state === 'question_drafted' || this.rounds[0].state === 'question_issue_pending');
        });
     }
 

@@ -8,7 +8,7 @@ import {Component, Input, OnChanges} from '@angular/core';
 export class DataListComponent implements OnChanges {
 
     @Input() classes = null;
-    @Input() title;
+    @Input() title = null;
     @Input() dataList = [];
     newDataList = [];
 

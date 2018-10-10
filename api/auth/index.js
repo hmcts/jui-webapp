@@ -14,8 +14,6 @@ module.exports = app => {
         getTokenFromCode(req.query.code, req).then(data => {
             if (data.access_token) {
                 getUserDetails(data.access_token).then(details => {
-                    console.log(details);
-                    console.log('-----------------------------');
                     res.cookie(config.cookies.token, data.access_token);
                     res.cookie(config.cookies.userId, details.id);
                     res.redirect('/');
