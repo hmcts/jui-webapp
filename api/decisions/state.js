@@ -4,6 +4,25 @@ const stateMeta = require('./state_meta');
 
 const ERROR404 = 404;
 
+function getOptions(req) {
+    return {
+        headers: {
+            Authorization: `Bearer ${req.auth.token}`,
+            ServiceAuthorization: req.headers.ServiceAuthorization
+        }
+    };
+}
+
+async function getEventToken(userId, jurisdictioneventId) {
+    response = await generateRequest(
+        'GET',
+        `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${jurisdiction.jur}/case-types/${
+            jurisdiction.caseType
+        }/cases?sortDirection=DESC${jurisdiction.filter}`,
+        options
+    );
+}
+
 /* eslint-disable-next-line complexity */
 function handlePostState(req, res, responseJSON, theState) {
     const store = new Store(req);
@@ -45,6 +64,9 @@ function handlePostState(req, res, responseJSON, theState) {
                 } else {
                     responseJSON.newRoute = 'notes-for-court-administrator';
                 }
+                break;
+            case 'hearing-details':
+                responseJSON.newRoute = 'check';
                 break;
             default:
                 break;
@@ -100,6 +122,13 @@ function handleStateRoute(req, res) {
 
         responseJSON.formValues = store.get(`decisions_${inCaseId}`) || {};
     }
+    console.log(req.headers['ServiceAuthorization']);
+    console.log('########################');
+    console.log(req.auth);
+    console.log('########################');
+    console.log(theState);
+    console.log('########################');
+    console.log(req.session);
     req.session.save(() => res.send(JSON.stringify(responseJSON)));
 }
 
