@@ -1,0 +1,19 @@
+
+  <app-comments *ngIf="annotate"></app-comments>
+  
+<div id="annotation-wrapper">
+  <app-toolbar
+    [dmDocumentId]="dmDocumentId"
+    *ngIf="annotate"
+    [(tool)]="tool"
+    ></app-toolbar>
+
+
+  <div id="content-wrapper" 
+    #contentWrapper
+    (scroll)="handlePdfScroll($event)"
+    (click)="getClickedPage($event)"
+    >
+    <div id="viewer" class="pdfViewer"></div>
+  </div>
+</div>

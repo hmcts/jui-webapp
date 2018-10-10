@@ -46,7 +46,7 @@ import {CaseActionsComponent} from './components/case-actions/case-actions.compo
         TabsComponent,
         StatusComponent,
         CaseActionsComponent,
-        CaseActionAlertComponent
+        CaseActionAlertComponent,
     ],
     exports: [
         TableComponent,
