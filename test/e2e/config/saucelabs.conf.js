@@ -34,8 +34,40 @@ const config = {
         'tunnel-identifier': 'reformtunnel',
         'extendedDebugging': true,
         'shardTestFiles': true,
-        'maxInstances': 2
-    }],
+        'maxInstances': 1
+    },
+
+
+        {
+            browserName: 'firefox',
+            name: 'MAC_FIREFOX_LATEST',
+            platform: 'macOS 10.13',
+            version: 'latest',
+            'tunnel-identifier': 'reformtunnel',
+            'extendedDebugging': true,
+            'shardTestFiles': true,
+            'maxInstances': 1
+
+        },
+
+
+        {
+            browserName: 'chrome',
+            version: 'latest',
+            platform: 'Windows 10',
+            name: 'chrome-tests',
+            'tunnel-identifier': 'reformtunnel',
+            'extendedDebugging': true,
+            shardTestFiles: true,
+            maxInstances: 1
+
+        },
+
+
+
+
+
+    ],
 
 
     exclude: [],
