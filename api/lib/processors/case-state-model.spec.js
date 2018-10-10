@@ -33,7 +33,6 @@ describe('Case State Process Engine', () => {
         });
 
         afterEach(() => {
-            expect(caseState.actionGoTo).toEqual('');
             expect(caseState.stateDateTime).toEqual(stateDateTime);
         });
 
@@ -66,6 +65,10 @@ describe('Case State Process Engine', () => {
                     }]
                 };
 
+            });
+
+            afterEach(() => {
+                expect(caseState.actionGoTo).toEqual('questions');
             });
 
             it('should return a question-state', () => {

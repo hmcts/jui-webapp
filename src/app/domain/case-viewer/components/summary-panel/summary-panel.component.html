@@ -14,10 +14,11 @@
                 <!--<app-timeline data-selector="timeline" *ngSwitchCase="'timeline'"-->
                               <!--[events]="section.fields[0].value"-->
                               <!--[maxHistory]="3"></app-timeline>-->
-                <!--<app-case-action-alert data-selector="case-action-alert" *ngSwitchCase="'case-action-alert'"-->
-                                       <!--[title]="'Decision needed'"-->
-                                       <!--[status]="section.fields[0].value"-->
-                                       <!--[href]="'#'"></app-case-action-alert>-->
+                <app-case-action-alert data-selector="case-action-alert"
+                                       *ngSwitchCase="'case-action-alert'"
+                                       [title]="'Decision needed'"
+                                       [status]="section.fields[0].value"
+                                       [href]="'#'"></app-case-action-alert>
             </ng-container>
         </ng-container>
     </div>

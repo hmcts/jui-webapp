@@ -17,7 +17,7 @@ defineSupportCode(function({ Given, When, Then }) {
         await expect(dashBoardPage.dashboard_header.getText())
             .to
             .eventually
-            .equal('Dashboard');
+            .equal("Dashboard");
 
     });
 
@@ -61,18 +61,18 @@ defineSupportCode(function({ Given, When, Then }) {
         browser.sleep(3000);
 
         await expect(caseSummaryPage.caseSummary_header_text.isDisplayed()).to.eventually.be.true;
-        await expect(caseSummaryPage.caseSummary_header_text.getText()).to.eventually.equal('Summary');
+        await expect(caseSummaryPage.caseSummary_header_text.getText()).to.eventually.equal("Summary");
 
-            await expect(caseSummaryPage.caseDetails_header_text.get(0)
+            await expect(caseSummaryPage.caseDetails_header_text.first()
                 .getText())
                 .to
                 .eventually
-                .equal('Case details');
+                .equal("Case details");
             await expect(caseSummaryPage.caseDetails_header_text.get(1)
                 .getText())
                 .to
                 .eventually
-                .equal('Related cases');
+                .equal("Related cases");
 
     });
 
