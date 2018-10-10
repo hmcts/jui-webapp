@@ -173,17 +173,17 @@ function applyStateFilter(caseLists) {
 
 
 function applyAssignedToFilter(caseList, options) {
-    // function applyFilter(case1, details) {
-    //     // TODO this should finally be applicable to all jurisdictions, at the moment its only FR.
-    //     if(case1.case_jurisdiction.toLowerCase() === DIVORCE_JUR.toLowerCase()
-    //         && case1.case_type_id.toLowerCase() === FR_JUR.toLowerCase()) {
-    //         return case1.assignedToJudge === details.email
-    //     } else {
-    //         return true;
-    //     }
-    // }
+    function applyFilter(case1, details) {
+        // TODO this should finally be applicable to all jurisdictions, at the moment its only FR.
+        if(case1.case_jurisdiction.toLowerCase() === DIVORCE_JUR.toLowerCase()
+            && case1.case_type_id.toLowerCase() === FR_JUR.toLowerCase()) {
+            return case1.assignedToJudge === details.email
+        } else {
+            return true;
+        }
+    }
     return getUserDetails(options)
-        .then(details => caseList.filter(case1 => case1.assignedToJudge === details.email));
+        .then(details => caseList.filter(case1 => applyFilter(case1, details)));
 }
 
 function rawCasesReducer(cases, columns) {
