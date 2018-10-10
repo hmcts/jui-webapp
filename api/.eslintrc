@@ -2,6 +2,7 @@
     "extends": "standard",
     "rules": {
         "indent": ["error", 4],
-        "space-before-function-paren": 0
+        "space-before-function-paren": 0,
+        "object-curly-newline": 0
     }
 }

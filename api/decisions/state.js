@@ -2,13 +2,14 @@ const Store = require('../lib/store')
 const generateRequest = require('../lib/request')
 const config = require('../../config')
 const express = require('express')
+const moment = require('moment')
 const stateMeta = require('./state_meta')
+const log4js = require('log4js')
+
+const logger = log4js.getLogger('State')
+logger.level = config.logging
 
 const ERROR404 = 404
-
-const translate = {
-    notesForAdmin: 'orderDirectionAddComments'
-}
 
 function getOptions(req) {
     return {
@@ -30,10 +31,71 @@ async function getCaseWithEventToken(userId, jurisdiction, caseType, caseId, eve
     return { token: response.token, caseDetails: response.case_details }
 }
 
-async function postCaseWithEventToken(userId, jurisdiction, caseType, caseId, options) {}
+function perpareCaseForApproval(caseData, eventToken, user, store) {
+    const payload = {
+        ...caseData,
+        event_token: eventToken,
+        orderDirection: 'Order Accepted as drafted',
+        orderDirectionDate: moment(new Date()).format('YYYY-MM-DD'),
+        orderDirectionJudge: 'District Judge',
+        orderDirectionJudgeName: `${user.forename} ${user.surname} `,
+        orderDirectionAddComments: store.notesForAdmin
+    }
+    return payload
+}
+
+async function postCaseWithEventToken(payload, userId, options) {
+    const response = await generateRequest(
+        'GET',
+        `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${payload.jurisdiction}/case-types/${
+            payload.case_type_id
+        }/cases/${payload.id}/event`,
+        options
+    )
+    return response
+}
+
+async function approveDraft(req, state, store) {
+    let payload = {}
+    let eventToken = {}
+    let caseDetails = {}
+
+    try {
+        const { _eventToken, _caseDetails } = await getCaseWithEventToken(
+            req.auth.userId,
+            'DIVORCE',
+            'FinancialRemedyMVP2',
+            state.inCaseId,
+            'FR_approveApplication',
+            getOptions(req)
+        )
+
+        eventToken = _eventToken
+        caseDetails = _caseDetails
+
+        payload = perpareCaseForApproval(
+            caseDetails,
+            eventToken,
+            req.session.user,
+            store.get(`decisions_${state.inCaseId}`)
+        )
+    } catch (exception) {
+        logger.error('Error getting case even token')
+        return false
+    }
+
+    payload = perpareCaseForApproval(
+        caseDetails,
+        eventToken,
+        req.session.user,
+        store.get(`decisions_${state.inCaseId}`)
+    )
+    postCaseWithEventToken(payload, req.auth.userId, getOptions(req))
+    return true
+}
 
 /* eslint-disable-next-line complexity */
-function handlePostState(req, res, responseJSON, theState) {
+function handlePostState(req, res, responseJSON, state) {
     const store = new Store(req)
     const inCaseId = req.params.case_id
 
@@ -45,7 +107,7 @@ function handlePostState(req, res, responseJSON, theState) {
 
     /* eslint-disable indent */
     if (req.body.event === 'continue') {
-        switch (theState.inStateId) {
+        switch (state.inStateId) {
             case 'create':
                 if (formValues.approveDraftConsent === 'yes') {
                     responseJSON.newRoute = 'notes-for-court-administrator'
@@ -57,7 +119,12 @@ function handlePostState(req, res, responseJSON, theState) {
                 responseJSON.newRoute = 'check'
                 break
             case 'check':
-                responseJSON.newRoute = 'decision-confirmation'
+                if (approveDraft(req, state, store)) {
+                    // does the post
+                    responseJSON.newRoute = 'decision-confirmation'
+                } else {
+                    // some error
+                }
                 break
             case 'reject-reasons':
                 if (formValues.includeAnnotatedVersionDraftConsOrder === 'yes') {
@@ -100,7 +167,7 @@ function responseAssert(res, responseJSON, inJurisdiction, inStateId, statusHint
     return true
 }
 
-async function handleStateRoute(req, res) {
+function handleStateRoute(req, res) {
     const store = new Store(req)
     const inJurisdiction = req.params.jur_id
     const inCaseId = req.params.case_id
@@ -142,16 +209,6 @@ async function handleStateRoute(req, res) {
     console.log(store.get(`decisions_${inCaseId}`))
     console.log('########################')
 
-    const { token, caseDetails } = await getCaseWithEventToken(
-        req.auth.userId,
-        'DIVORCE',
-        'FinancialRemedyMVP2',
-        inCaseId,
-        'FR_approveApplication',
-        getOptions(req)
-    )
-
-    console.log(caseDetails)
     req.session.save(() => res.send(JSON.stringify(responseJSON)))
 }
 
