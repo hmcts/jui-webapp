@@ -15,9 +15,11 @@
                                     <ng-container *ngFor="let detail of content.details; let i = index">
                                         <p *ngIf="detail.type === 'radio'">{{detail[pageValues[detail.control]]}}</p>
                                         <p *ngIf="detail.type === 'textarea'">{{pageValues[detail.control]}}</p>
-
+                                        <p *ngIf="detail.type === 'checkbox'">{{detail[pageValues[detail.control]]}}</p>
                                         <ul *ngIf="detail.ul" class="item.ul.classes">
-                                            <li *ngFor="let el of detail.ul.li; let l = index">{{el.text}}</li>
+                                            <ng-container *ngFor="let el of detail.ul.li; let l = index">
+                                                <li *ngIf="el.type === 'checkbox'">{{el[pageValues[el.control]]}} test</li>
+                                            </ng-container>
                                         </ul>
                                     </ng-container>
                                 </dd>

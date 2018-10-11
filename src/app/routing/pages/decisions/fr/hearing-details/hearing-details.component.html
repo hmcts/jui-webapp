@@ -11,7 +11,7 @@
                                 {{item.label.text}}
                             </label>
                             <span *ngIf="item.hint" class="govuk-hint">{{item.hint.text}}</span>
-                            <input class="govuk-input {{item.classes}}" id="{{pageitems.idPrefix + '-' + (i+1)}}" name="{{item.control}}" type="text">
+                            <input class="govuk-input {{item.classes}}" id="{{pageitems.idPrefix + '-' + (i+1)}}" formControlName="{{item.control}}" type="text">
                         </ng-container>
                     </ng-container>
                     <fieldset *ngIf="group.fieldset" class="govuk-fieldset">
