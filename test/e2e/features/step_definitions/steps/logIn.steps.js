@@ -26,8 +26,8 @@ defineSupportCode(function({ Given, When, Then }) {
 
 
     Given(/^I am logged into JUI web app$/, async function() {
-        await loginPage.emailAddress.sendKeys(this.config.username);
-        await loginPage.password.sendKeys(this.config.password);
+        await loginPage.emailAddress.sendKeys("juitestuser2@gmail.com");
+        await loginPage.password.sendKeys("Monday01");
         browser.sleep(5000);
         await loginPage.signinBtn.click();
         browser.sleep(2000);

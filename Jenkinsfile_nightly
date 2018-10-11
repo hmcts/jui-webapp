@@ -38,6 +38,7 @@ withNightlyPipeline(type, product, component) {
     loadVaultSecrets(secrets)
 
     env.TEST_URL = 'https://jui-webapp-aat.service.core-compute-aat.internal'
+    
 
     enableCrossBrowserTest()
 
