@@ -1,27 +1,27 @@
 <div class="toolbar">
+
+
+    <button class="highlight" type="button" title="Highlight" data-tooltype="highlight"
+            #highlightTool
+            (click)="handleHighlightClick()"
+            [class.active]="tool === 'highlight'"
+    >Add highlight</button>
+
+    <div class="spacer"></div>
+
   <button class="cursor" type="button" title="Cursor" data-tooltype="cursor"
   #pointerTool
   (click)="handlePointerClick()"
   [class.active]="tool === 'cursor'"
-  >➚</button>
+  >Select highlight</button>
 
-  <div class="spacer"></div>
+  <!--<div class="spacer"></div>-->
 
-  <button class="highlight" type="button" title="Highlight" data-tooltype="highlight"
-    #highlightTool
-    (click)="handleHighlightClick()"
-    [class.active]="tool === 'highlight'"
-  >&nbsp;</button>
+  <!--<button type="button" title="Save" (click)="onSaveClick()">Save</button>-->
 
-  <div class="spacer"></div>
+  <!--<div class="spacer"></div>-->
 
-  <button type="button" title="Save"
-  (click)="onSaveClick()"
-  >Save</button>
-
-  <div class="spacer"></div>
-
-  <button type="button" title="Export" (click)="onExportClick()">Export</button>
+  <!--<button type="button" title="Export" (click)="onExportClick()">Export</button>-->
 
 
 
@@ -35,7 +35,6 @@
   </select>
   <div class="spacer"></div> -->
 
-  <a href="javascript://" class="clear" title="Clear" (click)="handleClearAnnotations()">×</a>
+  <button class="clear" title="Remove all annotations" (click)="handleClearAnnotations()">Remove all annotations</button>
 
-    <span *ngIf="outputDocumentId">Output DOC ID: {{outputDocumentId}}</span>
 </div>

@@ -3,10 +3,10 @@ import {ImgViewerComponent} from './img-viewer/img-viewer.component';
 import {Viewer} from './viewer';
 import {UnsupportedViewerComponent} from './unsupported-viewer/unsupported-viewer.component';
 import {UrlFixerService} from '../url-fixer.service';
-import { AnnotationPdfViewerComponent } from '../../hmcts-annotation-ui-lib/components/annotation-pdf-viewer/annotation-pdf-viewer.component';
-import { AnnotationStoreService } from '../../hmcts-annotation-ui-lib/data/annotation-store.service';
-import { NpaService } from '../../hmcts-annotation-ui-lib/data/npa.service';
-import { IAnnotationSet } from '../../hmcts-annotation-ui-lib/data/annotation-set.model';
+import {AnnotationPdfViewerComponent} from '../../hmcts-annotation-ui-lib/components/annotation-pdf-viewer/annotation-pdf-viewer.component';
+import {AnnotationStoreService} from '../../hmcts-annotation-ui-lib/data/annotation-store.service';
+import {NpaService} from '../../hmcts-annotation-ui-lib/data/npa.service';
+import {IAnnotationSet} from '../../hmcts-annotation-ui-lib/data/annotation-set.model';
 
 @Injectable()
 export class ViewerFactoryService {
@@ -32,11 +32,11 @@ export class ViewerFactoryService {
                 private urlFixer: UrlFixerService) {
     }
 
-    buildAnnotateUi(documentMetaData: any, viewContainerRef: ViewContainerRef, baseUrl: string, 
-        annotate: boolean, annotationSet: IAnnotationSet): ComponentRef<any>["instance"] {
+    buildAnnotateUi(documentMetaData: any, viewContainerRef: ViewContainerRef, baseUrl: string,
+                    annotate: boolean, annotationSet: IAnnotationSet): ComponentRef<any>['instance'] {
 
         viewContainerRef.clear();
-        const componentFactory = 
+        const componentFactory =
             this.componentFactoryResolver.resolveComponentFactory(AnnotationPdfViewerComponent);
 
         const componentRef: ComponentRef<any> = viewContainerRef.createComponent(componentFactory);
@@ -51,30 +51,23 @@ export class ViewerFactoryService {
     }
 
     private static getDocumentId(documentMetaData: any) {
-        const docArray = documentMetaData._links.self.href.split("/");
-        return docArray[docArray.length-1];
+        const docArray = documentMetaData._links.self.href.split('/');
+        return docArray[docArray.length - 1];
     }
 
     buildViewer(documentMetaData: any, annotate: boolean, viewContainerRef: ViewContainerRef, baseUrl: string) {
-        annotate = true;
-        
         if (ViewerFactoryService.isPdf(documentMetaData.mimeType) && annotate) {
-            this.npaService.documentTask.subscribe(
-                documentTask => {
-                    console.log(documentTask)
-                });
-                
+            // this.npaService.documentTask.subscribe( documentTask => {
+            //         console.log(documentTask);
+            // });
             const dmDocumentId = ViewerFactoryService.getDocumentId(documentMetaData);
 
             this.annotationStoreService.fetchData(baseUrl, dmDocumentId).subscribe((response) => {
                 return this.buildAnnotateUi(documentMetaData, viewContainerRef, baseUrl, annotate, response.body);
             });
-
-        } else if(ViewerFactoryService.isPdf(documentMetaData.mimeType) && !annotate) {
-
+        } else if (ViewerFactoryService.isPdf(documentMetaData.mimeType) && !annotate) {
             return this.buildAnnotateUi(documentMetaData, viewContainerRef, baseUrl, annotate, null);
-
-        }else{
+        } else {
             const componentToBuild =
                 ViewerFactoryService.determineComponent(documentMetaData.mimeType, annotate);
             const componentFactory =

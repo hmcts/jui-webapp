@@ -42,8 +42,8 @@
     required
     [ngModel]="comment.id" name="commentId">
 
-    <div *ngIf="focused">
-        <button type="submit" class="btn btn-success" [disabled]="!commentItem.form.valid">✓</button>
-        <button class="btn" (click)="handleDeleteComment($event, comment.id, comment.annotation)">×</button>
+    <div>
+        <button type="submit" class="btn btn-success">Save</button>
+        <button class="btn" (click)="handleDeleteComment($event, comment.id)">Delete</button>
     </div>
 </form>

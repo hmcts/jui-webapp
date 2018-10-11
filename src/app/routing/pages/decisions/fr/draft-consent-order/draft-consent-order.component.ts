@@ -3,6 +3,7 @@ import {FormGroup} from '@angular/forms';
 import {DecisionService} from '../../../../../domain/services/decision.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormsService} from '../../../../../shared/services/forms.service';
+import {ConfigService} from '../../../../../config.service';
 
 @Component({
   selector: 'app-draft-consent-order',
@@ -16,6 +17,8 @@ export class DraftConsentOrderComponent implements OnInit {
     request: any;
     pageValues: any = null;
     case: any;
+    consentDocumentUrl: string;
+    allowAnnotations = true;
 
     @Input() pageitems;
     constructor( private activatedRoute: ActivatedRoute,
@@ -27,7 +30,17 @@ export class DraftConsentOrderComponent implements OnInit {
     }
     ngOnInit() {
         this.activatedRoute.parent.data.subscribe(data => {
+
             this.case = data.caseData;
+            try {
+                this.consentDocumentUrl = this.case.sections
+                    .filter(s => s.id === 'casefile')[0].sections
+                    .filter(s => s.id === 'documents')[0].fields
+                    .filter(f => f.label === 'consentOrder')[0].value[0].document_url;
+            } catch (e) {
+                debugger
+                console.error('Could not identify consent order document');
+            }
         });
         const caseId = this.case.id;
         const pageId = 'draft-consent-order';
