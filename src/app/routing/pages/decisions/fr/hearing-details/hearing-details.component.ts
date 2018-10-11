@@ -48,11 +48,11 @@ export class HearingDetailsComponent implements OnInit {
         const event = this.hearingDetailsForm.value.createButton.toLowerCase();
         delete this.hearingDetailsForm.value.createButton;
         this.request = { formValues: this.hearingDetailsForm.value, event: event };
-        console.log(this.pageitems.name, this.request);
-
+        console.log("Calling service with properties =>", this.pageitems.name, this.request);
         this.decisionService.submitDecisionDraft('fr',
                 this.activatedRoute.snapshot.parent.data.caseData.id,
-                this.pageitems.name, this.request)
+                this.pageitems.name,
+                this.request)
             .subscribe(decision => {
                 console.log(decision.newRoute);
                 this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});

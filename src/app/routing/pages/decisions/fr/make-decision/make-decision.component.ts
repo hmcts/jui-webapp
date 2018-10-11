@@ -47,7 +47,11 @@ export class MakeDecisionComponent implements OnInit {
         const event = this.formDraft.value.createButton.toLowerCase();
         delete this.formDraft.value.createButton;
         this.request = { formValues: this.formDraft.value, event: event };
-        this.decisionService.submitDecisionDraft('fr',this.activatedRoute.snapshot.parent.data.caseData.id, this.pageitems.name, this.request).subscribe(decision => {
+        this.decisionService.submitDecisionDraft('fr',
+            this.activatedRoute.snapshot.parent.data.caseData.id,
+            this.pageitems.name,
+            this.request)
+            .subscribe(decision => {
             console.log(decision.newRoute);
             this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
         });

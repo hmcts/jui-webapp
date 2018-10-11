@@ -2,6 +2,7 @@ import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit} from '@angula
 import {DecisionService} from '../../../../domain/services/decision.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {FormsService} from '../../../../shared/services/forms.service';
+import {FormGroup} from '@angular/forms';
 
 @Component({
     selector: 'app-check-decision',
@@ -9,6 +10,7 @@ import {FormsService} from '../../../../shared/services/forms.service';
     styleUrls: ['./check-decision.component.scss']
 })
 export class CheckDecisionComponent implements OnInit {
+    form: FormGroup;
     options: any;
     decision: any;
     request: any;
@@ -18,7 +20,11 @@ export class CheckDecisionComponent implements OnInit {
     @Input() pageitems;
     constructor( private activatedRoute: ActivatedRoute,
                  private router: Router,
-                 private decisionService: DecisionService) {}
+                 private decisionService: DecisionService,
+                 private formsService: FormsService) {}
+    createForm(pageitems, pageValues) {
+        this.form = new FormGroup(this.formsService.defineformControls(pageitems, pageValues));
+    }
     ngOnInit() {
         this.activatedRoute.parent.data.subscribe(data => {
             this.case = data.caseData;
@@ -33,6 +39,7 @@ export class CheckDecisionComponent implements OnInit {
 
             console.log("pageitems", this.pageitems);
             console.log("pageValues", this.pageValues);
+            this.createForm(this.pageitems, this.pageValues) ;
         });
     }
 }

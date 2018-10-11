@@ -112,6 +112,11 @@ module.exports = {
                                 }
                             },
                             {
+                                control: 'orderNotAppearOfS25ca1973',
+                                value: false,
+                                text: 'The order doesn’t appear fair taking account of S25 Matrimonial Causes Act 1973'
+                            },
+                            {
                                 control: 'd81',
                                 value: false,
                                 text: 'The D81 form is incomplete'
@@ -197,7 +202,7 @@ module.exports = {
             textarea: {
                 label: 'Notes for court administrator',
                 control: 'notesForAdmin',
-                value: 'Notes for court administrator text'
+                value: 'No optional notes'
             },
             button: {
                 control: 'createButton',
@@ -211,19 +216,164 @@ module.exports = {
             name: 'check',
             groups: [
                 {
-                    header: {
-                        text: 'Approve the draft consent order?',
-                        classes: 'govuk-heading-m'
-                    },
-                    table: {
-                        classes: 'app-check-your-answers app-check-your-answers--short govuk-!-margin-bottom-8',
-                        label: 'Decision',
-                        description: '',
-                        link: {
-                            text: 'Change decision',
-                            url: ''
+                    header: 'Draft consent order',
+                    contents: [
+                        {
+                            title: 'Decision',
+                            details: [
+                                {
+                                    control: 'approveDraftConsent',
+                                    type: 'radio',
+                                    no: 'Consent order not approved',
+                                    yes: 'Consent order approved'
+                                }
+                            ],
+                            link: {
+                                text: 'Change',
+                                event: 'create',
+                                hiddenAccessibilityText: 'reasons'
+                            }
                         }
-                    }
+                    ]
+                },
+                {
+                    header: 'Notes for court administrator',
+                    contents: [
+                        {
+                            title: 'Notes',
+                            details: [
+                                {
+                                    control: 'notesForAdmin',
+                                    type: 'textarea',
+                                }
+                            ],
+                            link: {
+                                text: 'Change',
+                                event: 'change',
+                                hiddenAccessibilityText: 'notes'
+                            }
+                        }
+                    ]
+                },
+                {
+                    header: 'Directions order',
+                    contents: [
+                        {
+                            title: 'Reasons',
+                            details: [
+                                {
+                                    control: 'partiesNeedAttend',
+                                    type: 'checkbox',
+                                    'true': 'The parties need to attend a hearing'
+                                },
+                                {
+                                    type: 'checkbox',
+                                    control: 'NotEnoughInformation',
+                                    'true': 'Not enough information was supplied to decide if the order is fair:'
+                                },
+                                {
+                                    ul: {
+                                        classes: 'govuk-list--bullet',
+                                        li: [
+                                            {
+                                                type: 'checkbox',
+                                                control: 'capitalPositions',
+                                                'true': 'The parties’ capital positions if the order were to take effect'
+                                            },
+                                            {
+                                                type: 'checkbox',
+                                                control: 'partiesHousingNeeds',
+                                                'true': 'The parties’ housing needs and whether they are met by the order'
+                                            },
+                                            {
+                                                type: 'checkbox',
+                                                control: 'justificationDeparture',
+                                                'true': 'The justification for departure from equality of capital'
+                                            },
+                                            {
+                                                type: 'checkbox',
+                                                control: 'partiesPensionProvision',
+                                                'true': 'The parties’ pension provision if the order were to take effect'
+                                            },
+                                            {
+                                                type: 'checkbox',
+                                                control: 'childrensHousingNeeds',
+                                                'true': 'The children’s housing needs and whether they are met by the order'
+                                            },
+                                            {
+                                                type: 'checkbox',
+                                                control: 'netEffectOrder',
+                                                'true': 'The net effect of the order'
+                                            },
+                                            {
+                                                control: 'informationNeeded',
+                                                type: 'textarea'
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    type: 'checkbox',
+                                    control:'orderNotAppearOfS25ca1973',
+                                    'true': 'The order doesn’t appear fair taking account of S25 Matrimonial Causes Act 1973'
+                                },
+                                {
+                                    type: 'checkbox',
+                                    control:'d81',
+                                    'true': 'The D81 form is incomplete'
+                                },
+                                {
+                                    type: 'checkbox',
+                                    control:'pensionAnnex',
+                                    'true': 'The pension annex was not attached'
+                                },
+                                {
+                                    type: 'checkbox',
+                                    control:'applicantTakenAdvice',
+                                    'true': 'It’s not clear if the applicant has taken independent legal advice'
+                                },
+                                {
+                                    control: 'Other2',
+                                    type: 'textarea'
+                                }
+                            ],
+                            link: {
+                                text: 'Change',
+                                event: 'change',
+                                hiddenAccessibilityText: 'reasons'
+                            }
+                        },
+                        {
+                            title: 'Directions',
+                            details: [
+                                {
+                                    control: 'Directions',
+                                    type: 'textarea'
+                                }
+                            ],
+                            link: {
+                                text: 'Change',
+                                event: 'change',
+                                hiddenAccessibilityText: 'reasons'
+                            }
+                        },
+                        {
+                            title: 'Include an annotated version of the draft consent order?',
+                            details: [
+                                {
+                                    control: 'includeAnnotatedVersionDraftConsOrder',
+                                    type: 'radio',
+                                    no: 'I dont want to include',
+                                    yes: 'I want to include'
+                                }
+                            ],
+                            link: {
+                                text: 'Change',
+                                event: 'change',
+                                hiddenAccessibilityText: 'reasons'
+                            }
+                        }
+                    ]
                 }
             ],
             buttons: [

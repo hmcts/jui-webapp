@@ -78,14 +78,6 @@ const routes: Routes = [
                     {path: 'confirm', component: DecisionConfirmationComponent}
                 ]
             },
-            // {
-            //     path: 'decision', component: DecisionRootComponent, resolve: {decision: DecisionResolve}, children: [
-            //         {path: 'create', component: CreateDecisionComponent},
-            //         {path: 'create/:state', component: CreateDecisionComponent},
-            //         {path: 'check', component: CheckDecisionComponent},
-            //         {path: 'confirm', component: DecisionConfirmationComponent}
-            //     ]
-            // },
             {
                     path: 'hearing', component: HearingRootComponent, children: [
                     {path: 'list', component: CreateHearingComponent},
