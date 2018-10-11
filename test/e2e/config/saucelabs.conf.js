@@ -20,6 +20,8 @@ const config = {
         password: process.env.TEST_PASSWORD
 
     },
+
+
     sauceUser: process.env.SAUCE_USERNAME,
     sauceKey: process.env.SAUCE_ACCESS_KEY,
     // allScriptsTimeout: 111000,
