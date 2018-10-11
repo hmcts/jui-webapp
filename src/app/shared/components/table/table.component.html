@@ -2,14 +2,14 @@
     <cdk-table *ngIf="resultView" [dataSource]="resultView.results" class="govuk-table govuk-!-f-16">
 
         <ng-container cdkColumnDef="case_id">
-            <cdk-header-cell *cdkHeaderCellDef class="govuk-table__header">Case number</cdk-header-cell>
+            <cdk-header-cell *cdkHeaderCellDef class="govuk-table__header" attr.data-selector="case-number-header">Case number</cdk-header-cell>
             <cdk-cell class="govuk-table__cell" *cdkCellDef="let row;">
                 <a data-selector="case-reference-link" routerLink="/jurisdiction/{{row.case_jurisdiction}}/casetype/{{row.case_type_id}}/viewcase/{{row.case_id}}/summary">{{row.case_fields.case_ref}}</a>
             </cdk-cell>
         </ng-container>
 
         <ng-container cdkColumnDef="state">
-            <cdk-header-cell *cdkHeaderCellDef class="govuk-table__header">Decision needed on</cdk-header-cell>
+            <cdk-header-cell *cdkHeaderCellDef class="govuk-table__header" attr.data-selector="decision-needed-on-header">Decision needed on</cdk-header-cell>
             <cdk-cell class="govuk-table__cell" *cdkCellDef="let row;">
                 <span attr.data-selector="case-status-value" *ngIf="!row.case_fields.status.actionGoTo">{{row.case_fields.status.name}}</span>
                 <a data-selector="case-status-reference-link" *ngIf="row.case_fields.status.actionGoTo" routerLink="{{row.case_fields.status | casestatusgoto: row.case_jurisdiction:row.case_type_id:row.case_id}}">{{row.case_fields.status.name}}</a>

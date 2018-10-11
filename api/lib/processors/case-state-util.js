@@ -2,15 +2,16 @@ const DECISION_ISSUED = 'continuous_online_hearing_decision_issued';
 const RELISTED = 'continuous_online_hearing_relisted';
 
 const stateToBeFiltered = [
-    DECISION_ISSUED, RELISTED,
-    'question_issue_pending', 'question_issued',
-    'question_deadline_extension_granted',
-    'question_deadline_extension_denied'
+    'referredToJudge',
+    'continuous_online_hearing_started', 'question_answered',
+    'question_deadline_elapsed',
+    'question_deadline_extension_elapsed',
+    'question_drafted'
 ];
 
+
 function caseStateFilter(caseData) {
-    const result = stateToBeFiltered.find(toBeFiltered => caseData.state.stateName === toBeFiltered);
-    return !result;
+    return stateToBeFiltered.find(toBeFiltered => caseData.state.stateName === toBeFiltered);
 }
 
 function createCaseState(state, date, actionUrl, id) {
