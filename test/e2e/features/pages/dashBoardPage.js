@@ -24,6 +24,7 @@ function dashBoardPage() {
     this.your_cases = element(by.css('span.govuk-heading-m'));
     this.table_column_header = element(by.css(".govuk-table__head.cdk-header-row[role='row']"));
     this.decision_needed_on_header = element(by.css("[data-selector='decision-needed-on-header')"));
+    this.draft_consent_order_link = element(by.css('[data-selector="case-status-reference-link"]'))
 
 
 

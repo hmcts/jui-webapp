@@ -2,8 +2,9 @@
 
 var dashBoardPage = require('../../pages/dashBoardPage');
 var caseSummaryPage = require('../../pages/caseSummaryPage');
+var caseFilePage = require('../../pages/caseFilePage');
 var { defineSupportCode } = require('cucumber');
-const config = require('../../../config/conf.js');
+
 
 const EC = protractor.ExpectedConditions;
 
@@ -107,14 +108,14 @@ defineSupportCode(function({ Given, When, Then }) {
     });
 
 
-    Then(/^I should see table header column$/, async function() {
+    Then(/^I should see table header columns$/, async function() {
         await expect(dashBoardPage.table.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.table_column_header.isDisplayed()).to.eventually.be.true;
 
     });
 
 
-    Then(/^I should see table header text as (.*), (.*),(.*), (.*), (.*), (.*)$/, async function() {
+    Then(/^I should see table each column header text as (.*), (.*),(.*), (.*), (.*), (.*)$/, async function() {
         await expect(dashBoardPage.case_number_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.case_number_header.getText())
             .to
@@ -151,6 +152,31 @@ defineSupportCode(function({ Given, When, Then }) {
             .eventually
             .equal('Date of last event');
 
+
+    });
+
+
+    When(/^I see (.*) on dashboard$/, async function() {
+        await expect(dashBoardPage.draft_consent_order_link.first()
+            .isDisplayed()).to.eventually.be.true;
+        await expect(dashBoardPage.draft_consent_order_link.first()
+            .getText())
+            .to
+            .eventually
+            .equal('Draft consent order');
+    });
+
+
+    Then(/^I select a (.*) from Decision needed on column$/, async function() {
+        await dashBoardPage.draft_consent_order_link.first()
+            .click();
+
+    });
+
+    Then(/^I will be redirected to the Case file page for that Financial remedy case$/, async function() {
+        await expect(caseFilePage.sub_nav_link.isDisplayed()).to.eventually.be.true;
+        await expect(caseFilePage.case_file_header.isDisplayed()).to.eventually.be.true;
+        await expect(caseFilePage.case_file_header.getText()).to.eventually.equal("Case file");
 
     });
 

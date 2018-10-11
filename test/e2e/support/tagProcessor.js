@@ -1,5 +1,5 @@
 module.exports = function(config, argv) {
-    let tags = '@all';
+    let tags = '@dashboard';
     if (config.defaultTags) {
         tags = config.defaultTags.join(' and ');
     }
