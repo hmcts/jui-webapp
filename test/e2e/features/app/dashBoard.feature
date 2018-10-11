@@ -15,8 +15,8 @@ Feature: Dashboard
         Examples:
             | type             |
             | Financial remedy |
-            |PIP               |
-            |Divorce           |
+            | PIP              |
+            | Divorce          |
 
 
     @RIUI_417 @all
@@ -24,16 +24,20 @@ Feature: Dashboard
         Then I will see date details for the list of cases displayed
         When I see Date of latest action by date ascending order
 
-
+    @all @RIUI-956
     Scenario: Verify Dashboard table column header texts
-        Then I should see table column text as "", "", "", "", "", ""
+        Then I should see table header column
+        Then I should see table header text as casenumber , Parties , Type, Decision needed on, Case received, Date of last event
 
-    @RIUI-895
+
+    @RIUI-895 @all
     Scenario: Verify Deeplink status text on Dashboard
         When I see "Draft Consent Order"
         Then I select a Draft Consent Order
         Then I will be redirected to the Case file page for that case
 
+
+    @all
     Scenario: Verify Question Drafted link redirection
         When I select Question Drafted link
         Then I will be redirected to Questions Landing page

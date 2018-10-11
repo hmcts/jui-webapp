@@ -16,3 +16,7 @@ Feature: View Case Summary Page
         Then I should see case details of that case
         Then I should see related cases or panel members details for that case
 
+
+        Scenario: Verify summary page missed features
+
+

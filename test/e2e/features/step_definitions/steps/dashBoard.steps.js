@@ -10,25 +10,23 @@ const EC = protractor.ExpectedConditions;
 defineSupportCode(function({ Given, When, Then }) {
 
 
-
     When(/^I am on the dashboard page$/, async function() {
         browser.sleep(3000);
         await expect(dashBoardPage.dashboard_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.dashboard_header.getText())
             .to
             .eventually
-            .equal("Dashboard");
+            .equal('Dashboard');
 
     });
 
     When(/^I select a case(.*)$/, async function(type) {
         browser.sleep(3000);
-        await dashBoardPage.case_number_links.first().click();
+        await dashBoardPage.case_number_links.first()
+            .click();
         browser.sleep(5000);
 
     });
-
-
 
 
     When(/^one or more cases (.*) are displayed$/, async function(type) {
@@ -61,29 +59,29 @@ defineSupportCode(function({ Given, When, Then }) {
         browser.sleep(3000);
 
         await expect(caseSummaryPage.caseSummary_header_text.isDisplayed()).to.eventually.be.true;
-        await expect(caseSummaryPage.caseSummary_header_text.getText()).to.eventually.equal("Summary");
+        await expect(caseSummaryPage.caseSummary_header_text.getText())
+            .to
+            .eventually
+            .equal('Summary');
 
-            await expect(caseSummaryPage.caseDetails_header_text.first()
-                .getText())
-                .to
-                .eventually
-                .equal("Case details");
-            await expect(caseSummaryPage.caseDetails_header_text.get(1)
-                .getText())
-                .to
-                .eventually
-                .equal("Related cases");
+        await expect(caseSummaryPage.caseDetails_header_text.first()
+            .getText())
+            .to
+            .eventually
+            .equal('Case details');
+        await expect(caseSummaryPage.caseDetails_header_text.get(1)
+            .getText())
+            .to
+            .eventually
+            .equal('Related cases');
 
     });
 
 
     Then(/^I will see date details for the list of cases displayed$/, async function() {
-        await expect(dashBoardPage.parties_header.isDisplayed()).to.eventually.be.true;
-        await expect(dashBoardPage.type_header.isDisplayed()).to.eventually.be.true;
-        await expect(dashBoardPage.case_start_date_header.isDisplayed()).to.eventually.be.true;
+        await expect(dashBoardPage.case_received_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.date_of_last_action_header.isDisplayed()).to.eventually.be.true;
     });
-
 
 
     When(/^I see Date of latest action by date ascending order$/, async function() {
@@ -107,5 +105,54 @@ defineSupportCode(function({ Given, When, Then }) {
                 }
             });
     });
+
+
+    Then(/^I should see table header column$/, async function() {
+        await expect(dashBoardPage.table.isDisplayed()).to.eventually.be.true;
+        await expect(dashBoardPage.table_column_header.isDisplayed()).to.eventually.be.true;
+
+    });
+
+
+    Then(/^I should see table header text as (.*), (.*),(.*), (.*), (.*), (.*)$/, async function() {
+        await expect(dashBoardPage.case_number_header.isDisplayed()).to.eventually.be.true;
+        await expect(dashBoardPage.case_number_header.getText())
+            .to
+            .eventually
+            .equal('Case number');
+
+        await expect(dashBoardPage.parties_header.isDisplayed()).to.eventually.be.true;
+        await expect(dashBoardPage.parties_header.getText())
+            .to
+            .eventually
+            .equal('Parties');
+
+        await expect(dashBoardPage.type_header.isDisplayed()).to.eventually.be.true;
+        await expect(dashBoardPage.type_header.getText())
+            .to
+            .eventually
+            .equal('Type');
+
+        await expect(dashBoardPage.decision_needed_on_header.isDisplayed()).to.eventually.be.true;
+        await expect(dashBoardPage.decision_needed_on_header.getText())
+            .to
+            .eventually
+            .equal('Decision needed on');
+
+        await expect(dashBoardPage.case_received_header.isDisplayed()).to.eventually.be.true;
+        await expect(dashBoardPage.case_received_header.getText())
+            .to
+            .eventually
+            .equal('Case received');
+
+        await expect(dashBoardPage.date_of_last_action_header.isDisplayed()).to.eventually.be.true;
+        await expect(dashBoardPage.date_of_last_action_header.getText())
+            .to
+            .eventually
+            .equal('Date of last event');
+
+
+    });
+
 
 });

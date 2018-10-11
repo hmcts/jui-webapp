@@ -3,7 +3,7 @@
 function dashBoardPage() {
     this.dashboard_header = element(by.css('h1'));
     this.table = element.all(by.css(('[data-selector="table-component"]')));
-    this.case_reference_header = element.all(by.css('[role="columnheader"]'));
+    this.case_number_header = element.all(by.css('[role="columnheader"]'));
     this.parties_header = element(by.css(('[data-selector ="parties-header"]')));
     this.type_header = element(by.css(('[data-selector="type-header"]')));
     this.number_of_rows = element.all(by.css('[data-selector="table-row"]'));
@@ -13,7 +13,7 @@ function dashBoardPage() {
     this.type_rows = element.all(by.css('.govuk-table__row'));
     this.type = element.all(by.css("[data-selector='type-value']"));
     this.parties = (by.css('cdk-row.govuk-table__row:nth-child(2) > cdk-cell:nth-child(2) > span:nth-child(1)'));
-    this.case_start_date_header = element(by.css(('[data-selector="createdDate-header"]')));
+    this.case_received_header = element(by.css(('[data-selector="createdDate-header"]')));
     this.case_start_dates = element.all(by.css(('[data-selector="createdDate-value"]')));
     this.date_of_last_action_header = element(by.css(('[data-selector="lastModified-header"]')));
     this.last_action_dates = element.all(by.css('[data-selector="lastModified-value"]'));
@@ -22,20 +22,10 @@ function dashBoardPage() {
     this.ng_links_FR_DIV = element.all(by.css('[ng-reflect-router-link="/jurisdiction/DIVORCE/casetype"][href]'));
     this.ng_links_PIP = element.all(by.css('[ng-reflect-router-link="/jurisdiction/SSCS/casetype/Be"][href]'));
     this.your_cases = element(by.css('span.govuk-heading-m'));
+    this.table_column_header = element(by.css(".govuk-table__head.cdk-header-row[role='row']"));
+    this.decision_needed_on_header = element(by.css("[data-selector='decision-needed-on-header')"));
 
 
-    this.select_first_case_number = function() {
-        this.case_number_links.first().click();
-    };
-
-    this.verify_case_summary_page = function() {
-        this.select_first_case_number();
-        expect(browser.driver.getCurrentUrl()).to.eventually.equal('');
-    };
-
-    this.get_a_case_num = function() {
-        this.case_number_links.first().getText();
-    };
 
 
 }
