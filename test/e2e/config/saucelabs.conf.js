@@ -13,13 +13,13 @@ const config = {
     frameworkPath: require.resolve('protractor-cucumber-framework'),
     specs: ['../features/**/*.feature'],
     baseUrl: (process.env.TEST_URL || 'http://localhost:3000/'),
-    params: {
-        serverUrls: process.env.TEST_URL || 'http://localhost:3000/',
-        targetEnv: argv.env || 'local',
-        username: process.env.TEST_EMAIL,
-        password: process.env.TEST_PASSWORD
-
-    },
+    // params: {
+    //     serverUrls: process.env.TEST_URL || 'http://localhost:3000/',
+    //     targetEnv: argv.env || 'local',
+    //     username: process.env.TEST_EMAIL,
+    //     password: process.env.TEST_PASSWORD
+    //
+    // },
 
 
     sauceUser: process.env.SAUCE_USERNAME,
