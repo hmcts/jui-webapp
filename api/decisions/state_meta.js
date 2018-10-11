@@ -197,7 +197,7 @@ module.exports = {
             textarea: {
                 label: 'Notes for court administrator',
                 control: 'notesForAdmin',
-                value: 'Notes for court administrator text'
+                value: 'No optional notes'
             },
             button: {
                 control: 'createButton',
@@ -211,19 +211,78 @@ module.exports = {
             name: 'check',
             groups: [
                 {
-                    header: {
-                        text: 'Approve the draft consent order?',
-                        classes: 'govuk-heading-m'
-                    },
-                    table: {
-                        classes: 'app-check-your-answers app-check-your-answers--short govuk-!-margin-bottom-8',
-                        label: 'Decision',
-                        description: '',
-                        link: {
-                            text: 'Change decision',
-                            url: ''
+                    header: 'Draft consent order',
+                    contents: [
+                        {
+                            title: 'Decision',
+                            details: [
+                                {
+                                    control: 'approveDraftConsent',
+                                    type: 'radio',
+                                    no: 'Consent order not approved',
+                                    yes: 'Consent order approved'
+                                }
+                            ],
+                            link: {
+                                text: 'Change',
+                                event: 'create',
+                                hiddenAccessibilityText: 'reasons'
+                            }
                         }
-                    }
+                    ]
+                },
+                {
+                    header: 'Notes for court administrator',
+                    contents: [
+                        {
+                            title: 'Notes',
+                            details: [
+                                {
+                                    control: 'notesForAdmin',
+                                    type: 'textarea',
+                                }
+                            ],
+                            link: {
+                                text: 'Change',
+                                event: 'change',
+                                hiddenAccessibilityText: 'notes'
+                            }
+                        }
+                    ]
+                },
+                {
+                    header: 'Directions order',
+                    contents: [
+                        {
+                            title: 'Reasons',
+                            details: [
+                                {
+                                    control: 'partiesNeedAttend',
+                                    type: 'checkbox',
+                                    label: 'The parties need to attend a hearing'
+                                },
+                                {
+                                    type: 'checkbox',
+                                    control: 'NotEnoughInformation',
+                                    label: 'Not enough information was supplied to decide if the order is fair:'
+                                },
+                                {
+                                    ul: {
+                                        classes: 'govuk-list--bullet',
+                                        li: [
+                                            { text: 'the parties’ income positions if the order were to take effect' },
+                                            { text: 'the net effect of the order' }
+                                        ]
+                                    }
+                                }
+                            ],
+                            link: {
+                                text: 'Change',
+                                event: 'change',
+                                hiddenAccessibilityText: 'reasons'
+                            }
+                        }
+                    ]
                 }
             ],
             buttons: [
