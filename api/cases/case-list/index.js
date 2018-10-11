@@ -148,16 +148,18 @@ function processState(caseLists) {
                 const ccdState = caseRow.state;
                 const hearingData = caseRow.hearing_data ? caseRow.hearing_data.hearing : undefined;
                 const questionRoundData = hearingData ? caseRow.hearing_data.latest_question_round : undefined;
+                const consentOrder = caseRow.case_data.consentOrder ? caseRow.case_data.consentOrder : undefined
 
                 const caseState = processCaseStateEngine({
                     jurisdiction,
                     caseType,
                     ccdState,
                     hearingData,
-                    questionRoundData
+                    questionRoundData,
+                    consentOrder
                 });
 
-                caseRow.state = caseState.stateName;
+                caseRow.state = caseState;
                 if (caseState.stateDateTime) {
                     if (new Date(caseRow.last_modified) < new Date(caseState.stateDateTime)) {
                         caseRow.last_modified = caseState.stateDateTime;

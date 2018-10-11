@@ -29,11 +29,11 @@ module.exports = {
                                     type: 'timeline',
                                     fields: [{ value: '$.events' }]
                                 },
-                                // {
-                                //     name: 'Action on',
-                                //     type: 'case-action-alert',
-                                //     fields: [{ value: '$.state' }]
-                                // },
+                                {
+                                    name: 'Action on',
+                                    type: 'case-action-alert',
+                                    fields: [{ value: '$.state|case_status_processor' }]
+                                },
                                 {
                                     label: 'Parties',
                                     value: [

@@ -5,6 +5,8 @@ const { getEvents } = require('../../events/event');
 const { getDocuments } = require('../../documents/document');
 const { getAllQuestionsByCase } = require('../../questions/question');
 const { getCCDCase } = require('../../services/ccd-store-api/ccd-store');
+const { getHearingByCase } = require('../../services/coh-cor-api/coh-cor-api');
+const processCaseStateEngine = require('../../lib/processors/case-state-model');
 
 function hasCOR(jurisdiction, caseType) {
     return jurisdiction === 'SSCS';
@@ -18,6 +20,7 @@ function getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId, o
 
     if (hasCOR(jurisdiction, caseType)) {
         promiseArray.push(getAllQuestionsByCase(caseId, userId, options, jurisdiction));
+        promiseArray.push(getHearingByCase(caseId, options));
     }
 
     return Promise.all(promiseArray);
@@ -83,9 +86,25 @@ module.exports = app => {
         const caseId = req.params.case_id;
 
         getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId, getOptions(req))
-            .then(([caseData, events, questions]) => {
+            .then(([caseData, events, questions, hearings]) => {
                 caseData.questions = (questions) ? questions.sort((a, b) => (a.question_round_number < b.question_round_number)) : [];
                 caseData.events = events;
+
+
+                const ccdState = caseData.state;
+                const hearingData = (hearings && hearings.online_hearings) ? hearings.online_hearings[0] : undefined;
+                const questionRoundData = caseData.questions;
+                const consentOrder = caseData.case_data.consentOrder ? caseData.case_data.consentOrder : undefined
+
+                const caseState = processCaseStateEngine({
+                    jurisdiction,
+                    caseType,
+                    ccdState,
+                    hearingData,
+                    questionRoundData,
+                    consentOrder
+                });
+                caseData.state = caseState;
 
                 const schema = JSON.parse(JSON.stringify(getCaseTemplate(caseData.jurisdiction, caseData.case_type_id)));
                 if (schema.details) {

@@ -1,6 +1,6 @@
-<div class="jui-case-action-alert">
+<div class="jui-case-action-alert" *ngIf="href">
     <h2 class="jui-case-action-alert__heading">{{title}}</h2>
     <div class="jui-case-action-alert__content">
-        <p><a class="jui-case-action-alert__link" routerLink="{{href}}">{{status}}</a></p>
+        <p><a class="jui-case-action-alert__link" routerLink="{{href}}">{{state}}</a></p>
     </div>
 </div>

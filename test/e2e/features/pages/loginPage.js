@@ -2,12 +2,12 @@
 
 function loginPage() {
 
-    this.emailAddress = element(by.css('input#username'));
-    this.password = element(by.css('[id="password"]'));
-    this.signinTitle = element(by.css('h1.heading-large'));
-    this.signinBtn = element(by.css('input.button'));
-    this.signOutlink = element(by.css('a.hmcts-header__navigation-link'));
-    this.failure_error_heading = element(by.css('#failure-error-summary-heading'));
+    this.emailAddress = element(by.css("input#username"));
+    this.password = element(by.css("[id='password']"));
+    this.signinTitle = element(by.css("h1.heading-large"));
+    this.signinBtn = element(by.css("input.button"));
+    this.signOutlink = element(by.css("a.hmcts-header__navigation-link"));
+    this.failure_error_heading = element(by.css("#failure-error-summary-heading"));
 
 
     this.givenIAmLoggedIn = async function() {
@@ -17,8 +17,8 @@ function loginPage() {
     };
 
     this.givenIAmUnauthenticatedUser = async function() {
-        await this.enterUrEmail('test@gmail.com');
-        await this.enterPassword('123');
+        await this.enterUrEmail("test@gmail.com");
+        await this.enterPassword("123");
         await this.clickSignIn();
     };
 
