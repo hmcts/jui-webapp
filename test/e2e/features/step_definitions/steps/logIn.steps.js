@@ -4,7 +4,7 @@ var loginPage = require('../../pages/loginPage');
 var dashBoardPage = require('../../pages/dashBoardPage');
 var { defineSupportCode } = require('cucumber');
 
-const config = require('../../../config/conf.js');
+//const config = require('../../../config/conf.js');
 const config = require('../../../config/saucelabs.conf.js');
 const EC = protractor.ExpectedConditions;
 
