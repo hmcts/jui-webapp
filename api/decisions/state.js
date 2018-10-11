@@ -1,6 +1,7 @@
 const Store = require('../lib/store')
-const generateRequest = require('../lib/request')
+
 const config = require('../../config')
+const ccdStore = require('../services/ccd-store-api/ccd-store')
 const express = require('express')
 const moment = require('moment')
 const stateMeta = require('./state_meta')
@@ -20,17 +21,6 @@ function getOptions(req) {
     }
 }
 
-async function getCaseWithEventToken(userId, jurisdiction, caseType, caseId, eventId, options) {
-    const response = await generateRequest(
-        'GET',
-        `${
-            config.services.ccd_data_api
-        }/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/event-triggers/${eventId}/token`,
-        options
-    )
-    return { token: response.token, caseDetails: response.case_details }
-}
-
 function perpareCaseForApproval(caseData, eventToken, user, store) {
     const payload = {
         ...caseData,
@@ -44,24 +34,13 @@ function perpareCaseForApproval(caseData, eventToken, user, store) {
     return payload
 }
 
-async function postCaseWithEventToken(payload, userId, options) {
-    const response = await generateRequest(
-        'GET',
-        `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${payload.jurisdiction}/case-types/${
-            payload.case_type_id
-        }/cases/${payload.id}/event`,
-        options
-    )
-    return response
-}
-
 async function approveDraft(req, state, store) {
     let payload = {}
     let eventToken = {}
     let caseDetails = {}
 
     try {
-        const { _eventToken, _caseDetails } = await getCaseWithEventToken(
+        const eventTokenAndCAse = await ccdStore.getEventTokenAndCase(
             req.auth.userId,
             'DIVORCE',
             'FinancialRemedyMVP2',
@@ -70,8 +49,8 @@ async function approveDraft(req, state, store) {
             getOptions(req)
         )
 
-        eventToken = _eventToken
-        caseDetails = _caseDetails
+        eventToken = eventTokenAndCAse.token
+        caseDetails = eventTokenAndCAse.caseDetails
 
         payload = perpareCaseForApproval(
             caseDetails,
@@ -84,13 +63,19 @@ async function approveDraft(req, state, store) {
         return false
     }
 
+    logger.info(`Got token ${eventToken}`)
     payload = perpareCaseForApproval(
         caseDetails,
         eventToken,
         req.session.user,
         store.get(`decisions_${state.inCaseId}`)
     )
-    postCaseWithEventToken(payload, req.auth.userId, getOptions(req))
+    const response = await ccdStore.postCaseWithEventToken(
+        payload,
+        req.auth.userId,
+        getOptions(req)
+    )
+    console.log('test')
     return true
 }
 
@@ -150,7 +135,7 @@ function handlePostState(req, res, responseJSON, state) {
         }
         // update meta data according to newly selected state
         if (responseJSON.newRoute) {
-            responseJSON.meta = stateMeta[theState.inJurisdiction][responseJSON.newRoute]
+            responseJSON.meta = stateMeta[state.inJurisdiction][responseJSON.newRoute]
         }
     }
 
@@ -173,7 +158,7 @@ function handleStateRoute(req, res) {
     const inCaseId = req.params.case_id
     const inStateId = req.params.state_id
 
-    const theState = {
+    const state = {
         inJurisdiction,
         inCaseId,
         inStateId
@@ -182,7 +167,12 @@ function handleStateRoute(req, res) {
     const responseJSON = {}
 
     if (
-        responseAssert(res, responseJSON, stateMeta[inJurisdiction], 'Input parameter route_id: uknown jurisdiction') &&
+        responseAssert(
+            res,
+            responseJSON,
+            stateMeta[inJurisdiction],
+            'Input parameter route_id: uknown jurisdiction'
+        ) &&
         responseAssert(
             res,
             responseJSON,
@@ -195,20 +185,27 @@ function handleStateRoute(req, res) {
         responseJSON.meta = stateMeta[inJurisdiction][inStateId]
 
         if (req.method === 'POST') {
-            handlePostState(req, res, responseJSON, theState)
+            handlePostState(req, res, responseJSON, state)
         }
 
         responseJSON.formValues = store.get(`decisions_${inCaseId}`) || {}
     }
-    console.log(req.headers.ServiceAuthorization)
-    console.log('########################')
-    console.log(req.auth)
-    console.log('########################')
-    console.log(theState)
-    console.log('########################')
-    console.log(store.get(`decisions_${inCaseId}`))
-    console.log('########################')
 
+    if (state.inStateId === 'check') {
+        logger.info('Posting to CCD')
+        approveDraft(req, state, store)
+        logger.info('Posted to CCD')
+        return
+    } else {
+        console.log(req.headers.ServiceAuthorization)
+        console.log('########################')
+        console.log(req.auth)
+        console.log('########################')
+        console.log(state)
+        console.log('########################')
+        console.log(store.get(`decisions_${inCaseId}`))
+        console.log('########################')
+    }
     req.session.save(() => res.send(JSON.stringify(responseJSON)))
 }
 

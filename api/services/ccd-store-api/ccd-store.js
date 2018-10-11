@@ -1,24 +1,65 @@
 const express = require('express')
 const config = require('../../../config')
 const generateRequest = require('../../lib/request')
-const mockRequest = require('../../lib/mockRequest')
 
 const url = config.services.ccd_data_api
 
-//TODO remove the CCD part
+// No need to pollute codebase with endless mock requests given that this differs minorly to the main request?
+// Do switch in one place
+// Don't check envromental strings all over code base , its a global dependency so should be set in one place https://eslint.org/docs/rules/no-process-env
+
+// TODO remove the CCD part
+
+async function getEventTokenAndCase(userId, jurisdiction, caseType, caseId, eventId, options) {
+    const response = await generateRequest(
+        'GET',
+        `${
+            config.services.ccd_data_api
+        }/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/event-triggers/${eventId}/token`,
+        options
+    )
+
+    return { token: response.token, caseDetails: response.case_details }
+}
+
+async function postCaseWithEventToken(payload, userId, options) {
+    console.log(
+        'Going to :',
+        `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${
+            payload.jurisdiction
+        }/case-types/${payload.case_type_id}/cases/${payload.id}/events`
+    )
+
+    options.body = payload
+    try {
+        const response = await generateRequest(
+            'POST',
+            `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${
+                payload.jurisdiction
+            }/case-types/${payload.case_type_id}/cases/${payload.id}/events`,
+            options
+        )
+
+        return response
+    } catch (exception) {
+        console.log('ERROR', exception)
+    }
+    return false
+}
+
 function getCCDCase(userId, jurisdiction, caseType, caseId, options) {
     const urlX = `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}`
-    return process.env.JUI_ENV === 'mock' ? mockRequest('GET', urlX, options) : generateRequest('GET', urlX, options)
+    return generateRequest('GET', urlX, options)
 }
 
 function getCCDEvents(caseId, userId, jurisdiction, caseType, options) {
     const urlX = `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`
-    return process.env.JUI_ENV === 'mock' ? mockRequest('GET', urlX, options) : generateRequest('GET', urlX, options)
+    return generateRequest('GET', urlX, options)
 }
 
 function getCCDCases(userId, jurisdiction, caseType, filter, options) {
     const urlX = `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases?sortDirection=DESC${filter}`
-    return process.env.JUI_ENV === 'mock' ? mockRequest('GET', urlX, options) : generateRequest('GET', urlX, options)
+    return generateRequest('GET', urlX, options)
 }
 
 // TODO: This should eventually replace ccd better mutijud search
@@ -35,7 +76,15 @@ function getMutiJudCCDCases(userId, jurisdictions, options) {
     }
     const promiseArray = []
     jurisdictions.forEach(jurisdiction => {
-        promiseArray.push(getCCDCases(userId, jurisdiction.jur, jurisdiction.caseType, jurisdiction.filter, options))
+        promiseArray.push(
+            getCCDCases(
+                userId,
+                jurisdiction.jur,
+                jurisdiction.caseType,
+                jurisdiction.filter,
+                options
+            )
+        )
     })
 
     return Promise.all(promiseArray.map(handle)).then(results => {
@@ -73,9 +122,14 @@ module.exports = app => {
     })
 }
 
-module.exports.getCCDCase = getCCDCase
-module.exports.getCCDEvents = getCCDEvents
+// dont link exports like this
+// module.exports.getCCDCase = getCCDCase
 
-module.exports.getCCDCases = getCCDCases
-
-module.exports.getMutiJudCCDCases = getMutiJudCCDCases
+module.exports = {
+    getCCDCase,
+    getCCDEvents,
+    getCCDCases,
+    getMutiJudCCDCases,
+    getEventTokenAndCase,
+    postCaseWithEventToken
+}
