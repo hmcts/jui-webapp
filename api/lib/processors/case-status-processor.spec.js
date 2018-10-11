@@ -13,7 +13,7 @@ describe('Case Status Processor', () => {
             jurisdiction: 'SSCS',
             case_type_id: 'BENEFIT'
         });
-        expect(result.name).toEqual('DWP response received');
+        expect(result.name).toEqual('DWP response');
         expect(result.actionGoTo).toEqual('url');
     });
 

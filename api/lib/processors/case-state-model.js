@@ -47,6 +47,7 @@ const deadlineElapsed = {
     then(context) {
         const questionRound = context.caseData.questionRoundData;
         context.outcome = createCaseState(CONSTANTS.Q_DEADLINE_ELAPSED_STATE, questionRound.questions[0].state_datetime, CONSTANTS.QUESTIONS_GO_TO);
+        context.stop = true;
     }
 };
 
