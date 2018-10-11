@@ -12,7 +12,7 @@ const config = {
     framework: 'custom',
     frameworkPath: require.resolve('protractor-cucumber-framework'),
     specs: ['../features/**/*.feature'],
-    baseUrl: (process.env.TEST_URL || 'http://localhost:3000/').replace('https', 'http'),
+    baseUrl: (process.env.TEST_URL || 'http://localhost:3000/'),
     params: {
         serverUrls: process.env.TEST_URL || 'http://localhost:3000/',
         targetEnv: argv.env || 'local',
@@ -26,31 +26,7 @@ const config = {
 
 
     useAllAngular2AppRoots: true,
-    multiCapabilities: [{
-        'browserName': 'internet explorer',
-        'platform': 'Windows 10',
-        'version': '11.103',
-        'name': 'JUI-IE-TEST',
-        'tunnel-identifier': 'reformtunnel',
-        'extendedDebugging': true,
-        'shardTestFiles': true,
-        'maxInstances': 2
-    },
-
-
-        {
-            'browserName': 'firefox',
-            'name': 'MAC_FIREFOX_LATEST',
-            'platform': 'macOS 10.13',
-            'version': 'latest',
-            'tunnel-identifier': 'reformtunnel',
-            'extendedDebugging': true,
-            'shardTestFiles': true,
-            'maxInstances': 2
-
-        },
-
-
+    multiCapabilities: [
         {
             'browserName': 'chrome',
             'version': 'latest',
@@ -61,7 +37,7 @@ const config = {
             'shardTestFiles': true,
             'maxInstances': 2
 
-        },
+        }
 
 
     ],
