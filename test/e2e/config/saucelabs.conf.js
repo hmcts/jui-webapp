@@ -37,9 +37,9 @@ const config = {
             'platform': 'Windows 10',
             'name': 'chrome-tests',
             'tunnel-identifier': 'reformtunnel',
-            'extendedDebugging': true,
-            'shardTestFiles': true,
-            'maxInstances': 2
+            'extendedDebugging': true
+            // 'shardTestFiles': true,
+            // 'maxInstances': 2
 
         }
 
