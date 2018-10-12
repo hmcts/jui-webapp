@@ -30,17 +30,8 @@ export class DraftConsentOrderComponent implements OnInit {
     }
     ngOnInit() {
         this.activatedRoute.parent.data.subscribe(data => {
-
             this.case = data.caseData;
-            try {
-                this.consentDocumentUrl = this.case.sections
-                    .filter(s => s.id === 'casefile')[0].sections
-                    .filter(s => s.id === 'documents')[0].fields
-                    .filter(f => f.label === 'consentOrder')[0].value[0].document_url;
-            } catch (e) {
-                debugger
-                console.error('Could not identify consent order document');
-            }
+            this.consentDocumentUrl = this.decisionService.findConsentOrderDocumentUrl(this.case);
         });
         const caseId = this.case.id;
         const pageId = 'draft-consent-order';

@@ -18,7 +18,7 @@
                         <legend *ngIf="group.fieldset.legend" class="govuk-fieldset__legend {{group.fieldset.legend.classes}}">
                             {{group.fieldset.legend.text}}
                         </legend>
-                        <div *ngIf="group.fieldset.radios" class="govuk-radios govuk-radios--inline">
+                        <div *ngIf="group.fieldset.radios" class="govuk-radios">
                             <div class="govuk-radios__item" *ngFor="let item of group.fieldset.radios.radioGroup; let r = index">
                                 <input class="govuk-radios__input" id="{{pageitems.idPrefix + '-' + (r+1)}}" type="radio" [value]= "item.value" formControlName="{{group.fieldset.radios.control}}">
                                 <label class="govuk-label govuk-radios__label" for="{{pageitems.idPrefix + '-' + (r+1)}}">

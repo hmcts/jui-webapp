@@ -3,6 +3,7 @@ import { Observable, of } from 'rxjs';
 import 'rxjs-compat/add/observable/of';
 import {ConfigService} from '../../config.service';
 import {HttpClient} from '@angular/common/http';
+import {ActivatedRoute} from '@angular/router';
 
 @Injectable({
     providedIn: 'root'
@@ -52,6 +53,23 @@ export class DecisionService {
             decision_state: 'decision_issue_pending'
         };
         return this.httpClient.put(url, body);
+    }
+
+    findConsentOrderDocumentUrl(caseData): string {
+        try {
+            return caseData.sections
+                .filter(s => s.id === 'casefile')[0].sections
+                .filter(s => s.id === 'documents')[0].fields
+                .filter(f => f.label === 'consentOrder')[0].value[0].document_url;
+        } catch (e) {
+            console.error('Could not retrieve consent order document URL');
+        }
+        return null;
+    }
+
+    findConsentOrderDocumentId(caseData): string {
+        const documentUrl: string = this.findConsentOrderDocumentUrl(caseData);
+        return documentUrl ? documentUrl.substring(documentUrl.lastIndexOf('/') + 1, documentUrl.length) : null;
     }
 
 }
