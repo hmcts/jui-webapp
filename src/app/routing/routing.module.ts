@@ -75,7 +75,7 @@ const routes: Routes = [
                     {path: 'draft-consent-order', component: DraftConsentOrderComponent},
                     {path: 'hearing-details', component: HearingDetailsComponent},
                     {path: 'check', component: CheckDecisionComponent},
-                    {path: 'confirm', component: DecisionConfirmationComponent}
+                    {path: 'decision-confirmation', component: DecisionConfirmationComponent}
                 ]
             },
             {

@@ -66,7 +66,7 @@ function handlePostState(req, res, responseJSON, theState) {
                 }
                 break;
             case 'hearing-details':
-                responseJSON.newRoute = 'check';
+                responseJSON.newRoute = 'notes-for-court-administrator';
                 break;
             default:
                 break;

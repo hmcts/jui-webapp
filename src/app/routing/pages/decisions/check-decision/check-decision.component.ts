@@ -16,6 +16,7 @@ export class CheckDecisionComponent implements OnInit {
     request: any;
     pageValues: any = null;
     case: any;
+    isSectionExist: boolean = true;
 
     @Input() pageitems;
     constructor( private activatedRoute: ActivatedRoute,
@@ -41,5 +42,19 @@ export class CheckDecisionComponent implements OnInit {
             console.log("pageValues", this.pageValues);
             this.createForm(this.pageitems, this.pageValues) ;
         });
+    }
+    onSubmit() {
+        const event = this.form.value.createButton.toLowerCase();
+        delete this.form.value.createButton;
+        this.request = { formValues: this.pageValues, event: event };
+        console.log("Submitting properties =>", this.pageitems.name, this.request);
+        this.decisionService.submitDecisionDraft('fr',
+            this.activatedRoute.snapshot.parent.data.caseData.id,
+            this.pageitems.name,
+            this.request)
+            .subscribe(decision => {
+                console.log(decision.newRoute);
+                this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
+            });
     }
 }

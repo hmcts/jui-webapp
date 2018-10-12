@@ -66,7 +66,7 @@ module.exports = {
                                     checkboxes: [
                                         {
                                             control: 'capitalPositions',
-                                            value: true,
+                                            value: false,
                                             text: 'The parties’ capital positions if the order were to take effect'
                                         },
                                         {
@@ -95,7 +95,7 @@ module.exports = {
                                             text: 'The net effect of the order'
                                         },
                                         {
-                                            control: 'Other2',
+                                            control: 'Other',
                                             value: false,
                                             text: 'Other',
                                             sub: {
@@ -244,12 +244,12 @@ module.exports = {
                             details: [
                                 {
                                     control: 'notesForAdmin',
-                                    type: 'textarea',
+                                    type: 'textarea'
                                 }
                             ],
                             link: {
                                 text: 'Change',
-                                event: 'change',
+                                event: 'notes-for-court-administrator',
                                 hiddenAccessibilityText: 'notes'
                             }
                         }
@@ -306,6 +306,10 @@ module.exports = {
                                                 'true': 'The net effect of the order'
                                             },
                                             {
+                                                type: 'checkbox',
+                                                control: 'Other',
+                                            },
+                                            {
                                                 control: 'informationNeeded',
                                                 type: 'textarea'
                                             }
@@ -333,13 +337,13 @@ module.exports = {
                                     'true': 'It’s not clear if the applicant has taken independent legal advice'
                                 },
                                 {
-                                    control: 'Other2',
+                                    control: 'Reason',
                                     type: 'textarea'
                                 }
                             ],
                             link: {
                                 text: 'Change',
-                                event: 'change',
+                                event: 'reject-reasons',
                                 hiddenAccessibilityText: 'reasons'
                             }
                         },
@@ -353,7 +357,7 @@ module.exports = {
                             ],
                             link: {
                                 text: 'Change',
-                                event: 'change',
+                                event: 'reject-reasons',
                                 hiddenAccessibilityText: 'reasons'
                             }
                         },
@@ -363,13 +367,90 @@ module.exports = {
                                 {
                                     control: 'includeAnnotatedVersionDraftConsOrder',
                                     type: 'radio',
-                                    no: 'I dont want to include',
-                                    yes: 'I want to include'
+                                    no: 'No',
+                                    yes: 'Yes'
                                 }
                             ],
                             link: {
                                 text: 'Change',
-                                event: 'change',
+                                event: 'reject-reasons',
+                                hiddenAccessibilityText: 'reasons'
+                            }
+                        }
+                    ]
+                },
+                {
+                    header: 'Hearing details',
+                    contents: [
+                        {
+                            title: 'Estimate length of hearing in minutes',
+                            details: [
+                                {
+                                    control: 'estimateLengthOfHearing',
+                                    type: 'input'
+                                }
+                            ],
+                            link: {
+                                text: 'Change',
+                                event: 'hearing-details',
+                                hiddenAccessibilityText: 'reasons'
+                            }
+                        },
+                        {
+                            title: 'When should the hearing take place?',
+                            details: [
+                                {
+                                    control: 'whenHearingPlaced',
+                                    type: 'input'
+                                }
+                            ],
+                            link: {
+                                text: 'Change',
+                                event: 'hearing-details',
+                                hiddenAccessibilityText: 'reasons'
+                            }
+                        },
+                        {
+                            title: 'Which court?',
+                            details: [
+                                {
+                                    control: 'whichCourt',
+                                    type: 'radio',
+                                    southWest: 'South West Divorce Centre'
+                                },
+                                {
+                                    control: 'whichCourt',
+                                    type: 'radio',
+                                    eastMidlands: 'East Midlands Divorce Centre'
+                                },
+                                {
+                                    control: 'whichCourt',
+                                    type: 'radio',
+                                    westMidlands: 'West Midlands Divorce Centre'
+                                },
+                                {
+                                    control: 'whichCourt',
+                                    type: 'radio',
+                                    northWest: 'North West Divorce Centre'
+                                }
+                            ],
+                            link: {
+                                text: 'Change',
+                                event: 'hearing-details',
+                                hiddenAccessibilityText: 'reasons'
+                            }
+                        },
+                        {
+                            title: 'Any other hearing details (optional)',
+                            details: [
+                                {
+                                    control: 'otherHearingDetails',
+                                    type: 'input'
+                                }
+                            ],
+                            link: {
+                                text: 'Change',
+                                event: 'hearing-details',
                                 hiddenAccessibilityText: 'reasons'
                             }
                         }
@@ -379,7 +460,7 @@ module.exports = {
             buttons: [
                 {
                     control: 'createButton',
-                    value: 'Continue',
+                    value: 'continue',
                     onEvent: 'continue'
                 }
             ]

@@ -5,29 +5,34 @@
             <div *ngIf="pageitems" class="govuk-grid-column-two-thirds">
                 <h1 class="govuk-heading-xl">{{pageitems.header}}</h1>
                 <form *ngIf="pageitems" [formGroup]="form" (ngSubmit)="onSubmit()">
-                    {{ pageValues | json }}
                     <ng-container *ngFor="let group of pageitems.groups; let Index = index">
-                        <h2 class="govuk-heading-m">{{ group.header }}</h2>
-                        <dl class="app-check-your-answers app-check-your-answers--short govuk-!-margin-bottom-8">
-                            <div class="app-check-your-answers__contents" *ngFor="let content of group.contents; let c = index">
-                                <dt class="app-check-your-answers__question">{{content.title}}</dt>
-                                <dd class="app-check-your-answers__answer">
-                                    <ng-container *ngFor="let detail of content.details; let i = index">
-                                        <p *ngIf="detail.type === 'radio'">{{detail[pageValues[detail.control]]}}</p>
-                                        <p *ngIf="detail.type === 'textarea'">{{pageValues[detail.control]}}</p>
-                                        <p *ngIf="detail.type === 'checkbox'">{{detail[pageValues[detail.control]]}}</p>
-                                        <ul *ngIf="detail.ul" class="item.ul.classes">
-                                            <ng-container *ngFor="let el of detail.ul.li; let l = index">
-                                                <li *ngIf="el.type === 'checkbox'">{{el[pageValues[el.control]]}} test</li>
+                        <ng-container *ngIf="isSectionExist">
+                            <h2 class="govuk-heading-m">{{ group.header }}</h2>
+                            <dl class="app-check-your-answers app-check-your-answers--short govuk-!-margin-bottom-8">
+                                <div class="app-check-your-answers__contents" *ngFor="let content of group.contents; let c = index">
+                                    <ng-container>
+                                        <dt class="app-check-your-answers__question">{{content.title}}</dt>
+                                        <dd class="app-check-your-answers__answer">
+                                            <ng-container *ngFor="let detail of content.details; let i = index">
+                                                <p *ngIf="detail.type === 'radio'">{{detail[pageValues[detail.control]]}}</p>
+                                                <p *ngIf="detail.type === 'textarea'">{{pageValues[detail.control]}}</p>
+                                                <p *ngIf="detail.type === 'input'">{{pageValues[detail.control]}}</p>
+                                                <p *ngIf="detail.type === 'checkbox'">{{detail[pageValues[detail.control]]}}</p>
+                                                <ul *ngIf="detail.ul" class="item.ul.classes">
+                                                    <ng-container *ngFor="let el of detail.ul.li; let l = index">
+                                                        <li *ngIf="pageValues[el.control] === true && el.type === 'checkbox' && el['true']">{{el[pageValues[el.control]]}}</li>
+                                                        <li *ngIf="el.type === 'textarea'">{{pageValues[el.control]}}</li>
+                                                    </ng-container>
+                                                </ul>
                                             </ng-container>
-                                        </ul>
+                                        </dd>
+                                        <dd class="app-check-your-answers__change">
+                                            <a [routerLink]="['./../'+content.link.event]">{{content.link.text}}<span class="govuk-visually-hidden">{{content.link.hiddenAccessibilityText}}</span></a>
+                                        </dd>
                                     </ng-container>
-                                </dd>
-                                <dd class="app-check-your-answers__change">
-                                    <a href="{{content.link.event}}">{{content.link.text}}<span class="govuk-visually-hidden">{{content.link.hiddenAccessibilityText}}</span></a>
-                                </dd>
-                            </div>
-                        </dl>
+                                </div>
+                            </dl>
+                        </ng-container>
                     </ng-container>
                     <ng-container *ngIf="pageitems.buttons">
                         <ng-container *ngFor="let button of pageitems.buttons; let bi = index;">
