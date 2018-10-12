@@ -22,7 +22,7 @@ const cohState = {
     then(context) {
         context.cohStateCheck = true;
         const hearingData = context.caseData.hearingData;
-        context.outcome = createCaseState(CONSTANTS.COH_STATE, hearingData.current_state.state_datetime, '');
+        context.outcome = createCaseState(CONSTANTS.COH_STATE, hearingData.current_state.state_datetime, CONSTANTS.CASE_FILE_GO_TO);
     }
 };
 

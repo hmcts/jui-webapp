@@ -40,6 +40,7 @@ describe('Case State Process Engine', () => {
             caseState = processCaseStateEngine(fact);
 
             expect(caseState.stateName).toEqual(COH_STATE);
+            expect(caseState.actionGoTo).toEqual('casefile');
         });
 
         it('should return decision-issued-state', () => {
