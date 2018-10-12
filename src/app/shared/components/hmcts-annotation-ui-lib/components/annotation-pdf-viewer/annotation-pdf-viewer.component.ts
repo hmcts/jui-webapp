@@ -47,7 +47,7 @@ export class AnnotationPdfViewerComponent implements OnInit {
 
         this.renderedPages = {};
         this.pdfService.render();
-        this.tool = 'cursor';
+        this.tool = 'highlight';
 
         this.pdfService.getPageNumber().subscribe(page => this.page = page);
     }

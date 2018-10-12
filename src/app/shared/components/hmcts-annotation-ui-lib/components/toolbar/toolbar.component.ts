@@ -10,8 +10,8 @@ import {NpaService} from '../../data/npa.service';
 })
 export class ToolbarComponent implements OnInit, OnChanges {
 
-  @ViewChild("highlightTool") highlightTool: ElementRef;
-  @ViewChild("pointerTool") pointerPool: ElementRef;
+  @ViewChild('highlightTool') highlightTool: ElementRef;
+  @ViewChild('pointerTool') pointerPool: ElementRef;
 
   @Input() dmDocumentId: string;
   @Input() tool: string;
@@ -24,7 +24,7 @@ export class ToolbarComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.handleHighlightClick();
+//    this.handleHighlightClick();
     this.npaService.outputDmDocumentId.subscribe(
       outputDocumentId => this.outputDocumentId = outputDocumentId
     );
