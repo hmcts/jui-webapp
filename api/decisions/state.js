@@ -21,16 +21,24 @@ function getOptions(req) {
     }
 }
 
-function perpareCaseForApproval(caseData, eventToken, user, store) {
+function perpareCaseForApproval(caseData, eventToken, eventId, user, store) {
     const payload = {
-        ...caseData,
+        /* eslint-disable-next-line id-blacklist */
+        data: {
+            orderDirection: 'Order Accepted as drafted',
+            orderDirectionDate: moment(new Date()).format('YYYY-MM-DD'),
+            orderDirectionJudge: 'District Judge',
+            orderDirectionJudgeName: `${user.forename} ${user.surname} `,
+            orderDirectionAddComments: store.notesForAdmin
+        },
+        event: {
+            id: eventId
+        },
         event_token: eventToken,
-        orderDirection: 'Order Accepted as drafted',
-        orderDirectionDate: moment(new Date()).format('YYYY-MM-DD'),
-        orderDirectionJudge: 'District Judge',
-        orderDirectionJudgeName: `${user.forename} ${user.surname} `,
-        orderDirectionAddComments: store.notesForAdmin
+
+        ignore_warning: true
     }
+
     return payload
 }
 
@@ -40,6 +48,8 @@ async function approveDraft(req, state, store) {
     let caseDetails = {}
 
     try {
+        logger.info('Getting Event Token')
+
         const eventTokenAndCAse = await ccdStore.getEventTokenAndCase(
             req.auth.userId,
             'DIVORCE',
@@ -52,31 +62,31 @@ async function approveDraft(req, state, store) {
         eventToken = eventTokenAndCAse.token
         caseDetails = eventTokenAndCAse.caseDetails
 
+        logger.info(`Got token ${eventToken}`)
+
         payload = perpareCaseForApproval(
             caseDetails,
             eventToken,
+            'FR_approveApplication',
             req.session.user,
             store.get(`decisions_${state.inCaseId}`)
         )
+
+        logger.info('Payload assembled')
+        const response = await ccdStore.postCaseWithEventToken(
+            payload,
+            req.auth.userId,
+            'DIVORCE',
+            'FinancialRemedyMVP2',
+            state.inCaseId,
+            getOptions(req)
+        )
+
+        return true
     } catch (exception) {
         logger.error('Error getting case even token')
         return false
     }
-
-    logger.info(`Got token ${eventToken}`)
-    payload = perpareCaseForApproval(
-        caseDetails,
-        eventToken,
-        req.session.user,
-        store.get(`decisions_${state.inCaseId}`)
-    )
-    const response = await ccdStore.postCaseWithEventToken(
-        payload,
-        req.auth.userId,
-        getOptions(req)
-    )
-    console.log('test')
-    return true
 }
 
 /* eslint-disable-next-line complexity */
@@ -152,7 +162,7 @@ function responseAssert(res, responseJSON, inJurisdiction, inStateId, statusHint
     return true
 }
 
-function handleStateRoute(req, res) {
+async function handleStateRoute(req, res) {
     const store = new Store(req)
     const inJurisdiction = req.params.jur_id
     const inCaseId = req.params.case_id
@@ -193,7 +203,7 @@ function handleStateRoute(req, res) {
 
     if (state.inStateId === 'check') {
         logger.info('Posting to CCD')
-        approveDraft(req, state, store)
+        await approveDraft(req, state, store)
         logger.info('Posted to CCD')
         return
     } else {

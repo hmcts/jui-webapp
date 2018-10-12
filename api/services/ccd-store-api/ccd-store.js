@@ -22,24 +22,18 @@ async function getEventTokenAndCase(userId, jurisdiction, caseType, caseId, even
     return { token: response.token, caseDetails: response.case_details }
 }
 
-async function postCaseWithEventToken(payload, userId, options) {
-    console.log(
-        'Going to :',
-        `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${
-            payload.jurisdiction
-        }/case-types/${payload.case_type_id}/cases/${payload.id}/events`
-    )
-
+async function postCaseWithEventToken(payload, userId, jurisdiction, caseTypeId, caseId, options) {
     options.body = payload
+    console.log(payload)
     try {
         const response = await generateRequest(
             'POST',
-            `${config.services.ccd_data_api}/caseworkers/${userId}/jurisdictions/${
-                payload.jurisdiction
-            }/case-types/${payload.case_type_id}/cases/${payload.id}/events`,
+            `${
+                config.services.ccd_data_api
+            }/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseTypeId}/cases/${caseId}/events`,
             options
         )
-
+        console.log('okay')
         return response
     } catch (exception) {
         console.log('ERROR', exception)
