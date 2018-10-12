@@ -1,5 +1,7 @@
 const userEmail = 'test@test.com';
 const DAY_IN_MILLIS = 86400000;
+const HOUR_IN_MILLIS = 3600000;
+
 const CASE_RECEIVED_DATE = new Date();
 const LAST_MODIFIED_DATE = new Date(CASE_RECEIVED_DATE.getTime() + DAY_IN_MILLIS);
 
@@ -22,7 +24,7 @@ const divorceCaseData = [
             assignedToJudge: userEmail
         },
         created_date: CASE_RECEIVED_DATE,
-        last_modified: CASE_RECEIVED_DATE
+        last_modified: new Date(CASE_RECEIVED_DATE.getTime() + (DAY_IN_MILLIS * 2))
     }
 ];
 

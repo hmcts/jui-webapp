@@ -57,28 +57,13 @@ fdescribe('case-list', () => {
             casesData.push(sscsCaseData);
         });
 
-        it('should have cases with', (done) =>
+        it('should have cases order by last modified ASC', (done) =>
             request.get('/cases')
                 .expect(200)
                 .then(response => {
                     expect(response.body.results.length).toBe(2);
                     expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
                     expect(response.body.results[0]).toEqual({
-                        case_id: divorceCaseData[0].id,
-                        case_jurisdiction: 'DIVORCE',
-                        case_type_id: 'FinancialRemedyMVP2',
-                        case_fields: {
-                            case_ref: divorceCaseData[0].id,
-                            parties: '  v  ',
-                            type: 'Financial remedy',
-                            status: { name: 'Draft consent order', actionGoTo: 'casefile' },
-                            createdDate: divorceCaseData[0].created_date.toISOString(),
-                            lastModified: divorceCaseData[0].created_date.toISOString()
-                        },
-                        assignedToJudge: 'test@test.com'
-                    });
-
-                    expect(response.body.results[1]).toEqual({
                         case_id: sscsCaseData[0].id,
                         case_jurisdiction: 'SSCS',
                         case_type_id: 'Benefit',
@@ -90,6 +75,20 @@ fdescribe('case-list', () => {
                             createdDate: sscsCaseData[0].created_date.toISOString(),
                             lastModified: LAST_MODIFIED_DATE.toISOString()
                         }
+                    });
+                    expect(response.body.results[1]).toEqual({
+                        case_id: divorceCaseData[0].id,
+                        case_jurisdiction: 'DIVORCE',
+                        case_type_id: 'FinancialRemedyMVP2',
+                        case_fields: {
+                            case_ref: divorceCaseData[0].id,
+                            parties: '  v  ',
+                            type: 'Financial remedy',
+                            status: { name: 'Draft consent order', actionGoTo: 'casefile' },
+                            createdDate: divorceCaseData[0].created_date.toISOString(),
+                            lastModified: divorceCaseData[0].last_modified.toISOString()
+                        },
+                        assignedToJudge: 'test@test.com'
                     });
                     done();
                 })
