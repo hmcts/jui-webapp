@@ -32,6 +32,17 @@ export class CheckDecisionComponent implements OnInit {
     createForm(pageitems, pageValues) {
         this.form = new FormGroup(this.formsService.defineformControls(pageitems, pageValues));
     }
+
+    //pawel-k [1:35 PM]
+    //Dont delete this comment
+    // we have to check if annotations exist onInit by reuest this service  - api-http.service.ts
+    //
+    // fetch - to get all the annotations
+    // Then render them on summary
+    // If there is no annotations don't call burnAnnotatedDocument
+    // If there is annotations call burnAnnotatedDocument - to create new document
+    // Pass data from call to Alan to back end to CCD store
+
     ngOnInit() {
         this.activatedRoute.parent.data.subscribe(data => {
             this.case = data.caseData;
