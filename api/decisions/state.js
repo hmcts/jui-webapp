@@ -114,12 +114,7 @@ function handlePostState(req, res, responseJSON, state) {
                 responseJSON.newRoute = 'check'
                 break
             case 'check':
-                if (approveDraft(req, state, store)) {
-                    // does the post
-                    responseJSON.newRoute = 'decision-confirmation'
-                } else {
-                    // some error
-                }
+                responseJSON.newRoute = 'decision-confirmation'
                 break
             case 'reject-reasons':
                 if (formValues.includeAnnotatedVersionDraftConsOrder === 'yes') {
@@ -138,8 +133,8 @@ function handlePostState(req, res, responseJSON, state) {
                 }
                 break
             case 'hearing-details':
-                responseJSON.newRoute = 'notes-for-court-administrator';
-                break;
+                responseJSON.newRoute = 'notes-for-court-administrator'
+                break
             default:
                 break
         }
