@@ -1,9 +1,8 @@
-
-import { HttpResponse} from "@angular/common/http";
-import { Injectable } from '@angular/core';
-import { Observable, Subject } from "rxjs";
-import { IDocumentTask } from "./document-task.model";
-import { ApiHttpService } from "./api-http.service";
+import {HttpResponse} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable, Subject} from 'rxjs';
+import {IDocumentTask} from './document-task.model';
+import {ApiHttpService} from './api-http.service';
 
 @Injectable()
 export class NpaService {

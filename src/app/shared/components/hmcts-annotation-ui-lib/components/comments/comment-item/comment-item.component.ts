@@ -1,83 +1,83 @@
-import { Component, OnInit, Input, Output, EventEmitter, Renderer2, ElementRef, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Comment } from '../../../data/annotation-set.model';
-import { AnnotationStoreService } from '../../../data/annotation-store.service';
+import {Component, OnInit, Input, Output, EventEmitter, Renderer2, ElementRef, ViewChild} from '@angular/core';
+import {NgForm} from '@angular/forms';
+import {Comment} from '../../../data/annotation-set.model';
+import {AnnotationStoreService} from '../../../data/annotation-store.service';
 
 @Component({
-  selector: 'app-comment-item',
-  templateUrl: './comment-item.component.html',
-  styleUrls: ['./comment-item.component.scss']
+    selector: 'app-comment-item',
+    templateUrl: './comment-item.component.html',
+    styleUrls: ['./comment-item.component.scss']
 })
 export class CommentItemComponent implements OnInit {
 
-  @Input() comment;
-  @Input() selectedAnnotationId;
-  @Input() annotation;
-  
-  @Output() commentSubmitted: EventEmitter<any> = new EventEmitter<any>();
-  @Output() commentSelected: EventEmitter<String> = new EventEmitter<String>();
+    @Input() comment;
+    @Input() selectedAnnotationId;
+    @Input() annotation;
 
-  @ViewChild("commentTextField") commentTextField: ElementRef;
-  @ViewChild("annotationIdField") annotationIdField: ElementRef;
-  @ViewChild("commentItem") commentItem: NgForm;
+    @Output() commentSubmitted: EventEmitter<any> = new EventEmitter<any>();
+    @Output() commentSelected: EventEmitter<String> = new EventEmitter<String>();
 
-  focused: boolean;
+    @ViewChild('commentTextField') commentTextField: ElementRef;
+    @ViewChild('annotationIdField') annotationIdField: ElementRef;
+    @ViewChild('commentItem') commentItem: NgForm;
 
-  model = new Comment(null, null, null, null, null, null, null);
+    focused: boolean;
 
-  constructor(private annotationStoreService: AnnotationStoreService,
-              private render: Renderer2) {
-  }
+    model = new Comment(null, null, null, null, null, null, null);
 
-  ngOnInit() {
-    this.focused = false;
-  }
-  
-  onSubmit() { 
-    let comment = this.convertFormToComment(this.commentItem);
-    comment.lastModifiedDate = new Date();
+    constructor(private annotationStoreService: AnnotationStoreService,
+                private render: Renderer2) {
+    }
 
-    this.annotationStoreService.editComment(comment);
-    this.commentSubmitted.emit(this.annotation);
-  }
+    ngOnInit() {
+        this.focused = false;
+    }
 
-  onFocus() {
-    this.focused = true;
-  }
+    onSubmit() {
+        const comment = this.convertFormToComment(this.commentItem);
+        comment.lastModifiedDate = new Date();
 
-  onBlur() {
-    setTimeout(() => {
-      this.removeCommentSelectedStyle();
-      this.focused = false;
-    }, 200);
-  }
+        this.annotationStoreService.editComment(comment);
+        this.commentSubmitted.emit(this.annotation);
+    }
 
-  convertFormToComment(commentForm: NgForm) {
-    return new Comment(
-      commentForm.value.commentId, 
-      commentForm.value.annotationId, 
-      null,
-      null,
-      null,
-      null,
-      commentForm.value.content
-    );
-  }
+    onFocus() {
+        this.focused = true;
+    }
 
-	handleDeleteComment(event, commentId, annotationId) {
-		this.annotationStoreService.deleteComment(commentId);
-  }
-  
-  handleCommentClick (event) {
-		this.removeCommentSelectedStyle();
-    this.render.addClass(this.commentTextField.nativeElement, "comment-selected");
-    this.commentSelected.emit(this.commentItem.value.annotationId);
-  }
+    onBlur() {
+        setTimeout(() => {
+            this.removeCommentSelectedStyle();
+            this.focused = false;
+        }, 200);
+    }
 
-	removeCommentSelectedStyle() {
-		let listItems = Array.from(document.querySelectorAll('#comment-wrapper .comment-list-item textarea'));
-		listItems.forEach(item => {
-			this.render.removeClass(item, "comment-selected")
-		});
-	}
+    convertFormToComment(commentForm: NgForm) {
+        return new Comment(
+            commentForm.value.commentId,
+            commentForm.value.annotationId,
+            null,
+            null,
+            null,
+            null,
+            commentForm.value.content
+        );
+    }
+
+    handleDeleteComment(event, commentId) {
+        this.annotationStoreService.deleteComment(commentId);
+    }
+
+    handleCommentClick(event) {
+        this.removeCommentSelectedStyle();
+        this.render.addClass(this.commentTextField.nativeElement, 'comment-selected');
+        this.commentSelected.emit(this.commentItem.value.annotationId);
+    }
+
+    removeCommentSelectedStyle() {
+        const listItems = Array.from(document.querySelectorAll('#comment-wrapper .comment-list-item textarea'));
+        listItems.forEach(item => {
+            this.render.removeClass(item, 'comment-selected');
+        });
+    }
 }

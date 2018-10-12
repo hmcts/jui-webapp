@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {v4 as uuid} from 'uuid';
 import {Annotation, Comment, IAnnotation, IAnnotationSet} from './annotation-set.model';
@@ -11,11 +11,15 @@ import {ApiHttpService} from './api-http.service';
 declare const PDFAnnotate: any;
 
 @Injectable()
-export class AnnotationStoreService {
+export class AnnotationStoreService implements OnDestroy {
+
+    annotationChangeSubscription: Subscription
 
     constructor(private pdfAdapter: PdfAdapter,
                 private apiHttpService: ApiHttpService,
                 private pdfService: PdfService) {
+
+        this.annotationChangeSubscription = this.pdfAdapter.annotationChangeSubject.subscribe((e) => this.handleAnnotationEvent(e));
     }
 
     preLoad(annotationData: IAnnotationSet) {
@@ -24,6 +28,35 @@ export class AnnotationStoreService {
             PDFAnnotate.setStoreAdapter(this.pdfAdapter.getStoreAdapter());
         } else {
             PDFAnnotate.setStoreAdapter(new PDFAnnotate.LocalStoreAdapter());
+        }
+    }
+
+    handleAnnotationEvent(e) {
+        switch (e.type) {
+            case 'addAnnotation': {
+                this.saveAnnotation(e.annotation);
+                break;
+            }
+            case 'addComment': {
+                this.saveAnnotation(e.annotation);
+                break;
+            }
+            case 'editComment': {
+                this.saveAnnotation(e.annotation);
+                break;
+            }
+            case 'deleteComment': {
+                this.saveAnnotation(e.annotation);
+                break;
+            }
+            case 'editAnnotation': {
+                this.saveAnnotation(e.annotation);
+                break;
+            }
+            case 'deleteAnnotation': {
+                this.deleteAnnotation(e.annotation);
+                break;
+            }
         }
     }
 
@@ -46,11 +79,9 @@ export class AnnotationStoreService {
                             return Observable.throw(new Error('Internal server error: ' + err));
                         }
                     }
-                    ;
                 }
-                ;
             }));
-    };
+    }
 
     saveData() {
         let loadedData: IAnnotationSet;
@@ -83,10 +114,25 @@ export class AnnotationStoreService {
         this.pdfAdapter.annotationSet = loadedData;
     }
 
+    saveAnnotation(annotation) {
+        this.apiHttpService.saveAnnotation(annotation).subscribe(
+            response => console.log(response),
+            error => console.log(error)
+        );
+    }
+
+    deleteAnnotation(annotation) {
+        this.apiHttpService.deleteAnnotation(annotation).subscribe(
+            response => console.log(response),
+            error => console.log(error)
+        );
+    }
+
     clearAnnotations() {
         if (confirm('Are you sure you want to clear annotations?')) {
             this.pdfAdapter.annotations = [];
             this.pdfService.render();
+            this.saveData();
         }
     }
 
@@ -152,5 +198,9 @@ export class AnnotationStoreService {
         PDFAnnotate.getStoreAdapter()
             .deleteComment(this.pdfService.getRenderOptions().documentId, commentId)
             .then();
+    }
+
+    ngOnDestroy() {
+        this.annotationChangeSubscription.unsubscribe();
     }
 }

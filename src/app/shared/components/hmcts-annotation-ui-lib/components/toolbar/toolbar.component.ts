@@ -1,9 +1,7 @@
-import { Component, OnInit, Input, ViewChild, ElementRef, OnChanges, Output, EventEmitter } from '@angular/core';
-import { PdfService } from '../../data/pdf.service';
-import { AnnotationStoreService } from '../../data/annotation-store.service';
-import { NpaService } from '../../data/npa.service';
-import {IDocumentTask} from "../../data/document-task.model";
-import {HttpErrorResponse, HttpResponse} from "@angular/common/http";
+import {Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild} from '@angular/core';
+import {PdfService} from '../../data/pdf.service';
+import {AnnotationStoreService} from '../../data/annotation-store.service';
+import {NpaService} from '../../data/npa.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -26,10 +24,10 @@ export class ToolbarComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.handlePointerClick();
+    this.handleHighlightClick();
     this.npaService.outputDmDocumentId.subscribe(
       outputDocumentId => this.outputDocumentId = outputDocumentId
-    )
+    );
   }
 
   ngOnChanges() {
@@ -56,13 +54,6 @@ export class ToolbarComponent implements OnInit, OnChanges {
 
   onSaveClick() {
     this.annotationStoreService.saveData();
-  }
-
-  onExportClick() {
-    this.npaService.exportPdf(this.dmDocumentId, this.outputDocumentId).subscribe(
-    (res: HttpResponse<IDocumentTask>) => this.npaService.documentTask.next(res.body),
-    (res: HttpErrorResponse) => this.npaService.documentTask = res.error
-    );
   }
 
 }

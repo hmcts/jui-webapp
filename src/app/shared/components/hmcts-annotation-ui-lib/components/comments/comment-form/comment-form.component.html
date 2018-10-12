@@ -1,7 +1,8 @@
   <div [hidden]="!selectedAnnotationId">
     <form (ngSubmit)="onSubmit()" #commentForm="ngForm" class="comment-list-form">
         <!-- {{diagnostic}} -->
-        <textarea 
+
+        <textarea
           type="hidden" 
           class="form-control" id="comment"
           required
