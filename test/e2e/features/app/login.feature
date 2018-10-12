@@ -4,7 +4,7 @@ Feature: Login
     Background:
         When I navigate to JUI Url
 
-    @RIUI_288 @login @all
+    @RIUI_288 @login @all @smoke
     Scenario: un-authenticated user login
         Then I am on Idam login page
         When I enter an Invalid email-address and password to login
@@ -12,14 +12,14 @@ Feature: Login
         Then I should see failure error summary
 
 
-    @RIUI_288 @login @all
+    @RIUI_288 @login @all @smoke
     Scenario: authenticated user login
         Given I am on Idam login page
         When I enter an valid email-address and password to login
         Then I should be redirected to JUI dashboard page
 
 
-    @RIUI_289 @logout @all
+    @RIUI_289 @logout @all @smoke
     Scenario: log out from JUI
         Given I am logged into JUI web app
         Then I should be redirected to JUI dashboard page
