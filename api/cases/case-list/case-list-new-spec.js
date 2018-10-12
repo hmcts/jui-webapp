@@ -2,7 +2,7 @@ const express = require('express');
 const proxyquire = require('proxyquire');
 const supertest = require('supertest');
 const sscsCaseListTemplate = require('./templates/sscs/benefit');
-const { divorceCaseData, sscsCaseData} = require('./case-list-spec-data');
+const { divorceCaseData, sscsCaseData, onlineHearingData } = require('./case-list-spec-data');
 
 describe('case-list', () => {
     let httpRequest;
@@ -10,9 +10,11 @@ describe('case-list', () => {
     let route;
     let casesData;
     let request;
+    let hearingData;
 
     beforeEach(() => {
         casesData = [];
+        hearingData = {};
         httpRequest = jasmine.createSpy();
         httpRequest.and.callFake((method, url) => {
             return new Promise({});
@@ -21,7 +23,8 @@ describe('case-list', () => {
         app = express();
 
         route = proxyquire('./index', {'../../lib/request': httpRequest,
-            '../../services/ccd-store-api/ccd-store': { getMutiJudCCDCases: () => Promise.resolve(casesData) }
+            '../../services/ccd-store-api/ccd-store': { getMutiJudCCDCases: () => Promise.resolve(casesData) },
+            '../../services/coh-cor-api/coh-cor-api': { getOnlineHearing: () => Promise.resolve({}) }
         });
 
         app.use((req, res, next) => {
@@ -41,21 +44,54 @@ describe('case-list', () => {
         it('should return only template columns', (done) => request.get('/cases')
             .expect(200)
             .then(response => {
-                console.log('haa haa haa');
                 expect(response.body.results.length).toBe(0);
                 expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
                 done();
             }));
     });
 
-    describe('case list with cases', () => {
+    fdescribe('case list with cases', () => {
         beforeEach(() => {
             casesData.push(divorceCaseData);
             casesData.push(sscsCaseData);
+            hearingData.push(onlineHearingData);
         });
 
-        it('should have multiple jurisdictions cases', () => {
-
-        });
+        it('should return multiple jurisdictions cases', (done) =>
+            request.get('/cases')
+                .expect(200)
+                .then(response => {
+                    console.log('hee hee hee');
+                    expect(response.body.results.length).toBe(3);
+                    expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
+                    // expect(response.body.results[1]).toEqual({
+                    //     case_id: divorceCaseData[0].id,
+                    //     case_jurisdiction: 'DIVORCE',
+                    //     case_type_id: 'DIVORCE',
+                    //     case_fields: {
+                    //         case_ref: divorceCaseData[0].id,
+                    //         parties: '  v  ',
+                    //         type: 'Divorce',
+                    //         createdDate: createdDate.toISOString(),
+                    //         lastModified: updatedDate.toISOString()
+                    //     }
+                    // });
+                    //
+                    // expect(response.body.results[0]).toEqual({
+                    //     case_id: sscsCaseData[0].id,
+                    //     case_jurisdiction: 'SSCS',
+                    //     case_type_id: 'Benefit',
+                    //     case_fields: {
+                    //         case_ref: sscsCaseData[0].case_data.caseReference,
+                    //         parties: 'Louis Houghton v DWP',
+                    //         type: 'PIP',
+                    //         status: 'Continuous online hearing started',
+                    //         createdDate: createdDate.toISOString(),
+                    //         lastModified: updatedDate.toISOString()
+                    //     }
+                    // });
+                    done;
+                })
+        );
     });
 });

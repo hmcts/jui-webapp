@@ -1,42 +1,6 @@
-const express = require('express');
-const moment = require('moment');
-const getListTemplate = require('./templates');
-const sscsCaseListTemplate = require('./templates/sscs/benefit');
-const processCaseStateEngine = require('../../lib/processors/case-state-model');
-const { caseStateFilter } = require('../../lib/processors/case-state-util');
-const valueProcessor = require('../../lib/processors/value-processor');
-const generateRequest = require('../../lib/request');
-const { getAllQuestionsByCase } = require('../../questions/question');
-const { getMutiJudCCDCases } = require('../../services/ccd-store-api/ccd-store');
+
+const { getOnlineHearing } = require('../../services/coh-cor-api/coh-cor-api');
 const { getUserDetails } = require('../../services/idam-api/idam-api');
-const config = require('../../../config');
-
-const DIVORCE_JUR = 'DIVORCE';
-const FR_JUR = 'FinancialRemedyMVP2';
-
-const jurisdictions = [
-    {
-        jur: 'DIVORCE',
-        caseType: 'DIVORCE',
-        filter: ''
-    },
-    {
-        jur: 'SSCS',
-        caseType: 'Benefit',
-        filter: '&state=appealCreated&case.appeal.benefitType.code=PIP'
-    },
-    {
-        jur: 'DIVORCE',
-        caseType: 'FinancialRemedyMVP2',
-        filter: '&state=referredToJudge'
-    },
-    // {
-    //     jur: 'CMC',
-    //     caseType: 'MoneyClaimCase',
-    //     filter: ''
-    // },
-    // {
-    //     jur: 'PROBATE',
     //     caseType: 'GrantOfRepresentation',
     //     filter: ''
     // }
@@ -44,11 +8,6 @@ const jurisdictions = [
 
 function hasCOR(caseData) {
     return caseData.jurisdiction === 'SSCS';
-}
-
-// TODO put this is the coh-cor microserver module
-function getOnlineHearing(caseIds, options) {
-    return generateRequest('GET', `${config.services.coh_cor_api}/continuous-online-hearings/?${caseIds}`, options);
 }
 
 function getCOR(casesData, options) {
