@@ -26,6 +26,7 @@ export class AnnotationPdfViewerComponent implements OnInit {
     tool: string;
 
     @ViewChild('contentWrapper') contentWrapper: ElementRef;
+    @ViewChild('viewer') viewerElementRef: ElementRef;
 
     constructor(private pdfService: PdfService,
                 private npaService: NpaService,
@@ -46,7 +47,7 @@ export class AnnotationPdfViewerComponent implements OnInit {
         });
 
         this.renderedPages = {};
-        this.pdfService.render();
+        this.pdfService.render(this.viewerElementRef);
         this.tool = 'highlight';
 
         this.pdfService.getPageNumber().subscribe(page => this.page = page);
@@ -75,7 +76,6 @@ export class AnnotationPdfViewerComponent implements OnInit {
                 currentParent = currentParent.parentNode;
             }
         }
-        this.tool = 'cursor';
     }
 
     handlePdfScroll(event) {
