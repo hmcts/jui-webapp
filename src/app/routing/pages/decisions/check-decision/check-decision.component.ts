@@ -5,6 +5,9 @@ import {FormsService} from '../../../../shared/services/forms.service';
 import {FormGroup} from '@angular/forms';
 import {NpaService} from '../../../../shared/components/hmcts-annotation-ui-lib/data/npa.service';
 import {IDocumentTask} from '../../../../shared/components/hmcts-annotation-ui-lib/data/document-task.model';
+import {ApiHttpService} from '../../../../shared/components/hmcts-annotation-ui-lib/data/api-http.service';
+import {AnnotationStoreService} from '../../../../shared/components/hmcts-annotation-ui-lib/data/annotation-store.service';
+import {ViewerFactoryService} from '../../../../shared/components/document-viewer/viewers/viewer-factory.service';
 
 @Component({
     selector: 'app-check-decision',
@@ -28,7 +31,10 @@ export class CheckDecisionComponent implements OnInit {
                  private router: Router,
                  private decisionService: DecisionService,
                  private formsService: FormsService,
-                 private npaService: NpaService) {}
+                 private npaService: NpaService,
+                 private apiHttpService: ApiHttpService,
+                 private annotationStoreService: AnnotationStoreService,
+                 private viewerFactoryService: ViewerFactoryService) {}
     createForm(pageitems, pageValues) {
         this.form = new FormGroup(this.formsService.defineformControls(pageitems, pageValues));
     }
@@ -51,6 +57,8 @@ export class CheckDecisionComponent implements OnInit {
         const caseId = this.case.id;
         const pageId = 'check';
         const jurId = 'fr';
+        this.burnAnnotatedDocument();
+
         this.decisionService.fetch(jurId, caseId, pageId).subscribe(decision => {
             this.decision = decision;
             this.pageitems = this.decision.meta;
@@ -65,6 +73,9 @@ export class CheckDecisionComponent implements OnInit {
         const event = this.form.value.createButton.toLowerCase();
         delete this.form.value.createButton;
         this.request = { formValues: this.pageValues, event: event };
+        if (this.npaDocumentTask.outputDocumentId) {
+            this.request.formValues.documentAnnotationId = this.npaDocumentTask.outputDocumentId;
+        }
         console.log("Submitting properties =>", this.pageitems.name, this.request);
         this.decisionService.submitDecisionDraft('fr',
             this.activatedRoute.snapshot.parent.data.caseData.id,

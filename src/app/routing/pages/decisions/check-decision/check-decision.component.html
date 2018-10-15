@@ -3,10 +3,12 @@
 <div class="jui-width-container">
     <main class="govuk-main-wrapper" role="main">
         <div class="govuk-grid-row">
-            <button (click)="burnAnnotatedDocument()">Get annotated PDF</button>
+            <!--<button (click)="burnAnnotatedDocument()">Get annotated PDF</button>-->
             <p *ngIf="npaDocumentTask">Job: {{npaDocumentTask.taskState}}: new doc ID= {{npaDocumentTask.outputDocumentId}}</p>
+
             <div *ngIf="pageitems" class="govuk-grid-column-two-thirds">
                 <h1 class="govuk-heading-xl">{{pageitems.header}}</h1>
+
                 <form *ngIf="pageitems" [formGroup]="form" (ngSubmit)="onSubmit()">
                     <ng-container *ngFor="let group of pageitems.groups; let Index = index">
                         <ng-container *ngIf="isSectionExist">
