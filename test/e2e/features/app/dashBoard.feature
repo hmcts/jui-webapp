@@ -15,7 +15,7 @@ Feature: Dashboard
         Then I will be redirected to the Case Summary page for that case type
         Examples:
         |type|
-        |PIP|
+#        |PIP|
         |Divorce|
 
 

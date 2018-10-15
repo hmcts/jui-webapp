@@ -12,7 +12,11 @@ Feature: View Case Summary Page
         Then I should expect the url to "match" "(.+)/viewcase/(.+)/summary"
 
     @RIUI_299 @all
-    Scenario: I can see case summary and panel members information
-        Then I should see case details of that case type
-        Then I should see linked cases or panel members details for that case type
+    Scenario Outline: I can see case summary and panel members information
+        Then I should see case details of that case <type>
+        Then I should see linked cases or panel members details for that case <type>
+        Examples:
+        |type|
+        |Divorce|
+#        |PIP    |
 
