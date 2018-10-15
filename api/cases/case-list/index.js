@@ -28,8 +28,8 @@ const jurisdictions = [
     {
         jur: 'DIVORCE',
         caseType: 'FinancialRemedyMVP2',
-        filter: ''
-    }
+        filter: '&state=referredToJudge'
+    },
     // {
     //     jur: 'CMC',
     //     caseType: 'MoneyClaimCase',
