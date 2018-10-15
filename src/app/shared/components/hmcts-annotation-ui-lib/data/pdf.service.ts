@@ -42,14 +42,16 @@ export class PdfService {
         this.RENDER_OPTIONS = RENDER_OPTIONS;
     }
 
-    render(viewerElementRef: ElementRef) {
-        this.viewerElementRef = viewerElementRef;
+    render(viewerElementRef?: ElementRef) {
+        if (viewerElementRef != null) {
+            this.viewerElementRef = viewerElementRef;
+        }
         PDFJS.workerSrc = '/public/javascripts/pdf.worker.js';
         PDFJS.getDocument(this.RENDER_OPTIONS.documentId)
             .then(pdf => {
                 this.RENDER_OPTIONS.pdfDocument = pdf;
 
-                const viewer = viewerElementRef.nativeElement;
+                const viewer = this.viewerElementRef.nativeElement;
                 viewer.innerHTML = '';
                 const NUM_PAGES = pdf.pdfInfo.numPages;
                 for (let i = 0; i < NUM_PAGES; i++) {
