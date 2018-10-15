@@ -69,11 +69,12 @@ defineSupportCode(function({ Given, When, Then }) {
                 .to
                 .eventually
                 .equal("Case details");
-            await expect(caseSummaryPage.caseDetails_header_text.get(1)
-                .getText())
-                .to
-                .eventually
-                .equal("Related cases");
+            // This is only true if it FR not SSCS or DIV
+            // await expect(caseSummaryPage.caseDetails_header_text.get(1)
+            //     .getText())
+            //     .to
+            //     .eventually
+            //     .equal("Related cases");
 
     });
 
