@@ -54,3 +54,5 @@ reports/
 
 reports_json/
 .nyc_output/
+
+\.vscode/tasks\.json

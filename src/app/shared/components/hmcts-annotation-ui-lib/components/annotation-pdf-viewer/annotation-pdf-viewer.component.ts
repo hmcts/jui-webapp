@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ElementRef, Inject, Input} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef, Inject, Input, ChangeDetectorRef} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {PdfService} from '../../data/pdf.service';
 import {AnnotationStoreService} from '../../data/annotation-store.service';
@@ -24,8 +24,11 @@ export class AnnotationPdfViewerComponent implements OnInit {
     renderedPages: {};
     page: number;
     tool: string;
-
+    showToolbar: boolean;
+    toolPos;
+    
     @ViewChild('contentWrapper') contentWrapper: ElementRef;
+    @ViewChild('contextualToolbar') contextualToolbar: ElementRef;
 
     constructor(private pdfService: PdfService,
                 private npaService: NpaService,
@@ -37,6 +40,7 @@ export class AnnotationPdfViewerComponent implements OnInit {
     ngOnInit() {
         this.loadAnnotations(this.annotate);
 
+        this.showToolbar = false;
         this.pdfService.preRun();
         this.pdfService.setRenderOptions({
             documentId: this.url,
@@ -48,7 +52,8 @@ export class AnnotationPdfViewerComponent implements OnInit {
         this.renderedPages = {};
         this.pdfService.render();
         this.tool = 'highlight';
-
+        
+        this.pdfService.setHighlightTool();
         this.pdfService.getPageNumber().subscribe(page => this.page = page);
     }
 
@@ -70,12 +75,30 @@ export class AnnotationPdfViewerComponent implements OnInit {
                 if (pageNumber != null) {
                     this.pdfService.setPageNumber(parseInt(pageNumber));
                     break;
-                }
-                ;
+                };
                 currentParent = currentParent.parentNode;
             }
         }
-        this.tool = 'cursor';
+        if(event.view.getSelection().anchorNode.firstChild) {
+            this.showToolbar = true;
+            const annotationId = event.view.getSelection().anchorNode.firstElementChild.id.substring(26);
+            this.renderToolBar(annotationId);
+        }else{
+            this.showToolbar = false;
+        }
+    }
+
+    renderToolBar(annotationId) {
+        this.annotationStoreService.getAnnotationById(annotationId).then(
+            annotation => {
+                const rect = annotation.rectangles[0];
+                const xPos = rect.x + (rect.width/2);
+                const yPos = rect.y;
+                this.toolPos = {
+                    xPos,
+                    yPos
+                };
+            });
     }
 
     handlePdfScroll(event) {

@@ -78,8 +78,11 @@ export class PdfAdapter {
         };
 
         const getAnnotation = (documentId, annotationId) => {
-            return new Promise(function (resolve, reject) {
-                resolve(this.data.comments);
+            return new Promise((resolve, reject) => {
+                const annotation = this._getAnnotations(documentId).find(function (i) {
+                    return i.id === annotationId;
+                });
+                resolve(annotation);
             });
         };
 
