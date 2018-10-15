@@ -207,7 +207,7 @@
         {
             "id": 1536577824150765,
             "jurisdiction": "DIVORCE",
-            "state": "caseAdded",
+            "state": "referredToJudge",
             "case_type_id": "FinancialRemedyMVP2",
             "created_date": "2018-09-10T11:10:24.102",
             "last_modified": "2018-09-10T11:10:24.102",

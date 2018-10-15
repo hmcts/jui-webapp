@@ -13,21 +13,21 @@ const jurisdictions = [
     {
         jur: 'DIVORCE',
         caseType: 'DIVORCE',
-        role: 'DIVORCE',
+        roles: 'caseworker-divorce-divorce-judiciary',
         filter: '',
         label: 'Divorce'
     },
     {
         jur: 'SSCS',
         caseType: 'Benefit',
-        role: 'SSCS',
+        roles: 'caseworker-sscs-benefit-judiciary',
         filter: '&state=appealCreated&case.appeal.benefitType.code=PIP',
         label: 'SSCS'
     },
     {
         jur: 'DIVORCE',
         caseType: 'FinancialRemedyMVP2',
-        role: 'FinancialRemedy',
+        roles: ['caseworker-divorce-financialremedy-judiciary'],
         filter: '',
         label: 'Financial remedy'
     },
@@ -239,24 +239,6 @@ function getParams(req) {
     };
 }
 
-function getJurisdictionDetails(jurisdictionList, jurCaseType) {
-    console.log('getJurisdictionDetails', jurisdictions, jurCaseType);
-    let arrJurCaseType = jurCaseType.split('-');
-    let jur = arrJurCaseType[0];
-    let caseType = arrJurCaseType[1];
-    return jurisdictionList.filter(jurisdiction1 => jurisdiction1.jur.toLowerCase() === jur.toLowerCase()
-        && jurisdiction1.role.toLowerCase() === caseType.toLowerCase());
-}
-
-function getMatchingJurisdictions(details, jurisdictions) {
-    let rolesAsJudge = details.roles.filter(role => role.toLowerCase().includes('judge'));
-    if (rolesAsJudge !== undefined && rolesAsJudge.length > 0) {
-        let jurisdictionList = rolesAsJudge.map(role => role.split('_')[0] + '-' + role.split('_')[1]);
-        return jurisdictionList.map(jurCaseType => getJurisdictionDetails(jurisdictions, jurCaseType));
-    }
-    return [];
-}
-
 function filterAssignedCases(cases) {
     return cases[0].filter(row => !row.case_data.assignedToJudge);
 }
@@ -288,7 +270,7 @@ function assignToJudge(userId, awaitingJuiRespCases, options) {
         return postCCDEvent(userId, jurisdiction, caseType, caseId, options);
 
     }). catch(err => {
-        console.log("error >>" , err);
+        console.log("post CCD Event error >>" , err);
     });
 }
 
@@ -331,10 +313,8 @@ module.exports = app => {
         const params = getParams(req);
         const selectedJurisdiction = jurisdictions.filter(entry => entry.jur === selectedJur && entry.caseType === selectedCaseType);
 
-        ((selectedJurisdiction && selectedJurisdiction.length > 0) ?
-            getNewCase(userId, selectedJurisdiction, options) :
-            getMutiJudCCDCases(userId, jurisdictions, options))
-            .then(caseLists => getNewCase(userId, selectedJurisdiction, options, caseLists))
+        ((selectedJurisdiction && selectedJurisdiction.length > 0) ? getNewCase(userId, selectedJurisdiction, options)
+            : getMutiJudCCDCases(userId, jurisdictions, options))
             .then(caseLists => appendCOR(caseLists, options))
             .then(caseLists => appendQuestionsRound(caseLists, userId, options))
             .then(processState)
@@ -357,8 +337,7 @@ module.exports = app => {
     });
     router.get('/jurisdictions', (req, res, next) => {
         getUserDetails(getParams(req))
-            .then(details => getMatchingJurisdictions(details, jurisdictions))
-            .then(combineLists)
+            .then(details => getUserJurisdictions(details, jurisdictions))
             .then(jurisdictionList => {
                 console.log("roles   ..........", jurisdictionList);
                 res.setHeader('Access-Control-Allow-Origin', '*');
