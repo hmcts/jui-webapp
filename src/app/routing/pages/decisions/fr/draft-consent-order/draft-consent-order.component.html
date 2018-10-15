@@ -4,7 +4,7 @@
         <div class="govuk-grid-column-two-thirds">
             <h1 *ngIf="pageitems" class="govuk-heading-xl">{{pageitems.header}}</h1>
             <app-document-viewer *ngIf="consentDocumentUrl" [url]="consentDocumentUrl" baseUrl="/api" [annotate]="allowAnnotations"></app-document-viewer>
-
+            <p> </p>
             <form *ngIf="pageitems" [formGroup]="draftConsentOrderForm" (ngSubmit)="onSubmit()">
                 <button class="govuk-button" type="submit">Continue</button>
             </form>

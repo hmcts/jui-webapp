@@ -24,6 +24,7 @@ export class CheckDecisionComponent implements OnInit {
     isSectionExist: boolean = true;
     consentOrderDocumentId: string;
     // will hold results of NPA
+    annotations: any = null;
     npaDocumentTask: IDocumentTask;
 
     @Input() pageitems;
@@ -33,8 +34,7 @@ export class CheckDecisionComponent implements OnInit {
                  private formsService: FormsService,
                  private npaService: NpaService,
                  private apiHttpService: ApiHttpService,
-                 private annotationStoreService: AnnotationStoreService,
-                 private viewerFactoryService: ViewerFactoryService) {}
+                 private annotationStoreService: AnnotationStoreService) {}
     createForm(pageitems, pageValues) {
         this.form = new FormGroup(this.formsService.defineformControls(pageitems, pageValues));
     }
@@ -57,7 +57,18 @@ export class CheckDecisionComponent implements OnInit {
         const caseId = this.case.id;
         const pageId = 'check';
         const jurId = 'fr';
-        this.burnAnnotatedDocument();
+
+        console.log('docId=>', this.consentOrderDocumentId);
+
+       this.annotationStoreService.fetchData('/api',this.consentOrderDocumentId).subscribe( (results) => {
+           this.annotations = results.body.annotations;
+           console.log('annotations => ', this.annotations);
+           //If document has bee annotated then burn new document
+
+           if ( this.annotations !== null ) {
+               this.burnAnnotatedDocument();
+           }
+       });
 
         this.decisionService.fetch(jurId, caseId, pageId).subscribe(decision => {
             this.decision = decision;

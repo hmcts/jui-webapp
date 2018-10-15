@@ -4,7 +4,6 @@
     <main class="govuk-main-wrapper" role="main">
         <div class="govuk-grid-row">
             <!--<button (click)="burnAnnotatedDocument()">Get annotated PDF</button>-->
-            <p *ngIf="npaDocumentTask">Job: {{npaDocumentTask.taskState}}: new doc ID= {{npaDocumentTask.outputDocumentId}}</p>
 
             <div *ngIf="pageitems" class="govuk-grid-column-two-thirds">
                 <h1 class="govuk-heading-xl">{{pageitems.header}}</h1>
@@ -23,6 +22,18 @@
                                                 <p *ngIf="detail.type === 'textarea'">{{pageValues[detail.control]}}</p>
                                                 <p *ngIf="detail.type === 'input'">{{pageValues[detail.control]}}</p>
                                                 <p *ngIf="detail.type === 'checkbox'">{{detail[pageValues[detail.control]]}}</p>
+                                                <div *ngIf="detail.type === 'comment' && annotations">
+                                                    <ng-container *ngIf="annotations">
+                                                        <ng-container *ngFor="let annotation of annotations; let annI = index">
+                                                            <ng-container *ngIf="annotation.comments">
+                                                                <ul *ngFor="let comment of annotation.comments; let commI = index">
+                                                                    <li>{{comment.content}}</li>
+                                                                </ul>
+                                                            </ng-container>
+                                                        </ng-container>
+                                                    </ng-container>
+                                                    <span class="govuk-hint" *ngIf="npaDocumentTask">New document ID is:<br> {{npaDocumentTask.outputDocumentId}}</span>
+                                                </div>
                                                 <ul *ngIf="detail.ul" class="item.ul.classes">
                                                     <ng-container *ngFor="let el of detail.ul.li; let l = index">
                                                         <li *ngIf="pageValues[el.control] === true && el.type === 'checkbox' && el['true']">{{el[pageValues[el.control]]}}</li>

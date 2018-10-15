@@ -381,6 +381,24 @@ module.exports = {
                     ]
                 },
                 {
+                    header: 'Comments on draft consent order',
+                    contents: [
+                        {
+                            title: 'Comments',
+                            details: [
+                                {
+                                    type: 'comment'
+                                }
+                            ],
+                            link: {
+                                text: 'Change',
+                                event: 'draft-consent-order',
+                                hiddenAccessibilityText: 'draft-consent-order'
+                            }
+                        }
+                    ]
+                },
+                {
                     header: 'Hearing details',
                     contents: [
                         {
