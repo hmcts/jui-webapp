@@ -5,7 +5,6 @@ var dashBoardPage = require('../../pages/dashBoardPage');
 var { defineSupportCode } = require('cucumber');
 
 const config = require('../../../config/conf.js');
-// const config = require('../../../config/saucelabs.conf.js');
 const EC = protractor.ExpectedConditions;
 
 defineSupportCode(function({ Given, When, Then }) {
@@ -26,8 +25,8 @@ defineSupportCode(function({ Given, When, Then }) {
 
 
     Given(/^I am logged into JUI web app$/, async function() {
-        await loginPage.emailAddress.sendKeys("juitestuser2@gmail.com");
-        await loginPage.password.sendKeys("Monday01");
+        await loginPage.emailAddress.sendKeys(this.config.username);
+        await loginPage.password.sendKeys(this.config.password);
         browser.sleep(5000);
         await loginPage.signinBtn.click();
         browser.sleep(2000);

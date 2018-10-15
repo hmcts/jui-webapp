@@ -43,6 +43,54 @@ const config = {
 
         }
 
+        // {
+//     browserName: 'chrome',
+//     name: 'MAC_CHROME_LATEST',
+//     platform: 'macOS 10.13',
+//     version: 'latest',
+//     'tunnel-identifier': 'reformtunnel'
+//         // shardTestFiles: true,
+//         // maxInstances: 1
+//
+// },
+
+
+// {
+//     browserName: 'firefox',
+//     name: 'WIN_FIREFOX_LATEST',
+//     platform: 'Windows 10',
+//     version: 'latest',
+//     'tunnel-identifier': 'reformtunne',
+//     shardTestFiles: true,
+//     maxInstances: 1
+//
+// },
+//
+// {
+//     browserName: 'firefox',
+//     name: 'MAC_FIREFOX_LATEST',
+//     platform: 'macOS 10.13',
+//     version: 'latest',
+//     'tunnel-identifier': 'reformtunne',
+//     shardTestFiles: true,
+//     maxInstances: 1
+// }
+//
+
+
+// {
+//     'browserName': 'internet explorer',
+//     'platform': 'Windows 10',
+//     'version': '11.103',
+//     'name': ‘JUI-IE-TEST',
+// 'tunnel-identifier': 'reformtunnel',
+//     'extendedDebugging': true,
+//     'shardTestFiles': true,
+//     'maxInstances': 2
+//
+// }
+//
+
 
     ],
 
