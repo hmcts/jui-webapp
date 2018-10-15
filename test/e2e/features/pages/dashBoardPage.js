@@ -24,18 +24,7 @@ function dashBoardPage() {
     this.your_cases = element(by.css('span.govuk-heading-m'));
 
 
-    this.select_first_case_number = function() {
-        this.case_number_links.first().click();
-    };
 
-    this.verify_case_summary_page = function() {
-        this.select_first_case_number();
-        expect(browser.driver.getCurrentUrl()).to.eventually.equal('');
-    };
-
-    this.get_a_case_num = function() {
-        this.case_number_links.first().getText();
-    };
 
 
 }
