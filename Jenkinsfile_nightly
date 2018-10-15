@@ -37,7 +37,7 @@ withNightlyPipeline(type, product, component) {
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
 
-    enableCrossBrowserTest()
+    enableCrossBrowserTest(120)
 
     after('crossBrowserTest') {
             steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
