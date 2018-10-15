@@ -18,7 +18,7 @@ const cohState = {
     when(context) {
         const hearingData = context.caseData.hearingData;
         const hearingState = (hearingData) ? hearingData.current_state.state_name : undefined;
-        return context.ccdCohStateCheck && hearingState && hearingState === CONSTANTS.COH_STATE;
+        return context.ccdCohStateCheck && hearingState && hearingState === CONSTANTS.STATE.COH_STATE;
     },
     then(context) {
         context.cohStateCheck = true;
@@ -36,18 +36,18 @@ const questionState = {
     },
     then(context) {
         const questionRound = context.caseData.questionRoundData;
-        context.outcome = createCaseState(questionRound.questions[0].state, questionRound.questions[0].state_datetime, CONSTANTS.QUESTIONS_GO_TO);
+        context.outcome = createCaseState(questionRound.questions[0].state, questionRound.questions[0].state_datetime, CONSTANTS.GO_TO.QUESTIONS_GO_TO);
     }
 };
 
 const deadlineElapsed = {
     when(context) {
         const questionRound = context.caseData.questionRoundData;
-        return context.cohStateCheck && questionRound && questionRound.state === CONSTANTS.Q_DEADLINE_ELAPSED_STATE;
+        return context.cohStateCheck && questionRound && questionRound.state === CONSTANTS.STATE.Q_DEADLINE_ELAPSED_STATE;
     },
     then(context) {
         const questionRound = context.caseData.questionRoundData;
-        context.outcome = createCaseState(CONSTANTS.Q_DEADLINE_ELAPSED_STATE, questionRound.questions[0].state_datetime, CONSTANTS.QUESTIONS_GO_TO);
+        context.outcome = createCaseState(CONSTANTS.STATE.Q_DEADLINE_ELAPSED_STATE, questionRound.questions[0].state_datetime, CONSTANTS.GO_TO.QUESTIONS_GO_TO);
         context.stop = true;
     }
 };
@@ -55,12 +55,12 @@ const deadlineElapsed = {
 const deadlineExtensionExpired = {
     when(context) {
         const questionRound = context.caseData.questionRoundData;
-        const questionDeadlineElapsed = context.cohStateCheck && questionRound && questionRound.state === CONSTANTS.Q_DEADLINE_ELAPSED_STATE;
+        const questionDeadlineElapsed = context.cohStateCheck && questionRound && questionRound.state === CONSTANTS.STATE.Q_DEADLINE_ELAPSED_STATE;
         return questionDeadlineElapsed && questionRound.deadline_extension_count > 0;
     },
     then(context) {
         const questionRound = context.caseData.questionRoundData;
-        context.outcome = createCaseState(CONSTANTS.Q_DEADLINE_EXT_ELAPSED_STATE, questionRound.questions[0].state_datetime, CONSTANTS.QUESTIONS_GO_TO);
+        context.outcome = createCaseState(CONSTANTS.STATE.Q_DEADLINE_EXT_ELAPSED_STATE, questionRound.questions[0].state_datetime, CONSTANTS.GO_TO.QUESTIONS_GO_TO);
         context.stop = true;
     }
 };
@@ -69,11 +69,11 @@ const cohDecisionState = {
     when(context) {
         const hearingData = context.caseData.hearingData;
         // TODO add check for ccd-state as well
-        return hearingData && hearingData.current_state && hearingData.current_state.state_name === CONSTANTS.DECISION_ISSUED_STATE;
+        return hearingData && hearingData.current_state && hearingData.current_state.state_name === CONSTANTS.STATE.DECISION_ISSUED_STATE;
     },
     then(context) {
         const hearingData = context.caseData.hearingData;
-        context.outcome = createCaseState(CONSTANTS.DECISION_ISSUED_STATE, hearingData.current_state.state_datetime, '');
+        context.outcome = createCaseState(CONSTANTS.STATE.DECISION_ISSUED_STATE, hearingData.current_state.state_datetime, '');
 
         context.stop = true;
     }
@@ -83,22 +83,22 @@ const cohRelistState = {
     when(context) {
         const hearingData = context.caseData.hearingData;
         // TODO add check for ccd-state as well
-        return hearingData && hearingData.current_state && hearingData.current_state.state_name === CONSTANTS.RELISTED_STATE;
+        return hearingData && hearingData.current_state && hearingData.current_state.state_name === CONSTANTS.STATE.RELISTED_STATE;
     },
     then(context) {
         const hearingData = context.caseData.hearingData;
-        context.outcome = createCaseState(CONSTANTS.RELISTED_STATE, hearingData.current_state.state_datetime, '');
+        context.outcome = createCaseState(CONSTANTS.STATE.RELISTED_STATE, hearingData.current_state.state_datetime, '');
         context.stop = true;
     }
 };
 
 const referredToJudge = {
     when(context) {
-        return context.caseData.ccdState === CONSTANTS.REFER_TO_JUDGE;
+        return context.caseData.ccdState === CONSTANTS.STATE.REFER_TO_JUDGE_STATE;
     },
     then(context) {
         const consentOrder = context.caseData.consentOrder ? getDocId(context.caseData.consentOrder) : undefined;
-        context.outcome = createCaseState(context.caseData.ccdState, null, CONSTANTS.CASE_FILE_GO_TO, consentOrder);
+        context.outcome = createCaseState(context.caseData.ccdState, null, CONSTANTS.GO_TO.CASE_FILE_GO_TO, consentOrder);
     }
 };
 
@@ -145,7 +145,7 @@ module.exports = param => {
     };
 
     const processor = conditionProcessor.init(context);
-    stateConditions.forEach((condition) => {
+    stateConditions.forEach(condition => {
         if (!context.stop) {
             const result = processor.evaluate(condition.when);
             if (result) {

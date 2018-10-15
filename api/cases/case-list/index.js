@@ -44,7 +44,7 @@ function getJurisdictions(options) {
 }
 
 function hasCOR(caseData) {
-    return caseData.jurisdiction === 'SSCS';
+    return caseData.jurisdiction === SSCS_JUR;
 }
 
 function getCOR(casesData, options) {

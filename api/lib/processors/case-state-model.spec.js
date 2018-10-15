@@ -16,7 +16,7 @@ describe('Case State Process Engine', () => {
         const caseState = processCaseStateEngine(fact);
 
         expect(caseState.stateName).toEqual('awaitingPayment');
-        expect(caseState.actionGoTo).toEqual('');
+        expect(caseState.actionGoTo).toEqual('summary');
     });
 
     describe('COH states', () => {

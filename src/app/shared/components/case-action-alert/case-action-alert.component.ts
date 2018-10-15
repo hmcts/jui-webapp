@@ -17,6 +17,6 @@ export class CaseActionAlertComponent implements OnInit {
 
   ngOnInit() {
       this.state = this.status.name;
-      this.href = this.status.ID ? `../${this.status.actionGoTo}/${this.status.ID}` : this.status.actionGoTo;
+      this.href = this.status.ID ? `../${this.status.actionGoTo}/${this.status.ID}` : `../${this.status.actionGoTo}`;
   }
 }
