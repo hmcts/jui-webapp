@@ -174,16 +174,15 @@ withPipeline(type , product, component) {
             reportName           : 'AAT Functional Test'
         ])
     }
-
-    after('smoketest:prod'){
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/smoke_tests/functional/",
-            reportFiles          : 'index.html',
-            reportName           : 'PROD Smoke Test'
-        ])
-    }
-
+  
+//    after('smoketest:prod'){
+//        publishHTML([
+//            allowMissing         : true,
+//            alwaysLinkToLastBuild: true,
+//            keepAll              : true,
+//            reportDir            : "reports/smoke_tests/functional/",
+//            reportFiles          : 'index.html',
+//            reportName           : 'PROD Smoke Test'
+//        ])
+//    }
 }
