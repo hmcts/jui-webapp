@@ -24,8 +24,41 @@ defineSupportCode(function({ Given, When, Then }) {
 
     When(/^I select a case(.*)$/, async function(type) {
         browser.sleep(3000);
-        await dashBoardPage.case_number_links.first().click();
-        browser.sleep(5000);
+        if (type === 'PIP') {
+            dashBoardPage.case_links.first()
+                .getAttribute('href')
+                .then(function(attr) {
+                    console.log('test', attr);
+                    var re = new RegExp('(.+)/jurisdiction/SSCS/casetype/Benefit/viewcase/(.+)/summary').compile();
+                    expect(attr)
+                        .to
+                        .match(re);
+
+                    await
+                    dashBoardPage.case_number_links.first()
+                        .click();
+                    browser.sleep(5000);
+                });
+        }
+        else
+        {
+            dashBoardPage.case_links.first()
+                .getAttribute('href')
+                .then(function(attr) {
+                    console.log('test', attr);
+                    var re = new RegExp('(.+)/jurisdiction/DIVORCE/casetype/DIVORCE/viewcase/(.+)/summary').compile();
+                    expect(attr)
+                        .to
+                        .match(re);
+
+                    dashBoardPage.case_number_links.first()
+                        .click();
+
+        });
+
+        }
+
+
 
     });
 
@@ -33,6 +66,7 @@ defineSupportCode(function({ Given, When, Then }) {
 
 
     When(/^one or more cases (.*) are displayed$/, async function(type) {
+
 
         var no_of_types = dashBoardPage.type_links.count()
             .then(function(count) {
@@ -58,23 +92,55 @@ defineSupportCode(function({ Given, When, Then }) {
     });
 
 
-    Then(/^I will be redirected to the Case Summary page for that case$/, async function() {
-        browser.sleep(3000);
+    Then(/^I will be redirected to the Case Summary page for that case (.*)$/, async function(type) {
 
-        await expect(caseSummaryPage.caseSummary_header_text.isDisplayed()).to.eventually.be.true;
-        await expect(caseSummaryPage.caseSummary_header_text.getText()).to.eventually.equal("Summary");
+        if (type === 'PIP')
+
+        {
+            browser.sleep(3000);
+            await expect(caseSummaryPage.caseSummary_header_text.isDisplayed()).to.eventually.be.true;
+            await expect(caseSummaryPage.caseSummary_header_text.getText()).to.eventually.equal("Summary");
+            browser.sleep(3000);
 
             await expect(caseSummaryPage.caseDetails_header_text.first()
                 .getText())
                 .to
                 .eventually
                 .equal("Case details");
-            // This is only true if it FR not SSCS or DIV
-            // await expect(caseSummaryPage.caseDetails_header_text.get(1)
-            //     .getText())
-            //     .to
-            //     .eventually
-            //     .equal("Related cases");
+            await expect(caseSummaryPage.caseDetails_header_text.get(1)
+                .getText())
+                .to
+                .eventually
+                .equal("Panel members");
+
+
+        }
+      else
+        {
+            await expect(caseSummaryPage.caseDetails_header_text.first()
+                .getText())
+                .to
+                .eventually
+                .equal("Case details");
+
+            await expect(caseSummaryPage.caseDetails_header_text.get(1)
+                .getText())
+                .to
+                .eventually
+                .equal("Representatives");
+
+            await expect(caseSummaryPage.caseDetails_header_text.get(2)
+                .getText())
+                .to
+                .eventually
+                .equal("Linked cases");
+
+
+        }
+
+
+
+
 
     });
 
