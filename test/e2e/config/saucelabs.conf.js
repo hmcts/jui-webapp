@@ -2,7 +2,7 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 
 chai.use(chaiAsPromised);
-const tagProcessor = require('../support/tagProcessor');
+// const tagProcessor = require('../support/tagProcessor');
 const minimist = require('minimist');
 
 const argv = minimist(process.argv.slice(2));
@@ -104,7 +104,7 @@ const config = {
         require: ['../support/world.js', '../support/*.js', '../features/step_definitions/**/*.steps.js'],
         print: function () {
         },
-        tags: ''
+        tags: ['@all']
     },
 
 
@@ -149,6 +149,6 @@ const config = {
 
 
 };
-config.cucumberOpts.tags = tagProcessor(config, argv);
+// config.cucumberOpts.tags = tagProcessor(config, argv);
 
 exports.config = config;
