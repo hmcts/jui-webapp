@@ -71,20 +71,19 @@ async function approveDraft(req, state, store) {
             req.session.user,
             store.get(`decisions_${state.inCaseId}`)
         )
-
         logger.info('Payload assembled')
-        const response = await ccdStore.postCaseWithEventToken(
-            payload,
-            req.auth.userId,
-            'DIVORCE',
-            'FinancialRemedyMVP2',
-            state.inCaseId,
-            getOptions(req)
-        )
+        // const response = await ccdStore.postCaseWithEventToken(
+        //     payload,
+        //     req.auth.userId,
+        //     'DIVORCE',
+        //     'FinancialRemedyMVP2',
+        //     state.inCaseId,
+        //     getOptions(req)
+        // )
 
         return true
     } catch (exception) {
-        logger.error('Error getting case even token')
+        logger.error(exception)
         return false
     }
 }
@@ -168,16 +167,11 @@ async function handleStateRoute(req, res) {
         inCaseId,
         inStateId
     }
-
+    console.log(state.inStateId)
     const responseJSON = {}
 
     if (
-        responseAssert(
-            res,
-            responseJSON,
-            stateMeta[inJurisdiction],
-            'Input parameter route_id: uknown jurisdiction'
-        ) &&
+        responseAssert(res, responseJSON, stateMeta[inJurisdiction], 'Input parameter route_id: uknown jurisdiction') &&
         responseAssert(
             res,
             responseJSON,
@@ -196,21 +190,21 @@ async function handleStateRoute(req, res) {
         responseJSON.formValues = store.get(`decisions_${inCaseId}`) || {}
     }
 
-    if (state.inStateId === 'check') {
+    if (state.inStateId === 'post') {
         logger.info('Posting to CCD')
         await approveDraft(req, state, store)
         logger.info('Posted to CCD')
-        return
     } else {
-        console.log(req.headers.ServiceAuthorization)
-        console.log('########################')
-        console.log(req.auth)
-        console.log('########################')
-        console.log(state)
-        console.log('########################')
-        console.log(store.get(`decisions_${inCaseId}`))
-        console.log('########################')
+        logger.info(req.headers.ServiceAuthorization)
+        logger.info('########################')
+        logger.info(req.auth)
+        logger.info('########################')
+        logger.info(state)
+        logger.info('########################')
+        logger.info(store.get(`decisions_${inCaseId}`))
+        logger.info('########################')
     }
+
     req.session.save(() => res.send(JSON.stringify(responseJSON)))
 }
 

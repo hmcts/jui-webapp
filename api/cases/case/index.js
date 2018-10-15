@@ -85,18 +85,13 @@ module.exports = app => {
 
         getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId, getOptions(req))
             .then(([caseData, events, questions, hearings]) => {
-                caseData.questions = questions
-                    ? questions.sort((a, b) => a.question_round_number < b.question_round_number)
-                    : []
+                caseData.questions = questions ? questions.sort((a, b) => a.question_round_number < b.question_round_number) : []
                 caseData.events = events
 
                 const ccdState = caseData.state
-                const hearingData =
-                    hearings && hearings.online_hearings ? hearings.online_hearings[0] : undefined
+                const hearingData = hearings && hearings.online_hearings ? hearings.online_hearings[0] : undefined
                 const questionRoundData = caseData.questions
-                const consentOrder = caseData.case_data.consentOrder
-                    ? caseData.case_data.consentOrder
-                    : undefined
+                const consentOrder = caseData.case_data.consentOrder ? caseData.case_data.consentOrder : undefined
 
                 const caseState = processCaseStateEngine({
                     jurisdiction,
@@ -108,10 +103,8 @@ module.exports = app => {
                 })
                 caseData.state = caseState
 
-                const schema = JSON.parse(
-                    JSON.stringify(getCaseTemplate(caseData.jurisdiction, caseData.case_type_id))
-                )
-                console.log(caseData)
+                const schema = JSON.parse(JSON.stringify(getCaseTemplate(caseData.jurisdiction, caseData.case_type_id)))
+
                 if (schema.details) {
                     replaceSectionValues(schema.details, caseData)
                 }
@@ -146,9 +139,7 @@ module.exports = app => {
                 caseData.questions = questions
                 caseData.events = events
 
-                const schema = JSON.parse(
-                    JSON.stringify(getCaseTemplate(caseData.jurisdiction, caseData.case_type_id))
-                )
+                const schema = JSON.parse(JSON.stringify(getCaseTemplate(caseData.jurisdiction, caseData.case_type_id)))
                 if (schema.details) {
                     replaceSectionValues(schema.details, caseData)
                 }

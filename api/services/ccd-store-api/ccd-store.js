@@ -1,12 +1,17 @@
 const express = require('express')
 const config = require('../../../config')
 const generateRequest = require('../../lib/request')
+const log4js = require('log4js')
 
 const url = config.services.ccd_data_api
 
+const logger = log4js.getLogger('ccd-store')
+logger.level = config.logging
+
 // No need to pollute codebase with endless mock requests given that this differs minorly to the main request?
 // Do switch in one place
-// Don't check envromental strings all over code base , its a global dependency so should be set in one place https://eslint.org/docs/rules/no-process-env
+// Don't check envromental strings all over code base , its a global dependency so should be set in one place
+// https://eslint.org/docs/rules/no-process-env
 
 // TODO remove the CCD part
 
@@ -24,7 +29,6 @@ async function getEventTokenAndCase(userId, jurisdiction, caseType, caseId, even
 
 async function postCaseWithEventToken(payload, userId, jurisdiction, caseTypeId, caseId, options) {
     options.body = payload
-    console.log(payload)
     try {
         const response = await generateRequest(
             'POST',
@@ -33,10 +37,9 @@ async function postCaseWithEventToken(payload, userId, jurisdiction, caseTypeId,
             }/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseTypeId}/cases/${caseId}/events`,
             options
         )
-        console.log('okay')
         return response
     } catch (exception) {
-        console.log('ERROR', exception)
+        logger.error(`Error ${exception}`)
     }
     return false
 }
@@ -70,15 +73,7 @@ function getMutiJudCCDCases(userId, jurisdictions, options) {
     }
     const promiseArray = []
     jurisdictions.forEach(jurisdiction => {
-        promiseArray.push(
-            getCCDCases(
-                userId,
-                jurisdiction.jur,
-                jurisdiction.caseType,
-                jurisdiction.filter,
-                options
-            )
-        )
+        promiseArray.push(getCCDCases(userId, jurisdiction.jur, jurisdiction.caseType, jurisdiction.filter, options))
     })
 
     return Promise.all(promiseArray.map(handle)).then(results => {

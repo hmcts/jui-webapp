@@ -179,7 +179,8 @@ module.exports = {
                                 {
                                     value: 'no',
                                     text: 'No',
-                                    hiddenAccessibilityText: ', I don’t want to send an annotated version of the draft consent order to the parties'
+                                    hiddenAccessibilityText:
+                                        ', I don’t want to send an annotated version of the draft consent order to the parties'
                                 }
                             ]
                         }
@@ -264,12 +265,12 @@ module.exports = {
                                 {
                                     control: 'partiesNeedAttend',
                                     type: 'checkbox',
-                                    'true': 'The parties need to attend a hearing'
+                                    true: 'The parties need to attend a hearing'
                                 },
                                 {
                                     type: 'checkbox',
                                     control: 'NotEnoughInformation',
-                                    'true': 'Not enough information was supplied to decide if the order is fair:'
+                                    true: 'Not enough information was supplied to decide if the order is fair:'
                                 },
                                 {
                                     ul: {
@@ -278,36 +279,36 @@ module.exports = {
                                             {
                                                 type: 'checkbox',
                                                 control: 'capitalPositions',
-                                                'true': 'The parties’ capital positions if the order were to take effect'
+                                                true: 'The parties’ capital positions if the order were to take effect'
                                             },
                                             {
                                                 type: 'checkbox',
                                                 control: 'partiesHousingNeeds',
-                                                'true': 'The parties’ housing needs and whether they are met by the order'
+                                                true: 'The parties’ housing needs and whether they are met by the order'
                                             },
                                             {
                                                 type: 'checkbox',
                                                 control: 'justificationDeparture',
-                                                'true': 'The justification for departure from equality of capital'
+                                                true: 'The justification for departure from equality of capital'
                                             },
                                             {
                                                 type: 'checkbox',
                                                 control: 'partiesPensionProvision',
-                                                'true': 'The parties’ pension provision if the order were to take effect'
+                                                true: 'The parties’ pension provision if the order were to take effect'
                                             },
                                             {
                                                 type: 'checkbox',
                                                 control: 'childrensHousingNeeds',
-                                                'true': 'The children’s housing needs and whether they are met by the order'
+                                                true: 'The children’s housing needs and whether they are met by the order'
                                             },
                                             {
                                                 type: 'checkbox',
                                                 control: 'netEffectOrder',
-                                                'true': 'The net effect of the order'
+                                                true: 'The net effect of the order'
                                             },
                                             {
                                                 type: 'checkbox',
-                                                control: 'Other',
+                                                control: 'Other'
                                             },
                                             {
                                                 control: 'informationNeeded',
@@ -318,23 +319,23 @@ module.exports = {
                                 },
                                 {
                                     type: 'checkbox',
-                                    control:'orderNotAppearOfS25ca1973',
-                                    'true': 'The order doesn’t appear fair taking account of S25 Matrimonial Causes Act 1973'
+                                    control: 'orderNotAppearOfS25ca1973',
+                                    true: 'The order doesn’t appear fair taking account of S25 Matrimonial Causes Act 1973'
                                 },
                                 {
                                     type: 'checkbox',
-                                    control:'d81',
-                                    'true': 'The D81 form is incomplete'
+                                    control: 'd81',
+                                    true: 'The D81 form is incomplete'
                                 },
                                 {
                                     type: 'checkbox',
-                                    control:'pensionAnnex',
-                                    'true': 'The pension annex was not attached'
+                                    control: 'pensionAnnex',
+                                    true: 'The pension annex was not attached'
                                 },
                                 {
                                     type: 'checkbox',
-                                    control:'applicantTakenAdvice',
-                                    'true': 'It’s not clear if the applicant has taken independent legal advice'
+                                    control: 'applicantTakenAdvice',
+                                    true: 'It’s not clear if the applicant has taken independent legal advice'
                                 },
                                 {
                                     control: 'Reason',
@@ -554,7 +555,10 @@ module.exports = {
                 {
                     textarea: {
                         label: 'Any other hearing details (optional)',
-                        hint: { text: 'For example, if you need to hear the case. Or if you need to transfer either the financial remedy or entire divorce case to another court.' },
+                        hint: {
+                            text:
+                                'For example, if you need to hear the case. Or if you need to transfer either the financial remedy or entire divorce case to another court.'
+                        },
                         control: 'otherHearingDetails',
                         value: 'Other hearing details text'
                     }
@@ -569,4 +573,4 @@ module.exports = {
             ]
         }
     }
-};
+}
