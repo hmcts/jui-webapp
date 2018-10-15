@@ -186,11 +186,4 @@ withPipeline(type , product, component) {
         ])
     }
 
-
-
-
-
-
-
-
 }
