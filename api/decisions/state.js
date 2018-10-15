@@ -5,6 +5,7 @@ const ccdStore = require('../services/ccd-store-api/ccd-store')
 const express = require('express')
 const moment = require('moment')
 const stateMeta = require('./state_meta')
+const translateJson = require('./translate')
 const log4js = require('log4js')
 
 const logger = log4js.getLogger('State')
@@ -42,7 +43,108 @@ function perpareCaseForApproval(caseData, eventToken, eventId, user, store) {
     return payload
 }
 
-async function approveDraft(req, state, store) {
+function translate(store, fieldName) {
+    if (store[fieldName]) {
+        return translateJson.lookup[fieldName]
+    }
+    return null
+}
+
+function perpareCaseForRefusal(caseData, eventToken, eventId, user, store) {
+    let orderRefusal = []
+    let orderRefusalOther = null
+    let orderRefusalNotEnough = []
+    let orderRefusalNotEnoughOther = null
+    let estimateLengthOfHearing = null
+    let whenShouldHearingTakePlace = null
+    let whereShouldHearingTakePlace = null
+    let otherHearingDetails = null
+
+    /* eslint-disable-next-line id-blacklist */
+
+    orderRefusal.push(translate(store, 'orderNotAppearOfS25ca1973'))
+    orderRefusal.push(translate(store, 'd81'))
+    orderRefusal.push(translate(store, 'pensionAnnex'))
+    orderRefusal.push(translate(store, 'applicantTakenAdvice'))
+    orderRefusal.push(translate(store, 'respondentTakenAdvice'))
+
+    if (store.partiesNeedAttend) {
+        estimateLengthOfHearing = store.estimateLengthOfHearing
+        whenShouldHearingTakePlace = store.whenHearingPlaced
+        whereShouldHearingTakePlace = translate(store, 'whichCourt')
+        otherHearingDetails = store.otherHearingDetails
+    }
+
+    if (store.NotEnoughInformation) {
+        orderRefusalNotEnough.push(translate(store, 'capitalPositions'))
+        orderRefusalNotEnough.push(translate(store, 'partiesHousingNeeds'))
+        orderRefusalNotEnough.push(translate(store, 'justificationDeparture'))
+        orderRefusalNotEnough.push(translate(store, 'partiesPensionProvision'))
+        orderRefusalNotEnough.push(translate(store, 'childrensHousingNeeds'))
+        orderRefusalNotEnough.push(translate(store, 'netEffectOrder'))
+    }
+
+    orderRefusal = orderRefusal.filter(x => Boolean(x))
+    orderRefusalNotEnough = orderRefusalNotEnough.filter(x => Boolean(x))
+
+    if (orderRefusal.length === 0) {
+        orderRefusal = null
+    }
+
+    if (orderRefusalNotEnough.length === 0) {
+        orderRefusalNotEnough = null
+    }
+
+    if (store.other) {
+        orderRefusalNotEnoughOther = translate(store, 'informationNeeded')
+    }
+
+    if (store.other2) {
+        orderRefusalOther = translate(store, 'Reason')
+    }
+
+    const orderRefusalCollection = {
+        orderRefusalDate: moment(new Date()).format('YYYY-MM-DD'),
+        orderRefusalJudge: 'District Judge',
+        orderRefusalJudgeName: `${user.forename} ${user.surname} `,
+        orderRefusalAddComments: store.notesForAdmin
+    }
+
+    const checkList = {
+        orderRefusal,
+        orderRefusalOther,
+        orderRefusalNotEnough,
+        orderRefusalNotEnoughOther,
+        estimateLengthOfHearing,
+        whenShouldHearingTakePlace,
+        whereShouldHearingTakePlace,
+        otherHearingDetails
+    }
+
+    Object.entries(checkList).forEach(keyValue => {
+        logger.info('checking ', keyValue[0], ' with', keyValue[1])
+        if (keyValue[1]) {
+            orderRefusalCollection[keyValue[0]] = keyValue[1]
+        }
+    })
+
+    const payload = {
+        /* eslint-disable-next-line id-blacklist */
+        data: {
+            orderRefusalCollection
+        },
+        event: {
+            id: eventId
+        },
+        event_token: eventToken,
+
+        ignore_warning: true
+    }
+
+    return payload
+}
+
+async function makeDecision(decision, req, state, store) {
     let payload = {}
     let eventToken = {}
     let caseDetails = {}
@@ -50,12 +152,14 @@ async function approveDraft(req, state, store) {
     try {
         logger.info('Getting Event Token')
 
+        const event = decision === 'yes' ? 'FR_approveApplication' : 'FR_orderRefusal'
+
         const eventTokenAndCAse = await ccdStore.getEventTokenAndCase(
             req.auth.userId,
             'DIVORCE',
             'FinancialRemedyMVP2',
             state.inCaseId,
-            'FR_approveApplication',
+            event,
             getOptions(req)
         )
 
@@ -64,36 +168,52 @@ async function approveDraft(req, state, store) {
 
         logger.info(`Got token ${eventToken}`)
 
-        payload = perpareCaseForApproval(
-            caseDetails,
-            eventToken,
-            'FR_approveApplication',
-            req.session.user,
-            store.get(`decisions_${state.inCaseId}`)
-        )
+        if (decision === 'yes') {
+            payload = perpareCaseForApproval(
+                caseDetails,
+                eventToken,
+                'FR_approveApplication',
+                req.session.user,
+                store.get(`decisions_${state.inCaseId}`)
+            )
+        }
+
+        if (decision === 'no') {
+            payload = perpareCaseForRefusal(
+                caseDetails,
+                eventToken,
+                'FR_orderRefusal',
+                req.session.user,
+                store.get(`decisions_${state.inCaseId}`)
+            )
+        }
+
         logger.info('Payload assembled')
-        // const response = await ccdStore.postCaseWithEventToken(
-        //     payload,
-        //     req.auth.userId,
-        //     'DIVORCE',
-        //     'FinancialRemedyMVP2',
-        //     state.inCaseId,
-        //     getOptions(req)
-        // )
+        logger.info(JSON.stringify(payload))
+        await ccdStore.postCaseWithEventToken(
+            payload,
+            req.auth.userId,
+            'DIVORCE',
+            'FinancialRemedyMVP2',
+            state.inCaseId,
+            getOptions(req)
+        )
 
         return true
     } catch (exception) {
-        logger.error(exception)
+        console('error')
+        logger.error('Error', exception)
         return false
     }
 }
 
 /* eslint-disable-next-line complexity */
-function handlePostState(req, res, responseJSON, state) {
+async function handlePostState(req, res, responseJSON, state) {
     const store = new Store(req)
     const inCaseId = req.params.case_id
 
     const formValues = req.body.formValues
+    let result = false
 
     if (formValues) {
         store.set(`decisions_${inCaseId}`, formValues)
@@ -113,7 +233,18 @@ function handlePostState(req, res, responseJSON, state) {
                 responseJSON.newRoute = 'check'
                 break
             case 'check':
-                responseJSON.newRoute = 'decision-confirmation'
+                logger.info('Posting to CCD')
+
+                result = await makeDecision(store.get(`decisions_${inCaseId}`).approveDraftConsent, req, state, store)
+
+                logger.info('Posted to CCD', result)
+
+                if (result) {
+                    responseJSON.newRoute = 'decision-confirmation'
+                } else {
+                    res.status = '400'
+                    res.send('Error updating case')
+                }
                 break
             case 'reject-reasons':
                 if (formValues.includeAnnotatedVersionDraftConsOrder === 'yes') {
@@ -167,7 +298,7 @@ async function handleStateRoute(req, res) {
         inCaseId,
         inStateId
     }
-    console.log(state.inStateId)
+
     const responseJSON = {}
 
     if (
@@ -190,20 +321,14 @@ async function handleStateRoute(req, res) {
         responseJSON.formValues = store.get(`decisions_${inCaseId}`) || {}
     }
 
-    if (state.inStateId === 'post') {
-        logger.info('Posting to CCD')
-        await approveDraft(req, state, store)
-        logger.info('Posted to CCD')
-    } else {
-        logger.info(req.headers.ServiceAuthorization)
-        logger.info('########################')
-        logger.info(req.auth)
-        logger.info('########################')
-        logger.info(state)
-        logger.info('########################')
-        logger.info(store.get(`decisions_${inCaseId}`))
-        logger.info('########################')
-    }
+    // logger.info(req.headers.ServiceAuthorization)
+    // logger.info('########################')
+    // logger.info(req.auth)
+    // logger.info('########################')
+    // logger.info(state)
+    // logger.info('########################')
+    logger.info(store.get(`decisions_${inCaseId}`))
+    // logger.info('########################')
 
     req.session.save(() => res.send(JSON.stringify(responseJSON)))
 }

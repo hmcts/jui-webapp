@@ -16,6 +16,12 @@ logger.level = config.logging
 // TODO remove the CCD part
 
 async function getEventTokenAndCase(userId, jurisdiction, caseType, caseId, eventId, options) {
+    logger.info(
+        'postign to ',
+        `${
+            config.services.ccd_data_api
+        }/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/event-triggers/${eventId}/token`
+    )
     const response = await generateRequest(
         'GET',
         `${
@@ -23,6 +29,7 @@ async function getEventTokenAndCase(userId, jurisdiction, caseType, caseId, even
         }/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/event-triggers/${eventId}/token`,
         options
     )
+    console.log('token ', response.token)
 
     return { token: response.token, caseDetails: response.case_details }
 }
