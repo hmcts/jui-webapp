@@ -328,10 +328,10 @@
   resolved "https://registry.yarnpkg.com/@hmcts/eslint-config/-/eslint-config-1.4.0.tgz#e713457cee3758a43394c2974913885aaae8a41b"
   integrity sha1-5xNFfO43WKQzlMKXSROIWqropBs=
 
-"@hmcts/frontend@0.0.11-alpha":
-  version "0.0.11-alpha"
-  resolved "https://registry.yarnpkg.com/@hmcts/frontend/-/frontend-0.0.11-alpha.tgz#cdee2010d53d4d89aaa0949d0bc0b1aaf0963eb5"
-  integrity sha512-FzTLHU4XRohLyvWZfumZI8YK2lWD2o5fxfiNu9YyKvzRZes8gaCPYMa/yy4EC+Oiur1rbhqU5xMquTSyJ5A1ww==
+"@hmcts/frontend@0.0.14-alpha":
+  version "0.0.14-alpha"
+  resolved "https://registry.yarnpkg.com/@hmcts/frontend/-/frontend-0.0.14-alpha.tgz#ebd5a8e85bf11a0473f02398ecece3321cf82953"
+  integrity sha512-gRaSJgF41A7SyL87nwf9dU/nFrB4OPT/xz4CwtJkkaxX0cLjUiAiNGr3ti6wLEaHviCh5Jjw8i5kMHWm9bGBFw==
 
 "@hmcts/info-provider@^1.0.0":
   version "1.0.0"
