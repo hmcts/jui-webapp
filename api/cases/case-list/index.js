@@ -102,12 +102,14 @@ function processState(caseLists) {
                 const ccdState = caseRow.state;
                 const hearingData = caseRow.hearing_data ? caseRow.hearing_data.hearing : undefined;
                 const questionRoundData = hearingData ? caseRow.hearing_data.latest_question_round : undefined;
-                const consentOrder = caseRow.case_data.consentOrder ? caseRow.case_data.consentOrder : undefined
+                const consentOrder = caseRow.case_data.consentOrder ? caseRow.case_data.consentOrder : undefined;
+                const hearingType = caseRow.case_data.appeal ? caseRow.case_data.appeal.hearingType : undefined;
 
                 const caseState = processCaseStateEngine({
                     jurisdiction,
                     caseType,
                     ccdState,
+                    hearingType,
                     hearingData,
                     questionRoundData,
                     consentOrder
@@ -161,6 +163,7 @@ function rawCasesReducer(cases, columns) {
 }
 
 function convertCaselistToTemplate(caseLists) {
+
     return caseLists.map(
         caselist => {
             if (caselist && caselist.length) {

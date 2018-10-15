@@ -2,9 +2,10 @@ const { CONSTANTS, createCaseState, getDocId } = require('./case-state-util');
 
 const CCD_STATE = {
     when(context) {
-        // don't know yet what would CCD state like for COH
-        // context.caseData.ccdState === 'continuous_online_hearing_started'??;
         // TODO add check for ccd-state
+        // add check context.caseData.hearingType === 'online hearing' OR
+        // check context.caseData.hearingType === 'cor'
+        // either of the above. Need to confirm with CCD.
         return true;
     },
     then(context) {
