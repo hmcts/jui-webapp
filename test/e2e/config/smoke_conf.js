@@ -18,7 +18,6 @@ const jenkinsConfig = [
         browserName: 'chrome',
         acceptInsecureCerts: true,
         nogui: true,
-
         chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote ', '--disableChecks' ] }
      }
 ];
@@ -86,7 +85,7 @@ const config = {
         strict: true,
         // format: ['node_modules/cucumber-pretty'],
         format: 'json:reports_json/results.json',
-        tags: ['@all'],
+        tags: ['@smoke'],
         require: [
             '../support/world.js',
             '../support/*.js',
@@ -102,8 +101,8 @@ const config = {
                 removeExistingJsonReportFile: true,
                 reportName: 'JUI Functional Tests',
                 // openReportInBrowser: true,
-                jsonDir: 'reports/tests/functional',
-                reportPath: 'reports/tests/functional'
+                jsonDir: 'reports/smoke_tests/functional',
+                reportPath: 'reports/smoke_tests/functional'
             }
         }
     ]
