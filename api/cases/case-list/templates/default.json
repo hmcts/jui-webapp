@@ -19,7 +19,7 @@
         {
             "label": "Decision needed on",
             "case_field_id": "status",
-            "value": "$.status"
+            "value": "$.state"
 
         },
         {

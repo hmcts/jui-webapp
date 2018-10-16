@@ -143,13 +143,11 @@ function processState(caseLists) {
                 const questionRoundData = hearingData ? caseData.hearing_data.latest_question_round : undefined;
 
                 const consentOrder = caseData.case_data.consentOrder ? caseData.case_data.consentOrder : undefined;
-                const hearingType = caseData.case_data.appeal ? caseData.case_data.appeal.hearingType : undefined;
 
                 const caseState = processCaseStateEngine({
                     jurisdiction,
                     caseType,
                     ccdState,
-                    hearingType,
                     hearingData,
                     questionRoundData,
                     consentOrder
@@ -230,19 +228,17 @@ module.exports = app => {
         const userId = req.auth.userId;
         const options = getOptions(req);
 
-        getUserDetails(options).then(
-            details => {
+        getUserDetails(options)
+            .then( details => {
                 const userJurisdictions = getJurisdictions(details);
-                console.dir(userJurisdictions);
 
                 getMutiJudCCDCases(userId, userJurisdictions, options)
                     .then(caseLists => appendCOR(caseLists, options))
                     .then(caseLists => appendQuestionsRound(caseLists, userId, options))
                     .then(processState)
-                    // .then(applyStateFilter)
+                    .then(applyStateFilter)
                     .then(convertCaselistToTemplate)
                     .then(combineLists)
-                    // .then(caseLists => applyAssignedToFilter(caseLists, userDetailsOptions))
                     .then(sortCases)
                     .then(aggregatedData)
                     .then(results => {
