@@ -1,6 +1,6 @@
-<div class="toolbar"
-    [style.left.px]="toolPos.xPos"
-    [style.top.px]="toolPos.yPos">
+<div [hidden]="!showToolbar" class="toolbar"
+    [style.left.px]="toolPos.left"
+    [style.top.px]="toolPos.top">
 
 
     <button class="highlight" type="button" title="Highlight" data-tooltype="highlight"

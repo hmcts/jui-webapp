@@ -1,4 +1,4 @@
-import {Component, ElementRef, Input, OnChanges, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Input, OnChanges, OnInit, ViewChild, ChangeDetectorRef} from '@angular/core';
 import {PdfService} from '../../data/pdf.service';
 import {AnnotationStoreService} from '../../data/annotation-store.service';
 import {NpaService} from '../../data/npa.service';
@@ -14,8 +14,8 @@ export class ContextualToolbarComponent implements OnInit, OnChanges {
 
   @Input() dmDocumentId: string;
   @Input() tool: string;
-  @Input() toolPos;
-
+  toolPos;
+  showToolbar: boolean;
   outputDocumentId: string;
 
   constructor(private pdfService: PdfService,
@@ -25,14 +25,42 @@ export class ContextualToolbarComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
+    this.toolPos = {
+      left: 0,
+      top: 0
+    };
+
     this.npaService.outputDmDocumentId.subscribe(
       outputDocumentId => this.outputDocumentId = outputDocumentId
     );
   }
 
   ngOnChanges() {
-    console.log(this.toolPos);
     this.pdfService.setHighlightTool();
+  }
+
+  showToolBar(annotationId: string) {
+    const svg = document.querySelector(`g[data-pdf-annotate-id="${annotationId}"]`);
+    const highlightRect = <DOMRect>svg.getBoundingClientRect();
+
+    const wrapper = document.querySelector('#annotation-wrapper');
+    const wrapperRect = <DOMRect> wrapper.getBoundingClientRect();
+
+    const left = ((highlightRect.left - wrapperRect.left)
+     - 108) + highlightRect.width / 2; // Minus half the toolbar width + half the length of the highlight
+    const top = ((highlightRect.top - wrapperRect.top)
+     - 59) - 5; // Minus height of toolbar + 5px
+
+    this.toolPos = {
+      left,
+      top
+    };
+
+    this.showToolbar = true;
+  }
+
+  hideToolBar() {
+    this.showToolbar = false;
   }
 
   handleCommentClick() {
@@ -46,5 +74,4 @@ export class ContextualToolbarComponent implements OnInit, OnChanges {
   handleClearAnnotations() {
     this.annotationStoreService.clearAnnotations();
   }
-
 }
