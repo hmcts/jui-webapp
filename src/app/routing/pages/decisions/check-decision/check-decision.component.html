@@ -32,7 +32,7 @@
                                                             </ng-container>
                                                         </ng-container>
                                                     </ng-container>
-                                                    <span class="govuk-hint" *ngIf="npaDocumentTask">New document ID is:<br> {{npaDocumentTask.outputDocumentId}}</span>
+                                                    <!--<span class="govuk-hint" *ngIf="npaDocumentTask">New document ID is:<br> {{npaDocumentTask.outputDocumentId}}</span>-->
                                                 </div>
                                                 <ul *ngIf="detail.ul" class="item.ul.classes">
                                                     <ng-container *ngFor="let el of detail.ul.li; let l = index">
@@ -43,7 +43,7 @@
                                             </ng-container>
                                         </dd>
                                         <dd class="app-check-your-answers__change">
-                                            <a [routerLink]="['./../'+content.link.event]">{{content.link.text}}<span class="govuk-visually-hidden">{{content.link.hiddenAccessibilityText}}</span></a>
+                                            <a (click) = onSubmit(content.link.event) >{{content.link.text}}<span class="govuk-visually-hidden">{{content.link.hiddenAccessibilityText}}</span></a>
                                         </dd>
                                     </ng-container>
                                 </div>

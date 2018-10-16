@@ -80,7 +80,7 @@ export class CheckDecisionComponent implements OnInit {
             this.createForm(this.pageitems, this.pageValues) ;
         });
     }
-    onSubmit() {
+    onSubmit(pagename) {
         const event = this.form.value.createButton.toLowerCase();
         delete this.form.value.createButton;
         this.request = { formValues: this.pageValues, event: event };
@@ -90,13 +90,14 @@ export class CheckDecisionComponent implements OnInit {
         console.log("Submitting properties =>", this.pageitems.name, this.request);
         this.decisionService.submitDecisionDraft('fr',
             this.activatedRoute.snapshot.parent.data.caseData.id,
-            this.pageitems.name,
+            pagename,
             this.request)
             .subscribe(decision => {
                 console.log(decision.newRoute);
                 this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
             });
     }
+
     burnAnnotatedDocument() {
         if (this.consentOrderDocumentId != null) {
             // this will generate a new document each time it's called.
