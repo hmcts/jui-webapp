@@ -220,6 +220,10 @@ async function handlePostState(req, res, responseJSON, state) {
     }
 
     /* eslint-disable indent */
+    if (req.body.event === 'change') {
+        // the 'state' will be the page to change
+        responseJSON.newRoute = state.inStateId
+    }
     if (req.body.event === 'continue') {
         switch (state.inStateId) {
             case 'create':
@@ -270,6 +274,7 @@ async function handlePostState(req, res, responseJSON, state) {
         }
         // update meta data according to newly selected state
         if (responseJSON.newRoute) {
+
             responseJSON.meta = stateMeta[state.inJurisdiction][responseJSON.newRoute]
         }
     }
