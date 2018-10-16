@@ -9,6 +9,7 @@ function getHearing(hearingId, options) {
     return generateRequest('GET', `${url}/continuous-online-hearings/${hearingId}`, options);
 }
 
+//TODO: this need to know it if getting mutiple or single cases lists
 function getHearingByCase(caseId, options) {
     return generateRequest('GET', `${url}/continuous-online-hearings?case_id=${caseId}`, options);
 }
