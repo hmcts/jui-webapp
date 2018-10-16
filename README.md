@@ -5,16 +5,16 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/f5051f65ac7542fba73dc036d8e756a4)](https://www.codacy.com/app/HMCTS/rpa-jui-webapp)
 [![Known Vulnerabilities](https://snyk.io/test/github/hmcts/rpa-jui-webapp/badge.svg)](https://snyk.io/test/github/hmcts/rpa-jui-webapp)
 
-[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=jui-webapp&metric=bugs)](https://sonarcloud.io/dashboard?id=jui-webapp)
-[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=jui-webapp&metric=coverage)](https://sonarcloud.io/dashboard?id=jui-webapp)
-[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=jui-webapp&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=jui-webapp)
-[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=jui-webapp&metric=ncloc)](https://sonarcloud.io/dashboard?id=jui-webapp)
-[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=jui-webapp&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=jui-webapp)
-[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=jui-webapp&metric=alert_status)](https://sonarcloud.io/dashboard?id=jui-webapp)
-[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=jui-webapp&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=jui-webapp)
-[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=jui-webapp&metric=security_rating)](https://sonarcloud.io/dashboard?id=jui-webapp)
-[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=jui-webapp&metric=sqale_index)](https://sonarcloud.io/dashboard?id=jui-webapp)
-[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=jui-webapp&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=jui-webapp)
+[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=bugs)](https://sonarcloud.io/dashboard?id=rpa-jui-webapp)
+[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=coverage)](https://sonarcloud.io/dashboard?id=rpa-jui-webapp)
+[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=rpa-jui-webapp)
+[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=ncloc)](https://sonarcloud.io/dashboard?id=rpa-jui-webapp)
+[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=rpa-jui-webapp)
+[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=alert_status)](https://sonarcloud.io/dashboard?id=rpa-jui-webapp)
+[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=rpa-jui-webapp)
+[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=security_rating)](https://sonarcloud.io/dashboard?id=rpa-jui-webapp)
+[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=sqale_index)](https://sonarcloud.io/dashboard?id=rpa-jui-webapp)
+[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=rpa-jui-webapp)
 
 
 # Judaical UI Webapp
