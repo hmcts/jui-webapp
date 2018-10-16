@@ -16,12 +16,6 @@ logger.level = config.logging
 // TODO remove the CCD part
 
 async function getEventTokenAndCase(userId, jurisdiction, caseType, caseId, eventId, options) {
-    logger.info(
-        'postign to ',
-        `${
-            config.services.ccd_data_api
-        }/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/event-triggers/${eventId}/token`
-    )
     const response = await generateRequest(
         'GET',
         `${
@@ -29,26 +23,20 @@ async function getEventTokenAndCase(userId, jurisdiction, caseType, caseId, even
         }/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/event-triggers/${eventId}/token`,
         options
     )
-    console.log('token ', response.token)
 
     return { token: response.token, caseDetails: response.case_details }
 }
 
 async function postCaseWithEventToken(payload, userId, jurisdiction, caseTypeId, caseId, options) {
     options.body = payload
-    try {
-        const response = await generateRequest(
-            'POST',
-            `${
-                config.services.ccd_data_api
-            }/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseTypeId}/cases/${caseId}/events`,
-            options
-        )
-        return response
-    } catch (exception) {
-        logger.error(`Error ${exception}`)
-    }
-    return false
+
+    await generateRequest(
+        'POST',
+        `${
+            config.services.ccd_data_api
+        }/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseTypeId}/cases/${caseId}/events`,
+        options
+    )
 }
 
 function getCCDCase(userId, jurisdiction, caseType, caseId, options) {
