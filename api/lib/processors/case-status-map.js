@@ -8,7 +8,8 @@ module.exports = {
             question_drafted: 'Question drafted',
             continuous_online_hearing_decision_issued: 'Decision issued',
             question_deadline_extension_granted: 'Question deadline extension granted',
-            question_issued: 'Question issued'
+            question_issued: 'Question issued',
+            appealCreated: 'Appeal created'
         }
     },
     cmc: {

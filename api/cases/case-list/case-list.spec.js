@@ -23,7 +23,7 @@ fdescribe('case-list', () => {
 
         route = proxyquire('./index', {'../../lib/request': httpRequest,
             '../../services/ccd-store-api/ccd-store': { getMutiJudCCDCases: () => Promise.resolve(casesData) },
-            '../../services/coh-cor-api/coh-cor-api': { getOnlineHearing: () => Promise.resolve(onlineHearingData) },
+            '../../services/coh-cor-api/coh-cor-api': { getHearingByCase: () => Promise.resolve(onlineHearingData) },
             '../../services/idam-api/idam-api': { getUserDetails: () => Promise.resolve(userDetails) },
             '../../questions/question': { getAllQuestionsByCase: () => Promise.resolve([])}
         });

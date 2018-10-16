@@ -12,21 +12,21 @@ const { getHearingByCase } = require('../../services/coh-cor-api/coh-cor-api');
 const { getUserDetails } = require('../../services/idam-api/idam-api');
 
 const jurisdictions = [
-    {
-        jur: 'DIVORCE',
-        caseType: 'DIVORCE',
-        filter: ''
-    },
+    // {
+    //     jur: 'DIVORCE',
+    //     caseType: 'DIVORCE',
+    //     filter: ''
+    // },
     {
         jur: 'SSCS',
         caseType: 'Benefit',
         filter: '&state=appealCreated&case.appeal.benefitType.code=PIP'
     },
-    {
-        jur: 'DIVORCE',
-        caseType: 'FinancialRemedyMVP2',
-        filter: '&state=referredToJudge'
-    },
+    // {
+    //     jur: 'DIVORCE',
+    //     caseType: 'FinancialRemedyMVP2',
+    //     filter: '&state=referredToJudge'
+    // },
     // {
     //     jur: 'CMC',
     //     caseType: 'MoneyClaimCase',
@@ -44,11 +44,11 @@ function getJurisdictions(options) {
 }
 
 function hasCOR(caseData) {
-    return caseData.jurisdiction === SSCS_JUR;
+    return caseData.jurisdiction === 'SSCS';
 }
 
 function getCOR(casesData, options) {
-    const caseIds = casesData.map(caseRow => `${caseRow.id}`).join(',');
+    const caseIds = casesData.map(caseRow => `case_id=${caseRow.id}`).join('&');
     return new Promise(resolve => {
         if (hasCOR(casesData[0])) {
             getHearingByCase(caseIds, options)
@@ -120,7 +120,7 @@ function appendQuestionsRound(caseLists, userId, options) {
             hearingsWithQuestionData(caseList, userId, options).then(hearingsWithQuestionData => {
                 if (hearingsWithQuestionData) {
                     const caseStateMap = new Map(hearingsWithQuestionData.map(hearing_data => [Number(hearing_data.hearing.case_id), hearing_data]));
-                    caseList.forEach(caseRow => caseRow.hearing_data = caseStateMap.get(Number(caseRow.id)));
+                    caseList.forEach(caseData => caseData.hearing_data = caseStateMap.get(Number(caseData.id)));
                 }
                 resolve(caseList);
             });
@@ -133,14 +133,17 @@ function appendQuestionsRound(caseLists, userId, options) {
 function processState(caseLists) {
     return caseLists.map(
         caselist => {
-            caselist.map(caseRow => {
-                const jurisdiction = caseRow.jurisdiction;
-                const caseType = caseRow.case_type_id;
-                const ccdState = caseRow.state;
-                const hearingData = caseRow.hearing_data ? caseRow.hearing_data.hearing : undefined;
-                const questionRoundData = hearingData ? caseRow.hearing_data.latest_question_round : undefined;
-                const consentOrder = caseRow.case_data.consentOrder ? caseRow.case_data.consentOrder : undefined;
-                const hearingType = caseRow.case_data.appeal ? caseRow.case_data.appeal.hearingType : undefined;
+            caselist.map(caseData => {
+
+                const jurisdiction = caseData.jurisdiction;
+                const caseType = caseData.case_type_id;
+
+                const ccdState = caseData.state;
+                const hearingData = caseData.hearing_data ? caseData.hearing_data.hearing : undefined;
+                const questionRoundData = hearingData ? caseData.hearing_data.latest_question_round : undefined;
+
+                const consentOrder = caseData.case_data.consentOrder ? caseData.case_data.consentOrder : undefined;
+                const hearingType = caseData.case_data.appeal ? caseData.case_data.appeal.hearingType : undefined;
 
                 const caseState = processCaseStateEngine({
                     jurisdiction,
@@ -152,14 +155,14 @@ function processState(caseLists) {
                     consentOrder
                 });
 
-                caseRow.state = caseState;
+                caseData.state = caseState;
                 if (caseState.stateDateTime) {
-                    if (new Date(caseRow.last_modified) < new Date(caseState.stateDateTime)) {
-                        caseRow.last_modified = caseState.stateDateTime;
+                    if (new Date(caseData.last_modified) < new Date(caseState.stateDateTime)) {
+                        caseData.last_modified = caseState.stateDateTime;
                     }
                 }
 
-                return caseRow;
+                return caseData;
             });
             return caselist;
         });

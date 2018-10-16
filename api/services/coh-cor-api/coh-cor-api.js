@@ -17,10 +17,6 @@ function postHearing(options) {
     return generateRequest('POST', `${url}/continuous-online-hearings`, options);
 }
 
-function getOnlineHearing(caseIds, options) {
-    return generateRequest('GET', `${url}/continuous-online-hearings/?${caseIds}`, options);
-}
-
 // Questions
 function getQuestions(hearingId, options) {
     return generateRequest('GET', `${url}/continuous-online-hearings/${hearingId}/questions`, options);
@@ -131,7 +127,6 @@ module.exports = app => {
 module.exports.getHearing = getHearing;
 module.exports.getHearingByCase = getHearingByCase;
 module.exports.postHearing = postHearing;
-module.exports.getOnlineHearing = getOnlineHearing;
 
 // Questions
 module.exports.getQuestions = getQuestions;
