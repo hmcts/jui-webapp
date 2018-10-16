@@ -18,6 +18,26 @@ const STATE = {
     COH_Q_QUESTION_DEADLINE_EXTENTION_GRANTED_STATE: 'question_deadline_extension_granted',
     COH_Q_QUESTION_DEADLINE_EXTENSION_DENIED_STATE: 'question_deadline_extension_denied',
     COH_A_QUESTION_ANSWERED_STATE: 'question_answered',
+    SSCS: [
+        'appealCreated',
+        'continuous_online_hearing_started',
+        'continuous_online_hearing_decision_issued',
+        'question_drafted',
+        'question_issued',
+        'question_answered',
+        'question_deadline_elapsed',
+        'question_deadline_extension_elapsed',
+        'question_deadline_extension_granted'
+    ],
+    FR: [
+        'consentOrderMade',
+        'awaitingPaymentResponse',
+        'awaitingHWFDecision',
+        'caseAdded',
+        'consentOrderApproved',
+        'referredToJudge',
+        'applicationIssued'
+    ],
     DIV: [
         'AwaitingPayment',
         'AosAwaiting',
@@ -26,6 +46,16 @@ const STATE = {
         'AosCompleted',
         'AwaitingHWFDecision',
         'AwaitingDecreeNisi'
+    ],
+    PRO: [
+        'BOExamining',
+        'PAAppCreated',
+        'CasePrinted',
+        'CaseCreated',
+        'CasePaymentFailed'
+    ],
+    CMC: [
+        'open'
     ]
 
 };
@@ -49,7 +79,11 @@ const stateToBeShown = [
     STATE.COH_Q_DEADLINE_ELAPSED_STATE,
     STATE.COH_Q_DEADLINE_EXT_ELAPSED_STATE,
     STATE.COH_A_QUESTION_ANSWERED_STATE,
-    ...[...STATE.DIV]
+    // ...[...STATE.SSCS],
+    // ...[...STATE.FR],
+    ...[...STATE.DIV],
+    ...[...STATE.CMC],
+    ...[...STATE.PRO]
 ];
 
 function caseStateFilter(caseData) {
