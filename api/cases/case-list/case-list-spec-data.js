@@ -91,14 +91,11 @@ const onlineHearingData = {
 
 const userDetails = { email: userEmail };
 
-module.exports.divorceCaseData = divorceCaseData;
-
-module.exports.sscsCaseData = sscsCaseData;
-
-module.exports.sscsCaseDataNullCaseRef = sscsCaseDataNullCaseRef;
-
-module.exports.onlineHearingData = onlineHearingData;
-
-module.exports.userDetails = userDetails;
-
-module.exports.LAST_MODIFIED_DATE = LAST_MODIFIED_DATE;
+module.exports = {
+    divorceCaseData,
+    sscsCaseData,
+    sscsCaseDataNullCaseRef,
+    onlineHearingData,
+    userDetails,
+    LAST_MODIFIED_DATE
+};

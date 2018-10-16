@@ -165,7 +165,7 @@ const cohRelistState = {
 // goto CaseFile and select Content Order
 const referredToJudge = {
     when(context) {
-        return context.caseData.ccdState === STATE.CCD_REFER_TO_JUDGE_STATE;
+        return context.caseData.ccdState === STATE.FR_CCD_REFER_TO_JUDGE_STATE;
     },
     then(context) {
         const consentOrder = context.caseData.consentOrder ? getDocId(context.caseData.consentOrder) : undefined;

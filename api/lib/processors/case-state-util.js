@@ -5,8 +5,8 @@
 // Could go one step more and say is a DIV_CCD or SSCS_COH (Divorce state from CCD or SSCS state from COH)
 // alway suffix with STATE to make it easy to find.
 const STATE = {
-    CCD_REFER_TO_JUDGE_STATE: 'referredToJudge',
-    CCD_APPEAL_CREATED: 'appealCreated',
+    FR_CCD_REFER_TO_JUDGE_STATE: 'referredToJudge',
+    SSCS_CCD_APPEAL_CREATED: 'appealCreated',
     COH_STARTED_STATE: 'continuous_online_hearing_started',
     COH_DECISION_ISSUED_STATE: 'continuous_online_hearing_decision_issued',
     COH_RELISTED_STATE: 'continuous_online_hearing_relisted',
@@ -17,7 +17,16 @@ const STATE = {
     COH_Q_DEADLINE_EXT_ELAPSED_STATE: 'question_deadline_extension_elapsed',
     COH_Q_QUESTION_DEADLINE_EXTENTION_GRANTED_STATE: 'question_deadline_extension_granted',
     COH_Q_QUESTION_DEADLINE_EXTENSION_DENIED_STATE: 'question_deadline_extension_denied',
-    COH_A_QUESTION_ANSWERED_STATE: 'question_answered'
+    COH_A_QUESTION_ANSWERED_STATE: 'question_answered',
+    DIV: [
+        'AwaitingPayment',
+        'AosAwaiting',
+        'AosStarted',
+        'AosCompletedAwaitingAnswer',
+        'AosCompleted',
+        'AwaitingHWFDecision',
+        'AwaitingDecreeNisi'
+    ]
 
 };
 
@@ -33,13 +42,14 @@ const GO_TO = {
 
 // these are state a judge should be able to see.
 const stateToBeShown = [
-    STATE.CCD_REFER_TO_JUDGE_STATE,
+    STATE.FR_CCD_REFER_TO_JUDGE_STATE,
     STATE.COH_STARTED_STATE,
     STATE.COH_Q_QUESTION_DRAFTED_STATE,
     STATE.COH_Q_QUESTION_ISSUE_PENDING_STATE,
     STATE.COH_Q_DEADLINE_ELAPSED_STATE,
     STATE.COH_Q_DEADLINE_EXT_ELAPSED_STATE,
-    STATE.COH_A_QUESTION_ANSWERED_STATE
+    STATE.COH_A_QUESTION_ANSWERED_STATE,
+    ...[...STATE.DIV]
 ];
 
 function caseStateFilter(caseData) {

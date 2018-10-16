@@ -16,7 +16,7 @@ describe('Case State Process Engine', () => {
         const caseState = processCaseStateEngine(fact);
 
         expect(caseState.stateName).toEqual('awaitingPayment');
-        expect(caseState.actionGoTo).toEqual('summary');
+        expect(caseState.actionGoTo).toEqual(GO_TO.SUMMARY_GO_TO);
     });
 
     describe('COH states', () => {
@@ -40,7 +40,7 @@ describe('Case State Process Engine', () => {
             caseState = processCaseStateEngine(fact);
 
             expect(caseState.stateName).toEqual(STATE.COH_STARTED_STATE);
-            expect(caseState.actionGoTo).toEqual('casefile');
+            expect(caseState.actionGoTo).toEqual(GO_TO.CASE_FILE_GO_TO);
         });
 
         it('should return decision-issued-state', () => {
@@ -69,12 +69,12 @@ describe('Case State Process Engine', () => {
             });
 
             afterEach(() => {
-                expect(caseState.actionGoTo).toEqual('questions');
+                expect(caseState.actionGoTo).toEqual(GO_TO.QUESTIONS_GO_TO);
             });
 
             it('should return a question-state', () => {
                 caseState = processCaseStateEngine(fact);
-                expect(caseState.stateName).toEqual('question_issued');
+                expect(caseState.stateName).toEqual(STATE.COH_Q_QUESTION_ISSUED_STATE);
             });
 
             it('should return a deadline-elapsed-state', () => {

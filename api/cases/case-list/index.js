@@ -27,8 +27,8 @@ function getJurisdictions(details) {
         {
             jur: 'DIVORCE',
             caseType: 'FinancialRemedyMVP2',
-            // filter: `&state=referredToJudge&case.assignedToJudge=${details.email}`
-            filter: `&state=referredToJudge`
+            filter: `&state=referredToJudge&case.assignedToJudge=${details.email}`
+            // filter: `&state=referredToJudge`
         },
         // {
         //     jur: 'CMC',

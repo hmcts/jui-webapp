@@ -76,10 +76,9 @@ module.exports = app => {
     });
 };
 
-module.exports.getCCDCase = getCCDCase;
-
-module.exports.getCCDEvents = getCCDEvents;
-
-module.exports.getCCDCases = getCCDCases;
-
-module.exports.getMutiJudCCDCases = getMutiJudCCDCases;
+module.exports = {
+    getCCDCase,
+    getCCDEvents,
+    getCCDCases,
+    getMutiJudCCDCases
+};
