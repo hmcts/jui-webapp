@@ -12,27 +12,24 @@ export class FormsService {
             for (const prop in someJson) {
                 if (prop === 'control') {
                     if (someJson.radioGroup !== undefined) {
-
-                        console.log("Trace1", someJson.radioGroup);
-
                         if (Object.keys(someData).length !== 0) {
-                            console.log("Trace2", someData, );
-
                             for (const radioEl of someJson.radioGroup) {
                                 if (radioEl.value === someData[someJson.control]) {
-                                    console.log("Trace3", radioEl.value, someData[someJson.control]);
                                     this.FormControls[someJson.control] = new FormControl(radioEl.value);
+                                    break;
                                 } else {
                                     this.FormControls[someJson.control] = new FormControl();
                                 }
                             }
                         } else {
-                            console.log("Trace4", someJson.control);
-
                             this.FormControls[someJson.control] = new FormControl();
                         }
                     } else {
-                        this.FormControls[someJson.control] = new FormControl(someJson.value);
+                        if (someData[someJson.control]) {
+                            this.FormControls[someJson.control] = new FormControl(someData[someJson.control]);
+                        } else {
+                            this.FormControls[someJson.control] = new FormControl(someJson.value);
+                        }
                     }
                 }
                 this.create(someJson[prop], someData);
@@ -49,7 +46,6 @@ export class FormsService {
         console.log(someJson, someData);
         this.create(someJson, someData);
         console.log('After= ',this.FormControls);
-
         return this.FormControls;
     }
 }

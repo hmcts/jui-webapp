@@ -29,6 +29,7 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
         this.rejectReasonsForm = new FormGroup(this.formsService.defineformControls(pageitems, pageValues));
     }
     ngOnInit() {
+        this.rejectReasonsForm = null;
         this.activatedRoute.parent.data.subscribe(data => {
             this.case = data.caseData;
         });
