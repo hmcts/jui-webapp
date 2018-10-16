@@ -108,7 +108,7 @@ describe('CheckDecisionComponent', () => {
             });
 
             it('should issue the decision', () => {
-                component.submitCallback({});
+                // component.submitCallback({});
                 expect(decisionServiceIssueSpy).toHaveBeenCalledWith('1234', {});
                 expect(redirectionServiceSpy).toHaveBeenCalled();
             });
