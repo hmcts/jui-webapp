@@ -7,7 +7,6 @@ import {NpaService} from '../../../../shared/components/hmcts-annotation-ui-lib/
 import {IDocumentTask} from '../../../../shared/components/hmcts-annotation-ui-lib/data/document-task.model';
 import {ApiHttpService} from '../../../../shared/components/hmcts-annotation-ui-lib/data/api-http.service';
 import {AnnotationStoreService} from '../../../../shared/components/hmcts-annotation-ui-lib/data/annotation-store.service';
-import {ViewerFactoryService} from '../../../../shared/components/document-viewer/viewers/viewer-factory.service';
 
 @Component({
     selector: 'app-check-decision',
@@ -81,6 +80,9 @@ export class CheckDecisionComponent implements OnInit {
         });
     }
     onSubmit(pagename) {
+
+        console.log("Event => ", pagename);
+
         const event = this.form.value.createButton.toLowerCase();
         delete this.form.value.createButton;
         this.request = { formValues: this.pageValues, event: event };
