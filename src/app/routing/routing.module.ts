@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { DashboardComponent } from './pages/generic-page/dashboard/dashboard.component';
 import { SharedModule } from '../shared/shared.module';
 import { DomainModule } from '../domain/domain.module';
 import { AuthGuardService } from '../auth/auth-guard.service';
@@ -25,10 +25,6 @@ import { DeleteQuestionComponent } from '../domain/components/questions/delete/d
 import { EditQuestionComponent } from '../domain/components/questions/edit/edit.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { JUIFormsModule } from '../forms/forms.module';
-import { TermsAndConditionsComponent } from './pages/terms-and-conditions/terms-and-conditions.component';
-import { CookiesComponent } from './pages/cookies/cookies.component';
-import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
-import { DemoComponent } from './pages/demo/demo.component';
 import { GovukModule } from '../govuk/govuk.module';
 import { HmctsModule } from '../hmcts/hmcts.module';
 import { ReasonsCoNotApprovedComponent } from './pages/decisions/fr/reasons-co-not-approved/reasons-co-not-approved.component';
@@ -37,28 +33,43 @@ import { NotesForCourtAdministratorComponent } from './pages/decisions/fr/notes-
 import { DraftConsentOrderComponent } from './pages/decisions/fr/draft-consent-order/draft-consent-order.component';
 import { HearingDetailsComponent } from './pages/decisions/fr/hearing-details/hearing-details.component';
 import {FormsService} from '../shared/services/forms.service';
+import { GenericPageComponent } from './pages/generic-page/generic-page.component';
+import { ErrorServiceUnavailableComponent } from './pages/generic-page/error-service-unavailable/error-service-unavailable.component';
+import { ConfirmationComponent } from './pages/generic-page/confirmation/confirmation.component';
+import { CheckYourAnswersComponent } from './pages/generic-page/check-your-answers/check-your-answers.component';
+import { TaskListComponent } from './pages/generic-page/task-list/task-list.component';
+import { TermsAndConditionsComponent } from './pages/generic-page/terms-and-conditions/terms-and-conditions.component';
+import { CookiesComponent } from './pages/generic-page/cookies/cookies.component';
+import { PrivacyPolicyComponent } from './pages/generic-page/privacy-policy/privacy-policy.component';
+import { DemoComponent } from './pages/generic-page/demo/demo.component';
 
 const routes: Routes = [
     {
         path: '',
-        component: DashboardComponent,
-        canActivate: [AuthGuardService],
-    },
-    {
-        path: 'demo',
-        component: DemoComponent,
-    },
-    {
-        path: 'terms-and-conditions',
-        component: TermsAndConditionsComponent
-    },
-    {
-        path: 'cookies',
-        component: CookiesComponent
-    },
-    {
-        path: 'privacy-policy',
-        component: PrivacyPolicyComponent
+        component: GenericPageComponent,
+        children: [
+            {
+                path: '',
+                component: DashboardComponent,
+                canActivate: [AuthGuardService],
+            },
+            {
+                path: 'demo',
+                component: DemoComponent,
+            },
+            {
+                path: 'terms-and-conditions',
+                component: TermsAndConditionsComponent
+            },
+            {
+                path: 'cookies',
+                component: CookiesComponent
+            },
+            {
+                path: 'privacy-policy',
+                component: PrivacyPolicyComponent
+            },
+        ]
     },
     {
         path: 'jurisdiction/:jur/casetype/:casetype/viewcase/:case_id',
@@ -155,7 +166,12 @@ const routes: Routes = [
         MakeDecisionComponent,
         DraftConsentOrderComponent,
         NotesForCourtAdministratorComponent,
-        HearingDetailsComponent
+        HearingDetailsComponent,
+        GenericPageComponent,
+        ErrorServiceUnavailableComponent,
+        ConfirmationComponent,
+        CheckYourAnswersComponent,
+        TaskListComponent
     ],
     providers: [
         CaseResolve,

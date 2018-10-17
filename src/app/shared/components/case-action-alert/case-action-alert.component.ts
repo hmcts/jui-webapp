@@ -10,7 +10,7 @@ export class CaseActionAlertComponent implements OnInit {
 
     @Input() title = 'Decision needed';
     @Input() href = '#';
-    @Input() status;
+    @Input() status = { name: 'Some action', actionGoTo: '#', ID: ''};
     state = '';
 
   constructor() { }
