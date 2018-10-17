@@ -30,7 +30,7 @@ function perpareCaseForApproval(caseData, eventToken, eventId, user, store) {
     const payload = {
         /* eslint-disable-next-line id-blacklist */
         data: {
-            orderDirection: 'Order Accepted as draftedexception',
+            orderDirection: 'Order Accepted as drafted',
             orderDirectionDate: moment(new Date()).format('YYYY-MM-DD'),
             orderDirectionJudge: 'District Judge',
             orderDirectionJudgeName: `${user.forename} ${user.surname} `,
