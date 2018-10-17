@@ -21,7 +21,6 @@ export class CheckDecisionComponent implements OnInit {
     request: any;
     pageValues: any = null;
     case: any;
-    isSectionExist: boolean = true;
     consentOrderDocumentId: string;
     // will hold results of NPA
     annotations: any = null;
@@ -48,6 +47,11 @@ export class CheckDecisionComponent implements OnInit {
     // If there is no annotations don't call burnAnnotatedDocument
     // If there is annotations call burnAnnotatedDocument - to create new document
     // Pass data from call to Alan to back end to CCD store
+    isSectionExist(value) {
+        if ( this.pageValues.visitedPages[value] === true ) {
+            return true;
+        }
+    }
 
     ngOnInit() {
         this.activatedRoute.parent.data.subscribe(data => {

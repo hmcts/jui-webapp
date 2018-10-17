@@ -54,6 +54,26 @@ function translate(store, fieldName) {
     return null
 }
 
+function perpareCaseForConsentOrder(documentAnnotationId, eventToken, eventId, user, store) {
+    const payload = {
+        /* eslint-disable-next-line id-blacklist */
+        data: {
+            consentOrder: {
+                document_url: `${config.services.dm_store_api}/documents/${documentAnnotationId}`,
+                document_binary_url: `${config.services.dm_store_api}//documents/${documentAnnotationId}/binary`
+            }
+        },
+        event: {
+            id: eventId
+        },
+        event_token: eventToken,
+
+        ignore_warning: true
+    }
+    console.log('payload', payload)
+    return payload
+}
+
 function perpareCaseForRefusal(caseData, eventToken, eventId, user, store) {
     let orderRefusal = []
     let orderRefusalOther = null
@@ -148,6 +168,59 @@ function perpareCaseForRefusal(caseData, eventToken, eventId, user, store) {
     return payload
 }
 
+async function updateConsentOrder(documentAnnotationId, req, state, store) {
+    let payload = {}
+    let eventToken = {}
+    let caseDetails = {}
+
+    try {
+        logger.info('Getting Event Token')
+
+        const eventTokenAndCAse = await ccdStore.getEventTokenAndCase(
+            req.auth.userId,
+            'DIVORCE',
+            'FinancialRemedyMVP2',
+            state.inCaseId,
+            'FR_amendCase',
+            getOptions(req)
+        )
+
+        eventToken = eventTokenAndCAse.token
+        caseDetails = eventTokenAndCAse.caseDetails
+
+        logger.info(`Got token ${eventToken}`)
+    } catch (exception) {
+        logger.error('Error getting event token', exceptionFormatter(exception, exceptionOptions))
+        return false
+    }
+
+    payload = perpareCaseForConsentOrder(
+        documentAnnotationId,
+        eventToken,
+        'FR_amendCase',
+        req.session.user,
+        store.get(`decisions_${state.inCaseId}`)
+    )
+
+    try {
+        logger.info('Payload assembled')
+        logger.info(JSON.stringify(payload))
+        await ccdStore.postCaseWithEventToken(
+            payload,
+            req.auth.userId,
+            'DIVORCE',
+            'FinancialRemedyMVP2',
+            state.inCaseId,
+            getOptions(req)
+        )
+
+        return true
+    } catch (exception) {
+        logger.error('Error updating consent order', exceptionFormatter(exception, exceptionOptions))
+        return false
+    }
+}
+
 async function makeDecision(decision, req, state, store) {
     let payload = {}
     let eventToken = {}
@@ -172,7 +245,7 @@ async function makeDecision(decision, req, state, store) {
 
         logger.info(`Got token ${eventToken}`)
     } catch (exception) {
-        logger.error('Error getting event token', exception)
+        logger.error('Error getting event token', exceptionFormatter(exception, exceptionOptions))
         return false
     }
 
@@ -247,6 +320,13 @@ async function handlePostState(req, res, responseJSON, state) {
             case 'check':
                 logger.info('Posting to CCD')
                 result = false
+                // if pdf has annotations update case
+                if (store.get(`decisions_${inCaseId}`).documentAnnotationId) {
+                    logger.info('Updating consent order')
+                    await updateConsentOrder(store.get(`decisions_${inCaseId}`).documentAnnotationId, req, state, store)
+                    logger.info('Updating consent order')
+                }
+
                 result = await makeDecision(store.get(`decisions_${inCaseId}`).approveDraftConsent, req, state, store)
 
                 logger.info('Posted to CCD', result)

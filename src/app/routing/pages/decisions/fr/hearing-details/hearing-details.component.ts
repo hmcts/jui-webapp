@@ -48,6 +48,8 @@ export class HearingDetailsComponent implements OnInit {
         const event = this.hearingDetailsForm.value.createButton.toLowerCase();
         delete this.hearingDetailsForm.value.createButton;
         this.request = { formValues: this.hearingDetailsForm.value, event: event };
+        this.pageValues.visitedPages['hearing-details'] = true;
+        this.request.formValues.visitedPages = this.pageValues.visitedPages;
         console.log("Calling service with properties =>", this.pageitems.name, this.request);
         this.decisionService.submitDecisionDraft('fr',
                 this.activatedRoute.snapshot.parent.data.caseData.id,

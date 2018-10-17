@@ -47,7 +47,13 @@ export class NotesForCourtAdministratorComponent implements OnInit {
         const event = this.notesForCourtAdminForm.value.createButton.toLowerCase();
         delete this.notesForCourtAdminForm.value.createButton;
         this.request = { formValues: this.notesForCourtAdminForm.value, event: event };
-        this.decisionService.submitDecisionDraft('fr',this.activatedRoute.snapshot.parent.data.caseData.id, this.pageitems.name, this.request).subscribe(decision => {
+        this.pageValues.visitedPages['notes-for-court-administrator'] = true;
+        this.request.formValues.visitedPages = this.pageValues.visitedPages;
+        this.decisionService.submitDecisionDraft('fr',
+            this.activatedRoute.snapshot.parent.data.caseData.id,
+            this.pageitems.name,
+            this.request)
+            .subscribe(decision => {
             console.log(decision.newRoute);
             this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
         });

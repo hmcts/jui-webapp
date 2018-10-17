@@ -21,26 +21,31 @@
                                 <div class="govuk-checkboxes__conditional" *ngIf="item.sub">
                                     <div class="govuk-form-group">
                                         <fieldset class="govuk-fieldset">
-                                            <legend *ngIf="item.sub.legend" class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                                                {{ item.sub.legend }}
-                                            </legend>
-                                            <ng-container *ngIf="item.sub.textareas">
+                                            <ng-container *ngIf="showOther2 && item.sub.textareas">
+                                                <legend *ngIf="item.sub.legend" class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                                                    {{ item.sub.legend }}
+                                                </legend>
                                                 <textarea class="govuk-textarea" rows="5" formControlName="{{item.sub.textareas[0].control}}"></textarea>
                                             </ng-container>
-                                            <ng-container *ngIf="item.sub.checkboxes">
+                                            <ng-container *ngIf="showChildrenCheckboxes && item.sub.checkboxes">
+                                                <legend *ngIf="item.sub.legend" class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                                                    {{ item.sub.legend }}
+                                                </legend>
                                                 <app-checkbox [items]="item.sub.checkboxes" [group]="rejectReasonsForm" [idPrefix]="pageitems.idPrefix" >
                                                     <ng-container  *ngFor="let subitem of item.sub.checkboxes; let j = index">
                                                         <div  class="govuk-checkboxes__conditional" id="conditional-reject-3" *ngIf="subitem.sub">
                                                             <div  class="govuk-form-group">
                                                                 <fieldset class="govuk-fieldset">
-                                                                    <div *ngIf="subitem.sub.legend">
-                                                                        <label class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                                                                            {{subitem.sub.legend}}
-                                                                        </label>
-                                                                    </div>
-                                                                    <div *ngIf="subitem.sub.textareas">
-                                                                        <textarea class="govuk-textarea" rows="5" formControlName="{{subitem.sub.textareas[0].control}}"></textarea>
-                                                                    </div>
+                                                                    <ng-container *ngIf="showOther">
+                                                                        <div *ngIf="subitem.sub.legend">
+                                                                            <label class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                                                                                {{subitem.sub.legend}}
+                                                                            </label>
+                                                                        </div>
+                                                                        <div *ngIf="subitem.sub.textareas">
+                                                                            <textarea class="govuk-textarea" rows="5" formControlName="{{subitem.sub.textareas[0].control}}"></textarea>
+                                                                        </div>
+                                                                    </ng-container>
                                                                 </fieldset>
                                                             </div>
                                                         </div>

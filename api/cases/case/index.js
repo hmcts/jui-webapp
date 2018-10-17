@@ -104,7 +104,7 @@ module.exports = app => {
                 caseData.state = caseState
 
                 const schema = JSON.parse(JSON.stringify(getCaseTemplate(caseData.jurisdiction, caseData.case_type_id)))
-
+                console.log(caseData)
                 if (schema.details) {
                     replaceSectionValues(schema.details, caseData)
                 }
