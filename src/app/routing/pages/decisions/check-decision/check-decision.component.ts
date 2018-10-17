@@ -95,7 +95,11 @@ export class CheckDecisionComponent implements OnInit {
         if (this.npaDocumentTask) {
             if (this.npaDocumentTask.outputDocumentId) {
                 this.request.formValues.documentAnnotationId = this.npaDocumentTask.outputDocumentId;
+            } else {
+                console.log( "No Document ID generated =", this.npaDocumentTask.outputDocumentId );
             }
+        } else {
+            console.log( "Document hasn't generated =", this.npaDocumentTask );
         }
         console.log('Submitting properties =>', this.pageitems.name, this.request);
         this.decisionService.submitDecisionDraft('fr',
