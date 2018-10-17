@@ -1,3 +1,4 @@
+@timeline
 Feature: RecentEvents
 
    Background:

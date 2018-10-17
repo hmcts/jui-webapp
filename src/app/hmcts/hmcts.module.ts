@@ -8,6 +8,8 @@ import { HmctsTimelineComponent } from './components/hmcts-timeline/hmcts-timeli
 import {RouterModule} from '@angular/router';
 import {SentenceCasePipe} from './pipes/sentence-case/sentence-case-pipe';
 import { HmctsAlertComponent } from './components/hmcts-alert/hmcts-alert.component';
+import { HmctsDetailsBarComponent } from './components/hmcts-details-bar/hmcts-details-bar.component';
+import { HmctsGlobalFooterComponent } from './components/hmcts-global-footer/hmcts-global-footer.component';
 
 @NgModule({
     imports: [
@@ -21,7 +23,9 @@ import { HmctsAlertComponent } from './components/hmcts-alert/hmcts-alert.compon
         HmctsSubNavigationComponent,
         HmctsTimelineComponent,
         HmctsAlertComponent,
-        SentenceCasePipe
+        SentenceCasePipe,
+        HmctsDetailsBarComponent,
+        HmctsGlobalFooterComponent
     ],
     exports: [
         HmctsGlobalHeaderComponent,
@@ -30,7 +34,9 @@ import { HmctsAlertComponent } from './components/hmcts-alert/hmcts-alert.compon
         HmctsSubNavigationComponent,
         HmctsTimelineComponent,
         HmctsAlertComponent,
-        SentenceCasePipe
+        SentenceCasePipe,
+        HmctsDetailsBarComponent,
+        HmctsGlobalFooterComponent
     ]
 })
 export class HmctsModule {

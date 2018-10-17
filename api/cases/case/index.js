@@ -87,23 +87,28 @@ module.exports = app => {
 
         getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId, getOptions(req))
             .then(([caseData, events, questions, hearings]) => {
-                caseData.questions = (questions) ? questions.sort((a, b) => (a.question_round_number < b.question_round_number)) : [];
                 caseData.events = events;
-
+                caseData.questions = (questions) ? questions.sort((a, b) => (a.question_round_number < b.question_round_number)) : [];
+                caseData.hearing_data = (hearings) ? hearings.online_hearings[0] || [] : [];
 
                 const ccdState = caseData.state;
-                const hearingData = (hearings && hearings.online_hearings) ? hearings.online_hearings[0] : undefined;
-                const questionRoundData = caseData.questions;
-                const consentOrder = caseData.case_data.consentOrder ? caseData.case_data.consentOrder : undefined
+                const hearingData = caseData.hearing_data ? caseData.hearing_data : undefined;
+                const questionRoundData = hearingData ? caseData.hearing_data.latest_question_round : undefined;
+
+                const consentOrder = caseData.case_data.consentOrder ? caseData.case_data.consentOrder : undefined;
+                const hearingType = caseData.case_data.appeal ? caseData.case_data.appeal.hearingType : undefined;
+
 
                 const caseState = processCaseStateEngine({
                     jurisdiction,
                     caseType,
                     ccdState,
+                    hearingType,
                     hearingData,
                     questionRoundData,
                     consentOrder
                 });
+
                 caseData.state = caseState;
 
                 const schema = JSON.parse(JSON.stringify(getCaseTemplate(caseData.jurisdiction, caseData.case_type_id)));
@@ -138,9 +143,10 @@ module.exports = app => {
         const caseId = req.params.case_id;
 
         getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId, getOptions(req))
-            .then(([caseData, events, questions]) => {
-                caseData.questions = questions;
+            .then(([caseData, events, questions, hearings]) => {
                 caseData.events = events;
+                caseData.questions = (questions) ? questions.sort((a, b) => (a.question_round_number < b.question_round_number)) : [];
+                caseData.hearing_data = hearings.online_hearings[0] || [];
 
                 const schema = JSON.parse(JSON.stringify(getCaseTemplate(caseData.jurisdiction, caseData.case_type_id)));
                 if (schema.details) {

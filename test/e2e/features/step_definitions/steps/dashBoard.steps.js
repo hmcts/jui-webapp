@@ -5,7 +5,6 @@ var caseSummaryPage = require('../../pages/caseSummaryPage');
 var caseFilePage = require('../../pages/caseFilePage');
 var { defineSupportCode } = require('cucumber');
 
-
 const EC = protractor.ExpectedConditions;
 
 defineSupportCode(function({ Given, When, Then }) {
@@ -75,6 +74,7 @@ defineSupportCode(function({ Given, When, Then }) {
             .to
             .eventually
             .equal('Related cases');
+
 
     });
 

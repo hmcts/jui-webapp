@@ -1,5 +1,9 @@
 module.exports = function(config, argv) {
+<<<<<<< HEAD
     let tags = '@dashboard';
+=======
+    let tags = '@summary';
+>>>>>>> master
     if (config.defaultTags) {
         tags = config.defaultTags.join(' and ');
     }

@@ -1,7 +1,7 @@
 module.exports = {
     details: {
         fields: [
-            { value: '$.case_data.ihtReferenceNumber' },
+            { value: '$.id' },
             {
                 value: [
                     '$.case_data.deceasedForenames', ' ',
@@ -43,16 +43,11 @@ module.exports = {
                                 },
                                 {
                                     label: 'Case type',
-                                    value: 'Grant of Representation'
+                                    value: 'Grant of representation'
                                 },
                                 {
                                     label: 'Case number',
                                     value: '$.id'
-                                },
-
-                                {
-                                    label: 'ProbateMan Case number',
-                                    value: '$.case_data.ihtReferenceNumber'
                                 }
                             ]
                         },

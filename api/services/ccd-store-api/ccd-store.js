@@ -5,29 +5,45 @@ const mockRequest = require('../../lib/mockRequest');
 
 const url = config.services.ccd_data_api;
 
-//TODO remove the CCD part
+function request(method, urlX, options) {
+    return process.env.JUI_ENV === 'mock' ? mockRequest(method, urlX, options) : generateRequest('GET', urlX, options);
+}
+
+// TODO remove the CCD part
 function getCCDCase(userId, jurisdiction, caseType, caseId, options) {
     const urlX = `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}`;
-    return process.env.JUI_ENV === 'mock' ? mockRequest('GET', urlX, options) : generateRequest('GET', urlX, options);
+    return request('GET', urlX, options);
 }
 
 function getCCDEvents(caseId, userId, jurisdiction, caseType, options) {
     const urlX = `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`;
-    return (process.env.JUI_ENV === 'mock' ? mockRequest('GET', urlX, options) : generateRequest('GET', urlX, options));
+    return request('GET', urlX, options);
 }
 
 function getCCDCases(userId, jurisdiction, caseType, filter, options) {
     const urlX = `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases?sortDirection=DESC${filter}`;
-    return process.env.JUI_ENV === 'mock' ? mockRequest('GET', urlX, options) : generateRequest('GET', urlX, options);
+    return request('GET', urlX, options);
 }
 
 // TODO: This should eventually replace ccd better mutijud search
+// jurisdictions is [{jur,caseType,filter},...]
 function getMutiJudCCDCases(userId, jurisdictions, options) {
+    function handle(promise) {
+        return promise.then(v => {
+            return { v, status: true };
+        },
+        failure => {
+            return { failure, status: false };
+        });
+    }
+
     const promiseArray = [];
     jurisdictions.forEach(jurisdiction => {
         promiseArray.push(getCCDCases(userId, jurisdiction.jur, jurisdiction.caseType, jurisdiction.filter, options));
     });
-    return Promise.all(promiseArray);
+
+    return Promise.all(promiseArray.map(handle)).then(results => results.filter(x => x.status).map(x => x.v));
+
 }
 
 function getHealth(options) {
@@ -60,9 +76,9 @@ module.exports = app => {
     });
 };
 
-module.exports.getCCDCase = getCCDCase;
-module.exports.getCCDEvents = getCCDEvents;
-
-module.exports.getCCDCases = getCCDCases;
-
-module.exports.getMutiJudCCDCases = getMutiJudCCDCases;
+module.exports = {
+    getCCDCase,
+    getCCDEvents,
+    getCCDCases,
+    getMutiJudCCDCases
+};
