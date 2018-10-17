@@ -54,13 +54,13 @@ function translate(store, fieldName) {
     return null
 }
 
-function perpareCaseForConsentOrder(caseData, eventToken, eventId, user, store) {
+function perpareCaseForConsentOrder(documentAnnotationId, eventToken, eventId, user, store) {
     const payload = {
         /* eslint-disable-next-line id-blacklist */
         data: {
             consentOrder: {
-                document_url: 'http://document-management-store:8080/documents/cf61d54e-9928-4972-b639-e2836e4c8ae0',
-                document_binary_url: 'http://document-management-store:8080/documents/cf61d54e-9928-4972-b639-e2836e4c8ae0/binary'
+                document_url: `${config.services.dm_store_api}/documents/${documentAnnotationId}`,
+                document_binary_url: `${config.services.dm_store_api}//documents/${documentAnnotationId}/binary`
             }
         },
         event: {
@@ -70,7 +70,7 @@ function perpareCaseForConsentOrder(caseData, eventToken, eventId, user, store) 
 
         ignore_warning: true
     }
-
+    console.log('payload', payload)
     return payload
 }
 
@@ -168,7 +168,7 @@ function perpareCaseForRefusal(caseData, eventToken, eventId, user, store) {
     return payload
 }
 
-async function updateConsentOrder(decision, req, state, store) {
+async function updateConsentOrder(documentAnnotationId, req, state, store) {
     let payload = {}
     let eventToken = {}
     let caseDetails = {}
@@ -195,9 +195,9 @@ async function updateConsentOrder(decision, req, state, store) {
     }
 
     payload = perpareCaseForConsentOrder(
-        caseDetails,
+        documentAnnotationId,
         eventToken,
-        'FR_approveApplication',
+        'FR_amendCase',
         req.session.user,
         store.get(`decisions_${state.inCaseId}`)
     )
@@ -245,7 +245,7 @@ async function makeDecision(decision, req, state, store) {
 
         logger.info(`Got token ${eventToken}`)
     } catch (exception) {
-        logger.error('Error getting event token', exception)
+        logger.error('Error getting event token', exceptionFormatter(exception, exceptionOptions))
         return false
     }
 
@@ -321,7 +321,12 @@ async function handlePostState(req, res, responseJSON, state) {
                 logger.info('Posting to CCD')
                 result = false
                 // if pdf has annotations update case
-                await updateConsentOrder('cf61d54e-9928-4972-b639-e2836e4c8ae0', req, state, store)
+                if (store.get(`decisions_${inCaseId}`).documentAnnotationId) {
+                    logger.info('Updating consent order')
+                    await updateConsentOrder(store.get(`decisions_${inCaseId}`).documentAnnotationId, req, state, store)
+                    logger.info('Updating consent order')
+                }
+
                 result = await makeDecision(store.get(`decisions_${inCaseId}`).approveDraftConsent, req, state, store)
 
                 logger.info('Posted to CCD', result)
