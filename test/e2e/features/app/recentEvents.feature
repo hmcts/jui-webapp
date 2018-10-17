@@ -4,7 +4,7 @@ Feature: RecentEvents
    Background:
         Given I navigate to JUI Url
         Then I am logged into JUI web app
-        When I select a case reference
+        When I select a case type
 
     @RIUI_647, @all
     Scenario: Verify timeline and recent events

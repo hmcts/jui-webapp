@@ -1,7 +1,7 @@
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const minimist = require('minimist');
-const tagProcessor = require('../support/tagProcessor');
+// const tagProcessor = require('../support/tagProcessor');
 
 const argv = minimist(process.argv.slice(2));
 
@@ -86,7 +86,7 @@ const config = {
         strict: true,
         // format: ['node_modules/cucumber-pretty'],
         format: 'json:reports_json/results.json',
-        tags: ['@all'],
+        tags: ['@dashboard'],
         require: [
             '../support/world.js',
             '../support/*.js',
