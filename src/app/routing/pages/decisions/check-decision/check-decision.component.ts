@@ -92,8 +92,10 @@ export class CheckDecisionComponent implements OnInit {
         // }
         delete this.form.value.createButton;
         this.request = { formValues: this.pageValues, event: event };
-        if (this.npaDocumentTask.outputDocumentId) {
-            this.request.formValues.documentAnnotationId = this.npaDocumentTask.outputDocumentId;
+        if (this.npaDocumentTask) {
+            if (this.npaDocumentTask.outputDocumentId) {
+                this.request.formValues.documentAnnotationId = this.npaDocumentTask.outputDocumentId;
+            }
         }
         console.log('Submitting properties =>', this.pageitems.name, this.request);
         this.decisionService.submitDecisionDraft('fr',
