@@ -1,5 +1,5 @@
 const Store = require('../lib/store')
-
+const exceptionFormatter = require('exception-formatter')
 const config = require('../../config')
 const ccdStore = require('../services/ccd-store-api/ccd-store')
 const express = require('express')
@@ -12,6 +12,10 @@ const logger = log4js.getLogger('State')
 logger.level = config.logging
 
 const ERROR404 = 404
+const ERROR400 = 400
+const exceptionOptions = {
+    maxLines: 1
+}
 
 function getOptions(req) {
     return {
@@ -167,27 +171,32 @@ async function makeDecision(decision, req, state, store) {
         caseDetails = eventTokenAndCAse.caseDetails
 
         logger.info(`Got token ${eventToken}`)
+    } catch (exception) {
+        logger.error('Error getting event token', exception)
+        return false
+    }
 
-        if (decision === 'yes') {
-            payload = perpareCaseForApproval(
-                caseDetails,
-                eventToken,
-                'FR_approveApplication',
-                req.session.user,
-                store.get(`decisions_${state.inCaseId}`)
-            )
-        }
+    if (decision === 'yes') {
+        payload = perpareCaseForApproval(
+            caseDetails,
+            eventToken,
+            'FR_approveApplication',
+            req.session.user,
+            store.get(`decisions_${state.inCaseId}`)
+        )
+    }
 
-        if (decision === 'no') {
-            payload = perpareCaseForRefusal(
-                caseDetails,
-                eventToken,
-                'FR_orderRefusal',
-                req.session.user,
-                store.get(`decisions_${state.inCaseId}`)
-            )
-        }
+    if (decision === 'no') {
+        payload = perpareCaseForRefusal(
+            caseDetails,
+            eventToken,
+            'FR_orderRefusal',
+            req.session.user,
+            store.get(`decisions_${state.inCaseId}`)
+        )
+    }
 
+    try {
         logger.info('Payload assembled')
         logger.info(JSON.stringify(payload))
         await ccdStore.postCaseWithEventToken(
@@ -201,8 +210,7 @@ async function makeDecision(decision, req, state, store) {
 
         return true
     } catch (exception) {
-        console('error')
-        logger.error('Error', exception)
+        logger.error('Error sending event', exceptionFormatter(exception, exceptionOptions))
         return false
     }
 }
@@ -213,7 +221,7 @@ async function handlePostState(req, res, responseJSON, state) {
     const inCaseId = req.params.case_id
 
     const formValues = req.body.formValues
-    let result = false
+    let result = true
 
     if (formValues) {
         store.set(`decisions_${inCaseId}`, formValues)
@@ -238,7 +246,7 @@ async function handlePostState(req, res, responseJSON, state) {
                 break
             case 'check':
                 logger.info('Posting to CCD')
-
+                result = false
                 result = await makeDecision(store.get(`decisions_${inCaseId}`).approveDraftConsent, req, state, store)
 
                 logger.info('Posted to CCD', result)
@@ -246,7 +254,7 @@ async function handlePostState(req, res, responseJSON, state) {
                 if (result) {
                     responseJSON.newRoute = 'decision-confirmation'
                 } else {
-                    res.status = '400'
+                    res.status(ERROR400)
                     res.send('Error updating case')
                 }
                 break
@@ -274,11 +282,10 @@ async function handlePostState(req, res, responseJSON, state) {
         }
         // update meta data according to newly selected state
         if (responseJSON.newRoute) {
-
             responseJSON.meta = stateMeta[state.inJurisdiction][responseJSON.newRoute]
         }
     }
-
+    return result
     /* eslint-enable indent */
 }
 
@@ -305,6 +312,7 @@ async function handleStateRoute(req, res) {
     }
 
     const responseJSON = {}
+    let result = true
 
     if (
         responseAssert(res, responseJSON, stateMeta[inJurisdiction], 'Input parameter route_id: uknown jurisdiction') &&
@@ -320,7 +328,7 @@ async function handleStateRoute(req, res) {
         responseJSON.meta = stateMeta[inJurisdiction][inStateId]
 
         if (req.method === 'POST') {
-            handlePostState(req, res, responseJSON, state)
+            result = await handlePostState(req, res, responseJSON, state)
         }
 
         responseJSON.formValues = store.get(`decisions_${inCaseId}`) || {}
@@ -334,8 +342,14 @@ async function handleStateRoute(req, res) {
     // logger.info('########################')
     logger.info(store.get(`decisions_${inCaseId}`))
     // logger.info('########################')
-
-    req.session.save(() => res.send(JSON.stringify(responseJSON)))
+    logger.info('Finished proccessing')
+    if (result) {
+        // no errors save and send responseJSON
+        logger.info('Finishing with success')
+        req.session.save(() => res.send(JSON.stringify(responseJSON)))
+    } else {
+        logger.error('Finishing with error')
+    }
 }
 
 module.exports = app => {
