@@ -51,6 +51,8 @@ export class DraftConsentOrderComponent implements OnInit {
         const event = this.draftConsentOrderForm.value.createButton.toLowerCase();
         delete this.draftConsentOrderForm.value.createButton;
         this.request = { formValues: this.draftConsentOrderForm.value, event: event };
+        this.pageValues.visitedPages['draft-consent-order'] = true;
+        this.request.formValues.visitedPages = this.pageValues.visitedPages;
         console.log(this.pageitems.name, this.request);
         this.decisionService.submitDecisionDraft('fr',this.activatedRoute.snapshot.parent.data.caseData.id, this.pageitems.name, this.request).subscribe(decision => {
             console.log(decision.newRoute);

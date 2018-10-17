@@ -19,6 +19,9 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
     request: any;
     pageValues: any = null;
     case: any;
+    showOther: boolean = false;
+    showOther2: boolean = false;
+    showChildrenCheckboxes: boolean = false;
 
     @Input() pageitems;
     constructor( private activatedRoute: ActivatedRoute,
@@ -27,6 +30,19 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
                  private formsService: FormsService) {}
     createForm(pageitems, pageValues) {
         this.rejectReasonsForm = new FormGroup(this.formsService.defineformControls(pageitems, pageValues));
+        this.showOther = this.rejectReasonsForm.controls.Other.value;
+        this.showOther2 = this.rejectReasonsForm.controls.Other2.value;
+        this.showChildrenCheckboxes = this.rejectReasonsForm.controls.NotEnoughInformation.value;
+        this.rejectReasonsForm.controls.Other.valueChanges.subscribe( (value) => {
+            this.showOther = value;
+        });
+        this.rejectReasonsForm.controls.Other2.valueChanges.subscribe( (value) => {
+            this.showOther2 = value;
+        });
+        this.rejectReasonsForm.controls.NotEnoughInformation.valueChanges.subscribe( (value) => {
+            this.showChildrenCheckboxes = value;
+            console.log(value);
+        });
     }
     ngOnInit() {
         this.rejectReasonsForm = null;
@@ -52,7 +68,8 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
         delete this.rejectReasonsForm.value.createButton;
         this.request = { formValues: this.rejectReasonsForm.value, event: event };
         console.log(this.pageitems.name, this.request);
-
+        this.pageValues.visitedPages['reject-reasons'] = true;
+        this.request.formValues.visitedPages = this.pageValues.visitedPages;
         this.decisionService.submitDecisionDraft('fr',this.activatedRoute.snapshot.parent.data.caseData.id, this.pageitems.name, this.request).subscribe(decision => {
             console.log(decision.newRoute);
             this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});

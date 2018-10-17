@@ -218,6 +218,7 @@ module.exports = {
             groups: [
                 {
                     header: 'Draft consent order',
+                    page: 'create',
                     contents: [
                         {
                             title: 'Decision',
@@ -239,6 +240,7 @@ module.exports = {
                 },
                 {
                     header: 'Notes for court administrator',
+                    page: 'notes-for-court-administrator',
                     contents: [
                         {
                             title: 'Notes',
@@ -258,6 +260,7 @@ module.exports = {
                 },
                 {
                     header: 'Directions order',
+                    page: 'reject-reasons',
                     contents: [
                         {
                             title: 'Reasons',
@@ -382,6 +385,7 @@ module.exports = {
                 },
                 {
                     header: 'Comments on draft consent order',
+                    page: 'draft-consent-order',
                     contents: [
                         {
                             title: 'Comments',
@@ -400,6 +404,7 @@ module.exports = {
                 },
                 {
                     header: 'Hearing details',
+                    page: 'hearing-details',
                     contents: [
                         {
                             title: 'Estimate length of hearing in minutes',
