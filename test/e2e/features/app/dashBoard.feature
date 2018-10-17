@@ -29,6 +29,7 @@ Feature: Dashboard
         Then I should see table each column header text as casenumber , Parties , Type, Decision needed on, Case received, Date of last event
 
 
+    #FR specific judge to login n verify
     @RIUI-895 @all
     Scenario: Verify FR cases 'Draft consent order' link redirection
         When I see Draft consent order on dashboard
