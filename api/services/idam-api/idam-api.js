@@ -38,4 +38,4 @@ module.exports = app => {
     });
 };
 
-module.exports.getUserDetails = getUserDetails;
+module.exports = { getUserDetails };

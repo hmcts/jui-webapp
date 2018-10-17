@@ -1,7 +1,7 @@
 module.exports = {
     details: {
         fields: [
-            { value: '$.case_data.D8caseReference' },
+            { value: '$.id' },
             {
                 value: [
                     '$.case_data.applicantFMName', ' ',
@@ -49,7 +49,7 @@ module.exports = {
                                 },
                                 {
                                     label: 'Case type',
-                                    value: 'Financial Remedy'
+                                    value: 'Financial remedy'
                                 },
                                 {
                                     label: 'Case number',
@@ -98,10 +98,10 @@ module.exports = {
                         },
                         {
                             id: 'applicant-sol',
-                            name: 'Applicant\'s solicitor',
+                            name: 'Applicant’s solicitor',
                             type: 'tab',
                             fields: [
-                                { label: 'Reference no.', value: '$.case_data.solicitorReference' },
+                                { label: 'Reference', value: '$.case_data.solicitorReference' },
                                 { label: 'Full name', value: '$.case_data.solicitorName' },
                                 { label: 'Solicitor firm', value: '$.case_data.solicitorFirm' },
                                 {
@@ -144,10 +144,10 @@ module.exports = {
                         },
                         {
                             id: 'respondent-sol',
-                            name: 'Respondent\'s solicitor',
+                            name: 'Respondent’s solicitor',
                             type: 'tab',
                             fields: [
-                                { label: 'Reference no.', value: '$.case_data.rSolicitorReference' },
+                                { label: 'Reference.', value: '$.case_data.rSolicitorReference' },
                                 { label: 'Full name', value: '$.case_data.rSolicitorName' },
                                 { label: 'Solicitor firm', value: '$.case_data.rSolicitorFirm' },
                                 {

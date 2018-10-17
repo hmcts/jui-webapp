@@ -1,0 +1,13 @@
+<div class="hmcts-details-bar">
+    <div class="hmcts-details-bar__container">
+        <div class="hmcts-details-bar__details">
+            <span class="hmcts-details-bar__reference">{{reference}}</span>
+            <span class="hmcts-details-bar__title" [innerHtml]="title.html"></span>
+        </div>
+        <div class="hmcts-details-bar__actions" *ngIf="items">
+            <ng-container *ngFor="let item of items">
+                <button type="submit" class="govuk-button hmcts-details-bar__action {{item.classes}}">{{item.text}}</button>
+            </ng-container>
+        </div>
+    </div>
+</div>

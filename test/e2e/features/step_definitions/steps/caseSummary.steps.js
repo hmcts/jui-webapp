@@ -3,7 +3,7 @@
 
 var caseSummaryPage = require('../../pages/caseSummaryPage');
 var { defineSupportCode } = require('cucumber');
-const config = require('../../../config/conf.js');
+
 
 const EC = protractor.ExpectedConditions;
 

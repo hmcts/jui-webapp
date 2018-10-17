@@ -7,7 +7,7 @@ Feature: View Case Summary Page
         Then I select a case type
         Then I will be redirected to the Case Summary page for that case
 
-    @RIUI_299
+    @RIUI_299 @all
     Scenario: I can see the summary page
         Then I should expect the url to "match" "(.+)/viewcase/(.+)/summary"
 

@@ -31,7 +31,7 @@ const columns = [
 
     },
     {
-        'label': 'Case Start Date',
+        'label': 'Case received',
         'order': 4,
         'case_field_id': 'createdDate',
         'lookup': '$.created_date',

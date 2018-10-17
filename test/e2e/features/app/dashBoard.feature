@@ -9,7 +9,7 @@ Feature: Dashboard
 
 
     @RIUI_370 @RIUI_418
-    Scenario Outline: Verify available SSCS cases
+    Scenario Outline: Verify available jurdisctions types
         When one or more cases <type> are displayed
         When I select a case <type>
         Then I will be redirected to the Case Summary page for that case

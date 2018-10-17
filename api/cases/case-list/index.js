@@ -3,59 +3,55 @@ const moment = require('moment');
 const getListTemplate = require('./templates');
 const sscsCaseListTemplate = require('./templates/sscs/benefit');
 const processCaseStateEngine = require('../../lib/processors/case-state-model');
-const { caseStateFilter } = require('../../lib/processors/case-state-util');
 const valueProcessor = require('../../lib/processors/value-processor');
-const generateRequest = require('../../lib/request');
+const { caseStateFilter } = require('../../lib/processors/case-state-util');
 const { getAllQuestionsByCase } = require('../../questions/question');
 const { getMutiJudCCDCases } = require('../../services/ccd-store-api/ccd-store');
+const { getHearingByCase } = require('../../services/coh-cor-api/coh-cor-api');
 const { getUserDetails } = require('../../services/idam-api/idam-api');
-const config = require('../../../config');
 
-const DIVORCE_JUR = 'DIVORCE';
-const FR_JUR = 'FinancialRemedyMVP2';
-
-const jurisdictions = [
-    {
-        jur: 'DIVORCE',
-        caseType: 'DIVORCE',
-        filter: ''
-    },
-    {
-        jur: 'SSCS',
-        caseType: 'Benefit',
-        filter: '&state=appealCreated&case.appeal.benefitType.code=PIP'
-    },
-    {
-        jur: 'DIVORCE',
-        caseType: 'FinancialRemedyMVP2',
-        filter: '&state=referredToJudge'
-    },
-    // {
-    //     jur: 'CMC',
-    //     caseType: 'MoneyClaimCase',
-    //     filter: ''
-    // },
-    // {
-    //     jur: 'PROBATE',
-    //     caseType: 'GrantOfRepresentation',
-    //     filter: ''
-    // }
-];
+function getJurisdictions(details) {
+    return (details) ? [
+        {
+            jur: 'SSCS',
+            caseType: 'Benefit',
+            // filter: `&state=appealCreated&case.appeal.benefitType.code=PIP&case.assignedToJudge=${details.email}`
+            filter: `&state=appealCreated&case.appeal.benefitType.code=PIP`
+        },
+        {
+            jur: 'DIVORCE',
+            caseType: 'DIVORCE',
+            // filter: `&case.assignedToJudge=${details.email}`
+            filter: ``
+        },
+        {
+            jur: 'DIVORCE',
+            caseType: 'FinancialRemedyMVP2',
+            filter: `&state=referredToJudge&case.assignedToJudge=${details.email}`
+            // filter: `&state=referredToJudge`
+        },
+        // {
+        //     jur: 'CMC',
+        //     caseType: 'MoneyClaimCase',
+        //     filter: ''
+        // },
+        // {
+        //     jur: 'PROBATE',
+        //     caseType: 'GrantOfRepresentation',
+        //     filter: ''
+        // }
+    ] : [];
+}
 
 function hasCOR(caseData) {
     return caseData.jurisdiction === 'SSCS';
-}
-
-// TODO put this is the coh-cor microserver module
-function getOnlineHearing(caseIds, options) {
-    return generateRequest('GET', `${config.services.coh_cor_api}/continuous-online-hearings/?${caseIds}`, options);
 }
 
 function getCOR(casesData, options) {
     const caseIds = casesData.map(caseRow => `case_id=${caseRow.id}`).join('&');
     return new Promise(resolve => {
         if (hasCOR(casesData[0])) {
-            getOnlineHearing(caseIds, options)
+            getHearingByCase(caseIds, options)
                 .then(hearings => {
                     if (hearings.online_hearings) {
                         const caseStateMap = new Map(hearings.online_hearings.map(hearing => [Number(hearing.case_id), hearing]));
@@ -124,7 +120,7 @@ function appendQuestionsRound(caseLists, userId, options) {
             hearingsWithQuestionData(caseList, userId, options).then(hearingsWithQuestionData => {
                 if (hearingsWithQuestionData) {
                     const caseStateMap = new Map(hearingsWithQuestionData.map(hearing_data => [Number(hearing_data.hearing.case_id), hearing_data]));
-                    caseList.forEach(caseRow => caseRow.hearing_data = caseStateMap.get(Number(caseRow.id)));
+                    caseList.forEach(caseData => caseData.hearing_data = caseStateMap.get(Number(caseData.id)));
                 }
                 resolve(caseList);
             });
@@ -137,13 +133,16 @@ function appendQuestionsRound(caseLists, userId, options) {
 function processState(caseLists) {
     return caseLists.map(
         caselist => {
-            caselist.map(caseRow => {
-                const jurisdiction = caseRow.jurisdiction;
-                const caseType = caseRow.case_type_id;
-                const ccdState = caseRow.state;
-                const hearingData = caseRow.hearing_data ? caseRow.hearing_data.hearing : undefined;
-                const questionRoundData = hearingData ? caseRow.hearing_data.latest_question_round : undefined;
-                const consentOrder = caseRow.case_data.consentOrder ? caseRow.case_data.consentOrder : undefined
+            caselist.map(caseData => {
+
+                const jurisdiction = caseData.jurisdiction;
+                const caseType = caseData.case_type_id;
+
+                const ccdState = caseData.state;
+                const hearingData = caseData.hearing_data ? caseData.hearing_data.hearing : undefined;
+                const questionRoundData = hearingData ? caseData.hearing_data.latest_question_round : undefined;
+
+                const consentOrder = caseData.case_data.consentOrder ? caseData.case_data.consentOrder : undefined;
 
                 const caseState = processCaseStateEngine({
                     jurisdiction,
@@ -154,14 +153,14 @@ function processState(caseLists) {
                     consentOrder
                 });
 
-                caseRow.state = caseState;
+                caseData.state = caseState;
                 if (caseState.stateDateTime) {
-                    if (new Date(caseRow.last_modified) < new Date(caseState.stateDateTime)) {
-                        caseRow.last_modified = caseState.stateDateTime;
+                    if (new Date(caseData.last_modified) < new Date(caseState.stateDateTime)) {
+                        caseData.last_modified = caseState.stateDateTime;
                     }
                 }
 
-                return caseRow;
+                return caseData;
             });
             return caselist;
         });
@@ -169,21 +168,6 @@ function processState(caseLists) {
 
 function applyStateFilter(caseLists) {
     return caseLists.map(caseList => caseList.filter(caseStateFilter));
-}
-
-
-function applyAssignedToFilter(caseList, options) {
-    function applyFilter(case1, details) {
-        // TODO this should finally be applicable to all jurisdictions, at the moment its only FR.
-        if(case1.case_jurisdiction.toLowerCase() === DIVORCE_JUR.toLowerCase()
-            && case1.case_type_id.toLowerCase() === FR_JUR.toLowerCase()) {
-            return case1.assignedToJudge === details.email
-        } else {
-            return true;
-        }
-    }
-    return getUserDetails(options)
-        .then(details => caseList.filter(case1 => applyFilter(case1, details)));
 }
 
 function rawCasesReducer(cases, columns) {
@@ -202,6 +186,7 @@ function rawCasesReducer(cases, columns) {
 }
 
 function convertCaselistToTemplate(caseLists) {
+
     return caseLists.map(
         caselist => {
             if (caselist && caselist.length) {
@@ -227,21 +212,11 @@ function aggregatedData(results) {
     return {...sscsCaseListTemplate, results};
 }
 
-
-
 function getOptions(req) {
     return {
         headers: {
             Authorization: `Bearer ${req.auth.token}`,
             ServiceAuthorization: req.headers.ServiceAuthorization
-        }
-    };
-}
-
-function getUserDetailsOption(req) {
-    return {
-        headers: {
-            'Authorization': `Bearer ${req.auth.token}`
         }
     };
 }
@@ -252,35 +227,41 @@ module.exports = app => {
     router.get('/', (req, res, next) => {
         const userId = req.auth.userId;
         const options = getOptions(req);
-        const userDetailsOptions = getUserDetailsOption(req);
 
-        getMutiJudCCDCases(userId, jurisdictions, options)
-            .then(caseLists => appendCOR(caseLists, options))
-            .then(caseLists => appendQuestionsRound(caseLists, userId, options))
-            .then(processState)
-            .then(applyStateFilter)
-            .then(convertCaselistToTemplate)
-            .then(combineLists)
-            .then(caseLists => applyAssignedToFilter(caseLists, userDetailsOptions))
-            .then(sortCases)
-            .then(aggregatedData)
-            .then(results => {
-                res.setHeader('Access-Control-Allow-Origin', '*');
-                res.setHeader('content-type', 'application/json');
-                res.status(200).send(JSON.stringify(results));
-            })
-            .catch(response => {
-                console.log(response.error || response);
-                res.status(response.statusCode || 500)
-                    .send(response);
-            });
+        getUserDetails(options)
+            .then( details => {
+                const userJurisdictions = getJurisdictions(details);
+
+                getMutiJudCCDCases(userId, userJurisdictions, options)
+                    .then(caseLists => appendCOR(caseLists, options))
+                    .then(caseLists => appendQuestionsRound(caseLists, userId, options))
+                    .then(processState)
+                    .then(applyStateFilter)
+                    .then(convertCaselistToTemplate)
+                    .then(combineLists)
+                    .then(sortCases)
+                    .then(aggregatedData)
+                    .then(results => {
+                        res.setHeader('Access-Control-Allow-Origin', '*');
+                        res.setHeader('content-type', 'application/json');
+                        res.status(200).send(JSON.stringify(results));
+                    })
+                    .catch(response => {
+                        console.log(response.error || response);
+                        res.status(response.statusCode || 500)
+                            .send(response);
+                    });
+            }
+        );
+
     });
 
     router.get('/raw', (req, res, next) => {
         const userId = req.auth.userId;
         const options = getOptions(req);
+        const userJurisdictions = getJurisdictions();
 
-        getMutiJudCCDCases(userId, jurisdictions, options)
+        getMutiJudCCDCases(userId, userJurisdictions, options)
             .then(combineLists)
             .then(results => {
                 res.setHeader('Access-Control-Allow-Origin', '*');
@@ -298,9 +279,11 @@ module.exports = app => {
     router.get('/raw/coh', (req, res, next) => {
         const userId = req.auth.userId;
         const options = getOptions(req);
+        const userJurisdictions = getJurisdictions();
 
-        getMutiJudCCDCases(userId, jurisdictions, options)
-            .then(caseLists => appendCOR(caseLists, userId, options, jurisdictions))
+        getMutiJudCCDCases(userId, userJurisdictions, options)
+            .then(caseLists => appendCOR(caseLists, options))
+            .then(caseLists => appendQuestionsRound(caseLists, userId, options))
             .then(combineLists)
             .then(results => {
                 res.setHeader('Access-Control-Allow-Origin', '*');

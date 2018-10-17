@@ -5,21 +5,36 @@ module.exports = {
             question_answered: 'Appellant’s answers',
             question_deadline_elapsed: 'Incomplete response from appellant',
             question_deadline_extension_elapsed: 'Incomplete response from appellant',
-            question_drafted: 'Question drafted'
+            question_drafted: 'Question drafted',
+            continuous_online_hearing_decision_issued: 'Decision issued',
+            question_deadline_extension_granted: 'Question deadline extension granted',
+            question_issued: 'Question issued',
+            appealCreated: 'Appeal created'
         }
     },
     cmc: {
-        moneyclaimcase: {}
+        moneyclaimcase: {
+            open: 'Open'
+        }
     },
     probate: {
-        grantofrepresentation: {}
+        grantofrepresentation: {
+            BOExamining: 'BO Examining',
+            PAAppCreated: 'PA app created',
+            CasePrinted: 'Case printed',
+            CaseCreated: 'Case created',
+            CasePaymentFailed: 'Case payment failed'
+        }
     },
     divorce: {
         divorce: {
             AwaitingPayment: 'Awaiting payment',
             AosAwaiting: 'Aos awaiting',
             AosStarted: 'Aos started',
-            AwaitingHWFDecision: 'Awaiting HWF decision'
+            AosCompletedAwaitingAnswer: 'Aos completed awaiting answer',
+            AosCompleted: 'Aos completed',
+            AwaitingHWFDecision: 'Awaiting HWF decision',
+            AwaitingDecreeNisi: 'Awaiting decree nisi'
         },
         financialremedymvp2: {
             consentOrderMade: 'Consent Order Made',

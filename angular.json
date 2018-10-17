@@ -120,8 +120,8 @@
                     "options": {
                         "codeCoverage": true,
                         "codeCoverageExclude": [
-                            "test/**/*",
-                            "config/**/*",
+                            "test/**",
+                            "config/**",
                             "src/environments/**"
                         ],
                         "main": "src/test.ts",

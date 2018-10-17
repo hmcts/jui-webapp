@@ -5,7 +5,6 @@ var createQuestionsPage = require('../../pages/createQuestionsPage');
 var questionsSuccessPage = require('../../pages/questionSuccessPage');
 var {defineSupportCode} = require('cucumber');
 
-const config = require('../../../config/conf.js');
 
 const EC = protractor.ExpectedConditions;
 
