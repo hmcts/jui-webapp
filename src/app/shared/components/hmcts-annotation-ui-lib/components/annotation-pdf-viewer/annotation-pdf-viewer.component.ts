@@ -55,7 +55,7 @@ export class AnnotationPdfViewerComponent implements OnInit {
 
     loadAnnotations(annotate: boolean) {
         if (annotate) {
-            this.apiHttpService.baseUrl = this.baseUrl;
+            this.apiHttpService.setBaseUrl(this.baseUrl);
             this.annotationStoreService.preLoad(this.annotationSet);
             this.npaService.outputDmDocumentId.next(this.outputDmDocumentId);
         } else {
@@ -72,7 +72,6 @@ export class AnnotationPdfViewerComponent implements OnInit {
                     this.pdfService.setPageNumber(parseInt(pageNumber));
                     break;
                 }
-                ;
                 currentParent = currentParent.parentNode;
             }
         }

@@ -13,7 +13,7 @@ declare const PDFAnnotate: any;
 @Injectable()
 export class AnnotationStoreService implements OnDestroy {
 
-    annotationChangeSubscription: Subscription
+    annotationChangeSubscription: Subscription;
 
     constructor(private pdfAdapter: PdfAdapter,
                 private apiHttpService: ApiHttpService,

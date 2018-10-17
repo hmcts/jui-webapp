@@ -1,7 +1,8 @@
-import {Component, OnInit, Renderer2, ChangeDetectorRef, AfterViewInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, Renderer2, ChangeDetectorRef, AfterViewInit, OnDestroy, Inject} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {PdfService} from '../../data/pdf.service';
 import {AnnotationStoreService} from '../../data/annotation-store.service';
+import { DOCUMENT } from '@angular/platform-browser';
 
 declare const PDFAnnotate: any;
 
@@ -9,7 +10,7 @@ declare const PDFAnnotate: any;
     selector: 'app-comments',
     templateUrl: './comments.component.html',
     styleUrls: ['./comments.component.scss'],
-    providers: []
+    providers: [ { provide: 'DOCUMENT', useValue: document }]
 })
 export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
 
@@ -21,7 +22,8 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
     constructor(private annotationStoreService: AnnotationStoreService,
                 private pdfService: PdfService,
                 private render: Renderer2,
-                private ref: ChangeDetectorRef) {
+                private ref: ChangeDetectorRef,
+                @Inject(DOCUMENT) private document: any) {
     }
 
     ngOnInit() {
@@ -33,10 +35,10 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.pageNumber = pageNumber;
                 this.showAllComments();
             });
-    };
+    }
 
     ngAfterViewInit() {
-        document.querySelector('#viewer').addEventListener('click', this.handleAnnotationBlur.bind(this));
+        this.document.querySelector('#viewer').addEventListener('click', this.handleAnnotationBlur.bind(this));
         PDFAnnotate.UI.addEventListener('annotation:click', this.handleAnnotationClick.bind(this));
     }
 
@@ -64,7 +66,7 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
     sortByY(annotations) {
         annotations.sort(
             function (a, b) {
-                var keyA = a.rectangles[0].y,
+                const keyA = a.rectangles[0].y,
                     keyB = b.rectangles[0].y;
                 if (keyA < keyB) return -1;
                 if (keyA > keyB) return 1;
@@ -111,7 +113,7 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     addHighlightedCommentStyle(linkedAnnotationId) {
-        const annotations = Array.from(document.querySelector(`#pageContainer${this.pageNumber} .annotationLayer`).childNodes);
+        const annotations = Array.from(this.document.querySelector(`#pageContainer${this.pageNumber} .annotationLayer`).childNodes);
 
         annotations.forEach(annotation => {
             this.render.removeClass(annotation, 'comment-selected');

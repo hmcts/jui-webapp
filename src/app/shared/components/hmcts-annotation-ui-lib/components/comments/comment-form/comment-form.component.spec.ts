@@ -5,14 +5,13 @@ import { AnnotationStoreService } from '../../../data/annotation-store.service';
 import { FormsModule } from '@angular/forms';
 import { Comment } from '../../../data/annotation-set.model';
 import { DebugElement } from '@angular/core';
-import { By } from '@angular/platform-browser';
 
 class MockAnnotationStoreService {
   addComment(model: Comment) {
   }
 }
 
-fdescribe('CommentFormComponent', () => {
+describe('CommentFormComponent', () => {
 
   let component: CommentFormComponent;
   let fixture: ComponentFixture<CommentFormComponent>;

@@ -6,9 +6,17 @@ import {Annotation, IAnnotation, IAnnotationSet} from './annotation-set.model';
 
 @Injectable()
 export class ApiHttpService {
-    baseUrl = '/api';
+    private baseUrl = '/api';
 
     constructor(private httpClient: HttpClient) {
+    }
+
+    setBaseUrl(baseUrl: string) {
+        this.baseUrl = baseUrl;
+    }
+
+    getBaseUrl(): string {
+        return this.baseUrl;
     }
 
     createAnnotationSet(baseUrl, body): Observable<HttpResponse<IAnnotationSet>> {

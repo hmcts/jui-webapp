@@ -34,7 +34,7 @@ describe('CommentItemComponent', () => {
       declarations: [ CommentItemComponent ],
       providers: [
         { provide: AnnotationStoreService, useFactory: () => mockAnnotationStoreService }
-    ],
+      ],
       imports: [ FormsModule ]
     })
     .compileComponents();
