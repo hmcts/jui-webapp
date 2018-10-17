@@ -1,7 +1,7 @@
-import {Observable, Subject} from 'rxjs';
+import {Observable} from 'rxjs';
 import {HttpResponse, HttpClient} from '@angular/common/http';
-import {IDocumentTask} from './document-task.model';
 import {Injectable} from '@angular/core';
+import {IDocumentTask} from './document-task.model';
 import {Annotation, IAnnotation, IAnnotationSet} from './annotation-set.model';
 
 @Injectable()

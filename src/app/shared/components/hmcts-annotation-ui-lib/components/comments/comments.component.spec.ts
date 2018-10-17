@@ -1,37 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { DOCUMENT } from '@angular/platform-browser';
 import { Subject, Observable } from 'rxjs';
 
 import { CommentsComponent } from './comments.component';
 import { AnnotationStoreService } from '../../data/annotation-store.service';
 import { PdfService } from '../../data/pdf.service';
 import { Annotation, Comment } from '../../data/annotation-set.model';
-import { Component, Input, Output, EventEmitter, Renderer2, RootRenderer, Type } from '@angular/core';
-import { CommentItemComponent } from './comment-item/comment-item.component';
-import { CommentFormComponent } from './comment-form/comment-form.component';
-import { FormsModule } from '@angular/forms';
-import { DOCUMENT } from '@angular/platform-browser';
 
-@Component({
-  selector: 'app-comment-item',
-  template: '',
-  providers: []
-})
-class MockCommentItemComponent {
-  @Input() annotation;
-  @Input() comment;
-  @Input() selectedAnnotationId;
-  @Output() commentSubmitted: EventEmitter<String> = new EventEmitter<String>();
-  @Output() commentSelected: EventEmitter<String> = new EventEmitter<String>();
-}
+declare global { interface Window { PDFAnnotate: any; } }
 
-@Component({
-  selector: 'app-comment-form',
-  template: '',
-  providers: []
-})
-class MockCommentFormComponent {
-  @Output() commentSubmitted: EventEmitter<string> = new EventEmitter<string>();
-  @Input() selectedAnnotationId;
+class PDFAnnotate {
+  UI = document.createElement('div');
 }
 
 class MockPdfService {
@@ -48,13 +28,13 @@ class MockPdfService {
 }
 
 class MockAnnotationStoreService {
-  getAnnotationsForPage(pageNumber) {
+  getAnnotationsForPage() {
     return new Promise((resolve) => {
       resolve([]);
     });
   }
 
-  getAnnotationById(annotationId) {
+  getAnnotationById() {
     const annotation = new Annotation('96978485-bb8a-4593-b7cc-3f11dc1d569a',
                     '1058c847-f527-41af-ba7c-40014ad2174b',
                     '124575', new Date(), null, null,
@@ -65,7 +45,7 @@ class MockAnnotationStoreService {
     });
   }
 
-  getCommentsForAnnotation(annotationId) {
+  getCommentsForAnnotation() {
     const comments = [
       new Comment('e337ce78-c4c8-4111-8756-7d44006b4428',
                   '96978485-bb8a-4593-b7cc-3f11dc1d569a',
@@ -83,11 +63,10 @@ class MockAnnotationStoreService {
 }
 
 describe('CommentsComponent', () => {
+  window.PDFAnnotate = new PDFAnnotate();
+
   const mockAnnotationStoreService = new MockAnnotationStoreService();
   const mockPdfService = new MockPdfService();
-  // const mockDocument = window.document;
-  // let renderer2: Renderer2;
-
   let component: CommentsComponent;
   let fixture: ComponentFixture<CommentsComponent>;
 
@@ -95,18 +74,14 @@ describe('CommentsComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [
-        CommentsComponent,
-        CommentItemComponent,
-        CommentFormComponent
-       ],
+        CommentsComponent
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
       providers: [
-        // Renderer2,
-        // { provide: 'DOCUMENT', useFactory: () => mockDocument },
         { provide: PdfService, useFactory: () => mockPdfService },
         { provide: AnnotationStoreService, useFactory: () => mockAnnotationStoreService }
       ],
       imports: [
-        FormsModule
       ]
     })
     .compileComponents();
@@ -115,27 +90,16 @@ describe('CommentsComponent', () => {
   beforeEach(() => {
     spyOn(mockPdfService, 'getPageNumber')
       .and.returnValue(Observable.of(1));
-    // spyOn(mockDocument, 'querySelector').and.callFake(function() {
-    //   return {
-    //     value: 'test'
-    //   };
-    // });
 
     fixture = TestBed.createComponent(CommentsComponent);
     component = fixture.componentInstance;
-
     const mockDocument = fixture.componentRef.injector.get(DOCUMENT);
-    spyOn(mockDocument, 'querySelector').and.callFake(function() {});
+    spyOn(mockDocument, 'querySelector').and.callFake(function() {
+      const dummyElement = document.createElement('div');
+      return dummyElement;
+    });
     spyOn(mockDocument, 'addEventListener').and.callFake(function() {
     });
-    // renderer2 = fixture.componentRef.injector.get<Renderer2>(Renderer2 as Type<Renderer2>);
-    // // and spy on it
-    // spyOn(renderer2, 'addClass').and.callFake(function() {
-    // });
-    // // or replace
-    // spyOn(renderer2, 'removeClass').and.callFake(function() {
-    // });
-    // // etc
 
     fixture.detectChanges();
   });
@@ -143,4 +107,5 @@ describe('CommentsComponent', () => {
   it('should create', () => {
    expect(component).toBeTruthy();
   });
+
 });

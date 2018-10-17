@@ -10,7 +10,7 @@ declare const PDFAnnotate: any;
     selector: 'app-comments',
     templateUrl: './comments.component.html',
     styleUrls: ['./comments.component.scss'],
-    providers: [ { provide: 'DOCUMENT', useValue: document }]
+    providers: []
 })
 export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
 
@@ -44,7 +44,9 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngOnDestroy() {
         this.ref.detach();
-        this.subscription.unsubscribe();
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
     }
 
     showAllComments() {

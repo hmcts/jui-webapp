@@ -47,7 +47,7 @@ class MockCommentComponent {}
 
 class MockToolbarComponent {}
 
-fdescribe('ViewerComponent', () => {
+describe('ViewerComponent', () => {
   let component: AnnotationPdfViewerComponent;
   let fixture: ComponentFixture<AnnotationPdfViewerComponent>;
 
