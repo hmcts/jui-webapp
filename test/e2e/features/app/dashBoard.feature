@@ -30,7 +30,7 @@ Feature: Dashboard
 
 
     #FR specific judge to login n verify
-    @RIUI-895 @all
+    @RIUI-895
     Scenario: Verify FR cases 'Draft consent order' link redirection
         When I see Draft consent order on dashboard
         Then I select a Draft consent order from decision needed on column

@@ -21,6 +21,6 @@ Feature: View Case Summary Page
 #        |PIP    |
 
 
-        Scenario: Verify summary page missed features
+
 
 

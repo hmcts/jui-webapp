@@ -137,65 +137,65 @@ defineSupportCode(function({ Given, When, Then }) {
 
 
     Then(/^I should see table header columns$/, async function() {
-        await expect(dashBoardPage.table.isDisplayed()).to.eventually.be.true;
+        // await expect(dashBoardPage.table.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.table_column_header.isDisplayed()).to.eventually.be.true;
 
     });
 
 
-    Then(/^I should see table each column header text as (.*), (.*),(.*), (.*), (.*), (.*)$/, async function() {
+    Then(/^I should see table each column header text as (.*), (.*),(.*), (.*), (.*), (.*)$/, async function(case_num,parties,type,decision,case_received,date_of_last) {
         await expect(dashBoardPage.case_number_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.case_number_header.getText())
             .to
             .eventually
-            .equal('Case number');
+            .equal(case_num);
 
         await expect(dashBoardPage.parties_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.parties_header.getText())
             .to
             .eventually
-            .equal('Parties');
+            .equal(parties);
 
         await expect(dashBoardPage.type_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.type_header.getText())
             .to
             .eventually
-            .equal('Type');
+            .equal(type);
 
         await expect(dashBoardPage.decision_needed_on_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.decision_needed_on_header.getText())
             .to
             .eventually
-            .equal('Decision needed on');
+            .equal(decision);
 
         await expect(dashBoardPage.case_received_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.case_received_header.getText())
             .to
             .eventually
-            .equal('Case received');
+            .equal(case_received);
 
         await expect(dashBoardPage.date_of_last_action_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.date_of_last_action_header.getText())
             .to
             .eventually
-            .equal('Date of last event');
+            .equal(date_of_last);
 
 
     });
 
 
-    When(/^I see (.*) on dashboard$/, async function() {
+    When(/^I see (.*) on dashboard$/, async function(draft_consent_order) {
         await expect(dashBoardPage.draft_consent_order_link.first()
             .isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.draft_consent_order_link.first()
             .getText())
             .to
             .eventually
-            .equal('Draft consent order');
+            .equal(draft_consent_order);
     });
 
 
-    Then(/^I select a (.*) from Decision needed on column$/, async function() {
+    Then(/^I select a (.*) from Decision needed on column$/, async function(draft_consent_order) {
         await dashBoardPage.draft_consent_order_link.first()
             .click();
 
@@ -207,7 +207,7 @@ defineSupportCode(function({ Given, When, Then }) {
         await expect(caseFilePage.case_file_header.getText())
             .to
             .eventually
-            .equal("Case file");
+            .equal('Case file');
 
     });
 
