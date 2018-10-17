@@ -114,10 +114,14 @@ export class CheckDecisionComponent implements OnInit {
                 (response) => {
                     this.npaDocumentTask = response.body;
                     if (this.npaDocumentTask.taskState === 'FAILED') {
-                        this.handleNpaError(this.npaDocumentTask.failureDescription);
+                        console.log("ERROR: ",this.npaDocumentTask.failureDescription);
+                       // this.handleNpaError(this.npaDocumentTask.failureDescription);
                     }
                 },
-                response => { this.handleNpaError('Could not create annotated PDF.'); });
+                response => {
+                    console.log("ERROR: Could not create annotated PDF.");
+                    //this.handleNpaError('Could not create annotated PDF.');
+                });
         }
     }
     handleNpaError(message) {
