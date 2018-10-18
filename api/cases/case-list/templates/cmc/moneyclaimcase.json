@@ -27,7 +27,7 @@
 
         },
         {
-            "label": "Case Start Date",
+            "label": "Case received",
             "case_field_id": "createdDate",
             "value": "$.created_date",
             "date_format": "d MMM yyyy"

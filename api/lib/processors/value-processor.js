@@ -21,7 +21,11 @@ const dataLookup = (lookup, caseData) => {
             value = documentProcessor(value, caseData);
         }
         if (value && processor && processor === 'newline_processor') {
-            value = value ? (`${value}\n`) : '';
+            if (typeof value === 'string') {
+                value = value ? (`${value}\n`) : '';
+            } else if (Array.isArray(value)) {
+                value = value.filter(v => v).join('\n');
+            }
         }
         if (splitLookup.length > 1 && processor === 'if_empty_processor') {
             value = (value) ? value : splitLookup[2] ? splitLookup[2] : '';

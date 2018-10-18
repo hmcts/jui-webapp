@@ -1,3 +1,22 @@
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://travis-ci.org/hmcts/rpa-jui-webapp.svg?branch=master)](https://travis-ci.org/hmcts/rpa-jui-webapp)
+[![codecov](https://codecov.io/gh/hmcts/rpa-jui-webapp/branch/master/graph/badge.svg)](https://codecov.io/gh/hmcts/rpa-jui-webapp)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/fbdfcfc51d514d7f8f405d5cb509cb5a)](https://www.codacy.com/app/HMCTS/rpa-jui-webapp)
+[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/fbdfcfc51d514d7f8f405d5cb509cb5a)](https://www.codacy.com/app/HMCTS/rpa-jui-webapp)
+[![Known Vulnerabilities](https://snyk.io/test/github/hmcts/rpa-jui-webapp/badge.svg)](https://snyk.io/test/github/hmcts/rpa-jui-webapp)
+
+[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=bugs)](https://sonarcloud.io/dashboard?id=rpa-jui-webapp)
+[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=coverage)](https://sonarcloud.io/dashboard?id=rpa-jui-webapp)
+[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=rpa-jui-webapp)
+[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=ncloc)](https://sonarcloud.io/dashboard?id=rpa-jui-webapp)
+[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=rpa-jui-webapp)
+[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=alert_status)](https://sonarcloud.io/dashboard?id=rpa-jui-webapp)
+[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=rpa-jui-webapp)
+[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=security_rating)](https://sonarcloud.io/dashboard?id=rpa-jui-webapp)
+[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=sqale_index)](https://sonarcloud.io/dashboard?id=rpa-jui-webapp)
+[![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=rpa-jui-webapp)
+
+
 # Judaical UI Webapp
 
 This is the Web Application to allow Judaical staff (Judges & Panel Members) to access and work on cases.

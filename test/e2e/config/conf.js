@@ -19,7 +19,7 @@ const jenkinsConfig = [
         acceptInsecureCerts: true,
         nogui: true,
 
-        chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote '] }
+        chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote ', '--disableChecks' ] }
      }
 ];
 
@@ -86,6 +86,7 @@ const config = {
         strict: true,
         // format: ['node_modules/cucumber-pretty'],
         format: 'json:reports_json/results.json',
+        tags: ['@all'],
         require: [
             '../support/world.js',
             '../support/*.js',
@@ -128,6 +129,6 @@ const config = {
     //     new HTMLReport().from('xmlresults.xml', testConfig);},
 };
 
-config.cucumberOpts.tags = tagProcessor(config, argv);
+//config.cucumberOpts.tags = tagProcessor(config, argv);
 
 exports.config = config;
