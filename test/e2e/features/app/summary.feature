@@ -11,7 +11,7 @@ Feature: View Case Summary Page
     Scenario: I can see the summary page
         Then I should expect the url to "match" "(.+)/viewcase/(.+)/summary"
 
-    @RIUI_299 @all
+    @RIUI_299
     Scenario: I can see case summary and panel members information
         Then I should see case details of that case
         Then I should see related cases or panel members details for that case

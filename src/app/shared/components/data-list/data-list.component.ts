@@ -12,8 +12,9 @@ export class DataListComponent implements OnChanges {
     @Input() dataList = [];
     newDataList = [];
 
+    // Todo: the dash '-' need to be moved to the API level one day.
     ngOnChanges(changes): void {
-        this.newDataList = this.dataList.map(o => [{text: o.label}, {text: o.value}]);
+        this.newDataList = this.dataList.map(o => [{text: o.label}, {text: o.value || '-'}]);
     }
 }
 
