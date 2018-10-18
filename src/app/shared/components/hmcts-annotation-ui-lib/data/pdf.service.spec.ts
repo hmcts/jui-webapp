@@ -14,8 +14,7 @@ class PDFAnnotate {
 
 class PDFJS {
   workerSrc;
-  getDocument(documentId) {
-  }
+  getDocument(documentId) {}
 }
 
 describe('PdfService', () => {
@@ -32,49 +31,55 @@ describe('PdfService', () => {
     expect(service).toBeTruthy();
   }));
 
-  it('should define pdf variables when preRun is called', inject([PdfService], (service: PdfService) => {
-    service.preRun();
-    expect(service.UI).toBeTruthy();
-    expect(service.getPageNumber()).toBeTruthy();
-  }));
+  describe('preRun', () => {
+    it('should define pdf variables', inject([PdfService], (service: PdfService) => {
+      service.preRun();
+      expect(service.UI).toBeTruthy();
+      expect(service.getPageNumber()).toBeTruthy();
+    }));
+  });
 
-  it('render should set workerSrc', inject([PdfService], (service: PdfService) => {
-    spyOn(window.PDFJS, 'getDocument').and.returnValue(
-        new Promise((resolve) => {
-          resolve({pdfInfo: { numPages: 65}});
-        }
-      ));
-    service.setRenderOptions({
+  describe('render', () => {
+    it('render should set workerSrc', inject([PdfService], (service: PdfService) => {
+      spyOn(window.PDFJS, 'getDocument').and.returnValue(
+          new Promise((resolve) => {
+            resolve({pdfInfo: { numPages: 65}});
+          }
+        ));
+      service.setRenderOptions({
+          documentId: 'documentId',
+          pdfDocument: null,
+          scale: 1.33,
+          rotate: 0
+        });
+      service.render(null);
+
+      expect(window.PDFJS.workerSrc).toBeTruthy();
+    }));
+
+    it('calls renderPage method', inject([PdfService], (service: PdfService) => {
+      spyOn(window.PDFAnnotate.UI, 'renderPage');
+      service.renderPage(1);
+      expect(window.PDFAnnotate.UI.renderPage).toHaveBeenCalled();
+    }));
+  });
+
+  describe('setHighlightTool', () => {
+    it('invokes PDFAnnotate methods when setHighlightTool called',  inject([PdfService], (service: PdfService) => {
+      spyOn(window.PDFAnnotate.UI, 'enableRect');
+      spyOn(window.PDFAnnotate.UI, 'disableEdit');
+
+      service.setRenderOptions({
         documentId: 'documentId',
         pdfDocument: null,
         scale: 1.33,
         rotate: 0
       });
-    service.render(null);
+      service.setHighlightTool();
 
-    expect(window.PDFJS.workerSrc).toBeTruthy();
-  }));
-
-  it('calls renderPage method', inject([PdfService], (service: PdfService) => {
-    spyOn(window.PDFAnnotate.UI, 'renderPage');
-    service.renderPage(1);
-    expect(window.PDFAnnotate.UI.renderPage).toHaveBeenCalled();
-  }));
-
-  it('invokes PDFAnnotate methods when setHighlightTool called',  inject([PdfService], (service: PdfService) => {
-    spyOn(window.PDFAnnotate.UI, 'enableRect');
-    spyOn(window.PDFAnnotate.UI, 'disableEdit');
-
-    service.setRenderOptions({
-      documentId: 'documentId',
-      pdfDocument: null,
-      scale: 1.33,
-      rotate: 0
-    });
-    service.setHighlightTool();
-
-    expect(window.PDFAnnotate.UI.enableRect).toHaveBeenCalled();
-    expect(window.PDFAnnotate.UI.disableEdit).toHaveBeenCalled();
-  }));
+      expect(window.PDFAnnotate.UI.enableRect).toHaveBeenCalled();
+      expect(window.PDFAnnotate.UI.disableEdit).toHaveBeenCalled();
+    }));
+  });
 
 });

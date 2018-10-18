@@ -3,7 +3,6 @@ import {Annotation, AnnotationSet, Comment, Rectangle} from './annotation-set.mo
 import {Utils} from './utils';
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 declare const PDFAnnotate: any;
 
