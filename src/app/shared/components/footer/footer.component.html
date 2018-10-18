@@ -1,23 +1,14 @@
-<footer class="jui-footer" role="contentinfo">
+<app-hmcts-global-footer
+    [help]="{
+    heading: 'Help',
+    email: { address: email, text: email },
+    phone: { text: phone },
+    opening: { text: 'Monday to Friday, 8am to 6pm (excluding public holidays)' }
+    }"
 
-    <div class="jui-width-container">
-
-        <h2 class="jui-footer__heading">Help</h2>
-
-        <ul class="jui-footer__list">
-            <li>Email: <a href="mailto:{{email}}">{{email}}</a></li>
-            <li>Phone: {{phone}}</li>
-            <li><span class="visually-hidden">Opening times: </span>Monday to Friday, 8am to 6pm (excluding public holidays)</li>
-        </ul>
-
-        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-
-        <ul class="jui-footer__list  jui-footer__list--inline">
-            <li><a routerLink="terms-and-conditions">Terms and conditions</a></li>
-            <li><a routerLink="cookies">Cookies</a></li>
-            <li><a routerLink="privacy-policy">Privacy policy</a></li>
-        </ul>
-
-    </div>
-
-</footer>
+    [navigation]="{ items: [
+    { text: 'Terms and conditions',href: 'terms-and-conditions'},
+    { text: 'Cookies', href: 'cookies' },
+    { text: 'Privacy policy', href: 'privacy-policy'}
+    ]}"
+></app-hmcts-global-footer>

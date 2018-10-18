@@ -1,5 +1,5 @@
 const processCaseStateEngine = require('./case-state-model');
-const { COH_STATE, Q_DEADLINE_ELAPSED_STATE, Q_DEADLINE_EXT_ELAPSED_STATE, DECISION_ISSUED_STATE, RELISTED_STATE } = require('./case-state-util');
+const { STATE, GO_TO } = require('./case-state-util');
 
 describe('Case State Process Engine', () => {
 
@@ -16,7 +16,7 @@ describe('Case State Process Engine', () => {
         const caseState = processCaseStateEngine(fact);
 
         expect(caseState.stateName).toEqual('awaitingPayment');
-        expect(caseState.actionGoTo).toEqual('');
+        expect(caseState.actionGoTo).toEqual(GO_TO.SUMMARY_GO_TO);
     });
 
     describe('COH states', () => {
@@ -26,7 +26,7 @@ describe('Case State Process Engine', () => {
         beforeEach(() => {
             fact.hearingData = {
                 current_state: {
-                    state_name: COH_STATE,
+                    state_name: STATE.COH_STARTED_STATE,
                     state_datetime: stateDateTime
                 }
             };
@@ -39,21 +39,22 @@ describe('Case State Process Engine', () => {
         it('should return coh-state', () => {
             caseState = processCaseStateEngine(fact);
 
-            expect(caseState.stateName).toEqual(COH_STATE);
+            expect(caseState.stateName).toEqual(STATE.COH_STARTED_STATE);
+            expect(caseState.actionGoTo).toEqual(GO_TO.CASE_FILE_GO_TO);
         });
 
         it('should return decision-issued-state', () => {
-            fact.hearingData.current_state.state_name = DECISION_ISSUED_STATE;
+            fact.hearingData.current_state.state_name = STATE.COH_DECISION_ISSUED_STATE;
 
             caseState = processCaseStateEngine(fact);
-            expect(caseState.stateName).toEqual(DECISION_ISSUED_STATE);
+            expect(caseState.stateName).toEqual(STATE.COH_DECISION_ISSUED_STATE);
         });
 
         it('should return relisted-state', () => {
-            fact.hearingData.current_state.state_name = RELISTED_STATE;
+            fact.hearingData.current_state.state_name = STATE.COH_RELISTED_STATE;
 
             caseState = processCaseStateEngine(fact);
-            expect(caseState.stateName).toEqual(RELISTED_STATE);
+            expect(caseState.stateName).toEqual(STATE.COH_RELISTED_STATE);
         });
 
         describe('Question states', () => {
@@ -68,27 +69,27 @@ describe('Case State Process Engine', () => {
             });
 
             afterEach(() => {
-                expect(caseState.actionGoTo).toEqual('questions');
+                expect(caseState.actionGoTo).toEqual(GO_TO.QUESTIONS_GO_TO);
             });
 
             it('should return a question-state', () => {
                 caseState = processCaseStateEngine(fact);
-                expect(caseState.stateName).toEqual('question_issued');
+                expect(caseState.stateName).toEqual(STATE.COH_Q_QUESTION_ISSUED_STATE);
             });
 
             it('should return a deadline-elapsed-state', () => {
-                fact.questionRoundData.questions[0].state = Q_DEADLINE_ELAPSED_STATE;
+                fact.questionRoundData.questions[0].state = STATE.COH_Q_DEADLINE_ELAPSED_STATE;
 
                 caseState = processCaseStateEngine(fact);
-                expect(caseState.stateName).toEqual(Q_DEADLINE_ELAPSED_STATE);
+                expect(caseState.stateName).toEqual(STATE.COH_Q_DEADLINE_ELAPSED_STATE);
             });
 
             it('should return a deadline-extension-elapsed-state', () => {
-                fact.questionRoundData.state = Q_DEADLINE_ELAPSED_STATE;
+                fact.questionRoundData.state = STATE.COH_Q_DEADLINE_ELAPSED_STATE;
                 fact.questionRoundData.deadline_extension_count = 1;
 
                 caseState = processCaseStateEngine(fact);
-                expect(caseState.stateName).toEqual(Q_DEADLINE_EXT_ELAPSED_STATE);
+                expect(caseState.stateName).toEqual(STATE.COH_Q_DEADLINE_EXT_ELAPSED_STATE);
             });
         });
 

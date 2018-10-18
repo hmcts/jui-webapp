@@ -3,7 +3,8 @@
 var dashBoardPage = require('../../pages/dashBoardPage');
 var caseSummaryPage = require('../../pages/caseSummaryPage');
 var { defineSupportCode } = require('cucumber');
-const config = require('../../../config/conf.js');
+
+
 
 const EC = protractor.ExpectedConditions;
 
@@ -68,11 +69,12 @@ defineSupportCode(function({ Given, When, Then }) {
                 .to
                 .eventually
                 .equal("Case details");
-            await expect(caseSummaryPage.caseDetails_header_text.get(1)
-                .getText())
-                .to
-                .eventually
-                .equal("Related cases");
+            // This is only true if it FR not SSCS or DIV
+            // await expect(caseSummaryPage.caseDetails_header_text.get(1)
+            //     .getText())
+            //     .to
+            //     .eventually
+            //     .equal("Related cases");
 
     });
 

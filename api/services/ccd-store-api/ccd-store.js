@@ -8,7 +8,7 @@ const url = config.services.ccd_data_api
 const logger = log4js.getLogger('ccd-store')
 logger.level = config.logging
 
-// No need to pollute codebase with endless mock requests given that this differs minorly to the main request?
+// No need to mock requests given that  differs minorly to the main request?
 // Do switch in one place
 // Don't check envromental strings all over code base , its a global dependency so should be set in one place
 // https://eslint.org/docs/rules/no-process-env
@@ -55,6 +55,7 @@ function getCCDCases(userId, jurisdiction, caseType, filter, options) {
 }
 
 // TODO: This should eventually replace ccd better mutijud search
+// jurisdictions is [{jur,caseType,filter},...]
 function getMutiJudCCDCases(userId, jurisdictions, options) {
     function handle(promise) {
         return promise.then(
@@ -68,8 +69,8 @@ function getMutiJudCCDCases(userId, jurisdictions, options) {
     }
     const promiseArray = []
     jurisdictions.forEach(jurisdiction => {
-        promiseArray.push(getCCDCases(userId, jurisdiction.jur, jurisdiction.caseType, jurisdiction.filter, options))
-    })
+        promiseArray.push(getCCDCases(userId, jurisdiction.jur, jurisdiction.caseType, jurisdiction.filter, options));
+    });
 
     return Promise.all(promiseArray.map(handle)).then(results => {
         return results.filter(x => x.status).map(x => x.v)
@@ -105,9 +106,6 @@ module.exports = app => {
         getInfo(getOptions(req)).pipe(res)
     })
 }
-
-// dont link exports like this
-// module.exports.getCCDCase = getCCDCase
 
 module.exports = {
     getCCDCase,

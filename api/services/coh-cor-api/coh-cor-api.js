@@ -9,6 +9,7 @@ function getHearing(hearingId, options) {
     return generateRequest('GET', `${url}/continuous-online-hearings/${hearingId}`, options);
 }
 
+//TODO: this need to know it if getting mutiple or single cases lists
 function getHearingByCase(caseId, options) {
     return generateRequest('GET', `${url}/continuous-online-hearings?case_id=${caseId}`, options);
 }
@@ -16,7 +17,6 @@ function getHearingByCase(caseId, options) {
 function postHearing(options) {
     return generateRequest('POST', `${url}/continuous-online-hearings`, options);
 }
-
 
 // Questions
 function getQuestions(hearingId, options) {
@@ -124,32 +124,29 @@ module.exports = app => {
     });
 };
 
-// Hearings
-module.exports.getHearing = getHearing;
-module.exports.getHearingByCase = getHearingByCase;
-module.exports.postHearing = postHearing;
-
-// Questions
-module.exports.getQuestions = getQuestions;
-module.exports.getQuestion = getQuestion;
-module.exports.postQuestion = postQuestion;
-module.exports.putQuestion = putQuestion;
-module.exports.deleteQuestion = deleteQuestion;
-
-// Answer
-module.exports.getAnswers = getAnswers;
-module.exports.postAnswer = postAnswer;
-module.exports.getAnswer = getAnswer;
-module.exports.putAnswer = putAnswer;
-
-// ROUNDS
-module.exports.getAllRounds = getAllRounds;
-module.exports.getRound = getRound;
-module.exports.putRound = putRound;
-
-// Converation (COH Events)
-module.exports.getOnlineHearingConversation = getOnlineHearingConversation;
-
-// Special ones
-module.exports.createHearing = createHearing;
-module.exports.getHearingIdOrCreateHearing = getHearingIdOrCreateHearing;
+module.exports = {
+    // Hearings
+    getHearing,
+    getHearingByCase,
+    postHearing,
+    // Questions
+    getQuestions,
+    getQuestion,
+    postQuestion,
+    putQuestion,
+    deleteQuestion,
+    // Answers
+    getAnswers,
+    postAnswer,
+    getAnswer,
+    putAnswer,
+    // ROUNDS
+    getAllRounds,
+    getRound,
+    putRound,
+    // Converation (COH Events)
+    getOnlineHearingConversation,
+    // Special ones
+    createHearing,
+    getHearingIdOrCreateHearing
+};

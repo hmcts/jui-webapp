@@ -70,7 +70,6 @@ function perpareCaseForConsentOrder(documentAnnotationId, eventToken, eventId, u
 
         ignore_warning: true
     }
-    console.log('payload', payload)
     return payload
 }
 
@@ -171,7 +170,6 @@ function perpareCaseForRefusal(caseData, eventToken, eventId, user, store) {
 async function updateConsentOrder(documentAnnotationId, req, state, store) {
     let payload = {}
     let eventToken = {}
-    let caseDetails = {}
 
     try {
         logger.info('Getting Event Token')
@@ -186,7 +184,6 @@ async function updateConsentOrder(documentAnnotationId, req, state, store) {
         )
 
         eventToken = eventTokenAndCAse.token
-        caseDetails = eventTokenAndCAse.caseDetails
 
         logger.info(`Got token ${eventToken}`)
     } catch (exception) {
@@ -324,10 +321,10 @@ async function handlePostState(req, res, responseJSON, state) {
                 if (store.get(`decisions_${inCaseId}`).documentAnnotationId) {
                     logger.info('Updating consent order')
                     await updateConsentOrder(store.get(`decisions_${inCaseId}`).documentAnnotationId, req, state, store)
-                    logger.info('Updating consent order')
+                    logger.info('Finished consent order')
                 }
 
-                result = await makeDecision(store.get(`decisions_${inCaseId}`).approveDraftConsent, req, state, store)
+                //  result = await makeDecision(store.get(`decisions_${inCaseId}`).approveDraftConsent, req, state, store)
 
                 logger.info('Posted to CCD', result)
 
