@@ -16,4 +16,4 @@ const config = {
 const configEnv = typeof (process) !== 'undefined' ? (process.env.JUI_ENV || 'local') : 'local';
 console.log('Using', configEnv, 'Config');
 
-module.exports = Object.assign(applicationConfig, config[configEnv]);
+module.exports = Object.assign(applicationConfig, config[configEnv], { configEnv });

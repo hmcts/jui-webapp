@@ -42,8 +42,9 @@ module.exports = {
             awaitingHWFDecision: 'Awaiting HWF decision',
             caseAdded: 'Case added',
             consentOrderApproved: 'Consent order approved',
+            consentOrderNotApproved: 'Consent order not approved',
             referredToJudge: 'Draft consent order',
             applicationIssued: 'Application issued'
         }
     }
-};
+}

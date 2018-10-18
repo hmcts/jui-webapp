@@ -12,7 +12,7 @@ import { DecisionRootComponent } from './pages/decisions/root/root.component';
 import { CreateDecisionComponent } from './pages/decisions/create-decision/create-decision.component';
 import { CheckDecisionComponent } from './pages/decisions/check-decision/check-decision.component';
 import { DecisionConfirmationComponent } from './pages/decisions/decision-confirmation/decision-confirmation.component';
-import { DecisionResolve } from './resolve/decision.resolve';
+//import { DecisionResolve } from './resolve/decision.resolve';
 import { HearingRootComponent } from './pages/hearings/root/root.component';
 import { CreateHearingComponent } from './pages/hearings/create-hearing/create-hearing.component';
 import { CheckHearingComponent } from './pages/hearings/check-hearing/check-hearing.component';
@@ -28,9 +28,15 @@ import { JUIFormsModule } from '../forms/forms.module';
 import { TermsAndConditionsComponent } from './pages/terms-and-conditions/terms-and-conditions.component';
 import { CookiesComponent } from './pages/cookies/cookies.component';
 import { PrivacyPolicyComponent } from './pages/privacy-policy/privacy-policy.component';
-import {DemoComponent} from './pages/demo/demo.component';
-import {GovukModule} from '../govuk/govuk.module';
-import {HmctsModule} from '../hmcts/hmcts.module';
+import { DemoComponent } from './pages/demo/demo.component';
+import { GovukModule } from '../govuk/govuk.module';
+import { HmctsModule } from '../hmcts/hmcts.module';
+import { ReasonsCoNotApprovedComponent } from './pages/decisions/fr/reasons-co-not-approved/reasons-co-not-approved.component';
+import { MakeDecisionComponent } from './pages/decisions/fr/make-decision/make-decision.component';
+import { NotesForCourtAdministratorComponent } from './pages/decisions/fr/notes-for-court-administrator/notes-for-court-administrator.component';
+import { DraftConsentOrderComponent } from './pages/decisions/fr/draft-consent-order/draft-consent-order.component';
+import { HearingDetailsComponent } from './pages/decisions/fr/hearing-details/hearing-details.component';
+import {FormsService} from '../shared/services/forms.service';
 
 const routes: Routes = [
     {
@@ -61,10 +67,15 @@ const routes: Routes = [
         },
         children: [
             {
-                path: 'decision', component: DecisionRootComponent, resolve: {decision: DecisionResolve}, children: [
-                    {path: 'create', component: CreateDecisionComponent},
+                path: 'decision', component: DecisionRootComponent,
+                children: [
+                    {path: 'create', component: MakeDecisionComponent},
+                    {path: 'reject-reasons', component: ReasonsCoNotApprovedComponent},
+                    {path: 'notes-for-court-administrator', component: NotesForCourtAdministratorComponent},
+                    {path: 'draft-consent-order', component: DraftConsentOrderComponent},
+                    {path: 'hearing-details', component: HearingDetailsComponent},
                     {path: 'check', component: CheckDecisionComponent},
-                    {path: 'confirm', component: DecisionConfirmationComponent}
+                    {path: 'decision-confirmation', component: DecisionConfirmationComponent}
                 ]
             },
             {
@@ -139,11 +150,16 @@ const routes: Routes = [
         CreateHearingComponent,
         CheckHearingComponent,
         HearingConfirmationComponent,
-        DemoComponent
+        DemoComponent,
+        ReasonsCoNotApprovedComponent,
+        MakeDecisionComponent,
+        DraftConsentOrderComponent,
+        NotesForCourtAdministratorComponent,
+        HearingDetailsComponent
     ],
     providers: [
         CaseResolve,
-        DecisionResolve,
+ //       DecisionResolve,
         RedirectionService
     ],
     exports: [
