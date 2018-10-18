@@ -2,8 +2,10 @@ const express = require('express');
 const config = require('../../../config');
 const generateRequest = require('../../lib/request');
 
+const url = config.services.em_npa_api;
+
 function createNpaTask(options) {
-    return generateRequest('POST', `${config.services.em_npa_api}/api/document-tasks`, options);
+    return generateRequest('POST', `${url}/api/document-tasks`, options);
 }
 
 function getOptions(req) {

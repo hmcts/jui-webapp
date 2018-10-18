@@ -2,21 +2,22 @@ const express = require('express');
 const config = require('../../../config');
 const generateRequest = require('../../lib/request');
 
+const url = config.services.em_anno_api;
 
 function getAnnotionSet(uuid, options) {
-    return generateRequest('GET', `${config.services.em_anno_api}/api/annotation-sets/filter?documentId=${uuid}`, options);
+    return generateRequest('GET', `${url}/api/annotation-sets/filter?documentId=${uuid}`, options);
 }
 
 function createAnnotationSet(options) {
-    return generateRequest('POST', `${config.services.em_anno_api}/api/annotation-sets/`, options);
+    return generateRequest('POST', `${url}/api/annotation-sets/`, options);
 }
 
 function addAnnotation(options) {
-    return generateRequest('POST', `${config.services.em_anno_api}/api/annotations`, options);
+    return generateRequest('POST', `${url}/api/annotations`, options);
 }
 
 function deleteAnnotation(uuid, options) {
-    return generateRequest('DELETE', `${config.services.em_anno_api}/api/annotations/${uuid}`, options);
+    return generateRequest('DELETE', `${url}/api/annotations/${uuid}`, options);
 }
 
 function getOptions(req) {
