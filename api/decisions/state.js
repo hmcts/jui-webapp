@@ -321,11 +321,13 @@ async function handlePostState(req, res, responseJSON, state) {
                 // if pdf has annotations update case
                 if (store.get(`decisions_${inCaseId}`).documentAnnotationId) {
                     logger.info('Updating consent order')
-                    await updateConsentOrder(store.get(`decisions_${inCaseId}`).documentAnnotationId, req, state, store)
+                    result = await updateConsentOrder(store.get(`decisions_${inCaseId}`).documentAnnotationId, req, state, store)
                     logger.info('Finished consent order')
                 }
 
-                result = await makeDecision(store.get(`decisions_${inCaseId}`).approveDraftConsent, req, state, store)
+                if (result) {
+                    result = await makeDecision(store.get(`decisions_${inCaseId}`).approveDraftConsent, req, state, store)
+                }
 
                 logger.info('Posted to CCD', result)
 
