@@ -10,13 +10,14 @@ const EC = protractor.ExpectedConditions;
 defineSupportCode(function({ Given, When, Then }) {
 
 
-    When(/^I am on the dashboard page$/, async function() {
+    When(/^I will be redirected to the JUI dashboard page$/, async function() {
         browser.sleep(3000);
         await expect(dashBoardPage.dashboard_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.dashboard_header.getText())
             .to
             .eventually
             .equal('Dashboard');
+        await expect(dashBoardPage.your_cases.getText()).to.eventually.equal('Your cases');
 
     });
 
@@ -57,7 +58,7 @@ defineSupportCode(function({ Given, When, Then }) {
 
     Then(/^I will be redirected to the Case Summary page for that case (.*)$/, async function(type) {
         browser.sleep(3000);
-        await expect(caseSummaryPage.caseSummary_header_text.getText())
+        await expect(caseSummaryPage.case_header_text.getText())
             .to
             .eventually
             .equal('Summary');
@@ -137,13 +138,13 @@ defineSupportCode(function({ Given, When, Then }) {
 
 
     Then(/^I should see table header columns$/, async function() {
-        // await expect(dashBoardPage.table.isDisplayed()).to.eventually.be.true;
+        await dashBoardPage.table.isDisplayed();
         await expect(dashBoardPage.table_column_header.isDisplayed()).to.eventually.be.true;
 
     });
 
 
-    Then(/^I should see table each column header text as (.*), (.*),(.*), (.*), (.*), (.*)$/, async function(case_num,parties,type,decision,case_received,date_of_last) {
+    Then(/^I should see table each column header text as (.*), (.*), (.*), (.*), (.*), (.*)$/, async function(case_num,parties,type,decision,case_received,date_of_last) {
         await expect(dashBoardPage.case_number_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.case_number_header.getText())
             .to
@@ -208,6 +209,10 @@ defineSupportCode(function({ Given, When, Then }) {
             .to
             .eventually
             .equal('Case file');
+
+    });
+
+    Then (/^I see FR specific cases on JUI dashboard$/, async function () {
 
     });
 

@@ -109,4 +109,11 @@ defineSupportCode(function({ Given, When, Then }) {
         browser.sleep(3000);
 
     });
+
+    When(/^I am logged into JUI web app with FR judge details$/, async function () {
+
+    });
+
+
+
 });

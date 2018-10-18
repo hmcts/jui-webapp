@@ -17,10 +17,10 @@ const jenkinsConfig = [
     {
         browserName: 'chrome',
         acceptInsecureCerts: true,
-        nogui: true,
+        nogui: true
 
         // chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote ', '--disableChecks' ] }
-     }
+    }
 ];
 
 const localConfig = [
@@ -38,7 +38,7 @@ const localConfig = [
         browserName: 'chrome',
         acceptInsecureCerts: true,
 
-       // chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote '] },
+        // chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote '] },
         proxy: {
             proxyType: 'manual',
             httpProxy: 'proxyout.reform.hmcts.net:8080',
@@ -60,7 +60,10 @@ const config = {
         serverUrls: process.env.TEST_URL || 'http://localhost:3000/',
         targetEnv: argv.env || 'local',
         username: process.env.TEST_EMAIL,
-        password: process.env.TEST_PASSWORD
+        password: process.env.TEST_PASSWORD,
+        fr_judge_username: process.env.FR_EMAIL,
+        fr_judge_password: process.env.FR_PASSWORD
+
 
     },
     directConnect: true,
@@ -70,7 +73,8 @@ const config = {
     multiCapabilities: cap,
 
     onPrepare() {
-        browser.manage().window()
+        browser.manage()
+            .window()
             .maximize();
         browser.waitForAngularEnabled(false);
         global.expect = chai.expect;
