@@ -1,17 +1,16 @@
-const config = require('../../config')
+const config = require('../../../config')
 const proxy = require('./proxy')
 const request = require('request-promise')
 
 module.exports = (method, url, params) => {
-    let headers = {}
+    const headers = (params.headers && config.configEnv !== 'mock') ? Object.assign(params.headers) : {}
 
-    if (params.headers && config.configEnv !== 'mock') headers = Object.assign(params.headers)
     let options = {
         method,
         url,
         headers: {
             ...headers,
-            'Content-Type': 'application/json'
+            'Content-Type' : params.headers['Content-Type'] || 'application/json'
         },
         json: true
     }

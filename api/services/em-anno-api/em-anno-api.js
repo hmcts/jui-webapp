@@ -1,6 +1,6 @@
 const express = require('express');
 const config = require('../../../config');
-const generateRequest = require('../../lib/request');
+const generateRequest = require('../../lib/request/request');
 
 const url = config.services.em_anno_api;
 
@@ -18,6 +18,14 @@ function addAnnotation(options) {
 
 function deleteAnnotation(uuid, options) {
     return generateRequest('DELETE', `${url}/api/annotations/${uuid}`, options);
+}
+
+function getHealth(options) {
+    return generateRequest('GET', `${url}/health`, options);
+}
+
+function getInfo(options) {
+    return generateRequest('GET', `${url}/info`, options);
 }
 
 function getOptions(req) {
@@ -94,3 +102,6 @@ module.exports = app => {
             });
     });
 };
+
+module.exports.getInfo = getInfo;
+module.exports.getHealth = getHealth;

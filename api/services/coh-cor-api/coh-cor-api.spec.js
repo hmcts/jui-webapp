@@ -1,11 +1,11 @@
-const express = require('express');
-const proxyquire = require('proxyquire');
+const proxyquire = require('proxyquire').noPreserveCache();
 const supertest = require('supertest');
-const config = require('../../../config');
+const express = require('express');
+const config = require('../../../config/index');
 
-const url = config.services.ccd_data_api;
+const url = config.services.coh_cor_api;
 
-describe('ccd-store spec', () => {
+describe('coh-cor-api spec', () => {
     let route;
     let request;
     let app;
@@ -22,7 +22,7 @@ describe('ccd-store spec', () => {
 
         app = express();
 
-        route = proxyquire('./ccd-store.js', {
+        route = proxyquire('./coh-cor-api.js', {
             '../../lib/request/request': httpRequest
         });
 

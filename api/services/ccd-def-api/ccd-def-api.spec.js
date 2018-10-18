@@ -1,11 +1,11 @@
-const express = require('express');
-const proxyquire = require('proxyquire');
+const proxyquire = require('proxyquire').noPreserveCache();
 const supertest = require('supertest');
-const config = require('../../../config');
+const express = require('express');
+const config = require('../../../config/index');
 
-const url = config.services.ccd_data_api;
+const url = config.services.ccd_def_api;
 
-describe('ccd-store spec', () => {
+describe('ccd-def-api spec', () => {
     let route;
     let request;
     let app;
@@ -22,7 +22,7 @@ describe('ccd-store spec', () => {
 
         app = express();
 
-        route = proxyquire('./ccd-store.js', {
+        route = proxyquire('./ccd-def-api.js', {
             '../../lib/request/request': httpRequest
         });
 
@@ -62,6 +62,41 @@ describe('ccd-store spec', () => {
         it('should make a request', () => {
             getInfo({});
             expect(httpRequest).toHaveBeenCalledWith('GET', `${url}/info`, {});
+        });
+    });
+
+    describe('getJurisdictions', () => {
+        let getJurisdictions;
+
+        beforeEach(() => {
+            getJurisdictions = route.getJurisdictions;
+        });
+
+        it('should expose function', () => {
+            expect(getJurisdictions).toBeTruthy();
+        });
+
+        it('should make a request', () => {
+            getJurisdictions({});
+            expect(httpRequest).toHaveBeenCalledWith('GET', `${url}/api/data/jurisdictions`, {});
+        });
+    });
+
+    describe('getCaseTypes', () => {
+        let getCaseTypes;
+
+        beforeEach(() => {
+            getCaseTypes = route.getCaseTypes;
+        });
+
+        it('should expose function', () => {
+            expect(getCaseTypes).toBeTruthy();
+        });
+
+        it('should make a request', () => {
+            const jurisdictions = 'jud';
+            getCaseTypes(`${jurisdictions}`, {});
+            expect(httpRequest).toHaveBeenCalledWith('GET', `${url}/api/data/jurisdictions/${jurisdictions}/case-type`, {});
         });
     });
 

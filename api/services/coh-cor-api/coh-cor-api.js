@@ -1,6 +1,6 @@
 const express = require('express');
 const config = require('../../../config');
-const generateRequest = require('../../lib/request');
+const generateRequest = require('../../lib/request/request');
 
 const url = config.services.coh_cor_api;
 
@@ -124,29 +124,30 @@ module.exports = app => {
     });
 };
 
-module.exports = {
-    // Hearings
-    getHearing,
-    getHearingByCase,
-    postHearing,
-    // Questions
-    getQuestions,
-    getQuestion,
-    postQuestion,
-    putQuestion,
-    deleteQuestion,
-    // Answers
-    getAnswers,
-    postAnswer,
-    getAnswer,
-    putAnswer,
-    // ROUNDS
-    getAllRounds,
-    getRound,
-    putRound,
-    // Converation (COH Events)
-    getOnlineHearingConversation,
-    // Special ones
-    createHearing,
-    getHearingIdOrCreateHearing
-};
+module.exports.getInfo = getInfo;
+module.exports.getHealth = getHealth;
+
+// Hearings
+module.exports.getHearing = getHearing;
+module.exports.getHearingByCase = getHearingByCase;
+module.exports.postHearing = postHearing ;
+// Questions
+module.exports.getQuestions = getQuestions ;
+module.exports.getQuestion = getQuestion ;
+module.exports.postQuestion = postQuestion;
+module.exports.putQuestion = putQuestion;
+module.exports.deleteQuestion = deleteQuestion;
+// Answers
+module.exports.getAnswers = getAnswers;
+module.exports.postAnswer = postAnswer ;
+module.exports.getAnswer = getAnswer;
+module.exports.putAnswer = putAnswer;
+// ROUNDS
+module.exports.getAllRounds = getAllRounds;
+module.exports.getRound = getRound;
+module.exports.putRound = putRound;
+// Converation (COH Events)
+module.exports.getOnlineHearingConversation = getOnlineHearingConversation;
+// Special ones
+module.exports.createHearing = createHearing;
+module.exports.getHearingIdOrCreateHearing = getHearingIdOrCreateHearing;

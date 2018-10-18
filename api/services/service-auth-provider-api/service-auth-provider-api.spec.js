@@ -1,11 +1,11 @@
-const express = require('express');
-const proxyquire = require('proxyquire');
+const proxyquire = require('proxyquire').noPreserveCache();
 const supertest = require('supertest');
-const config = require('../../../config');
+const express = require('express');
+const config = require('../../../config/index');
 
-const url = config.services.ccd_data_api;
+const url = config.services.s2s;
 
-describe('ccd-store spec', () => {
+describe('service-auth-provider-api spec', () => {
     let route;
     let request;
     let app;
@@ -22,7 +22,7 @@ describe('ccd-store spec', () => {
 
         app = express();
 
-        route = proxyquire('./ccd-store.js', {
+        route = proxyquire('./service-auth-provider-api.js', {
             '../../lib/request/request': httpRequest
         });
 
@@ -62,6 +62,24 @@ describe('ccd-store spec', () => {
         it('should make a request', () => {
             getInfo({});
             expect(httpRequest).toHaveBeenCalledWith('GET', `${url}/info`, {});
+        });
+    });
+
+    describe('postS2SLease', () => {
+        let postS2SLease;
+
+        beforeEach(() => {
+            postS2SLease = route.postS2SLease;
+        });
+
+        it('should expose function', () => {
+            expect(postS2SLease).toBeTruthy();
+        });
+
+        // need to figure out how to fake otp
+        xit('should make a request', () => {
+            postS2SLease({});
+            expect(httpRequest).toHaveBeenCalledWith('POST', `${url}/lease`, {});
         });
     });
 

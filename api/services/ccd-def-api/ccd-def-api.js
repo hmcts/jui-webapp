@@ -1,6 +1,6 @@
 const express = require('express');
 const config = require('../../../config');
-const generateRequest = require('../../lib/request');
+const generateRequest = require('../../lib/request/request');
 
 const url = config.services.ccd_def_api;
 
@@ -50,6 +50,9 @@ module.exports = app => {
         getInfo(getOptions(req)).pipe(res);
     });
 };
+
+module.exports.getInfo = getInfo;
+module.exports.getHealth = getHealth;
 
 module.exports.getJurisdictions = getJurisdictions;
 

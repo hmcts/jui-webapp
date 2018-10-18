@@ -174,9 +174,17 @@
     "functions": 0,
     "branches": 0,
     "include": [
-      "**/api/**/**"
+      "api/**/**"
     ],
-    "exclude": [],
+    "exclude": [
+      "**/*.spec.ts",
+      "**/*.spec.js",
+      "test/**",
+      "config/**",
+      "api/**/templates/**",
+      "src/public/**",
+      "src/environments/**"
+    ],
     "reporter": [
       "lcov",
       "html",

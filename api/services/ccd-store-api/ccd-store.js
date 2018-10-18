@@ -1,6 +1,6 @@
 const express = require('express')
 const config = require('../../../config')
-const generateRequest = require('../../lib/request')
+const generateRequest = require('../../lib/request/request')
 
 const url = config.services.ccd_data_api
 
@@ -103,11 +103,11 @@ module.exports = app => {
     })
 }
 
-module.exports = {
-    getCCDCase,
-    getCCDEvents,
-    getCCDCases,
-    getMutiJudCCDCases,
-    getEventTokenAndCase,
-    postCaseWithEventToken
-}
+module.exports.getInfo = getInfo;
+module.exports.getHealth = getHealth;
+module.exports.getCCDCase = getCCDCase;
+module.exports.getCCDCases = getCCDCases;
+module.exports.getCCDEvents = getCCDEvents;
+module.exports.getMutiJudCCDCases = getMutiJudCCDCases;
+module.exports.getEventTokenAndCase = getEventTokenAndCase;
+module.exports.postCaseWithEventToken = postCaseWithEventToken;

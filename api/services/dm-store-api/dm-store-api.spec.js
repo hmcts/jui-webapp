@@ -1,11 +1,17 @@
 const proxyquire = require('proxyquire').noPreserveCache();
 const supertest = require('supertest');
 const express = require('express');
-const config = require('../../config');
+const config = require('../../../config/index');
 
-xdescribe('Documents route', () => {
-    let route, request, app;
-    let httpRequest, httpResponse;
+const url = config.services.dm_store_api;
+
+describe('dm-store-api spec', () => {
+    let route;
+    let request;
+    let app;
+    let httpRequest;
+    let httpResponse;
+
 
     beforeEach(() => {
         httpResponse = (resolve, reject) => {
@@ -16,11 +22,8 @@ xdescribe('Documents route', () => {
 
         app = express();
 
-        route = proxyquire('./document.js', {
-            '../lib/request': httpRequest,
-            './options': () => {
-                {}
-            }
+        route = proxyquire('./dm-store-api.js', {
+            '../../lib/request/request': httpRequest
         });
 
         route(app);
@@ -28,20 +31,37 @@ xdescribe('Documents route', () => {
         request = supertest(app);
     });
 
-    describe('getDocument', () => {
-        let getDocument;
+    describe('getHealth', () => {
+        let getHealth;
 
         beforeEach(() => {
-            getDocument = route.getDocument;
+            getHealth = route.getHealth;
         });
 
-        it('should expose getDocument function', () => {
-            expect(getDocument).toBeTruthy();
+        it('should expose function', () => {
+            expect(getHealth).toBeTruthy();
         });
 
-        it('should make a request to doc store', () => {
-            getDocument('1234', {});
-            expect(httpRequest).toHaveBeenCalledWith('GET', `${config.services.dm_store_api}/documents/1234`, {});
+        it('should make a request', () => {
+            getHealth({});
+            expect(httpRequest).toHaveBeenCalledWith('GET', `${config.services.dm_store_api}/health`, {});
+        });
+    });
+
+    describe('getInfo', () => {
+        let getInfo;
+
+        beforeEach(() => {
+            getInfo = route.getInfo;
+        });
+
+        it('should expose function', () => {
+            expect(getInfo).toBeTruthy();
+        });
+
+        it('should make a request', () => {
+            getInfo({});
+            expect(httpRequest).toHaveBeenCalledWith('GET', `${config.services.dm_store_api}/info`, {});
         });
     });
 
@@ -56,9 +76,26 @@ xdescribe('Documents route', () => {
             expect(getDocumentBinary).toBeTruthy();
         });
 
-        it('should make a request to doc store', () => {
+        it('should make a request', () => {
             getDocumentBinary('1234', {});
             expect(httpRequest).toHaveBeenCalledWith('GET', `${config.services.dm_store_api}/documents/1234/binary`, {});
+        });
+    });
+
+    describe('getDocumentThumbnail', () => {
+        let getDocumentThumbnail;
+
+        beforeEach(() => {
+            getDocumentThumbnail = route.getDocumentThumbnail;
+        });
+
+        it('should expose getDocumentBinary function', () => {
+            expect(getDocumentThumbnail).toBeTruthy();
+        });
+
+        it('should make a request', () => {
+            getDocumentThumbnail('1234', {});
+            expect(httpRequest).toHaveBeenCalledWith('GET', `${config.services.dm_store_api}/documents/1234/thumbnail`, {});
         });
     });
 

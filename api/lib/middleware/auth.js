@@ -1,5 +1,5 @@
 const jwtDecode = require('jwt-decode');
-const config = require('../../config');
+const config = require('../../../config');
 
 module.exports = (req, res, next) => {
     const userId = req.headers[config.cookies.userId] || req.cookies[config.cookies.userId];
