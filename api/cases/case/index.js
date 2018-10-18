@@ -87,7 +87,7 @@ module.exports = app => {
             .then(([caseData, events, questions, hearings]) => {
                 caseData.events = events;
                 caseData.questions = (questions) ? questions.sort((a, b) => (a.question_round_number < b.question_round_number)) : [];
-                caseData.hearing_data = hearings.online_hearings[0] || [];
+                caseData.hearing_data = (hearings && hearings.online_hearings) ? hearings.online_hearings[0] : [];
 
                 const ccdState = caseData.state;
                 const hearingData = (hearings && hearings.online_hearings) ? hearings.online_hearings[0] : undefined;
