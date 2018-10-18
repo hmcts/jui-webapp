@@ -6,10 +6,6 @@ const express = require('express')
 const moment = require('moment')
 const stateMeta = require('./state_meta')
 const translateJson = require('./translate')
-const log4js = require('log4js')
-
-const logger = log4js.getLogger('State')
-logger.level = config.logging
 
 const ERROR404 = 404
 const ERROR400 = 400

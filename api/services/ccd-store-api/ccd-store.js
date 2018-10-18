@@ -1,12 +1,8 @@
 const express = require('express')
 const config = require('../../../config')
 const generateRequest = require('../../lib/request')
-const log4js = require('log4js')
 
 const url = config.services.ccd_data_api
-
-const logger = log4js.getLogger('ccd-store')
-logger.level = config.logging
 
 // No need to mock requests given that  differs minorly to the main request?
 // Do switch in one place
