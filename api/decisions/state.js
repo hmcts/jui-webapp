@@ -70,6 +70,7 @@ function perpareCaseForConsentOrder(documentAnnotationId, eventToken, eventId, u
 
         ignore_warning: true
     }
+
     return payload
 }
 
@@ -324,7 +325,7 @@ async function handlePostState(req, res, responseJSON, state) {
                     logger.info('Finished consent order')
                 }
 
-                //  result = await makeDecision(store.get(`decisions_${inCaseId}`).approveDraftConsent, req, state, store)
+                result = await makeDecision(store.get(`decisions_${inCaseId}`).approveDraftConsent, req, state, store)
 
                 logger.info('Posted to CCD', result)
 
