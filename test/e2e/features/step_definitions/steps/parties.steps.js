@@ -34,8 +34,8 @@ defineSupportCode(function({ Given, When, Then }) {
         await expect(partiesPage.petitioner_details.first().getText()).to.eventually.equal(fullname);
         await expect(partiesPage.petitioner_details.get(2).getText()).to.eventually.equal(Address);
         await expect(partiesPage.petitioner_details.get(4).getText()).to.eventually.equal(phone);
-        await expext(partiesPage.petitioner_details.get(6).getText()).to.eventually.equal(email);
-        await expext(partiesPage.petitioner_details.get(8).getText()).to.eventually.equal(representative);
+        await expect(partiesPage.petitioner_details.get(6).getText()).to.eventually.equal(email);
+        await expect(partiesPage.petitioner_details.get(8).getText()).to.eventually.equal(representative);
 
 
 

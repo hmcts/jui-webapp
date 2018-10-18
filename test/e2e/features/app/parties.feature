@@ -2,7 +2,8 @@
 Feature: Verify Parties tab functionality for any case type
 
     Background:
-        Given I am logged into JUI web app
+        Given I navigate to JUI Url
+        When I am logged into JUI web app
         When I select a case type
         Then I will be redirected to the Case Summary page for that case type
         When I click on Parties sub nav link
