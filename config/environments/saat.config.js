@@ -12,7 +12,6 @@ module.exports = {
         coh_cor_api: 'https://coh-cor-saat.service.core-compute-saat.internal'
     },
     useProxy: false,
-    protocol: 'http',
     secureCookie: false,
     sessionSecret: 'secretSauce'
 };

@@ -12,7 +12,6 @@ module.exports = {
         coh_cor_api: 'https://coh-cor-aat.service.core-compute-aat.internal'
     },
     useProxy: false,
-    protocol: 'http',
     secureCookie: false,
     sessionSecret: 'secretSauce'
 };
