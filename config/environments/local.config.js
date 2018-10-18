@@ -9,10 +9,13 @@ module.exports = {
         s2s: 'http://rpe-service-auth-provider-aat.service.core-compute-aat.internal',
         draft_store_api: 'https://draft-store-service-aat.service.core-compute-aat.internal',
         dm_store_api: 'http://dm-store-aat.service.core-compute-aat.internal',
-        em_anno_api: 'http://em-anno-aat.service.core-compute-aat.internal',
+        em_anno_api: 'https://em-anno-aat.service.core-compute-aat.internal',
+        em_npa_api: 'https://em-npa-aat.service.core-compute-aat.internal',
         em_redact_api: 'http://em-redact-aat.service.core-compute-aat.internal',
         coh_cor_api: 'http://coh-cor-aat.service.core-compute-aat.internal'
     },
     useProxy: true,
-    protocol: 'http'
+    protocol: 'http',
+    secureCookie: false,
+    sessionSecret: 'secretSauce'
 };

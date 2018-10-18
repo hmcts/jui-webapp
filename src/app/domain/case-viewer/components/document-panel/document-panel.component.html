@@ -1,7 +1,7 @@
 <app-case-actions
     [header]="panelData.name"
-    [actionPrimaryButton]="{href: '../decision/create', text: 'Make decision'}"
-    [actionSecondaryButton]="{href: '../hearing/list', text: 'List for hearing'}"
+    [actionPrimaryButton]="{href: '../../decision/create', text: 'Make decision'}"
+    [actionSecondaryButton]="{href: '../../hearing/list', text: 'List for hearing'}"
 ></app-case-actions>
 
 <div class="jui-casefile govuk-!-margin-bottom-6">
@@ -23,7 +23,8 @@
              role="textbox"
              aria-multiline="true" data-medium-editor-editor-index="1"
              medium-editor-index="ca3cfb8f-8b6a-8f73-1ed5-fa7679703446" data-placeholder="Type your text">
-            <app-document-viewer [url]="selectedDocument.url" [baseUrl]="documentUrl"></app-document-viewer>
+            <!-- <app-viewer [url]="selectedDocument.url" [baseUrl]="documentUrl"></app-viewer> -->
+            <app-document-viewer [url]="selectedDocument.url" [baseUrl]="documentUrl" [annotate]="allowAnnotations"></app-document-viewer>
         </div>
     </div>
 </div>

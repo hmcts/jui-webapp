@@ -1,0 +1,26 @@
+<div id="comment-wrapper">
+  <h4 id="comment-header">Page {{pageNumber}}</h4>
+  <div class="comment-list">
+    <div class="comment-list-container" 
+      #commentList
+      >
+      
+      <div *ngFor="let annotation of annotations" 
+          class="highlight-group">
+        <app-comment-item 
+          *ngFor="let comment of annotation.comments" 
+          [annotation]="annotation"
+          [comment]="comment"
+          [selectedAnnotationId]="selectedAnnotationId"
+          (commentSubmitted)='getAnnotationComments($event)'
+          (commentSelected)='addHighlightedCommentStyle($event)'></app-comment-item>
+          <br *ngIf="annotation.comments.length > 0">
+          
+      </div>
+
+    <app-comment-form 
+      (commentSubmitted)='showAllComments()'
+      [selectedAnnotationId]="selectedAnnotationId"></app-comment-form>
+    </div>
+  </div>
+</div>
