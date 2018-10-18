@@ -1,7 +1,7 @@
 module.exports = {
     details: {
         fields: [
-            { value: '$.case_data.D8caseReference' },
+            { value: '$.id' },
             {
                 value: [
                     '$.case_data.D8PetitionerFirstName', ' ',
@@ -49,7 +49,7 @@ module.exports = {
                                 // },
                                 {
                                     label: 'Case number',
-                                    value: '$.case_data.D8caseReference'
+                                    value: '$.id'
                                 },
                                 {
                                     label: 'Case type',

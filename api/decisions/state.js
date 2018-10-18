@@ -322,7 +322,7 @@ async function handlePostState(req, res, responseJSON, state) {
                 if (store.get(`decisions_${inCaseId}`).documentAnnotationId) {
                     logger.info('Updating consent order')
                     await updateConsentOrder(store.get(`decisions_${inCaseId}`).documentAnnotationId, req, state, store)
-                    logger.info('Updating consent order')
+                    logger.info('Finished consent order')
                 }
 
                 result = await makeDecision(store.get(`decisions_${inCaseId}`).approveDraftConsent, req, state, store)

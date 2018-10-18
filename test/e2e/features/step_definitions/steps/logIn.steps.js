@@ -18,7 +18,7 @@ defineSupportCode(function({ Given, When, Then }) {
         await password.sendKeys(this.config.password);
         await submit.click();
         await browser.wait(() => {
-            return $(this.getSelector("jui-header"))
+            return $(this.getSelector('jui-header'))
                 .isPresent();
         }, 5000);
     });
@@ -41,9 +41,12 @@ defineSupportCode(function({ Given, When, Then }) {
         await browser.refresh();
     });
 
-    Then (/^I should see failure error summary$/, async function(){
+    Then(/^I should see failure error summary$/, async function() {
         await expect(loginPage.failure_error_heading.isDisplayed()).to.eventually.be.true;
-        await expect(loginPage.failure_error_heading.getText()).to.eventually.equal("Incorrect email/password combination");
+        await expect(loginPage.failure_error_heading.getText())
+            .to
+            .eventually
+            .equal('Incorrect email/password combination');
 
     });
 
@@ -54,9 +57,8 @@ defineSupportCode(function({ Given, When, Then }) {
             .to
             .eventually
             .equal('Sign in');
-       await expect(loginPage.emailAddress.isDisplayed()).to.eventually.be.true;
-       await expect(loginPage.password.isDisplayed()).to.eventually.be.true;
-
+        await expect(loginPage.emailAddress.isDisplayed()).to.eventually.be.true;
+        await expect(loginPage.password.isDisplayed()).to.eventually.be.true;
 
 
     });
@@ -100,7 +102,10 @@ defineSupportCode(function({ Given, When, Then }) {
         browser.sleep(3000);
         await expect(dashBoardPage.dashboard_header.isDisplayed()).to.eventually.be.true;
         await dashBoardPage.table.isDisplayed();
-        await expect(dashBoardPage.your_cases.getText()).to.eventually.equal("Your cases");
+        await expect(dashBoardPage.your_cases.getText())
+            .to
+            .eventually
+            .equal('Your cases');
         browser.sleep(3000);
 
     });

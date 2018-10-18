@@ -55,11 +55,11 @@ module.exports = {
                                 },
                                 {
                                     label: 'Tribunal centre',
-                                    value: ''
+                                    value: '$.case_data.region'
                                 },
                                 {
                                     label: 'Additional requirements',
-                                    value: ''
+                                    value: 'A$.case_data.appeal.hearingOptions.arrangements[*]|newline_processor'
                                 }
                             ]
                         },

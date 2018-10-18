@@ -85,26 +85,28 @@ module.exports = app => {
 
         getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId, getOptions(req))
             .then(([caseData, events, questions, hearings]) => {
-                caseData.questions = questions ? questions.sort((a, b) => a.question_round_number < b.question_round_number) : []
-                caseData.events = events
+                caseData.questions = (questions) ? questions.sort((a, b) => (a.question_round_number < b.question_round_number)) : [];
+                caseData.events = events;
 
-                const ccdState = caseData.state
-                const hearingData = hearings && hearings.online_hearings ? hearings.online_hearings[0] : undefined
-                const questionRoundData = caseData.questions
+
+                const ccdState = caseData.state;
+                const hearingData = (hearings && hearings.online_hearings) ? hearings.online_hearings[0] : undefined;
+                const questionRoundData = caseData.questions;
                 const consentOrder = caseData.case_data.consentOrder ? caseData.case_data.consentOrder : undefined
+                const hearingType = caseData.case_data.appeal ? caseData.case_data.appeal.hearingType : undefined;
 
                 const caseState = processCaseStateEngine({
                     jurisdiction,
                     caseType,
                     ccdState,
+                    hearingType,
                     hearingData,
                     questionRoundData,
                     consentOrder
-                })
-                caseData.state = caseState
+                });
+                caseData.state = caseState;
 
-                const schema = JSON.parse(JSON.stringify(getCaseTemplate(caseData.jurisdiction, caseData.case_type_id)))
-                console.log(caseData)
+                const schema = JSON.parse(JSON.stringify(getCaseTemplate(caseData.jurisdiction, caseData.case_type_id)));
                 if (schema.details) {
                     replaceSectionValues(schema.details, caseData)
                 }
@@ -116,50 +118,53 @@ module.exports = app => {
                 getDocuments(getDocIdList(caseData.documents), getOptionsDoc(req))
                     .then(appendDocIdToDocument)
                     .then(documents => {
-                        schema.documents = documents
-                        res.setHeader('Access-Control-Allow-Origin', '*')
-                        res.setHeader('content-type', 'application/json')
-                        res.status(200).send(JSON.stringify(schema))
-                    })
+                        schema.documents = documents;
+                        res.setHeader('Access-Control-Allow-Origin', '*');
+                        res.setHeader('content-type', 'application/json');
+                        res.status(200).send(JSON.stringify(schema));
+                    });
             })
             .catch(response => {
-                console.log(response.error || response)
-                res.status(response.error.status).send(response.error.message)
-            })
-    })
+                console.log(response.error || response);
+                res.status(response.error.status)
+                    .send(response.error.message);
+            });
+    });
 
     router.get('/jurisdiction/:jur/casetype/:casetype/:case_id/raw', (req, res, next) => {
-        const userId = req.auth.userId
-        const jurisdiction = req.params.jur
-        const caseType = req.params.casetype
-        const caseId = req.params.case_id
+        const userId = req.auth.userId;
+        const jurisdiction = req.params.jur;
+        const caseType = req.params.casetype;
+        const caseId = req.params.case_id;
 
         getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId, getOptions(req))
             .then(([caseData, events, questions]) => {
-                caseData.questions = questions
-                caseData.events = events
+                caseData.questions = questions;
+                caseData.events = events;
+                caseData.hearing_data = hearings.online_hearings[0] || [];
 
-                const schema = JSON.parse(JSON.stringify(getCaseTemplate(caseData.jurisdiction, caseData.case_type_id)))
+                const schema = JSON.parse(JSON.stringify(getCaseTemplate(caseData.jurisdiction, caseData.case_type_id)));
                 if (schema.details) {
-                    replaceSectionValues(schema.details, caseData)
+                    replaceSectionValues(schema.details, caseData);
                 }
-                schema.sections.forEach(section => replaceSectionValues(section, caseData))
-                schema.id = caseData.id
-                schema.case_jurisdiction = caseData.jurisdiction
-                schema.case_type_id = caseData.case_type_id
+                schema.sections.forEach(section => replaceSectionValues(section, caseData));
+                schema.id = caseData.id;
+                schema.case_jurisdiction = caseData.jurisdiction;
+                schema.case_type_id = caseData.case_type_id;
 
                 getDocuments(getDocIdList(caseData.documents), getOptionsDoc(req))
                     .then(appendDocIdToDocument)
                     .then(documents => {
-                        schema.documents = documents
-                        res.setHeader('Access-Control-Allow-Origin', '*')
-                        res.setHeader('content-type', 'application/json')
-                        res.status(200).send(JSON.stringify(caseData))
-                    })
+                        schema.documents = documents;
+                        res.setHeader('Access-Control-Allow-Origin', '*');
+                        res.setHeader('content-type', 'application/json');
+                        res.status(200).send(JSON.stringify(caseData));
+                    });
             })
             .catch(response => {
-                console.log(response.error || response)
-                res.status(response.error.status).send(response.error.message)
-            })
-    })
-}
+                console.log(response.error || response);
+                res.status(response.error.status)
+                    .send(response.error.message);
+            });
+    });
+};
