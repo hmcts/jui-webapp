@@ -1,4 +1,4 @@
-import {Component, ViewChild, Input, OnChanges, Output, EventEmitter} from '@angular/core';
+import {Component, ViewChild, Input, OnChanges, Output, EventEmitter, Renderer2, ElementRef} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {Comment} from '../../../data/annotation-set.model';
 import {AnnotationStoreService} from '../../../data/annotation-store.service';
@@ -16,7 +16,13 @@ export class CommentFormComponent implements OnChanges {
 
     model = new Comment(null, null, null, null, null, null, null);
 
-    constructor(private annotationStoreService: AnnotationStoreService) {
+    constructor(private annotationStoreService: AnnotationStoreService,
+                private renderer2: Renderer2) {
+    }
+
+    setFocus() {
+        const commentTextBox = this.renderer2.selectRootElement('#commentContent');
+        commentTextBox.focus();
     }
 
     ngOnChanges() {

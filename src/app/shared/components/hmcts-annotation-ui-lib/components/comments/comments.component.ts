@@ -1,8 +1,9 @@
-import {Component, OnInit, Renderer2, ChangeDetectorRef, AfterViewInit, OnDestroy, Inject} from '@angular/core';
+import {Component, OnInit, Renderer2, ChangeDetectorRef, AfterViewInit, OnDestroy, Inject, ViewChild, ElementRef} from '@angular/core';
+import { DOCUMENT } from '@angular/platform-browser';
 import {Subscription} from 'rxjs';
 import {PdfService} from '../../data/pdf.service';
 import {AnnotationStoreService} from '../../data/annotation-store.service';
-import { DOCUMENT } from '@angular/platform-browser';
+import { CommentFormComponent } from './comment-form/comment-form.component';
 
 declare const PDFAnnotate: any;
 
@@ -17,7 +18,10 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
     selectedAnnotationId: string;
     annotations;
     pageNumber: number;
-    subscription: Subscription;
+    pageNumSub: Subscription;
+    annotationSub: Subscription;
+
+    @ViewChild(CommentFormComponent) commentFormComponent;
 
     constructor(private annotationStoreService: AnnotationStoreService,
                 private pdfService: PdfService,
@@ -30,7 +34,13 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.pageNumber = 1;
         this.showAllComments();
 
-        this.subscription = this.pdfService.getPageNumber().subscribe(
+        this.annotationSub = this.pdfService.getAnnotationClicked().subscribe(
+            annotationId => {
+                this.selectedAnnotationId = annotationId;
+                this.addHighlightedCommentStyle(annotationId);
+            });
+
+        this.pageNumSub = this.pdfService.getPageNumber().subscribe(
             pageNumber => {
                 this.pageNumber = pageNumber;
                 this.showAllComments();
@@ -44,8 +54,8 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngOnDestroy() {
         this.ref.detach();
-        if (this.subscription) {
-            this.subscription.unsubscribe();
+        if (this.pageNumSub) {
+            this.pageNumSub.unsubscribe();
         }
     }
 
@@ -70,8 +80,8 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
             function (a, b) {
                 const keyA = a.rectangles[0].y,
                     keyB = b.rectangles[0].y;
-                if (keyA < keyB) return -1;
-                if (keyA > keyB) return 1;
+                if (keyA < keyB) { return -1; }
+                if (keyA > keyB) { return 1; }
                 return 0;
             });
     }
@@ -124,5 +134,6 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.render.addClass(annotation, 'comment-selected');
             }
         });
+        setTimeout(this.commentFormComponent.setFocus(), 100);
     }
 }

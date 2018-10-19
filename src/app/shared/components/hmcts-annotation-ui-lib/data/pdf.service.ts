@@ -12,6 +12,7 @@ export class PdfService {
     comments;
     private RENDER_OPTIONS: { documentId: string, pdfDocument: any, scale: any, rotate: number };
     private pageNumber: Subject<number>;
+    private annotationSub: Subject<string>;
     pdfPages: number;
     viewerElementRef: ElementRef;
 
@@ -24,6 +25,9 @@ export class PdfService {
 
         this.pageNumber = new Subject();
         this.pageNumber.next(1);
+
+        this.annotationSub = new Subject();
+        this.annotationSub.next(null);
     }
 
     getPageNumber(): Subject<number> {
@@ -32,6 +36,14 @@ export class PdfService {
 
     setPageNumber(pageNumber: number) {
         this.pageNumber.next(pageNumber);
+    }
+
+    getAnnotationClicked(): Subject<string> {
+        return this.annotationSub;
+    }
+
+    setAnnotationClicked(annotationId: string) {
+        this.annotationSub.next(annotationId);
     }
 
     getRenderOptions() {

@@ -1,42 +1,28 @@
-import {Component, ElementRef, Input, OnChanges, OnInit, ViewChild, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {PdfService} from '../../data/pdf.service';
 import {AnnotationStoreService} from '../../data/annotation-store.service';
-import {NpaService} from '../../data/npa.service';
 
 @Component({
   selector: 'app-contextual-toolbar',
   templateUrl: './contextual-toolbar.component.html',
   styleUrls: ['./contextual-toolbar.component.scss']
 })
-export class ContextualToolbarComponent implements OnInit, OnChanges {
+export class ContextualToolbarComponent implements OnInit {
 
-  @ViewChild('highlightTool') highlightTool: ElementRef;
-
-  @Input() dmDocumentId: string;
-  @Input() tool: string;
-  toolPos;
+  toolPos: {left, top};
   showToolbar: boolean;
-  outputDocumentId: string;
+  annotationId: string;
 
   constructor(private pdfService: PdfService,
-              private annotationStoreService: AnnotationStoreService,
-              private npaService: NpaService) {
-    this.tool = 'highlight';
+              private annotationStoreService: AnnotationStoreService) {
   }
 
   ngOnInit() {
+    this.showToolbar = false;
     this.toolPos = {
       left: 0,
       top: 0
     };
-
-    this.npaService.outputDmDocumentId.subscribe(
-      outputDocumentId => this.outputDocumentId = outputDocumentId
-    );
-  }
-
-  ngOnChanges() {
-    this.pdfService.setHighlightTool();
   }
 
   showToolBar(annotationId: string) {
@@ -56,6 +42,7 @@ export class ContextualToolbarComponent implements OnInit, OnChanges {
       top
     };
 
+    this.annotationId = annotationId;
     this.showToolbar = true;
   }
 
@@ -64,11 +51,13 @@ export class ContextualToolbarComponent implements OnInit, OnChanges {
   }
 
   handleCommentClick() {
-
+    this.pdfService.setAnnotationClicked(this.annotationId);
+    this.hideToolBar();
   }
 
   handleHighlightClick() {
-    this.tool = 'highlight';
+    this.pdfService.setAnnotationClicked(null);
+    this.hideToolBar();
   }
 
   handleClearAnnotations() {

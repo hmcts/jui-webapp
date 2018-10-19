@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ElementRef, Inject, Input, ChangeDetectorRef} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef, Inject, Input} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {PdfService} from '../../data/pdf.service';
 import {AnnotationStoreService} from '../../data/annotation-store.service';
@@ -86,6 +86,9 @@ export class AnnotationPdfViewerComponent implements OnInit {
     }
 
     isHighlightingText(event): boolean {
+        if (!event.view.getSelection().anchorNode) {
+            return false;
+        }
         return event.view.getSelection().anchorNode.firstChild;
     }
 
