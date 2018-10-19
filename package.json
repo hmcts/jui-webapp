@@ -74,6 +74,7 @@
     "jsonpath": "^1.0.0",
     "jwt-decode": "^2.2.0",
     "lcov-result-merger": "^3.1.0",
+    "log4js": "^3.0.6",
     "moment": "^2.22.2",
     "ng2-pdf-viewer": "^4.1.2",
     "ngx-cookie": "^4.0.2",

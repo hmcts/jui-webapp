@@ -14,5 +14,7 @@ module.exports = {
     useProxy: true,
     protocol: 'http',
     secureCookie: false,
-    sessionSecret: 'secretSauce'
+    sessionSecret: 'secretSauce',
+    logging: 'info'
+
 };
