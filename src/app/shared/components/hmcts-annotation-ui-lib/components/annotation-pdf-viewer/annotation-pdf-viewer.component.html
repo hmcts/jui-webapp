@@ -1,12 +1,9 @@
 <app-comments *ngIf="annotate"></app-comments>
 
 <div id="annotation-wrapper">
-
-    <app-toolbar
-        [dmDocumentId]="dmDocumentId"
-        *ngIf="annotate"
+    <app-contextual-toolbar
         [(tool)]="tool" >
-    </app-toolbar>
+    </app-contextual-toolbar>
 
     <div id="content-wrapper"
          #contentWrapper

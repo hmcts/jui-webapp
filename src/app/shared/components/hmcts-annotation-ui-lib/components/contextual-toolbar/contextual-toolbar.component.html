@@ -1,0 +1,23 @@
+<div [hidden]="!showToolbar" class="toolbar"
+    [style.left.px]="toolPos.left"
+    [style.top.px]="toolPos.top">
+
+
+    <button class="highlight" type="button" title="Highlight" data-tooltype="highlight"
+            #highlightTool
+            (click)="handleHighlightClick()"
+            [class.active]="tool === 'highlight'"
+    >Highlight</button>
+
+    <div class="spacer"></div>
+    
+    <button type="button" title="Comment"
+            (click)="handleCommentClick()"
+    >Comment</button>
+
+
+    <div class="arrow-down">
+        <div class="inner-triangle"></div>
+    </div>
+
+</div>

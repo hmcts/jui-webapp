@@ -5,7 +5,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommentsComponent } from './components/comments/comments.component';
 import { CommentItemComponent } from './components/comments/comment-item/comment-item.component';
 import { CommentFormComponent } from './components/comments/comment-form/comment-form.component';
-import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { PdfAdapter } from './data/pdf-adapter';
 import { NpaService } from './data/npa.service';
 import { PdfService } from './data/pdf.service';
@@ -13,6 +12,7 @@ import { AnnotationStoreService } from './data/annotation-store.service';
 import { AnnotationPdfViewerComponent } from './components/annotation-pdf-viewer/annotation-pdf-viewer.component';
 import { Utils } from './data/utils';
 import { ApiHttpService } from './data/api-http.service';
+import { ContextualToolbarComponent } from './components/contextual-toolbar/contextual-toolbar.component';
 
 @NgModule({
   imports: [
@@ -24,7 +24,7 @@ import { ApiHttpService } from './data/api-http.service';
     CommentsComponent,
     CommentItemComponent,
     CommentFormComponent,
-    ToolbarComponent,
+    ContextualToolbarComponent,
     AnnotationPdfViewerComponent
   ],
   providers: [
@@ -39,7 +39,7 @@ import { ApiHttpService } from './data/api-http.service';
     CommentsComponent,
     CommentItemComponent,
     CommentFormComponent,
-    ToolbarComponent,
+    ContextualToolbarComponent,
     AnnotationPdfViewerComponent
   ]
 })
