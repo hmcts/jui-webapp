@@ -1,15 +1,15 @@
-const proxyquire = require('proxyquire')
-const supertest = require('supertest')
-const express = require('express')
-const config = require('../../config')
+const proxyquire = require('proxyquire');
+const supertest = require('supertest');
+const express = require('express');
+const config = require('../../config');
 
-// describe('oAuth callback route', () => {
-//     const getTokenCodeSpy = jasmine.createSpy();
-//     getTokenCodeSpy.and.callFake(() => Promise.resolve({ access_token: '__access__' }));
+describe('oAuth callback route', () => {
+    const getTokenCodeSpy = jasmine.createSpy();
+    getTokenCodeSpy.and.callFake(() => Promise.resolve({ access_token: '__access__' }));
 
-//     let route, request, app;
-//     beforeEach(() => {
-//         app = express();
+    let route, request, app;
+    beforeEach(() => {
+        app = express();
 
         httpRequest = jasmine.createSpy();
         httpRequest.and.callFake((method, url) => {
@@ -26,22 +26,22 @@ const config = require('../../config')
 
         route(app);
 
-//         request = supertest(app);
-//     });
+        request = supertest(app);
+    });
 
-//     it('Should redirect to /', () => request
-//         .get('/oauth2/callback')
-//         .expect(302)
-//         .then(res => {
-//             expect(res.headers.location).toEqual('/');
-//         }));
+    it('Should redirect to /', () => request
+        .get('/oauth2/callback')
+        .expect(302)
+        .then(res => {
+            expect(res.headers.location).toEqual('/');
+        }));
 
-//     it('Should convert the idam code toa jwt', () => request
-//         .get('/oauth2/callback?code=bob')
-//         .then(res => {
-//             expect(getTokenCodeSpy).toHaveBeenCalled();
-//             expect(getTokenCodeSpy.calls.mostRecent().args[0]).toEqual('bob');
-//         }));
+    it('Should convert the idam code toa jwt', () => request
+        .get('/oauth2/callback?code=bob')
+        .then(res => {
+            expect(getTokenCodeSpy).toHaveBeenCalled();
+            expect(getTokenCodeSpy.calls.mostRecent().args[0]).toEqual('bob');
+        }));
 
     it('Should set cookies', () => request
         .get('/oauth2/callback')

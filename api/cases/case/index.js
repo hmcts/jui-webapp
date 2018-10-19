@@ -85,6 +85,7 @@ module.exports = app => {
 
         getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId, getOptions(req))
             .then(([caseData, events, questions, hearings]) => {
+                caseData.events = events;
                 caseData.questions = (questions) ? questions.sort((a, b) => (a.question_round_number < b.question_round_number)) : [];
                 caseData.hearing_data = (hearings && hearings.online_hearings) ? hearings.online_hearings[0] : [];
 
@@ -137,9 +138,9 @@ module.exports = app => {
         const caseId = req.params.case_id;
 
         getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId, getOptions(req))
-            .then(([caseData, events, questions]) => {
-                caseData.questions = questions;
+            .then(([caseData, events, questions, hearings]) => {
                 caseData.events = events;
+                caseData.questions = (questions) ? questions.sort((a, b) => (a.question_round_number < b.question_round_number)) : [];
                 caseData.hearing_data = hearings.online_hearings[0] || [];
 
                 const schema = JSON.parse(JSON.stringify(getCaseTemplate(caseData.jurisdiction, caseData.case_type_id)));

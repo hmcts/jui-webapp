@@ -20,6 +20,10 @@ function deleteAnnotation(uuid, options) {
     return generateRequest('DELETE', `${url}/api/annotations/${uuid}`, options);
 }
 
+function getInfo(options) {
+    return generateRequest('GET', `${url}/info`, options);
+}
+
 function getHealth(options) {
     return generateRequest('GET', `${url}/health`, options);
 }
@@ -98,3 +102,6 @@ module.exports = app => {
             });
     });
 };
+
+module.exports.getInfo = getInfo;
+module.exports.getHealth = getHealth;
