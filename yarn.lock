@@ -380,10 +380,6 @@
   version "6.0.118"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.118.tgz#8014a9b1dee0b72b4d7cd142563f1af21241c3a2"
 
-"@types/pdfjs-dist@^0.1.1":
-  version "0.1.2"
-  resolved "http://registry.npmjs.org/@types/pdfjs-dist/-/pdfjs-dist-0.1.2.tgz#91a28961916deab21745482bb26242005fb5b7c7"
-
 "@types/q@^0.0.32":
   version "0.0.32"
   resolved "http://registry.npmjs.org/@types/q/-/q-0.0.32.tgz#bd284e57c84f1325da702babfc82a5328190c0c5"
@@ -6022,13 +6018,6 @@ next-tick@1:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
 
-ng2-pdf-viewer@^4.1.2:
-  version "4.1.2"
-  resolved "http://registry.npmjs.org/ng2-pdf-viewer/-/ng2-pdf-viewer-4.1.2.tgz#a2d6501fcf148e313f8712edf0e707b10e323528"
-  dependencies:
-    "@types/pdfjs-dist" "^0.1.1"
-    pdfjs-dist "1.9.489"
-
 ngx-cookie@^4.0.2:
   version "4.0.2"
   resolved "https://registry.yarnpkg.com/ngx-cookie/-/ngx-cookie-4.0.2.tgz#dc0044826cc3482b723fa70ecc6cd12af057d862"
@@ -6827,13 +6816,6 @@ pbkdf2@^3.0.3:
     ripemd160 "^2.0.1"
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
-
-pdfjs-dist@1.9.489:
-  version "1.9.489"
-  resolved "https://registry.yarnpkg.com/pdfjs-dist/-/pdfjs-dist-1.9.489.tgz#cae59feddd16a2e5d195aa69527955cfe4002c1d"
-  dependencies:
-    node-ensure "^0.0.0"
-    worker-loader "^0.8.0"
 
 pdfjs-dist@1.9.661:
   version "1.9.661"
@@ -9679,13 +9661,6 @@ worker-farm@^1.5.2:
   resolved "https://registry.yarnpkg.com/worker-farm/-/worker-farm-1.6.0.tgz#aecc405976fab5a95526180846f0dba288f3a4a0"
   dependencies:
     errno "~0.1.7"
-
-worker-loader@^0.8.0:
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/worker-loader/-/worker-loader-0.8.1.tgz#e8e995331ea34df5bf68296824bfb7f0ad578d43"
-  dependencies:
-    loader-utils "^1.0.2"
-    schema-utils "^0.3.0"
 
 worker-loader@^1.0.0:
   version "1.1.1"
