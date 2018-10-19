@@ -26,9 +26,13 @@ export class ViewerFactoryService {
         return mimeType === 'application/pdf';
     }
 
+    private static getDocumentId(documentMetaData: any) {
+        const docArray = documentMetaData._links.self.href.split('/');
+        return docArray[docArray.length - 1];
+    }
+
     constructor(private componentFactoryResolver: ComponentFactoryResolver,
                 private annotationStoreService: AnnotationStoreService,
-                private npaService: NpaService,
                 private urlFixer: UrlFixerService) {
     }
 
@@ -48,11 +52,6 @@ export class ViewerFactoryService {
         componentRef.instance.url = this.urlFixer.fixDm(documentMetaData._links.binary.href, baseUrl);
 
         return componentRef.instance;
-    }
-
-    private static getDocumentId(documentMetaData: any) {
-        const docArray = documentMetaData._links.self.href.split('/');
-        return docArray[docArray.length - 1];
     }
 
     buildViewer(documentMetaData: any, annotate: boolean, viewContainerRef: ViewContainerRef, baseUrl: string) {

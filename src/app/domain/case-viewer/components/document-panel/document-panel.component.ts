@@ -14,7 +14,7 @@ export class DocumentPanelComponent implements OnInit {
     documents: any[] = [];
     selectedDocument: any;
     documentUrl: string;
-    allowAnnotations = false;
+    allowAnnotations = true;
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
