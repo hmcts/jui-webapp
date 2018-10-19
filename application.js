@@ -2,7 +2,6 @@ const healthcheck = require('@hmcts/nodejs-healthcheck');
 const { InfoContributor, infoRequestHandler } = require('@hmcts/info-provider');
 const express = require('express');
 const apiRoute = require('./api');
-const serviceTokenMiddleware = require('./api/middleware/service-token');
 const config = require('./config');
 
 const app = express();
@@ -86,8 +85,6 @@ app.get(
 
 app.get('/oauth2/callback', apiRoute);
 app.get('/logout', apiRoute);
-
-app.use(serviceTokenMiddleware);
 app.use('/api', apiRoute);
 
 module.exports = app;

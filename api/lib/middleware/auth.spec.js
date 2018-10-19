@@ -9,7 +9,7 @@ describe('Auth middleware', () => {
             'jwt-decode': () => {
                 return { exp: expiryDate };
             },
-            '../../config': {
+            '../../../config': {
                 cookies: {
                     userId: 'user_key',
                     token: 'token_cookie'

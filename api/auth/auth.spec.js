@@ -11,12 +11,20 @@ const config = require('../../config')
 //     beforeEach(() => {
 //         app = express();
 
-//         route = proxyquire('./index.js', {
-//             './getTokenFromCode': getTokenCodeSpy,
-//             './getUserDetails': () => Promise.resolve({ id: '__userid__' })
-//         });
+        httpRequest = jasmine.createSpy();
+        httpRequest.and.callFake((method, url) => {
+            return new Promise({});
+        });
 
-//         route(app);
+        route = proxyquire('./index', {
+            '../lib/request/request': httpRequest,
+            '../services/idam-api/idam-api': {
+                getDetails: () => Promise.resolve({ id: '__userid__' }),
+                postOauthToken: getTokenCodeSpy
+            }
+        });
+
+        route(app);
 
 //         request = supertest(app);
 //     });
@@ -35,14 +43,14 @@ const config = require('../../config')
 //             expect(getTokenCodeSpy.calls.mostRecent().args[0]).toEqual('bob');
 //         }));
 
-//     it('Should set cookies', () => request
-//         .get('/oauth2/callback')
-//         .then(res => {
-//             expect(res.headers['set-cookie'].length).toEqual(2);
-//             expect(res.headers['set-cookie']).toEqual(
-//                 [
-//                     `${config.cookies.token}=__access__; Path=/`,
-//                     `${config.cookies.userId}=__userid__; Path=/`
-//                 ]);
-//         }));
-// });
+    it('Should set cookies', () => request
+        .get('/oauth2/callback')
+        .then(res => {
+            expect(res.headers['set-cookie'].length).toEqual(2);
+            expect(res.headers['set-cookie']).toEqual(
+                [
+                    `${config.cookies.token}=__access__; Path=/`,
+                    `${config.cookies.userId}=__userid__; Path=/`
+                ]);
+        }));
+});

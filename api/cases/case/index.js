@@ -2,7 +2,7 @@ const express = require('express')
 const getCaseTemplate = require('./templates')
 const valueProcessor = require('../../lib/processors/value-processor')
 const { getEvents } = require('../../events/event')
-const { getDocuments } = require('../../documents/document')
+const { getDocuments } = require('../../services/dm-store-api/dm-store-api')
 const { getAllQuestionsByCase } = require('../../questions/question')
 const { getCCDCase } = require('../../services/ccd-store-api/ccd-store')
 const { getHearingByCase } = require('../../services/coh-cor-api/coh-cor-api')
@@ -86,8 +86,7 @@ module.exports = app => {
         getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId, getOptions(req))
             .then(([caseData, events, questions, hearings]) => {
                 caseData.questions = (questions) ? questions.sort((a, b) => (a.question_round_number < b.question_round_number)) : [];
-                caseData.events = events;
-
+                caseData.hearing_data = (hearings && hearings.online_hearings) ? hearings.online_hearings[0] : [];
 
                 const ccdState = caseData.state;
                 const hearingData = (hearings && hearings.online_hearings) ? hearings.online_hearings[0] : undefined;

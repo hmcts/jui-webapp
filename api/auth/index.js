@@ -1,8 +1,10 @@
 const express = require('express')
 const config = require('../../config')
 
-const getTokenFromCode = require('./getTokenFromCode')
-const getUserDetails = require('./getUserDetails')
+const { getDetails, postOauthToken } = require('../services/idam-api/idam-api');
+
+const cookieToken = config.cookies.token;
+const cookieUserId = config.cookies.userId;
 
 module.exports = app => {
     const router = express.Router()
@@ -10,15 +12,16 @@ module.exports = app => {
     app.use('/oauth2/callback', router)
 
     router.use((req, res, next) => {
-        getTokenFromCode(req.query.code, req)
-            .then(token => {
-                if (token.access_token) {
-                    getUserDetails(token.access_token).then(details => {
-                        req.session.user = details
-                        res.cookie(config.cookies.token, token.access_token)
-                        res.cookie(config.cookies.userId, details.id)
-                        res.redirect('/')
-                    })
+        postOauthToken(req.query.code, req.get('host'))
+            .then(data => {
+                if (data.access_token) {
+                    const options = { headers: { Authorization: `Bearer ${data.access_token}` } };
+                    getDetails(options)
+                        .then(details => {
+                            res.cookie(cookieToken, data.access_token);
+                            res.cookie(cookieUserId, details.id);
+                            res.redirect('/');
+                        });
                 }
             })
             .catch(e => {
@@ -28,9 +31,8 @@ module.exports = app => {
     })
 
     app.use('/logout', (req, res, next) => {
-        res.clearCookie(config.cookies.token)
-        res.clearCookie(config.cookies.userId)
-        const redirectUrl = req.query.redirect || '/'
-        res.redirect(redirectUrl)
-    })
-}
+        res.clearCookie(cookieToken);
+        res.clearCookie(cookieUserId);
+        res.redirect(req.query.redirect || '/');
+    });
+};

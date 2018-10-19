@@ -1,70 +1,68 @@
 const express = require('express');
 const proxyquire = require('proxyquire');
 const supertest = require('supertest');
-const { getCCDCases } = require('./ccd-store');
+const config = require('../../../config');
 
-xdescribe('ccd-store spec', () => {
-    let httpRequest;
-    const divorceCaseData = [];
-    let app;
+const url = config.services.ccd_data_api;
+
+describe('ccd-store spec', () => {
     let route;
     let request;
-    const sscsCaseData = [];
-    const jurisdictions = [
-        {
-            jur: 'DIVORCE',
-            caseType: 'DIVORCE',
-            filter: ''
-        },
-        {
-            jur: 'SSCS',
-            caseType: 'Benefit',
-            filter: '&state=appealCreated&case.appeal.benefitType.code=PIP'
-        }
-    ];
-    app = express();
+    let app;
+    let httpRequest;
+    let httpResponse;
 
 
     beforeEach(() => {
+        httpResponse = (resolve, reject) => {
+            resolve({});
+        };
         httpRequest = jasmine.createSpy();
-        httpRequest.and.callFake((method, url) => {
-            if (url.includes('jurisdictions/DIVORCE')) {
-                console.log('divorce', url);
-                return Promise.resolve(divorceCaseData);
-            } else if (url.includes('jurisdictions/SSCS')) {
-                console.log('SSCS', url);
-                return Promise.resolve(sscsCaseData);
-            }
-        });
+        httpRequest.and.callFake((url, options) => new Promise(httpResponse));
 
-        app.use((req, res, next) => {
-            req.auth = {
-                token: '1234567',
-                userId: '1'
-            };
-            req.headers.ServiceAuthorization = 'sdhfkajfa;ksfha;kdj';
-            next();
-        });
+        app = express();
 
-        route = proxyquire('./index', { '../../lib/request': httpRequest });
+        route = proxyquire('./ccd-store.js', {
+            '../../lib/request/request': httpRequest
+        });
 
         route(app);
+
         request = supertest(app);
     });
 
-    describe('when ccd request and process.env.JUI_ENV is not set', () => {
-        it('should create CCD request with CCD endpoints', () => {
-            const ccdCases = getCCDCases(1, jurisdictions, {
-                headers: {
-                    Authorization: 'Bearer 1234567',
-                    ServiceAuthorization: 'sdhfkajfa;ksfha;kdj'
-                }
-            });
-            expect(ccdCases.length).toBe(0);
+    describe('getHealth', () => {
+        let getHealth;
+
+        beforeEach(() => {
+            getHealth = route.getHealth;
+        });
+
+        it('should expose function', () => {
+            expect(getHealth).toBeTruthy();
+        });
+
+        it('should make a request', () => {
+            getHealth({});
+            expect(httpRequest).toHaveBeenCalledWith('GET', `${url}/health`, {});
         });
     });
 
-    afterEach(() => {
-        delete process.env.JUI_ENV;
+    describe('getInfo', () => {
+        let getInfo;
+
+        beforeEach(() => {
+            getInfo = route.getInfo;
+        });
+
+        it('should expose function', () => {
+            expect(getInfo).toBeTruthy();
+        });
+
+        it('should make a request', () => {
+            getInfo({});
+            expect(httpRequest).toHaveBeenCalledWith('GET', `${url}/info`, {});
+        });
     });
+
 });

@@ -9,7 +9,7 @@ const translateJson = require('./translate')
 const log4js = require('log4js')
 
 const logger = log4js.getLogger('State')
-logger.level = config.logging
+logger.level = config.logging ? config.logging : 'OFF'
 
 const ERROR404 = 404
 const ERROR400 = 400
@@ -420,7 +420,7 @@ async function handleStateRoute(req, res) {
     // logger.info('########################')
     // logger.info(state)
     // logger.info('########################')
-    logger.info(store.get(`decisions_${inCaseId}`))
+    logger.info(store.get(`decisions_${inCaseId}`) || {})
     // logger.info('########################')
     logger.info('Finished proccessing')
     if (result) {

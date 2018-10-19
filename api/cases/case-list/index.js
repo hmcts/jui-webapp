@@ -8,7 +8,7 @@ const { caseStateFilter } = require('../../lib/processors/case-state-util')
 const { getAllQuestionsByCase } = require('../../questions/question')
 const { getMutiJudCCDCases } = require('../../services/ccd-store-api/ccd-store')
 const { getHearingByCase } = require('../../services/coh-cor-api/coh-cor-api')
-const { getUserDetails } = require('../../services/idam-api/idam-api')
+const { getDetails } = require('../../services/idam-api/idam-api')
 
 function getJurisdictions(details) {
     return details
@@ -237,7 +237,7 @@ module.exports = app => {
         const userId = req.auth.userId
         const options = getOptions(req)
 
-        getUserDetails(options).then(details => {
+        getDetails(options).then(details => {
             const userJurisdictions = getJurisdictions(details)
 
             getMutiJudCCDCases(userId, userJurisdictions, options)
