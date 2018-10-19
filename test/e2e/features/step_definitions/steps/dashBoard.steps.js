@@ -17,7 +17,12 @@ defineSupportCode(function({ Given, When, Then }) {
             .to
             .eventually
             .equal('Dashboard');
-        await expect(dashBoardPage.your_cases.getText()).to.eventually.equal('Your cases');
+
+        await expect(dashBoardPage.your_cases.getText())
+            .to
+            .eventually
+            .equal('Your cases');
+
 
     });
 
@@ -30,7 +35,6 @@ defineSupportCode(function({ Given, When, Then }) {
 
 
     When(/^one or more cases (.*) are displayed$/, async function(type) {
-
 
         var no_of_types = dashBoardPage.type_links.count()
             .then(function(count) {
@@ -85,6 +89,7 @@ defineSupportCode(function({ Given, When, Then }) {
                 .eventually
                 .equal('Case details');
 
+
             browser.sleep(3000);
 
             await expect(caseSummaryPage.representatives_text
@@ -103,7 +108,6 @@ defineSupportCode(function({ Given, When, Then }) {
 
             browser.sleep(3000);
         }
-
 
     });
 
@@ -144,7 +148,7 @@ defineSupportCode(function({ Given, When, Then }) {
     });
 
 
-    Then(/^I should see table each column header text as (.*), (.*), (.*), (.*), (.*), (.*)$/, async function(case_num,parties,type,decision,case_received,date_of_last) {
+    Then(/^I should see table each column header text as (.*), (.*), (.*), (.*), (.*), (.*)$/, async function(case_num, parties, type, decision, case_received, date_of_last) {
         await expect(dashBoardPage.case_number_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.case_number_header.getText())
             .to
@@ -212,9 +216,10 @@ defineSupportCode(function({ Given, When, Then }) {
 
     });
 
-    Then (/^I see FR specific cases on JUI dashboard$/, async function () {
+    Then(/^I see FR specific cases on JUI dashboard$/, async function() {
 
     });
+
 
 });
 

@@ -49,9 +49,14 @@
                             }
                         ],
                         "styles": [
+                            "src/public/sass/annotation-ui-theme.scss",
                             "src/styles.scss"
                         ],
-                        "scripts": []
+                        "scripts": [
+                            "src/public/javascripts/pdf.js",
+                            "src/public/javascripts/pdf_viewer.js",
+                            "src/public/javascripts/pdf-annotate.js"
+                        ]
                     },
                     "configurations": {
                         "production": {
@@ -120,8 +125,12 @@
                     "options": {
                         "codeCoverage": true,
                         "codeCoverageExclude": [
+                            "**/*.spec.ts",
+                            "**/*.spec.js",
                             "test/**",
                             "config/**",
+                            "api/**/templates/**",
+                            "src/public/**",
                             "src/environments/**"
                         ],
                         "main": "src/test.ts",

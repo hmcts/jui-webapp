@@ -79,7 +79,7 @@ xdescribe('Events route', () => {
         app = express();
 
         route = proxyquire('./event.js', {
-            '../lib/request': httpRequest,
+            '../lib/request/request': httpRequest,
             './options': () => {
                 {}
             }

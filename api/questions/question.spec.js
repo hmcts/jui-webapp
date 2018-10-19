@@ -4,8 +4,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 xdescribe('Questions route', () => {
-    let route, request, app;
-    let httpRequest, httpResponse;
+    let route;
+    let request;
+    let app;
+    let httpRequest;
+    let httpResponse;
+
     let cohResponses;
     beforeEach(() => {
         cohResponses = {
@@ -25,7 +29,7 @@ xdescribe('Questions route', () => {
         app = express();
         app.use(bodyParser.json());
 
-        route = proxyquire('./question.js', { '../lib/request': httpRequest });
+        route = proxyquire('./question.js', { '../lib/request/request': httpRequest });
         app.use((req, res, next) => {
             req.auth = {
                 token: '1234567',

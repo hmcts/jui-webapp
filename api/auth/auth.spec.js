@@ -11,9 +11,17 @@ describe('oAuth callback route', () => {
     beforeEach(() => {
         app = express();
 
-        route = proxyquire('./index.js', {
-            './getTokenFromCode': getTokenCodeSpy,
-            './getUserDetails': () => Promise.resolve({ id: '__userid__' })
+        httpRequest = jasmine.createSpy();
+        httpRequest.and.callFake((method, url) => {
+            return new Promise({});
+        });
+
+        route = proxyquire('./index', {
+            '../lib/request/request': httpRequest,
+            '../services/idam-api/idam-api': {
+                getDetails: () => Promise.resolve({ id: '__userid__' }),
+                postOauthToken: getTokenCodeSpy
+            }
         });
 
         route(app);

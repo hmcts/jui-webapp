@@ -1,11 +1,23 @@
 const express = require('express');
 const config = require('../../../config');
-const generateRequest = require('../../lib/request');
+const generateRequest = require('../../lib/request/request');
 
 const url = config.services.em_anno_api;
 
-function getAnnotationSet(uuid, options) {
-    return generateRequest('GET', `${url}/annotation-sets/${uuid}`, options);
+function getAnnotionSet(uuid, options) {
+    return generateRequest('GET', `${url}/api/annotation-sets/filter?documentId=${uuid}`, options);
+}
+
+function createAnnotationSet(options) {
+    return generateRequest('POST', `${url}/api/annotation-sets/`, options);
+}
+
+function addAnnotation(options) {
+    return generateRequest('POST', `${url}/api/annotations`, options);
+}
+
+function deleteAnnotation(uuid, options) {
+    return generateRequest('DELETE', `${url}/api/annotations/${uuid}`, options);
 }
 
 function getHealth(options) {
@@ -21,7 +33,8 @@ function getOptions(req) {
         headers: {
             Authorization: `Bearer ${req.auth.token}`,
             ServiceAuthorization: req.headers.ServiceAuthorization
-        }
+        },
+        body: req.body
     };
 }
 
@@ -29,17 +42,66 @@ module.exports = app => {
     const router = express.Router({ mergeParams: true });
     app.use('/em-anno', router);
 
-    router.get('/annotations-set/:uuid', (req, res, next) => {
+    router.post('/annotation-sets', (req, res, next) => {
+        // Called when get annotation-sets returns 404
+        const options = getOptions(req);
+
+        createAnnotationSet(options)
+            .then(response => {
+                res.setHeader('Access-Control-Allow-Origin', '*');
+                res.setHeader('content-type', 'application/json');
+                res.status(200).send(JSON.stringify(response));
+            })
+            .catch(response => {
+                res.status(response.error.status).send(response.error.message);
+            });
+    });
+
+    router.get('/annotation-sets/:uuid', (req, res, next) => {
+        const options = getOptions(req);
         const uuid = req.params.uuid;
 
-        getAnnotationSet(uuid, getOptions(req)).pipe(res);
+        getAnnotionSet(uuid, options)
+            .then(response => {
+                res.setHeader('Access-Control-Allow-Origin', '*');
+                res.setHeader('content-type', 'application/json');
+                res.status(200).send(JSON.stringify(response));
+            })
+            .catch(response => {
+                console.log(response.error || response);
+                res.status(response.error.status).send(response.error.message);
+            });
     });
 
-    router.get('/health', (req, res, next) => {
-        getHealth(getOptions(req)).pipe(res);
+    router.delete('/annotations/:uuid', (req, res, next) => {
+        const options = getOptions(req);
+        const uuid = req.params.uuid;
+
+        deleteAnnotation(uuid, options)
+            .then(response => {
+                res.setHeader('Access-Control-Allow-Origin', '*');
+                res.setHeader('content-type', 'application/json');
+                res.status(200).send(JSON.stringify(response));
+            })
+            .catch(response => {
+                res.status(response.error.status).send(response.error.message);
+            });
     });
 
-    router.get('/info', (req, res, next) => {
-        getInfo(getOptions(req)).pipe(res);
+    router.post('/annotations', (req, res, next) => {
+        const options = getOptions(req);
+
+        addAnnotation(options)
+            .then(response => {
+                res.setHeader('Access-Control-Allow-Origin', '*');
+                res.setHeader('content-type', 'application/json');
+                res.status(200).send(JSON.stringify(response));
+            })
+            .catch(response => {
+                res.status(response.error.status).send(response.error.message);
+            });
     });
 };
+
+module.exports.getInfo = getInfo;
+module.exports.getHealth = getHealth;

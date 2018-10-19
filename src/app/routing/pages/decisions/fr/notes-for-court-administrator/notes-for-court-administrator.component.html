@@ -1,0 +1,23 @@
+<app-govuk-back-link></app-govuk-back-link>
+<main class="govuk-main-wrapper" role="main">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <form *ngIf="pageitems; else loading" [formGroup]="notesForCourtAdminForm" (ngSubmit)="onSubmit()">
+                <div class="govuk-form-group">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
+                        <h1 class="govuk-fieldset__heading">{{pageitems.header}}</h1>
+                    </legend>
+                    <span id="copyconsentorder-hint" class="govuk-hint">
+                        {{pageitems.hint}}
+                    </span>
+                    <textarea class="govuk-textarea" formControlName="{{pageitems.textarea.control}}" rows="5"></textarea>
+                </div>
+                <input class="govuk-button" type="submit" formControlName="{{pageitems.button.control}}">
+            </form>
+        </div>
+    </div>
+</main>
+<ng-template #loading>
+    Loading Form...
+</ng-template>
+

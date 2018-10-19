@@ -30,7 +30,7 @@ defineSupportCode(function({ Given, When, Then }) {
 
     });
 
-    Then(/^I can see (.*), (.*), (.*) , (.*)$/, async function(fullname, Address, phone, email, representative) {
+    Then(/^I can see (.*),(.*),(.*),(.*),(.*)$/, async function(fullname, Address, phone, email, representative) {
         await expect(partiesPage.petitioner_details.first().getText()).to.eventually.equal(fullname);
         await expect(partiesPage.petitioner_details.get(2).getText()).to.eventually.equal(Address);
         await expect(partiesPage.petitioner_details.get(4).getText()).to.eventually.equal(phone);

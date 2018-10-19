@@ -1,11 +1,19 @@
 const express = require('express');
 const config = require('../../../config');
-const generateRequest = require('../../lib/request');
+const generateRequest = require('../../lib/request/request');
 
 const url = config.services.dm_store_api;
 
 function getDocument(docId, options) {
     return generateRequest('GET', `${url}/documents/${docId}`, options);
+}
+
+function getDocuments(documentIds = [], options) {
+    const promiseArray = [];
+    documentIds.forEach(docId => {
+        promiseArray.push(getDocument(docId, options));
+    });
+    return Promise.all(promiseArray);
 }
 
 function getDocumentBinary(docId, options) {
@@ -46,6 +54,9 @@ module.exports = app => {
     });
 };
 
+module.exports.getInfo = getInfo;
+module.exports.getHealth = getHealth;
 module.exports.getDocument = getDocument;
+module.exports.getDocuments = getDocuments;
 module.exports.getDocumentBinary = getDocumentBinary;
 module.exports.getDocumentThumbnail = getDocumentThumbnail;

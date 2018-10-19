@@ -17,10 +17,10 @@ Feature: Verify Parties tab functionality for any case type
     @all
     Scenario: Verify Petitioner details for that case type
         When I select Petitioner tab
-        Then I can see Full name, Address, Phone, Email , Representative
+        Then I can see Full name,Address,Phone,Email,Representative
 
     @all
     Scenario: Verify Representative details for that case type
         When I select Respondent tab
-        Then I can see Full name, Address, Phone, Email , Representative
+        Then I can see Full name,Address,Phone,Email,Representative
 

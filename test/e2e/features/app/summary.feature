@@ -8,10 +8,10 @@ Feature: View Case Summary Page
         Then I will be redirected to the Case Summary page for that case type
 
 
-
     @RIUI_299 @all
     Scenario: I can see the summary page
         Then I should expect the url to "match" "(.+)/viewcase/(.+)/summary"
+
 
 
     @all
@@ -44,6 +44,7 @@ Feature: View Case Summary Page
 
 
 
+
     @RIUI_299 @all
     Scenario Outline: I can see case summary and panel members information
         Then I should see case details of that case <type>
@@ -67,15 +68,6 @@ Feature: View Case Summary Page
     Scenario: select case action alert link redirects to key facts or case file page
         When I click on case action alert link
         Then I will be redirected to the Case file page for that case
-
-
-
-
-
-
-
-
-
 
 
 

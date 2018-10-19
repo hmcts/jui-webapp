@@ -12,10 +12,7 @@ defineSupportCode(function({ Given, When, Then }) {
     Then(/^I should see case details of that case (.*)$/, async function(type) {
 
         await expect(caseSummaryPage.caseDetails_header_text.isDisplayed()).to.eventually.be.true;
-        await expect(caseSummaryPage.caseDetails_header_text.getText())
-            .to
-            .eventually
-            .equal('Case details');
+        await expect(caseSummaryPage.caseDetails_header_text.getText()).to.eventually.equal("Case details");
 
         browser.sleep(3000);
 
@@ -97,8 +94,8 @@ defineSupportCode(function({ Given, When, Then }) {
     });
 
     Then(/^I should see header logo text as (.*)$/, async function(jui_case_manager_logo_text) {
-        await expect(caseSummaryPage.judicial_case_manager_logo.isDisplayed()).to.eventually.be.true;
-        await expect(caseSummaryPage.judicial_case_manager_logo.getText())
+        await expect(caseSummaryPage.judicial_case_manager_link.isDisplayed()).to.eventually.be.true;
+        await expect(caseSummaryPage.judicial_case_manager_link.getText())
             .to
             .eventually
             .equal(jui_case_manager_logo_text);
@@ -201,11 +198,12 @@ defineSupportCode(function({ Given, When, Then }) {
 
     });
 
-    When (/^I click on case action alert link$/, async function(){
+    When (/^I click on case action alert link$/, async function() {
         await caseSummaryPage.case_alert_content_link.click();
         browser.sleep(3000);
 
     });
+
 
 
 });

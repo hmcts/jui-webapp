@@ -67,7 +67,7 @@ xdescribe('case spec', () => {
 
         app = express();
         route = proxyquire('./index', {
-            '../../lib/request': httpRequest,
+            '../../lib/request/request': httpRequest,
             '../../questions': questionsMock,
             '../../events': eventsMock,
             '../../documents': documentsMock
