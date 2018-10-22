@@ -25,7 +25,11 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.annotationSavedSub = this.annotationStoreService.getAnnotationSaved().subscribe(
       contextualOptions => {
-        this.showToolBar(contextualOptions.annotation, contextualOptions.showDelete);
+        if (contextualOptions.annotation != null) {
+          this.showToolBar(contextualOptions.annotation, contextualOptions.showDelete);
+        } else {
+          this.hideToolBar();
+        }
       });
 
     this.showToolbar = false;
@@ -60,9 +64,7 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
       top
     };
 
-    console.log(annotation);
     this.annotationId = annotation.id;
-    console.log(this.annotationId);
     this.showToolbar = true;
 
     if (!this.ref['destroyed']) {
@@ -85,7 +87,6 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
   }
 
   handleDeleteClick() {
-    // const annotation = new Annotation(this.annotationId, null, null, null, null, null, null, null, null, null, null,  null);
     this.annotationStoreService.deleteAnnotationById(this.annotationId);
     this.hideToolBar();
   }

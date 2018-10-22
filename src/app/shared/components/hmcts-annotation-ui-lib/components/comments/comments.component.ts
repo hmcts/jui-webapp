@@ -108,6 +108,7 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.selectedAnnotationId = null;
         this.showAllComments();
         this.addHighlightedCommentStyle(null);
+        this.annotationStoreService.setToolBarUpdate(null, null);
     }
 
     supportsComments(target) {
