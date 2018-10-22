@@ -1,8 +1,9 @@
-import {Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import {Component, OnInit, ChangeDetectorRef, OnDestroy, Inject } from '@angular/core';
 import { Subscription } from 'rxjs';
-import {PdfService} from '../../data/pdf.service';
-import {AnnotationStoreService} from '../../data/annotation-store.service';
+import { PdfService } from '../../data/pdf.service';
+import { AnnotationStoreService } from '../../data/annotation-store.service';
 import { Annotation } from '../../data/annotation-set.model';
+import { DOCUMENT } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-contextual-toolbar',
@@ -12,14 +13,15 @@ import { Annotation } from '../../data/annotation-set.model';
 export class ContextualToolbarComponent implements OnInit, OnDestroy {
 
   toolPos: {left, top};
-  showToolbar: boolean;
+  isShowToolbar: boolean;
   showDelete: boolean;
   annotationId: string;
   annotationSavedSub: Subscription;
 
   constructor(private pdfService: PdfService,
               private annotationStoreService: AnnotationStoreService,
-              private ref: ChangeDetectorRef) {
+              private ref: ChangeDetectorRef,
+              @Inject(DOCUMENT) private document: any) {
   }
 
   ngOnInit() {
@@ -32,7 +34,7 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.showToolbar = false;
+    this.isShowToolbar = false;
     this.toolPos = {
       left: 0,
       top: 0
@@ -46,12 +48,23 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
     }
   }
 
-  showToolBar(annotation, showDelete) {
+  showToolBar(annotation: Annotation, showDelete?: boolean) {
     this.showDelete = showDelete;
-    const svgSelector = document.querySelector(`g[data-pdf-annotate-id="${annotation.id}"]`);
+
+    this.toolPos = this.getRelativePosition(annotation.id);
+    this.annotationId = annotation.id;
+    this.isShowToolbar = true;
+
+    if (!this.ref['destroyed']) {
+      this.ref.detectChanges();
+    }
+  }
+
+  getRelativePosition(annotationId: string): {left: number; top: number} {
+    const svgSelector = this.document.querySelector(`g[data-pdf-annotate-id="${annotationId}"]`);
     const highlightRect = <DOMRect>svgSelector.getBoundingClientRect();
 
-    const wrapper = document.querySelector('#annotation-wrapper');
+    const wrapper = this.document.querySelector('#annotation-wrapper');
     const wrapperRect = <DOMRect>wrapper.getBoundingClientRect();
 
     const left = ((highlightRect.x - wrapperRect.left)
@@ -59,34 +72,27 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
     const top = ((highlightRect.y - wrapperRect.top)
       - 59) - 5; // Minus height of toolbar + 5px
 
-    this.toolPos = {
+    return {
       left,
       top
     };
-
-    this.annotationId = annotation.id;
-    this.showToolbar = true;
-
-    if (!this.ref['destroyed']) {
-      this.ref.detectChanges();
-    }
   }
 
   hideToolBar() {
-    this.showToolbar = false;
+    this.isShowToolbar = false;
   }
 
-  handleCommentClick() {
+  handleCommentBtnClick() {
     this.pdfService.setAnnotationClicked(this.annotationId);
     this.hideToolBar();
   }
 
-  handleHighlightClick() {
+  handleHighlightBtnClick() {
     this.pdfService.setAnnotationClicked(null);
     this.hideToolBar();
   }
 
-  handleDeleteClick() {
+  handleDeleteBtnClick() {
     this.annotationStoreService.deleteAnnotationById(this.annotationId);
     this.hideToolBar();
   }

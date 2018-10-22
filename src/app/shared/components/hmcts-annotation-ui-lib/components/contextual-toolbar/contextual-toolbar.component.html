@@ -1,4 +1,4 @@
-<div [hidden]="!showToolbar" class="toolbar"
+<div [hidden]="!isShowToolbar" class="toolbar"
     [style.left.px]="toolPos.left"
     [style.top.px]="toolPos.top">
 
@@ -8,19 +8,19 @@
         type="button" class="contextual-btn"
         title="Highlight" 
         data-tooltype="highlight"
-        (click)="handleHighlightClick()"
+        (click)="handleHighlightBtnClick()"
     >Highlight</button>
 
     <button 
         [hidden]="!showDelete" 
         type="button" 
         title="Delete" class="contextual-btn"
-        (click)="handleDeleteClick()"
+        (click)="handleDeleteBtnClick()"
     >Delete</button>
     <div class="spacer"></div>
     
     <button type="button" title="Comment" class="contextual-btn"
-            (click)="handleCommentClick()"
+            (click)="handleCommentBtnClick()"
     >Comment</button>
 
 
