@@ -1,6 +1,6 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
-import {Observable, Subscription} from 'rxjs';
+import {Observable, Subscription, Subject} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {v4 as uuid} from 'uuid';
 import {Annotation, Comment, IAnnotation, IAnnotationSet} from './annotation-set.model';
@@ -14,12 +14,19 @@ declare const PDFAnnotate: any;
 export class AnnotationStoreService implements OnDestroy {
 
     annotationChangeSubscription: Subscription;
+    private annotationSavedSub: Subject<Annotation>;
 
     constructor(private pdfAdapter: PdfAdapter,
                 private apiHttpService: ApiHttpService,
                 private pdfService: PdfService) {
 
+        this.annotationSavedSub = new Subject();
+        this.annotationSavedSub.next(null);
         this.annotationChangeSubscription = this.pdfAdapter.annotationChangeSubject.subscribe((e) => this.handleAnnotationEvent(e));
+    }
+
+    getAnnotationSaved(): Subject<Annotation> {
+        return this.annotationSavedSub;
     }
 
     preLoad(annotationData: IAnnotationSet) {
@@ -116,7 +123,10 @@ export class AnnotationStoreService implements OnDestroy {
 
     saveAnnotation(annotation) {
         this.apiHttpService.saveAnnotation(annotation).subscribe(
-            response => console.log(response),
+            response => {
+                console.log(response);
+                this.annotationSavedSub.next(annotation);
+            },
             error => console.log(error)
         );
     }

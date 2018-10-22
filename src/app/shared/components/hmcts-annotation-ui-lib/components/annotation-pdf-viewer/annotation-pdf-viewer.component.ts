@@ -77,12 +77,6 @@ export class AnnotationPdfViewerComponent implements OnInit {
                 currentParent = currentParent.parentNode;
             }
         }
-        if (this.isHighlightingText(event)) {
-            const annotationId = event.view.getSelection().anchorNode.firstElementChild.id.substring(26);
-            this.contextualToolbar.showToolBar(annotationId);
-        } else {
-            this.contextualToolbar.hideToolBar();
-        }
     }
 
     isHighlightingText(event): boolean {
