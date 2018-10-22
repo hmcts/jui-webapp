@@ -7,6 +7,6 @@ export class CaseStatusGoto implements PipeTransform {
 
     transform(status, jurisdiction, caseType, caseId) {
         const  href = status.ID ? `${status.actionGoTo}/${status.ID}` : status.actionGoTo;
-        return `/jurisdiction/${jurisdiction}/casetype/${caseType}/viewcase/${caseId}/${href}`;
+        return `/case/${jurisdiction}/${caseType}/${caseId}/${href}`;
     }
 }

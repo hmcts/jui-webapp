@@ -20,8 +20,8 @@ function dashBoardPage() {
     this.last_action_dates = element.all(by.css('[data-selector="lastModified-value"]'));
     this.sign_out_link = element(by.css('a.hmcts-header__navigation-link'));
     this.case_links = element.all(by.css('.cdk-column-case_id >a[href]'));
-    this.ng_links_FR_DIV = element.all(by.css('[ng-reflect-router-link="/jurisdiction/DIVORCE/casetype"][href]'));
-    this.ng_links_PIP = element.all(by.css('[ng-reflect-router-link="/jurisdiction/SSCS/casetype/Be"][href]'));
+    this.ng_links_FR_DIV = element.all(by.css('[ng-reflect-router-link="/case/DIVORCE/"][href]'));
+    this.ng_links_PIP = element.all(by.css('[ng-reflect-router-link="/case/SSCS/Be"][href]'));
     this.your_cases = element(by.css('span.govuk-heading-m'));
     this.table_column_header = element(by.css(".govuk-table__head.cdk-header-row[role='row']"));
     this.decision_needed_on_header = element(by.css(".govuk-table__header.cdk-header-cell.cdk-column-state"));

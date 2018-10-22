@@ -9,7 +9,7 @@ import { BrowserTransferStateModule } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {Selector} from '../../../../../test/selector-helper';
 
-const caseUrl = '/api/cases/1531309876267122';
+const caseUrl = '/api/case/1531309876267122';
 const configMock = {
     config: {
         api_base_url: ''

@@ -224,13 +224,13 @@ describe('TableComponent', () => {
         it('should have a clickable case reference link to summary', () => {
             const links =
                 element.nativeElement.querySelectorAll(Selector.selector('table-component|case-reference-link'));
-            expect(links[0].attributes.href.value).toEqual('/jurisdiction/SSCS/casetype/Benefit/viewcase/1528476356357908/summary');
+            expect(links[0].attributes.href.value).toEqual('/case/SSCS/Benefit/1528476356357908/summary');
         });
 
         it('should have a clickable case status link', () => {
             const links =
                 element.nativeElement.querySelectorAll(Selector.selector('table-component|case-status-reference-link'));
-            expect(links[0].attributes.href.value).toEqual('/jurisdiction/SSCS/casetype/Benefit/viewcase/1528476356357908/casefile');
+            expect(links[0].attributes.href.value).toEqual('/case/SSCS/Benefit/1528476356357908/casefile');
         });
 
         it('should have ALL the headers', () => {

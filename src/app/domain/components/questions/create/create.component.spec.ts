@@ -155,7 +155,7 @@ describe('CreateQuestionsComponent', () => {
 
             component.submitCallback({});
             httpMock
-                .expectOne('/api/cases/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions')
+                .expectOne('/api/case/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions')
                 .flush({question_id: '9727a0fc-11bb-4212-821f-b36e312bbace'});
         });
 

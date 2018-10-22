@@ -62,7 +62,7 @@ xdescribe('Questions route', () => {
 
         describe('When I do not have an answer', () => {
             it('It should return the question', done => {
-                request.get(`/cases/${caseNumber}/questions/${questionId}`)
+                request.get(`/case/${caseNumber}/questions/${questionId}`)
                     .expect(200)
                     .then(response => {
                         expect(response.body).toEqual({
@@ -90,7 +90,7 @@ xdescribe('Questions route', () => {
 
 
             it('It should return the question with the answer', done => {
-                request.get(`/cases/${caseNumber}/questions/${questionId}`)
+                request.get(`/case/${caseNumber}/questions/${questionId}`)
                     .expect(200)
                     .then(response => {
                         expect(response.body).toEqual({
@@ -151,7 +151,7 @@ xdescribe('Questions route', () => {
             });
 
             it('should return a list of formatted questions', done => {
-                request.get(`/cases/${caseNumber}/questions`)
+                request.get(`/case/${caseNumber}/questions`)
                     .expect(200)
                     .then(response => {
                         expect(response.body).toEqual([
@@ -190,7 +190,7 @@ xdescribe('Questions route', () => {
             });
 
             it('should return a an empty list', done => {
-                request.get(`/cases/${caseNumber}/questions`)
+                request.get(`/case/${caseNumber}/questions`)
                     .expect(200)
                     .then(response => {
                         expect(response.body).toEqual([]);
@@ -222,7 +222,7 @@ xdescribe('Questions route', () => {
             });
 
             it('It should make a post request', done => {
-                request.post(`/cases/${caseNumber}/questions`)
+                request.post(`/case/${caseNumber}/questions`)
                     .expect(201)
                     .send({
                         subject: 'A great question',

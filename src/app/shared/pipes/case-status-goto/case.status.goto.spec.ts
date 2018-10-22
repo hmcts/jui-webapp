@@ -15,7 +15,7 @@ fdescribe('CaseStatusGoto', () => {
         };
 
         const result = caseStatusGoToPipe.transform(status, jur, caseType, caseId);
-        expect(result).toBe('/jurisdiction/SSCS/casetype/Benefit/viewcase/3qweeq/questions');
+        expect(result).toBe('/case/SSCS/Benefit/3qweeq/questions');
     });
 
     it('should produce go to href with ID', () => {
@@ -26,6 +26,6 @@ fdescribe('CaseStatusGoto', () => {
         };
 
         const result = caseStatusGoToPipe.transform(status, jur, caseType, caseId);
-        expect(result).toBe('/jurisdiction/SSCS/casetype/Benefit/viewcase/3qweeq/questions/UUID');
+        expect(result).toBe('/case/SSCS/Benefit/3qweeq/questions/UUID');
     });
 });

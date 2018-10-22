@@ -9,7 +9,7 @@ suite('API/CASES -> FR case Summary Details', function()  {
                 response.statusCode.should.be.eql(200)
                 response.body.should.have.property('columns').which.is.Array();
                 var myVar = response.body.results[0].case_id;
-                url = '/api/cases/jurisdiction/DIVORCE/casetype/FinancialRemedyMVP2/' + myVar;
+                url = '/api/case/DIVORCE/FinancialRemedyMVP2/' + myVar;
                 console.log(url);
             });
     });
