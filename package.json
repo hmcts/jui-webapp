@@ -83,6 +83,7 @@
     "request-promise": "^4.2.2",
     "rxjs": "^6.2.2",
     "rxjs-compat": "^6.1.0",
+    "session-file-store": "^1.2.0",
     "stable": "^0.1.8",
     "ts-loader": "^4.0.1",
     "udk": "^0.3.12",
