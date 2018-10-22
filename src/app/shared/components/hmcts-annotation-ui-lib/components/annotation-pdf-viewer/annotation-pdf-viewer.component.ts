@@ -77,13 +77,6 @@ export class AnnotationPdfViewerComponent implements OnInit {
         }
     }
 
-    isHighlightingText(event): boolean {
-        if (!event.view.getSelection().anchorNode) {
-            return false;
-        }
-        return event.view.getSelection().anchorNode.firstChild;
-    }
-
     handlePdfScroll(event) {
         const element = event.srcElement as HTMLInputElement;
         const visiblePageNum = Math.round(element.scrollTop / 1056) + 1; // Hardcoded page height as 1056
