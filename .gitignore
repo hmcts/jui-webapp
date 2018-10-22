@@ -54,17 +54,8 @@ reports/
 
 reports_json/
 .nyc_output/
-<<<<<<< HEAD
-<<<<<<< HEAD
-cb_reports.77671
-cb_reports/
-
-=======
-=======
->>>>>>> master
 cb_reports/
 report.json
->>>>>>> master
 
 
 \.sessions/
