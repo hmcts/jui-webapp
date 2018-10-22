@@ -2,11 +2,21 @@
     [style.left.px]="toolPos.left"
     [style.top.px]="toolPos.top">
 
-
-    <button class="highlight" type="button" title="Highlight" data-tooltype="highlight"
-            (click)="handleHighlightClick()"
+    <button 
+        [hidden]="showDelete"
+        class="highlight" 
+        type="button" 
+        title="Highlight" 
+        data-tooltype="highlight"
+        (click)="handleHighlightClick()"
     >Highlight</button>
 
+    <button 
+        [hidden]="!showDelete" 
+        type="button" 
+        title="Delete" 
+        (click)="handleDeleteClick()"
+    >Delete</button>
     <div class="spacer"></div>
     
     <button type="button" title="Comment"

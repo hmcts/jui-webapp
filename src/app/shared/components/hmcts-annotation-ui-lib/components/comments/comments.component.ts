@@ -4,6 +4,7 @@ import {Subscription} from 'rxjs';
 import {PdfService} from '../../data/pdf.service';
 import {AnnotationStoreService} from '../../data/annotation-store.service';
 import { CommentFormComponent } from './comment-form/comment-form.component';
+import { Annotation } from '../../data/annotation-set.model';
 
 declare const PDFAnnotate: any;
 
@@ -117,6 +118,10 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
     handleAnnotationClick(event) {
         if (this.supportsComments(event)) {
             this.selectedAnnotationId = event.getAttribute('data-pdf-annotate-id');
+            const annotation = new Annotation(this.selectedAnnotationId, null, null, null, null, null, null, null, null, null, null,  null);
+
+            this.annotationStoreService.setToolBarUpdate(annotation, true);
+
             this.addHighlightedCommentStyle(this.selectedAnnotationId);
             if (!this.ref['destroyed']) {
                 this.ref.detectChanges();

@@ -1,6 +1,6 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
-import {Observable, Subscription} from 'rxjs';
+import {Observable, Subscription, Subject} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {v4 as uuid} from 'uuid';
 import {Annotation, Comment, IAnnotation, IAnnotationSet} from './annotation-set.model';
@@ -14,12 +14,28 @@ declare const PDFAnnotate: any;
 export class AnnotationStoreService implements OnDestroy {
 
     annotationChangeSubscription: Subscription;
+    private annotationSavedSub: Subject<{annotation: Annotation, showDelete: boolean}>;
 
     constructor(private pdfAdapter: PdfAdapter,
                 private apiHttpService: ApiHttpService,
                 private pdfService: PdfService) {
 
+        this.annotationSavedSub = new Subject();
+        this.annotationSavedSub.next(null);
         this.annotationChangeSubscription = this.pdfAdapter.annotationChangeSubject.subscribe((e) => this.handleAnnotationEvent(e));
+    }
+
+    setToolBarUpdate(annotation: Annotation, showDelete?: boolean) {
+        const contextualOptions = {
+            annotation,
+            showDelete
+        };
+
+        this.annotationSavedSub.next(contextualOptions);
+    }
+
+    getAnnotationSaved(): Subject<{annotation: Annotation, showDelete: boolean}> {
+        return this.annotationSavedSub;
     }
 
     preLoad(annotationData: IAnnotationSet) {
@@ -116,14 +132,19 @@ export class AnnotationStoreService implements OnDestroy {
 
     saveAnnotation(annotation) {
         this.apiHttpService.saveAnnotation(annotation).subscribe(
-            response => console.log(response),
+            response => {
+                console.log(response);
+                this.setToolBarUpdate(annotation);
+            },
             error => console.log(error)
         );
     }
 
     deleteAnnotation(annotation) {
         this.apiHttpService.deleteAnnotation(annotation).subscribe(
-            response => console.log(response),
+            response => {
+                console.log(response);
+            },
             error => console.log(error)
         );
     }
@@ -198,6 +219,14 @@ export class AnnotationStoreService implements OnDestroy {
         PDFAnnotate.getStoreAdapter()
             .deleteComment(this.pdfService.getRenderOptions().documentId, commentId)
             .then();
+    }
+
+    deleteAnnotationById(annotationId: string) {
+        PDFAnnotate.getStoreAdapter()
+        .deleteAnnotation(this.pdfService.getRenderOptions().documentId, annotationId)
+        .then(() => {
+            this.pdfService.render();
+        });
     }
 
     ngOnDestroy() {

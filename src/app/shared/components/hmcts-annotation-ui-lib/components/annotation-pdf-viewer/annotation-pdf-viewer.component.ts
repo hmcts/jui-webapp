@@ -24,7 +24,6 @@ export class AnnotationPdfViewerComponent implements OnInit {
 
     renderedPages: {};
     page: number;
-    tool: string;
 
     @ViewChild('contentWrapper') contentWrapper: ElementRef;
     @ViewChild(ContextualToolbarComponent) contextualToolbar: ContextualToolbarComponent;
@@ -49,7 +48,6 @@ export class AnnotationPdfViewerComponent implements OnInit {
 
         this.renderedPages = {};
         this.pdfService.render(this.viewerElementRef);
-        this.tool = 'highlight';
 
         this.pdfService.setHighlightTool();
         this.pdfService.getPageNumber().subscribe(page => this.page = page);
@@ -76,12 +74,6 @@ export class AnnotationPdfViewerComponent implements OnInit {
                 }
                 currentParent = currentParent.parentNode;
             }
-        }
-        if (this.isHighlightingText(event)) {
-            const annotationId = event.view.getSelection().anchorNode.firstElementChild.id.substring(26);
-            this.contextualToolbar.showToolBar(annotationId);
-        } else {
-            this.contextualToolbar.hideToolBar();
         }
     }
 
