@@ -5,7 +5,7 @@ const generateRequest = require('../../lib/request/request');
 
 const url = config.services.s2s;
 const microservice = config.microservice;
-const s2sSecret = process.env.JUI_S2S_SECRET || 'AAAAAAAAAAAAAAAA'; // TODO: replace JUI_S2S_SECRET => S2S_SECRET
+const s2sSecret = process.env.S2S_SECRET || 'AAAAAAAAAAAAAAAA';
 
 function postS2SLease() {
     const oneTimePassword = otp({secret: s2sSecret}).totp();
