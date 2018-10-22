@@ -99,10 +99,6 @@ describe('ViewerComponent', () => {
     expect(component.page).toBe(1);
   }));
 
-  it('should select highlight tool by default', () => {
-    expect(component.tool).toBe('highlight');
-  });
-
   it('calls annotation services when annotate true', async(() => {
     spyOn(mockAnnotationStoreService, 'preLoad');
     spyOn(mockApiHttpService, 'setBaseUrl');

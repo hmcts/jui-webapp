@@ -5,7 +5,7 @@
     <button 
         [hidden]="showDelete"
         class="highlight" 
-        type="button" 
+        type="button" class="contextual-btn"
         title="Highlight" 
         data-tooltype="highlight"
         (click)="handleHighlightClick()"
@@ -14,12 +14,12 @@
     <button 
         [hidden]="!showDelete" 
         type="button" 
-        title="Delete" 
+        title="Delete" class="contextual-btn"
         (click)="handleDeleteClick()"
     >Delete</button>
     <div class="spacer"></div>
     
-    <button type="button" title="Comment"
+    <button type="button" title="Comment" class="contextual-btn"
             (click)="handleCommentClick()"
     >Comment</button>
 
