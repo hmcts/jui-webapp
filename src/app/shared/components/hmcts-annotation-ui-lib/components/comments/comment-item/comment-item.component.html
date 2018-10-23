@@ -42,7 +42,7 @@
     required
     [ngModel]="comment.id" name="commentId">
 
-    <div class="comment-btns">
+    <div [hidden]="hideButton" class="comment-btns">
         <button type="submit" class="govuk-button hmcts-page-heading__button" role="button">Comment</button>
         <button 
         class="govuk-button hmcts-page-heading__button hmcts-button--secondary" 

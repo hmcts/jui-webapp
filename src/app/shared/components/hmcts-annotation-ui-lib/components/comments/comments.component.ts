@@ -1,4 +1,4 @@
-import {Component, OnInit, Renderer2, ChangeDetectorRef, AfterViewInit, OnDestroy, Inject, ViewChild, ElementRef} from '@angular/core';
+import { Component, OnInit, Renderer2, ChangeDetectorRef, AfterViewInit, OnDestroy, Inject, ViewChild } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
 import {Subscription} from 'rxjs';
 import {PdfService} from '../../data/pdf.service';
