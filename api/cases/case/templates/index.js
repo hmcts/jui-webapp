@@ -3,7 +3,7 @@ const cmc = require('./cmc/moneyclaimcase');
 const probate = require('./probate/grantofrepresentation');
 const divorce = require('./divorce/divorce');
 const financialRemedy = require('./divorce/financialremedy');
-const defaultTemplate = require('./default');
+const defaultTemplate = require('./default/default');
 
 const templates = {
     sscs: {

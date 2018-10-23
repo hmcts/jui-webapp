@@ -27,11 +27,11 @@ Feature: Login
         Then I should be redirected to the Idam login page
 
 
-    @RIUI_289 @logout
+    @RIUI_289 @logout @all
     Scenario: I can log out from any page within the JUI Service
         Given I am logged into JUI web app
-        When I select a case Financial remedy
-        Then I will be redirected to the Case Summary page for that case
+        When I select a case type
+        Then I will be redirected to the Case Summary page for that case type
         When I select the sign out link
         Then I should be redirected to the Idam login page
 

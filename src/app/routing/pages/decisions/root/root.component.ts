@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-    selector: 'app-decision-make',
+    selector: 'app-root',
     templateUrl: './root.component.html'
 })
 export class DecisionRootComponent implements OnInit {

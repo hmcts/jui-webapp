@@ -16,6 +16,7 @@ import {QuestionComponent} from './components/question/question.component';
 import {ReversePipe} from './pipes/array-reverse/reverse.pipe';
 import {CaseStatusGoto} from './pipes/case-status-goto/case.status.goto';
 import { TabsComponent } from './components/tabs/tabs.component';
+import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { StatusComponent } from './components/status/status.component';
 import { CaseActionAlertComponent } from './components/case-action-alert/case-action-alert.component';
 import {CaseActionsComponent} from './components/case-actions/case-actions.component';
@@ -39,11 +40,13 @@ import {CaseActionsComponent} from './components/case-actions/case-actions.compo
         QuestionListComponent,
         QuestionComponent,
         ReversePipe,
+        TabsComponent,
+        CheckboxComponent,
         CaseStatusGoto,
         TabsComponent,
         StatusComponent,
         CaseActionsComponent,
-        CaseActionAlertComponent
+        CaseActionAlertComponent,
     ],
     exports: [
         TableComponent,
@@ -53,6 +56,8 @@ import {CaseActionsComponent} from './components/case-actions/case-actions.compo
         QuestionListComponent,
         QuestionComponent,
         ReversePipe,
+        TabsComponent,
+        CheckboxComponent,
         CaseStatusGoto,
         TabsComponent,
         StatusComponent,

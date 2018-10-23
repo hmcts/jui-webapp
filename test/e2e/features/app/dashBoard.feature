@@ -8,14 +8,15 @@ Feature: Dashboard
 
 
 
-    @RIUI_370 @RIUI_418
+    @RIUI_370 @RIUI_418 @all
     Scenario Outline: Verify available jurdisctions types
         When one or more cases <type> are displayed
         When I select a case <type>
-        Then I will be redirected to the Case Summary page for that case
+        Then I will be redirected to the Case Summary page for that case type
         Examples:
         |type|
-        |Financial remedy|
+#        |PIP|
+        |Divorce|
 
 
 

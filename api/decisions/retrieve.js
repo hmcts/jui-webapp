@@ -1,6 +1,6 @@
 const express = require('express');
 const config = require('../../config');
-const generateRequest = require('../lib/request');
+const generateRequest = require('../lib/request/request');
 
 function postHearing(caseId, userId, headers, jurisdictionId = 'SSCS') {
     const body = {

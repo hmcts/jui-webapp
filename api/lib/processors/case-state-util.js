@@ -79,8 +79,8 @@ const stateToBeShown = [
     STATE.COH_Q_DEADLINE_ELAPSED_STATE,
     STATE.COH_Q_DEADLINE_EXT_ELAPSED_STATE,
     STATE.COH_A_QUESTION_ANSWERED_STATE,
-    // ...[...STATE.SSCS],
-    // ...[...STATE.FR],
+    ...[...STATE.SSCS],
+    ...[...STATE.FR],
     ...[...STATE.DIV],
     ...[...STATE.CMC],
     ...[...STATE.PRO]

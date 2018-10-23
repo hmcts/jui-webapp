@@ -8,9 +8,11 @@ module.exports = {
         draft_store_api: 'http://localhost:8080',
         dm_store_api: 'http://localhost:4603',
         em_anno_api: 'http://localhost:3621',
-        em_redact_api: 'http://localhost:3623',
+        em_npa_api: 'http://localhost:3622',
         coh_cor_api: 'http://localhost:4701'
     },
     useProxy: false,
-    protocol: 'http'
+    protocol: 'http',
+    secureCookie: false,
+    sessionSecret: 'secretSauce'
 };
