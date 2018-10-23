@@ -34,14 +34,12 @@ function reduceCcdEvents(events, caseId, jurisdiction, caseType) {
         const date = dateObj.date;
         const time = dateObj.time;
 
-
-
         valueProcessor(getEventTemplate(jurisdiction, caseType), event);
 
         const documents = event.documents.map(doc => {
             return ({
                 name: `${doc.document_filename}`,
-                href: `/jurisdiction/${jurisdiction}/casetype/${caseType}/viewcase/${caseId}/casefile/${doc.id}`
+                href: `/case/${jurisdiction}/${caseType}/${caseId}/casefile/${doc.id}`
             });
         });
 
@@ -138,9 +136,9 @@ function getOptions(req) {
 
 module.exports = app => {
     const router = express.Router({ mergeParams: true });
-    app.use('/cases', router);
+    app.use('/case', router);
 
-    router.get('/jurisdiction/:jur/casetype/:casetype/:case_id/events', (req, res, next) => {
+    router.get('/:jur/:casetype/:case_id/events', (req, res, next) => {
         const userId = req.auth.userId;
         const caseId = req.params.case_id;
         const jurisdiction = req.params.jur;
@@ -154,7 +152,7 @@ module.exports = app => {
             });
     });
 
-    router.get('/jurisdiction/:jur/casetype/:casetype/:case_id/events/raw', (req, res, next) => {
+    router.get('/:jur/:casetype/:case_id/events/raw', (req, res, next) => {
         const userId = req.auth.userId;
         const caseId = req.params.case_id;
         const jurisdiction = req.params.jur;

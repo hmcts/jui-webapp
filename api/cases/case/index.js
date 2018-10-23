@@ -75,9 +75,9 @@ function getOptionsDoc(req) {
 // GET case callback
 module.exports = app => {
     const router = express.Router({ mergeParams: true })
-    app.use('/cases', router)
+    app.use('/case', router)
 
-    router.get('/jurisdiction/:jur/casetype/:casetype/:case_id', (req, res, next) => {
+    router.get('/:jur/:casetype/:case_id', (req, res, next) => {
         const userId = req.auth.userId
         const jurisdiction = req.params.jur
         const caseType = req.params.casetype
@@ -131,7 +131,7 @@ module.exports = app => {
             });
     });
 
-    router.get('/jurisdiction/:jur/casetype/:casetype/:case_id/raw', (req, res, next) => {
+    router.get('/:jur/:casetype/:case_id/raw', (req, res, next) => {
         const userId = req.auth.userId;
         const jurisdiction = req.params.jur;
         const caseType = req.params.casetype;

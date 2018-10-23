@@ -49,7 +49,7 @@ export class CheckHearingComponent implements OnInit {
         if (this.form.valid) {
             this.hearingService.listForHearing(this.case.id, this.relistReasonText)
                 .subscribe(() => {
-                        this.redirectionService.redirect(`/jurisdiction/${this.case.case_jurisdiction}/casetype/${this.case.case_type_id}/viewcase/${this.case.id}/hearing/confirm`);
+                        this.redirectionService.redirect(`/case/${this.case.case_jurisdiction}/${this.case.case_type_id}/${this.case.id}/hearing/confirm`);
                     }, error => {
                         this.error = true;
                         console.error('Something went wrong', error);

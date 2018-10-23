@@ -22,6 +22,8 @@ def channel = '#jui-pipeline'
 List<LinkedHashMap<String, Object>> secrets = [
     secret('test-email', 'TEST_EMAIL'),
     secret('test-password', 'TEST_PASSWORD')
+    // secret('fr-email', 'FR_EMAIL'),
+    // secret('fr-password', 'FR_PASSWORD')
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {

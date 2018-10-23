@@ -120,7 +120,7 @@ xdescribe('case spec', () => {
                 });
             };
         });
-        it('should return an error', () => request.get('/cases/jurisdiction/SSCS/casetype/Benefit/null')
+        it('should return an error', () => request.get('/case/SSCS/Benefit/null')
             .expect(400));
     });
 
@@ -161,7 +161,7 @@ xdescribe('case spec', () => {
             questionsGetHttpResponse = resolve => resolve();
         });
 
-        it('should populate the summary panel given data is in the response', () => request.get('/jurisdiction/SSCS/casetype/Benefit/1').expect(200)
+        it('should populate the summary panel given data is in the response', () => request.get('/SSCS/Benefit/1').expect(200)
             .then(response => {
                 const jsonRes = JSON.parse(response.text);
                 const actualSummarySection = jsonRes.sections.filter(section => section.id === 'summary')[0];

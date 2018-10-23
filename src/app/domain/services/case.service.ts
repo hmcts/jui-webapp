@@ -15,7 +15,7 @@ export class CaseService {
     }
 
     fetch(caseId, jurisdiction, casetype): Observable<Object> {
-        const url = `${this.configService.config.api_base_url}/api/cases/jurisdiction/${jurisdiction}/casetype/${casetype}/${caseId}`;
+        const url = `${this.configService.config.api_base_url}/api/case/${jurisdiction}/${casetype}/${caseId}`;
         const key = makeStateKey(url);
         const cache = this.state.get(key, null as any);
         if (cache) {

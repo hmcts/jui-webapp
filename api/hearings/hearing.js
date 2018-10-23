@@ -16,7 +16,7 @@ module.exports = app => {
     const casesRouter = express.Router({ mergeParams: true });
     app.use('/cases', casesRouter);
 
-    casesRouter.get('/jurisdiction/:jur/casetype/:casetype/:case_id/hearing', (req, res, next) => {
+    casesRouter.get('/:jur/:casetype/:case_id/hearing', (req, res, next) => {
         const userId = req.auth.userId;
         const caseId = req.params.case_id;
         const options = getOptions(req);

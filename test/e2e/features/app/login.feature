@@ -35,3 +35,11 @@ Feature: Login
         When I select the sign out link
         Then I should be redirected to the Idam login page
 
+
+    @RIUI_950 @FR_login @pending @RIUI-895
+    Scenario: Verify FR cases 'Draft consent order' link redirection
+        Then I am on Idam login page
+        When I am logged into JUI web app with FR judge details
+        Then I see FR specific cases on JUI dashboard
+        Then I see Draft consent order on dashboard
+

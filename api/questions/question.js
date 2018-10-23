@@ -153,7 +153,7 @@ function getOptions(req) {
 
 module.exports = app => {
     const route = express.Router({ mergeParams: true });
-    app.use('/cases', route);
+    app.use('/case', route);
 
     // GET A Question
     route.get('/:case_id/questions/:question_id', (req, res, next) => {

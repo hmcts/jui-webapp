@@ -29,7 +29,7 @@ export class ViewCaseComponent implements OnInit {
         if (this.case) {
             this.links = this.case.sections.map(section => {
                 return {
-                    href: `/jurisdiction/${this.case.case_jurisdiction}/casetype/${this.case.case_type_id}/viewcase/${this.case.id}/${section.id}`,
+                    href: `/case/${this.case.case_jurisdiction}/${this.case.case_type_id}/${this.case.id}/${section.id}`,
                     text: section.name,
                     label: section.name,
                     id: section.id,

@@ -70,7 +70,7 @@ export class EditQuestionComponent implements OnInit {
             };
             this.questionService.update(this.caseId, this.questionId, values)
                 .subscribe(res => {
-                    this.redirectionService.redirect(`/jurisdiction/${this.jurisdiction}/casetype/${this.caseType}/viewcase/${this.caseId}/questions?updated=success`);
+                    this.redirectionService.redirect(`/case/${this.jurisdiction}/${this.caseType}/${this.caseId}/questions?updated=success`);
                 }, err => console.log(err));
         }
         this.submitted = true;
