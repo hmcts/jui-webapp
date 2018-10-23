@@ -1,23 +1,23 @@
-const express = require('express');
-const config = require('../../../config');
-const generateRequest = require('../../lib/request/request');
+const express = require('express')
+const config = require('../../../config')
+const generateRequest = require('../../lib/request/request')
 
-const url = config.services.ccd_def_api;
+const url = config.services.ccd_def_api
 
 function getJurisdictions(options) {
-    return generateRequest('GET', `${url}/api/data/jurisdictions`, options);
+    return generateRequest('GET', `${url}/api/data/jurisdictions`, options)
 }
 
 function getCaseTypes(jurisdictions, options) {
-    return generateRequest('GET', `${url}/api/data/jurisdictions/${jurisdictions}/case-type`, options);
+    return generateRequest('GET', `${url}/api/data/jurisdictions/${jurisdictions}/case-type`, options)
 }
 
 function getHealth(options) {
-    return generateRequest('GET', `${url}/health`, options);
+    return generateRequest('GET', `${url}/health`, options)
 }
 
 function getInfo(options) {
-    return generateRequest('GET', `${url}/info`, options);
+    return generateRequest('GET', `${url}/info`, options)
 }
 
 function getOptions(req) {
@@ -26,34 +26,34 @@ function getOptions(req) {
             Authorization: `Bearer ${req.auth.token}`,
             ServiceAuthorization: req.headers.ServiceAuthorization
         }
-    };
+    }
 }
 
 module.exports = app => {
-    const router = express.Router({ mergeParams: true });
-    app.use('/ccd-def', router);
+    const router = express.Router({ mergeParams: true })
+    app.use('/ccd-def', router)
 
     router.get('/jurisdictions', (req, res, next) => {
-        getJurisdictions(getOptions(req)).pipe(res);
-    });
+        getJurisdictions(getOptions(req)).pipe(res)
+    })
 
     router.get('/jurisdictions/:jurisdictions', (req, res, next) => {
-        const jurisdictions = req.params.jurisdictions;
-        getCaseTypes(jurisdictions, getOptions(req)).pipe(res);
-    });
+        const jurisdictions = req.params.jurisdictions
+        getCaseTypes(jurisdictions, getOptions(req)).pipe(res)
+    })
 
     router.get('/health', (req, res, next) => {
-        getHealth(getOptions(req)).pipe(res);
-    });
+        getHealth(getOptions(req)).pipe(res)
+    })
 
     router.get('/info', (req, res, next) => {
-        getInfo(getOptions(req)).pipe(res);
-    });
-};
+        getInfo(getOptions(req)).pipe(res)
+    })
+}
 
-module.exports.getInfo = getInfo;
-module.exports.getHealth = getHealth;
+module.exports.getInfo = getInfo
+module.exports.getHealth = getHealth
 
-module.exports.getJurisdictions = getJurisdictions;
+module.exports.getJurisdictions = getJurisdictions
 
-module.exports.getCaseTypes = getCaseTypes;
+module.exports.getCaseTypes = getCaseTypes
