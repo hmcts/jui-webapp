@@ -5,7 +5,6 @@ import {UnsupportedViewerComponent} from './unsupported-viewer/unsupported-viewe
 import {UrlFixerService} from '../url-fixer.service';
 import {AnnotationPdfViewerComponent} from '../../hmcts-annotation-ui-lib/components/annotation-pdf-viewer/annotation-pdf-viewer.component';
 import {AnnotationStoreService} from '../../hmcts-annotation-ui-lib/data/annotation-store.service';
-import {NpaService} from '../../hmcts-annotation-ui-lib/data/npa.service';
 import {IAnnotationSet} from '../../hmcts-annotation-ui-lib/data/annotation-set.model';
 
 @Injectable()
@@ -56,14 +55,11 @@ export class ViewerFactoryService {
 
     buildViewer(documentMetaData: any, annotate: boolean, viewContainerRef: ViewContainerRef, baseUrl: string) {
         if (ViewerFactoryService.isPdf(documentMetaData.mimeType) && annotate) {
-            // this.npaService.documentTask.subscribe( documentTask => {
-            //         console.log(documentTask);
-            // });
             const dmDocumentId = ViewerFactoryService.getDocumentId(documentMetaData);
-
             this.annotationStoreService.fetchData(baseUrl, dmDocumentId).subscribe((response) => {
                 return this.buildAnnotateUi(documentMetaData, viewContainerRef, baseUrl, annotate, response.body);
             });
+
         } else if (ViewerFactoryService.isPdf(documentMetaData.mimeType) && !annotate) {
             return this.buildAnnotateUi(documentMetaData, viewContainerRef, baseUrl, annotate, null);
         } else {

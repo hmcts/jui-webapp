@@ -16,6 +16,7 @@ declare const PDFAnnotate: any;
 })
 export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
 
+    dataLoadedSub: Subscription;
     selectedAnnotationId: string;
     annotations;
     pageNumber: number;
@@ -32,6 +33,14 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.dataLoadedSub = this.pdfService.getDataLoadedSub().subscribe(isDataLoaded => {
+            if (isDataLoaded) {
+                this.preRun();
+            }
+        });
+    }
+
+    preRun() {
         this.pageNumber = 1;
         this.showAllComments();
 
@@ -57,6 +66,9 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.ref.detach();
         if (this.pageNumSub) {
             this.pageNumSub.unsubscribe();
+        }
+        if (this.dataLoadedSub) {
+            this.dataLoadedSub.unsubscribe();
         }
     }
 

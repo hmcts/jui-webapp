@@ -18,7 +18,7 @@ export class AnnotationPdfViewerComponent implements OnInit {
     @Input() annotate: boolean;
     @Input() dmDocumentId: string;
     @Input() outputDmDocumentId: string;
-    @Input() url = '';
+    @Input() url: string;
     @Input() annotationSet: IAnnotationSet;
     @Input() baseUrl: string;
 
@@ -48,7 +48,6 @@ export class AnnotationPdfViewerComponent implements OnInit {
 
         this.renderedPages = {};
         this.pdfService.render(this.viewerElementRef);
-
         this.pdfService.setHighlightTool();
         this.pdfService.getPageNumber().subscribe(page => this.page = page);
     }
