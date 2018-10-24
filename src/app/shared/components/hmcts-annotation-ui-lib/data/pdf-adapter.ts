@@ -12,10 +12,14 @@ export class PdfAdapter {
     annotations: Annotation[];
     commentData: Comment[];
     annotationSetId: string;
-    annotationChangeSubject: Subject<{ type: String, annotation: Annotation }>;
+    private annotationChangeSubject: Subject<{ type: String, annotation: Annotation }>;
 
     constructor(private utils: Utils) {
         this.annotationChangeSubject = new Subject<{ type: String, annotation: Annotation }>();
+    }
+
+    getAnnotationChangeSubject(): Subject<{ type: String, annotation: Annotation }> {
+        return this.annotationChangeSubject;
     }
 
     setStoreData(annotationSet: AnnotationSet) {

@@ -14,7 +14,7 @@ declare const PDFAnnotate: any;
 export class AnnotationStoreService implements OnDestroy {
 
     annotationChangeSubscription: Subscription;
-    commentBtnSubject: Subject<string>;
+    private commentBtnSubject: Subject<string>;
     private annotationSavedSub: Subject<{annotation: Annotation, showDelete: boolean}>;
 
     constructor(private pdfAdapter: PdfAdapter,
@@ -25,16 +25,16 @@ export class AnnotationStoreService implements OnDestroy {
         this.commentBtnSubject.next(null);
         this.annotationSavedSub = new Subject();
         this.annotationSavedSub.next(null);
-        this.annotationChangeSubscription = this.pdfAdapter.annotationChangeSubject.subscribe((e) => this.handleAnnotationEvent(e));
+        this.annotationChangeSubscription = this.pdfAdapter.getAnnotationChangeSubject().subscribe((e) => this.handleAnnotationEvent(e));
     }
 
     getCommentBtnSubject(): Subject<string> {
         return this.commentBtnSubject;
-      }
+    }
 
-      setCommentBtnSubject(commentId: string) {
+    setCommentBtnSubject(commentId: string) {
           this.commentBtnSubject.next(commentId);
-     }
+    }
 
     setToolBarUpdate(annotation: Annotation, showDelete?: boolean) {
         const contextualOptions = {
@@ -241,6 +241,8 @@ export class AnnotationStoreService implements OnDestroy {
     }
 
     ngOnDestroy() {
-        this.annotationChangeSubscription.unsubscribe();
+        if (this.annotationChangeSubscription) {
+            this.annotationChangeSubscription.unsubscribe();
+        }
     }
 }

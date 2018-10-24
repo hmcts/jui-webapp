@@ -18,7 +18,9 @@ class MockPdfService {
     this.pageNumber.next(1);
   }
 
+  setHighlightTool() {}
   setRenderOptions() {}
+  setPageNumber(page: number) {}
   render() {}
 
   getPageNumber() {
@@ -28,6 +30,7 @@ class MockPdfService {
 
 class MockAnnotationStoreService {
   preLoad() {}
+  setCommentBtnSubject(commentId: string) {}
 }
 
 class MockNpaService {
@@ -36,6 +39,8 @@ class MockNpaService {
   constructor() {
     this.outputDmDocumentId = new Subject<string>();
   }
+
+  setPageNumber(pageNumber: number) {}
 }
 
 class MockApiHttpService {
@@ -44,7 +49,6 @@ class MockApiHttpService {
 }
 
 class MockCommentComponent {}
-
 class MockToolbarComponent {}
 
 describe('ViewerComponent', () => {
@@ -88,30 +92,57 @@ describe('ViewerComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should run tasks on init', async(() => {
-    spyOn(mockPdfService, 'preRun');
-    spyOn(mockPdfService, 'render');
-    spyOn(mockPdfService, 'getPageNumber').and.returnValue(Observable.of(1));
+  describe('onInit', () => {
+    it('should run tasks', async(() => {
+      spyOn(mockPdfService, 'preRun');
+      spyOn(mockPdfService, 'render');
+      spyOn(mockPdfService, 'getPageNumber').and.returnValue(Observable.of(1));
 
-    component.ngOnInit();
-    expect(mockPdfService.preRun).toHaveBeenCalledTimes(1);
-    expect(mockPdfService.render).toHaveBeenCalledTimes(1);
-    expect(component.page).toBe(1);
-  }));
+      component.ngOnInit();
+      expect(mockPdfService.preRun).toHaveBeenCalledTimes(1);
+      expect(mockPdfService.render).toHaveBeenCalledTimes(1);
+      expect(component.page).toBe(1);
+    }));
+  });
 
-  it('calls annotation services when annotate true', async(() => {
-    spyOn(mockAnnotationStoreService, 'preLoad');
-    spyOn(mockApiHttpService, 'setBaseUrl');
+  describe('loadAnnotations', () => {
+    it('calls annotation services when annotate true', async(() => {
+      spyOn(mockAnnotationStoreService, 'preLoad');
+      spyOn(mockApiHttpService, 'setBaseUrl');
 
-    component.loadAnnotations(true);
-    expect(mockApiHttpService.setBaseUrl).toHaveBeenCalled();
-    expect(mockAnnotationStoreService.preLoad).toHaveBeenCalledTimes(1);
-  }));
+      component.loadAnnotations(true);
+      expect(mockApiHttpService.setBaseUrl).toHaveBeenCalled();
+      expect(mockAnnotationStoreService.preLoad).toHaveBeenCalledTimes(1);
+    }));
 
-  it('calls preload with null when annotate false', async(() => {
-    spyOn(mockAnnotationStoreService, 'preLoad').and.callFake(function() {
-      expect(arguments[0]).toBeNull();
+    it('calls preload with null when annotate false', async(() => {
+      spyOn(mockAnnotationStoreService, 'preLoad').and.callFake(function() {
+        expect(arguments[0]).toBeNull();
+      });
+      component.loadAnnotations(false);
+    }));
+  });
+
+  describe('getClickedPage', () => {
+    it('should update the commentBtnSubject with null', () => {
+      const event = {target: document.createElement('div'), parentNode() {}};
+      spyOn(mockAnnotationStoreService, 'setCommentBtnSubject');
+      component.getClickedPage(event);
+
+      expect(mockAnnotationStoreService.setCommentBtnSubject).toHaveBeenCalledWith(null);
     });
-    component.loadAnnotations(false);
-  }));
+
+    it('should get the page number from the DOM and call pdfService', () => {
+      const dom = document.createElement('div');
+      const parentNode = document.createElement('div');
+      parentNode.setAttribute('data-page-number', '1');
+      spyOnProperty(dom, 'parentNode', 'get').and.returnValue(parentNode);
+      const event = {target: dom};
+      spyOn(mockPdfService, 'setPageNumber');
+
+      component.getClickedPage(event);
+      expect(mockPdfService.setPageNumber).toHaveBeenCalledWith(1);
+    });
+  });
+
 });

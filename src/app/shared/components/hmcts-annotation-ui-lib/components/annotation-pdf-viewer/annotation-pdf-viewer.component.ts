@@ -64,7 +64,7 @@ export class AnnotationPdfViewerComponent implements OnInit {
     }
 
     getClickedPage(event) {
-        this.annotationStoreService.setCommentBtnSubject(null); 
+        this.annotationStoreService.setCommentBtnSubject(null);
         let currentParent = event.target;
         for (let step = 0; step < 5; step++) {
             if (currentParent.parentNode != null) {
