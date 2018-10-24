@@ -27,9 +27,24 @@ describe('PdfService', () => {
     });
   });
 
-  it('should be created', inject([PdfService], (service: PdfService) => {
-    expect(service).toBeTruthy();
-  }));
+  describe('constructor', () => {
+    it('should be created', inject([PdfService], (service: PdfService) => {
+      expect(service).toBeTruthy();
+    }));
+
+    it('initialise dataLoadedSubject', inject([PdfService], (service: PdfService) => {
+      expect(service.getDataLoadedSub).toBeFalsy();
+    }));
+  });
+
+  describe('dataLoadedUpdate', () => {
+    it('should be update the subject', inject([PdfService], (service: PdfService) => {
+      service.getDataLoadedSub().subscribe((done) => {
+        expect(done).toBeTruthy();
+      });
+      service.dataLoadedUpdate(true);
+    }));
+  });
 
   describe('preRun', () => {
     it('should define pdf variables', inject([PdfService], (service: PdfService) => {

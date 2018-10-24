@@ -35,7 +35,7 @@ class MockAnnotationStoreService {
   }
 }
 
-fdescribe('ContextualToolbarComponent', () => {
+describe('ContextualToolbarComponent', () => {
   let component: ContextualToolbarComponent;
   let fixture: ComponentFixture<ContextualToolbarComponent>;
 
@@ -112,6 +112,7 @@ fdescribe('ContextualToolbarComponent', () => {
     it('should set the isShowToolbar variable to false', () => {
       component.hideToolBar();
       expect(component.isShowToolbar).toBeFalsy();
+      expect(component.showDelete).toBeDefined();
     });
   });
 

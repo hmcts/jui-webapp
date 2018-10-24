@@ -1,8 +1,8 @@
 import {Component, OnInit, Input, Output, EventEmitter, Renderer2, ElementRef, ViewChild, OnDestroy} from '@angular/core';
 import {NgForm} from '@angular/forms';
-import {Comment} from '../../../data/annotation-set.model';
-import {AnnotationStoreService} from '../../../data/annotation-store.service';
 import { Subscription } from 'rxjs';
+import {Comment, Annotation} from '../../../data/annotation-set.model';
+import {AnnotationStoreService} from '../../../data/annotation-store.service';
 
 @Component({
     selector: 'app-comment-item',
@@ -16,7 +16,7 @@ export class CommentItemComponent implements OnInit, OnDestroy {
 
     @Input() comment;
     @Input() selectedAnnotationId;
-    @Input() annotation;
+    @Input() annotation: Annotation;
 
     @Output() commentSubmitted: EventEmitter<any> = new EventEmitter<any>();
     @Output() commentSelected: EventEmitter<String> = new EventEmitter<String>();
@@ -30,7 +30,7 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     model = new Comment(null, null, null, null, null, null, null);
 
     constructor(private annotationStoreService: AnnotationStoreService,
-                private render: Renderer2) {
+                private renderer: Renderer2) {
     }
 
     ngOnInit() {
@@ -91,8 +91,8 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     handleCommentClick(event) {
         this.annotationStoreService.setCommentBtnSubject(this.comment.id);
         this.removeCommentSelectedStyle();
-        this.render.addClass(this.commentTextField.nativeElement, 'comment-selected');
-        this.commentSelected.emit(this.commentItem.value.annotationId);
+        this.renderer.addClass(this.commentTextField.nativeElement, 'comment-selected');
+        this.commentSelected.emit(this.comment.annotationId);
     }
 
     handleShowBtn() {
@@ -106,7 +106,7 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     removeCommentSelectedStyle() {
         const listItems = Array.from(document.querySelectorAll('#comment-wrapper .comment-list-item textarea'));
         listItems.forEach(item => {
-            this.render.removeClass(item, 'comment-selected');
+            this.renderer.removeClass(item, 'comment-selected');
         });
     }
 }

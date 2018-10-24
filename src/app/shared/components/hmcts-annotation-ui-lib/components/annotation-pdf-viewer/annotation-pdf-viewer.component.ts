@@ -63,13 +63,13 @@ export class AnnotationPdfViewerComponent implements OnInit {
     }
 
     getClickedPage(event) {
-        this.annotationStoreService.setCommentBtnSubject(null); 
+        this.annotationStoreService.setCommentBtnSubject(null);
         let currentParent = event.target;
         for (let step = 0; step < 5; step++) {
             if (currentParent.parentNode != null) {
                 const pageNumber = currentParent.parentNode.getAttribute('data-page-number');
                 if (pageNumber != null) {
-                    this.pdfService.setPageNumber(parseInt(pageNumber));
+                    this.pdfService.setPageNumber(parseInt(pageNumber, null));
                     break;
                 }
                 currentParent = currentParent.parentNode;
@@ -87,7 +87,7 @@ export class AnnotationPdfViewerComponent implements OnInit {
         if (visiblePage && !this.renderedPages[visiblePageNum]) {
             // Prevent invoking UI.renderPage on the same page more than once.
             this.renderedPages[visiblePageNum] = true;
-            setTimeout(this.pdfService.renderPage(visiblePageNum));
+            setTimeout(() => this.pdfService.renderPage(visiblePageNum), 100);
         }
         if (this.page !== visiblePageNum) {
             this.page = visiblePageNum;
