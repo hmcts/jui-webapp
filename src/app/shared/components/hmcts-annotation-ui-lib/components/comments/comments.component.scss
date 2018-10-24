@@ -1,12 +1,13 @@
   #comment-wrapper {
     position: absolute;
     height: 100%;
-    width: 250px;
+    width: 350px;
     right: 0;
     overflow: auto;
     // background: #eaeaea;
-    border-left: 1px solid #d0d0d0;
     z-index: 11;
+    font-family: "nta", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
 
   #comment-wrapper h4 {

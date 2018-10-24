@@ -1,14 +1,18 @@
-import {Component, OnInit, Input, Output, EventEmitter, Renderer2, ElementRef, ViewChild} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, Renderer2, ElementRef, ViewChild, OnDestroy} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import {Comment} from '../../../data/annotation-set.model';
 import {AnnotationStoreService} from '../../../data/annotation-store.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-comment-item',
     templateUrl: './comment-item.component.html',
     styleUrls: ['./comment-item.component.scss']
 })
-export class CommentItemComponent implements OnInit {
+export class CommentItemComponent implements OnInit, OnDestroy {
+
+    commentBtnSub: Subscription;
+    hideButton: boolean;
 
     @Input() comment;
     @Input() selectedAnnotationId;
@@ -30,7 +34,16 @@ export class CommentItemComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.hideButton = true;
         this.focused = false;
+
+        this.commentBtnSub = this.annotationStoreService.getCommentBtnSubject().subscribe((commentId) => {
+            if (commentId === this.comment.id) {
+              this.handleShowBtn();
+            } else {
+              this.handleHideBtn();
+            }
+          });
     }
 
     onSubmit() {
@@ -41,6 +54,12 @@ export class CommentItemComponent implements OnInit {
         this.commentSubmitted.emit(this.annotation);
     }
 
+    ngOnDestroy() {
+        if (this.commentBtnSub) {
+            this.commentBtnSub.unsubscribe();
+        }
+     }
+
     onFocus() {
         this.focused = true;
     }
@@ -49,6 +68,7 @@ export class CommentItemComponent implements OnInit {
         setTimeout(() => {
             this.removeCommentSelectedStyle();
             this.focused = false;
+            this.handleHideBtn();
         }, 200);
     }
 
@@ -69,9 +89,18 @@ export class CommentItemComponent implements OnInit {
     }
 
     handleCommentClick(event) {
+        this.annotationStoreService.setCommentBtnSubject(this.comment.id);
         this.removeCommentSelectedStyle();
         this.render.addClass(this.commentTextField.nativeElement, 'comment-selected');
         this.commentSelected.emit(this.commentItem.value.annotationId);
+    }
+
+    handleShowBtn() {
+        this.hideButton = false;
+      }
+
+    handleHideBtn() {
+        this.hideButton = true;
     }
 
     removeCommentSelectedStyle() {

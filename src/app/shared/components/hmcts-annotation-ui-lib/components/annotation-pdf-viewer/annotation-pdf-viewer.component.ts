@@ -63,6 +63,7 @@ export class AnnotationPdfViewerComponent implements OnInit {
     }
 
     getClickedPage(event) {
+        this.annotationStoreService.setCommentBtnSubject(null); 
         let currentParent = event.target;
         for (let step = 0; step < 5; step++) {
             if (currentParent.parentNode != null) {
@@ -74,13 +75,6 @@ export class AnnotationPdfViewerComponent implements OnInit {
                 currentParent = currentParent.parentNode;
             }
         }
-    }
-
-    isHighlightingText(event): boolean {
-        if (!event.view.getSelection().anchorNode) {
-            return false;
-        }
-        return event.view.getSelection().anchorNode.firstChild;
     }
 
     handlePdfScroll(event) {

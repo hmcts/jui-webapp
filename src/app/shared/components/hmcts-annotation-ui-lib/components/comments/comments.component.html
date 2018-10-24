@@ -12,7 +12,7 @@
           [annotation]="annotation"
           [comment]="comment"
           [selectedAnnotationId]="selectedAnnotationId"
-          (commentSubmitted)='getAnnotationComments($event)'
+          (commentSubmitted)='showAllComments($event)'
           (commentSelected)='addHighlightedCommentStyle($event)'></app-comment-item>
           <br *ngIf="annotation.comments.length > 0">
           
