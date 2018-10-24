@@ -2,7 +2,6 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 
 chai.use(chaiAsPromised);
-// const tagProcessor = require('../support/tagProcessor');
 const minimist = require('minimist');
 
 const argv = minimist(process.argv.slice(2));
@@ -11,9 +10,12 @@ const argv = minimist(process.argv.slice(2));
 const config = {
     framework: 'custom',
     frameworkPath: require.resolve('protractor-cucumber-framework'),
-    specs: ['../features/**/*.feature'],
-    baseUrl: (process.env.TEST_URL || 'http://localhost:3000/'),
 
+    sauceSeleniumAddress: 'ondemand.saucelabs.com:443/wd/hub',
+    allScriptsTimeout: 111000,
+    specs: ['../features/**/*.feature'],
+
+    baseUrl: (process.env.TEST_URL || 'http://localhost:3000/').replace('https', 'http'),
 
     params: {
         serverUrls: process.env.TEST_URL || 'http://localhost:3000/',
@@ -37,9 +39,9 @@ const config = {
             'platform': 'Windows 10',
             'name': 'chrome-tests',
             'tunnel-identifier': 'reformtunnel',
-            'extendedDebugging': true
-            // 'shardTestFiles': true,
-            // 'maxInstances': 2
+            'extendedDebugging': true,
+            'shardTestFiles': true,
+            'maxInstances': 2
 
         }
 
@@ -102,8 +104,6 @@ const config = {
         strict: true,
         format: 'json:cb_reports/saucelab_results.json',
         require: ['../support/world.js', '../support/*.js', '../features/step_definitions/**/*.steps.js'],
-        print: function () {
-        },
         tags: ['@all']
     },
 
@@ -149,6 +149,6 @@ const config = {
 
 
 };
-// config.cucumberOpts.tags = tagProcessor(config, argv);
+
 
 exports.config = config;
