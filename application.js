@@ -27,9 +27,7 @@ app.use(
         resave: true,
         saveUninitialized: true,
         secret: config.sessionSecret,
-        store: new FileStore({
-            path: process.env.NOW ? '/tmp/sessions' : '.sessions'
-        })
+        store: new FileStore({ path: process.env.NOW ? '/tmp/sessions' : '.sessions' })
     })
 );
 
@@ -44,10 +42,10 @@ appInsights
     .setUseDiskRetryCaching(true)
     .start();
 
-let client = appInsights.defaultClient;
+const client = appInsights.defaultClient;
 client.trackTrace({ message: 'Test Message App Insight Activated' });
 
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
     client.trackNodeHttpRequest({ request: req, response: res });
     next();
 });

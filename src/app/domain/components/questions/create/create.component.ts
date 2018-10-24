@@ -70,8 +70,7 @@ export class CreateQuestionsComponent implements OnInit {
                 .subscribe(res => {
                     this.redirectionService.redirect(`/case/${this.jurisdiction}/${this.caseType}/${this.caseId}/questions?created=success`);
                 }, err => console.log);
-        }
-        else {
+        } else {
             this.error.subject = !this.form.controls.subject.valid;
             this.error.question = !this.form.controls.question.valid;
         }

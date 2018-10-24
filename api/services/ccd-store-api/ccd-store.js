@@ -65,12 +65,10 @@ function getMutiJudCCDCases(userId, jurisdictions, options) {
     }
     const promiseArray = []
     jurisdictions.forEach(jurisdiction => {
-        promiseArray.push(getCCDCases(userId, jurisdiction.jur, jurisdiction.caseType, jurisdiction.filter, options));
-    });
-
-    return Promise.all(promiseArray.map(handle)).then(results => {
-        return results.filter(x => x.status).map(x => x.v)
+        promiseArray.push(getCCDCases(userId, jurisdiction.jur, jurisdiction.caseType, jurisdiction.filter, options))
     })
+
+    return Promise.all(promiseArray.map(handle)).then(results => results.filter(x => x.status).map(x => x.v))
 }
 
 function getHealth(options) {
@@ -103,11 +101,18 @@ module.exports = app => {
     })
 }
 
-module.exports.getInfo = getInfo;
-module.exports.getHealth = getHealth;
-module.exports.getCCDCase = getCCDCase;
-module.exports.getCCDCases = getCCDCases;
-module.exports.getCCDEvents = getCCDEvents;
-module.exports.getMutiJudCCDCases = getMutiJudCCDCases;
-module.exports.getEventTokenAndCase = getEventTokenAndCase;
-module.exports.postCaseWithEventToken = postCaseWithEventToken;
+module.exports.getInfo = getInfo
+
+module.exports.getHealth = getHealth
+
+module.exports.getCCDCase = getCCDCase
+
+module.exports.getCCDCases = getCCDCases
+
+module.exports.getCCDEvents = getCCDEvents
+
+module.exports.getMutiJudCCDCases = getMutiJudCCDCases
+
+module.exports.getEventTokenAndCase = getEventTokenAndCase
+
+module.exports.postCaseWithEventToken = postCaseWithEventToken

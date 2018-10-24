@@ -180,4 +180,4 @@ module.exports = {
             }
         ]
     }
-};
+}

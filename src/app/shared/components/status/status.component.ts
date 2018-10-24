@@ -7,7 +7,7 @@ import {Component, Input} from '@angular/core';
 })
 export class StatusComponent {
 
-    @Input() classes = 'jui-status--urgent  govuk-!-margin-left-1'; //jui-status--new
+    @Input() classes = 'jui-status--urgent  govuk-!-margin-left-1'; // jui-status--new
     @Input() text = 'Urgent';
 
   constructor() { }

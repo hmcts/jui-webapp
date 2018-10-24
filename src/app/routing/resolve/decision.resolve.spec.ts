@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { DecisionResolve} from "./decision.resolve";
-import { DecisionService } from "../../domain/services/decision.service";
-import {ActivatedRouteSnapshot} from "@angular/router";
+import { DecisionResolve} from './decision.resolve';
+import { DecisionService } from '../../domain/services/decision.service';
+import {ActivatedRouteSnapshot} from '@angular/router';
 import {of} from 'rxjs';
 
 describe('DecisionResolve', () => {

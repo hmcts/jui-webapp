@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TextareaComponent } from './textarea.component';
 import {FormsModule, FormGroup, FormControl} from '@angular/forms';
-import {ReactiveFormsModule} from "@angular/forms";
+import {ReactiveFormsModule} from '@angular/forms';
 
 describe('TextareaComponent', () => {
     let component: TextareaComponent;

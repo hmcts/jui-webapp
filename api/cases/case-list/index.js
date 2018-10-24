@@ -13,35 +13,35 @@ const { getDetails } = require('../../services/idam-api/idam-api')
 function getJurisdictions(details) {
     return details
         ? [
-              {
-                  jur: 'SSCS',
-                  caseType: 'Benefit',
-                  // filter: `&state=appealCreated&case.appeal.benefitType.code=PIP&case.assignedToJudge=${details.email}`
-                  filter: `&state=appealCreated&case.appeal.benefitType.code=PIP`
-              },
-              {
-                  jur: 'DIVORCE',
-                  caseType: 'DIVORCE',
-                  // filter: `&case.assignedToJudge=${details.email}`
-                  filter: ``
-              },
-              {
-                  jur: 'DIVORCE',
-                  caseType: 'FinancialRemedyMVP2',
-                  filter: `&state=referredToJudge&case.assignedToJudge=${details.email}`
-                  // filter: `&state=referredToJudge`
-              }
-              // {
-              //     jur: 'CMC',
-              //     caseType: 'MoneyClaimCase',
-              //     filter: ''
-              // },
-              // {
-              //     jur: 'PROBATE',
-              //     caseType: 'GrantOfRepresentation',
-              //     filter: ''
-              // }
-          ]
+            {
+                jur: 'SSCS',
+                caseType: 'Benefit',
+                // filter: `&state=appealCreated&case.appeal.benefitType.code=PIP&case.assignedToJudge=${details.email}`
+                filter: `&state=appealCreated&case.appeal.benefitType.code=PIP`
+            },
+            {
+                jur: 'DIVORCE',
+                caseType: 'DIVORCE',
+                // filter: `&case.assignedToJudge=${details.email}`
+                filter: ``
+            },
+            {
+                jur: 'DIVORCE',
+                caseType: 'FinancialRemedyMVP2',
+                filter: `&state=referredToJudge&case.assignedToJudge=${details.email}`
+                // filter: `&state=referredToJudge`
+            }
+            // {
+            //     jur: 'CMC',
+            //     caseType: 'MoneyClaimCase',
+            //     filter: ''
+            // },
+            // {
+            //     jur: 'PROBATE',
+            //     caseType: 'GrantOfRepresentation',
+            //     filter: ''
+            // }
+        ]
         : []
 }
 

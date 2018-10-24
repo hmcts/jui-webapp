@@ -12,7 +12,7 @@ import { DecisionRootComponent } from './pages/decisions/root/root.component';
 import { CreateDecisionComponent } from './pages/decisions/create-decision/create-decision.component';
 import { CheckDecisionComponent } from './pages/decisions/check-decision/check-decision.component';
 import { DecisionConfirmationComponent } from './pages/decisions/decision-confirmation/decision-confirmation.component';
-//import { DecisionResolve } from './resolve/decision.resolve';
+// import { DecisionResolve } from './resolve/decision.resolve';
 import { HearingRootComponent } from './pages/hearings/root/root.component';
 import { CreateHearingComponent } from './pages/hearings/create-hearing/create-hearing.component';
 import { CheckHearingComponent } from './pages/hearings/check-hearing/check-hearing.component';

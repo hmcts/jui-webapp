@@ -116,7 +116,7 @@ describe('TableComponent', () => {
             'case_id': 1528476356357908,
             'case_reference': '123-123-123',
             'case_jurisdiction': 'SSCS',
-            'case_type_id':'Benefit',
+            'case_type_id': 'Benefit',
             'case_fields': {
                 'caseRef': null,
                 'parties': 'A v May_146863',
@@ -133,7 +133,7 @@ describe('TableComponent', () => {
             'case_id': 1528476358303157,
             'case_reference': '321-321-321',
             'case_jurisdiction': 'SSCS',
-            'case_type_id':'Benefit',
+            'case_type_id': 'Benefit',
             'case_fields': {
                 'caseRef': null,
                 'parties': 'B v May_417228',
@@ -197,7 +197,7 @@ describe('TableComponent', () => {
         });
 
         it('should have ALL the headers', () => {
-            dataWithNoRows.columns.splice(0,1);
+            dataWithNoRows.columns.splice(0, 1);
             dataWithNoRows.columns.forEach((column) => {
                 const header = element.nativeElement.querySelector(Selector.selector(`table-component|${column.case_field_id}-header`));
                 expect(header.textContent).toEqual(column.label);
@@ -234,7 +234,7 @@ describe('TableComponent', () => {
         });
 
         it('should have ALL the headers', () => {
-            dataWithNoRows.columns.splice(0,1);
+            dataWithNoRows.columns.splice(0, 1);
             dataWithTwoRows.columns.forEach((column) => {
                 const header = element.nativeElement.querySelector(Selector.selector(`table-component|${column.case_field_id}-header`));
                 expect(header.textContent).toEqual(column.label);

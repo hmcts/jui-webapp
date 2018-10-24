@@ -37,7 +37,7 @@ describe('Component: TabsComponent', () => {
                             'fields': [
                                 {
                                     'label': 'Full name',
-                                    'value': ['David','Francis']
+                                    'value': ['David', 'Francis']
                                 },
                                 {
                                     'label': 'Date of birth',
@@ -68,7 +68,7 @@ describe('Component: TabsComponent', () => {
                             'fields': [
                                 {
                                     'label': 'Full name',
-                                    'value': ['Susan','Francis']
+                                    'value': ['Susan', 'Francis']
                                 },
                                 {
                                     'label': 'Date of birth',
@@ -158,7 +158,7 @@ describe('Component: TabsComponent', () => {
         it('should render tab\'s data', () => {
             const labelElements = document.querySelectorAll(Selector.selector('tabs-component|table-header'));
             const valueElements = document.querySelectorAll(Selector.selector('tabs-component|table-cell'));
-            for (let i=0; i < component.tabContent.fields.length; i++) {
+            for (let i = 0; i < component.tabContent.fields.length; i++) {
                  expect(component.tabContent.fields[i].label.toString()).toContain(labelElements[i].innerHTML);
                  expect(component.tabContent.fields[i].value.toString()).toContain(valueElements[i].innerHTML);
             }

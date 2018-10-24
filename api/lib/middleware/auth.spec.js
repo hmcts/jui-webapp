@@ -1,13 +1,13 @@
-const proxyquire = require('proxyquire');
+const proxyquire = require('proxyquire')
 
 describe('Auth middleware', () => {
-    let expiryDate;
-    let authMiddleware;
+    let expiryDate
+    let authMiddleware
 
     beforeEach(() => {
         authMiddleware = proxyquire('./auth', {
             'jwt-decode': () => {
-                return { exp: expiryDate };
+                return { exp: expiryDate }
             },
             '../../../config': {
                 cookies: {
@@ -15,18 +15,18 @@ describe('Auth middleware', () => {
                     token: 'token_cookie'
                 }
             }
-        });
-    });
+        })
+    })
 
     afterEach(() => {
-        proxyquire.preserveCache();
-    });
+        proxyquire.preserveCache()
+    })
 
     describe('Headers and cookies', () => {
-        let req = {};
-        const res = {};
+        let req = {}
+        const res = {}
         const next = function() {
-        };
+        }
         beforeEach(() => {
             req = {
                 cookies: {
@@ -37,41 +37,40 @@ describe('Auth middleware', () => {
                     user_key: 'header_user',
                     authorization: 'header_token'
                 }
-            };
-        });
-
+            }
+        })
 
         it('should be able to extract cookie values', () => {
-            expiryDate = new Date().getTime() + 5000;
-            req.headers = {};
-            authMiddleware(req, res, next);
+            expiryDate = new Date().getTime() + 5000
+            req.headers = {}
+            authMiddleware(req, res, next)
             expect(req.auth).toEqual({
                 exp: expiryDate,
                 token: 'cookie_token',
                 userId: 'cookie_user'
-            });
-        });
+            })
+        })
 
         it('should be able to extract headers', () => {
-            expiryDate = new Date().getTime() + 5000;
-            req.cookies = {};
-            authMiddleware(req, res, next);
+            expiryDate = new Date().getTime() + 5000
+            req.cookies = {}
+            authMiddleware(req, res, next)
             expect(req.auth).toEqual({
                 exp: expiryDate,
                 token: 'header_token',
                 userId: 'header_user'
-            });
-        });
+            })
+        })
 
         it('should prioritise reading headers', () => {
-            expiryDate = new Date().getTime() + 5000;
-            req.cookies = {};
-            authMiddleware(req, res, next);
+            expiryDate = new Date().getTime() + 5000
+            req.cookies = {}
+            authMiddleware(req, res, next)
             expect(req.auth).toEqual({
                 exp: expiryDate,
                 token: 'header_token',
                 userId: 'header_user'
-            });
-        });
-    });
-});
+            })
+        })
+    })
+})

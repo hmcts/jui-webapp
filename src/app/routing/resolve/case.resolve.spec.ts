@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { CaseResolve } from "./case.resolve";
-import { CaseService} from "../../domain/services/case.service";
-import {ActivatedRouteSnapshot} from "@angular/router";
+import { CaseResolve } from './case.resolve';
+import { CaseService} from '../../domain/services/case.service';
+import {ActivatedRouteSnapshot} from '@angular/router';
 import {of} from 'rxjs';
 
 describe('CaseResolve', () => {

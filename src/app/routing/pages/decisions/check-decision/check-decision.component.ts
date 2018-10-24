@@ -38,8 +38,8 @@ export class CheckDecisionComponent implements OnInit {
         this.form = new FormGroup(this.formsService.defineformControls(pageitems, pageValues));
     }
 
-    //pawel-k [1:35 PM]
-    //Dont delete this comment
+    // pawel-k [1:35 PM]
+    // Dont delete this comment
     // we have to check if annotations exist onInit by reuest this service  - api-http.service.ts
     //
     // fetch - to get all the annotations
@@ -67,7 +67,7 @@ export class CheckDecisionComponent implements OnInit {
         this.annotationStoreService.fetchData('/api', this.consentOrderDocumentId).subscribe((results) => {
             this.annotations = results.body.annotations;
             console.log('annotations => ', this.annotations);
-            //If document has bee annotated then burn new document
+            // If document has bee annotated then burn new document
 
             if (this.annotations !== null) {
                 this.burnAnnotatedDocument();
@@ -100,10 +100,10 @@ export class CheckDecisionComponent implements OnInit {
             if (this.npaDocumentTask.outputDocumentId) {
                 this.request.formValues.documentAnnotationId = this.npaDocumentTask.outputDocumentId;
             } else {
-                console.log( "No Document ID generated =", this.npaDocumentTask.outputDocumentId );
+                console.log( 'No Document ID generated =', this.npaDocumentTask.outputDocumentId );
             }
         } else {
-            console.log( "Document hasn't generated =", this.npaDocumentTask );
+            console.log( 'Document hasn\'t generated =', this.npaDocumentTask );
         }
         console.log('Submitting properties =>', this.pageitems.name, this.request);
         this.decisionService.submitDecisionDraft('fr',
@@ -124,13 +124,13 @@ export class CheckDecisionComponent implements OnInit {
                 (response) => {
                     this.npaDocumentTask = response.body;
                     if (this.npaDocumentTask.taskState === 'FAILED') {
-                        console.log("ERROR: ",this.npaDocumentTask.failureDescription);
+                        console.log('ERROR: ', this.npaDocumentTask.failureDescription);
                        // this.handleNpaError(this.npaDocumentTask.failureDescription);
                     }
                 },
                 response => {
-                    console.log("ERROR: Could not create annotated PDF.");
-                    //this.handleNpaError('Could not create annotated PDF.');
+                    console.log('ERROR: Could not create annotated PDF.');
+                    // this.handleNpaError('Could not create annotated PDF.');
                 });
         }
     }

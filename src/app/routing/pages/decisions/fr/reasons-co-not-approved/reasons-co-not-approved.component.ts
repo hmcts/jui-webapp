@@ -19,9 +19,9 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
     request: any;
     pageValues: any = null;
     case: any;
-    showOther: boolean = false;
-    showOther2: boolean = false;
-    showChildrenCheckboxes: boolean = false;
+    showOther = false;
+    showOther2 = false;
+    showChildrenCheckboxes = false;
 
     @Input() pageitems;
     constructor( private activatedRoute: ActivatedRoute,
@@ -57,8 +57,8 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
             this.pageitems = this.decision.meta;
             this.pageValues = this.decision.formValues;
 
-            console.log("pageitems", this.pageitems);
-            console.log("pageValues", this.pageValues);
+            console.log('pageitems', this.pageitems);
+            console.log('pageValues', this.pageValues);
 
             this.createForm(this.pageitems, this.pageValues) ;
         });
@@ -70,7 +70,7 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
         console.log(this.pageitems.name, this.request);
         this.pageValues.visitedPages['reject-reasons'] = true;
         this.request.formValues.visitedPages = this.pageValues.visitedPages;
-        this.decisionService.submitDecisionDraft('fr',this.activatedRoute.snapshot.parent.data.caseData.id, this.pageitems.name, this.request).subscribe(decision => {
+        this.decisionService.submitDecisionDraft('fr', this.activatedRoute.snapshot.parent.data.caseData.id, this.pageitems.name, this.request).subscribe(decision => {
             console.log(decision.newRoute);
             this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
         });

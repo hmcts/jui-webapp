@@ -42,10 +42,10 @@ export class FormsService {
         }
     }
     defineformControls(someJson: any, someData: any): any {
-        console.log('Before= ',this.FormControls, someData);
+        console.log('Before= ', this.FormControls, someData);
         console.log(someJson, someData);
         this.create(someJson, someData);
-        console.log('After= ',this.FormControls);
+        console.log('After= ', this.FormControls);
         return this.FormControls;
     }
 }

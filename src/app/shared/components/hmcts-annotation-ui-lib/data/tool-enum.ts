@@ -1,4 +1,4 @@
 export enum Tool {
-    CURSOR = "cursor",
-    HIGHLIGHT = "highlight"
+    CURSOR = 'cursor',
+    HIGHLIGHT = 'highlight'
 }

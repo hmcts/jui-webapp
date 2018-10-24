@@ -14,7 +14,7 @@ describe('NpaService' , () => {
         TestBed.configureTestingModule({
           providers: [
               NpaService,
-              { provide: ApiHttpService, useFactory: () => mockApiHttpService} 
+              { provide: ApiHttpService, useFactory: () => mockApiHttpService}
             ]
         });
       });

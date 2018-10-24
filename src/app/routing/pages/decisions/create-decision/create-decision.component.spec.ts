@@ -10,7 +10,7 @@ import {DecisionService} from '../../../../domain/services/decision.service';
 import {ConfigService} from '../../../../config.service';
 import {Observable, throwError, of} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {JUIFormsModule} from "../../../../forms/forms.module";
+import {JUIFormsModule} from '../../../../forms/forms.module';
 import {GovukModule} from '../../../../govuk/govuk.module';
 import {HmctsModule} from '../../../../hmcts/hmcts.module';
 
