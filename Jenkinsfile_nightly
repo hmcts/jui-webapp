@@ -11,7 +11,7 @@ properties([
     ]),
     parameters([
             string(name: 'URL_TO_TEST', defaultValue: 'https://jui-webapp-aat.service.core-compute-aat.internal', description: 'The URL you want to run these tests against'),
-             string(name: 'JUI_USERNAME', defaultValue: '', description: 'The USERNAME you want to run these tests against'),
+             string(name: 'JUI_EMAIL', defaultValue: '', description: 'The EMAIL you want to run these tests against'),
              string(name: 'JUI_PASSWORD', defaultValue: '', description: 'The PASSWORD you want to run these tests against')
 
 
@@ -54,7 +54,7 @@ withNightlyPipeline(type, product, component) {
     //    enableDeployToAKS()
 
     env.TEST_URL = params.URL_TO_TEST
-    env.TEST_EMAIL = params.JUI_USERNAME
+    env.TEST_EMAIL = params.JUI_EMAIL
     env.TEST_PASSWORD = params.JUI_PASSWORD
 
 

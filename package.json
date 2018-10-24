@@ -30,7 +30,7 @@
     "test:smoke": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/smoke.conf.js",
     "test:functional": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/conf.js",
     "test:functional:local": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/conf.js --local",
-    "test:crossbrowser": "protractor ./test/e2e/config/crossbrowser.conf.js --suites e2e",
+    "test:crossbrowser": "protractor ./test/e2e/config/crossbrowser.conf.js",
     "test:fullfunctional": "echo 'not implemented'",
     "test:mutation": "echo 'not implemented'",
     "test:apiGateway": "echo 'not implemented'",
