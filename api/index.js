@@ -41,7 +41,7 @@ emNpaApiRoutes(router)
 
 // Uncomment to enable direct access to Microservices
 // barApiRoutes(router);
-ccdDefApiRoutes(router)
+// ccdDefApiRoutes(router)
 // ccdStoreApiRoutes(router);
 // cohCorApiRoutes(router);
 // dmStoreApiRoutes(router);
