@@ -68,8 +68,9 @@ defineSupportCode(function({ Given, When, Then }) {
     When(/^I enter an valid email-address and password to login$/, async function() {
         await loginPage.emailAddress.sendKeys(this.config.username);          //replace username and password
         await loginPage.password.sendKeys(this.config.password);
-        // browser.sleep(3000);
+         // browser.sleep(3000);
          await loginPage.signinBtn.click();
+         browser.sleep(3000);
 
     });
 
