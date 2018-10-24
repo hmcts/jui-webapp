@@ -264,39 +264,43 @@ module.exports = app => {
     router.get('/raw', (req, res, next) => {
         const userId = req.auth.userId
         const options = getOptions(req)
-        const userJurisdictions = getJurisdictions()
 
-        getMutiJudCCDCases(userId, userJurisdictions, options)
-            .then(combineLists)
-            .then(results => {
-                res.setHeader('Access-Control-Allow-Origin', '*')
-                res.setHeader('content-type', 'application/json')
-                res.status(200).send(JSON.stringify(results))
-            })
-            .catch(response => {
-                console.log(response.error || response)
-                res.status(response.statusCode || 500).send(response)
-            })
+        getDetails(options).then(details => {
+            const userJurisdictions = getJurisdictions(details)
+
+            getMutiJudCCDCases(userId, userJurisdictions, options)
+                .then(combineLists)
+                .then(results => {
+                    res.setHeader('Access-Control-Allow-Origin', '*')
+                    res.setHeader('content-type', 'application/json')
+                    res.status(200).send(JSON.stringify(results))
+                })
+                .catch(response => {
+                    console.log(response.error || response)
+                    res.status(response.statusCode || 500).send(response)
+                })
+        })
     })
 
     router.get('/raw/coh', (req, res, next) => {
         const userId = req.auth.userId
         const options = getOptions(req)
-        const userJurisdictions = getJurisdictions()
-
-        getMutiJudCCDCases(userId, userJurisdictions, options)
-            .then(caseLists => appendCOR(caseLists, options))
-            .then(caseLists => appendQuestionsRound(caseLists, userId, options))
-            .then(combineLists)
-            .then(results => {
-                res.setHeader('Access-Control-Allow-Origin', '*')
-                res.setHeader('content-type', 'application/json')
-                res.status(200).send(JSON.stringify(results))
-            })
-            .catch(response => {
-                console.log(response.error || response)
-                res.status(response.statusCode || 500).send(response)
-            })
+        getDetails(options).then(details => {
+            const userJurisdictions = getJurisdictions(details)
+            getMutiJudCCDCases(userId, userJurisdictions, options)
+                .then(caseLists => appendCOR(caseLists, options))
+                .then(caseLists => appendQuestionsRound(caseLists, userId, options))
+                .then(combineLists)
+                .then(results => {
+                    res.setHeader('Access-Control-Allow-Origin', '*')
+                    res.setHeader('content-type', 'application/json')
+                    res.status(200).send(JSON.stringify(results))
+                })
+                .catch(response => {
+                    console.log(response.error || response)
+                    res.status(response.statusCode || 500).send(response)
+                })
+        })
     })
 
     app.use('/cases', router)

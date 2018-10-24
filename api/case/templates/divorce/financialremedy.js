@@ -205,6 +205,10 @@ module.exports = {
                         {
                             label: 'divorceUploadEvidence1',
                             value: '$.case_data.divorceUploadEvidence1|document_processor'
+                        },
+                        {
+                            label: 'pensionCollection',
+                            value: 'A$.case_data.pensionCollection[*].value.uploadedDocument|document_processor'
                         }
                     ]
                 }
