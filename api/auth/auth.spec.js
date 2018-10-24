@@ -25,13 +25,14 @@ describe('oAuth callback route', () => {
             }
         })
 
-        app.use(session({
-            secret: 'test'
-        }))
+        app.use(
+            session({
+                secret: 'test'
+            })
+        )
         route(app)
 
         request = supertest(app)
-
     })
 
     it('Should redirect to /', () =>
@@ -42,18 +43,17 @@ describe('oAuth callback route', () => {
                 expect(res.headers.location).toEqual('/')
             }))
 
-    // it('Should convert the idam code toa jwt', () =>
-    //     request.get('/oauth2/callback?code=bob').then(res => {
-    //         expect(getTokenCodeSpy).toHaveBeenCalled()
-    //         expect(getTokenCodeSpy.calls.mostRecent().args[0]).toEqual('bob')
-    //     }))
+    it('Should convert the idam code toa jwt', () =>
+        request.get('/oauth2/callback?code=bob').then(res => {
+            expect(getTokenCodeSpy).toHaveBeenCalled()
+            expect(getTokenCodeSpy.calls.mostRecent().args[0]).toEqual('bob')
+        }))
 
-    // it('Should set cookies', () =>
-    //     request.get('/oauth2/callback').then(res => {
-    //         expect(res.headers['set-cookie'].length).toEqual(2)
-    //         expect(res.headers['set-cookie']).toEqual([
-    //             `${config.cookies.token}=__access__; Path=/`,
-    //             `${config.cookies.userId}=__userid__; Path=/`
-    //         ])
-    //     }))
+    it('Should set cookies', () =>
+        request.get('/oauth2/callback').then(res => {
+            console.log(res.headers['set-cookie'])
+            expect(res.headers['set-cookie'].length).toEqual(3)
+            expect(res.headers['set-cookie'][0]).toEqual(`${config.cookies.token}=__access__; Path=/`)
+            expect(res.headers['set-cookie'][1]).toEqual(`${config.cookies.userId}=__userid__; Path=/`)
+        }))
 })
