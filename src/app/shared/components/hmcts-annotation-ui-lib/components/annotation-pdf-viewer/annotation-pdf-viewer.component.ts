@@ -32,6 +32,7 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
     private pageNumberSubscription: Subscription;
 
     @ViewChild('contentWrapper') contentWrapper: ElementRef;
+    @ViewChild(ContextualToolbarComponent) contextualToolbar: ContextualToolbarComponent;
     @ViewChild('viewer') viewerElementRef: ElementRef;
     @ViewChild('commentsComponent') commentsComponent: CommentsComponent;
     @ViewChild('contextualToolbar') contextualToolbar: ContextualToolbarComponent;

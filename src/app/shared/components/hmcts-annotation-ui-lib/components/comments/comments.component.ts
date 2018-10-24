@@ -18,6 +18,8 @@ export class CommentsComponent implements OnInit, OnDestroy {
     pageNumber: number;
     private pageNumSub: Subscription;
 
+    @ViewChild(CommentFormComponent) commentFormComponent;
+
     constructor(private annotationStoreService: AnnotationStoreService,
                 private pdfService: PdfService) {
     }

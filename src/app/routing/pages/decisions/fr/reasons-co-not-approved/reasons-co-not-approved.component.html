@@ -41,10 +41,25 @@
                                                                             <label class="govuk-fieldset__legend govuk-fieldset__legend--m">
                                                                                 {{subitem.sub.legend}}
                                                                             </label>
+
+                                                                            <app-label [class]="'govuk-fieldset__legend govuk-fieldset__legend--m'"
+                                                                                       [attr.for]="'replace to relevant element later'">
+                                                                                {{subitem.sub.legend}}
+                                                                            </app-label>
                                                                         </div>
-                                                                        <div *ngIf="subitem.sub.textareas">
-                                                                            <textarea class="govuk-textarea" rows="5" formControlName="{{subitem.sub.textareas[0].control}}"></textarea>
-                                                                        </div>
+
+                                                                        <app-textareas *ngIf="subitem.sub.textareas"
+                                                                                      [classes]="'govuk-textarea'"
+                                                                                      [rows]="5"
+                                                                                      [group]="rejectReasonsForm"
+                                                                                      [control]="subitem.sub.textareas[0].control">
+                                                                        </app-textareas>
+                                                                        <!--<div *ngIf="subitem.sub.textareas">-->
+
+
+                                                                            <!--<textarea class="govuk-textarea" rows="5" formControlName="{{subitem.sub.textareas[0].control}}"></textarea>-->
+
+                                                                        <!--</div>-->
                                                                     </ng-container>
                                                                 </fieldset>
                                                             </div>
@@ -57,14 +72,24 @@
                                 </div>
                             </ng-container>
                         </div>
-                        <div *ngIf="group.fieldset.radios" class="govuk-radios govuk-radios--inline">
-                            <div class="govuk-radios__item" *ngFor="let item of group.fieldset.radios.radioGroup; let r = index">
-                                <input class="govuk-radios__input" id="{{pageitems.idPrefix + '-' + (r+1)}}" type="radio" [value]= "item.value" formControlName="{{group.fieldset.radios.control}}">
-                                <label class="govuk-label govuk-radios__label" for="{{pageitems.idPrefix + '-' + (r+1)}}">
-                                    {{item.text}}<span class="govuk-visually-hidden">{{item.hiddenAccessibilityText}}</span>
-                                </label>
-                            </div>
-                        </div>
+
+
+                        <app-radiobutton *ngIf="group.fieldset.radios"
+                                         [classes]="'govuk-radios govuk-radios--inline'"
+                                         [items]="group.fieldset.radios.radioGroup"
+                                         [group]="rejectReasonsForm"
+                                         [control]="group.fieldset.radios.control"
+                                         [idPrefix]="pageitems.idPrefix">
+                        </app-radiobutton>
+
+                        <!--<div *ngIf="group.fieldset.radios" class="govuk-radios govuk-radios&#45;&#45;inline">-->
+                            <!--<div class="govuk-radios__item" *ngFor="let item of group.fieldset.radios.radioGroup; let r = index">-->
+                                <!--<input class="govuk-radios__input" id="{{pageitems.idPrefix + '-' + (r+1)}}" type="radio" [value]= "item.value" formControlName="{{group.fieldset.radios.control}}">-->
+                                <!--<label class="govuk-label govuk-radios__label" for="{{pageitems.idPrefix + '-' + (r+1)}}">-->
+                                    <!--{{item.text}}<span class="govuk-visually-hidden">{{item.hiddenAccessibilityText}}</span>-->
+                                <!--</label>-->
+                            <!--</div>-->
+                        <!--</div>-->
                     </fieldset>
                     <ng-container *ngIf="group.textarea">
                         <label *ngIf="group.textarea.label" class="govuk-label govuk-label--m" for="{{group.textarea.label}}">
