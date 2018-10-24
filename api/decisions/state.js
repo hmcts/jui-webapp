@@ -156,7 +156,7 @@ function perpareCaseForRefusal(caseData, eventToken, eventId, user, store) {
 
     orderRefusalCollection.orderRefusalDocs = {
         document_url: `${config.services.dm_store_api}/documents/${documentAnnotationId}`,
-        document_binary_url: `${config.services.dm_store_api}//documents/${documentAnnotationId}/binary`
+        document_binary_url: `${config.services.dm_store_api}/documents/${documentAnnotationId}/binary`
     }
     const payload = {
         /* eslint-disable-next-line id-blacklist */
