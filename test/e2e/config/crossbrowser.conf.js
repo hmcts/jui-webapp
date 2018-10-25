@@ -45,18 +45,18 @@ const config = {
 
         }
 
-        // {
+//         {
 //     browserName: 'chrome',
 //     name: 'MAC_CHROME_LATEST',
 //     platform: 'macOS 10.13',
 //     version: 'latest',
 //     'tunnel-identifier': 'reformtunnel'
-//         // shardTestFiles: true,
-//         // maxInstances: 1
+//         shardTestFiles: true,
+//         maxInstances: 1
 //
 // },
-
-
+//
+//
 // {
 //     browserName: 'firefox',
 //     name: 'WIN_FIREFOX_LATEST',
@@ -78,8 +78,8 @@ const config = {
 //     maxInstances: 1
 // }
 //
-
-
+//
+//
 // {
 //     'browserName': 'internet explorer',
 //     'platform': 'Windows 10',
@@ -91,7 +91,7 @@ const config = {
 //     'maxInstances': 2
 //
 // }
-//
+
 
 
     ],

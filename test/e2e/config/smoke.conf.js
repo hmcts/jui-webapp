@@ -1,7 +1,7 @@
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const minimist = require('minimist');
-const tagProcessor = require('../support/tagProcessor');
+
 
 const argv = minimist(process.argv.slice(2));
 
@@ -128,6 +128,5 @@ const config = {
     //     new HTMLReport().from('xmlresults.xml', testConfig);},
 };
 
-//config.cucumberOpts.tags = tagProcessor(config, argv);
 
 exports.config = config;
