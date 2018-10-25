@@ -5,10 +5,31 @@
             <h1 *ngIf="pageitems" class="govuk-heading-xl">{{pageitems.header}}</h1>
             <form *ngIf="pageitems" [formGroup]="rejectReasonsForm" (ngSubmit)="onSubmit()">
                 <div class="govuk-form-group"  *ngFor="let group of pageitems.groups; let gIndex = index">
+
+                    <app-fieldset *ngIf="group.fieldset" [classes]="'govuk-fieldset'">
+                        <p>Content Test JUI Form builder components</p>
+                        <app-legend [classes]="'govuk-fieldset__legend govuk-fieldset__legend--m'">
+                            {{ group.fieldset.legend.text}}
+                        </app-legend>
+                        <app-hint [classes]="'govuk-hint'">
+                            {{group.fieldset.hint.text}}
+                        </app-hint>
+                        <app-radiobutton *ngIf="group.fieldset.radios"
+                                         [classes]="'govuk-radios govuk-radios--inline'"
+                                         [items]="group.fieldset.radios.radioGroup"
+                                         [group]="rejectReasonsForm"
+                                         [control]="group.fieldset.radios.control"
+                                         [idPrefix]="pageitems.idPrefix">
+                        </app-radiobutton>
+                        <p>End Content Test JUI Form builder components</p>
+                    </app-fieldset>
+
+
                     <fieldset *ngIf="group.fieldset" class="govuk-fieldset">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
                           {{ group.fieldset.legend.text}}
                         </legend>
+
                         <span class="govuk-hint">{{group.fieldset.hint.text}}</span>
                         <div *ngIf="group.fieldset.checkboxes" class="govuk-checkboxes">
                             <ng-container  *ngFor="let item of group.fieldset.checkboxes; let i = index">
@@ -100,7 +121,11 @@
                 </div>
                 <ng-container *ngIf="pageitems.buttons">
                     <ng-container *ngFor="let button of pageitems.buttons; let bi = index;">
-                        <input class="govuk-button" type="submit" formControlName="{{button.control}}">
+                        <app-buttons [classes]="'govuk-button'"
+                                     [typeBtn]="'submit'"
+                                     [group]="rejectReasonsForm"
+                                     [control]="button.control">
+                        </app-buttons>
                     </ng-container>
                 </ng-container>
             </form>

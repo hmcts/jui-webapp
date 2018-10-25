@@ -30,6 +30,10 @@ import { CaseFileAnnotationListComponent } from './components/document/case-file
 import { CaseFileViewerComponent } from './components/document/case-file-viewer/case-file-viewer.component';
 import { DocumentListComponent } from './components/document-list/document-list.component';
 import { DocumentUploadComponent } from './components/document-upload/document-upload.component';
+import { FieldsetComponent } from './components/fieldset/fieldset.component';
+import { ButtonsComponent } from './components/buttons/buttons.component';
+import { LegendComponent } from './components/legend/legend.component';
+import { HintComponent } from './components/hint/hint.component';
 
 @NgModule({
     imports: [
@@ -67,6 +71,10 @@ import { DocumentUploadComponent } from './components/document-upload/document-u
         RadiobuttonComponent,
         TextareasComponent,
         LabelComponent,
+        FieldsetComponent,
+        ButtonsComponent,
+        LegendComponent,
+        HintComponent,
     ],
     exports: [
         TableComponent,
@@ -77,10 +85,14 @@ import { DocumentUploadComponent } from './components/document-upload/document-u
         QuestionComponent,
         ReversePipe,
         TabsComponent,
+        FieldsetComponent,
         CheckboxComponent,
         RadiobuttonComponent,
         TextareasComponent,
         LabelComponent,
+        LegendComponent,
+        HintComponent,
+        ButtonsComponent,
         CaseStatusGoto,
         TabsComponent,
         StatusComponent,
