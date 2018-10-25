@@ -29,10 +29,17 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
                  private decisionService: DecisionService,
                  private formsService: FormsService) {}
     createForm(pageitems, pageValues) {
+
+
+        //Ok so this is the form group
         this.rejectReasonsForm = new FormGroup(this.formsService.defineformControls(pageitems, pageValues));
+
         this.showOther = this.rejectReasonsForm.controls.Other.value;
         this.showOther2 = this.rejectReasonsForm.controls.Other2.value;
+
         this.showChildrenCheckboxes = this.rejectReasonsForm.controls.NotEnoughInformation.value;
+
+        //Assigning controls
         this.rejectReasonsForm.controls.Other.valueChanges.subscribe( (value) => {
             this.showOther = value;
         });
@@ -64,15 +71,24 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
         });
     }
     onSubmit() {
+        // HEllo
         const event = this.rejectReasonsForm.value.createButton.toLowerCase();
         delete this.rejectReasonsForm.value.createButton;
+
         this.request = { formValues: this.rejectReasonsForm.value, event: event };
         console.log(this.pageitems.name, this.request);
         this.pageValues.visitedPages['reject-reasons'] = true;
         this.request.formValues.visitedPages = this.pageValues.visitedPages;
-        this.decisionService.submitDecisionDraft('fr',this.activatedRoute.snapshot.parent.data.caseData.id, this.pageitems.name, this.request).subscribe(decision => {
-            console.log(decision.newRoute);
-            this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
-        });
+
+        console.log(this.rejectReasonsForm.get('partiesNeedAttend'));
+        console.log(this.rejectReasonsForm.get('partiesNeedAttend'));
+        console.log(this.rejectReasonsForm);
+        console.log(this.rejectReasonsForm.valid);
+        console.log(this.rejectReasonsForm.pristine);
+
+        // this.decisionService.submitDecisionDraft('fr',this.activatedRoute.snapshot.parent.data.caseData.id, this.pageitems.name, this.request).subscribe(decision => {
+        //     console.log(decision.newRoute);
+        //     this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
+        // });
     }
 }
