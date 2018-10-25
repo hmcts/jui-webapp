@@ -105,7 +105,7 @@ module.exports = {
                                                     {
                                                         control: 'informationNeeded',
                                                         value: '',
-                                                        validators: ['minLength']
+                                                        validators: ['required']
                                                     }
                                                 ]
                                             }

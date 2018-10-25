@@ -93,7 +93,7 @@ export class FormsService {
     createFormControl(controlName: string, initialValue, validators: Array<string>) {
 
         if (this.validationService.controlHasValidation(validators)) {
-            this.FormControls[controlName] = new FormControl(initialValue, this.validationService.createValidators(validators));
+            this.FormControls[controlName] = new FormControl(initialValue, this.validationService.getNgValidators(validators));
             return;
         }
 

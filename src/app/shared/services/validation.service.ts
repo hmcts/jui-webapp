@@ -6,46 +6,67 @@ import {Validators} from '@angular/forms';
 })
 export class ValidationService {
 
-    validatorMap = [
+    // TODO : Define interface.
+    // TODO : Place into constants file.
+    ngValidatorFunctionMap: Array<any> = [
         {
-            validatorName: 'required',
-            function: Validators.required
+            simpleName: 'required',
+            ngValidatorFunction: Validators.required
         }
     ];
 
     constructor() {
     }
+
     /**
-     * Takes in an array of strings, that are used to construct the Angular Validators.
+     * Returns a map of how we've mapped simple names to Ng validators, and in the future custom validators.
      *
-     * This leverages the power of custom validators in Angular ie. we can write a reusable validators, map it
-     * to a string, and pass the string into this within the array to use that custom validator, that we would
-     * of previously created.
+     * @return {any}
+     */
+    getNgValidationFunctionMap() {
+        return this.ngValidatorFunctionMap;
+    }
+
+    /**
+     * Takes in an array of simple validation names.
+     *
+     * These names map to Ng Validation functions, and can map to more complex custom validation functions.
+     *
+     * This allows us to leverage the power of Ng Validation, and custom validation, as well as giving us
+     * the ability to create reusable validators, that can be used throughout our forms.
      *
      * Note: Validators.minLength requires Validators.required,
      *
+     * TODO: Unit test.
+     *
      * @param validators - ['required']
      */
-    createValidators(validators: Array<string>) {
+    getNgValidators(validators: Array<string>) {
 
-        console.log('in createValidators');
-        console.log(validators);
+        let ngValidators: Array<Validators> = [];
 
-        validators.map(validatorAsString)
+        validators.map((validatorName) => {
+            for (const ngValidatorFunction of this.getNgValidationFunctionMap()) {
+                if (ngValidatorFunction.simpleName === validatorName) {
+                    ngValidators.push(ngValidatorFunction.ngValidatorFunction);
+                }
+            }
+        });
 
-
-        return [
-            Validators.required,
-        ];
+        return ngValidators;
     }
 
     /**
      * Checks if validators have been set on the control, an example of a validator being set on a control is:
+     *
      * {
      *  control: 'informationNeeded',
      *  value: 'Information text',
      *  validators: ['minLength']
      * }
+     *
+     * TODO: Unit test.
+     *
      * @param validators - ['minLength']
      * @return {boolean}
      */
