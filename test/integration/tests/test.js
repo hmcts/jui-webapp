@@ -8,8 +8,8 @@ const mocha = new Mocha({ui: 'tdd',
         reportDir: 'reports',
         reportName: 'JUI_API_Integration_tests'
     }});
-mocha.addFile('get_jui_cases.js');
+//mocha.addFile('get_jui_cases.js');
 mocha.addFile('get_jui_case_details.js');
 //mocha.addFile('get_jui_case_fields.js');
-mocha.addFile('get_jui_case_summary.js');
+//mocha.addFile('get_jui_case_summary.js');
 mocha.run();

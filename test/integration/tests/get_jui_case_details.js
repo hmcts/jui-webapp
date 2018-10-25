@@ -1,5 +1,7 @@
 
 const { generateAPIRequestForFR } = require('./utils/generateAPI');
+const { getToken } = require('./utils/getToken');
+//const { generateAPIRequestForFR } = require('./utils/getToken');
 
 suite('API/CASES -> FR case columns dashboard', function()  {
     this.timeout(10000);
