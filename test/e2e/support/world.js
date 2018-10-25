@@ -36,7 +36,7 @@ class World {
         this.assert = assert;
         this.expect = expect;
         this.client = browser;
-        this.EXPECTATION_TIMEOUT = seconds(90);
+        this.EXPECTATION_TIMEOUT = seconds(120);
 
         this.config = config;
         this.config.serverUrls = global.browser.params.serverUrls;
