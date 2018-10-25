@@ -103,12 +103,12 @@ function getDocumentAuditEntries(documentId, updateDocumentCommand, options) {
 }
 
 // Search stored documents using metadata.
-function filterDocument(documentId, updateDocumentCommand, options) {
+function filterDocument(options) {
     return generateRequest('POST', `${url}/documents/filter`, options)
 }
 
 // Search stored documents by ownership.
-function ownedDocument(documentId, updateDocumentCommand, options) {
+function ownedDocument(options) {
     return generateRequest('POST', `${url}/documents/owned`, options)
 }
 
@@ -128,8 +128,10 @@ function getInfo(options) {
 function getOptions(req) {
     return {
         headers: {
-            Authorization: `Bearer ${req.auth.token}`,
-            ServiceAuthorization: req.headers.ServiceAuthorization
+            // Authorization: `Bearer ${req.auth.token}`,
+            ServiceAuthorization: req.headers.ServiceAuthorization,
+            'user-id': `${req.auth.userId}`,
+            // 'user-roles':
         }
     }
 }
@@ -144,6 +146,45 @@ module.exports = app => {
 
     router.get('/info', (req, res, next) => {
         getInfo(getOptions(req)).pipe(res)
+    })
+
+    router.post('/documents/filter', (req, res, next) => {
+        filterDocument(getOptions(req)).pipe(res)
+    })
+
+    router.get('/documents/owned', (req, res, next) => {
+        ownedDocument(getOptions(req)).pipe(res)
+    })
+
+    router.post('/documents/owned', (req, res, next) => {
+        ownedDocument(getOptions(req)).pipe(res)
+    })
+
+
+    // got to solve this
+    router.post('/documents', (req, res, next) => {
+        console.dir(req.body)
+
+        const files = req.body.files
+        const classification = req.body.classification
+
+        console.log(files, classification)
+        postDocument(files, getOptions(req)).pipe(res)
+    })
+
+    router.get('/documents/:documentId/binary', (req, res, next) => {
+        const documentId = req.params.documentId
+        getDocumentBinary(documentId, getOptions(req)).pipe(res)
+    })
+
+    router.get('/documents/:documentId/thumbnail', (req, res, next) => {
+        const documentId = req.params.documentId
+        getDocumentThumbnail(documentId, getOptions(req)).pipe(res)
+    })
+
+    router.delete('/documents/:documentId', (req, res, next) => {
+        const documentId = req.params.documentId
+        deleteDocument(documentId, '', getOptions(req)).pipe(res)
     })
 }
 

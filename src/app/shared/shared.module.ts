@@ -25,6 +25,8 @@ import { CaseFileToolBarComponent } from './components/document/case-file-tool-b
 import { CaseFileTreeListComponent } from './components/document/case-file-tree-list/case-file-tree-list.component';
 import { CaseFileAnnotationListComponent } from './components/document/case-file-annotation-list/case-file-annotation-list.component';
 import { CaseFileViewerComponent } from './components/document/case-file-viewer/case-file-viewer.component';
+import { DocumentListComponent } from './components/document-list/document-list.component';
+import { DocumentUploadComponent } from './components/document-upload/document-upload.component';
 
 @NgModule({
     imports: [
@@ -57,6 +59,8 @@ import { CaseFileViewerComponent } from './components/document/case-file-viewer/
         CaseFileTreeListComponent,
         CaseFileAnnotationListComponent,
         CaseFileViewerComponent,
+        DocumentListComponent,
+        DocumentUploadComponent
     ],
     exports: [
         TableComponent,
@@ -79,6 +83,9 @@ import { CaseFileViewerComponent } from './components/document/case-file-viewer/
         CaseFileTreeListComponent,
         CaseFileAnnotationListComponent,
         CaseFileViewerComponent,
+        DocumentViewerModule,
+        DocumentListComponent,
+        DocumentUploadComponent,
     ]
 })
 
