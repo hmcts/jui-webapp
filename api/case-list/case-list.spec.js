@@ -4,7 +4,6 @@ const supertest = require('supertest');
 const sscsCaseListTemplate = require('./templates/sscs/benefit');
 const { sscsCaseDataNullCaseRef, divorceCaseData, sscsCaseData, onlineHearingData, userDetails, LAST_MODIFIED_DATE } = require('./case-list-spec-data');
 
-
 describe('case-list', () => {
     let httpRequest;
     let app;
@@ -22,11 +21,11 @@ describe('case-list', () => {
         app = express();
 
         route = proxyquire('./index', {
-            '../../lib/request/request': httpRequest,
-            '../../services/ccd-store-api/ccd-store': { getMutiJudCCDCases: () => Promise.resolve(casesData) },
-            '../../services/coh-cor-api/coh-cor-api': { getHearingByCase: () => Promise.resolve(onlineHearingData) },
-            '../../services/idam-api/idam-api': { getDetails: () => Promise.resolve(userDetails) },
-            '../../questions/question': { getAllQuestionsByCase: () => Promise.resolve([]) }
+            '../lib/request/request': httpRequest,
+            '../services/ccd-store-api/ccd-store': { getMutiJudCCDCases: () => Promise.resolve(casesData) },
+            '../services/coh-cor-api/coh-cor-api': { getHearingByCase: () => Promise.resolve(onlineHearingData) },
+            '../services/idam-api/idam-api': { getDetails: () => Promise.resolve(userDetails) },
+            '../questions': { getAllQuestionsByCase: () => Promise.resolve([]) }
         });
 
         app.use((req, res, next) => {
