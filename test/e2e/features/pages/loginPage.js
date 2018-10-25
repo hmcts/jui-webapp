@@ -1,5 +1,7 @@
 'use strict';
 
+const { SHORT_DELAY, MID_DELAY , LONG_DELAY } = require('../../support/constants');
+
 function loginPage() {
 
     this.emailAddress = element(by.css("input#username"));
@@ -32,13 +34,13 @@ function loginPage() {
 
     this.clickSignIn = function() {
         this.signinBtn.click();
-        browser.sleep(3000);
+        browser.sleep(SHORT_DELAY);
     };
 
     this.waitFor = function(selector) {
         return browser.wait(function() {
             return browser.isElementPresent(selector);
-        }, 50000);
+        }, LONG_DELAY);
     };
 
 

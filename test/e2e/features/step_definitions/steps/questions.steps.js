@@ -1,9 +1,10 @@
 'use strict';
 
-var questionsPage = require('../../pages/questionsPage');
-var createQuestionsPage = require('../../pages/createQuestionsPage');
-var questionsSuccessPage = require('../../pages/questionSuccessPage');
-var {defineSupportCode} = require('cucumber');
+const questionsPage = require('../../pages/questionsPage');
+const createQuestionsPage = require('../../pages/createQuestionsPage');
+const questionsSuccessPage = require('../../pages/questionSuccessPage');
+const {defineSupportCode} = require('cucumber');
+const { SHORT_DELAY, MID_DELAY , LONG_DELAY } = require('../../../support/constants');
 
 
 const EC = protractor.ExpectedConditions;
@@ -11,12 +12,12 @@ const EC = protractor.ExpectedConditions;
 defineSupportCode(function ({Given, When, Then}) {
 
     When(/^I navigate to Questions page$/, async function () {
-        //browser.sleep(3000);
+        //browser.sleep(SHORT_DELAY);
         await questionsPage.questions_nav_link.get(3).click();
         });
 
     Then(/^I am on the questions screen$/, async function () {
-        //browser.sleep(3000);
+        //browser.sleep(SHORT_DELAY);
         await expect(questionsPage.questions_header.isDisplayed()).to.eventually.be.true;
         await expect(questionsPage.questions_header.getText()).to.eventually.equal('Questions to appellant');
     });
@@ -36,7 +37,7 @@ defineSupportCode(function ({Given, When, Then}) {
         });
 
     Then(/^I click on Add questions button$/, async function () {
-        browser.sleep(3000);
+        browser.sleep(SHORT_DELAY);
         if (questionsPage.create_draft_question_btn.isDisplayed())
             questionsPage.create_draft_question_btn.click();
         else
@@ -48,7 +49,7 @@ defineSupportCode(function ({Given, When, Then}) {
     });
 
     Then(/^I will be redirected to the create questions page$/, async function () {
-        browser.sleep(3000);
+        browser.sleep(SHORT_DELAY);
         await expect(createQuestionsPage.create_questions_heading_text.isDisplayed()).to.eventually.to.be.true;
         await expect(createQuestionsPage.create_questions_heading_text.getText()).to.eventually.equal('Create question');
         });
@@ -63,7 +64,7 @@ defineSupportCode(function ({Given, When, Then}) {
     });
 
     Then(/^I am taken to the 'questions to appellant' screen where 'question added' is displayed$/, async function () {
-        browser.sleep(3000);
+        browser.sleep(SHORT_DELAY);
         await expect(questionsSuccessPage.question_added_succes_alert.isDisplayed()).to.eventually.be.true;
         await expect(questionsSuccessPage.question_added_success_alert_text.isDisplayed()).to.eventually.be.true;
         await expect(questionsSuccessPage.question_added_success_alert_text.getText()).to.eventually.equal('Question added');

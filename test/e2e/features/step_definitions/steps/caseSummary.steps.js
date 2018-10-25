@@ -1,8 +1,9 @@
 'use strict';
 
 
-var caseSummaryPage = require('../../pages/caseSummaryPage');
-var { defineSupportCode } = require('cucumber');
+const caseSummaryPage = require('../../pages/caseSummaryPage');
+const { defineSupportCode } = require('cucumber');
+const { SHORT_DELAY, MID_DELAY , LONG_DELAY } = require('../../../support/constants');
 
 
 const EC = protractor.ExpectedConditions;
@@ -14,7 +15,7 @@ defineSupportCode(function({ Given, When, Then }) {
         await expect(caseSummaryPage.caseDetails_header_text.isDisplayed()).to.eventually.be.true;
         await expect(caseSummaryPage.caseDetails_header_text.getText()).to.eventually.equal("Case details");
 
-        browser.sleep(3000);
+        browser.sleep(SHORT_DELAY);
 
         if (type === 'Divorce') {
             await expect(caseSummaryPage.casefields.first()
@@ -66,7 +67,7 @@ defineSupportCode(function({ Given, When, Then }) {
 
 
     Then(/^I should see linked cases or panel members details for that case(.*)$/, async function(type) {
-        browser.sleep(3000);
+        browser.sleep(SHORT_DELAY);
         if (type === 'PIP') {
             await expect(caseSummaryPage.caseDetails_header_text.isDisplayed()).to.eventually.be.true;
             await expect(caseSummaryPage.caseDetails_header_text.getText())
@@ -117,13 +118,13 @@ defineSupportCode(function({ Given, When, Then }) {
 
     When(/^I click on header logo Judicial case manager$/, async function() {
         await caseSummaryPage.judicial_case_manager_link.click();
-        browser.sleep(3000);
+        browser.sleep(SHORT_DELAY);
 
     });
 
     When(/^I click primary nav dashboard link$/, async function() {
         await caseSummaryPage.primary_nav_dashboard_link.click();
-        browser.sleep(3000);
+        browser.sleep(SHORT_DELAY);
 
     });
 
@@ -164,7 +165,7 @@ defineSupportCode(function({ Given, When, Then }) {
 
     When(/^I click on Parties sub nav link$/, async function() {
      await caseSummaryPage.summary_subnav_links.get(1).click();
-     browser.sleep(3000);
+     browser.sleep(SHORT_DELAY);
 
     });
 
@@ -176,7 +177,7 @@ defineSupportCode(function({ Given, When, Then }) {
 
     When(/^I click on Case file sub nav link$/, async function() {
         await caseSummaryPage.summary_subnav_links.get(2).click();
-        browser.sleep(3000);
+        browser.sleep(SHORT_DELAY);
     });
 
 
@@ -189,7 +190,7 @@ defineSupportCode(function({ Given, When, Then }) {
 
     When(/^I click on Timeline sub nav link$/, async function() {
         await caseSummaryPage.summary_subnav_links.get(3).click();
-        browser.sleep(3000);
+        browser.sleep(SHORT_DELAY);
 
     });
 
@@ -200,7 +201,7 @@ defineSupportCode(function({ Given, When, Then }) {
 
     When (/^I click on case action alert link$/, async function() {
         await caseSummaryPage.case_alert_content_link.click();
-        browser.sleep(3000);
+        browser.sleep(SHORT_DELAY);
 
     });
 
