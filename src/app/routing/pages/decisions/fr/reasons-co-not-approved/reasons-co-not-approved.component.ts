@@ -81,10 +81,10 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
         this.request.formValues.visitedPages = this.pageValues.visitedPages;
 
         console.log(this.rejectReasonsForm.get('partiesNeedAttend'));
-        console.log(this.rejectReasonsForm.get('partiesNeedAttend'));
+        console.log(this.rejectReasonsForm.get('informationNeeded'));
         console.log(this.rejectReasonsForm);
-        console.log(this.rejectReasonsForm.valid);
-        console.log(this.rejectReasonsForm.pristine);
+        console.log('Form is valid:', this.rejectReasonsForm.valid);
+        console.log('Form is pristine:', this.rejectReasonsForm.pristine);
 
         // this.decisionService.submitDecisionDraft('fr',this.activatedRoute.snapshot.parent.data.caseData.id, this.pageitems.name, this.request).subscribe(decision => {
         //     console.log(decision.newRoute);
