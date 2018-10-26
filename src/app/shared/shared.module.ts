@@ -20,6 +20,11 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { StatusComponent } from './components/status/status.component';
 import { CaseActionAlertComponent } from './components/case-action-alert/case-action-alert.component';
 import {CaseActionsComponent} from './components/case-actions/case-actions.component';
+import { CaseFileComponent } from './components/document/case-file/case-file.component';
+import { CaseFileToolBarComponent } from './components/document/case-file-tool-bar/case-file-tool-bar.component';
+import { CaseFileTreeListComponent } from './components/document/case-file-tree-list/case-file-tree-list.component';
+import { CaseFileAnnotationListComponent } from './components/document/case-file-annotation-list/case-file-annotation-list.component';
+import { CaseFileViewerComponent } from './components/document/case-file-viewer/case-file-viewer.component';
 
 @NgModule({
     imports: [
@@ -47,6 +52,11 @@ import {CaseActionsComponent} from './components/case-actions/case-actions.compo
         StatusComponent,
         CaseActionsComponent,
         CaseActionAlertComponent,
+        CaseFileComponent,
+        CaseFileToolBarComponent,
+        CaseFileTreeListComponent,
+        CaseFileAnnotationListComponent,
+        CaseFileViewerComponent,
     ],
     exports: [
         TableComponent,
@@ -63,7 +73,12 @@ import {CaseActionsComponent} from './components/case-actions/case-actions.compo
         StatusComponent,
         CaseActionsComponent,
         CaseActionAlertComponent,
-        DocumentViewerModule
+        DocumentViewerModule,
+        CaseFileComponent,
+        CaseFileToolBarComponent,
+        CaseFileTreeListComponent,
+        CaseFileAnnotationListComponent,
+        CaseFileViewerComponent,
     ]
 })
 

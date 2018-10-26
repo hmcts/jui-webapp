@@ -1,0 +1,30 @@
+
+<div class="jui-cf" *ngIf="documents && documents.length; else noDocuments">
+<!--<div class="jui-cf jui-cf jui-cf&#45;&#45;show-comments" *ngIf="documents && documents.length; else noDocuments">-->
+
+<app-case-file-tool-bar></app-case-file-tool-bar>
+
+    <!-- Case file complete start-->
+    <div class="jui-cf__window" >
+
+        <div class="jui-cf__window-container">
+
+            <app-case-file-tree-list [documents]="documents"></app-case-file-tree-list>
+
+            <!-- Casefile View Code with annotation stuff starts -->
+            <div class="jui-cf__document">
+                <app-case-file-annotation-list></app-case-file-annotation-list>
+
+                <app-case-file-viewer></app-case-file-viewer>
+            </div>
+            <!-- Casefile View Code with annotation stuff ends -->
+
+        </div>
+    </div>
+    <!-- Case file complete end-->
+
+</div>
+
+<ng-template #noDocuments>
+    <p data-selector="no-documents">This case file is empty.</p>
+</ng-template>
