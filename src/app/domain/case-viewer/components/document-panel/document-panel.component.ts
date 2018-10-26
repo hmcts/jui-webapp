@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ConfigService} from '../../../../config.service';
 
@@ -11,10 +11,10 @@ export class DocumentPanelComponent implements OnInit {
 
     @Input() panelData;
     @Input() docList: any;
+    caseFileType: string; // maybe a enum of List, View, Annotation(Comment) in the future.
     documents: any[] = [];
     selectedDocument: any;
     documentUrl: string;
-    allowAnnotations = true;
 
     constructor(private route: ActivatedRoute,
                 private router: Router,
@@ -22,6 +22,27 @@ export class DocumentPanelComponent implements OnInit {
         this.documentUrl = `${configService.config.api_base_url}/api`;
     }
 
+    ngOnInit(): void {
+        this.getDocuments();
+
+        if (this.documents.length) {
+            this.route.queryParams.subscribe(queryParams => {
+                this.caseFileType = queryParams['type'];
+            });
+
+
+            this.route.params.subscribe(params => {
+                if (params['section_item_id']) {
+                    this.selectedDocument = this.documents.filter(doc => doc.id === params['section_item_id'])[0];
+                } else {
+                    this.router.navigate([`${this.documents[0].id}`], {relativeTo: this.route});
+                }
+
+            });
+        }
+    }
+
+    // TODO: This could and can be moved to the node.js layer
     getDocuments() {
         let docIds = [];
 
@@ -57,18 +78,4 @@ export class DocumentPanelComponent implements OnInit {
         this.documents = docs;
     }
 
-
-    ngOnInit(): void {
-        this.getDocuments();
-
-        if (this.documents.length) {
-            this.route.params.subscribe(params => {
-                if (params['section_item_id']) {
-                    this.selectedDocument = this.documents.filter(doc => doc.id === params['section_item_id'])[0];
-                } else {
-                    this.router.navigate([`${this.documents[0].id}`], {relativeTo: this.route});
-                }
-            });
-        }
-    }
 }

@@ -10,7 +10,12 @@ import {IAnnotationSet} from '../../hmcts-annotation-ui-lib/data/annotation-set.
 @Injectable()
 export class ViewerFactoryService {
 
-    private static determineComponent(mimeType: string, annotate: boolean) {
+    constructor(private componentFactoryResolver: ComponentFactoryResolver,
+                private annotationStoreService: AnnotationStoreService,
+                private urlFixer: UrlFixerService) {
+    }
+
+    private static determineComponent(mimeType: string) {
         if (ViewerFactoryService.isImage(mimeType)) {
             return ImgViewerComponent;
         }
@@ -30,17 +35,11 @@ export class ViewerFactoryService {
         return docArray[docArray.length - 1];
     }
 
-    constructor(private componentFactoryResolver: ComponentFactoryResolver,
-                private annotationStoreService: AnnotationStoreService,
-                private urlFixer: UrlFixerService) {
-    }
-
     buildAnnotateUi(documentMetaData: any, viewContainerRef: ViewContainerRef, baseUrl: string,
                     annotate: boolean, annotationSet: IAnnotationSet): ComponentRef<any>['instance'] {
 
         viewContainerRef.clear();
-        const componentFactory =
-            this.componentFactoryResolver.resolveComponentFactory(AnnotationPdfViewerComponent);
+        const componentFactory = this.componentFactoryResolver.resolveComponentFactory(AnnotationPdfViewerComponent);
 
         const componentRef: ComponentRef<any> = viewContainerRef.createComponent(componentFactory);
         componentRef.instance.annotate = annotate;
@@ -63,10 +62,8 @@ export class ViewerFactoryService {
         } else if (ViewerFactoryService.isPdf(documentMetaData.mimeType) && !annotate) {
             return this.buildAnnotateUi(documentMetaData, viewContainerRef, baseUrl, annotate, null);
         } else {
-            const componentToBuild =
-                ViewerFactoryService.determineComponent(documentMetaData.mimeType, annotate);
-            const componentFactory =
-                this.componentFactoryResolver.resolveComponentFactory(componentToBuild);
+            const componentToBuild = ViewerFactoryService.determineComponent(documentMetaData.mimeType);
+            const componentFactory = this.componentFactoryResolver.resolveComponentFactory(componentToBuild);
 
             viewContainerRef.clear();
 

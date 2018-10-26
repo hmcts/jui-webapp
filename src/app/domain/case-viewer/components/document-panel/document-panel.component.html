@@ -4,4 +4,9 @@
     [actionSecondaryButton]="{href: '../../hearing/list', text: 'List for hearing'}"
 ></app-case-actions>
 
-<app-case-file [documents]="documents" ></app-case-file>
+<app-case-file
+    [documents]="documents"
+    [selectedDocument]="selectedDocument"
+    [documentUrl]="documentUrl"
+    [caseFileType]="caseFileType"
+></app-case-file>
