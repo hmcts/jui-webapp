@@ -21,97 +21,105 @@
                                          [control]="group.fieldset.radios.control"
                                          [idPrefix]="pageitems.idPrefix">
                         </app-radiobutton>
+                        <div *ngIf="group.fieldset.checkboxes" class="govuk-checkboxes">
+                            <app-checkbox [group]="rejectReasonsForm"
+                                          [idPrefix]="pageitems.idPrefix"
+                                          [items]="group.fieldset.checkboxes"
+                                          [classes]="'govuk-checkboxes__item'"
+                                          [labelClasses]="'govuk-label govuk-checkboxes__label'">
+                            </app-checkbox>
+                        </div>
                         <p>End Content Test JUI Form builder components</p>
                     </app-fieldset>
 
 
-                    <fieldset *ngIf="group.fieldset" class="govuk-fieldset">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                          {{ group.fieldset.legend.text}}
-                        </legend>
+                    <!--<fieldset *ngIf="group.fieldset" class="govuk-fieldset">-->
+                        <!--&lt;!&ndash;<legend class="govuk-fieldset__legend govuk-fieldset__legend&#45;&#45;m">&ndash;&gt;-->
+                          <!--&lt;!&ndash;{{ group.fieldset.legend.text}}&ndash;&gt;-->
+                        <!--&lt;!&ndash;</legend>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<span class="govuk-hint">{{group.fieldset.hint.text}}</span>&ndash;&gt;-->
 
-                        <span class="govuk-hint">{{group.fieldset.hint.text}}</span>
-                        <div *ngIf="group.fieldset.checkboxes" class="govuk-checkboxes">
-                            <ng-container  *ngFor="let item of group.fieldset.checkboxes; let i = index">
-                                <div class="govuk-checkboxes__item">
-                                    <input class="govuk-checkboxes__input" type="checkbox" id="{{pageitems.idPrefix + '-' + (i+1)}}" formControlName="{{item.control}}">
-                                    <label class="govuk-label govuk-checkboxes__label" for="{{pageitems.idPrefix + '-' + (i+1)}}">
-                                    {{item.text}}
-                                    </label>
-                                </div>
-                                <div class="govuk-checkboxes__conditional" *ngIf="item.sub">
-                                    <div class="govuk-form-group">
-                                        <fieldset class="govuk-fieldset">
-                                            <ng-container *ngIf="showOther2 && item.sub.textareas">
-                                                <legend *ngIf="item.sub.legend" class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                                                    {{ item.sub.legend }}
-                                                </legend>
-                                                <textarea class="govuk-textarea" rows="5" formControlName="{{item.sub.textareas[0].control}}"></textarea>
-                                            </ng-container>
-                                            <ng-container *ngIf="showChildrenCheckboxes && item.sub.checkboxes">
-                                                <legend *ngIf="item.sub.legend" class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                                                    {{ item.sub.legend }}
-                                                </legend>
-                                                <app-checkbox [items]="item.sub.checkboxes" [group]="rejectReasonsForm" [idPrefix]="pageitems.idPrefix" >
-                                                    <ng-container  *ngFor="let subitem of item.sub.checkboxes; let j = index">
-                                                        <div  class="govuk-checkboxes__conditional" id="conditional-reject-3" *ngIf="subitem.sub">
-                                                            <div  class="govuk-form-group">
-                                                                <fieldset class="govuk-fieldset">
-                                                                    <ng-container *ngIf="showOther">
-                                                                        <div *ngIf="subitem.sub.legend">
-                                                                            <label class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                                                                                {{subitem.sub.legend}}
-                                                                            </label>
+                        <!--<div *ngIf="group.fieldset.checkboxes" class="govuk-checkboxes">-->
+                            <!--<ng-container  *ngFor="let item of group.fieldset.checkboxes; let i = index">-->
+                                <!--<div class="govuk-checkboxes__item">-->
+                                    <!--<input class="govuk-checkboxes__input" type="checkbox" id="{{pageitems.idPrefix + '-' + (i+1)}}" formControlName="{{item.control}}">-->
+                                    <!--<label class="govuk-label govuk-checkboxes__label" for="{{pageitems.idPrefix + '-' + (i+1)}}">-->
+                                    <!--{{item.text}}-->
+                                    <!--</label>-->
+                                <!--</div>-->
+                                <!--<div class="govuk-checkboxes__conditional" *ngIf="item.sub">-->
+                                    <!--<div class="govuk-form-group">-->
+                                        <!--<fieldset class="govuk-fieldset">-->
+                                            <!--<ng-container *ngIf="showOther2 && item.sub.textareas">-->
+                                                <!--<legend *ngIf="item.sub.legend" class="govuk-fieldset__legend govuk-fieldset__legend&#45;&#45;m">-->
+                                                    <!--{{ item.sub.legend }}-->
+                                                <!--</legend>-->
+                                                <!--<textarea class="govuk-textarea" rows="5" formControlName="{{item.sub.textareas[0].control}}"></textarea>-->
+                                            <!--</ng-container>-->
+                                            <!--<ng-container *ngIf="showChildrenCheckboxes && item.sub.checkboxes">-->
+                                                <!--<legend *ngIf="item.sub.legend" class="govuk-fieldset__legend govuk-fieldset__legend&#45;&#45;m">-->
+                                                    <!--{{ item.sub.legend }}-->
+                                                <!--</legend>-->
+                                                <!--<app-checkbox [items]="item.sub.checkboxes" [group]="rejectReasonsForm" [idPrefix]="pageitems.idPrefix" >-->
+                                                    <!--<ng-container  *ngFor="let subitem of item.sub.checkboxes; let j = index">-->
+                                                        <!--<div  class="govuk-checkboxes__conditional" id="conditional-reject-3" *ngIf="subitem.sub">-->
+                                                            <!--<div  class="govuk-form-group">-->
+                                                                <!--<fieldset class="govuk-fieldset">-->
+                                                                    <!--<ng-container *ngIf="showOther">-->
+                                                                        <!--<div *ngIf="subitem.sub.legend">-->
+                                                                            <!--<label class="govuk-fieldset__legend govuk-fieldset__legend&#45;&#45;m">-->
+                                                                                <!--{{subitem.sub.legend}}-->
+                                                                            <!--</label>-->
 
-                                                                            <app-label [class]="'govuk-fieldset__legend govuk-fieldset__legend--m'"
-                                                                                       [attr.for]="'replace to relevant element later'">
-                                                                                {{subitem.sub.legend}}
-                                                                            </app-label>
-                                                                        </div>
-
-                                                                        <app-textareas *ngIf="subitem.sub.textareas"
-                                                                                      [classes]="'govuk-textarea'"
-                                                                                      [rows]="5"
-                                                                                      [group]="rejectReasonsForm"
-                                                                                      [control]="subitem.sub.textareas[0].control">
-                                                                        </app-textareas>
-                                                                        <!--<div *ngIf="subitem.sub.textareas">-->
-
-
-                                                                            <!--<textarea class="govuk-textarea" rows="5" formControlName="{{subitem.sub.textareas[0].control}}"></textarea>-->
-
+                                                                            <!--<app-label [class]="'govuk-fieldset__legend govuk-fieldset__legend&#45;&#45;m'"-->
+                                                                                       <!--[attr.for]="'replace to relevant element later'">-->
+                                                                                <!--{{subitem.sub.legend}}-->
+                                                                            <!--</app-label>-->
                                                                         <!--</div>-->
-                                                                    </ng-container>
-                                                                </fieldset>
-                                                            </div>
-                                                        </div>
-                                                    </ng-container>
-                                                </app-checkbox>
-                                            </ng-container>
-                                        </fieldset>
-                                    </div>
-                                </div>
-                            </ng-container>
-                        </div>
+
+                                                                        <!--<app-textareas *ngIf="subitem.sub.textareas"-->
+                                                                                      <!--[classes]="'govuk-textarea'"-->
+                                                                                      <!--[rows]="5"-->
+                                                                                      <!--[group]="rejectReasonsForm"-->
+                                                                                      <!--[control]="subitem.sub.textareas[0].control">-->
+                                                                        <!--</app-textareas>-->
+                                                                        <!--&lt;!&ndash;<div *ngIf="subitem.sub.textareas">&ndash;&gt;-->
 
 
-                        <app-radiobutton *ngIf="group.fieldset.radios"
-                                         [classes]="'govuk-radios govuk-radios--inline'"
-                                         [items]="group.fieldset.radios.radioGroup"
-                                         [group]="rejectReasonsForm"
-                                         [control]="group.fieldset.radios.control"
-                                         [idPrefix]="pageitems.idPrefix">
-                        </app-radiobutton>
+                                                                            <!--&lt;!&ndash;<textarea class="govuk-textarea" rows="5" formControlName="{{subitem.sub.textareas[0].control}}"></textarea>&ndash;&gt;-->
 
-                        <!--<div *ngIf="group.fieldset.radios" class="govuk-radios govuk-radios&#45;&#45;inline">-->
-                            <!--<div class="govuk-radios__item" *ngFor="let item of group.fieldset.radios.radioGroup; let r = index">-->
-                                <!--<input class="govuk-radios__input" id="{{pageitems.idPrefix + '-' + (r+1)}}" type="radio" [value]= "item.value" formControlName="{{group.fieldset.radios.control}}">-->
-                                <!--<label class="govuk-label govuk-radios__label" for="{{pageitems.idPrefix + '-' + (r+1)}}">-->
-                                    <!--{{item.text}}<span class="govuk-visually-hidden">{{item.hiddenAccessibilityText}}</span>-->
-                                <!--</label>-->
-                            <!--</div>-->
+                                                                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                                                                    <!--</ng-container>-->
+                                                                <!--</fieldset>-->
+                                                            <!--</div>-->
+                                                        <!--</div>-->
+                                                    <!--</ng-container>-->
+                                                <!--</app-checkbox>-->
+                                            <!--</ng-container>-->
+                                        <!--</fieldset>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</ng-container>-->
                         <!--</div>-->
-                    </fieldset>
+
+
+                        <!--<app-radiobutton *ngIf="group.fieldset.radios"-->
+                                         <!--[classes]="'govuk-radios govuk-radios&#45;&#45;inline'"-->
+                                         <!--[items]="group.fieldset.radios.radioGroup"-->
+                                         <!--[group]="rejectReasonsForm"-->
+                                         <!--[control]="group.fieldset.radios.control"-->
+                                         <!--[idPrefix]="pageitems.idPrefix">-->
+                        <!--</app-radiobutton>-->
+
+                        <!--&lt;!&ndash;<div *ngIf="group.fieldset.radios" class="govuk-radios govuk-radios&#45;&#45;inline">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<div class="govuk-radios__item" *ngFor="let item of group.fieldset.radios.radioGroup; let r = index">&ndash;&gt;-->
+                                <!--&lt;!&ndash;<input class="govuk-radios__input" id="{{pageitems.idPrefix + '-' + (r+1)}}" type="radio" [value]= "item.value" formControlName="{{group.fieldset.radios.control}}">&ndash;&gt;-->
+                                <!--&lt;!&ndash;<label class="govuk-label govuk-radios__label" for="{{pageitems.idPrefix + '-' + (r+1)}}">&ndash;&gt;-->
+                                    <!--&lt;!&ndash;{{item.text}}<span class="govuk-visually-hidden">{{item.hiddenAccessibilityText}}</span>&ndash;&gt;-->
+                                <!--&lt;!&ndash;</label>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--</fieldset>-->
                     <ng-container *ngIf="group.textarea">
                         <label *ngIf="group.textarea.label" class="govuk-label govuk-label--m" for="{{group.textarea.label}}">
                             {{group.textarea.label}}

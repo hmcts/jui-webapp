@@ -1,9 +1,30 @@
 <div class="govuk-checkboxes" [formGroup]="group">
-    <div class="govuk-checkboxes__item" *ngFor="let item of items; let i = index">
-        <input class="govuk-checkboxes__input" id="{{idPrefix + '-' + (i+1)}}" formControlName="{{item.control}}" type="checkbox" value="{{item.value}}">
-        <label class="govuk-label govuk-checkboxes__label" for="{{idPrefix + '-' + (i+1)}}">
-            {{item.text}}
-        </label>
-    </div>
+    <ng-container  *ngFor="let item of items; let i = index">
+        <div [class]="classes">
+            <input class="govuk-checkboxes__input" id="{{idPrefix + '-' + (i+1)}}" ([formControlName])="item.control" type="checkbox" [value]="item.value">
+            <app-label [class]="labelClasses" [forElement]="idPrefix + '-' + (i+1)">{{item.text}}</app-label>
+        </div>
+        <div class="govuk-checkboxes__conditional" *ngIf="item.sub">
+            <div class="govuk-form-group">
+                <app-fieldset *ngIf="item.sub.fieldset" [classes]="'govuk-fieldset'">
+                    <ng-container *ngIf="item.sub.fieldset.checkboxes">
+                        <app-checkbox [group]="group"
+                                      [idPrefix]="idPrefix"
+                                      [items]="item.sub.fieldset.checkboxes"
+                                      [classes]="'govuk-checkboxes__item'"
+                                      [labelClasses]="'govuk-label govuk-checkboxes__label'">
+                        </app-checkbox>
+                    </ng-container>
+                </app-fieldset>
+            </div>
+        </div>
+    </ng-container>
     <ng-content></ng-content>
 </div>
+
+
+    <!--<div [class]="classes" [attr.i]="index" [formGroup]="group" [attr.item]="item">-->
+        <!--<input class="govuk-checkboxes__input" id="{{idPrefix + '-' + (i+1)}}" [formControlName]="item.control" type="checkbox" [value]="item.value">-->
+        <!--<app-label [classes]="'govuk-label govuk-checkboxes__label'" [forElement]="idPrefix + '-' + (i+1)">{{item.text}}</app-label>-->
+    <!--</div>-->
+

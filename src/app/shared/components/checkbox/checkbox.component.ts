@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, ElementRef, Input} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 
 @Component({
@@ -11,7 +11,10 @@ export class CheckboxComponent {
     @Input() idPrefix = 'waste';
     @Input() name = 'waste';
     @Input() items;
+    @Input() classes;
+    @Input() labelClasses;
 
-    constructor() { }
+    constructor() {
+    }
 
 }
