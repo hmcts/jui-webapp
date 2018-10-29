@@ -1,9 +1,10 @@
 'use strict';
 
-var dashBoardPage = require('../../pages/dashBoardPage');
-var caseSummaryPage = require('../../pages/caseSummaryPage');
-var caseFilePage = require('../../pages/caseFilePage');
-var { defineSupportCode } = require('cucumber');
+const dashBoardPage = require('../../pages/dashBoardPage');
+const caseSummaryPage = require('../../pages/caseSummaryPage');
+const caseFilePage = require('../../pages/caseFilePage');
+const { defineSupportCode } = require('cucumber');
+const { SHORT_DELAY, MID_DELAY , LONG_DELAY } = require('../../../support/constants');
 
 const EC = protractor.ExpectedConditions;
 
@@ -11,7 +12,7 @@ defineSupportCode(function({ Given, When, Then }) {
 
 
     When(/^I will be redirected to the JUI dashboard page$/, async function() {
-        browser.sleep(3000);
+        browser.sleep(SHORT_DELAY);
         await expect(dashBoardPage.dashboard_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.dashboard_header.getText())
             .to
@@ -27,10 +28,10 @@ defineSupportCode(function({ Given, When, Then }) {
     });
 
     When(/^I select a case(.*)$/, async function(type) {
-        browser.sleep(3000);
+        browser.sleep(SHORT_DELAY);
         await dashBoardPage.case_number_links.first()
             .click();
-        browser.sleep(5000);
+        browser.sleep(LONG_DELAY);
     });
 
 
@@ -61,7 +62,7 @@ defineSupportCode(function({ Given, When, Then }) {
 
 
     Then(/^I will be redirected to the Case Summary page for that case (.*)$/, async function(type) {
-        browser.sleep(3000);
+        browser.sleep(SHORT_DELAY);
         await expect(caseSummaryPage.case_header_text.getText())
             .to
             .eventually
@@ -74,7 +75,7 @@ defineSupportCode(function({ Given, When, Then }) {
                 .eventually
                 .equal('Case details');
 
-            browser.sleep(3000);
+            browser.sleep(SHORT_DELAY);
 
             await expect(caseSummaryPage.panel_members_text.getText())
                 .to
@@ -90,7 +91,7 @@ defineSupportCode(function({ Given, When, Then }) {
                 .equal('Case details');
 
 
-            browser.sleep(3000);
+            browser.sleep(SHORT_DELAY);
 
             await expect(caseSummaryPage.representatives_text
                 .getText())
@@ -98,7 +99,7 @@ defineSupportCode(function({ Given, When, Then }) {
                 .eventually
                 .equal('Representatives');
 
-            browser.sleep(3000);
+            browser.sleep(SHORT_DELAY);
 
             await expect(caseSummaryPage.linkedcase_text
                 .getText())
@@ -106,7 +107,7 @@ defineSupportCode(function({ Given, When, Then }) {
                 .eventually
                 .equal('Linked cases');
 
-            browser.sleep(3000);
+            browser.sleep(SHORT_DELAY);
         }
 
     });

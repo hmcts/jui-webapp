@@ -43,7 +43,7 @@ withPipeline(type , product, component) {
 //    enableApiGatewayTest(15)
 //    enableFullFunctionalTest(30)
 //    enableMutationTest(120)
-//    enableCrossBrowserTest(120)
+ //   enableCrossBrowserTest(120)
 //    enableDockerBuild()
 //    enableDeployToAKS()
 

@@ -13,10 +13,14 @@ export class PdfService {
     private RENDER_OPTIONS: { documentId: string, pdfDocument: any, scale: any, rotate: number };
     private pageNumber: Subject<number>;
     private annotationSub: Subject<string>;
+    private dataLoadedSubject: Subject<boolean>;
+
     pdfPages: number;
     viewerElementRef: ElementRef;
 
     constructor() {
+        this.dataLoadedSubject = new Subject();
+        this.dataLoadedSubject.next(false);
     }
 
     preRun() {
@@ -28,6 +32,14 @@ export class PdfService {
 
         this.annotationSub = new Subject();
         this.annotationSub.next(null);
+    }
+
+    getDataLoadedSub(): Subject<boolean> {
+        return this.dataLoadedSubject;
+    }
+
+    dataLoadedUpdate(isLoaded: boolean) {
+        this.dataLoadedSubject.next(isLoaded);
     }
 
     getPageNumber(): Subject<number> {
@@ -69,19 +81,12 @@ export class PdfService {
                 for (let i = 0; i < NUM_PAGES; i++) {
                     const page = this.UI.createPage(i + 1);
                     viewer.appendChild(page);
-                    this.UI.renderPage(i + 1, this.RENDER_OPTIONS);
+                    setTimeout(() => {
+                        this.UI.renderPage(i + 1, this.RENDER_OPTIONS);
+                    });
                 }
                 this.pdfPages = NUM_PAGES;
-
-                // this.UI.renderPage(1, this.RENDER_OPTIONS)
-                //   .then(_ref => {
-                //     const _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-                //     const _ref2 = _slicedToArray(_ref, 2);
-                //
-                //     const pdfPage = _ref2[0];
-                //     const annotations = _ref2[1];
-                //     this.PAGE_HEIGHT = pdfPage.getViewport(this.RENDER_OPTIONS.scale, this.RENDER_OPTIONS.rotate);
-                // });
+                this.dataLoadedUpdate(true);
             }).catch(
             (error) => {
                 const errorMessage = new Error('Unable to render your supplied PDF. ' +

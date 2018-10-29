@@ -29,7 +29,7 @@ xdescribe('Questions route', () => {
         app = express();
         app.use(bodyParser.json());
 
-        route = proxyquire('./question.js', { '../lib/request/request': httpRequest });
+        route = proxyquire('./index.js', { '../lib/request/request': httpRequest });
         app.use((req, res, next) => {
             req.auth = {
                 token: '1234567',

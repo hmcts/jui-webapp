@@ -23,7 +23,7 @@ app.use(
             maxAge: 31536000,
             secure: config.secureCookie !== false
         },
-        name: 'pui-webapp-2',
+        name: 'jui-webapp',
         resave: true,
         saveUninitialized: true,
         secret: config.sessionSecret,

@@ -14,15 +14,26 @@ declare const PDFAnnotate: any;
 export class AnnotationStoreService implements OnDestroy {
 
     annotationChangeSubscription: Subscription;
-    private annotationSavedSub: Subject<{annotation: Annotation, showDelete: boolean}>;
+    commentBtnSubject: Subject<string>;
+    private contextualToolBarOptions: Subject<{annotation: Annotation, showDelete: boolean}>;
 
     constructor(private pdfAdapter: PdfAdapter,
                 private apiHttpService: ApiHttpService,
                 private pdfService: PdfService) {
 
-        this.annotationSavedSub = new Subject();
-        this.annotationSavedSub.next(null);
-        this.annotationChangeSubscription = this.pdfAdapter.annotationChangeSubject.subscribe((e) => this.handleAnnotationEvent(e));
+        this.commentBtnSubject = new Subject();
+        this.commentBtnSubject.next(null);
+        this.contextualToolBarOptions = new Subject();
+        this.contextualToolBarOptions.next(null);
+        this.annotationChangeSubscription = this.pdfAdapter.getAnnotationChangeSubject().subscribe((e) => this.handleAnnotationEvent(e));
+    }
+
+    getCommentBtnSubject(): Subject<string> {
+        return this.commentBtnSubject;
+    }
+
+    setCommentBtnSubject(commentId: string) {
+          this.commentBtnSubject.next(commentId);
     }
 
     setToolBarUpdate(annotation: Annotation, showDelete?: boolean) {
@@ -31,11 +42,11 @@ export class AnnotationStoreService implements OnDestroy {
             showDelete
         };
 
-        this.annotationSavedSub.next(contextualOptions);
+        this.contextualToolBarOptions.next(contextualOptions);
     }
 
-    getAnnotationSaved(): Subject<{annotation: Annotation, showDelete: boolean}> {
-        return this.annotationSavedSub;
+    getToolbarUpdate(): Subject<{annotation: Annotation, showDelete: boolean}> {
+        return this.contextualToolBarOptions;
     }
 
     preLoad(annotationData: IAnnotationSet) {
@@ -50,7 +61,7 @@ export class AnnotationStoreService implements OnDestroy {
     handleAnnotationEvent(e) {
         switch (e.type) {
             case 'addAnnotation': {
-                this.saveAnnotation(e.annotation);
+                this.saveAnnotation(e.annotation, true);
                 break;
             }
             case 'addComment': {
@@ -130,11 +141,13 @@ export class AnnotationStoreService implements OnDestroy {
         this.pdfAdapter.annotationSet = loadedData;
     }
 
-    saveAnnotation(annotation) {
+    saveAnnotation(annotation: Annotation, displayToolbar?: boolean) {
         this.apiHttpService.saveAnnotation(annotation).subscribe(
             response => {
                 console.log(response);
-                this.setToolBarUpdate(annotation);
+                if (displayToolbar) {
+                    this.setToolBarUpdate(annotation);
+                }
             },
             error => console.log(error)
         );
@@ -230,6 +243,8 @@ export class AnnotationStoreService implements OnDestroy {
     }
 
     ngOnDestroy() {
-        this.annotationChangeSubscription.unsubscribe();
+        if (this.annotationChangeSubscription) {
+            this.annotationChangeSubscription.unsubscribe();
+        }
     }
 }

@@ -1,6 +1,6 @@
 const { postS2SLease } = require('../../services/service-auth-provider-api/service-auth-provider-api');
 const jwtDecode = require('jwt-decode');
-const config = require('../../../config/index');
+const config = require('../../../config');
 
 const _cache = {};
 const microservice = config.microservice;

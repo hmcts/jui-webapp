@@ -10,6 +10,11 @@ const url = config.services.ccd_data_api
 // https://eslint.org/docs/rules/no-process-env
 
 // TODO remove the CCD part
+// getCCDEventToken == getEventTokenAndCase see whcih one is better
+function getCCDEventToken(userId, jurisdiction, caseType, caseId, eventId, options) {
+    const urlX = `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/event-triggers/${eventId}/token`;
+    return generateRequest('GET', urlX, options);
+}
 
 async function getEventTokenAndCase(userId, jurisdiction, caseType, caseId, eventId, options) {
     const response = await generateRequest(
@@ -23,6 +28,9 @@ async function getEventTokenAndCase(userId, jurisdiction, caseType, caseId, even
     return { token: response.token, caseDetails: response.case_details }
 }
 
+
+
+// TODO: rename payload to body and put at the end of the call
 async function postCaseWithEventToken(payload, userId, jurisdiction, caseTypeId, caseId, options) {
     options.body = payload
 
@@ -33,6 +41,12 @@ async function postCaseWithEventToken(payload, userId, jurisdiction, caseTypeId,
         }/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseTypeId}/cases/${caseId}/events`,
         options
     )
+}
+
+
+function postCCDEvent(userId, jurisdiction, caseType, caseId, options) {
+    const urlX = `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`;
+    return generateRequest('POST', urlX, options);
 }
 
 function getCCDCase(userId, jurisdiction, caseType, caseId, options) {
@@ -109,5 +123,7 @@ module.exports.getCCDCase = getCCDCase;
 module.exports.getCCDCases = getCCDCases;
 module.exports.getCCDEvents = getCCDEvents;
 module.exports.getMutiJudCCDCases = getMutiJudCCDCases;
+module.exports.getCCDEventToken = getCCDEventToken;
 module.exports.getEventTokenAndCase = getEventTokenAndCase;
+module.exports.postCCDEvent = postCCDEvent;
 module.exports.postCaseWithEventToken = postCaseWithEventToken;

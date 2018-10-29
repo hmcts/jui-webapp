@@ -1,4 +1,7 @@
-  
+////////////////////////////////////////
+// contextual-toolbar.component.scss
+////////////////////////////////////////
+
   .toolbar {
     position: absolute;
     background-color: white;
@@ -7,7 +10,7 @@
     width: 216px;
     margin: 0px auto;
     text-shadow: 1px 1px 0 #fff;
-    z-index: 10;
+    z-index: 100;
     border: 1px solid #c1c1c1;
     box-shadow: 0px 2px #c1c1c1;
   }
@@ -18,7 +21,7 @@
     height: 34px;
     margin: 0 5px -11px;
   }
-  
+
   .toolbar button {
     padding: 0px;
     margin-left: 2.5%;
@@ -27,7 +30,13 @@
     // margin-bottom: 2.5%;
     width: 90px;
     height: 40px;
+    border: 0;
   }
+
+  .toolbar button:hover {
+    border: 1px solid black;
+  }
+
 
   .contextual-btn {
     background: white;
@@ -36,8 +45,8 @@
   .arrow-down {
     margin: 0 auto;
     margin-top: 7px;
-    width: 0; 
-    height: 0; 
+    width: 0;
+    height: 0;
     border-left: 12px solid transparent;
     border-right: 12px solid transparent;
     border-top: 12px solid #c1c1c1;
@@ -47,9 +56,13 @@
     position: relative;
     top: -12px;
     left: -10px;
-    width: 0; 
-    height: 0; 
+    width: 0;
+    height: 0;
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
     border-top: 10px solid white;
   }
+
+
+////////////////////////////////////////
+////////////////////////////////////////
