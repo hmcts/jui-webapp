@@ -43,7 +43,7 @@ export class ValidationService {
      */
     getNgValidators(validators: Array<string>) {
 
-        let ngValidators: Array<Validators> = [];
+        let ngValidators: Array<any> = [];
 
         validators.map((validatorName) => {
             for (const ngValidatorFunction of this.getNgValidationFunctionMap()) {

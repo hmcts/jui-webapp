@@ -8,5 +8,6 @@
     <!--<ng-content></ng-content>-->
 <!--</div>-->
 <ng-container [formGroup]="group">
+    <div *ngIf="true">Validation Error</div>
     <textarea [class]="classes" [rows]="rows" [formControlName]="control"></textarea>
 </ng-container>
