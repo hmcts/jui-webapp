@@ -6,13 +6,23 @@ import {Validators} from '@angular/forms';
 })
 export class ValidationService {
 
-    // TODO : Define interface.
-    // TODO : Place into constants file.
+    /**
+     * Custom validators can be added to this.
+     *
+     * TODO : Define interface for array.
+     * TODO : Have custom validators abstracted into a different file.
+     *
+     * @see https://angular.io/guide/form-validation#custom-validators
+     */
     ngValidatorFunctionMap: Array<any> = [
         {
             simpleName: 'required',
             ngValidatorFunction: Validators.required
-        }
+        },
+        {
+            simpleName: 'email',
+            ngValidatorFunction: Validators.email
+        },
     ];
 
     constructor() {

@@ -27,26 +27,25 @@ export class FormsService {
             for (const prop in someJson) {
                 if (prop === 'control') {
                     if (someJson.radioGroup !== undefined) {
-
+                        // RadioButton Logic
                         if (Object.keys(someData).length !== 0) {
                             for (const radioEl of someJson.radioGroup) {
                                 if (radioEl.value === someData[someJson.control]) {
                                     this.FormControls[someJson.control] = new FormControl(radioEl.value);
                                     break;
                                 } else {
-                                    this.FormControls[someJson.control] = new FormControl();
+                                    this.createFormControl(null, someJson.control, someJson.validators);
                                 }
                             }
                         } else {
                             this.FormControls[someJson.control] = new FormControl();
                         }
-
                     } else {
                         if (someData[someJson.control]) {
 
                             this.FormControls[someJson.control] = new FormControl(someData[someJson.control]);
                         } else {
-                            this.createFormControl(someJson.control, someJson.value, someJson.validators);
+                            this.createFormControl(someJson.value, someJson.control, someJson.validators);
                         }
                     }
                 }
@@ -61,12 +60,13 @@ export class FormsService {
         }
     }
 
+
     /**
      * Creates a new `FormControl` instance.
      * @param controlName - 'informationNeeded'
-     * @param initialValue - ie. false / true if it's a checkbox, text if it's a textarea.
+     * @param initialValue - ie. text if it's a textarea.
      */
-    createFormControl(controlName: string, initialValue, validators: Array<string>) {
+    createFormControl(initialValue: any, controlName: string, validators: Array<string>) {
 
         if (this.validationService.controlHasValidation(validators)) {
             this.FormControls[controlName] = new FormControl(initialValue, this.validationService.getNgValidators(validators));
