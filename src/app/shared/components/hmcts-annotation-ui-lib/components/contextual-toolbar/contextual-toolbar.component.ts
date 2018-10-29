@@ -25,9 +25,10 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.contextualToolBarOptions = this.annotationStoreService.getToolbarUpdate().subscribe(
-      contextualOptions => {
+    this.contextualToolBarOptions = this.annotationStoreService.getToolbarUpdate()
+      .subscribe(contextualOptions => {
         if (contextualOptions.annotation != null) {
+          this.clearSelection();
           this.showToolBar(contextualOptions.annotation, contextualOptions.showDelete);
         } else {
           this.hideToolBar();
@@ -45,6 +46,17 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
     this.ref.detach();
     if (this.contextualToolBarOptions) {
       this.contextualToolBarOptions.unsubscribe();
+    }
+  }
+
+  clearSelection() {
+    const sel = window.getSelection();
+    if (sel) {
+        if (sel.removeAllRanges) {
+            sel.removeAllRanges();
+        } else if (sel.empty) {
+            sel.empty();
+        }
     }
   }
 
@@ -79,12 +91,12 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
   }
 
   hideToolBar() {
+    this.annotation = null;
     this.isShowToolbar = false;
     this.showDelete = false;
   }
 
   handleCommentBtnClick() {
-    console.log(this.annotation);
     if (this.annotation.comments.length === 0 ) {
       this.annotationStoreService.addComment(new Comment(null, this.annotation.id, null, null, null, null, null, null, null));
       this.annotationStoreService.setCommentFocusSubject(this.annotation, true);

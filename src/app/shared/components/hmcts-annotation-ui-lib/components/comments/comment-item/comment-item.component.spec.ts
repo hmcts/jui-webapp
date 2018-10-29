@@ -5,7 +5,8 @@ import { Subject, of } from 'rxjs';
 import { CommentItemComponent } from './comment-item.component';
 import { AnnotationStoreService } from '../../../data/annotation-store.service';
 import { Comment, Annotation } from '../../../data/annotation-set.model';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA, Renderer2, Type } from '@angular/core';
+import { DOCUMENT } from '@angular/platform-browser';
 
 class MockAnnotationStoreService {
   comment: Comment;
@@ -31,6 +32,7 @@ describe('CommentItemComponent', () => {
   let component: CommentItemComponent;
   let fixture: ComponentFixture<CommentItemComponent>;
   let commentForm: any;
+  let renderer2: Renderer2;
 
   const comment = new Comment(
     '71d5914c-163c-4e91-9788-101e1fd1c171',
@@ -82,7 +84,7 @@ describe('CommentItemComponent', () => {
   beforeEach(async(() => {
     fixture = TestBed.createComponent(CommentItemComponent);
     renderer2 = fixture.componentRef.injector.get<Renderer2>(Renderer2 as Type<Renderer2>);
-    const mockDocument = fixture.componentRef.injector.get(DOCUMENT); 
+    const mockDocument = fixture.componentRef.injector.get(DOCUMENT);
     spyOn(mockDocument, 'querySelectorAll').and
       .returnValue([document.createElement('div')]);
     component = fixture.componentInstance;

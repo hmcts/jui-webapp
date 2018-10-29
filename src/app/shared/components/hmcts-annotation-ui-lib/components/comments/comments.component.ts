@@ -16,7 +16,7 @@ declare const PDFAnnotate: any;
 export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private dataLoadedSub: Subscription;
-    private annotations: [Annotation];
+    annotations: Annotation[];
     pageNumber: number;
     private pageNumSub: Subscription;
 
