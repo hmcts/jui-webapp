@@ -74,8 +74,10 @@ describe('AnnotationStoreService', () => {
     '84a2ae2b-4177-4e9d-bd70-2696c71a0820',
     annotations[0].id,
     '123141',
+    null,
     new Date(),
     '123141',
+    null,
     new Date(),
     'comment string'
   );
@@ -99,7 +101,7 @@ describe('AnnotationStoreService', () => {
     }));
 
     it('should initialise commentBtnSubject', inject([AnnotationStoreService], (service: AnnotationStoreService) => {
-      expect(service.commentBtnSubject).toBeDefined();
+      expect(service['commentBtnSubject']).toBeDefined();
     }));
 
     it('should initialise contextualToolBarOptions', inject([AnnotationStoreService], (service: AnnotationStoreService) => {

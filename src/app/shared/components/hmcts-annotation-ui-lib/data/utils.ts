@@ -60,4 +60,29 @@ export class Utils {
     }
 
     difference(a, b): number { return Math.abs(a - b); }
+
+    clickIsHighlight(event: MouseEvent): boolean {
+        const target = <HTMLElement> event.target;
+        const isHighlight = target.firstElementChild;
+        if (isHighlight == null) {
+            return false;
+        } else if (isHighlight.id.includes('pdf-annotate-screenreader')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    getClickedPage(event: any): number {
+        let currentParent = event.target;
+        for (let step = 0; step < 5; step++) {
+            if (currentParent.parentNode != null) {
+                const pageNumber = currentParent.parentNode.getAttribute('data-page-number');
+                if (pageNumber != null) {
+                    return parseInt(pageNumber, null);
+                }
+                currentParent = currentParent.parentNode;
+            }
+        }
+    }
 }

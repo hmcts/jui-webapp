@@ -42,11 +42,16 @@ form textarea {
   box-shadow: 0 0 1px 1px #000 inset;
 }
 
-.comment-meta{
+.comment-meta {
   padding: 5px;
   width:98%;
   text-align: left;
   padding-bottom: 2px;
+}
+
+.mimic-focus {
+  outline-offset: -2px;
+  outline: -webkit-focus-ring-color auto 5px;
 }
 
 ////////////////////////////////////////

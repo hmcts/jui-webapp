@@ -1,52 +1,32 @@
-<form *ngIf="selectedAnnotationId == annotation.id || !selectedAnnotationId" 
+<form
   class="comment-list-item" 
   (ngSubmit)="onSubmit()" #commentItem="ngForm" 
-  (click)="handleCommentClick($event)">
+  (click)="handleCommentClick()">
   <div class="comment-meta">
-    <label class="comment-author">{{comment.createdBy}}</label>
+    <label *ngIf="comment.createdByDetails" class="comment-author">{{comment.createdByDetails.forename}} {{comment.createdByDetails.surname}}</label>
     <br>
     <label class="comment-date" ng-controller="datCtrl">{{ comment.createdDate | date: 'd/M/y HH:mm' }}</label>
-    <div *ngIf="comment.lastModifiedDate != null && comment.createdDate != comment.lastModifiedDate">
-        <label>Last modified By: {{ comment.lastModifiedBy }}</label>
+    <div *ngIf="isModified()">
+        <label>Last modified By: {{comment.lastModifiedByDetails.forename}} {{comment.lastModifiedByDetails.surname}}</label>
       <label class="comment-date" ng-controller="datCtrl"><br>{{ comment.lastModifiedDate | date: 'd/M/y HH:mm' }}</label>
     </div>
   </div>
 
-  <input 
-    type="hidden" 
-    id="createdBy" 
-    required
-    [ngModel]="comment.createdBy" name="createdBy"
-    value={{comment.createdBy}}>
-
   <textarea 
-    (focus)="onFocus()"
+    #commentArea
     (blur)="onBlur()"
     type="text" 
-    class="form-control" id="comment"
+    [class.mimic-focus]="focused"
+    class="form-control mimic-focus"
     required
-    #commentTextField
     [ngModel]="comment.content" name="content"
     value="comment.content"></textarea>
-
-  <input 
-    type="hidden" 
-    id="annotationId"
-    required
-    [ngModel]="comment.annotationId" name="annotationId"
-    >
-
-  <input 
-    type="hidden" 
-    id="commentId"
-    required
-    [ngModel]="comment.id" name="commentId">
 
     <div [hidden]="hideButton" class="comment-btns">
         <button type="submit" class="govuk-button hmcts-page-heading__button" role="button">Comment</button>
         <button 
-        class="govuk-button hmcts-page-heading__button hmcts-button--secondary" 
-        role="button"
-        (click)="handleDeleteComment($event, comment.id)">Delete</button>
+          class="govuk-button hmcts-page-heading__button hmcts-button--secondary" 
+          role="button"
+          (click)="handleDeleteComment()">Delete</button>
     </div>
 </form>

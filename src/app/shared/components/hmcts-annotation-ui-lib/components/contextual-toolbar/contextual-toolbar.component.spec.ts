@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Subject } from 'rxjs';
+import { Subject, of } from 'rxjs';
 
 import { ContextualToolbarComponent } from './contextual-toolbar.component';
 import { PdfService } from '../../data/pdf.service';
@@ -27,7 +27,9 @@ class MockAnnotationStoreService {
     this.contextualOptions = new Subject();
     this.contextualOptions.next(null);
   }
-
+  setCommentFocusSubject() {}
+  addComment() {}
+  getToolbarUpdate() {}
   clearAnnotations() {}
   deleteAnnotationById() {}
   getAnnotationSaved(): Subject<{annotation: Annotation, showDelete?: boolean}> {
@@ -75,6 +77,8 @@ describe('ContextualToolbarComponent', () => {
       document.createElement('div')
     );
 
+    spyOn(mockAnnotationStoreService, 'getToolbarUpdate').and
+      .returnValue(of({annotation: null}));
     component = fixture.componentInstance;
 
     fixture.detectChanges();
@@ -102,9 +106,9 @@ describe('ContextualToolbarComponent', () => {
       expect(component.showDelete).toBeFalsy();
     });
 
-    it('should set the component annotationId', () => {
+    it('should set the component annotation', () => {
       component.showToolBar(dummyAnnotation);
-      expect(component.annotationId).toBe(dummyAnnotation.id);
+      expect(component.annotation).toBe(dummyAnnotation);
     });
   });
 
@@ -117,10 +121,15 @@ describe('ContextualToolbarComponent', () => {
   });
 
   describe('handleCommentBtnClick', () => {
-    it('should call pdfservice and hide the toolbar', () => {
-      spyOn(mockPdfService, 'setAnnotationClicked');
+    it('should call mockAnnotationStoreService and hide the toolbar', () => {
+      component.annotation = dummyAnnotation;
+      spyOn(mockAnnotationStoreService, 'setCommentFocusSubject');
+      spyOn(mockAnnotationStoreService, 'addComment');
+
       component.handleCommentBtnClick();
-      expect(mockPdfService.setAnnotationClicked).toHaveBeenCalled();
+
+      expect(mockAnnotationStoreService.addComment).toHaveBeenCalled();
+      expect(mockAnnotationStoreService.setCommentFocusSubject).toHaveBeenCalled();
       expect(component.isShowToolbar).toBeFalsy();
     });
   });
@@ -142,7 +151,8 @@ describe('ContextualToolbarComponent', () => {
         expect(arg).toBe('2ff3514f-1b0d-499a-991a-fb17881ead7c');
       });
 
-      component.annotationId = '2ff3514f-1b0d-499a-991a-fb17881ead7c';
+      component.annotation = new Annotation('2ff3514f-1b0d-499a-991a-fb17881ead7c',
+              null, null, null, null, null, null, null, null, null, null, null);
       component.handleDeleteBtnClick();
       expect(mockAnnotationStoreService.deleteAnnotationById).toHaveBeenCalled();
       expect(component.isShowToolbar).toBeFalsy();

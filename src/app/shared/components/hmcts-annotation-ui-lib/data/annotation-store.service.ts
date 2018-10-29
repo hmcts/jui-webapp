@@ -1,6 +1,6 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
-import {Observable, Subscription, Subject} from 'rxjs';
+import {Observable, Subscription, Subject, BehaviorSubject} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {v4 as uuid} from 'uuid';
 import {Annotation, Comment, IAnnotation, IAnnotationSet} from './annotation-set.model';
@@ -14,7 +14,9 @@ declare const PDFAnnotate: any;
 export class AnnotationStoreService implements OnDestroy {
 
     annotationChangeSubscription: Subscription;
-    commentBtnSubject: Subject<string>;
+    private commentBtnSubject: Subject<string>;
+    private commentFocusSubject: BehaviorSubject<{annotation: Annotation, showButton?: boolean}>;
+    private annotationFocusSubject: Subject<Annotation>;
     private contextualToolBarOptions: Subject<{annotation: Annotation, showDelete: boolean}>;
 
     constructor(private pdfAdapter: PdfAdapter,
@@ -22,10 +24,30 @@ export class AnnotationStoreService implements OnDestroy {
                 private pdfService: PdfService) {
 
         this.commentBtnSubject = new Subject();
-        this.commentBtnSubject.next(null);
+        this.commentFocusSubject = new BehaviorSubject(
+            {annotation: new Annotation(null, null, null, null, null, null, null, null, null, null, null, null)});
+
         this.contextualToolBarOptions = new Subject();
-        this.contextualToolBarOptions.next(null);
+
+        this.annotationFocusSubject = new Subject();
+
         this.annotationChangeSubscription = this.pdfAdapter.getAnnotationChangeSubject().subscribe((e) => this.handleAnnotationEvent(e));
+    }
+
+    getAnnotationFocusSubject(): Subject<Annotation> {
+        return this.annotationFocusSubject;
+    }
+
+    setAnnotationFocusSubject(annotation: Annotation) {
+        this.annotationFocusSubject.next(annotation);
+    }
+
+    getCommentFocusSubject(): BehaviorSubject<{annotation: Annotation, showButton?: boolean}> {
+        return this.commentFocusSubject;
+    }
+
+    setCommentFocusSubject(annotation: Annotation, showButton?: boolean) {
+        this.commentFocusSubject.next({annotation, showButton});
     }
 
     getCommentBtnSubject(): Subject<string> {
@@ -33,7 +55,7 @@ export class AnnotationStoreService implements OnDestroy {
     }
 
     setCommentBtnSubject(commentId: string) {
-          this.commentBtnSubject.next(commentId);
+        this.commentBtnSubject.next(commentId);
     }
 
     setToolBarUpdate(annotation: Annotation, showDelete?: boolean) {
@@ -145,9 +167,9 @@ export class AnnotationStoreService implements OnDestroy {
         this.apiHttpService.saveAnnotation(annotation).subscribe(
             response => {
                 console.log(response);
-                if (displayToolbar) {
-                    this.setToolBarUpdate(annotation);
-                }
+                // if (displayToolbar) {
+                //     this.setToolBarUpdate(annotation);
+                // }
             },
             error => console.log(error)
         );

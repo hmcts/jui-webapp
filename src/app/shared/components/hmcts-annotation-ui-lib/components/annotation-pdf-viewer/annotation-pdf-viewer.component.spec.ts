@@ -1,14 +1,16 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, of } from 'rxjs';
 
 import { AnnotationPdfViewerComponent } from './annotation-pdf-viewer.component';
-import { AnnotationSet } from '../../data/annotation-set.model';
+import { AnnotationSet, Annotation } from '../../data/annotation-set.model';
 
 import { PdfService } from '../../data/pdf.service';
 import { AnnotationStoreService } from '../../data/annotation-store.service';
 import { NpaService } from '../../data/npa.service';
 import { ApiHttpService } from '../../data/api-http.service';
+import { Utils } from '../../data/utils';
+import { DOCUMENT } from '@angular/platform-browser';
 
 class MockPdfService {
   pageNumber: Subject<number>;
@@ -22,7 +24,7 @@ class MockPdfService {
   setRenderOptions() {}
   setPageNumber(page: number) {}
   render() {}
-
+  renderPage() {}
   getPageNumber() {
     return this.pageNumber;
   }
@@ -31,6 +33,10 @@ class MockPdfService {
 class MockAnnotationStoreService {
   preLoad() {}
   setCommentBtnSubject(commentId: string) {}
+  setAnnotationFocusSubject() {}
+  getAnnotationFocusSubject() {}
+  setCommentFocusSubject() {}
+  setToolBarUpdate() {}
 }
 
 class MockNpaService {
@@ -50,8 +56,12 @@ class MockApiHttpService {
 
 class MockCommentComponent {}
 class MockToolbarComponent {}
+class MockUtils {
+  clickIsHighlight() {}
+  getClickedPage() {}
+}
 
-describe('ViewerComponent', () => {
+describe('AnnotationPdfViewerComponent', () => {
   let component: AnnotationPdfViewerComponent;
   let fixture: ComponentFixture<AnnotationPdfViewerComponent>;
 
@@ -59,12 +69,15 @@ describe('ViewerComponent', () => {
   const mockPdfService = new MockPdfService();
   const mockNpaService = new MockNpaService();
   const mockApiHttpService = new MockApiHttpService();
+  const mockUtils = new MockUtils();
+  let mockDocument: any;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ AnnotationPdfViewerComponent ],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
+        { provide: Utils, useFactory: () => mockUtils },
         { provide: PdfService, useFactory: () => mockPdfService },
         { provide: AnnotationStoreService, useFactory: () => mockAnnotationStoreService },
         { provide: NpaService, useFactory: () => mockNpaService },
@@ -85,6 +98,15 @@ describe('ViewerComponent', () => {
     component.annotationSet = new AnnotationSet('606fadd5-655b-4675-aa9a-df65f86fb37c',
     '125334', new Date(), null, null, '116b0b0f-65da-41e3-9852-648fe4c30409', []);
     component.baseUrl = 'localhost:3000';
+
+    mockDocument = fixture.componentRef.injector.get(DOCUMENT);
+    spyOn(mockDocument, 'querySelector').and.callFake(function() {
+      const dummyElement = document.createElement('div');
+      return dummyElement;
+    });
+    spyOn(mockAnnotationStoreService, 'getAnnotationFocusSubject')
+      .and.returnValue(of(new Annotation));
+
     fixture.detectChanges();
   });
 
@@ -96,13 +118,35 @@ describe('ViewerComponent', () => {
     it('should run tasks', async(() => {
       spyOn(mockPdfService, 'preRun');
       spyOn(mockPdfService, 'render');
+      spyOn(mockPdfService, 'setRenderOptions');
       spyOn(mockPdfService, 'getPageNumber').and.returnValue(Observable.of(1));
 
       component.ngOnInit();
+
+      expect(mockPdfService.setRenderOptions)
+        .toHaveBeenCalledWith({documentId: component.url,
+                                pdfDocument: null,
+                                scale: parseFloat('1.33'),
+                                rotate: 0});
       expect(mockPdfService.preRun).toHaveBeenCalledTimes(1);
       expect(mockPdfService.render).toHaveBeenCalledTimes(1);
-      expect(component.page).toBe(1);
+      expect(mockAnnotationStoreService.getAnnotationFocusSubject).toHaveBeenCalled();
+      expect(component['page']).toBe(1);
     }));
+  });
+
+  describe('onDestroy', () => {
+    it('should unsubscribe from pageNumberSubscription', () => {
+      spyOn(component['pageNumberSubscription'], 'unsubscribe');
+      component.ngOnDestroy();
+      expect(component['pageNumberSubscription'].unsubscribe).toHaveBeenCalled();
+    });
+
+    it('should unsubscribe from focusedAnnotationSubscription', () => {
+      spyOn(component['focusedAnnotationSubscription'], 'unsubscribe');
+      component.ngOnDestroy();
+      expect(component['focusedAnnotationSubscription'].unsubscribe).toHaveBeenCalled();
+    });
   });
 
   describe('loadAnnotations', () => {
@@ -123,26 +167,91 @@ describe('ViewerComponent', () => {
     }));
   });
 
-  describe('getClickedPage', () => {
-    it('should update the commentBtnSubject with null', () => {
-      const event = {target: document.createElement('div'), parentNode() {}};
-      spyOn(mockAnnotationStoreService, 'setCommentBtnSubject');
-      component.getClickedPage(event);
+  describe('focusHighlightStyle', () => {
+    it('should add comment-selected class to focused annotation', () => {
+      component.focusHighlightStyle(new Annotation('dummyId'));
+    });
+  });
 
+  describe('unfocusAnnotation', () => {
+    it('should update the setAnnotationFocusSubject with empty annotation', () => {
+      spyOn(mockAnnotationStoreService, 'setAnnotationFocusSubject').and
+        .callFake((passedAnnotation: Annotation) => {
+          expect(passedAnnotation.id).toBeUndefined();
+        });
+      component.unfocusAnnotation();
+    });
+
+    it('should update the commentBtnSubject with null', () => {
+      spyOn(mockAnnotationStoreService, 'setCommentBtnSubject');
+      component.unfocusAnnotation();
       expect(mockAnnotationStoreService.setCommentBtnSubject).toHaveBeenCalledWith(null);
     });
 
-    it('should get the page number from the DOM and call pdfService', () => {
+    it('should update the setCommentFocusSubject with empty annotation', () => {
+      spyOn(mockAnnotationStoreService, 'setCommentFocusSubject').and
+        .callFake((passedAnnotation: Annotation) => {
+          expect(passedAnnotation.id).toBeUndefined();
+        });
+      component.unfocusAnnotation();
+    });
+  });
+
+  describe('handleClick', () => {
+    it('should call unfocusAnnotation when clickIsHighlight returns false', () => {
       const dom = document.createElement('div');
       const parentNode = document.createElement('div');
       parentNode.setAttribute('data-page-number', '1');
       spyOnProperty(dom, 'parentNode', 'get').and.returnValue(parentNode);
       const event = {target: dom};
-      spyOn(mockPdfService, 'setPageNumber');
+      spyOn(mockUtils, 'clickIsHighlight').and.returnValue(false);
+      spyOn(component, 'unfocusAnnotation').and.stub();
 
-      component.getClickedPage(event);
+      component.handleClick(event);
+      expect(component.unfocusAnnotation).toHaveBeenCalled();
+    });
+
+    it('should call pdfService setpagenumber and utils getclickedpage', () => {
+      const dom = document.createElement('div');
+      const parentNode = document.createElement('div');
+      parentNode.setAttribute('data-page-number', '1');
+      spyOnProperty(dom, 'parentNode', 'get').and.returnValue(parentNode);
+      const event = {target: dom};
+
+      spyOn(mockPdfService, 'setPageNumber');
+      spyOn(mockUtils, 'clickIsHighlight').and.returnValue(true);
+      spyOn(mockUtils, 'getClickedPage').and.returnValue(1);
+
+      component.handleClick(event);
+      expect(mockUtils.getClickedPage).toHaveBeenCalled();
       expect(mockPdfService.setPageNumber).toHaveBeenCalledWith(1);
     });
   });
 
+  describe('handlePdfScroll', () => {
+    it('should hide the contextualtoolbar', () => {
+      const scrollEvent = document.createEvent( 'CustomEvent' );
+      scrollEvent.initCustomEvent( 'scroll', false, false, null );
+      const parentNode = document.createElement('div');
+      spyOnProperty(scrollEvent, 'srcElement', 'get').and
+        .returnValue(parentNode);
+
+      spyOn(mockAnnotationStoreService, 'setToolBarUpdate').and
+        .callFake((subject) => expect(subject).toBeNull());
+      component.handlePdfScroll(scrollEvent);
+    });
+
+    it('should call pdfService setPageNUmber when new page is scrolled', async(() => {
+      const scrollEvent = document.createEvent( 'CustomEvent' );
+      scrollEvent.initCustomEvent( 'scroll', false, false, null );
+      const parentNode = document.createElement('div');
+
+      spyOnProperty(scrollEvent, 'srcElement', 'get').and
+        .returnValue(parentNode);
+      spyOn(mockPdfService, 'setPageNumber');
+
+      component.handlePdfScroll(scrollEvent);
+      expect(mockPdfService.setPageNumber).toHaveBeenCalledWith(1);
+    }));
+  });
 });

@@ -91,9 +91,13 @@ export class PdfAdapter {
 
         const addAnnotation = (documentId, pageNumber, annotation) => {
             return new Promise((resolve, reject) => {
-                annotation.id = uuid();
-                annotation.page = pageNumber;
-                annotation.annotationSetId = this.annotationSetId;
+                const persistAnnotation = new Annotation();
+                persistAnnotation.id = uuid();
+                persistAnnotation.page = pageNumber;
+                persistAnnotation.color = annotation.color;
+                persistAnnotation.type = annotation.type;
+                persistAnnotation.comments = [];
+                persistAnnotation.annotationSetId = this.annotationSetId;
 
                 const rectangles = [];
                 this.utils.generateRectanglePerLine(annotation.rectangles, rectangles);
@@ -103,12 +107,12 @@ export class PdfAdapter {
                         rectangle.id = uuid();
                     });
 
-                annotation.rectangles = rectangles;
+                persistAnnotation.rectangles = rectangles;
 
                 const annotations = this._getAnnotations(documentId);
-                annotations.push(annotation);
-                this.annotationChangeSubject.next({'type': 'addAnnotation', 'annotation': annotation});
-                resolve(annotation);
+                annotations.push(persistAnnotation);
+                this.annotationChangeSubject.next({'type': 'addAnnotation', 'annotation': persistAnnotation});
+                resolve(persistAnnotation);
             });
         };
 
@@ -123,12 +127,13 @@ export class PdfAdapter {
 
         const addComment = (documentId, annotationId, content) => {
             return new Promise((resolve, reject) => {
-                // let comment: Comment;
                 const comment = new Comment(
                     uuid(),
                     annotationId,
                     null,
+                    null,
                     new Date(),
+                    null,
                     null,
                     null,
                     content
@@ -136,8 +141,13 @@ export class PdfAdapter {
                 this.updateComments(documentId, comment);
                 const annotation: Annotation = this.findById(this.annotations, annotationId);
                 annotation.comments.push(comment);
-                this.annotationChangeSubject.next({'type': 'addComment', 'annotation': annotation});
-                resolve(comment);
+
+                if (content === null || content === '') {
+                    resolve(comment);
+                } else {
+                    this.annotationChangeSubject.next({'type': 'addComment', 'annotation': annotation});
+                    resolve(comment);
+                }
             });
         };
 

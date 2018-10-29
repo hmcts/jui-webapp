@@ -3,7 +3,7 @@ import { DOCUMENT } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { PdfService } from '../../data/pdf.service';
 import { AnnotationStoreService } from '../../data/annotation-store.service';
-import { Annotation } from '../../data/annotation-set.model';
+import { Annotation, Comment } from '../../data/annotation-set.model';
 
 @Component({
   selector: 'app-contextual-toolbar',
@@ -15,8 +15,8 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
   toolPos: {left, top};
   isShowToolbar: boolean;
   showDelete: boolean;
-  annotationId: string;
-  contextualToolBarOptions: Subscription;
+  annotation: Annotation;
+  private contextualToolBarOptions: Subscription;
 
   constructor(private pdfService: PdfService,
               private annotationStoreService: AnnotationStoreService,
@@ -49,10 +49,10 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
   }
 
   showToolBar(annotation: Annotation, showDelete?: boolean) {
+    this.annotation = annotation;
     this.showDelete = showDelete;
 
     this.toolPos = this.getRelativePosition(annotation.id);
-    this.annotationId = annotation.id;
     this.isShowToolbar = true;
 
     if (!this.ref['destroyed']) {
@@ -84,7 +84,13 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
   }
 
   handleCommentBtnClick() {
-    this.pdfService.setAnnotationClicked(this.annotationId);
+    console.log(this.annotation);
+    if (this.annotation.comments.length === 0 ) {
+      this.annotationStoreService.addComment(new Comment(null, this.annotation.id, null, null, null, null, null, null, null));
+      this.annotationStoreService.setCommentFocusSubject(this.annotation, true);
+    } else {
+      this.annotationStoreService.setCommentFocusSubject(this.annotation, true);
+    }
     this.hideToolBar();
   }
 
@@ -94,7 +100,7 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
   }
 
   handleDeleteBtnClick() {
-    this.annotationStoreService.deleteAnnotationById(this.annotationId);
+    this.annotationStoreService.deleteAnnotationById(this.annotation.id);
     this.hideToolBar();
   }
 

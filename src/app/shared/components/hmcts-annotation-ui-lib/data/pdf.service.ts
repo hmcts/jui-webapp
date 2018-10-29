@@ -1,5 +1,5 @@
 import {ElementRef, Injectable} from '@angular/core';
-import {Subject} from 'rxjs';
+import {Subject, BehaviorSubject} from 'rxjs';
 
 declare const PDFJS: any;
 declare const PDFAnnotate: any;
@@ -11,7 +11,7 @@ export class PdfService {
     UI;
     comments;
     private RENDER_OPTIONS: { documentId: string, pdfDocument: any, scale: any, rotate: number };
-    private pageNumber: Subject<number>;
+    private pageNumber: BehaviorSubject<number>;
     private annotationSub: Subject<string>;
     private dataLoadedSubject: Subject<boolean>;
 
@@ -27,8 +27,7 @@ export class PdfService {
         this.PAGE_HEIGHT = void 0;
         this.UI = PDFAnnotate.UI;
 
-        this.pageNumber = new Subject();
-        this.pageNumber.next(1);
+        this.pageNumber = new BehaviorSubject(1);
 
         this.annotationSub = new Subject();
         this.annotationSub.next(null);
@@ -42,7 +41,7 @@ export class PdfService {
         this.dataLoadedSubject.next(isLoaded);
     }
 
-    getPageNumber(): Subject<number> {
+    getPageNumber(): BehaviorSubject<number> {
         return this.pageNumber;
     }
 
