@@ -1,8 +1,9 @@
 'use strict';
 
-var loginPage = require('../../pages/loginPage');
-var dashBoardPage = require('../../pages/dashBoardPage');
-var { defineSupportCode } = require('cucumber');
+const loginPage = require('../../pages/loginPage');
+const dashBoardPage = require('../../pages/dashBoardPage');
+const { defineSupportCode } = require('cucumber');
+const { SHORT_DELAY, MID_DELAY , LONG_DELAY } = require('../../../support/constants');
 
 const config = require('../../../config/conf.js');
 const EC = protractor.ExpectedConditions;
@@ -20,16 +21,16 @@ defineSupportCode(function({ Given, When, Then }) {
         await browser.wait(() => {
             return $(this.getSelector('jui-header'))
                 .isPresent();
-        }, 5000);
+        }, LONG_DELAY);
     });
 
 
     Given(/^I am logged into JUI web app$/, async function() {
         await loginPage.emailAddress.sendKeys(this.config.username);
         await loginPage.password.sendKeys(this.config.password);
-        browser.sleep(5000);
+        browser.sleep(LONG_DELAY);
         await loginPage.signinBtn.click();
-        browser.sleep(2000);
+        browser.sleep(SHORT_DELAY);
 
     });
 
@@ -39,7 +40,7 @@ defineSupportCode(function({ Given, When, Then }) {
         await browser.driver.manage()
             .deleteAllCookies();
         await browser.refresh();
-        browser.sleep(3000);
+        browser.sleep(SHORT_DELAY);
     });
 
     Then(/^I should see failure error summary$/, async function() {
@@ -68,9 +69,9 @@ defineSupportCode(function({ Given, When, Then }) {
     When(/^I enter an valid email-address and password to login$/, async function() {
         await loginPage.emailAddress.sendKeys(this.config.username);          //replace username and password
         await loginPage.password.sendKeys(this.config.password);
-         // browser.sleep(3000);
+         // browser.sleep(SHORT_DELAY);
          await loginPage.signinBtn.click();
-         browser.sleep(3000);
+         browser.sleep(SHORT_DELAY);
 
     });
 
@@ -82,33 +83,33 @@ defineSupportCode(function({ Given, When, Then }) {
 
 
     Given(/^I should be redirected to the Idam login page$/, async function() {
-        browser.sleep(3000);
+        browser.sleep(SHORT_DELAY);
         await expect(loginPage.signinTitle.getText())
             .to
             .eventually
             .equal('Sign in');
-        browser.sleep(3000);
+        browser.sleep(SHORT_DELAY);
     });
 
 
     Then(/^I select the sign out link$/, async function() {
-        browser.sleep(3000);
+        browser.sleep(SHORT_DELAY);
         await expect(dashBoardPage.sign_out_link.isDisplayed()).to.eventually.be.true;
-        browser.sleep(2000);
+        browser.sleep(SHORT_DELAY);
         await dashBoardPage.sign_out_link.click();
-        browser.sleep(3000);
+        browser.sleep(SHORT_DELAY);
     });
 
 
     Then(/^I should be redirected to JUI dashboard page$/, async function() {
-        browser.sleep(3000);
+        browser.sleep(SHORT_DELAY);
         await expect(dashBoardPage.dashboard_header.isDisplayed()).to.eventually.be.true;
         await dashBoardPage.table.isDisplayed();
         await expect(dashBoardPage.your_cases.getText())
             .to
             .eventually
             .equal('Your cases');
-        browser.sleep(3000);
+        browser.sleep(SHORT_DELAY);
 
     });
 

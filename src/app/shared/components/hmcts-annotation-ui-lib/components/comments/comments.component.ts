@@ -1,4 +1,4 @@
-import {Component, OnInit, Renderer2, ChangeDetectorRef, AfterViewInit, OnDestroy, Inject, ViewChild, ElementRef} from '@angular/core';
+import { Component, OnInit, Renderer2, ChangeDetectorRef, AfterViewInit, OnDestroy, Inject, ViewChild } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
 import {Subscription} from 'rxjs';
 import {PdfService} from '../../data/pdf.service';
@@ -16,6 +16,7 @@ declare const PDFAnnotate: any;
 })
 export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
 
+    dataLoadedSub: Subscription;
     selectedAnnotationId: string;
     annotations;
     pageNumber: number;
@@ -32,6 +33,14 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.dataLoadedSub = this.pdfService.getDataLoadedSub().subscribe(isDataLoaded => {
+            if (isDataLoaded) {
+                this.preRun();
+            }
+        });
+    }
+
+    preRun() {
         this.pageNumber = 1;
         this.showAllComments();
 
@@ -44,7 +53,9 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.pageNumSub = this.pdfService.getPageNumber().subscribe(
             pageNumber => {
                 this.pageNumber = pageNumber;
-                this.showAllComments();
+                if (!this.selectedAnnotationId) {
+                    this.showAllComments();
+                }
             });
     }
 
@@ -58,14 +69,15 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.pageNumSub) {
             this.pageNumSub.unsubscribe();
         }
+        if (this.dataLoadedSub) {
+            this.dataLoadedSub.unsubscribe();
+        }
     }
 
     showAllComments() {
-
         // todo - refactor this out of component
         this.annotationStoreService.getAnnotationsForPage(this.pageNumber).then(
             (pageData: any) => {
-
                 const annotations = pageData.annotations.slice();
                 this.sortByY(annotations);
 
@@ -84,14 +96,6 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
                 if (keyA < keyB) { return -1; }
                 if (keyA > keyB) { return 1; }
                 return 0;
-            });
-    }
-
-    getAnnotationCommentsById(annotationId) {
-        // Refactor this out of component
-        this.annotationStoreService.getAnnotationById(annotationId).then(
-            annotation => {
-                this.annotations = this.getAnnotationComments(annotation);
             });
     }
 

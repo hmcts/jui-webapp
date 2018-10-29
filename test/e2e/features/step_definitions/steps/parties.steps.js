@@ -1,7 +1,8 @@
 'use strict';
 
-var partiesPage = require('../../pages/partiesPage');
-var { defineSupportCode } = require('cucumber');
+const partiesPage = require('../../pages/partiesPage');
+const { defineSupportCode } = require('cucumber');
+const { SHORT_DELAY, MID_DELAY , LONG_DELAY } = require('../../../support/constants');
 
 
 const EC = protractor.ExpectedConditions;
@@ -18,7 +19,7 @@ defineSupportCode(function({ Given, When, Then }) {
 
     When(/^I select Petitioner tab$/, async function() {
         await partiesPage.parties_tabs.first().click();
-        browser.sleep(3000);
+        browser.sleep(SHORT_DELAY);
 
     });
 
@@ -26,7 +27,7 @@ defineSupportCode(function({ Given, When, Then }) {
     When(/^I select Respondent tab$/, async function() {
 
         await partiesPage.parties_tabs.get(1).click();
-        browser.sleep(3000);
+        browser.sleep(SHORT_DELAY);
 
     });
 

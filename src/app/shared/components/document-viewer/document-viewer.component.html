@@ -1,9 +1,9 @@
-<div class="grid-row">
-  <div [ngClass]="{'column-full': !annotate,
-                 'column-two-thirds': annotate && viewerComponent && viewerComponent.numPages > 0}">
+<!--<div class="grid-row">-->
+  <!--<div [ngClass]="{'column-full': !annotate,-->
+                 <!--'column-two-thirds': annotate && viewerComponent && viewerComponent.numPages > 0}">-->
     <ng-template appViewerAnchor></ng-template>
-  </div>
-</div>
+  <!--</div>-->
+<!--</div>-->
 
 <div class="grid-row">
   <div *ngIf="error"  class="error-summary" role="alert" aria-labelledby="error-summary-heading-example-1" tabindex="-1">

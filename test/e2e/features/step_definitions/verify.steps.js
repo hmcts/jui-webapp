@@ -1,4 +1,5 @@
 const {Given, When, Then} = require('cucumber');
+const { SHORT_DELAY, MID_DELAY , LONG_DELAY } = require('../../support/constants');
 const EC = protractor.ExpectedConditions;
 
 Then(/^I (?:can|should) see "(.*)" at least "(\d+)" times?$/, {retry: 2}, async function (selector, count) {
@@ -81,7 +82,7 @@ Then(/^I should expect "(.*)" to( not)? be visible$/, {retry: 2}, async function
     let condition;
     if(not) condition = EC.invisibilityOf($(selector));
     else condition = EC.visibilityOf($(selector));
-    await browser.wait(condition, 5000);
+    await browser.wait(condition, LONG_DELAY);
 });
 
 Then(/^I should expect "(.*)" to( not)? be visible within viewport$/, {retry: 2}, function (selector, not) {

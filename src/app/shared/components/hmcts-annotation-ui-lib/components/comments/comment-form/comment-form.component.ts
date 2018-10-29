@@ -37,6 +37,7 @@ export class CommentFormComponent implements OnChanges {
     }
 
     onSubmit() {
+        this.annotationStoreService.setToolBarUpdate(null, false);
         this.annotationStoreService.addComment(this.model);
 
         this.commentSubmitted.emit(this.model.annotationId);

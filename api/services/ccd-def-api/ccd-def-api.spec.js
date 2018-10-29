@@ -1,7 +1,7 @@
 const proxyquire = require('proxyquire').noPreserveCache();
 const supertest = require('supertest');
 const express = require('express');
-const config = require('../../../config/index');
+const config = require('../../../config');
 
 const url = config.services.ccd_def_api;
 

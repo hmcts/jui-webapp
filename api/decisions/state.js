@@ -152,6 +152,12 @@ function perpareCaseForRefusal(caseData, eventToken, eventId, user, store) {
         }
     })
 
+    const documentAnnotationId = store.documentAnnotationId
+
+    orderRefusalCollection.orderRefusalDocs = {
+        document_url: `${config.services.dm_store_api}/documents/${documentAnnotationId}`,
+        document_binary_url: `${config.services.dm_store_api}/documents/${documentAnnotationId}/binary`
+    }
     const payload = {
         /* eslint-disable-next-line id-blacklist */
         data: {
@@ -166,57 +172,6 @@ function perpareCaseForRefusal(caseData, eventToken, eventId, user, store) {
     }
 
     return payload
-}
-
-async function updateConsentOrder(documentAnnotationId, req, state, store) {
-    let payload = {}
-    let eventToken = {}
-
-    try {
-        logger.info('Getting Event Token')
-
-        const eventTokenAndCAse = await ccdStore.getEventTokenAndCase(
-            req.auth.userId,
-            'DIVORCE',
-            'FinancialRemedyMVP2',
-            state.inCaseId,
-            'FR_amendCase',
-            getOptions(req)
-        )
-
-        eventToken = eventTokenAndCAse.token
-
-        logger.info(`Got token ${eventToken}`)
-    } catch (exception) {
-        logger.error('Error getting event token', exceptionFormatter(exception, exceptionOptions))
-        return false
-    }
-
-    payload = perpareCaseForConsentOrder(
-        documentAnnotationId,
-        eventToken,
-        'FR_amendCase',
-        req.session.user,
-        store.get(`decisions_${state.inCaseId}`)
-    )
-
-    try {
-        logger.info('Payload assembled')
-        logger.info(JSON.stringify(payload))
-        await ccdStore.postCaseWithEventToken(
-            payload,
-            req.auth.userId,
-            'DIVORCE',
-            'FinancialRemedyMVP2',
-            state.inCaseId,
-            getOptions(req)
-        )
-
-        return true
-    } catch (exception) {
-        logger.error('Error updating consent order', exceptionFormatter(exception, exceptionOptions))
-        return false
-    }
 }
 
 async function makeDecision(decision, req, state, store) {
@@ -256,7 +211,7 @@ async function makeDecision(decision, req, state, store) {
             store.get(`decisions_${state.inCaseId}`)
         )
     }
-
+    console.log()
     if (decision === 'no') {
         payload = perpareCaseForRefusal(
             caseDetails,
@@ -318,16 +273,7 @@ async function handlePostState(req, res, responseJSON, state) {
             case 'check':
                 logger.info('Posting to CCD')
                 result = false
-                // if pdf has annotations update case
-                if (store.get(`decisions_${inCaseId}`).documentAnnotationId) {
-                    logger.info('Updating consent order')
-                    result = await updateConsentOrder(store.get(`decisions_${inCaseId}`).documentAnnotationId, req, state, store)
-                    logger.info('Finished consent order')
-                }
-
-                if (result) {
-                    result = await makeDecision(store.get(`decisions_${inCaseId}`).approveDraftConsent, req, state, store)
-                }
+                result = await makeDecision(store.get(`decisions_${inCaseId}`).approveDraftConsent, req, state, store)
 
                 logger.info('Posted to CCD', result)
 

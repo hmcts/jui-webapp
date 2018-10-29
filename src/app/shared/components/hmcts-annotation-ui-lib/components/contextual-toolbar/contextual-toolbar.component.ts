@@ -1,9 +1,9 @@
 import {Component, OnInit, ChangeDetectorRef, OnDestroy, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { PdfService } from '../../data/pdf.service';
 import { AnnotationStoreService } from '../../data/annotation-store.service';
 import { Annotation } from '../../data/annotation-set.model';
-import { DOCUMENT } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-contextual-toolbar',
@@ -16,7 +16,7 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
   isShowToolbar: boolean;
   showDelete: boolean;
   annotationId: string;
-  annotationSavedSub: Subscription;
+  contextualToolBarOptions: Subscription;
 
   constructor(private pdfService: PdfService,
               private annotationStoreService: AnnotationStoreService,
@@ -25,7 +25,7 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.annotationSavedSub = this.annotationStoreService.getAnnotationSaved().subscribe(
+    this.contextualToolBarOptions = this.annotationStoreService.getToolbarUpdate().subscribe(
       contextualOptions => {
         if (contextualOptions.annotation != null) {
           this.showToolBar(contextualOptions.annotation, contextualOptions.showDelete);
@@ -43,8 +43,8 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.ref.detach();
-    if (this.annotationSavedSub) {
-      this.annotationSavedSub.unsubscribe();
+    if (this.contextualToolBarOptions) {
+      this.contextualToolBarOptions.unsubscribe();
     }
   }
 
@@ -80,6 +80,7 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
 
   hideToolBar() {
     this.isShowToolbar = false;
+    this.showDelete = false;
   }
 
   handleCommentBtnClick() {

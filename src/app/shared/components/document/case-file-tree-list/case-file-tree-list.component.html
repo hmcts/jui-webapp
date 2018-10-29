@@ -1,0 +1,36 @@
+<!-- case list tree components start -->
+<h2 class="govuk-visually-hidden" id="all-items">All items</h2>
+<ul class="jui-tree" aria-labelledby="all-items" role="tree">
+
+    <li class="jui-tree__item jui-tree__item--open" role="treeitem" aria-expanded="true" tabindex="0">
+        <span class="jui-tree__folder">Documents</span>
+        <ul class="jui-tree__folder-group">
+            <li class="jui-tree__doc" *ngFor="let document of documents; let i = index;">
+                <a class="jui-tree__doc-link" routerLink="../{{document.id}}" [attr.aria-current]="(selectedDocument && document.id === selectedDocument.id) || null" role="treeitem" tabindex="-1">
+                    <span class="jui-tree__doc-name">{{document.name}}</span>
+                    <span class="jui-tree__doc-meta">Added 27 Jan 2018 at 2:31pm</span>
+                </a>
+            </li>
+        </ul>
+    </li>
+
+    <!-- Sample of other folder code -->
+    <!--<li class="jui-tree__item" role="treeitem" aria-expanded="false" tabindex="-1">-->
+    <!--<span class="jui-tree__folder">Statements of information</span>-->
+    <!--<ul class="jui-tree__folder-group">-->
+    <!--<li class="jui-tree__doc">-->
+    <!--<a class="jui-tree__doc-link" href="/app/cases/FR1231612322/documents/statement-of-information" role="treeitem" tabindex="-1">-->
+    <!--<span class="jui-tree__doc-name">Form D81 application document</span>-->
+    <!--<span class="jui-tree__doc-meta">Added 27 Jan 2018 at 2:15pm</span>-->
+    <!--</a>-->
+    <!--</li>-->
+    <!--<li class="jui-tree__doc">-->
+    <!--<a class="jui-tree__doc-link" href="#!" role="treeitem" tabindex="-1">-->
+    <!--<span class="jui-tree__doc-name">Form D81 respondent document</span>-->
+    <!--<span class="jui-tree__doc-meta">Added 27 Jan 2018 at 2:23pm</span>-->
+    <!--</a>-->
+    <!--</li>-->
+    <!--</ul>-->
+    <!--</li>-->
+</ul>
+<!-- case list tree components end -->
