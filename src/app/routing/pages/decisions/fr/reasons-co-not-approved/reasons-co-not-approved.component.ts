@@ -71,7 +71,6 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
         });
     }
     onSubmit() {
-        // HEllo
         const event = this.rejectReasonsForm.value.createButton.toLowerCase();
         delete this.rejectReasonsForm.value.createButton;
 
@@ -80,9 +79,6 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
         this.pageValues.visitedPages['reject-reasons'] = true;
         this.request.formValues.visitedPages = this.pageValues.visitedPages;
 
-        console.log(this.rejectReasonsForm.get('partiesNeedAttend'));
-        console.log(this.rejectReasonsForm.get('informationNeeded'));
-        console.log(this.rejectReasonsForm);
         console.log('Form is valid:', this.rejectReasonsForm.valid);
         console.log('Form is pristine:', this.rejectReasonsForm.pristine);
 

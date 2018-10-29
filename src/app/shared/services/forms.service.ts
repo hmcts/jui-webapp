@@ -22,19 +22,10 @@ export class FormsService {
      * @param someData
      */
     create(someJson, someData) {
-        console.log('someJson');
-        console.log(someJson);
-        console.log('someData');
-        console.log(someData);
         if (typeof someJson === 'object') {
 
             for (const prop in someJson) {
-
-                console.log('Prop');
-                console.log(prop);
-
                 if (prop === 'control') {
-                    // Handles radioGroup
                     if (someJson.radioGroup !== undefined) {
 
                         if (Object.keys(someData).length !== 0) {
@@ -51,24 +42,10 @@ export class FormsService {
                         }
 
                     } else {
-
-                        console.log('Not a radioGroup');
-                        // If it is a control, so it must get into this.
                         if (someData[someJson.control]) {
-
-                            console.log('Creates a FormControl with the following:');
-                            console.log(someData[someJson.control]);
 
                             this.FormControls[someJson.control] = new FormControl(someData[someJson.control]);
                         } else {
-                            // So it gets into this.
-                            console.log('Creates a FormControl with the value:');
-                            console.log(someJson.control);
-                            console.log(someJson.text);
-                            console.log(someJson.value);
-                            console.log(someJson.validators);
-                            // this.FormControls[someJson.control] = new FormControl(someJson.value);
-
                             this.createFormControl(someJson.control, someJson.value, someJson.validators);
                         }
                     }
@@ -76,7 +53,6 @@ export class FormsService {
                 this.create(someJson[prop], someData);
             }
         }
-        // So doesn't get into this for partiesAttending
         if (someJson !== undefined && someJson.isArray) {
             console.log('someJson is something');
             for (const item  of someJson) {
