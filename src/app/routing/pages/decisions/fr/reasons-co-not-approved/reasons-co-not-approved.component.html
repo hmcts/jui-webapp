@@ -77,13 +77,22 @@
                                                                             <!--</app-label>-->
                                                                         <!--</div>-->
 
-                                                                        <!--<app-textareas *ngIf="subitem.sub.textareas"-->
-                                                                                      <!--[classes]="'govuk-textarea'"-->
-                                                                                      <!--[rows]="5"-->
-                                                                                      <!--[group]="rejectReasonsForm"-->
-                                                                                      <!--[control]="subitem.sub.textareas[0].control">-->
-                                                                        <!--</app-textareas>-->
-                                                                        <!--&lt;!&ndash;<div *ngIf="subitem.sub.textareas">&ndash;&gt;-->
+                                                                        <!-- so this should show, when the user clicks submit -->
+                                                                        <!-- so this should show, if the textfield is not valid -->
+                                                                        <!-- should this part of the component? It makes sense if it's -->
+                                                                        <!-- abstracted, otherwise you'll be adding it to all components-->
+                                                                        <!-- So we need to show the error message, when the control is invalid -->
+
+                                                                        <app-validation-error-label [group]="rejectReasonsForm" [linkToControl]="'informationNeeded'">Enter what information is needed</app-validation-error-label>
+
+                                                                        <!-- Should we pass in the class to apply -->
+                                                                        <app-textareas *ngIf="subitem.sub.textareas"
+                                                                                      [classes]="'govuk-textarea govuk-textarea--error'"
+                                                                                      [rows]="5"
+                                                                                      [group]="rejectReasonsForm"
+                                                                                      [control]="subitem.sub.textareas[0].control">
+                                                                        </app-textareas>
+                                                                        <!--<div *ngIf="subitem.sub.textareas">-->
 
 
                                                                             <!--&lt;!&ndash;<textarea class="govuk-textarea" rows="5" formControlName="{{subitem.sub.textareas[0].control}}"></textarea>&ndash;&gt;-->

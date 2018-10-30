@@ -34,6 +34,7 @@ import { FieldsetComponent } from './components/fieldset/fieldset.component';
 import { ButtonsComponent } from './components/buttons/buttons.component';
 import { LegendComponent } from './components/legend/legend.component';
 import { HintComponent } from './components/hint/hint.component';
+import { ValidationErrorLabelComponent } from './components/validation-error-label/validation-error-label.component';
 
 @NgModule({
     imports: [
@@ -75,6 +76,7 @@ import { HintComponent } from './components/hint/hint.component';
         ButtonsComponent,
         LegendComponent,
         HintComponent,
+        ValidationErrorLabelComponent,
     ],
     exports: [
         TableComponent,
@@ -98,6 +100,8 @@ import { HintComponent } from './components/hint/hint.component';
         StatusComponent,
         CaseActionsComponent,
         CaseActionAlertComponent,
+        DocumentViewerModule,
+        ValidationErrorLabelComponent,
         DocumentViewerModule,
         CaseFileComponent,
         CaseFileToolBarComponent,
