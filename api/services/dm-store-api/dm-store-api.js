@@ -62,6 +62,17 @@ function getDocumentVersionThumbnail(documentId, versionId, options) {
 
 // Creates a list of Stored Documents by uploading a list of binary/text files.
 function postDocument(file, options) {
+    options.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+    options.body = {classification: 'PUBLIC'}
+    options.formData = {
+        file: {
+            value: 'hello',
+            options: {
+                filename: 'test.txt',
+                contentType: 'plain/txt'
+            }
+        }
+    }
     return generateRequest('POST', `${url}/documents`, options)
 }
 

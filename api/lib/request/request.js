@@ -17,6 +17,8 @@ module.exports = (method, url, params) => {
 
     if (params.body) options.body = params.body
 
+    if (params.multipart) options.multipart = params.multipart
+
     if (config.configEnv !== 'mock') {
         if (config.useProxy) options = proxy(options)
     }

@@ -1,21 +1,5 @@
 <div class="grid-row">
     <div class="column-full">
-        <h1 class="heading-large" data-hook="dm-upload__heading">Upload Document</h1>
-
-
-        <div *ngIf="error" class="error-summary" role="alert" aria-labelledby="error-summary-heading-example-1" tabindex="-1">
-            <h2 class="heading-medium error-summary-heading" id="error-summary-heading-example-1">
-                There was an error while uploading your document.
-            </h2>
-            <p *ngIf="error">{{error}}</p>
-            <p *ngIf="error.status">Response status was {{error.status}}.</p>
-            <!--<p *ngIf="error.message">{{error.message}}</p>-->
-        </div>
-    </div>
-</div>
-
-<div class="grid-row">
-    <div class="column-full">
         <form id="uploadForm" name="dmUploadForm">
 
             <!--<input type="hidden" id="classification" name="classification" value="RESTRICTED" />-->
@@ -71,3 +55,18 @@
 </div>
 
 
+<div class="grid-row">
+    <div class="column-full">
+        <h1 class="heading-large" data-hook="dm-upload__heading">Upload Document</h1>
+
+
+        <div *ngIf="error" class="error-summary" role="alert" aria-labelledby="error-summary-heading-example-1" tabindex="-1">
+            <h2 class="heading-medium error-summary-heading" id="error-summary-heading-example-1">
+                There was an error while uploading your document.
+            </h2>
+            <p *ngIf="error">{{error | json}}</p>
+            <p *ngIf="error.status">Response status was {{error.status}}.</p>
+            <!--<p *ngIf="error.message">{{error.message}}</p>-->
+        </div>
+    </div>
+</div>
