@@ -1,4 +1,4 @@
-<div [attr.data]="data" [attr.group]="group">
+<div [attr.data]="data" [attr.group]="group" >
     <!--JUI FORM builder component -->
     <!--<app-legend [classes]="legendClasses">-->
         <!--test legend-->
@@ -12,14 +12,28 @@
                      <!--[control]="radiosControl"-->
                      <!--[idPrefix]="idPrefix">-->
     <!--</app-radiobutton>-->
-    <!--<div  class="govuk-checkboxes">-->
-        <!--<app-checkbox [group]="group"-->
-                      <!--[idPrefix]="idPrefix"-->
-                      <!--[items]="checkboxItem"-->
-                      <!--[classes]="checkboxClasses"-->
-                      <!--[labelClasses]="labelClasses">-->
-        <!--</app-checkbox>-->
-    <!--</div>-->
+    <div *ngIf="data.checkbox" class="govuk-checkboxes">
+        <app-checkbox [group]="group"
+                      [idPrefix]="data.checkbox.control"
+                      [items]="data.checkbox"
+                      [classes]="'govuk-checkboxes__item'"
+                      [labelClasses]="'govuk-label govuk-checkboxes__label'">
+            <div class="govuk-form-group">
+            <div *ngIf="data.checkbox.groups" class="govuk-checkboxes__conditional">
+
+                    <ng-container  *ngFor="let subgroup of data.checkbox.groups">
+                        <app-fieldset *ngIf="subgroup.fieldset"
+                                      [classes]="'govuk-fieldset'"
+                                      [group]="group"
+                                      [data]="subgroup.fieldset">
+                        </app-fieldset>
+                        <app-jui-form-elements [group]="group" [data]="subgroup"></app-jui-form-elements>
+                    </ng-container>
+                </div>
+            </div>
+
+        </app-checkbox>
+    </div>
     <app-textareas *ngIf="data.textarea" [classes]="'govuk-textarea'"
                     [group]="group"
                     [control]="data.textarea.control"
