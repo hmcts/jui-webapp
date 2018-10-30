@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {FormGroup} from '@angular/forms';
+import {ValidationService} from '../../services/validation.service';
 
 @Component({
     selector: 'app-validation-error-label',
@@ -18,7 +19,7 @@ export class ValidationErrorLabelComponent {
     @Input() name = 'ta';
     @Input() linkToControl;
 
-    constructor() {
+    constructor(private validationService: ValidationService) {
     }
 
     /**
@@ -34,6 +35,6 @@ export class ValidationErrorLabelComponent {
      * @return {boolean}
      */
     isControlValid(formGroup: FormGroup, linkToControl: string): boolean {
-        return formGroup.get(linkToControl).valid;
+        return this.validationService.isControlValid(formGroup, linkToControl);
     }
 }

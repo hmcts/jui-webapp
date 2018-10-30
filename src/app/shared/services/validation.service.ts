@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {FormGroup} from '@angular/forms';
 import {Validators} from '@angular/forms';
 
 @Injectable({
@@ -82,5 +83,21 @@ export class ValidationService {
      */
     controlHasValidation(validators: Array<string>) {
         return validators && validators.length > 0;
+    }
+
+    /**
+     * Checks if the control this error message links to is valid.
+     *
+     * ie. If the control that this error message links to is not valid we
+     * show the Error Message.
+     *
+     * TODO: Unit test.
+     *
+     * @param formGroup
+     * @param control
+     * @return {boolean}
+     */
+    isControlValid(formGroup: FormGroup, control: string): boolean {
+        return formGroup.get(control).valid;
     }
 }

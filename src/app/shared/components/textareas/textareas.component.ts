@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
+import {ValidationService} from '../../services/validation.service';
 
 @Component({
     selector: 'app-textareas',
@@ -26,7 +27,7 @@ export class TextareasComponent {
     @Input() label;
     @Input() items;
 
-    constructor() {
+    constructor(private validationService: ValidationService) {
     }
 
     /**
@@ -40,24 +41,17 @@ export class TextareasComponent {
      * @return {boolean}
      */
     isControlInvalidAndShowValidation(formGroup: FormGroup, control: string, showValidation: boolean) {
-
-        console.log('showValidation');
-        console.log(showValidation);
-        console.log(!this.isControlValid(formGroup, control) && showValidation);
-
         return !this.isControlValid(formGroup, control) && showValidation;
     }
 
     /**
      * Checks if this control is valid.
      *
-     * TODO: Make DRY with validation-error-label component
-     *
      * @param formGroup
-     * @param linkToControl
+     * @param control
      * @return {boolean}
      */
     isControlValid(formGroup: FormGroup, control: string): boolean {
-        return formGroup.get(control).valid;
+        return this.validationService.isControlValid(formGroup, control);
     }
 }

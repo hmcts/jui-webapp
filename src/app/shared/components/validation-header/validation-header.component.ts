@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {FormGroup} from '@angular/forms';
+import {ValidationService} from '../../services/validation.service';
 
 @Component({
     selector: 'app-validation-header',
@@ -30,26 +31,18 @@ export class ValidationHeaderComponent {
         }
     ];
 
-    constructor() {
+    constructor(private validationService: ValidationService) {
     }
 
     /**
-     * Checks if the control this error message links to is valid.
+     * Is Control Valid
      *
-     * ie. If the control that this error message links to is not valid we
-     * show the Error Message.
-     *
-     * TODO: Make DRY with textareas.component.ts
-     *
+     * @see validationService
      * @param formGroup
-     * @param linkToControl
+     * @param linkToControl - 'informationNeeded'
      * @return {boolean}
      */
     isControlValid(formGroup: FormGroup, linkToControl: string): boolean {
-        console.log('formGroup');
-        console.log(formGroup);
-        console.log('linkToControl');
-        console.log(linkToControl);
-        return formGroup.get(linkToControl).valid;
+        return this.validationService.isControlValid(formGroup, linkToControl);
     }
 }
