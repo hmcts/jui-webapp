@@ -2,6 +2,9 @@
 <main class="govuk-main-wrapper" role="main">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
+            <ng-container *ngIf="showValidation && rejectReasonsForm.invalid">
+                <app-validation-header [group]="rejectReasonsForm"></app-validation-header>
+            </ng-container>
             <h1 *ngIf="pageitems" class="govuk-heading-xl">{{pageitems.header}}</h1>
             <form *ngIf="pageitems" [formGroup]="rejectReasonsForm" (ngSubmit)="onSubmit()">
                 <div class="govuk-form-group"  *ngFor="let group of pageitems.groups; let gIndex = index">
@@ -55,7 +58,7 @@
                                                                             </app-label>
                                                                         </div>
 
-                                                                        <!-- Error Validation Component example -->
+                                                                        <!-- Error Validation Component Example One -->
                                                                         <ng-container *ngIf="subitem.sub.validationError">
                                                                             <app-validation-error-label *ngIf="showValidation" [group]="rejectReasonsForm" [linkToControl]="subitem.sub.validationError.linkToControl">{{subitem.sub.validationError.value}}</app-validation-error-label>
                                                                         </ng-container>
@@ -86,7 +89,7 @@
                             </ng-container>
                         </div>
 
-                        <!-- Error Validation Component example -->
+                        <!-- Error Validation Component Example Two -->
                         <ng-container *ngIf="group.fieldset.validationError">
                             <app-validation-error-label *ngIf="showValidation" [group]="rejectReasonsForm" [linkToControl]="group.fieldset.validationError.linkToControl">{{group.fieldset.validationError.value}}</app-validation-error-label>
                         </ng-container>
