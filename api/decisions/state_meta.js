@@ -109,53 +109,48 @@ module.exports = {
                                             isPageHeading: false,
                                             classes: 'govuk-fieldset__legend--m'
                                         },
-                                        checkboxes: [
-                                            {
-                                                control: 'capitalPositions',
-                                                value: false,
-                                                text: 'The parties’ capital positions if the order were to take effect'
-                                            },
-                                            {
-                                                control: 'partiesHousingNeeds',
-                                                value: false,
-                                                text: 'The parties’ housing needs and whether they are met by the order'
-                                            },
-                                            {
-                                                control: 'justificationDeparture',
-                                                value: false,
-                                                text: 'The justification for departure from equality of capital'
-                                            },
-                                            {
-                                                control: 'partiesPensionProvision',
-                                                value: false,
-                                                text: 'The parties’ pension provision if the order were to take effect'
-                                            },
-                                            {
-                                                control: 'childrensHousingNeeds',
-                                                value: false,
-                                                text: 'The children’s housing needs and whether they are met by the order'
-                                            },
-                                            {
-                                                control: 'netEffectOrder',
-                                                value: false,
-                                                text: 'The net effect of the order'
-                                            },
-                                            {
-                                                control: 'Other',
-                                                value: false,
-                                                text: 'Other',
-                                                sub: {
-                                                    textareas: [
-                                                        {
-                                                            label: {
-                                                                text: 'What information is needed?',
-                                                                classes: 'govuk-label--m'
-                                                            },
-                                                            control: 'informationNeeded',
-                                                            value: 'Information text'
-                                                        }
-                                                    ]
-                                                }
+                                        {
+                                            control: 'partiesHousingNeeds',
+                                            value: false,
+                                            text: 'The parties’ housing needs and whether they are met by the order'
+                                        },
+                                        {
+                                            control: 'justificationDeparture',
+                                            value: false,
+                                            text: 'The justification for departure from equality of capital'
+                                        },
+                                        {
+                                            control: 'partiesPensionProvision',
+                                            value: false,
+                                            text: 'The parties’ pension provision if the order were to take effect'
+                                        },
+                                        {
+                                            control: 'childrensHousingNeeds',
+                                            value: false,
+                                            text: 'The children’s housing needs and whether they are met by the order'
+                                        },
+                                        {
+                                            control: 'netEffectOrder',
+                                            value: false,
+                                            text: 'The net effect of the order'
+                                        },
+                                        {
+                                            control: 'Other',
+                                            value: false,
+                                            text: 'Other',
+                                            sub: {
+                                                legend: 'What information is needed?',
+                                                validationError: {
+                                                    value: 'Enter what information is needed',
+                                                    linkToControl: 'informationNeeded'
+                                                },
+                                                textareas: [
+                                                    {
+                                                        control: 'informationNeeded',
+                                                        value: '',
+                                                        validators: ['required']
+                                                    }
+                                                ]
                                             }
                                         ]
                                     }
@@ -223,7 +218,13 @@ module.exports = {
                             isPageHeading: false,
                             classes: 'govuk-fieldset__legend--m'
                         },
-                        hint: {text: 'You can use this to illustrate any detailed points or feedback for the parties.'},
+                        hint: {
+                            text: 'You can use this to illustrate any detailed points or feedback for the parties.'
+                        },
+                        validationError: {
+                            value: 'Select yes if you want to include an annotated version of the draft consent order',
+                            linkToControl: 'includeAnnotatedVersionDraftConsOrder'
+                        },
                         radios: {
                             control: 'includeAnnotatedVersionDraftConsOrder',
                             radioGroup: [

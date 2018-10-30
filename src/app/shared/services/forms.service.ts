@@ -17,6 +17,8 @@ export class FormsService {
      *
      * prop can be a fieldset, legend, text, idPrefix, name, header, checkboxes, if we
      *
+     * TODO: Name this something totally different, as create doesn't really explain what it does,
+     * also there it's quite hard to work out.
      *
      * @param someJson
      * @param someData
@@ -24,8 +26,15 @@ export class FormsService {
     create(someJson, someData) {
         if (typeof someJson === 'object') {
 
+            // Runs through the props
+            console.log('someJson');
+            console.log(someJson);
+
             for (const prop in someJson) {
+
                 if (prop === 'control') {
+                    console.log('prop');
+                    console.log(prop);
                     if (someJson.radioGroup !== undefined) {
                         // RadioButton Logic
                         if (Object.keys(someData).length !== 0) {
