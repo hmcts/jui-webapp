@@ -95,8 +95,12 @@ describe('AnnotationPdfViewerComponent', () => {
     component.dmDocumentId = '116b0b0f-65da-41e3-9852-648fe4c30409';
     component.outputDmDocumentId = '116b0b0f-65da-41e3-9852-648fe4c30409';
     component.url = '';
-    component.annotationSet = new AnnotationSet('606fadd5-655b-4675-aa9a-df65f86fb37c',
-    '125334', new Date(), null, null, '116b0b0f-65da-41e3-9852-648fe4c30409', []);
+    component.annotationSet = new AnnotationSet(
+      '606fadd5-655b-4675-aa9a-df65f86fb37c',
+    '125334', null,
+    new Date(), null, null,
+    null, '116b0b0f-65da-41e3-9852-648fe4c30409', []);
+
     component.baseUrl = 'localhost:3000';
 
     mockDocument = fixture.componentRef.injector.get(DOCUMENT);

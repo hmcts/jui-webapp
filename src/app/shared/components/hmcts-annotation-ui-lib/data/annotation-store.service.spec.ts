@@ -51,8 +51,10 @@ describe('AnnotationStoreService', () => {
   const dmDocumentId = 'ad88d12c-8526-49b6-ae5e-3f7ea5d08168';
   const dummyAnnotationSet = new AnnotationSet(
     '3351ebe9-a671-45c0-a36e-d348c40afb20',
-    '123141', new Date(),
-    '123141', new Date(), dmDocumentId,
+    '123141',
+    null, new Date(),
+    '123141',
+    null, new Date(), dmDocumentId,
     []
   );
   const annotations = [new Annotation(
@@ -60,7 +62,9 @@ describe('AnnotationStoreService', () => {
     dummyAnnotationSet.id,
     '123141',
     new Date(),
+    null,
     '123141',
+    null,
     new Date(),
     dmDocumentId,
     1,

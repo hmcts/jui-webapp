@@ -22,41 +22,28 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
               private annotationStoreService: AnnotationStoreService,
               private ref: ChangeDetectorRef,
               @Inject(DOCUMENT) private document: any) {
-  }
-
-  ngOnInit() {
-    this.contextualToolBarOptions = this.annotationStoreService.getToolbarUpdate()
-      .subscribe(contextualOptions => {
-        if (contextualOptions.annotation != null) {
-          this.clearSelection();
-          this.showToolBar(contextualOptions.annotation, contextualOptions.showDelete);
-        } else {
-          this.hideToolBar();
-        }
-      });
-
-    this.isShowToolbar = false;
     this.toolPos = {
       left: 0,
       top: 0
     };
   }
 
+  ngOnInit() {
+    this.contextualToolBarOptions = this.annotationStoreService.getToolbarUpdate()
+      .subscribe(contextualOptions => {
+        if (contextualOptions.annotation != null) {
+          this.showToolBar(contextualOptions.annotation, contextualOptions.showDelete);
+        } else {
+          this.hideToolBar();
+        }
+      });
+    this.isShowToolbar = false;
+  }
+
   ngOnDestroy(): void {
     this.ref.detach();
     if (this.contextualToolBarOptions) {
       this.contextualToolBarOptions.unsubscribe();
-    }
-  }
-
-  clearSelection() {
-    const sel = window.getSelection();
-    if (sel) {
-        if (sel.removeAllRanges) {
-            sel.removeAllRanges();
-        } else if (sel.empty) {
-            sel.empty();
-        }
     }
   }
 
@@ -94,6 +81,10 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
     this.annotation = null;
     this.isShowToolbar = false;
     this.showDelete = false;
+
+    if (!this.ref['destroyed']) {
+      this.ref.detectChanges();
+    }
   }
 
   handleCommentBtnClick() {

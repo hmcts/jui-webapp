@@ -37,9 +37,9 @@ describe('CommentItemComponent', () => {
   const comment = new Comment(
     '71d5914c-163c-4e91-9788-101e1fd1c171',
     'f7dd4059-b384-4e57-ac91-aac541b8f8ff',
-    '96866', {forename: 'test', surname: 'test'},
+    '96866', {forename: 'test', surname: 'test', email: 'test@test'},
     new Date(),
-    '96866', {forename: 'test', surname: 'test'},
+    '96866', {forename: 'test', surname: 'test', email: 'test@test'},
     new Date(),
     'A new comment'
     );
@@ -48,8 +48,8 @@ describe('CommentItemComponent', () => {
     'ca68f5b0-a9dd-4f8e-95b8-3cad024c54be',
     '563ba4f8-47af-4652-961a-1274059269c6',
     '96866',
-    new Date(),
-    '96866',
+    new Date(), {forename: 'test', surname: 'test', email: 'test@test'},
+    '96866', {forename: 'test', surname: 'test', email: 'test@test'},
     new Date(),
     '3b82dea5-cb7f-46bc-95f0-198b41a29bde',
     1,

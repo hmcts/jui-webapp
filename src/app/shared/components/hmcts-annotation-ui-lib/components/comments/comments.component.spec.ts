@@ -40,7 +40,7 @@ class MockAnnotationStoreService {
   getAnnotationById() {
     const annotation = new Annotation('96978485-bb8a-4593-b7cc-3f11dc1d569a',
                     '1058c847-f527-41af-ba7c-40014ad2174b',
-                    '124575', new Date(), null, null,
+                    '124575', new Date(), null, null, null, null,
                     'caf76a6b-1c40-4291-9402-21f82c1ba476', 1,
                     'FFFF00', [], [], 'highlight');
     return new Promise((resolve) => {
@@ -150,12 +150,12 @@ describe('CommentsComponent', () => {
 
   describe('sortByY', () => {
     it('should sort annotations by their Y prop', () => {
-      const anno1 = new Annotation(null, null, null, null, null, null, null, null, null, null, 
-        [new Rectangle(null, null, null, null, null, null, null, null, 10)]);
-      const anno2 = new Annotation(null, null, null, null, null, null, null, null, null, null, 
-          [new Rectangle(null, null, null, null, null, null, null, null, 20)]);
-      const anno3 = new Annotation(null, null, null, null, null, null, null, null, null, null, 
-        [new Rectangle(null, null, null, null, null, null, null, null, 30)]);
+      const anno1 = new Annotation(null, null, null, null, null, null, null, null, null, null, null, null,
+        [new Rectangle(null, null, null, null, null, null, null, null, null, null, 10)]);
+      const anno2 = new Annotation(null, null, null, null, null, null, null, null, null, null, null, null,
+          [new Rectangle(null, null, null, null, null, null, null, null, null, null, 20)]);
+      const anno3 = new Annotation(null, null, null, null, null, null, null, null, null, null, null, null,
+        [new Rectangle(null, null, null, null, null, null, null, null, null, null, 30)]);
 
       const unsortAnno = [anno2, anno3, anno1];
       component.sortByY(unsortAnno);

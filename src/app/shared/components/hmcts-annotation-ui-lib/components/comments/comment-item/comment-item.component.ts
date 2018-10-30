@@ -3,7 +3,6 @@ import {NgForm} from '@angular/forms';
 import { Subscription } from 'rxjs';
 import {Comment, Annotation} from '../../../data/annotation-set.model';
 import {AnnotationStoreService} from '../../../data/annotation-store.service';
-import { last, startWith } from 'rxjs/operators';
 
 @Component({
     selector: 'app-comment-item',
@@ -73,6 +72,7 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         const comment = this.convertFormToComment(this.commentItem);
         this.annotationStoreService.editComment(comment);
         this.commentSubmitted.emit(this.annotation);
+        this.handleHideBtn();
     }
 
     isModified(): boolean {
@@ -88,13 +88,10 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     }
 
     onBlur() {
-        setTimeout(() => {
-            this.focused = false;
-            this.handleHideBtn();
-            if (!this.ref['destroyed']) {
-                this.ref.detectChanges();
-            }
-        }, 100);
+        // this.handleHideBtn();
+        if (!this.ref['destroyed']) {
+            this.ref.detectChanges();
+        }
     }
 
     convertFormToComment(commentForm: NgForm): Comment {
@@ -126,9 +123,10 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     }
 
     handleHideBtn() {
-        setTimeout(() => {
-            this.focused = false;
-            this.hideButton = true;
-        }, 100);
+        if (!this.commentItem.value.content) {
+            this.annotationStoreService.deleteComment(this.comment.id);
+        }
+        this.focused = false;
+        this.hideButton = true;
     }
 }

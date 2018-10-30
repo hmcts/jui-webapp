@@ -57,8 +57,23 @@ export class PdfAdapter {
         return this.commentData || [];
     }
 
-    getStoreAdapter() {
 
+    clearSelection() {
+        const sel = window.getSelection();
+        if (sel) {
+            if (sel.removeAllRanges) {
+                sel.removeAllRanges();
+            } else if (sel.empty) {
+                sel.empty();
+            }
+        }
+    }
+
+    isDraftComment(comment: Comment): boolean {
+        return (comment.content === null || comment.content === '');
+    }
+
+    getStoreAdapter() {
         const getAnnotations = (documentId, pageNumber) => {
             return new Promise((resolve, reject) => {
                 const annotations = this._getAnnotations(documentId).filter(function (i) {
@@ -91,6 +106,8 @@ export class PdfAdapter {
 
         const addAnnotation = (documentId, pageNumber, annotation) => {
             return new Promise((resolve, reject) => {
+
+                this.clearSelection();
                 const persistAnnotation = new Annotation();
                 persistAnnotation.id = uuid();
                 persistAnnotation.page = pageNumber;
@@ -142,7 +159,7 @@ export class PdfAdapter {
                 const annotation: Annotation = this.findById(this.annotations, annotationId);
                 annotation.comments.push(comment);
 
-                if (content === null || content === '') {
+                if (this.isDraftComment(comment)) {
                     resolve(comment);
                 } else {
                     this.annotationChangeSubject.next({'type': 'addComment', 'annotation': annotation});
@@ -154,11 +171,16 @@ export class PdfAdapter {
         const deleteComment = (documentId, commentId) => {
             return new Promise((resolve, reject) => {
                 const comment = this.findById(this.commentData, commentId);
-                this.remove(this.commentData, commentId);
                 const annotation: Annotation = this.findById(this.annotations, comment.annotationId);
+                this.remove(this.commentData, commentId);
                 this.remove(annotation.comments, commentId);
-                this.annotationChangeSubject.next({'type': 'deleteComment', 'annotation': annotation});
-                resolve(this.annotations);
+
+                if (this.isDraftComment(comment)) {
+                    resolve(comment);
+                } else {
+                    this.annotationChangeSubject.next({'type': 'deleteComment', 'annotation': annotation});
+                    resolve(this.annotations);
+                }
             });
         };
 
