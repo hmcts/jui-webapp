@@ -23,6 +23,16 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
     showOther2: boolean = false;
     showChildrenCheckboxes: boolean = false;
 
+    /**
+     * showValidation
+     *
+     * As per the prototype, initially we do not show validation, only when the user clicks on 'Continue' should we
+     * show the validation issues, for each control.
+     *
+     * @type {boolean}
+     */
+    showValidation = false;
+
     @Input() pageitems;
     constructor( private activatedRoute: ActivatedRoute,
                  private router: Router,
@@ -30,8 +40,6 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
                  private formsService: FormsService) {}
     createForm(pageitems, pageValues) {
 
-
-        //Ok so this is the form group
         this.rejectReasonsForm = new FormGroup(this.formsService.defineformControls(pageitems, pageValues));
 
         this.showOther = this.rejectReasonsForm.controls.Other.value;
@@ -81,7 +89,10 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
 
         console.log('Form is valid:', this.rejectReasonsForm.valid);
         console.log('Form is pristine:', this.rejectReasonsForm.pristine);
-
+        if (this.rejectReasonsForm.invalid) {
+            this.showValidation = true;
+            return;
+        }
         // this.decisionService.submitDecisionDraft('fr',this.activatedRoute.snapshot.parent.data.caseData.id, this.pageitems.name, this.request).subscribe(decision => {
         //     console.log(decision.newRoute);
         //     this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});

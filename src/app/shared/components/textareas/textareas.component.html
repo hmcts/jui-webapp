@@ -1,4 +1,4 @@
 <ng-container [formGroup]="group">
-    <textarea [class]="classes" [ngClass]="{'govuk-textarea--error':!isControlValid(group, control)}" [rows]="rows"
+    <textarea [class]="classes" [ngClass]="{'govuk-textarea--error':isControlInvalidAndShowValidation(group, control, showValidation)}" [rows]="rows"
               [formControlName]="control"></textarea>
 </ng-container>

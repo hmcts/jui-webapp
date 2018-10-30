@@ -50,7 +50,7 @@ module.exports = {
                             isPageHeading: true,
                             classes: 'govuk-fieldset__legend--xl'
                         },
-                        hint: { text: 'Select all that apply.' },
+                        hint: {text: 'Select all that apply.'},
                         checkboxes: [
                             {
                                 control: 'partiesNeedAttend',
@@ -100,6 +100,10 @@ module.exports = {
                                             text: 'Other',
                                             sub: {
                                                 legend: 'What information is needed?',
+                                                validationError: {
+                                                    value: 'Enter what information is needed',
+                                                    linkToControl: 'informationNeeded'
+                                                },
                                                 textareas: [
                                                     {
                                                         control: 'informationNeeded',
@@ -168,7 +172,7 @@ module.exports = {
                             isPageHeading: false,
                             classes: 'govuk-fieldset__legend--m'
                         },
-                        hint: { text: 'You can use this to illustrate any detailed points or feedback for the parties.' },
+                        hint: {text: 'You can use this to illustrate any detailed points or feedback for the parties.'},
                         radios: {
                             control: 'includeAnnotatedVersionDraftConsOrder',
                             radioGroup: [
@@ -180,8 +184,7 @@ module.exports = {
                                 {
                                     value: 'no',
                                     text: 'No',
-                                    hiddenAccessibilityText:
-                                        ', I don’t want to send an annotated version of the draft consent order to the parties'
+                                    hiddenAccessibilityText: ', I don’t want to send an annotated version of the draft consent order to the parties'
                                 }
                             ],
                             validators: ['required']
@@ -538,7 +541,7 @@ module.exports = {
                                 text: 'When should the hearing take place?',
                                 classes: 'govuk-label--m'
                             },
-                            hint: { text: 'For example, ‘fix hearing for first available date’' },
+                            hint: {text: 'For example, ‘fix hearing for first available date’'},
                             control: 'whenHearingPlaced'
                         }
                     ]
@@ -556,22 +559,22 @@ module.exports = {
                                 {
                                     value: 'southWest',
                                     text: 'South West Divorce Centre',
-                                    hint: { text: 'Southampton' }
+                                    hint: {text: 'Southampton'}
                                 },
                                 {
                                     value: 'eastMidlands',
                                     text: 'East Midlands Divorce Centre',
-                                    hint: { text: 'Nottingham' }
+                                    hint: {text: 'Nottingham'}
                                 },
                                 {
                                     value: 'westMidlands',
                                     text: 'West Midlands Divorce Centre',
-                                    hint: { text: 'Stoke' }
+                                    hint: {text: 'Stoke'}
                                 },
                                 {
                                     value: 'northWest',
                                     text: 'North West Divorce Centre',
-                                    hint: { text: 'Liverpool' }
+                                    hint: {text: 'Liverpool'}
                                 }
                             ]
                         }
@@ -581,8 +584,7 @@ module.exports = {
                     textarea: {
                         label: 'Any other hearing details (optional)',
                         hint: {
-                            text:
-                                'For example, if you need to hear the case. Or if you need to transfer either the financial remedy or entire divorce case to another court.'
+                            text: 'For example, if you need to hear the case. Or if you need to transfer either the financial remedy or entire divorce case to another court.'
                         },
                         control: 'otherHearingDetails',
                         value: 'Other hearing details text'
