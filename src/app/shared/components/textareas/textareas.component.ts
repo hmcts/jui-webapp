@@ -15,4 +15,17 @@ export class TextareasComponent {
     @Input() control;
 
     constructor() { }
+
+    /**
+     * Checks if this control is valid.
+     *
+     * TODO: Make DRY with validation-error-label component
+     *
+     * @param formGroup
+     * @param linkToControl
+     * @return {boolean}
+     */
+    isControlValid(formGroup: FormGroup, control: string): boolean {
+        return formGroup.get(control).valid;
+    }
 }

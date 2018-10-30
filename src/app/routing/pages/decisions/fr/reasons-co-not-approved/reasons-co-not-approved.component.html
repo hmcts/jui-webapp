@@ -84,7 +84,7 @@
                                                                         <!-- So we need to show the error message, when the control is invalid -->
 
                                                                         <app-validation-error-label [group]="rejectReasonsForm" [linkToControl]="'informationNeeded'">Enter what information is needed</app-validation-error-label>
-
+                                                                        <!-- Should we conditionally apply a style -->
                                                                         <!-- Should we pass in the class to apply -->
                                                                         <app-textareas *ngIf="subitem.sub.textareas"
                                                                                       [classes]="'govuk-textarea govuk-textarea--error'"
@@ -112,13 +112,15 @@
                         <!--</div>-->
 
 
-                        <!--<app-radiobutton *ngIf="group.fieldset.radios"-->
-                                         <!--[classes]="'govuk-radios govuk-radios&#45;&#45;inline'"-->
-                                         <!--[items]="group.fieldset.radios.radioGroup"-->
-                                         <!--[group]="rejectReasonsForm"-->
-                                         <!--[control]="group.fieldset.radios.control"-->
-                                         <!--[idPrefix]="pageitems.idPrefix">-->
-                        <!--</app-radiobutton>-->
+                        <app-validation-error-label [group]="rejectReasonsForm" [linkToControl]="'includeAnnotatedVersionDraftConsOrder'">Select yes if you want to include an annotated version of the draft consent order</app-validation-error-label>
+
+                        <app-radiobutton *ngIf="group.fieldset.radios"
+                                         [classes]="'govuk-radios govuk-radios--inline'"
+                                         [items]="group.fieldset.radios.radioGroup"
+                                         [group]="rejectReasonsForm"
+                                         [control]="group.fieldset.radios.control"
+                                         [idPrefix]="pageitems.idPrefix">
+                        </app-radiobutton>
 
                         <!--&lt;!&ndash;<div *ngIf="group.fieldset.radios" class="govuk-radios govuk-radios&#45;&#45;inline">&ndash;&gt;-->
                             <!--&lt;!&ndash;<div class="govuk-radios__item" *ngFor="let item of group.fieldset.radios.radioGroup; let r = index">&ndash;&gt;-->
