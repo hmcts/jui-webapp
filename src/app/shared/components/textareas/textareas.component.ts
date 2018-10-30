@@ -17,10 +17,14 @@ export class TextareasComponent {
     @Input() group: FormGroup;
     @Input() idPrefix = 'ta';
     @Input() name = 'ta';
+    @Input() id = 'ta';
+    @Input() labelFor;
     @Input() rows;
     @Input() classes;
     @Input() control;
     @Input() showValidation;
+    @Input() label;
+    @Input() items;
 
     constructor() {
     }

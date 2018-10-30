@@ -35,6 +35,7 @@ import { ButtonsComponent } from './components/buttons/buttons.component';
 import { LegendComponent } from './components/legend/legend.component';
 import { HintComponent } from './components/hint/hint.component';
 import { ValidationErrorLabelComponent } from './components/validation-error-label/validation-error-label.component';
+import { JuiFormElementsComponent } from './components/jui-form-elements/jui-form-elements.component';
 
 @NgModule({
     imports: [
@@ -77,8 +78,10 @@ import { ValidationErrorLabelComponent } from './components/validation-error-lab
         LegendComponent,
         HintComponent,
         ValidationErrorLabelComponent,
+        JuiFormElementsComponent,
     ],
     exports: [
+        JuiFormElementsComponent,
         TableComponent,
         DataListComponent,
         FooterComponent,

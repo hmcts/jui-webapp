@@ -1,0 +1,31 @@
+<div [attr.data]="data" [attr.group]="group">
+    <!--JUI FORM builder component -->
+    <!--<app-legend [classes]="legendClasses">-->
+        <!--test legend-->
+    <!--</app-legend>-->
+    <!--<app-hint [classes]="hintClasses">-->
+        <!--Test hint-->
+    <!--</app-hint>-->
+    <!--<app-radiobutton [classes]="radiobuttonClasses"-->
+                     <!--[items]="radioItems"-->
+                     <!--[group]="group"-->
+                     <!--[control]="radiosControl"-->
+                     <!--[idPrefix]="idPrefix">-->
+    <!--</app-radiobutton>-->
+    <!--<div  class="govuk-checkboxes">-->
+        <!--<app-checkbox [group]="group"-->
+                      <!--[idPrefix]="idPrefix"-->
+                      <!--[items]="checkboxItem"-->
+                      <!--[classes]="checkboxClasses"-->
+                      <!--[labelClasses]="labelClasses">-->
+        <!--</app-checkbox>-->
+    <!--</div>-->
+    <app-textareas *ngIf="data.textarea" [classes]="'govuk-textarea'"
+                    [group]="group"
+                    [control]="data.textarea.control"
+                    [label]="data.textarea.label"
+                    [labelFor]="data.textarea.control"
+                    [rows]="5">
+    </app-textareas>
+    <!--JUI FORM builder component -->
+</div>

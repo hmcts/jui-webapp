@@ -9,8 +9,10 @@ import {FormGroup} from '@angular/forms';
 export class LabelComponent {
     @Input() idPrefix = 'lb';
     @Input() name = 'lb';
-    @Input() classes;
     @Input() forElement;
+    @Input() label;
 
-    constructor() { }
+    constructor() {
+        console.log('');
+    }
 }

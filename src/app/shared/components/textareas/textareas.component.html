@@ -1,4 +1,21 @@
+<!--<div [class]="classes" [formGroup]="group">-->
+    <!--<div class="govuk-radios__item" *ngFor="let item of items; let i = index">-->
+        <!--<input class="govuk-radios__input" id="{{idPrefix + '-' + (i+1)}}" [formControlName]="control" type="radio" [value]= "item.value">-->
+        <!--<label class="govuk-label govuk-radios__label" for="{{idPrefix + '-' + (i+1)}}">-->
+            <!--{{item.text}}-->
+        <!--</label>-->
+    <!--</div>-->
+    <!--<ng-content></ng-content>-->
+<!--</div>-->
+
 <ng-container [formGroup]="group">
-    <textarea [class]="classes" [ngClass]="{'govuk-textarea--error':isControlInvalidAndShowValidation(group, control, showValidation)}" [rows]="rows"
+    <app-label *ngIf="label"
+               [label]="label"
+               [class]="'govuk-label ' + label.classes"
+               [forElement]="labelFor">{{label.text}}
+    </app-label>
+    <textarea [class]="classes"
+              [rows]="rows"
+              [id]="labelFor"
               [formControlName]="control"></textarea>
 </ng-container>
