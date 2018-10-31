@@ -98,7 +98,6 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
   }
 
   handleHighlightBtnClick() {
-    this.pdfService.setAnnotationClicked(null);
     this.hideToolBar();
   }
 

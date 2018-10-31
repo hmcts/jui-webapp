@@ -146,4 +146,14 @@ describe('Utils', () => {
             expect(returnedRectangles.length).toBe(2);
         });
     });
+
+    describe('clickIsHighlight', () => {
+        it('should return false if target has no firstElementChild', () => {
+            const event = new MouseEvent('');
+            spyOnProperty(event, 'target', 'get')
+                .and.returnValue(document.createElement('div'));
+            const isHighlight = utils.clickIsHighlight(event);
+            expect(isHighlight).toBeFalsy();
+        });
+    });
 });

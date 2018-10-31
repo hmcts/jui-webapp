@@ -110,13 +110,4 @@ export class PdfService {
         PDFAnnotate.UI.enableEdit();
         localStorage.setItem(this.RENDER_OPTIONS.documentId + '/tooltype', 'cursor');
     }
-
-    setScale(scale) {
-        scale = parseFloat(scale);
-        if (this.RENDER_OPTIONS.scale !== scale) {
-            this.RENDER_OPTIONS.scale = scale;
-            localStorage.setItem(this.RENDER_OPTIONS.documentId + '/scale', this.RENDER_OPTIONS.scale);
-            this.render();
-        }
-    }
 }

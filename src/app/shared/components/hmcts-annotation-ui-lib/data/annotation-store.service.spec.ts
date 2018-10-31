@@ -1,5 +1,6 @@
 import { TestBed, inject, async } from '@angular/core/testing';
-import { Subject, Observable, Subscription, of } from 'rxjs';
+import { Subject, Observable, of } from 'rxjs';
+import { HttpResponse } from '@angular/common/http';
 
 import { AnnotationStoreService } from './annotation-store.service';
 import { ApiHttpService } from './api-http.service';
@@ -10,7 +11,11 @@ import { Annotation, AnnotationSet, Comment } from './annotation-set.model';
 declare global { interface Window { PDFAnnotate: any; } }
 
 class MockPDFAnnotate {
-  setStoreAdapater(storeAdapter: any) {}
+  setStoreAdapter() {}
+  getStoreAdapter() {
+    const getAnnotation = function() {};
+    const getAnnotations = function() {};
+  }
 }
 
 class MockPdfAdapter {
@@ -27,26 +32,33 @@ class MockPdfAdapter {
     return this.annotationChangeSubject;
   }
 
-  setStoreData(annotationData) {}
-  getStoreAdapter(callback) {}
+  setStoreData() {}
+  getStoreAdapter() {}
   editComment() {}
 }
 
 class MockApiHttpService {
   saveAnnotation() {}
   deleteAnnotation() {}
+  fetch() {}
+  createAnnotationSet() {}
 }
 
-class MockApiService {
+class MockPdfService {
+  getRenderOptions() {
+    return {
+      documentId: 'docId'
+    };
+  }
 }
 
 describe('AnnotationStoreService', () => {
   const mockPDFAnnotate = new MockPDFAnnotate();
   window.PDFAnnotate = mockPDFAnnotate;
 
+  const mockPdfService = new MockPdfService();
   const mockApiHttpService = new MockApiHttpService();
   const mockPdfAdapter = new MockPdfAdapter();
-  const mockApiService = new MockApiService();
 
   const dmDocumentId = 'ad88d12c-8526-49b6-ae5e-3f7ea5d08168';
   const dummyAnnotationSet = new AnnotationSet(
@@ -57,6 +69,15 @@ describe('AnnotationStoreService', () => {
     null, new Date(), dmDocumentId,
     []
   );
+
+  const mockAnnotation = new Annotation(
+    '22a3bde9-18d6-46b2-982b-36e0a631ea4b',
+    '9ad31e66-ec05-476d-9a38-09973d51c0c3',
+    '111111', new Date(), null,
+    '111111', null, new Date(), 'docId',
+    1, 'red', []
+  );
+
   const annotations = [new Annotation(
     'a9a04b1b-8a19-41f4-8a04-b55915fc4635',
     dummyAnnotationSet.id,
@@ -86,13 +107,24 @@ describe('AnnotationStoreService', () => {
     'comment string'
   );
 
+  const mockAnnotationSet = new AnnotationSet(
+    '9ad31e66-ec05-476d-9a38-09973d51c0c3',
+    '111111',
+    null,
+    new Date(),
+    '111111', null,
+    new Date(),
+    '',
+    [mockAnnotation]
+  );
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         AnnotationStoreService,
         { provide: ApiHttpService, useFactory: () => mockApiHttpService },
         { provide: PdfAdapter, useFactory: () => mockPdfAdapter},
-        { provide: PdfService, useFactory: () => mockApiService},
+        { provide: PdfService, useFactory: () => mockPdfService},
         ]
     });
 
@@ -112,8 +144,8 @@ describe('AnnotationStoreService', () => {
       expect(service.getToolbarUpdate()).toBeDefined();
     }));
 
-    it('should subscribe to pdfAdapater annotationChangeSub',  inject([AnnotationStoreService], (service: AnnotationStoreService) => {
-       expect(mockPdfAdapter.getAnnotationChangeSubject).toHaveBeenCalled();
+    it('should subscribe to pdfAdapater annotationChangeSub',  inject([AnnotationStoreService], () => {
+      expect(mockPdfAdapter.getAnnotationChangeSubject).toHaveBeenCalled();
     }));
   });
 
@@ -126,6 +158,42 @@ describe('AnnotationStoreService', () => {
     }));
   });
 
+  describe('getAnnotationFocusSubject', () => {
+    it('should return annotationFocusSubject', inject([AnnotationStoreService], (service: AnnotationStoreService) => {
+      expect(service.getAnnotationFocusSubject()).toBeTruthy();
+    }));
+  });
+
+  describe('setAnnotationFocusSubject', () => {
+    it('should set the annotationFocusSubject', inject([AnnotationStoreService], (service: AnnotationStoreService) => {
+      service.getAnnotationFocusSubject().subscribe((annotation) => {
+        expect(annotation).toBe(mockAnnotation);
+      });
+
+      service.setAnnotationFocusSubject(mockAnnotation);
+    }));
+  });
+
+  describe('getCommentFocusSubject', () => {
+    it('should return commentFocusSubject', inject([AnnotationStoreService], (service: AnnotationStoreService) => {
+      expect(service.getCommentFocusSubject()).toBeTruthy();
+    }));
+  });
+
+  // describe('setCommentFocusSubject', () => {
+  //   it('should set the commentFocusSubject and showButton should default to false',
+  //     inject([AnnotationStoreService], (service: AnnotationStoreService) => {
+
+  //     service.getCommentFocusSubject().subscribe((commentOptions: {annotation, showButton}) => {
+  //       console.log(commentOptions);
+  //       expect(commentOptions).toBe({annotation: mockAnnotation, showButton: true});
+  //       // expect(commentOptions.showButton).toBeFalsy();
+  //     });
+
+  //     service.setCommentFocusSubject(mockAnnotation, true);
+  //   }));
+  // });
+
   describe('setCommentBtnSubject', () => {
     it('should set the commentBtnSubject', inject([AnnotationStoreService], (service: AnnotationStoreService) => {
       const commentId = '99750ac4-10c9-401e-b127-c043bf4e80fc';
@@ -135,6 +203,26 @@ describe('AnnotationStoreService', () => {
 
       service.setCommentBtnSubject(commentId);
     }));
+  });
+
+  describe('setToolbarUpdate', () => {
+    it('should set the contextualToolBarOptions and showButton false',
+      inject([AnnotationStoreService], (service: AnnotationStoreService) => {
+        service.getToolbarUpdate().subscribe((contexualOptions) => {
+          expect(contexualOptions.annotation).toBe(mockAnnotation);
+          expect(contexualOptions.showDelete).toBeFalsy();
+        });
+        service.setToolBarUpdate(mockAnnotation);
+    }));
+
+    it('should set the contextualToolBarOptions and showButton false',
+    inject([AnnotationStoreService], (service: AnnotationStoreService) => {
+      service.getToolbarUpdate().subscribe((contexualOptions) => {
+        expect(contexualOptions.annotation).toBe(mockAnnotation);
+        expect(contexualOptions.showDelete).toBeTruthy();
+      });
+      service.setToolBarUpdate(mockAnnotation, true);
+  }));
   });
 
   describe('preLoad with annotation data', () => {
@@ -156,9 +244,65 @@ describe('AnnotationStoreService', () => {
     it('should call saveAnnotation for addAnnotation event', async(inject([AnnotationStoreService], (service: AnnotationStoreService) => {
       spyOn(mockApiHttpService, 'saveAnnotation').and.returnValue(Observable.of({response: 'ok', error: 'not ok'}));
 
-      service.handleAnnotationEvent({type: 'addAnnotation', annotation: null});
+      service.handleAnnotationEvent({type: 'addAnnotation', annotation: mockAnnotation});
       expect(mockApiHttpService.saveAnnotation).toHaveBeenCalled();
     })));
+
+    it('should call saveAnnotation for addComment event', async(inject([AnnotationStoreService], (service: AnnotationStoreService) => {
+      spyOn(mockApiHttpService, 'saveAnnotation').and.returnValue(Observable.of({response: 'ok', error: 'not ok'}));
+
+      service.handleAnnotationEvent({type: 'addComment', annotation: mockAnnotation});
+      expect(mockApiHttpService.saveAnnotation).toHaveBeenCalled();
+    })));
+
+    it('should call saveAnnotation for editComment event', async(inject([AnnotationStoreService], (service: AnnotationStoreService) => {
+      spyOn(mockApiHttpService, 'saveAnnotation').and.returnValue(Observable.of({response: 'ok', error: 'not ok'}));
+
+      service.handleAnnotationEvent({type: 'editComment', annotation: mockAnnotation});
+      expect(mockApiHttpService.saveAnnotation).toHaveBeenCalled();
+    })));
+
+    it('should call saveAnnotation for deleteComment event', async(inject([AnnotationStoreService], (service: AnnotationStoreService) => {
+      spyOn(mockApiHttpService, 'saveAnnotation').and.returnValue(Observable.of({response: 'ok', error: 'not ok'}));
+
+      service.handleAnnotationEvent({type: 'deleteComment', annotation: mockAnnotation});
+      expect(mockApiHttpService.saveAnnotation).toHaveBeenCalled();
+    })));
+
+    it('should call saveAnnotation for editAnnotation event', async(inject([AnnotationStoreService], (service: AnnotationStoreService) => {
+      spyOn(mockApiHttpService, 'saveAnnotation').and.returnValue(Observable.of({response: 'ok', error: 'not ok'}));
+
+      service.handleAnnotationEvent({type: 'editAnnotation', annotation: mockAnnotation});
+      expect(mockApiHttpService.saveAnnotation).toHaveBeenCalled();
+    })));
+
+    it('should call saveAnnotation for deleteAnnotation event',
+      async(inject([AnnotationStoreService], (service: AnnotationStoreService) => {
+        spyOn(mockApiHttpService, 'deleteAnnotation').and.returnValue(Observable.of({response: 'ok', error: 'not ok'}));
+
+        service.handleAnnotationEvent({type: 'deleteAnnotation', annotation: mockAnnotation});
+        expect(mockApiHttpService.deleteAnnotation).toHaveBeenCalled();
+    })));
+  });
+
+  describe('fetchData', () => {
+
+    it('should return annotationSet if successful', inject([AnnotationStoreService], (service: AnnotationStoreService) => {
+      const mockResponse = new HttpResponse().clone({body: mockAnnotationSet});
+      spyOn(mockApiHttpService, 'fetch').and.returnValue(Observable.of(mockResponse));
+      service.fetchData('http://localhost:3000', 'documentId').subscribe(response => {
+        expect(response.body).toBe(mockAnnotationSet);
+      });
+    }));
+
+    it('should call httpService.createAnnotationSet if 404', inject([AnnotationStoreService], () => {
+    }));
+
+    it('should return error Observable if 400', inject([AnnotationStoreService], () => {
+    }));
+
+    it('should return error Observable if 500', inject([AnnotationStoreService], () => {
+    }));
   });
 
   // describe('saveData', () => {
@@ -176,6 +320,15 @@ describe('AnnotationStoreService', () => {
       service.saveAnnotation(annotations[0]);
       expect(mockApiHttpService.saveAnnotation).toHaveBeenCalledWith(annotations[0]);
     }));
+
+    it('should log the error if encountered', inject([AnnotationStoreService], (service: AnnotationStoreService) => {
+      spyOn(mockApiHttpService, 'saveAnnotation').and.callFake(() => {
+        return Observable.create(observer => {
+          observer.error();
+        });
+      });
+      service.saveAnnotation(annotations[0]);
+    }));
   });
 
   describe('deleteAnnotation', () => {
@@ -184,6 +337,15 @@ describe('AnnotationStoreService', () => {
 
       service.deleteAnnotation(annotations[0]);
       expect(mockApiHttpService.deleteAnnotation).toHaveBeenCalledWith(annotations[0]);
+    }));
+
+    it('should log the error if encountered', inject([AnnotationStoreService], (service: AnnotationStoreService) => {
+      spyOn(mockApiHttpService, 'deleteAnnotation').and.callFake(() => {
+        return Observable.create(observer => {
+          observer.error();
+        });
+      });
+      service.deleteAnnotation(annotations[0]);
     }));
   });
 
@@ -195,4 +357,10 @@ describe('AnnotationStoreService', () => {
       expect(mockPdfAdapter.editComment).toHaveBeenCalledWith(dummyComment);
     }));
   });
+
+  // describe('getAnnotationById', () => {
+  //   it('should return a promise with the annotation', inject([AnnotationStoreService], (service: AnnotationStoreService) => {
+  //     service.getAnnotationById(mockAnnotation.id);
+  //   }));
+  // });
 });
