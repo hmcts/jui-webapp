@@ -26,6 +26,7 @@ export class TextareasComponent {
     @Input() showValidation;
     @Input() label;
     @Input() items;
+    @Input() validationError;
 
     constructor(private validationService: ValidationService) {
     }
@@ -41,6 +42,10 @@ export class TextareasComponent {
      * @return {boolean}
      */
     isControlInvalidAndShowValidation(formGroup: FormGroup, control: string, showValidation: boolean) {
+
+        console.log('isControlInvalidAndShowValidation');
+        console.log(this.isControlValid(formGroup, control));
+        console.log(!this.isControlValid(formGroup, control) && showValidation);
         return !this.isControlValid(formGroup, control) && showValidation;
     }
 

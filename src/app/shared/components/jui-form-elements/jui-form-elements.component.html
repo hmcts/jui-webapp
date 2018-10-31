@@ -1,4 +1,4 @@
-<div [attr.data]="data" [attr.group]="group" [attr.data-child-of]="childrenOf">
+<div [attr.useValidation]="useValidation" [attr.data]="data" [attr.group]="group" >
     <!--JUI FORM builder component -->
     <app-legend *ngIf="data.legend" [classes]="data.legend.classes">
         {{data.legend.text}}
@@ -27,13 +27,17 @@
                                       [data]="subgroup.fieldset"
                                       [childrenOf]="data.checkbox.control">
                         </app-fieldset>
-                        <app-jui-form-elements [group]="group" [data]="subgroup" [childrenOf]="data.checkbox.control"></app-jui-form-elements>
+                        <app-jui-form-elements [useValidation]="useValidation" [group]="group" [data]="subgroup"></app-jui-form-elements>
                     </ng-container>
                 </div>
             </div>
         </app-checkbox>
     </div>
+    <div>jui form {{useValidation}}</div>
+    <!-- So the showValidation is only coming in here fine intially -->
     <app-textareas *ngIf="data.textarea" [classes]="'govuk-textarea'"
+                    [showValidation]="useValidation"
+                    [validationError]="data.textarea.validationError"
                     [group]="group"
                     [control]="data.textarea.control"
                     [label]="data.textarea.label"
