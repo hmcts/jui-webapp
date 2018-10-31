@@ -2,7 +2,7 @@
 <main class="govuk-main-wrapper" role="main">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <ng-container *ngIf="showValidation && rejectReasonsForm.invalid">
+            <ng-container *ngIf="useValidation && rejectReasonsForm.invalid">
                 <app-validation-header [validationHeaderControls]="pageitems.validationHeaderControls" [group]="rejectReasonsForm">
                 </app-validation-header>
             </ng-container>
@@ -12,9 +12,10 @@
                     <app-fieldset *ngIf="group.fieldset"
                                   [classes]="'govuk-fieldset'"
                                   [group]="rejectReasonsForm"
-                                  [data]="group.fieldset">
+                                  [data]="group.fieldset"
+                                  [validate]="useValidation">
                     </app-fieldset>
-                    <app-jui-form-elements [useValidation]="false" [group]="rejectReasonsForm" [data]="group"></app-jui-form-elements>
+                    <app-jui-form-elements [validate]="useValidation" [group]="rejectReasonsForm" [data]="group"></app-jui-form-elements>
                 </div>
             </form>
         </div>

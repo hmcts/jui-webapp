@@ -7,6 +7,7 @@ import {Component, Input} from '@angular/core';
 })
 export class FieldsetComponent {
     @Input() classes;
+    @Input() validate;
     @Input() group;
     @Input() data;
     @Input() childrenOf;

@@ -4,11 +4,9 @@
                [class]="'govuk-label ' + label.classes"
                [forElement]="labelFor">{{label.text}}
     </app-label>
-    <!-- This could be abstracted to the parent to make it cleaner -->
     <ng-container *ngIf="validationError">
         <app-validation-error-label *ngIf="showValidation" [group]="group" [linkToControl]="control">{{validationError.value}}</app-validation-error-label>
     </ng-container>
-    <!-- !This could be abstracted to the parent -->
     <textarea [class]="classes"
               [rows]="rows"
               [id]="labelFor"

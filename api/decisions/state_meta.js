@@ -247,6 +247,10 @@ module.exports = {
                         {
                             radios: {
                                 control: 'includeAnnotatedVersionDraftConsOrder',
+                                validationError: {
+                                    value: 'Select yes if you want to include an annotated version of the draft consent order',
+                                    linkToControl: 'includeAnnotatedVersionDraftConsOrder'
+                                },
                                 radioGroup: [
                                     {
                                         value: 'yes',
@@ -259,7 +263,8 @@ module.exports = {
                                         hiddenAccessibilityText:
                                             ', I don’t want to send an annotated version of the draft consent order to the parties'
                                     }
-                                ]
+                                ],
+                                validators: ['required']
                             }
                         }
                     ]

@@ -1,4 +1,4 @@
-<div [attr.useValidation]="useValidation" [attr.data]="data" [attr.group]="group" >
+<div [attr.validate]="validate" [attr.data]="data" [attr.group]="group" [attr.data-child-of]="childrenOf">
     <!--JUI FORM builder component -->
     <app-legend *ngIf="data.legend" [classes]="data.legend.classes">
         {{data.legend.text}}
@@ -10,10 +10,13 @@
                      [items]="data.radios.radioGroup"
                      [group]="group"
                      [control]="data.radios.control"
-                     [idPrefix]="data.radios.control">
+                     [idPrefix]="data.radios.control"
+                     [showValidation]="validate"
+                     [validationError]="data.radios.validationError">
     </app-radiobutton>
     <div *ngIf="data.checkbox" class="govuk-checkboxes">
         <app-checkbox [group]="group"
+                      [validate]="validate"
                       [idPrefix]="data.checkbox.control"
                       [items]="data.checkbox"
                       [classes]="'govuk-checkboxes__item'"
@@ -22,21 +25,24 @@
             <div *ngIf="data.checkbox.groups" class="govuk-checkboxes__conditional">
                     <ng-container  *ngFor="let subgroup of data.checkbox.groups">
                         <app-fieldset *ngIf="subgroup.fieldset"
+                                      [validate]="validate"
                                       [classes]="'govuk-fieldset'"
                                       [group]="group"
                                       [data]="subgroup.fieldset"
                                       [childrenOf]="data.checkbox.control">
                         </app-fieldset>
-                        <app-jui-form-elements [useValidation]="useValidation" [group]="group" [data]="subgroup"></app-jui-form-elements>
+                        <app-jui-form-elements [validate]="validate" [group]="group" [data]="subgroup" [childrenOf]="data.checkbox.control"></app-jui-form-elements>
                     </ng-container>
                 </div>
             </div>
         </app-checkbox>
     </div>
-    <div>jui form {{useValidation}}</div>
-    <!-- So the showValidation is only coming in here fine intially -->
+    <div>validate: {{validate}}</div>
+
+
+
     <app-textareas *ngIf="data.textarea" [classes]="'govuk-textarea'"
-                    [showValidation]="useValidation"
+                    [showValidation]="validate"
                     [validationError]="data.textarea.validationError"
                     [group]="group"
                     [control]="data.textarea.control"

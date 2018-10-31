@@ -1,6 +1,6 @@
-<fieldset [class]="classes" [attr.data]="data" [attr.group]="group">
+<fieldset [attr.validate]="validate" [class]="classes" [attr.data]="data" [attr.group]="group">
     <ng-container *ngFor="let fsitem of data">
-        <app-jui-form-elements [group]="group" [data]="fsitem" [childrenOf]="childrenOf"></app-jui-form-elements>
+        <app-jui-form-elements [validate]="validate" [group]="group" [data]="fsitem" [childrenOf]="childrenOf"></app-jui-form-elements>
     </ng-container>
     <ng-content></ng-content>
 </fieldset>

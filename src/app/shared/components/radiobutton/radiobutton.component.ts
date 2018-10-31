@@ -13,6 +13,8 @@ export class RadiobuttonComponent {
     @Input() items;
     @Input() classes;
     @Input() control;
+    @Input() showValidation;
+    @Input() validationError;
 
     constructor() { }
 

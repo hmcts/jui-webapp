@@ -14,6 +14,7 @@ export class JuiFormElementsComponent {
     @Input() group: FormGroup;
     @Input() data: Object;
     @Input() childrenOf;
+    @Input() validate;
 
     // Ok so this is fine, going in from here.
     @Input() useValidation = true;

@@ -31,7 +31,7 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
      *
      * @type {boolean}
      */
-    showValidation = false;
+    useValidation = false;
 
     @Input() pageitems;
     constructor( @Attribute('data-children-of') private type: string,
@@ -93,7 +93,7 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
         console.log('Form is valid:', this.rejectReasonsForm.valid);
         console.log('Form is pristine:', this.rejectReasonsForm.pristine);
         if (this.rejectReasonsForm.invalid) {
-            this.showValidation = true;
+            this.useValidation = true;
             return;
         }
         // this.decisionService.submitDecisionDraft('fr',this.activatedRoute.snapshot.parent.data.caseData.id, this.pageitems.name, this.request).subscribe(decision => {

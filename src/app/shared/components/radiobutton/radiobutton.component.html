@@ -1,4 +1,7 @@
 <div [class]="classes" [formGroup]="group">
+    <ng-container *ngIf="validationError">
+        <app-validation-error-label *ngIf="showValidation" [group]="group" [linkToControl]="control">{{validationError.value}}</app-validation-error-label>
+    </ng-container>
     <div class="govuk-radios__item" *ngFor="let item of items; let i = index">
         <input class="govuk-radios__input" id="{{idPrefix + '-' + (i+1)}}" [formControlName]="control" type="radio" [value]= "item.value">
         <label class="govuk-label govuk-radios__label" for="{{idPrefix + '-' + (i+1)}}">
