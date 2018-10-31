@@ -11,7 +11,7 @@ export class ValidationService {
      * Custom validators can be added to this.
      *
      * TODO : Define interface for array.
-     * TODO : Have custom validators abstracted into a different file.
+     * TODO : Add a Custom Validator example.
      *
      * @see https://angular.io/guide/form-validation#custom-validators
      */
@@ -30,9 +30,11 @@ export class ValidationService {
     }
 
     /**
-     * Returns a map of how we've mapped simple names to Ng validators, and in the future custom validators.
+     * Returns a map of how we've mapped simple names to Ng Validators, and in the future custom validators.
      *
-     * @return {any}
+     * TODO: Check return in Unit test.
+     *
+     * @return Array
      */
     getNgValidationFunctionMap() {
         return this.ngValidatorFunctionMap;
@@ -46,11 +48,12 @@ export class ValidationService {
      * This allows us to leverage the power of Ng Validation, and custom validation, as well as giving us
      * the ability to create reusable validators, that can be used throughout our forms.
      *
-     * Note: Validators.minLength requires Validators.required,
+     * Note: Validators.minLength requires Validators.required
      *
      * TODO: Unit test.
      *
-     * @param validators - ['required']
+     * @see state_meta
+     * @param validators - ie. ['required', 'email']
      */
     getNgValidators(validators: Array<string>) {
 
@@ -73,28 +76,28 @@ export class ValidationService {
      * {
      *  control: 'informationNeeded',
      *  value: 'Information text',
-     *  validators: ['minLength']
+     *  validators: ['required']
      * }
      *
      * TODO: Unit test.
      *
-     * @param validators - ['minLength']
+     * @param {Array} validators - ['required']
      * @return {boolean}
      */
-    controlHasValidation(validators: Array<string>) {
+    controlHasValidation(validators: Array<string>): boolean {
         return validators && validators.length > 0;
     }
 
     /**
-     * Checks if the control this error message links to is valid.
+     * Checks if the control is valid.
      *
-     * ie. If the control that this error message links to is not valid we
-     * show the Error Message.
+     * Returns a boolean, based on if the the control, which is part
+     * of a form group is valid or not.
      *
      * TODO: Unit test.
      *
-     * @param formGroup
-     * @param control
+     * @param {FormGroup} formGroup
+     * @param {String} control - 'informationNeeded'
      * @return {boolean}
      */
     isControlValid(formGroup: FormGroup, control: string): boolean {

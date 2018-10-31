@@ -18,29 +18,30 @@ export class ValidationHeaderComponent {
     @Input() idPrefix = 'ta';
     @Input() name = 'ta';
     @Input() linkToControl;
-    @Input() controlValidations = [
-        {
-            value: 'Enter what information is needed',
-            linkToControl: 'informationNeeded',
-            pageLink: '#linkToTextArea'
-        },
-        {
-            value: 'Select yes if you want to include an annotated version of the draft consent order',
-            linkToControl: 'includeAnnotatedVersionDraftConsOrder',
-            pageLink: '#linkToRadiobuttons'
-        }
-    ];
+
+    /**
+     * Signature for validationHeaderControls to be used in a Unit Test is:
+     *
+     * [{
+     *  value: 'Enter what information is needed',
+     *  linkToControl: 'informationNeeded',
+     *  pageLink: '#linkToTextArea'
+     * },
+     * {
+     *  value: 'Select yes if you want to include an annotated version of the draft consent order',
+     *  linkToControl: 'includeAnnotatedVersionDraftConsOrder',
+     *  pageLink: '#linkToRadiobuttons'
+     *}];
+     */
+    @Input() validationHeaderControls;
 
     constructor(private validationService: ValidationService) {
     }
 
     /**
-     * Is Control Valid
+     * Checks if this control is valid.
      *
-     * @see validationService
-     * @param formGroup
-     * @param linkToControl - 'informationNeeded'
-     * @return {boolean}
+     * @see ValidationService
      */
     isControlValid(formGroup: FormGroup, linkToControl: string): boolean {
         return this.validationService.isControlValid(formGroup, linkToControl);

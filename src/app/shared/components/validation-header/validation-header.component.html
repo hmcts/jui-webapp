@@ -5,9 +5,9 @@
     </h2>
     <div class="govuk-error-summary__body">
         <ul class="govuk-list govuk-error-summary__list">
-            <li *ngFor="let controlValidation of controlValidations">
-                <ng-container *ngIf="!isControlValid(group, controlValidation.linkToControl)">
-                    <a href="controlValidation.pageLink">{{controlValidation.value}}</a>
+            <li *ngFor="let validationHeaderControl of validationHeaderControls">
+                <ng-container *ngIf="!isControlValid(group, validationHeaderControl.linkToControl)">
+                    <a href="controlValidation.pageLink">{{validationHeaderControl.value}}</a>
                 </ng-container>
             </li>
         </ul>

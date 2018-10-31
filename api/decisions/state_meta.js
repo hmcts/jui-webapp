@@ -41,7 +41,7 @@ module.exports = {
         'reject-reasons': {
             idPrefix: 'reject-reasons',
             name: 'reject-reasons',
-            validationSummary: [
+            validationHeaderControls: [
                 {
                     value: 'Enter what information is needed',
                     linkToControl: 'informationNeeded',
