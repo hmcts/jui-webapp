@@ -144,7 +144,8 @@ module.exports = {
                                                                     classes: 'govuk-label--m'
                                                                 },
                                                                 control: 'informationNeeded',
-                                                                value: 'Information text'
+                                                                value: 'Information text',
+                                                                validation: ['required']
                                                             }
                                                         }
                                                     ]
