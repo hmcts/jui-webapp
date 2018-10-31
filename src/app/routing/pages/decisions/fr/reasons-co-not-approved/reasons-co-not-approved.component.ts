@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Attribute, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { DecisionService } from '../../../../../domain/services/decision.service';
@@ -34,7 +34,8 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
     showValidation = false;
 
     @Input() pageitems;
-    constructor( private activatedRoute: ActivatedRoute,
+    constructor( @Attribute('data-children-of') private type: string,
+                 private activatedRoute: ActivatedRoute,
                  private router: Router,
                  private decisionService: DecisionService,
                  private formsService: FormsService) {}
@@ -58,6 +59,8 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
             this.showChildrenCheckboxes = value;
             console.log(value);
         });
+        console.log('FORM ELEMENTS OBJ', this.rejectReasonsForm);
+
     }
     ngOnInit() {
         this.rejectReasonsForm = null;

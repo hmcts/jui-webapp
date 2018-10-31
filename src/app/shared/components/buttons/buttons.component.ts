@@ -13,4 +13,5 @@ export class ButtonsComponent {
     @Input() classes;
     @Input() typeBtn;
     @Input() control;
+    @Input() value;
 }

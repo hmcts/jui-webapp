@@ -9,4 +9,5 @@ export class FieldsetComponent {
     @Input() classes;
     @Input() group;
     @Input() data;
+    @Input() childrenOf;
 }

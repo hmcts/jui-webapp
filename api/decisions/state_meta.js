@@ -65,7 +65,10 @@ module.exports = {
                             }
                         },
                         {
-                            hint: { text: 'Select all that apply.' }
+                            hint: {
+                                text: 'Select all that apply.',
+                                classes: 'govuk-hint'
+                            }
                         },
                         {
                             checkbox: {
@@ -209,6 +212,33 @@ module.exports = {
                                     }
                                 ]
                             }
+                        }
+                    ]
+                },
+                {
+                    textarea: {
+                        label: {
+                            text: 'Directions',
+                            classes: 'govuk-label--m'
+                        },
+                        control: 'Directions',
+                        value: 'Direction text'
+                    }
+                },
+                {
+                    fieldset: [
+                        {
+                            legend: {
+                                text: 'Do you want to include an annotated version of the draft consent order?',
+                                isPageHeading: true,
+                                classes: 'govuk-fieldset__legend--m'
+                            }
+                        },
+                        {
+                            hint: {
+                                text: 'You can use this to illustrate any detailed points or feedback for the parties.',
+                                classes: 'govuk-hint'
+                            }
                         },
                         {
                             radios: {
@@ -227,61 +257,17 @@ module.exports = {
                                     }
                                 ]
                             }
-                        },
-                        {
-                            textarea: {
-                                label: {
-                                    text: 'Directions',
-                                    classes: 'govuk-label--m'
-                                },
-                                control: 'Directions',
-                                value: 'Direction text'
-                            }
                         }
                     ]
                 },
                 {
-                    textarea: {
-                        label: {
-                            text: 'Directions2',
-                            classes: 'govuk-label--m'
-                        },
-                        control: 'Directions',
-                        value: 'Direction text'
+                    button: {
+                        control: 'createButton',
+                        value: 'Continue',
+                        type: 'submit',
+                        classes: '',
+                        onEvent: 'continue'
                     }
-                }
-                // {
-                //     fieldset: {
-                //         legend: {
-                //             text: 'Do you want to include an annotated version of the draft consent order?',
-                //             isPageHeading: false,
-                //             classes: 'govuk-fieldset__legend--m'
-                //         },
-                //         hint: { text: 'You can use this to illustrate any detailed points or feedback for the parties.' },
-                //         radios: {
-                //             control: 'includeAnnotatedVersionDraftConsOrder',
-                //             radioGroup: [
-                //                 {
-                //                     value: 'yes',
-                //                     text: 'Yes',
-                //                     hiddenAccessibilityText: ', send an annotated version of the draft consent order to the parties'
-                //                 },
-                //                 {
-                //                     value: 'no',
-                //                     text: 'No',
-                //                     hiddenAccessibilityText:
-                //                         ', I don’t want to send an annotated version of the draft consent order to the parties'
-                //                 }
-                //             ]
-                //         }
-                //     }
-                // }
-            ],
-            buttons: [
-                {
-                    control: 'createButton',
-                    value: 'Continue',
-                    onEvent: 'continue'
                 }
             ]
         },

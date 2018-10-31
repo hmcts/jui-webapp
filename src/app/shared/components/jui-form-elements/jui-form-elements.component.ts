@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 
 @Component({
@@ -6,26 +6,10 @@ import {FormGroup} from '@angular/forms';
   templateUrl: './jui-form-elements.component.html',
   styleUrls: ['./jui-form-elements.component.scss']
 })
-export class JuiFormElementsComponent implements OnInit {
-    // @Input() legendClasses: String;
-    // @Input() hintClasses: String;
-    // @Input() radiobuttonClasses: String;
-    // @Input() radioItems: Object;
+export class JuiFormElementsComponent {
     @Input() group: FormGroup;
-    // @Input() idPrefix: String;
-    // @Input() checkboxItem: Object;
-    // @Input() checkboxClasses: String;
-    // @Input() labelClasses: String;
-    // @Input() textareaClasses: String;
-    // @Input() textareaLabel: Object;
-    // @Input() rows: String;
     @Input() data: Object;
+    @Input() childrenOf;
 
     constructor() {}
-    ngOnInit() {
-        // console.log("DATA=>>>>>>>>>>", this.data);
-        // if (this.data.textarea) {
-        //     this.textareaControl = this.data.textarea.control;
-        // }
-    }
 }

@@ -1,17 +1,17 @@
-<div [attr.data]="data" [attr.group]="group" >
+<div [attr.data]="data" [attr.group]="group" [attr.data-child-of]="childrenOf">
     <!--JUI FORM builder component -->
-    <!--<app-legend [classes]="legendClasses">-->
-        <!--test legend-->
-    <!--</app-legend>-->
-    <!--<app-hint [classes]="hintClasses">-->
-        <!--Test hint-->
-    <!--</app-hint>-->
-    <!--<app-radiobutton [classes]="radiobuttonClasses"-->
-                     <!--[items]="radioItems"-->
-                     <!--[group]="group"-->
-                     <!--[control]="radiosControl"-->
-                     <!--[idPrefix]="idPrefix">-->
-    <!--</app-radiobutton>-->
+    <app-legend *ngIf="data.legend" [classes]="data.legend.classes">
+        {{data.legend.text}}
+    </app-legend>
+    <app-hint *ngIf="data.hint" [classes]="data.hint.classes">
+        {{data.hint.text}}
+    </app-hint>
+    <app-radiobutton *ngIf="data.radios" [classes]="'govuk-radios govuk-radios--inline'"
+                     [items]="data.radios.radioGroup"
+                     [group]="group"
+                     [control]="data.radios.control"
+                     [idPrefix]="data.radios.control">
+    </app-radiobutton>
     <div *ngIf="data.checkbox" class="govuk-checkboxes">
         <app-checkbox [group]="group"
                       [idPrefix]="data.checkbox.control"
@@ -20,18 +20,17 @@
                       [labelClasses]="'govuk-label govuk-checkboxes__label'">
             <div class="govuk-form-group">
             <div *ngIf="data.checkbox.groups" class="govuk-checkboxes__conditional">
-
                     <ng-container  *ngFor="let subgroup of data.checkbox.groups">
                         <app-fieldset *ngIf="subgroup.fieldset"
                                       [classes]="'govuk-fieldset'"
                                       [group]="group"
-                                      [data]="subgroup.fieldset">
+                                      [data]="subgroup.fieldset"
+                                      [childrenOf]="data.checkbox.control">
                         </app-fieldset>
-                        <app-jui-form-elements [group]="group" [data]="subgroup"></app-jui-form-elements>
+                        <app-jui-form-elements [group]="group" [data]="subgroup" [childrenOf]="data.checkbox.control"></app-jui-form-elements>
                     </ng-container>
                 </div>
             </div>
-
         </app-checkbox>
     </div>
     <app-textareas *ngIf="data.textarea" [classes]="'govuk-textarea'"
@@ -41,5 +40,12 @@
                     [labelFor]="data.textarea.control"
                     [rows]="5">
     </app-textareas>
+    <app-buttons *ngIf="data.button"
+                 [classes]="'govuk-button'"
+                 [typeBtn]="data.button.type"
+                 [group]="group"
+                 [control]="data.button.control"
+                 [value]="data.button.value">
+    </app-buttons>
     <!--JUI FORM builder component -->
 </div>
