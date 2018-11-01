@@ -1,69 +1,75 @@
-const config = require('../../../../config');
-const secret = process.env.IDAM_SECRET || 'AAAAAAAAAAAAAAAA';
-const code = '' ;
+const config = require('../../../../config')
 const host = 'https://localhost:3000'
-const base64 = require('base-64');
-const idamSecret = process.env.IDAM_SECRET || 'AAAAAAAAAAAAAAAA';
-const idamClient = config.idam_client;
-const idamProtocol = config.protocol;
-const oauthCallbackUrl = config.oauth_callback_url;
-const utilJson = require('./fetchJson');
+const base64 = require('base-64')
 
-function getOauth2Token (code)  {
-    const redirectUri = `${idamProtocol}://${host}/${oauthCallbackUrl}`;
-    code =  generateClientCode();
-    // logger.info('calling oauth2 token');
+const idamSecret = process.env.IDAM_SECRET || 'AAAAAAAAAAAAAAAA'
+const idamClient = config.idam_client
+const idamProtocol = config.protocol
+const oauthCallbackUrl = config.oauth_callback_url
+const utilJson = require('./fetchJson')
+const fetch = require('node-fetch')
 
-    const headers = {
-        'Content-Type' : 'application/x-www-form-urlencoded',
-        Authorization: `Basic ${Buffer.from(`${idamClient}:${idamSecret}`).toString('base64')}`
-};
+async function getOauth2Token () {
+    const redirectUri = 'http://localhost:3000/oauth2/callback'
+    var token
 
-    const params = new URLSearchParams();
-    params.append('grant_type', 'authorization_code');
-    params.append('code', code);
-    params.append('redirect_uri', redirectUri);
+    var hcode = await generateClientCode()
 
-
-    return utilJson.fetchJson(`${idam_api_url}/oauth2/token`, {
-
-        method: 'POST',
-        timeout: 10000,
-        body: params.toString(),
-        headers: headers
-});
-};
-
-async function generateClientCode() {
-    const encoded = base64.encode(('juitestuser2@gmail.com' + ':' + 'Monday01'));
-    console.log(encoded)
-    const request = require('request');
-    const redirectUri = `${idamProtocol}://${host}/${oauthCallbackUrl}`;
+    var encode = base64.encode(('juitestuser2@gmail.com' + ':' + 'password'))
 
     const headers = {
         'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: 'Basic ' + encoded
+       // Authorization: 'Basic ' + encode
+    }
+    var data
+    const url = 'http://localhost:4501/oauth2/token?code=' + hcode + '&client_id=' + idamClient + '&redirect_uri=' + redirectUri + '&client_secret=' + idamSecret + '&grant_type=authorization_code'
+
+    const otherParam = {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: data,
+        method: 'POST'
     }
 
-    const body='/oauth2/authorize?response_type=code&client_id=juiwebapp&redirect_uri=http://localhost:3000/oauth2/callback' ;
-    await console.log( utilJson.fetchJson('http://localhost:4501', {
-        method: 'POST',
-        timeout: 10000,
-        body: body,
-        headers: headers
-    }));
+    await fetch(url, otherParam).then(data => data.json())
+        .then(res => {
+            token = res.access_token
+            console.log(res.access_token)
+            return res.code
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    return token;
 
-    return '';
-
-
-    // code = request.get('http://localhost:4501')
-    //     .header('Authorization', 'Basic' + encoded)
-    //     .post('/oauth2/authorize?response_type=code&client_id=juiwebapp &redirect_uri=' + redirectUri)
-    //     .body().path('code');
-    // console.log(code);
-   // return '';
 }
 
+async function generateClientCode () {
+    const redirectUri = 'http://localhost:3000/oauth2/callback'
+    const url = 'http://localhost:4501/oauth2/authorize?response_type=code&client_id=' + idamClient + '&redirect_uri=' + redirectUri
+    const data = ''
+    var encode = base64.encode(('juitestuser2@gmail.com' + ':' + 'password'))
+    var code
+    const otherParam = {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            Authorization: 'Basic ' + encode
+        },
+        body: data,
+        method: 'POST'
+    }
 
-//module.exports.getOauth2Token = getOauth2Token();
-module.exports.generateClientCode = generateClientCode();
+    await fetch(url, otherParam).then(data => data.json())
+        .then(res => {
+            code = res.code
+            console.log(res.code)
+            return res.code
+        })
+        .catch(error => {
+            console.log(error)
+        })
+    return code
+}
+
+module.exports.getOauth2Token = getOauth2Token()
