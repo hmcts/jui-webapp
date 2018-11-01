@@ -1,8 +1,6 @@
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const minimist = require('minimist');
-const tagProcessor = require('../support/tagProcessor');
-
 const argv = minimist(process.argv.slice(2));
 
 chai.use(chaiAsPromised);
@@ -18,7 +16,6 @@ const jenkinsConfig = [
         browserName: 'chrome',
         acceptInsecureCerts: true,
         nogui: true,
-
         chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote ', '--disableChecks' ] }
     }
 ];
@@ -37,8 +34,7 @@ const localConfig = [
     {
         browserName: 'chrome',
         acceptInsecureCerts: true,
-
-         chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote '] },
+        chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote '] },
         proxy: {
             proxyType: 'manual',
             httpProxy: 'proxyout.reform.hmcts.net:8080',
@@ -54,7 +50,6 @@ const config = {
     framework: 'custom',
     frameworkPath: require.resolve('protractor-cucumber-framework'),
     specs: ['../features/**/*.feature'],
-
     baseUrl: process.env.TEST_URL || 'http://localhost:3000/',
     params: {
         serverUrls: process.env.TEST_URL || 'http://localhost:3000/',
@@ -73,9 +68,6 @@ const config = {
     multiCapabilities: cap,
 
     onPrepare() {
-        browser.manage()
-            .window()
-            .maximize();
         browser.waitForAngularEnabled(false);
         global.expect = chai.expect;
         global.assert = chai.assert;
