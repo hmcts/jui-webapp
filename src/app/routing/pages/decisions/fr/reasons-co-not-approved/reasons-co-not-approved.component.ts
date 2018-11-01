@@ -1,4 +1,4 @@
-import { Component, Input, Attribute, OnInit } from '@angular/core';
+import { Component, Attribute, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { DecisionService } from '../../../../../domain/services/decision.service';
@@ -21,19 +21,9 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
     case: any;
     showOther: boolean = false;
     showOther2: boolean = false;
-    showChildrenCheckboxes: boolean = false;
+    showChilds: FormGroup;
+    pageitems;
 
-    /**
-     * showValidation
-     *
-     * As per the prototype, initially we do not show validation, only when the user clicks on 'Continue' should we
-     * show the validation issues, for each control.
-     *
-     * @type {boolean}
-     */
-    useValidation = false;
-
-    @Input() pageitems;
     constructor( @Attribute('data-children-of') private type: string,
                  private activatedRoute: ActivatedRoute,
                  private router: Router,
@@ -46,21 +36,9 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
         this.showOther = this.rejectReasonsForm.controls.Other.value;
         this.showOther2 = this.rejectReasonsForm.controls.Other2.value;
 
-        this.showChildrenCheckboxes = this.rejectReasonsForm.controls.NotEnoughInformation.value;
-
-        //Assigning controls
-        this.rejectReasonsForm.controls.Other.valueChanges.subscribe( (value) => {
-            this.showOther = value;
+        this.rejectReasonsForm.valueChanges.subscribe( (value) => {
+            this.showChilds = this.rejectReasonsForm;
         });
-        this.rejectReasonsForm.controls.Other2.valueChanges.subscribe( (value) => {
-            this.showOther2 = value;
-        });
-        this.rejectReasonsForm.controls.NotEnoughInformation.valueChanges.subscribe( (value) => {
-            this.showChildrenCheckboxes = value;
-            console.log(value);
-        });
-        console.log('FORM ELEMENTS OBJ', this.rejectReasonsForm);
-
     }
     ngOnInit() {
         this.rejectReasonsForm = null;
@@ -75,8 +53,8 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
             this.pageitems = this.decision.meta;
             this.pageValues = this.decision.formValues;
 
-            console.log("pageitems", this.pageitems);
-            console.log("pageValues", this.pageValues);
+            // console.log("pageitems", this.pageitems);
+            // console.log("pageValues", this.pageValues);
 
             this.createForm(this.pageitems, this.pageValues) ;
         });

@@ -12,7 +12,5 @@ export class LabelComponent {
     @Input() forElement;
     @Input() label;
 
-    constructor() {
-        console.log('');
-    }
+    constructor() {}
 }

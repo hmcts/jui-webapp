@@ -20,7 +20,7 @@ export class DecisionService {
 
     fetch(jurId:string, caseId: string, pageId: string): Observable<any> {
         const url = this.generateDecisionUrl(jurId, caseId, pageId);
-        console.log('fetch', url);
+      //  console.log('fetch', url);
         return this.httpClient.get(url);
     }
 

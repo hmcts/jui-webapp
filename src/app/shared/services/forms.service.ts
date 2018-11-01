@@ -86,11 +86,10 @@ export class FormsService {
     }
 
     defineformControls(someJson: any, someData: any): any {
-        console.log('Before= ', this.FormControls, someData);
-        console.log(someJson, someData);
+        // console.log('Before= ',this.FormControls, someData);
+        // console.log(someJson, someData);
         this.create(someJson, someData);
-        // So over here we have the components
-        console.log('After= ', this.FormControls);
+        //console.log('After= ',this.FormControls);
         return this.FormControls;
     }
 }

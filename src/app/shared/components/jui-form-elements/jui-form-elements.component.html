@@ -1,4 +1,4 @@
-<div [attr.validate]="validate" [attr.data]="data" [attr.group]="group" [attr.data-child-of]="childrenOf">
+<div [attr.data]="data" (click)="onSelect(data)">
     <!--JUI FORM builder component -->
     <app-legend *ngIf="data.legend" [classes]="data.legend.classes">
         {{data.legend.text}}
@@ -22,18 +22,19 @@
                       [classes]="'govuk-checkboxes__item'"
                       [labelClasses]="'govuk-label govuk-checkboxes__label'">
             <div class="govuk-form-group">
-            <div *ngIf="data.checkbox.groups" class="govuk-checkboxes__conditional">
-                    <ng-container  *ngFor="let subgroup of data.checkbox.groups">
-                        <app-fieldset *ngIf="subgroup.fieldset"
-                                      [validate]="validate"
-                                      [classes]="'govuk-fieldset'"
-                                      [group]="group"
-                                      [data]="subgroup.fieldset"
-                                      [childrenOf]="data.checkbox.control">
-                        </app-fieldset>
-                        <app-jui-form-elements [validate]="validate" [group]="group" [data]="subgroup" [childrenOf]="data.checkbox.control"></app-jui-form-elements>
-                    </ng-container>
-                </div>
+                <ng-container *ngIf="show && childOf">
+                        <div *ngIf="data.checkbox.groups && show[childOf]" class="govuk-checkboxes__conditional">
+                            <ng-container  *ngFor="let subgroup of data.checkbox.groups">
+                                <app-fieldset *ngIf="subgroup.fieldset"
+                                              [classes]="'govuk-fieldset'"
+                                              [group]="group"
+                                              [data]="subgroup.fieldset"
+                                              [childrenOf]="data.checkbox.control">
+                                </app-fieldset>
+                                <app-jui-form-elements [group]="group" [data]="subgroup" [showChilds]="showChilds"></app-jui-form-elements>
+                            </ng-container>
+                        </div>
+                </ng-container>
             </div>
         </app-checkbox>
     </div>
