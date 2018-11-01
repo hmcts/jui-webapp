@@ -132,7 +132,7 @@ fdescribe('CheckQuestionsComponent', () => {
                 },
                 'deadline_extension_count': 0
             };
-            request = httpMock.expectOne('/api/case/123456789/rounds/1');
+            request = httpMock.expectOne('/api/caseQ/123456789/rounds/1');
             request.flush(mockData);
             fixture.detectChanges();
         }));
@@ -152,7 +152,7 @@ fdescribe('CheckQuestionsComponent', () => {
 
             // describe('and it succeeds', () => {
             //     beforeEach(() => {
-            //         const req = httpMock.expectOne('/api/case/123456789/rounds/1');
+            //         const req = httpMock.expectOne('/api/caseQ/123456789/rounds/1');
             //         req.flush({});
             //     });
             //
@@ -163,7 +163,7 @@ fdescribe('CheckQuestionsComponent', () => {
 
             // describe('and it fails', () => {
             //     beforeEach(() => {
-            //         const req = httpMock.expectOne('/api/case/123456789/rounds/1');
+            //         const req = httpMock.expectOne('/api/caseQ/123456789/rounds/1');
             //         req.flush({}, {status: 500, statusText: 'It broke'});
             //     });
             //
