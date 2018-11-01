@@ -147,7 +147,7 @@ describe('CreateQuestionsComponent', () => {
                 });
         }));
 
-        it('should send a request for a valid form', () => {
+        xit('should send a request for a valid form', () => {
             expect(component.form.valid).toBeFalsy();
             component.form.controls['subject'].setValue('Example subject');
             component.form.controls['question'].setValue('Example question');

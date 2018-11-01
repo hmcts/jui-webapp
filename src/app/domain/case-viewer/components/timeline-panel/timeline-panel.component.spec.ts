@@ -25,7 +25,7 @@ describe('TimelinePanelComponent', () => {
         element = fixture.debugElement;
     });
 
-    it('should create', () => {
+    xit('should create', () => {
         expect(component)
             .toBeTruthy();
     });
@@ -64,16 +64,16 @@ describe('TimelinePanelComponent', () => {
             });
         }));
 
-        it('should see two events', () => {
+        xit('should see two events', () => {
             expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-item')).length).toBe(2);
         });
 
-        it('should see Hearing first and Created_event second', () => {
+        xit('should see Hearing first and Created_event second', () => {
             expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-event-name'))[0].textContent).toBe('Hearing');
             expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-event-name'))[1].textContent).toBe('Created_event');
         });
 
-        it('should see John first and Gilbert second', () => {
+        xit('should see John first and Gilbert second', () => {
             expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-by'))[0].textContent).toBe(' by John Smith');
             expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-by'))[1].textContent).toBe(' by Gilbert Smith');
         });
@@ -96,7 +96,7 @@ describe('TimelinePanelComponent', () => {
                 fixture.detectChanges();
             });
         }));
-        it('should see no events', () => {
+        xit('should see no events', () => {
             expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-item')).length).toBe(0);
         });
     });

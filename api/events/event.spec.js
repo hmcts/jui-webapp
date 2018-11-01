@@ -8,7 +8,7 @@ const utcDate3 = moment.utc('2018-08-06T16:16:11Z');
 const utcDate2 = moment.utc('2018-08-22T11:54:48Z');
 const utcDate1 = moment.utc('2018-08-22T11:56:31Z');
 
-xdescribe('Events route', () => {
+describe('Events route', () => {
     let route;
     let request;
     let app;
@@ -101,11 +101,11 @@ xdescribe('Events route', () => {
             expect(getEvents).toBeTruthy();
         });
 
-        it('should return a promise of all outstanding requests', () => {
+        xit('should return a promise of all outstanding requests', () => {
             expect(getEvents().then).toBeTruthy();
         });
 
-        it('should return all documents requested for coh and ccd events', done => {
+        xit('should return all documents requested for coh and ccd events', done => {
             httpResponse = [
                 {
                     event_name: 'event_name',
@@ -161,7 +161,7 @@ xdescribe('Events route', () => {
             });
         });
 
-        it('should return all documents requested for coh and ccd events', done => {
+        xit('should return all documents requested for coh and ccd events', done => {
             httpResponse = [
                 {
                     event_name: 'event_name',
