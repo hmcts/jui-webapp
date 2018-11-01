@@ -1,7 +1,6 @@
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const minimist = require('minimist');
-const tagProcessor = require('../support/tagProcessor');
 
 const argv = minimist(process.argv.slice(2));
 
@@ -19,7 +18,7 @@ const jenkinsConfig = [
         acceptInsecureCerts: true,
         nogui: true,
 
-        chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote ', '--disableChecks' ] }
+         chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote ', '--disableChecks' ] }
     }
 ];
 
@@ -38,7 +37,7 @@ const localConfig = [
         browserName: 'chrome',
         acceptInsecureCerts: true,
 
-         chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote '] },
+          chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote '] },
         proxy: {
             proxyType: 'manual',
             httpProxy: 'proxyout.reform.hmcts.net:8080',
@@ -60,9 +59,9 @@ const config = {
         serverUrls: process.env.TEST_URL || 'http://localhost:3000/',
         targetEnv: argv.env || 'local',
         username: process.env.TEST_EMAIL,
-        password: process.env.TEST_PASSWORD
-        // fr_judge_username: process.env.FR_EMAIL,
-        // fr_judge_password: process.env.FR_PASSWORD
+        password: process.env.TEST_PASSWORD,
+        fr_judge_username: process.env.FR_EMAIL,
+        fr_judge_password: process.env.FR_PASSWORD
 
 
     },
@@ -82,15 +81,10 @@ const config = {
         global.should = chai.should;
     },
 
-    // onPrepare: function () {
-    //     rmDir('../test/reports/features/*.html');
-    // },
-
     cucumberOpts: {
         strict: true,
-        // format: ['node_modules/cucumber-pretty'],
         format: 'json:reports_json/results.json',
-        tags: ['@all'],
+        tags: ['@pending'],
         require: [
             '../support/world.js',
             '../support/*.js',
@@ -112,27 +106,8 @@ const config = {
         }
     ]
 
-    // plugins: [{
-    //     package: 'jasmine2-protractor-utils',
-    //     disableHTMLReport: true,
-    //     disableScreenshot: false,
-    //     screenshotPath:'./screenshots',
-    //     screenshotOnExpectFailure:false,
-    //     screenshotOnSpecFailure:true,
-    //     clearFoldersBeforeTest: true
-    // }],
-    //
-    // onComplete: function() {
-    //     testConfig = {
-    //         reportTitle: 'Test Execution Report',
-    //         outputPath: './',
-    //         screenshotPath: './screenshots',
-    //         testBrowser: 'chrome',
-    //         screenshotsOnlyOnFailure: true
-    //     };
-    //     new HTMLReport().from('xmlresults.xml', testConfig);},
+
 };
 
-// config.cucumberOpts.tags = tagProcessor(config, argv);
 
 exports.config = config;

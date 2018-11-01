@@ -9,7 +9,7 @@ function dashBoardPage() {
     this.number_of_rows = element.all(by.css('[data-selector="table-row"]'));
     this.case_number_links = element.all(by.css('[data-selector="case-reference-link"]'));
     this.parties_links = element.all(by.css('.govuk-table__cell.cdk-cell.cdk-column-parties'));
-    this.type_links = element.all(by.css('.cdk-column-type > span'));
+    this.type_links = element.all(by.css('.govuk-table__cell.cdk-cell.cdk-column-type > span'));
     this.type_rows = element.all(by.css('.govuk-table__row'));
     this.type = element.all(by.css("[data-selector='type-value']"));
     this.parties = (by.css('cdk-row.govuk-table__row:nth-child(2) > cdk-cell:nth-child(2) > span:nth-child(1)'));

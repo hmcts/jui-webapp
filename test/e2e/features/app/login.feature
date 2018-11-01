@@ -36,7 +36,7 @@ Feature: Login
         Then I should be redirected to the Idam login page
 
 
-    @RIUI_950 @FR_login @pending @RIUI-895
+    @RIUI_950 @FR_case @RIUI-895
     Scenario: Verify FR cases 'Draft consent order' link redirection
         Then I am on Idam login page
         When I am logged into JUI web app with FR judge details

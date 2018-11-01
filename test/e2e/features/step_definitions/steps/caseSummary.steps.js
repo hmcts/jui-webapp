@@ -77,7 +77,7 @@ defineSupportCode(function({ Given, When, Then }) {
 
 
         }
-        else {
+        else if (type === 'Divorce') {
             await expect(caseSummaryPage.representatives_text.isDisplayed()).to.eventually.be.true;
             await expect(caseSummaryPage.representatives_text.getText())
                 .to
@@ -88,6 +88,10 @@ defineSupportCode(function({ Given, When, Then }) {
                 .to
                 .eventually
                 .equal('Linked cases');
+
+        }
+        else {
+
 
         }
 

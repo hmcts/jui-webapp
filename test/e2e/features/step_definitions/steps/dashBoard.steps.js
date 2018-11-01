@@ -201,25 +201,37 @@ defineSupportCode(function({ Given, When, Then }) {
     });
 
 
-    Then(/^I select a (.*) from Decision needed on column$/, async function(draft_consent_order) {
-        await dashBoardPage.draft_consent_order_link.first()
+    When(/^I select a Draft consent order from decision needed on column$/, async function () {
+        browser.sleep(SHORT_DELAY);
+
+      await dashBoardPage.draft_consent_order_link.first()
             .click();
+        browser.sleep(SHORT_DELAY);
+
 
     });
 
     Then(/^I will be redirected to the Case file page for that Financial remedy case$/, async function() {
-        await expect(caseFilePage.sub_nav_link.isDisplayed()).to.eventually.be.true;
+        browser.sleep(SHORT_DELAY);
         await expect(caseFilePage.case_file_header.isDisplayed()).to.eventually.be.true;
+        browser.sleep(SHORT_DELAY);
         await expect(caseFilePage.case_file_header.getText())
             .to
             .eventually
             .equal('Case file');
+        browser.sleep(SHORT_DELAY);
 
     });
 
     Then(/^I see FR specific cases on JUI dashboard$/, async function() {
+        await dashBoardPage.type_links.isDisplayed();
+        await expect(dashBoardPage.type_links.first().getText()).to.eventually.equal("Financial remedy");
+
 
     });
+
+
+
 
 
 });

@@ -114,8 +114,17 @@ defineSupportCode(function({ Given, When, Then }) {
     });
 
     When(/^I am logged into JUI web app with FR judge details$/, async function () {
+        console.log(this.config.fr_judge_username);
+        await loginPage.emailAddress.sendKeys(this.config.fr_judge_username);
+        await loginPage.password.sendKeys(this.config.fr_judge_password);
+        await loginPage.clickSignIn();
+        browser.sleep(SHORT_DELAY);
+
 
     });
+
+
+
 
 
 
