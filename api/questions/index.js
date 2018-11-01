@@ -154,7 +154,6 @@ module.exports = app => {
 
     // GET A Question
     route.get('/:case_id/questions/:question_id', (req, res, next) => {
-        console.log('question')
         const caseId = req.params.case_id
         const questionId = req.params.question_id
         const options = getOptions(req)
