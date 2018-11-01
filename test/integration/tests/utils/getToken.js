@@ -15,12 +15,7 @@ async function getOauth2Token () {
 
     var hcode = await generateClientCode()
 
-    var encode = base64.encode(('juitestuser2@gmail.com' + ':' + 'password'))
 
-    const headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
-       // Authorization: 'Basic ' + encode
-    }
     var data
     const url = 'http://localhost:4501/oauth2/token?code=' + hcode + '&client_id=' + idamClient + '&redirect_uri=' + redirectUri + '&client_secret=' + idamSecret + '&grant_type=authorization_code'
 
