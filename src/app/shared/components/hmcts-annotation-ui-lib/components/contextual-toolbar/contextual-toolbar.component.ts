@@ -3,7 +3,7 @@ import { DOCUMENT } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { PdfService } from '../../data/pdf.service';
 import { AnnotationStoreService } from '../../data/annotation-store.service';
-import { Annotation, Comment } from '../../data/annotation-set.model';
+import { Annotation } from '../../data/annotation-set.model';
 
 @Component({
   selector: 'app-contextual-toolbar',
@@ -15,29 +15,30 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
   toolPos: {left, top};
   isShowToolbar: boolean;
   showDelete: boolean;
-  annotation: Annotation;
-  private contextualToolBarOptions: Subscription;
+  annotationId: string;
+  contextualToolBarOptions: Subscription;
 
   constructor(private pdfService: PdfService,
               private annotationStoreService: AnnotationStoreService,
               private ref: ChangeDetectorRef,
               @Inject(DOCUMENT) private document: any) {
-    this.toolPos = {
-      left: 0,
-      top: 0
-    };
   }
 
   ngOnInit() {
-    this.contextualToolBarOptions = this.annotationStoreService.getToolbarUpdate()
-      .subscribe(contextualOptions => {
+    this.contextualToolBarOptions = this.annotationStoreService.getToolbarUpdate().subscribe(
+      contextualOptions => {
         if (contextualOptions.annotation != null) {
           this.showToolBar(contextualOptions.annotation, contextualOptions.showDelete);
         } else {
           this.hideToolBar();
         }
       });
+
     this.isShowToolbar = false;
+    this.toolPos = {
+      left: 0,
+      top: 0
+    };
   }
 
   ngOnDestroy(): void {
@@ -48,10 +49,10 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
   }
 
   showToolBar(annotation: Annotation, showDelete?: boolean) {
-    this.annotation = annotation;
     this.showDelete = showDelete;
 
     this.toolPos = this.getRelativePosition(annotation.id);
+    this.annotationId = annotation.id;
     this.isShowToolbar = true;
 
     if (!this.ref['destroyed']) {
@@ -78,31 +79,22 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
   }
 
   hideToolBar() {
-    this.annotation = null;
     this.isShowToolbar = false;
     this.showDelete = false;
-
-    if (!this.ref['destroyed']) {
-      this.ref.detectChanges();
-    }
   }
 
   handleCommentBtnClick() {
-    if (this.annotation.comments.length === 0 ) {
-      this.annotationStoreService.addComment(new Comment(null, this.annotation.id, null, null, null, null, null, null, null));
-      this.annotationStoreService.setCommentFocusSubject(this.annotation, true);
-    } else {
-      this.annotationStoreService.setCommentFocusSubject(this.annotation, true);
-    }
+    this.pdfService.setAnnotationClicked(this.annotationId);
     this.hideToolBar();
   }
 
   handleHighlightBtnClick() {
+    this.pdfService.setAnnotationClicked(null);
     this.hideToolBar();
   }
 
   handleDeleteBtnClick() {
-    this.annotationStoreService.deleteAnnotationById(this.annotation.id);
+    this.annotationStoreService.deleteAnnotationById(this.annotationId);
     this.hideToolBar();
   }
 

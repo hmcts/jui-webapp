@@ -1,8 +1,8 @@
 import {v4 as uuid} from 'uuid';
-import {Injectable, Inject} from '@angular/core';
-import {Subject} from 'rxjs';
 import {Annotation, AnnotationSet, Comment, Rectangle} from './annotation-set.model';
 import {Utils} from './utils';
+import {Injectable} from '@angular/core';
+import {Subject} from 'rxjs';
 
 declare const PDFAnnotate: any;
 
@@ -10,12 +10,11 @@ declare const PDFAnnotate: any;
 export class PdfAdapter {
     annotationSet: AnnotationSet;
     annotations: Annotation[];
-    private commentData: Comment[];
+    commentData: Comment[];
     annotationSetId: string;
     private annotationChangeSubject: Subject<{ type: String, annotation: Annotation }>;
 
-    constructor(private utils: Utils,
-        @Inject('windowObject') private window: Window) {
+    constructor(private utils: Utils) {
         this.annotationChangeSubject = new Subject<{ type: String, annotation: Annotation }>();
     }
 
@@ -58,23 +57,8 @@ export class PdfAdapter {
         return this.commentData || [];
     }
 
-
-    clearSelection() {
-        const sel = this.window.getSelection();
-        if (sel) {
-            if (sel.removeAllRanges) {
-                sel.removeAllRanges();
-            } else if (sel.empty) {
-                sel.empty();
-            }
-        }
-    }
-
-    isDraftComment(comment: Comment): boolean {
-        return (comment.content === null || comment.content === '');
-    }
-
     getStoreAdapter() {
+
         const getAnnotations = (documentId, pageNumber) => {
             return new Promise((resolve, reject) => {
                 const annotations = this._getAnnotations(documentId).filter(function (i) {
@@ -107,15 +91,9 @@ export class PdfAdapter {
 
         const addAnnotation = (documentId, pageNumber, annotation) => {
             return new Promise((resolve, reject) => {
-
-                this.clearSelection();
-                const persistAnnotation = new Annotation();
-                persistAnnotation.id = uuid();
-                persistAnnotation.page = pageNumber;
-                persistAnnotation.color = annotation.color;
-                persistAnnotation.type = annotation.type;
-                persistAnnotation.comments = [];
-                persistAnnotation.annotationSetId = this.annotationSetId;
+                annotation.id = uuid();
+                annotation.page = pageNumber;
+                annotation.annotationSetId = this.annotationSetId;
 
                 const rectangles = [];
                 this.utils.generateRectanglePerLine(annotation.rectangles, rectangles);
@@ -125,12 +103,12 @@ export class PdfAdapter {
                         rectangle.id = uuid();
                     });
 
-                persistAnnotation.rectangles = rectangles;
+                annotation.rectangles = rectangles;
 
                 const annotations = this._getAnnotations(documentId);
-                annotations.push(persistAnnotation);
-                this.annotationChangeSubject.next({'type': 'addAnnotation', 'annotation': persistAnnotation});
-                resolve(persistAnnotation);
+                annotations.push(annotation);
+                this.annotationChangeSubject.next({'type': 'addAnnotation', 'annotation': annotation});
+                resolve(annotation);
             });
         };
 
@@ -145,13 +123,12 @@ export class PdfAdapter {
 
         const addComment = (documentId, annotationId, content) => {
             return new Promise((resolve, reject) => {
+                // let comment: Comment;
                 const comment = new Comment(
                     uuid(),
                     annotationId,
                     null,
-                    null,
                     new Date(),
-                    null,
                     null,
                     null,
                     content
@@ -159,29 +136,19 @@ export class PdfAdapter {
                 this.updateComments(documentId, comment);
                 const annotation: Annotation = this.findById(this.annotations, annotationId);
                 annotation.comments.push(comment);
-
-                if (this.isDraftComment(comment)) {
-                    resolve(comment);
-                } else {
-                    this.annotationChangeSubject.next({'type': 'addComment', 'annotation': annotation});
-                    resolve(comment);
-                }
+                this.annotationChangeSubject.next({'type': 'addComment', 'annotation': annotation});
+                resolve(comment);
             });
         };
 
         const deleteComment = (documentId, commentId) => {
             return new Promise((resolve, reject) => {
                 const comment = this.findById(this.commentData, commentId);
-                const annotation: Annotation = this.findById(this.annotations, comment.annotationId);
                 this.remove(this.commentData, commentId);
+                const annotation: Annotation = this.findById(this.annotations, comment.annotationId);
                 this.remove(annotation.comments, commentId);
-
-                if (this.isDraftComment(comment)) {
-                    resolve(comment);
-                } else {
-                    this.annotationChangeSubject.next({'type': 'deleteComment', 'annotation': annotation});
-                    resolve(this.annotations);
-                }
+                this.annotationChangeSubject.next({'type': 'deleteComment', 'annotation': annotation});
+                resolve(this.annotations);
             });
         };
 

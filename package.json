@@ -144,7 +144,7 @@
     "mochawesome": "^3.0.3",
     "nodemon": "^1.17.5",
     "nsp": "^3.2.1",
-    "nyc": "^13.1.0",
+    "nyc": "^13.0.1",
     "postcss-import": "^11.0.0",
     "postcss-loader": "^2.0.10",
     "postcss-url": "^7.1.2",

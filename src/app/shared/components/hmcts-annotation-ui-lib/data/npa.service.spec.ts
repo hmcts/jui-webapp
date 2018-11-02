@@ -1,9 +1,10 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed, inject, async } from '@angular/core/testing';
 import { ApiHttpService } from './api-http.service';
 import { NpaService } from './npa.service';
+import { Observable } from 'rxjs';
 
 class MockApiHttpService {
-    documentTask() {}
+    documentTask(dmDocumentId, outputDmDocument) {}
 }
 
 describe('NpaService' , () => {

@@ -1,12 +1,11 @@
-import {Component, OnInit, ViewChild, ElementRef, Inject, Input, ChangeDetectorRef, Renderer2, OnDestroy} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef, Inject, Input} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {PdfService} from '../../data/pdf.service';
-import { Subscription } from 'rxjs';
 import {AnnotationStoreService} from '../../data/annotation-store.service';
-import {IAnnotationSet, Annotation} from '../../data/annotation-set.model';
+import {IAnnotationSet} from '../../data/annotation-set.model';
 import {NpaService} from '../../data/npa.service';
 import {ApiHttpService} from '../../data/api-http.service';
-import { Utils } from '../../data/utils';
+import { ContextualToolbarComponent } from '../contextual-toolbar/contextual-toolbar.component';
 
 @Component({
     selector: 'app-annotation-pdf-viewer',
@@ -14,7 +13,7 @@ import { Utils } from '../../data/utils';
     styleUrls: ['./annotation-pdf-viewer.component.scss'],
     providers: []
 })
-export class AnnotationPdfViewerComponent implements OnInit, OnDestroy {
+export class AnnotationPdfViewerComponent implements OnInit {
 
     @Input() annotate: boolean;
     @Input() dmDocumentId: string;
@@ -23,21 +22,17 @@ export class AnnotationPdfViewerComponent implements OnInit, OnDestroy {
     @Input() annotationSet: IAnnotationSet;
     @Input() baseUrl: string;
 
-    private renderedPages: {};
-    private page: number;
-    private focusedAnnotationSubscription: Subscription;
-    private pageNumberSubscription: Subscription;
+    renderedPages: {};
+    page: number;
 
     @ViewChild('contentWrapper') contentWrapper: ElementRef;
+    @ViewChild(ContextualToolbarComponent) contextualToolbar: ContextualToolbarComponent;
     @ViewChild('viewer') viewerElementRef: ElementRef;
 
     constructor(private pdfService: PdfService,
                 private npaService: NpaService,
                 private apiHttpService: ApiHttpService,
                 private annotationStoreService: AnnotationStoreService,
-                private utils: Utils,
-                private ref: ChangeDetectorRef,
-                private render: Renderer2,
                 @Inject(DOCUMENT) private document: any) {
     }
 
@@ -54,19 +49,7 @@ export class AnnotationPdfViewerComponent implements OnInit, OnDestroy {
         this.renderedPages = {};
         this.pdfService.render(this.viewerElementRef);
         this.pdfService.setHighlightTool();
-        this.pageNumberSubscription = this.pdfService.getPageNumber()
-            .subscribe(page => this.page = page);
-        this.focusedAnnotationSubscription = this.annotationStoreService.getAnnotationFocusSubject()
-            .subscribe(focusedAnnotation => this.focusHighlightStyle(focusedAnnotation));
-    }
-
-    ngOnDestroy() {
-        if (this.pageNumberSubscription) {
-            this.pageNumberSubscription.unsubscribe();
-        }
-        if (this.focusedAnnotationSubscription) {
-            this.focusedAnnotationSubscription.unsubscribe();
-        }
+        this.pdfService.getPageNumber().subscribe(page => this.page = page);
     }
 
     loadAnnotations(annotate: boolean) {
@@ -79,33 +62,19 @@ export class AnnotationPdfViewerComponent implements OnInit, OnDestroy {
         }
     }
 
-    focusHighlightStyle(focusedAnnotation: Annotation) {
-        Array.from(this.document.querySelector(`#pageContainer${this.page} .annotationLayer`).childNodes)
-            .forEach((annotationDom: HTMLInputElement) => {
-                if (annotationDom.dataset.pdfAnnotateId === focusedAnnotation.id) {
-                    this.render.addClass(annotationDom, 'comment-selected');
-                } else {
-                    this.render.removeClass(annotationDom, 'comment-selected');
-                }
-            });
-        if (!this.ref['destroyed']) {
-            this.ref.detectChanges();
-        }
-    }
-
-    handleClick(event: any) {
-        if (!this.utils.clickIsHighlight(event)) {
-            this.unfocusAnnotation();
-        }
-        this.pdfService.setPageNumber(this.utils.getClickedPage(event));
-    }
-
-    unfocusAnnotation() {
-        this.annotationStoreService.setAnnotationFocusSubject(
-            new Annotation());
+    getClickedPage(event) {
         this.annotationStoreService.setCommentBtnSubject(null);
-        this.annotationStoreService.setCommentFocusSubject(
-            new Annotation(), null);
+        let currentParent = event.target;
+        for (let step = 0; step < 5; step++) {
+            if (currentParent.parentNode != null) {
+                const pageNumber = currentParent.parentNode.getAttribute('data-page-number');
+                if (pageNumber != null) {
+                    this.pdfService.setPageNumber(parseInt(pageNumber, null));
+                    break;
+                }
+                currentParent = currentParent.parentNode;
+            }
+        }
     }
 
     handlePdfScroll(event) {
@@ -113,7 +82,7 @@ export class AnnotationPdfViewerComponent implements OnInit, OnDestroy {
         const visiblePageNum = Math.round(element.scrollTop / 1056) + 1; // Hardcoded page height as 1056
 
         const visiblePage = this.document.querySelector('.page[data-page-number="' + visiblePageNum + '"][data-loaded="false"]');
-        this.annotationStoreService.setToolBarUpdate(null);
+        this.contextualToolbar.hideToolBar();
 
         if (visiblePage && !this.renderedPages[visiblePageNum]) {
             // Prevent invoking UI.renderPage on the same page more than once.

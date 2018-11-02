@@ -1,6 +1,5 @@
 'use strict';
 
-
 const caseSummaryPage = require('../../pages/caseSummaryPage');
 const { defineSupportCode } = require('cucumber');
 const { SHORT_DELAY, MID_DELAY , LONG_DELAY } = require('../../../support/constants');

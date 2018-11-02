@@ -1,6 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { PdfService } from './pdf.service';
-import { Subject, BehaviorSubject } from 'rxjs';
 
 declare global { interface Window { PDFAnnotate: any; } }
 declare global { interface Window { PDFJS: any; } }
@@ -19,7 +18,6 @@ class PDFJS {
 }
 
 describe('PdfService', () => {
-  const mockAnnotationId = 'myId';
   window.PDFAnnotate = new PDFAnnotate();
   window.PDFJS = new PDFJS();
 
@@ -32,6 +30,10 @@ describe('PdfService', () => {
   describe('constructor', () => {
     it('should be created', inject([PdfService], (service: PdfService) => {
       expect(service).toBeTruthy();
+    }));
+
+    it('initialise dataLoadedSubject', inject([PdfService], (service: PdfService) => {
+      expect(service.getDataLoadedSub).toBeFalsy();
     }));
   });
 
@@ -77,34 +79,6 @@ describe('PdfService', () => {
     }));
   });
 
-  describe('setPageNumber', () => {
-    it('should set the pageNumber value', inject([PdfService], (service: PdfService) => {
-      service['pageNumber'] = new BehaviorSubject(1);
-      service.getPageNumber().subscribe(pageNumber => {
-        expect(pageNumber).toBe(1);
-      });
-      service.setPageNumber(1);
-    }));
-  });
-
-  describe('getAnnotationClicked', () => {
-    it('should set the annotationSub value', inject([PdfService], (service: PdfService) => {
-      service['annotationSub'] = new Subject();
-      service.getAnnotationClicked().subscribe(annotationId => {
-        expect(annotationId).toBe(mockAnnotationId);
-      });
-      service.setAnnotationClicked(mockAnnotationId);
-    }));
-  });
-
-  describe('getRenderOptions', () => {
-    it('should return RENDER_OPTIONS', inject([PdfService], (service: PdfService) => {
-      const mockRenderOptions = {documentId: 'id', pdfDocument: null, scale: 1, rotate: 0};
-      service.setRenderOptions(mockRenderOptions);
-      expect(service.getRenderOptions().documentId).toBe(mockRenderOptions.documentId);
-    }));
-  });
-
   describe('setHighlightTool', () => {
     it('invokes PDFAnnotate methods when setHighlightTool called',  inject([PdfService], (service: PdfService) => {
       spyOn(window.PDFAnnotate.UI, 'enableRect');
@@ -122,4 +96,5 @@ describe('PdfService', () => {
       expect(window.PDFAnnotate.UI.disableEdit).toHaveBeenCalled();
     }));
   });
+
 });
