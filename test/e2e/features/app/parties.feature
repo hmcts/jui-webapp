@@ -10,16 +10,16 @@ Feature: Verify Parties tab functionality for any case type
         Then I will be redirected to Parties page for that case
 
 
-    @all
+#    @all # comment out by alec need to work with Div, FR and SSCS
     Scenario: Verify Parties tab for a case type
         Then I can see Petitioner and Respondent tabs
 
-    @all
+#    @all # comment out by alec need to work with Div, FR and SSCS
     Scenario: Verify Petitioner details for that case type
         When I select Petitioner tab
         Then I can see Full name,Address,Phone,Email,Representative
 
-    @all
+#    @all # comment out by alec need to work with Div, FR and SSCS
     Scenario: Verify Representative details for that case type
         When I select Respondent tab
         Then I can see Full name,Address,Phone,Email,Representative
