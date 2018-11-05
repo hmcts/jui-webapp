@@ -79,7 +79,16 @@ module.exports = {
                             checkbox: {
                                 control: 'partiesNeedAttend',
                                 value: false,
-                                text: 'The parties need to attend a hearing'
+                                text: 'The parties need to attend a hearing',
+                                validators: [
+                                    {
+                                        validator: 'required'
+                                    },
+                                    {
+                                        validator: 'custom',
+                                        customValidator: 'oneOfGroupIsSelected'
+                                    }
+                                ]
                             }
                         },
                         {
@@ -270,8 +279,7 @@ module.exports = {
                                     {
                                         value: 'no',
                                         text: 'No',
-                                        hiddenAccessibilityText:
-                                            ', I don’t want to send an annotated version of the draft consent order to the parties'
+                                        hiddenAccessibilityText: ', I don’t want to send an annotated version of the draft consent order to the parties'
                                     }
                                 ],
                                 validators: ['required']
