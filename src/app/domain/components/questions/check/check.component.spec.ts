@@ -12,7 +12,7 @@ import {of} from 'rxjs';
 import {Selector} from '../../../../../../test/selector-helper';
 import {RedirectionService} from '../../../../routing/redirection.service';
 
-fdescribe('CheckQuestionsComponent', () => {
+describe('CheckQuestionsComponent', () => {
     let component: CheckQuestionsComponent;
     let fixture: ComponentFixture<CheckQuestionsComponent>;
     let httpMock: HttpTestingController;

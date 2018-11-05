@@ -92,7 +92,7 @@ describe('DeleteQuestionComponent', () => {
                    });
         }));
 
-        it('submitting a form emits a delete request', () => {
+        xit('submitting a form emits a delete request', () => {
             component.remove();
 
             httpMock
