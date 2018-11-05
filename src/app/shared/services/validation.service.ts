@@ -125,7 +125,7 @@ export class ValidationService {
      * @param formGroup
      * @return {any}
      */
-    isAnyCheckboxChecked: ValidatorFn = (formGroup: FormGroup): ValidationErrors | null => {
+    isAnyCheckboxChecked(formGroup: FormGroup): ValidationErrors | null {
 
         const checkboxes: Array<string> = ['partiesNeedAttend', 'NotEnoughInformation', 'orderNotAppearOfS25ca1973', 'd81',
             'pensionAnnex', 'applicantTakenAdvice', 'respondentTakenAdvice', 'Other2'];
@@ -138,5 +138,5 @@ export class ValidationService {
         return {
             'noCheckboxIsChecked': true
         };
-    };
+    }
 }

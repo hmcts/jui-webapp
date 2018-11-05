@@ -34,54 +34,23 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
 
     createForm(pageitems, pageValues) {
 
-        // So we need to place into this all the controls that are needed.
-        // then run through the controls and check if any are true.
-
-        // So do we have formValidationService and then a
-        // controlValidationService
-        // ie. one for the parent and one of child control.
-
-
-        // it needs to pass through if a box is checked.
-        //TODO: Move to service
-        /**
-         * isAnyCheckboxChecked
-         *
-         * Checks if any of the checkbox controls passed to this function are checked ie. have a boolean value
-         * of true.
-         *
-         * This is due to the fact that we might have multiply checkboxes within the view, and the user needs to
-         * select at least one of these checkboxes to have entered a valid input.
-         *
-         * Note that we valid on the formGroup level, and not the control level for this as we are concerned with
-         * multiply controls and the Angular 6 way is to have the validator on a common ancestor of controls, in this
-         * case our formGroup.
-         *
-         * If this function returns null, there is no validation error.
-         *
-         * @param formGroup
-         * @return {any}
-         */
-        const isAnyCheckboxChecked: ValidatorFn = (formGroup: FormGroup): ValidationErrors | null => {
-
-            // const checkboxes: Array<string> = ['partiesNeedAttend', 'NotEnoughInformation', 'orderNotAppearOfS25ca1973', 'd81',
-            //     'pensionAnnex', 'applicantTakenAdvice', 'respondentTakenAdvice', 'Other2'];
-
-            for (let checkbox of checkboxes) {
-                if (formGroup.get(checkbox).value) {
-                    return null;
-                }
-            }
-            return {
-                'noCheckboxIsChecked': true
-            };
-        };
-
         const checkboxes: Array<string> = ['partiesNeedAttend', 'NotEnoughInformation', 'orderNotAppearOfS25ca1973', 'd81',
             'pensionAnnex', 'applicantTakenAdvice', 'respondentTakenAdvice', 'Other2'];
 
+        /**
+         * Form Group Validators, are used for validation that involves one control, being dependent upon another,
+         * or on a group of other controls.
+         *
+         * Validation is required on the common ancestor as per
+         * @see https://angular.io/guide/form-validation#adding-to-reactive-forms-1
+         * to validate multiply controls.
+         *
+         * TODO: So over here, you can place in multiply validators for the page.
+         */
+        const formGroupValidators = [this.validationService.isAnyCheckboxChecked];
+
         this.rejectReasonsForm = new FormGroup(this.formsService.defineformControls(pageitems, pageValues), {
-            validators: this.validationService.isAnyCheckboxChecked
+            validators: formGroupValidators
         });
 
         // TODO: The angular way according to
