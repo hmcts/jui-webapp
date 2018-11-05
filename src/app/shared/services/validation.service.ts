@@ -1,12 +1,13 @@
 import {Injectable} from '@angular/core';
 import {FormGroup} from '@angular/forms';
-import {Validators} from '@angular/forms';
+import {Validators, ValidationErrors, ValidatorFn} from '@angular/forms';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ValidationService {
 
+    // FOR SINGLE CONTROLS - formGroup.control level validation
     /**
      * Custom validators can be added to this.
      *
@@ -103,4 +104,39 @@ export class ValidationService {
     isControlValid(formGroup: FormGroup, control: string): boolean {
         return formGroup.get(control).valid;
     }
+
+    // FOR MULTIPLY CONTROLS - formGroup level validation.
+
+    /**
+     * isAnyCheckboxChecked
+     *
+     * Checks if any of the checkbox controls passed to this function are checked ie. have a boolean value
+     * of true.
+     *
+     * This is due to the fact that we might have multiply checkboxes within the view, and the user needs to
+     * select at least one of these checkboxes to have entered a valid input.
+     *
+     * Note that we valid on the formGroup level, and not the control level for this as we are concerned with
+     * multiply controls and the Angular 6 way is to have the validator on a common ancestor of controls, in this
+     * case our formGroup.
+     *
+     * If this function returns null, there is no validation error.
+     *
+     * @param formGroup
+     * @return {any}
+     */
+    isAnyCheckboxChecked: ValidatorFn = (formGroup: FormGroup): ValidationErrors | null => {
+
+        const checkboxes: Array<string> = ['partiesNeedAttend', 'NotEnoughInformation', 'orderNotAppearOfS25ca1973', 'd81',
+            'pensionAnnex', 'applicantTakenAdvice', 'respondentTakenAdvice', 'Other2'];
+
+        for (let checkbox of checkboxes) {
+            if (formGroup.get(checkbox).value) {
+                return null;
+            }
+        }
+        return {
+            'noCheckboxIsChecked': true
+        };
+    };
 }

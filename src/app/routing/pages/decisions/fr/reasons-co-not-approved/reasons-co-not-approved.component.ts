@@ -1,8 +1,9 @@
 import { Component, Attribute, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup } from '@angular/forms';
+import {FormGroup, ValidationErrors, ValidatorFn} from '@angular/forms';
 import { DecisionService } from '../../../../../domain/services/decision.service';
 import { FormsService } from '../../../../../shared/services/forms.service';
+import { ValidationService } from '../../../../../shared/services/validation.service';
 
 @Component({
   selector: 'app-reasons-co-not-approved',
@@ -28,10 +29,67 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
                  private activatedRoute: ActivatedRoute,
                  private router: Router,
                  private decisionService: DecisionService,
-                 private formsService: FormsService) {}
+                 private formsService: FormsService,
+                 private validationService: ValidationService) {}
+
     createForm(pageitems, pageValues) {
 
-        this.rejectReasonsForm = new FormGroup(this.formsService.defineformControls(pageitems, pageValues));
+        // So we need to place into this all the controls that are needed.
+        // then run through the controls and check if any are true.
+
+        // So do we have formValidationService and then a
+        // controlValidationService
+        // ie. one for the parent and one of child control.
+
+
+        // it needs to pass through if a box is checked.
+        //TODO: Move to service
+        /**
+         * isAnyCheckboxChecked
+         *
+         * Checks if any of the checkbox controls passed to this function are checked ie. have a boolean value
+         * of true.
+         *
+         * This is due to the fact that we might have multiply checkboxes within the view, and the user needs to
+         * select at least one of these checkboxes to have entered a valid input.
+         *
+         * Note that we valid on the formGroup level, and not the control level for this as we are concerned with
+         * multiply controls and the Angular 6 way is to have the validator on a common ancestor of controls, in this
+         * case our formGroup.
+         *
+         * If this function returns null, there is no validation error.
+         *
+         * @param formGroup
+         * @return {any}
+         */
+        const isAnyCheckboxChecked: ValidatorFn = (formGroup: FormGroup): ValidationErrors | null => {
+
+            // const checkboxes: Array<string> = ['partiesNeedAttend', 'NotEnoughInformation', 'orderNotAppearOfS25ca1973', 'd81',
+            //     'pensionAnnex', 'applicantTakenAdvice', 'respondentTakenAdvice', 'Other2'];
+
+            for (let checkbox of checkboxes) {
+                if (formGroup.get(checkbox).value) {
+                    return null;
+                }
+            }
+            return {
+                'noCheckboxIsChecked': true
+            };
+        };
+
+        const checkboxes: Array<string> = ['partiesNeedAttend', 'NotEnoughInformation', 'orderNotAppearOfS25ca1973', 'd81',
+            'pensionAnnex', 'applicantTakenAdvice', 'respondentTakenAdvice', 'Other2'];
+
+        this.rejectReasonsForm = new FormGroup(this.formsService.defineformControls(pageitems, pageValues), {
+            validators: this.validationService.isAnyCheckboxChecked
+        });
+
+        // TODO: The angular way according to
+        // @see https://angular.io/guide/form-validation#adding-to-reactive-forms-1 is to have
+        // validation that involves more than one control, in the common ancestor, ie. the form group.
+        // but when do we initialise the form group, do we place the validation there?
+        // therefore over here we should place the form wide validation, ie. where it involves two
+        // or more controls.
 
         this.showOther = this.rejectReasonsForm.controls.Other.value;
         this.showOther2 = this.rejectReasonsForm.controls.Other2.value;
