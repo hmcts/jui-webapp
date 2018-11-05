@@ -226,11 +226,11 @@ async function makeDecision(decision, req, state, store) {
         logger.info('Payload assembled')
         logger.info(JSON.stringify(payload))
         await ccdStore.postCaseWithEventToken(
-            payload,
             req.auth.userId,
             'DIVORCE',
             'FinancialRemedyMVP2',
             state.inCaseId,
+            payload,
             getOptions(req)
         )
 

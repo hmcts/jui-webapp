@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CaseService} from '../../services/case.service';
-import {RedirectionService} from "../../../routing/redirection.service";
-import {ActivatedRoute} from "@angular/router";
+import {RedirectionService} from '../../../routing/redirection.service';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
     selector: 'app-search-result',
@@ -13,7 +13,7 @@ export class SearchResultComponent implements OnInit {
     data$: Object;
     error: string;
 
-    constructor(private caseService: CaseService,  private route: ActivatedRoute ,private redirectionService: RedirectionService) {
+    constructor(private caseService: CaseService,  private route: ActivatedRoute , private redirectionService: RedirectionService) {
     }
 
     ngOnInit() {
@@ -21,12 +21,12 @@ export class SearchResultComponent implements OnInit {
     }
 
     onSubmit() {
-        this.caseService.getNewCase().subscribe( () => {
-            console.log('next()');
-        }, () => {
-            console.log('somthing went wrong');
-        }, () => {
-            this.data$ = this.caseService.search();
-        });
+        this.caseService.getNewCase().subscribe(
+            res => {
+                this.redirectionService.redirect(`/?newCase=success`);
+            }, () => {
+                this.redirectionService.redirect(`/?newCase=failure`);
+            }
+        );
     }
 }
