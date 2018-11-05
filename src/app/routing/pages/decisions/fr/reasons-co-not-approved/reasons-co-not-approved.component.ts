@@ -69,11 +69,13 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
         this.request.formValues.visitedPages = this.pageValues.visitedPages;
 
         console.log('Form is valid:', this.rejectReasonsForm.valid);
-        console.log('Form is pristine:', this.rejectReasonsForm.pristine);
+
         if (this.rejectReasonsForm.invalid) {
             this.useValidation = true;
             return;
         }
+
+        // TODO: Hook this back in when you are happy that validation works.
         // this.decisionService.submitDecisionDraft('fr',this.activatedRoute.snapshot.parent.data.caseData.id, this.pageitems.name, this.request).subscribe(decision => {
         //     console.log(decision.newRoute);
         //     this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});

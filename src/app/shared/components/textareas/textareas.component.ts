@@ -43,9 +43,6 @@ export class TextareasComponent {
      */
     isControlInvalidAndShowValidation(formGroup: FormGroup, control: string, showValidation: boolean) {
 
-        console.log('isControlInvalidAndShowValidation');
-        console.log(this.isControlValid(formGroup, control));
-        console.log(!this.isControlValid(formGroup, control) && showValidation);
         return !this.isControlValid(formGroup, control) && showValidation;
     }
 

@@ -51,6 +51,11 @@ module.exports = {
                     value: 'Select yes if you want to include an annotated version of the draft consent order',
                     linkToControl: 'includeAnnotatedVersionDraftConsOrder',
                     pageLinkToControl: 'includeAnnotatedVersionDraftConsOrder'
+                },
+                {
+                    value: 'Enter the directions',
+                    linkToControl: 'Directions',
+                    pageLinkToControl: 'addHrefWhenFormBuilderIsReadyWithIds'
                 }
             ],
             header: 'What should appear in the directions order?',
@@ -225,8 +230,13 @@ module.exports = {
                             text: 'Directions',
                             classes: 'govuk-label--m'
                         },
+                        validationError: {
+                            value: 'Enter the directions that are required',
+                            linkToControl: 'Directions'
+                        },
                         control: 'Directions',
-                        value: 'Direction text'
+                        value: '',
+                        validators: ['required']
                     }
                 },
                 {
