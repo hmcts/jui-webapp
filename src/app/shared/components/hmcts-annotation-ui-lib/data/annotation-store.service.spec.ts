@@ -179,20 +179,6 @@ describe('AnnotationStoreService', () => {
     }));
   });
 
-  // describe('setCommentFocusSubject', () => {
-  //   it('should set the commentFocusSubject and showButton should default to false',
-  //     inject([AnnotationStoreService], (service: AnnotationStoreService) => {
-
-  //     service.getCommentFocusSubject().subscribe((commentOptions: {annotation, showButton}) => {
-  //       console.log(commentOptions);
-  //       expect(commentOptions).toBe({annotation: mockAnnotation, showButton: true});
-  //       // expect(commentOptions.showButton).toBeFalsy();
-  //     });
-
-  //     service.setCommentFocusSubject(mockAnnotation, true);
-  //   }));
-  // });
-
   describe('setCommentBtnSubject', () => {
     it('should set the commentBtnSubject', inject([AnnotationStoreService], (service: AnnotationStoreService) => {
       const commentId = '99750ac4-10c9-401e-b127-c043bf4e80fc';
@@ -222,21 +208,6 @@ describe('AnnotationStoreService', () => {
       });
       service.setToolBarUpdate(mockAnnotation, true);
   }));
-  });
-
-  describe('preLoad with annotation data', () => {
-
-    // it('should set pdfStoreAdapter with data', inject([AnnotationStoreService], (service: AnnotationStoreService)  => {
-    //   spyOn(pdfAdapaterSpy, 'setStoreData');
-
-    //   spyOn(mockPDFAnnotate, 'setStoreAdapater').and.returnValue(
-    //     new Promise((resolve) => {
-    //       resolve({pdfInfo: { numPages: 65}});
-    //     }
-    //   ));
-    //   service.preLoad(dummyAnnotationSet);
-    //   expect(pdfAdapaterSpy.setStoreData).toHaveBeenCalled();
-    // }));
   });
 
   describe('handleAnnotationEvent', () => {
@@ -304,14 +275,6 @@ describe('AnnotationStoreService', () => {
     }));
   });
 
-  // describe('saveData', () => {
-
-  //   spyOnProperty(mockPdfAdapter, 'annotationSet', 'get').and.returnValue(
-  //     dummyAnnotationSet);
-  //   spyOnProperty(mockPdfAdapter, 'annotations', 'get').and.returnValue(
-  //       annotations);
-  // });
-
   describe('saveAnnotation', () => {
     it('should call httpservice to save annotation', inject([AnnotationStoreService], (service: AnnotationStoreService) => {
       spyOn(mockApiHttpService, 'saveAnnotation').and.returnValue(of('ok'));
@@ -356,10 +319,4 @@ describe('AnnotationStoreService', () => {
       expect(mockPdfAdapter.editComment).toHaveBeenCalledWith(dummyComment);
     }));
   });
-
-  // describe('getAnnotationById', () => {
-  //   it('should return a promise with the annotation', inject([AnnotationStoreService], (service: AnnotationStoreService) => {
-  //     service.getAnnotationById(mockAnnotation.id);
-  //   }));
-  // });
 });

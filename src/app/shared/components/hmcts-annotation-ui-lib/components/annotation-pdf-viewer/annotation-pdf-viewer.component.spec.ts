@@ -114,7 +114,6 @@ describe('AnnotationPdfViewerComponent', () => {
     null, '116b0b0f-65da-41e3-9852-648fe4c30409', []);
 
     component.baseUrl = 'localhost:3000';
-    // component.commentsComponent = commentsComponent;
     mockDocument = fixture.componentRef.injector.get(DOCUMENT);
     spyOn(component, 'ngAfterViewInit').and.stub();
     spyOn(mockDocument, 'querySelector').and.callFake(function() {
