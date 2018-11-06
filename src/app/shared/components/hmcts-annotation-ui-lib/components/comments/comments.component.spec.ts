@@ -99,13 +99,12 @@ describe('CommentsComponent', () => {
     fixture.detectChanges();
   });
 
-  xit('should create', () => {
+  it('should create', () => {
    expect(component).toBeTruthy();
   });
 
   describe('ngOnInit', () => {
     it('should run preRun if isDataLoaded and call showAllComments', () => {
-    
       spyOn(component, 'showAllComments');
       spyOn(component, 'preRun');
       component.ngOnInit();
