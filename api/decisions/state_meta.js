@@ -71,8 +71,14 @@ module.exports = {
                         },
                         {
                             hint: {
-                                text: 'Select all that apply.',
+                                text: 'Select all that applys.',
                                 classes: 'govuk-hint'
+                            }
+                        },
+                        {
+                            validationError: {
+                                value: 'Select reasons the consent order was not approved',
+                                linkToControl: 'informationNeeded'
                             }
                         },
                         {
