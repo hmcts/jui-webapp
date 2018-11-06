@@ -22,8 +22,8 @@ Feature: Dashboard
         Examples:
             | type    |
             | Financial Remedy |
-            | Divorce |
-            | PIP |
+#            | Divorce |
+#            | PIP |
 
 
     @RIUI_417 @all

@@ -82,7 +82,7 @@ const config = {
         strict: true,
         // format: ['node_modules/cucumber-pretty'],
         format: 'json:reports_json/results.json',
-        tags: ['@all'],
+        tags: ['@RIUI_418'],
         require: [
             '../support/world.js',
             '../support/*.js',
