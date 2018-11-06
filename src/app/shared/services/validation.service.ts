@@ -124,20 +124,17 @@ export class ValidationService {
      *
      * TODO : Can we return ValidationFn from this?
      *
+     * If there the user has checked a checked box, this func, returns null, and therefore no validation error is returned,
+     * as the user has checked a box, if it returns a validation error, the user has not checked any of the checkboxes.
+     *
      * @param formGroup
      * @return {any}
      */
-    isAnyCheckboxChecked(formGroup: FormGroup) {
+    isAnyCheckboxChecked(formGroup: FormGroup, checkboxes: Array<string>): ValidatorFn | null {
 
-        //create a validation function, and return this validation function.
-
-        const checkboxes: Array<string> = ['partiesNeedAttend', 'NotEnoughInformation', 'orderNotAppearOfS25ca1973', 'd81',
-            'pensionAnnex', 'applicantTakenAdvice', 'respondentTakenAdvice', 'Other2'];
-
-        // we need to return one validationfn from this.
         const isAnyCheckboxCheckedValidationFn: ValidatorFn = (controls: FormGroup): ValidationErrors | null => {
 
-            for (let checkbox of checkboxes) {
+            for (const checkbox of checkboxes) {
                 if (controls.get(checkbox).value) {
                     return null;
                 }

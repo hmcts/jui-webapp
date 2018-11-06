@@ -55,7 +55,7 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
          *
          * Therefore isAnyCheckboxChecked needs to return an object that is of signature of ValidationFn.
          */
-        const formGroupValidators = [this.validationService.isAnyCheckboxChecked()];
+        const formGroupValidators = [this.validationService.isAnyCheckboxChecked(this.rejectReasonsForm, checkboxes)];
 
 
         /**
