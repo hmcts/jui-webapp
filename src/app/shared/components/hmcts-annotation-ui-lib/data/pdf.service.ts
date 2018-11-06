@@ -1,27 +1,25 @@
 import {ElementRef, Injectable} from '@angular/core';
-import {Subject, BehaviorSubject} from 'rxjs';
-
-declare const PDFJS: any;
-declare const PDFAnnotate: any;
+import {BehaviorSubject} from 'rxjs';
+import { PdfWrapper } from './js-wrapper/pdf-wrapper';
+import { PdfAnnotateWrapper } from './js-wrapper/pdf-annotate-wrapper';
 
 @Injectable()
 export class PdfService {
-
-    UI;
+    UI: any;
     pdfPages: number;
     private RENDER_OPTIONS: { documentId: string, pdfDocument: any, scale: any, rotate: number };
     private pageNumber: BehaviorSubject<number>;
-    private annotationSub: Subject<string>;
     private dataLoadedSubject: BehaviorSubject<boolean>;
 
     viewerElementRef: ElementRef;
 
-    constructor() {
+    constructor(private pdfWrapper: PdfWrapper,
+                private pdfAnnotateWrapper: PdfAnnotateWrapper) {
         this.dataLoadedSubject = new BehaviorSubject(false);
     }
 
     preRun() {
-        this.UI = PDFAnnotate.UI;
+        this.pdfWrapper.workerSrc('/public/javascripts/pdf.worker.js');
         this.pageNumber = new BehaviorSubject(1);
     }
 
@@ -53,20 +51,19 @@ export class PdfService {
         if (viewerElementRef != null) {
             this.viewerElementRef = viewerElementRef;
         }
-        PDFJS.workerSrc = '/public/javascripts/pdf.worker.js';
-        PDFJS.getDocument(this.RENDER_OPTIONS.documentId)
+
+        this.pdfWrapper.getDocument(this.RENDER_OPTIONS.documentId)
             .then(pdf => {
                 this.RENDER_OPTIONS.pdfDocument = pdf;
-
                 const viewer = this.viewerElementRef.nativeElement;
                 viewer.innerHTML = '';
                 const NUM_PAGES = pdf.pdfInfo.numPages;
                 for (let i = 0; i < NUM_PAGES; i++) {
-                    const page = this.UI.createPage(i + 1);
+                    const page = this.pdfAnnotateWrapper.createPage(i + 1);
                     viewer.appendChild(page);
                     setTimeout(() => {
-                        this.UI.renderPage(i + 1, this.RENDER_OPTIONS).then(() => {
-                            if (i === NUM_PAGES -1) {
+                        this.pdfAnnotateWrapper.renderPage(i + 1, this.RENDER_OPTIONS).then(() => {
+                            if (i === NUM_PAGES - 1) {
                                 this.dataLoadedUpdate(true);
                             }
                         });
@@ -82,15 +79,11 @@ export class PdfService {
         );
     }
 
-    renderPage(visiblePageNum: number) {
-        PDFAnnotate.UI.renderPage(visiblePageNum, this.RENDER_OPTIONS);
-    }
-
     setHighlightTool() {
-        PDFAnnotate.UI.enableRect('highlight');
+        this.pdfAnnotateWrapper.enableRect('highlight');
     }
 
     setCursorTool() {
-        PDFAnnotate.UI.disableRect();
+        this.pdfAnnotateWrapper.disableRect();
     }
 }

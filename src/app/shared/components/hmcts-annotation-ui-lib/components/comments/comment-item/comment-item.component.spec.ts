@@ -63,6 +63,7 @@ describe('CommentItemComponent', () => {
     'highlight'
   );
 
+  const mockPdfService = new MockPdfService();
   const mockAnnotationStoreService = new MockAnnotationStoreService();
   const mockComment = new Comment(
     'cfe6bdad-8fc5-4240-adfc-d583bdaee47a',
@@ -111,7 +112,7 @@ describe('CommentItemComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  fdescribe('onInit', () => {
+  describe('onInit', () => {
     it('should hideTheButtonsAndUnfocus', () => {
       component.ngOnInit();
       expect(component['focused']).toBeFalsy();

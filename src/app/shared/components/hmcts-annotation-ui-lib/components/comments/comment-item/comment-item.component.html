@@ -2,7 +2,8 @@
   class="comment-list-item" 
   (ngSubmit)="onSubmit()" #commentItem="ngForm" 
   (click)="handleCommentClick($event)"
-  [style.top.px]="commentTopPos">
+  [style.top.px]="commentTopPos"
+  [style.z-index]="commentZIndex">
   <div class="jui-comment__header">
     <span *ngIf="comment.createdByDetails" class="jui-comment__author">{{comment.createdByDetails.forename}} {{comment.createdByDetails.surname}}</span>
     <time class="jui-comment__meta" ng-controller="datCtrl">{{ comment.createdDate | date: 'd MMMM y h:mm a' }}</time>

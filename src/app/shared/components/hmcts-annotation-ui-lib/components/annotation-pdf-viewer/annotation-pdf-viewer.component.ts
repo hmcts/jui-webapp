@@ -9,8 +9,8 @@ import {ApiHttpService} from '../../data/api-http.service';
 import { Utils } from '../../data/utils';
 import { ContextualToolbarComponent } from '../contextual-toolbar/contextual-toolbar.component';
 import { CommentsComponent } from '../comments/comments.component';
+import { PdfAnnotateWrapper } from '../../data/js-wrapper/pdf-annotate-wrapper';
 
-declare const PDFAnnotate: any;
 
 @Component({
     selector: 'app-annotation-pdf-viewer',
@@ -27,7 +27,6 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
     @Input() annotationSet: IAnnotationSet;
     @Input() baseUrl: string;
 
-    private renderedPages: {};
     private page: number;
     private focusedAnnotationSubscription: Subscription;
     private pageNumberSubscription: Subscription;
@@ -44,6 +43,7 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
                 private utils: Utils,
                 private ref: ChangeDetectorRef,
                 private render: Renderer2,
+                private pdfAnnotateWrapper: PdfAnnotateWrapper,
                 @Inject(DOCUMENT) private document: any) {
     }
 
@@ -57,7 +57,6 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
             rotate: parseInt(localStorage.getItem(this.url + '/rotate'), 10) || 0
         });
 
-        this.renderedPages = {};
         this.pdfService.render(this.viewerElementRef);
         this.pageNumberSubscription = this.pdfService.getPageNumber()
             .subscribe(page => this.page = page);
@@ -66,7 +65,7 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
     }
 
     ngAfterViewInit() {
-        PDFAnnotate.UI.addEventListener('annotation:click', this.handleAnnotationClick.bind(this));
+        this.pdfAnnotateWrapper.getUi().addEventListener('annotation:click', this.handleAnnotationClick.bind(this));
     }
 
     ngOnDestroy() {
@@ -103,14 +102,16 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
     }
 
     handleClick(event: any, isPage?: boolean) {
-        if (!this.utils.clickIsHighlight(event)) {
-            this.unfocusAnnotation();
-            this.annotationStoreService.setToolBarUpdate(null, null);
-        }
-        this.commentsComponent.handleAnnotationBlur();
+        if (this.annotate) {
+            if (!this.utils.clickIsHighlight(event)) {
+                this.unfocusAnnotation();
+                this.annotationStoreService.setToolBarUpdate(null, null);
+            }
+            this.commentsComponent.handleAnnotationBlur();
 
-        if (isPage) {
-            this.pdfService.setPageNumber(this.utils.getClickedPage(event));
+            if (isPage) {
+                this.pdfService.setPageNumber(this.utils.getClickedPage(event));
+            }
         }
     }
 

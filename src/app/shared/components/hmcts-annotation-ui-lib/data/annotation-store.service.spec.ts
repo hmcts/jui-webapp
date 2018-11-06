@@ -7,10 +7,9 @@ import { ApiHttpService } from './api-http.service';
 import { PdfAdapter } from './pdf-adapter';
 import { PdfService } from './pdf.service';
 import { Annotation, AnnotationSet, Comment } from './annotation-set.model';
+import { PdfAnnotateWrapper } from './js-wrapper/pdf-annotate-wrapper';
 
-declare global { interface Window { PDFAnnotate: any; } }
-
-class MockPDFAnnotate {
+class MockPdfAnnotateWrapper {
   setStoreAdapter() {}
   getStoreAdapter() {
     const getAnnotation = function() {};
@@ -53,8 +52,7 @@ class MockPdfService {
 }
 
 describe('AnnotationStoreService', () => {
-  const mockPDFAnnotate = new MockPDFAnnotate();
-  window.PDFAnnotate = mockPDFAnnotate;
+  const mockPdfAnnotateWrapper = new MockPdfAnnotateWrapper();
 
   const mockPdfService = new MockPdfService();
   const mockApiHttpService = new MockApiHttpService();
@@ -125,6 +123,7 @@ describe('AnnotationStoreService', () => {
         { provide: ApiHttpService, useFactory: () => mockApiHttpService },
         { provide: PdfAdapter, useFactory: () => mockPdfAdapter},
         { provide: PdfService, useFactory: () => mockPdfService},
+        { provide: PdfAnnotateWrapper, useFactory: () => mockPdfAnnotateWrapper},
         ]
     });
 

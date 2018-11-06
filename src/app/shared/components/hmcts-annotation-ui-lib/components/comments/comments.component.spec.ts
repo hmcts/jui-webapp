@@ -99,12 +99,18 @@ describe('CommentsComponent', () => {
     fixture.detectChanges();
   });
 
-  describe('ngOnInit', () => {
-    it('should run preRun if isDataLoaded', () => {
-      spyOn(component, 'preRun');
+  xit('should create', () => {
+   expect(component).toBeTruthy();
+  });
 
+  describe('ngOnInit', () => {
+    it('should run preRun if isDataLoaded and call showAllComments', () => {
+    
+      spyOn(component, 'showAllComments');
+      spyOn(component, 'preRun');
       component.ngOnInit();
 
+      expect(component.showAllComments).toHaveBeenCalled();
       expect(component.preRun).toHaveBeenCalled();
     });
   });
@@ -121,18 +127,13 @@ describe('CommentsComponent', () => {
       component.ngOnDestroy();
       expect(component['dataLoadedSub'].unsubscribe).toHaveBeenCalled();
     });
-  xit('should create', () => {
-   expect(component).toBeTruthy();
   });
 
   describe('preRun', () => {
     it('should subscribe to pageNumSub', () => {
-      spyOn(component, 'showAllComments');
-
       component.preRun();
 
       expect(component['pageNumber']).toBe(1);
-      expect(component.showAllComments).toHaveBeenCalled();
     });
   });
 

@@ -12,6 +12,8 @@ import { AnnotationPdfViewerComponent } from './components/annotation-pdf-viewer
 import { Utils } from './data/utils';
 import { ApiHttpService } from './data/api-http.service';
 import { ContextualToolbarComponent } from './components/contextual-toolbar/contextual-toolbar.component';
+import { PdfAnnotateWrapper } from './data/js-wrapper/pdf-annotate-wrapper';
+import { PdfWrapper } from './data/js-wrapper/pdf-wrapper';
 
 @NgModule({
   imports: [
@@ -26,6 +28,8 @@ import { ContextualToolbarComponent } from './components/contextual-toolbar/cont
     AnnotationPdfViewerComponent
   ],
   providers: [
+    PdfAnnotateWrapper,
+    PdfWrapper,
     PdfService,
     AnnotationStoreService,
     PdfAdapter,

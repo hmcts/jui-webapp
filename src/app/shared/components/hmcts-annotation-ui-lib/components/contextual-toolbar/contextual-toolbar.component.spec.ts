@@ -127,7 +127,8 @@ describe('ContextualToolbarComponent', () => {
       component.annotation = dummyAnnotation;
       spyOn(mockAnnotationStoreService, 'setCommentFocusSubject');
       spyOn(mockAnnotationStoreService, 'addComment');
-
+    });
+  
     xit('should call pdfservice and hide the toolbar', () => {
       spyOn(mockPdfService, 'setAnnotationClicked');
       component.handleCommentBtnClick();

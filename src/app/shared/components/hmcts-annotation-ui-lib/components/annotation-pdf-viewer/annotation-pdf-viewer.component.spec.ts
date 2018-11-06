@@ -12,6 +12,15 @@ import { NpaService } from '../../data/npa.service';
 import { ApiHttpService } from '../../data/api-http.service';
 import { Utils } from '../../data/utils';
 import { CommentsComponent } from '../comments/comments.component';
+import { PdfAnnotateWrapper } from '../../data/js-wrapper/pdf-annotate-wrapper';
+
+class MockPdfAnnotateWrapper {
+  setStoreAdapter() {}
+  getStoreAdapter() {
+    const getAnnotation = function() {};
+    const getAnnotations = function() {};
+  }
+}
 
 class MockPdfService {
   pageNumber: Subject<number>;
@@ -71,6 +80,7 @@ describe('AnnotationPdfViewerComponent', () => {
   const mockNpaService = new MockNpaService();
   const mockApiHttpService = new MockApiHttpService();
   const mockUtils = new MockUtils();
+  const mockPdfAnnotateWrapper = new MockPdfAnnotateWrapper();
   let mockDocument: any;
 
   beforeEach(async(() => {
@@ -82,6 +92,7 @@ describe('AnnotationPdfViewerComponent', () => {
         { provide: PdfService, useFactory: () => mockPdfService },
         { provide: AnnotationStoreService, useFactory: () => mockAnnotationStoreService },
         { provide: NpaService, useFactory: () => mockNpaService },
+        { provide: PdfAnnotateWrapper, useFactory: () => mockPdfAnnotateWrapper },
         { provide: ApiHttpService, useFactory: () => mockApiHttpService }
       ]
     })
