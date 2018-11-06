@@ -34,6 +34,11 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
 
     createForm(pageitems, pageValues) {
 
+        /**
+         * Creates Form Group with Controls.
+         */
+        this.rejectReasonsForm = new FormGroup(this.formsService.defineformControls(pageitems, pageValues));
+
         const checkboxes: Array<string> = ['partiesNeedAttend', 'NotEnoughInformation', 'orderNotAppearOfS25ca1973', 'd81',
             'pensionAnnex', 'applicantTakenAdvice', 'respondentTakenAdvice', 'Other2'];
 
@@ -46,12 +51,20 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
          * to validate multiply controls.
          *
          * TODO: So over here, you can place in multiply validators for the page.
+         * So over here you need to pass in the checkboxes. how would you do this?
+         *
+         * Therefore isAnyCheckboxChecked needs to return an object that is of signature of ValidationFn.
          */
-        const formGroupValidators = [this.validationService.isAnyCheckboxChecked];
+        const formGroupValidators = [this.validationService.isAnyCheckboxChecked()];
 
-        this.rejectReasonsForm = new FormGroup(this.formsService.defineformControls(pageitems, pageValues), {
-            validators: formGroupValidators
-        });
+
+        /**
+         * Sets up Forms top most validators, ie. validators that depend on multiply controls. ie.
+         * to check if one of multiply checkboxes are checked.
+         *
+         * Note : set Validations takes objects with a signature of ValidationFn
+         */
+        this.rejectReasonsForm.setValidators(formGroupValidators);
 
         // TODO: The angular way according to
         // @see https://angular.io/guide/form-validation#adding-to-reactive-forms-1 is to have
