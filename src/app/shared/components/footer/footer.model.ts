@@ -4,10 +4,9 @@ export interface Helper {
     phone: { text: string; };
     opening: { text: string; };
 }
+export interface NavigationItems {
+    text: string; href: string;
+}
 export interface Navigation {
-    items: [
-        { text: string; href: string;},
-        { text: string; href: string; },
-        { text: string; href: string;}
-   ];
+    items: Array<NavigationItems>;
 }
