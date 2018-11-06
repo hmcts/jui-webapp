@@ -4,8 +4,9 @@ function caseSummaryPage() {
     this.case_header_text = element(by.css(".hmcts-page-heading__title-wrapper > h1.hmcts-page-heading__title.govuk-heading-xl"));
     this.caseDetails_header_text = element(by.css('app-data-list:nth-child(2) > div > h2'));
     this.representatives_text = element(by.css('app-data-list:nth-child(3) > div > h2'));
-    this.linkedcase_text = element(by.css('app-data-list:nth-child(4) > div > h2'));
     this.panel_members_text = element(by.css('app-data-list:nth-child(3) > div > h2'));
+    this.related_cases_text = element(by.css('app-data-list:nth-child(3) > div > h2'));
+    this.linkedcase_text = element(by.css('app-data-list:nth-child(4) > div > h2'));
     this.casefields = element.all(by.css("[data-selector='table-cell']:nth-child(1)"));
     this.judicial_case_manager_logo = element(by.css('.hmcts-header__logotype-text'));
     this.judicial_case_manager_link = element(by.css("a.hmcts-header__link"));

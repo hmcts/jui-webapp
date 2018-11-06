@@ -4,8 +4,6 @@ Feature: Dashboard
     Background:
         Given I navigate to JUI Url
 
-
-
     @RIUI-956 @all
     Scenario: Verify Dashboard table column header texts
         When I am logged into JUI web app
@@ -23,8 +21,9 @@ Feature: Dashboard
         Then I will be redirected to the Case Summary page for that case <type>
         Examples:
             | type    |
-#           |PIP|
-            | Divorce |
+#            | PIP |
+#            | Divorce |
+#            | Financial Remedy |
 
 
     @RIUI_417 @all

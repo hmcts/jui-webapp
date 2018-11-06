@@ -1,7 +1,6 @@
 const express = require('express')
 const moment = require('moment')
 const getListTemplate = require('./templates')
-const sscsCaseListTemplate = require('./templates/sscs/benefit')
 const processCaseStateEngine = require('../lib/processors/case-state-model')
 const valueProcessor = require('../lib/processors/value-processor')
 const { caseStateFilter } = require('../lib/processors/case-state-util')
@@ -9,39 +8,66 @@ const { getAllQuestionsByCase } = require('../questions')
 const { getMutiJudCCDCases } = require('../services/ccd-store-api/ccd-store')
 const { getHearingByCase } = require('../services/coh-cor-api/coh-cor-api')
 const { getDetails } = require('../services/idam-api/idam-api')
+const { getNewCase } = require('./assignCase')
+
+const columns = [
+    {
+        label: 'Case Reference',
+        case_field_id: 'case_ref'
+    },
+    {
+        label: 'Parties',
+        case_field_id: 'parties'
+    },
+    {
+        label: 'Type',
+        case_field_id: 'type'
+    },
+    {
+        label: 'Decision needed on',
+        case_field_id: 'status'
+    },
+    {
+        label: 'Case received',
+        case_field_id: 'createdDate',
+        date_format: 'd MMM yyyy'
+    },
+    {
+        label: 'Date of last event',
+        case_field_id: 'lastModified',
+        date_format: 'd MMM yyyy'
+    }
+]
 
 function getJurisdictions(details) {
     return details
         ? [
-              {
-                  jur: 'SSCS',
-                  caseType: 'Benefit',
-                  // filter: `&state=appealCreated&case.appeal.benefitType.code=PIP&case.assignedToJudge=${details.email}`
-                  filter: `&state=appealCreated&case.appeal.benefitType.code=PIP`
-              },
-              {
-                  jur: 'DIVORCE',
-                  caseType: 'DIVORCE',
-                  // filter: `&case.assignedToJudge=${details.email}`
-                  filter: ``
-              },
-              {
-                  jur: 'DIVORCE',
-                  caseType: 'FinancialRemedyMVP2',
-                  filter: `&state=referredToJudge&case.assignedToJudge=${details.email}`
-                  // filter: `&state=referredToJudge`
-              }
-              // {
-              //     jur: 'CMC',
-              //     caseType: 'MoneyClaimCase',
-              //     filter: ''
-              // },
-              // {
-              //     jur: 'PROBATE',
-              //     caseType: 'GrantOfRepresentation',
-              //     filter: ''
-              // }
-          ]
+            {
+                jur: 'SSCS',
+                caseType: 'Benefit',
+                filter: `&state=appealCreated&case.appeal.benefitType.code=PIP&case.assignedToJudge=${details.email}`
+            },
+            {
+                jur: 'DIVORCE',
+                caseType: 'DIVORCE',
+                filter: `&case.assignedToJudge=${details.email}`
+            },
+            {
+                jur: 'DIVORCE',
+                caseType: 'FinancialRemedyMVP2',
+                filter: `&state=referredToJudge&case.assignedToJudge=${details.email}`
+            }
+            // {
+            //     jur: 'CMC',
+            //     caseType: 'MoneyClaimCase',
+            //     filter: '&case.assignedToJudge=${details.email}'
+            // },
+            // {
+            //     jur: 'PROBATE',
+            //     caseType: 'GrantOfRepresentation',
+            //     filter: '&case.assignedToJudge=${details.email}'
+            // }
+        ]
         : []
 }
 
@@ -218,7 +244,7 @@ function sortCases(results) {
 }
 
 function aggregatedData(results) {
-    return { ...sscsCaseListTemplate, results }
+    return { columns, results }
 }
 
 function getOptions(req) {
@@ -232,6 +258,7 @@ function getOptions(req) {
 
 module.exports = app => {
     const router = express.Router({ mergeParams: true })
+    app.use('/cases', router)
 
     router.get('/', (req, res, next) => {
         const userId = req.auth.userId
@@ -259,6 +286,21 @@ module.exports = app => {
                     res.status(response.statusCode || 500).send(response)
                 })
         })
+    })
+
+    router.post('/assign/new', (req, res, next) => {
+        const userId = req.auth.userId
+        const options = getOptions(req)
+        getNewCase(userId, options)
+            .then(results => {
+                res.setHeader('Access-Control-Allow-Origin', '*')
+                res.setHeader('content-type', 'application/json')
+                res.status(200).send(JSON.stringify(results))
+            })
+            .catch(response => {
+                console.dir(response.error || response)
+                res.status(response.statusCode || 500).send(response.error || response)
+            })
     })
 
     router.get('/raw', (req, res, next) => {
@@ -302,6 +344,4 @@ module.exports = app => {
                 })
         })
     })
-
-    app.use('/cases', router)
 }

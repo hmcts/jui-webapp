@@ -4,49 +4,32 @@ const generateRequest = require('../../lib/request/request')
 
 const url = config.services.ccd_data_api
 
-// No need to mock requests given that  differs minorly to the main request?
-// Do switch in one place
-// Don't check envromental strings all over code base , its a global dependency so should be set in one place
-// https://eslint.org/docs/rules/no-process-env
-
-// TODO remove the CCD part
-// getCCDEventToken == getEventTokenAndCase see whcih one is better
 function getCCDEventToken(userId, jurisdiction, caseType, caseId, eventId, options) {
-    const urlX = `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/event-triggers/${eventId}/token`;
-    return generateRequest('GET', urlX, options);
+    const urlX = `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/event-triggers/${eventId}/token`
+    return generateRequest('GET', urlX, options)
 }
 
+// async version of getCCDEventToken
 async function getEventTokenAndCase(userId, jurisdiction, caseType, caseId, eventId, options) {
-    const response = await generateRequest(
-        'GET',
-        `${
-            config.services.ccd_data_api
-        }/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/event-triggers/${eventId}/token`,
-        options
-    )
-
+    const urlX = `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/event-triggers/${eventId}/token`
+    const response = await generateRequest('GET', urlX, options)
     return { token: response.token, caseDetails: response.case_details }
 }
 
-
-
-// TODO: rename payload to body and put at the end of the call
-async function postCaseWithEventToken(payload, userId, jurisdiction, caseTypeId, caseId, options) {
-    options.body = payload
-
-    await generateRequest(
-        'POST',
-        `${
-            config.services.ccd_data_api
-        }/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseTypeId}/cases/${caseId}/events`,
-        options
-    )
+function getCCDEventTokenWithoutCase(userId, jurisdiction, caseType, eventId, options) {
+    const urlX = `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/event-triggers/${eventId}/token`
+    return generateRequest('GET', urlX, options)
 }
 
+// async version of postCCDEvent
+async function postCaseWithEventToken(userId, jurisdiction, caseTypeId, caseId, body, options) {
+    const urlX = `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseTypeId}/cases/${caseId}/events`
+    await generateRequest('POST', urlX, { ...options, body })
+}
 
-function postCCDEvent(userId, jurisdiction, caseType, caseId, options) {
-    const urlX = `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`;
-    return generateRequest('POST', urlX, options);
+function postCCDEvent(userId, jurisdiction, caseType, caseId, body, options) {
+    const urlX = `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`
+    return generateRequest('POST', urlX, { ...options, body })
 }
 
 function getCCDCase(userId, jurisdiction, caseType, caseId, options) {
@@ -64,6 +47,11 @@ function getCCDCases(userId, jurisdiction, caseType, filter, options) {
     return generateRequest('GET', urlX, options)
 }
 
+function postCCDCase(userId, jurisdiction, caseType, body, options) {
+    const urlX = `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases`
+    return generateRequest('POST', urlX, { ...options, body })
+}
+
 // TODO: This should eventually replace ccd better mutijud search
 // jurisdictions is [{jur,caseType,filter},...]
 function getMutiJudCCDCases(userId, jurisdictions, options) {
@@ -79,12 +67,46 @@ function getMutiJudCCDCases(userId, jurisdictions, options) {
     }
     const promiseArray = []
     jurisdictions.forEach(jurisdiction => {
-        promiseArray.push(getCCDCases(userId, jurisdiction.jur, jurisdiction.caseType, jurisdiction.filter, options));
-    });
-
-    return Promise.all(promiseArray.map(handle)).then(results => {
-        return results.filter(x => x.status).map(x => x.v)
+        promiseArray.push(getCCDCases(userId, jurisdiction.jur, jurisdiction.caseType, jurisdiction.filter, options))
     })
+
+    return Promise.all(promiseArray.map(handle)).then(results => results.filter(x => x.status).map(x => x.v))
+}
+
+function createCase(userId, jurisdiction, caseType, eventId, description, summary, data, options) {
+    return getCCDEventTokenWithoutCase(userId, jurisdiction, caseType, eventId, options)
+        .then(eventToken => {
+            return {
+                event: {
+                    id: eventId,
+                    description,
+                    summary
+                },
+                event_token: eventToken.token,
+                ignore_warning: true,
+                data
+            }
+        })
+        .then(obj => {console.dir(obj); return obj;}) // use to debug case creation or update
+        .then(body => postCCDCase(userId, jurisdiction, caseType, body, options))
+}
+
+function updateCase(userId, jurisdiction, caseType, caseId, eventId, description, summary, data, options) {
+    return getCCDEventToken(userId, jurisdiction, caseType, caseId, eventId, options)
+        .then(eventToken => {
+            return {
+                event: {
+                    id: eventId,
+                    description,
+                    summary
+                },
+                event_token: eventToken.token,
+                ignore_warning: true,
+                data
+            }
+        })
+        .then(obj => {console.dir(obj); return obj;}) // use to debug case creation or update
+        .then(body => postCCDEvent(userId, jurisdiction, caseType, caseId, body, options))
 }
 
 function getHealth(options) {
@@ -117,13 +139,30 @@ module.exports = app => {
     })
 }
 
-module.exports.getInfo = getInfo;
-module.exports.getHealth = getHealth;
-module.exports.getCCDCase = getCCDCase;
-module.exports.getCCDCases = getCCDCases;
-module.exports.getCCDEvents = getCCDEvents;
-module.exports.getMutiJudCCDCases = getMutiJudCCDCases;
-module.exports.getCCDEventToken = getCCDEventToken;
-module.exports.getEventTokenAndCase = getEventTokenAndCase;
-module.exports.postCCDEvent = postCCDEvent;
-module.exports.postCaseWithEventToken = postCaseWithEventToken;
+module.exports.getInfo = getInfo
+
+module.exports.getHealth = getHealth
+
+module.exports.getCCDCase = getCCDCase
+
+module.exports.postCCDCase = postCCDCase
+
+module.exports.getCCDCases = getCCDCases
+
+module.exports.getCCDEvents = getCCDEvents
+
+module.exports.getMutiJudCCDCases = getMutiJudCCDCases
+
+module.exports.getCCDEventToken = getCCDEventToken
+
+module.exports.getCCDEventTokenWithoutCase = getCCDEventTokenWithoutCase
+
+module.exports.getEventTokenAndCase = getEventTokenAndCase
+
+module.exports.postCCDEvent = postCCDEvent
+
+module.exports.postCaseWithEventToken = postCaseWithEventToken
+
+module.exports.createCase = createCase
+
+module.exports.updateCase = updateCase
