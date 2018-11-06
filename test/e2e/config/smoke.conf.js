@@ -59,7 +59,9 @@ const config = {
         serverUrls: process.env.TEST_URL || 'http://localhost:3000/',
         targetEnv: argv.env || 'local',
         username: process.env.TEST_EMAIL,
-        password: process.env.TEST_PASSWORD
+        password: process.env.TEST_PASSWORD,
+        fr_judge_username: process.env.FR_EMAIL,
+        fr_judge_password: process.env.FR_PASSWORD
 
     },
     directConnect: true,
@@ -81,7 +83,7 @@ const config = {
         strict: true,
         // format: ['node_modules/cucumber-pretty'],
         format: 'json:reports_json/results.json',
-        tags: ['@smoke'],
+        tags: ['@ignore'],
         require: [
             '../support/world.js',
             '../support/*.js',

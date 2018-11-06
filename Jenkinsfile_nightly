@@ -14,8 +14,6 @@ properties([
              string(name: 'JUI_EMAIL', defaultValue: '', description: 'The EMAIL you want to run these tests against'),
              string(name: 'JUI_PASSWORD', defaultValue: '', description: 'The PASSWORD you want to run these tests against')
 
-
-    ])
 ])
 
 @Library("Infrastructure")
@@ -26,12 +24,18 @@ def component = "webapp"
 
 def channel = '#jui-pipeline'
 
+
+
+
 List<LinkedHashMap<String, Object>> secrets = [
-    secret('test-email', 'TEST_EMAIL'),
-    secret('test-password', 'TEST_PASSWORD')
-   // secret('fr-email', 'FR_EMAIL'),
-   // secret('fr-password', 'FR_PASSWORD')
+        secret('test-email', 'TEST_EMAIL'),
+        secret('test-password', 'TEST_PASSWORD')
+        secret('fr-email', 'FR_EMAIL'),
+        secret('fr-password', 'FR_PASSWORD')
 ]
+
+
+
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     [ $class: 'AzureKeyVaultSecret',
@@ -45,6 +49,9 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 withNightlyPipeline(type, product, component) {
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
+    setVaultName('rpa-aat')
+  
+
     //    enablePerformanceTest(15)
     //    enableApiGatewayTest(15)
     //    enableFullFunctionalTest(30)

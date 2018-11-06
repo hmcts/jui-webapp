@@ -21,7 +21,9 @@ const config = {
         serverUrls: process.env.TEST_URL || 'http://localhost:3000/',
         targetEnv: argv.env || 'local',
         username: process.env.TEST_EMAIL,
-        password: process.env.TEST_PASSWORD
+        password: process.env.TEST_PASSWORD,
+        fr_judge_username: process.env.FR_EMAIL,
+        fr_judge_password: process.env.FR_PASSWORD
 
     },
 

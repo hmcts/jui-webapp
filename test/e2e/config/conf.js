@@ -55,9 +55,9 @@ const config = {
         serverUrls: process.env.TEST_URL || 'http://localhost:3000/',
         targetEnv: argv.env || 'local',
         username: process.env.TEST_EMAIL,
-        password: process.env.TEST_PASSWORD
-        // fr_judge_username: process.env.FR_EMAIL,
-        // fr_judge_password: process.env.FR_PASSWORD
+        password: process.env.TEST_PASSWORD,
+        fr_judge_username: process.env.FR_EMAIL,
+        fr_judge_password: process.env.FR_PASSWORD
 
 
     },
@@ -104,27 +104,8 @@ const config = {
         }
     ]
 
-    // plugins: [{
-    //     package: 'jasmine2-protractor-utils',
-    //     disableHTMLReport: true,
-    //     disableScreenshot: false,
-    //     screenshotPath:'./screenshots',
-    //     screenshotOnExpectFailure:false,
-    //     screenshotOnSpecFailure:true,
-    //     clearFoldersBeforeTest: true
-    // }],
-    //
-    // onComplete: function() {
-    //     testConfig = {
-    //         reportTitle: 'Test Execution Report',
-    //         outputPath: './',
-    //         screenshotPath: './screenshots',
-    //         testBrowser: 'chrome',
-    //         screenshotsOnlyOnFailure: true
-    //     };
-    //     new HTMLReport().from('xmlresults.xml', testConfig);},
+
 };
 
-// config.cucumberOpts.tags = tagProcessor(config, argv);
 
 exports.config = config;

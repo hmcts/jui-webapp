@@ -21,9 +21,9 @@ Feature: Dashboard
         Then I will be redirected to the Case Summary page for that case <type>
         Examples:
             | type    |
-#            | PIP |
+            | Financial Remedy |
 #            | Divorce |
-#            | Financial Remedy |
+#            | PIP |
 
 
     @RIUI_417 @all
@@ -36,7 +36,7 @@ Feature: Dashboard
 
 
     #FR specific judge to login n verify
-   @pending
+   @FR_case
     Scenario: Verify Draft consent order redirects correct case
         When I am logged into JUI web app with FR judge details
         Then I will be redirected to the JUI dashboard page
@@ -46,7 +46,7 @@ Feature: Dashboard
 
 
     #SSCS specific judge
-    @RIUI-895 @pending
+    @RIUI-895
     Scenario: Verify PIP cases 'Question Drafted' link redirection
         When I am logged into JUI web app
         Then I will be redirected to the JUI dashboard page

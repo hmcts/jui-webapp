@@ -1,5 +1,5 @@
 @parties
-Feature: Verify Parties tab functionality for any case type
+Feature: Parties
 
     Background:
         Given I navigate to JUI Url

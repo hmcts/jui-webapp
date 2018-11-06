@@ -64,21 +64,29 @@ defineSupportCode(function({ Given, When, Then }) {
     Then(/^I will be redirected to the Case Summary page for that case (.*)$/, async function(type) {
         browser.sleep(SHORT_DELAY);
         await expect(caseSummaryPage.case_header_text.getText()).to.eventually.equal('Summary');
-        if (type === 'PIP') {
+        if (type === 'Financial Remedy'){
+            await expect(caseSummaryPage.caseDetails_header_text.getText())
+                .to
+                .eventually
+                .equal('Case details');
+            await expect(caseSummaryPage.related_cases_text.getText())
+                .to
+                .eventually
+                .equal('Related cases');
+        }
+
+        else if (type === 'PIP') {
             await expect(caseSummaryPage.caseDetails_header_text.isDisplayed()).to.eventually.be.true;
             await expect(caseSummaryPage.caseDetails_header_text.getText()).to.eventually.equal('Case details');
             await expect(caseSummaryPage.panel_members_text.getText()).to.eventually.equal('Panel members');
-        } else if (type === 'Divorce') {
+
+        }
+        else if (type === 'Divorce'){
             await expect(caseSummaryPage.caseDetails_header_text.getText()).to.eventually.equal('Case details');
             await expect(caseSummaryPage.representatives_text.isDisplayed()).to.eventually.be.true;
             await expect(caseSummaryPage.representatives_text.getText()).to.eventually.equal('Representatives');
             await expect(caseSummaryPage.linkedcase_text.isDisplayed()).to.eventually.be.true;
             await expect(caseSummaryPage.linkedcase_text.getText()).to.eventually.equal('Linked cases');
-        } else if (type === 'Financial Remedy') {
-            await expect(caseSummaryPage.caseDetails_header_text.getText()).to.eventually.equal('Case details');
-            await expect(caseSummaryPage.related_cases_text.getText()).to.eventually.equal('Related cases');
-        } else {
-
         }
     });
 
@@ -171,25 +179,37 @@ defineSupportCode(function({ Given, When, Then }) {
     });
 
 
-    Then(/^I select a (.*) from Decision needed on column$/, async function(draft_consent_order) {
-        await dashBoardPage.draft_consent_order_link.first()
+    When(/^I select a Draft consent order from decision needed on column$/, async function () {
+        browser.sleep(SHORT_DELAY);
+
+      await dashBoardPage.draft_consent_order_link.first()
             .click();
+        browser.sleep(SHORT_DELAY);
+
 
     });
 
     Then(/^I will be redirected to the Case file page for that Financial remedy case$/, async function() {
-        await expect(caseFilePage.sub_nav_link.isDisplayed()).to.eventually.be.true;
+        browser.sleep(SHORT_DELAY);
         await expect(caseFilePage.case_file_header.isDisplayed()).to.eventually.be.true;
+        browser.sleep(SHORT_DELAY);
         await expect(caseFilePage.case_file_header.getText())
             .to
             .eventually
             .equal('Case file');
+        browser.sleep(SHORT_DELAY);
 
     });
 
     Then(/^I see FR specific cases on JUI dashboard$/, async function() {
+        await dashBoardPage.type_links.isDisplayed();
+        await expect(dashBoardPage.type_links.first().getText()).to.eventually.equal("Financial remedy");
+
 
     });
+
+
+
 
 
 });
