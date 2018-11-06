@@ -21,9 +21,9 @@ Feature: Dashboard
         Then I will be redirected to the Case Summary page for that case <type>
         Examples:
             | type    |
-#            | PIP |
-#            | Divorce |
-#            | Financial Remedy |
+            | Financial Remedy |
+            | Divorce |
+            | PIP |
 
 
     @RIUI_417 @all
