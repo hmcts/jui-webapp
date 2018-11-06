@@ -28,10 +28,12 @@ def channel = '#jui-pipeline'
 
 
 List<LinkedHashMap<String, Object>> secrets = [
-        secret('test-email', 'TEST_EMAIL'),
-        secret('test-password', 'TEST_PASSWORD')
-        secret('fr-email', 'FR_EMAIL'),
-        secret('fr-password', 'FR_PASSWORD')
+    secret('test-email', 'TEST_EMAIL'),
+    secret('test-password', 'TEST_PASSWORD'),
+    secret('jui-s2s-token', 'S2S_SECRET'),
+    secret('jui-oauth2-token', 'IDAM_SECRET'),
+    secret('fr-email', 'FR_EMAIL'),
+    secret('fr-password', 'FR_PASSWORD')
 ]
 
 
@@ -50,21 +52,18 @@ withNightlyPipeline(type, product, component) {
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
     setVaultName('rpa-aat')
-  
 
-    //    enablePerformanceTest(15)
-    //    enableApiGatewayTest(15)
-    //    enableFullFunctionalTest(30)
-    //    enableMutationTest(120)
-         enableCrossBrowserTest(120)
-    //    enableDockerBuild()
-    //    enableDeployToAKS()
+//    enablePerformanceTest(15)
+//    enableApiGatewayTest(15)
+//    enableFullFunctionalTest(30)
+//    enableMutationTest(120)
+    enableCrossBrowserTest(120)
+    enableDockerBuild()
+    enableDeployToAKS()
 
     env.TEST_URL = params.URL_TO_TEST
     env.TEST_EMAIL = params.JUI_EMAIL
     env.TEST_PASSWORD = params.JUI_PASSWORD
-
-
 
     after('checkout') {
     sh 'yarn cache clean'}
