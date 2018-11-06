@@ -4,6 +4,35 @@ const supertest = require('supertest');
 const sscsCaseListTemplate = require('./templates/sscs/benefit');
 const { sscsCaseDataNullCaseRef, divorceCaseData, sscsCaseData, onlineHearingData, userDetails, LAST_MODIFIED_DATE } = require('./case-list-spec-data');
 
+const columns = [
+    {
+        label: 'Case Reference',
+        case_field_id: 'case_ref'
+    },
+    {
+        label: 'Parties',
+        case_field_id: 'parties'
+    },
+    {
+        label: 'Type',
+        case_field_id: 'type'
+    },
+    {
+        label: 'Decision needed on',
+        case_field_id: 'status'
+    },
+    {
+        label: 'Case received',
+        case_field_id: 'createdDate',
+        date_format: 'd MMM yyyy'
+    },
+    {
+        label: 'Date of last event',
+        case_field_id: 'lastModified',
+        date_format: 'd MMM yyyy'
+    }
+]
+
 describe('case-list', () => {
     let httpRequest;
     let app;
@@ -46,7 +75,7 @@ describe('case-list', () => {
             .expect(200)
             .then(response => {
                 expect(response.body.results.length).toBe(0);
-                expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
+                expect(response.body.columns).toEqual(columns);
                 done();
             }));
     });
@@ -62,7 +91,7 @@ describe('case-list', () => {
                 .expect(200)
                 .then(response => {
                     expect(response.body.results.length).toBe(2);
-                    expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
+                    expect(response.body.columns).toEqual(columns);
                     expect(response.body.results[0]).toEqual({
                         case_id: sscsCaseData[0].id,
                         case_jurisdiction: 'SSCS',
@@ -104,7 +133,7 @@ describe('case-list', () => {
             .expect(200)
             .then(response => {
                 expect(response.body.results.length).toBe(0);
-                expect(response.body.columns).toEqual(sscsCaseListTemplate.columns);
+                expect(response.body.columns).toEqual(columns);
                 done();
             }));
     });

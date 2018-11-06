@@ -33,6 +33,10 @@ describe('PdfService', () => {
     it('should be created', inject([PdfService], (service: PdfService) => {
       expect(service).toBeTruthy();
     }));
+
+    xit('initialise dataLoadedSubject', inject([PdfService], (service: PdfService) => {
+      expect(service.getDataLoadedSub).toBeFalsy();
+    }));
   });
 
   describe('dataLoadedUpdate', () => {

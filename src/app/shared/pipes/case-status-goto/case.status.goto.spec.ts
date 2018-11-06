@@ -1,6 +1,6 @@
 import { CaseStatusGoto } from './case.status.goto';
 
-fdescribe('CaseStatusGoto', () => {
+describe('CaseStatusGoto', () => {
     let caseStatusGoToPipe: CaseStatusGoto;
     let status = {};
     const jur = 'SSCS', caseType = 'Benefit', caseId = '3qweeq';

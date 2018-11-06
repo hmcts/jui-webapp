@@ -3,7 +3,7 @@ const supertest = require('supertest');
 const express = require('express');
 const bodyParser = require('body-parser');
 
-xdescribe('Questions route', () => {
+describe('Questions route', () => {
     let route;
     let request;
     let app;
@@ -61,7 +61,7 @@ xdescribe('Questions route', () => {
         });
 
         describe('When I do not have an answer', () => {
-            it('It should return the question', done => {
+            xit('It should return the question', done => {
                 request.get(`/case/${caseNumber}/questions/${questionId}`)
                     .expect(200)
                     .then(response => {
@@ -89,7 +89,7 @@ xdescribe('Questions route', () => {
             });
 
 
-            it('It should return the question with the answer', done => {
+            xit('It should return the question with the answer', done => {
                 request.get(`/case/${caseNumber}/questions/${questionId}`)
                     .expect(200)
                     .then(response => {
@@ -150,7 +150,7 @@ xdescribe('Questions route', () => {
                 };
             });
 
-            it('should return a list of formatted questions', done => {
+            xit('should return a list of formatted questions', done => {
                 request.get(`/case/${caseNumber}/questions`)
                     .expect(200)
                     .then(response => {
@@ -189,7 +189,7 @@ xdescribe('Questions route', () => {
                 cohResponses.GET[`http://coh-cor-aat.service.core-compute-aat.internal/continuous-online-hearings/${hearingId}/questionrounds/`] = { question_rounds: [] };
             });
 
-            it('should return a an empty list', done => {
+            xit('should return a an empty list', done => {
                 request.get(`/case/${caseNumber}/questions`)
                     .expect(200)
                     .then(response => {
@@ -221,7 +221,7 @@ xdescribe('Questions route', () => {
                 };
             });
 
-            it('It should make a post request', done => {
+            xit('It should make a post request', done => {
                 request.post(`/case/${caseNumber}/questions`)
                     .expect(201)
                     .send({

@@ -26,11 +26,6 @@ function dashBoardPage() {
     this.table_column_header = element(by.css(".govuk-table__head.cdk-header-row[role='row']"));
     this.decision_needed_on_header = element(by.css(".govuk-table__header.cdk-header-cell.cdk-column-state"));
     this.draft_consent_order_link = element.all(by.css('[data-selector="case-status-reference-link"]'));
-
-
-
-
 }
-
 
 module.exports = new dashBoardPage;

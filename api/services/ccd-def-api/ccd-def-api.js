@@ -42,6 +42,35 @@ module.exports = app => {
         getCaseTypes(jurisdictions, getOptions(req)).pipe(res)
     })
 
+    router.get('/jurisdictions/:jurisdictions/eventStates', (req, res, next) => {
+        const jurisdictions = req.params.jurisdictions
+        getCaseTypes(jurisdictions, getOptions(req))
+            .then(obj =>
+                obj.map(jud => ({
+                    id: jud.id,
+                    events: jud.events.map(event => ({
+                            a: `${(event.pre_states.length > 0) ? (event.pre_states) : '()'} => ${event.id} => ${event.post_state}`,
+                            // event,
+                            fields: event.case_fields.filter(f => f.display_context !== 'READONLY').map(f => f.case_field_id),
+                            acls: event.acls.map(a => `${a.role} [${(a.create) ? 'C,' : ''}${(a.read) ? 'R,' : ''}${(a.update) ? 'U,' : ''}${(a.delete) ? 'D' : ''}]`),
+                            // id: event.id,
+                            // name: event.name,
+                            // pre_states: event.pre_states,
+                            // post_state: event.post_state
+                        })
+                    )
+                })))
+            .then(results => {
+                res.setHeader('Access-Control-Allow-Origin', '*')
+                res.setHeader('content-type', 'application/json')
+                res.status(200).send(JSON.stringify(results))
+            })
+            .catch(response => {
+                console.log(response.error || response)
+                res.status(response.statusCode || 500).send(response)
+            })
+    })
+
     router.get('/health', (req, res, next) => {
         getHealth(getOptions(req)).pipe(res)
     })

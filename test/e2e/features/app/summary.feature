@@ -84,7 +84,7 @@ Feature: View Case Summary Page
         Then I should see linked cases or panel members details for that case <type>
         Examples:
             | type    |
-            | Divorce |
+#            | Divorce |
 #           |PIP    |
 
 

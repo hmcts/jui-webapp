@@ -55,7 +55,7 @@ export class CaseService {
             return of(cache);
         }
         return this.httpClient
-            .get(url)
+            .post(url, {})
             .pipe(map(data => {
                 this.state.set(key, data);
                 return data;

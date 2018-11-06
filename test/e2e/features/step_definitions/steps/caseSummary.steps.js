@@ -69,28 +69,20 @@ defineSupportCode(function({ Given, When, Then }) {
         browser.sleep(SHORT_DELAY);
         if (type === 'PIP') {
             await expect(caseSummaryPage.caseDetails_header_text.isDisplayed()).to.eventually.be.true;
-            await expect(caseSummaryPage.caseDetails_header_text.getText())
-                .to
-                .eventually
-                .equal('Panel members');
-
-
-        }
-        else {
+            await expect(caseSummaryPage.caseDetails_header_text.getText()).to.eventually.equal('Case details');
+            await expect(caseSummaryPage.panel_members_text.getText()).to.eventually.equal('Panel members');
+        } else if (type === 'Divorce') {
             await expect(caseSummaryPage.representatives_text.isDisplayed()).to.eventually.be.true;
-            await expect(caseSummaryPage.representatives_text.getText())
-                .to
-                .eventually
-                .equal('Representatives');
+            await expect(caseSummaryPage.caseDetails_header_text.getText()).to.eventually.equal('Case details');
+            await expect(caseSummaryPage.representatives_text.getText()).to.eventually.equal('Representatives');
             await expect(caseSummaryPage.linkedcase_text.isDisplayed()).to.eventually.be.true;
-            await expect(caseSummaryPage.linkedcase_text.getText())
-                .to
-                .eventually
-                .equal('Linked cases');
+            await expect(caseSummaryPage.linkedcase_text.getText()).to.eventually.equal('Linked cases');
+        } else if (type === 'Financial Remedy') {
+            await expect(caseSummaryPage.caseDetails_header_text.getText()).to.eventually.equal('Case details');
+            await expect(caseSummaryPage.related_cases_text.getText()).to.eventually.equal('Related cases');
+        } else {
 
         }
-
-
     });
 
     Then(/^I should see header logo text as (.*)$/, async function(jui_case_manager_logo_text) {
