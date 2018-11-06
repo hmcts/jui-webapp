@@ -8,6 +8,7 @@ import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {GovukModule} from '../../../../govuk/govuk.module';
 import {HmctsModule} from '../../../../hmcts/hmcts.module';
+import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 describe('HearingRootComponent', () => {
     let component: HearingRootComponent;
@@ -18,6 +19,7 @@ describe('HearingRootComponent', () => {
             declarations: [
                 HearingRootComponent
             ],
+            schemas: [CUSTOM_ELEMENTS_SCHEMA],
             imports: [
                 DomainModule,
                 SharedModule,

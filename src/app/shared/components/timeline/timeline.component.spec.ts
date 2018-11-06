@@ -1,3 +1,4 @@
+///<reference path="mock/timeline.mock.ts"/>
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CaseViewerModule } from '../../../domain/case-viewer/case-viewer.module';
 import { DebugElement } from '@angular/core';
@@ -5,6 +6,7 @@ import { Selector } from '../../../../../test/selector-helper';
 import {TimelineComponent} from './timeline.component';
 import {HmctsTimelineComponent} from '../../../hmcts/components/hmcts-timeline/hmcts-timeline.component';
 import {SentenceCasePipe} from '../../../hmcts/pipes/sentence-case/sentence-case-pipe';
+import { mockData } from './mock/timeline.mock';
 
 describe('TimelineComponent', () => {
     let component: TimelineComponent;
@@ -31,24 +33,7 @@ describe('TimelineComponent', () => {
 
     describe('when some data is available', () => {
         beforeEach(async(() => {
-            component.events = [
-                {
-                    title: 'HEARING',
-                    by: 'John Smith',
-                    dateUtc: '2018-08-06T15:14:11Z',
-                    date: '6 Aug 2018',
-                    time: '15:14pm',
-                    documents: []
-                },
-                {
-                    title: 'CREATED_EVENT',
-                    by: 'Gilbert Smith',
-                    dateUtc: '2018-08-06T15:14:11Z',
-                    date: '6 Aug 2018',
-                    time: '15:14pm',
-                    documents: []
-                }
-            ];
+            component.events = mockData;
 
             fixture.whenStable().then(() => {
                 fixture.detectChanges();
