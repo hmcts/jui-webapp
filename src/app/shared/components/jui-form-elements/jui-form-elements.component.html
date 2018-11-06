@@ -14,7 +14,6 @@
     -->
 
     <ng-container *ngIf="data.validationError && validate">
-        <div>{{group | json}}</div>
         <app-validation-error-formgroup [group]="group" [validationErrorName]="'noCheckboxIsChecked'">
             {{data.validationError.value}}
         </app-validation-error-formgroup>

@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {ValidationService} from '../../services/validation.service';
+import {ObjectService} from '../../services/object.service';
 
 @Component({
     selector: 'app-validation-error-formgroup',
@@ -43,8 +44,7 @@ export class ValidationErrorFormGroupComponent {
      */
     isValidationError(formGroup: FormGroup, validationErrorName: string): boolean {
 
-        if (formGroup.errors) {
-            //if this is available return this, you need to check that it is available as well.
+        if (formGroup.errors && formGroup.errors.hasOwnProperty(validationErrorName)) {
             return formGroup.errors[validationErrorName];
         } else {
             return null;
