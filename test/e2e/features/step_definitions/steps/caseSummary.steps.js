@@ -86,7 +86,9 @@ defineSupportCode(function({ Given, When, Then }) {
     });
 
     Then(/^I should see header logo text as (.*)$/, async function(jui_case_manager_logo_text) {
+        browser.sleep(SHORT_DELAY);
         await expect(caseSummaryPage.judicial_case_manager_link.isDisplayed()).to.eventually.be.true;
+        browser.sleep(SHORT_DELAY);
         await expect(caseSummaryPage.judicial_case_manager_link.getText())
             .to
             .eventually
@@ -95,7 +97,9 @@ defineSupportCode(function({ Given, When, Then }) {
     });
 
     Then(/^I should see primary navigation link as (.*)$/, async function(dashboard_link) {
+        browser.sleep(SHORT_DELAY);
         await expect(caseSummaryPage.primary_nav_dashboard_link.isDisplayed()).to.eventually.be.true;
+        browser.sleep(SHORT_DELAY);
         await expect(caseSummaryPage.primary_nav_dashboard_link.getText())
             .to
             .eventually
@@ -103,11 +107,13 @@ defineSupportCode(function({ Given, When, Then }) {
     });
 
     Then(/^I should see a jui case bar$/, async function() {
+        browser.sleep(SHORT_DELAY);
         await expect(caseSummaryPage.case_bar.isDisplayed()).to.eventually.be.true;
 
     });
 
     When(/^I click on header logo Judicial case manager$/, async function() {
+        browser.sleep(SHORT_DELAY);
         await caseSummaryPage.judicial_case_manager_link.click();
         browser.sleep(SHORT_DELAY);
 
@@ -121,11 +127,13 @@ defineSupportCode(function({ Given, When, Then }) {
 
 
     Then(/^I should see case alert on summary page for that case$/, async function() {
+        browser.sleep(SHORT_DELAY);
         await expect(caseSummaryPage.case_alert.isDisplayed()).to.eventually.be.true;
 
     });
 
     Then(/^also can see case alert header as (.*)$/, async function(decision_needed) {
+        browser.sleep(SHORT_DELAY);
         await expect(caseSummaryPage.case_alert_heading.getText())
             .to
             .eventually
