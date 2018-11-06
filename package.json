@@ -112,7 +112,7 @@
     "codelyzer": "^4.0.1",
     "concurrently": "^3.6.1",
     "copy-webpack-plugin": "~4.4.1",
-    "cucumber": "^5.0.0",
+    "cucumber": "^4.2.1",
     "cucumber-html-report": "0.6.5",
     "cucumber-html-reporter": "^4.0.2",
     "cucumber-pretty": "^1.4.4",
