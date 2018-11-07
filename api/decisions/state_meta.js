@@ -41,29 +41,30 @@ module.exports = {
         'reject-reasons': {
             idPrefix: 'reject-reasons',
             name: 'reject-reasons',
-            validationHeaderControls: [
+            validationHeaderErrorMessages: [
                 {
-                    validationLevel: 'formcontrol',
-                    value: 'Enter what information is needed',
-                    linkToControl: 'informationNeeded',
-                    pageLinkToControl: 'informationNeeded'
+                    validationLevel: 'formControl',
+                    controlId: 'informationNeeded',
+                    text: 'Enter what information is needed',
+                    href: '#'
                 },
                 {
-                    validationLevel: 'formcontrol',
-                    value: 'Select yes if you want to include an annotated version of the draft consent order',
-                    linkToControl: 'includeAnnotatedVersionDraftConsOrder',
-                    pageLinkToControl: 'includeAnnotatedVersionDraftConsOrder'
+                    validationLevel: 'formControl',
+                    controlId: 'includeAnnotatedVersionDraftConsOrder',
+                    text: 'Select yes if you want to include an annotated version of the draft consent order',
+                    href: '#'
                 },
                 {
-                    validationLevel: 'formcontrol',
-                    value: 'Enter the directions',
-                    linkToControl: 'Directions',
-                    pageLinkToControl: 'addHrefWhenFormBuilderIsReadyWithIds'
+                    validationLevel: 'formControl',
+                    controlId: 'Directions',
+                    text: 'Enter the directions',
+                    href: '#'
                 },
                 {
-                    validationLevel: 'formgroup',
-                    value: 'Select reasons the consent order was not approved',
-                    identifier: 'noCheckboxIsChecked'
+                    validationLevel: 'formGroup',
+                    formGroupValidationErrorId: 'noCheckboxIsChecked',
+                    text: 'Select reasons the consent order was not approved',
+                    href: '#'
                 }
             ],
             header: 'What should appear in the directions order?',

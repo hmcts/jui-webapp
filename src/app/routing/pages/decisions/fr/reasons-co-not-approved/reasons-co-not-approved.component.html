@@ -3,7 +3,7 @@
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <ng-container *ngIf="useValidation && rejectReasonsForm.invalid">
-                <app-validation-header [validationHeaderControls]="pageitems.validationHeaderControls" [group]="rejectReasonsForm">
+                <app-validation-header [validationHeaderErrorMessages]="pageitems.validationHeaderErrorMessages" [formGroup]="rejectReasonsForm">
                 </app-validation-header>
             </ng-container>
             <h1 *ngIf="pageitems" class="govuk-heading-xl">{{pageitems.header}}</h1>

@@ -5,14 +5,15 @@
     </h2>
     <div class="govuk-error-summary__body">
         <ul class="govuk-list govuk-error-summary__list">
-            <!-- TODO : rename validationHeaderControl -->
-            <li *ngFor="let headerValidationMessage of validationHeaderControls">
-
-                <ng-container *ngIf="isValidationLevel(headerValidationMessage.validationLevel, 'formcontrol') && !isControlValid(group, headerValidationMessage.linkToControl)">
-                    <a href="headerValidationMessage.pageLink">{{headerValidationMessage.value}}</a>
+            <li *ngFor="let validationHeaderErrorMessage of validationHeaderErrorMessages">
+                <ng-container *ngIf="isValidationLevel(validationHeaderErrorMessage.validationLevel, FORM_CONTROL) &&
+                                        !isControlValid(formGroup, validationHeaderErrorMessage.controlId)">
+                    <a href="#">{{validationHeaderErrorMessage.text}}</a>
                 </ng-container>
-                <ng-container *ngIf="isValidationLevel(headerValidationMessage.validationLevel, 'formgroup') && isValidationError(group, headerValidationMessage.identifier)">
-                    <a href="headerValidationMessage.pageLink">{{headerValidationMessage.value}}</a>
+                <ng-container
+                        *ngIf="isValidationLevel(validationHeaderErrorMessage.validationLevel, FORM_GROUP) &&
+                                isValidationError(formGroup, validationHeaderErrorMessage.formGroupValidationErrorId)">
+                    <a href="#">{{validationHeaderErrorMessage.text}}</a>
                 </ng-container>
             </li>
         </ul>
