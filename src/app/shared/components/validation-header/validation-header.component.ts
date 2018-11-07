@@ -47,6 +47,16 @@ export class ValidationHeaderComponent {
         return this.validationService.isControlValid(formGroup, linkToControl);
     }
 
+    // TODO: Make DRY
+    isValidationError(formGroup: FormGroup, validationIdentifier: string): boolean {
+
+        if (formGroup.errors && formGroup.errors.hasOwnProperty(validationIdentifier)) {
+            return formGroup.errors[validationIdentifier];
+        } else {
+            return null;
+        }
+    }
+
     /**
      * Checks if we should show a validation message for a form control, or the
      * form group.
@@ -62,12 +72,6 @@ export class ValidationHeaderComponent {
      * @return {boolean}
      */
     isValidationLevel(validationLevel: string, level: string): boolean {
-
-        console.log('validationLevel');
-        console.log(validationLevel);
-        console.log('level');
-        console.log(level);
-
         return validationLevel === level;
     }
 }
