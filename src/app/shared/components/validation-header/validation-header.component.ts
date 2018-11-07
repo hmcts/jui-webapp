@@ -15,7 +15,7 @@ import {ValidationService} from '../../services/validation.service';
  */
 export class ValidationHeaderComponent {
     @Input() formGroup: FormGroup;
-    @Input() linkToControl;
+    @Input() controlId;
 
     // TODO : deprecate as not needed?
     @Input() idPrefix = 'ta';
@@ -30,12 +30,12 @@ export class ValidationHeaderComponent {
      *
      * [{
      *  value: 'Enter what information is needed',
-     *  linkToControl: 'informationNeeded',
+     *  controlId: 'informationNeeded',
      *  pageLink: '#linkToTextArea'
      * },
      * {
      *  value: 'Select yes if you want to include an annotated version of the draft consent order',
-     *  linkToControl: 'includeAnnotatedVersionDraftConsOrder',
+     *  controlId: 'includeAnnotatedVersionDraftConsOrder',
      *  pageLink: '#linkToRadiobuttons'
      *}];
      */
@@ -78,7 +78,7 @@ export class ValidationHeaderComponent {
      * This abstration was based on how Angular 6's FormGroup and FormControl are abstract from each other,
      * after reading.
      *
-     * @param linkToControl
+     * @param controlId
      * @return {boolean}
      */
     isValidationLevel(validationLevel: string, level: string): boolean {

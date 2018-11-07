@@ -3,9 +3,9 @@ import {FormGroup} from '@angular/forms';
 import {ValidationService} from '../../services/validation.service';
 
 @Component({
-    selector: 'app-validation-error-label',
-    templateUrl: './validation-error-label.component.html',
-    styleUrls: ['./validation-error-label.component.scss']
+    selector: 'app-validation-error-formcontrol',
+    templateUrl: './validation-error-formcontrol.component.html',
+    styleUrls: ['./validation-error-formcontrol.component.scss']
 })
 /**
  * ValidationErrorLabelComponent
@@ -13,11 +13,11 @@ import {ValidationService} from '../../services/validation.service';
  * If the control that this error message component links to is not valid we
  * show the Error Message, sent through from the parent component.
  */
-export class ValidationErrorLabelComponent {
+export class ValidationErrorFormControlComponent {
     @Input() group: FormGroup;
     @Input() idPrefix = 'ta';
     @Input() name = 'ta';
-    @Input() linkToControl;
+    @Input() controlId;
 
     constructor(private validationService: ValidationService) {
     }
@@ -29,10 +29,10 @@ export class ValidationErrorLabelComponent {
      * show the Error Message.
      *
      * @param formGroup
-     * @param linkToControl
+     * @param controlId
      * @return {boolean}
      */
-    isFormControlValid(formGroup: FormGroup, linkToControl: string): boolean {
-        return this.validationService.isFormControlValid(formGroup, linkToControl);
+    isFormControlValid(formGroup: FormGroup, controlId: string): boolean {
+        return this.validationService.isFormControlValid(formGroup, controlId);
     }
 }

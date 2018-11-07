@@ -176,8 +176,7 @@ module.exports = {
                                                                     classes: 'govuk-label--m'
                                                                 },
                                                                 validationError: {
-                                                                    value: 'Enter what information is needed',
-                                                                    linkToControl: 'informationNeeded'
+                                                                    value: 'Enter what information is needed'
                                                                 },
                                                                 control: 'informationNeeded',
                                                                 value: '',
@@ -256,7 +255,7 @@ module.exports = {
                         },
                         validationError: {
                             value: 'Enter the directions that are required',
-                            linkToControl: 'Directions'
+                            controlId: 'Directions'
                         },
                         control: 'Directions',
                         value: '',
@@ -283,7 +282,7 @@ module.exports = {
                                 control: 'includeAnnotatedVersionDraftConsOrder',
                                 validationError: {
                                     value: 'Select yes if you want to include an annotated version of the draft consent order',
-                                    linkToControl: 'includeAnnotatedVersionDraftConsOrder'
+                                    controlId: 'includeAnnotatedVersionDraftConsOrder'
                                 },
                                 radioGroup: [
                                     {

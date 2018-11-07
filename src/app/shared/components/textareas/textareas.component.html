@@ -5,7 +5,7 @@
                [forElement]="labelFor">{{label.text}}
     </app-label>
     <ng-container *ngIf="validationError">
-        <app-validation-error-label *ngIf="showValidation" [group]="group" [linkToControl]="control">{{validationError.value}}</app-validation-error-label>
+        <app-validation-error-formcontrol *ngIf="showValidation" [group]="group" [controlId]="control">{{validationError.value}}</app-validation-error-formcontrol>
     </ng-container>
     <textarea [class]="classes"
               [rows]="rows"
