@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CaseViewerModule } from '../../case-viewer.module';
 import { SummaryPanelComponent } from './summary-panel.component';
-import { DebugElement } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, DebugElement} from '@angular/core';
 import { Selector } from '../../../../../../test/selector-helper';
 import {RouterTestingModule} from '@angular/router/testing';
 import {mockPanelData} from './mock/summary-panel.mock';
@@ -13,6 +13,7 @@ describe('SummaryPanelComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
+            schemas: [CUSTOM_ELEMENTS_SCHEMA],
             imports: [CaseViewerModule, RouterTestingModule]
         })
        .compileComponents();
@@ -31,9 +32,7 @@ describe('SummaryPanelComponent', () => {
 
     describe('Setting inputs', () => {
         beforeEach(() => {
-
             component.panelData = mockPanelData;
-
             fixture.detectChanges();
         });
 
