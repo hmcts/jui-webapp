@@ -11,7 +11,9 @@ properties([
     ]),
     parameters([
             string(name: 'URL_TO_TEST', defaultValue: 'https://jui-webapp-aat.service.core-compute-aat.internal', description: 'The URL you want to run these tests against'),
-    ])
+             string(name: 'JUI_EMAIL', defaultValue: '', description: 'The EMAIL you want to run these tests against'),
+             string(name: 'JUI_PASSWORD', defaultValue: '', description: 'The PASSWORD you want to run these tests against')
+
 ])
 
 @Library("Infrastructure")
@@ -22,10 +24,20 @@ def component = "webapp"
 
 def channel = '#jui-pipeline'
 
+
+
+
 List<LinkedHashMap<String, Object>> secrets = [
     secret('test-email', 'TEST_EMAIL'),
-    secret('test-password', 'TEST_PASSWORD')
+    secret('test-password', 'TEST_PASSWORD'),
+    secret('jui-s2s-token', 'S2S_SECRET'),
+    secret('jui-oauth2-token', 'IDAM_SECRET'),
+    secret('fr-email', 'FR_EMAIL'),
+    secret('fr-password', 'FR_PASSWORD')
 ]
+
+
+
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     [ $class: 'AzureKeyVaultSecret',
@@ -39,15 +51,19 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 withNightlyPipeline(type, product, component) {
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
-    //    enablePerformanceTest(15)
-    //    enableApiGatewayTest(15)
-    //    enableFullFunctionalTest(30)
-    //    enableMutationTest(120)
-         enableCrossBrowserTest(120)
-    //    enableDockerBuild()
-    //    enableDeployToAKS()
+    setVaultName('rpa-aat')
+
+//    enablePerformanceTest(15)
+//    enableApiGatewayTest(15)
+//    enableFullFunctionalTest(30)
+//    enableMutationTest(120)
+    enableCrossBrowserTest(120)
+    enableDockerBuild()
+    enableDeployToAKS()
 
     env.TEST_URL = params.URL_TO_TEST
+    env.TEST_EMAIL = params.JUI_EMAIL
+    env.TEST_PASSWORD = params.JUI_PASSWORD
 
     after('checkout') {
     sh 'yarn cache clean'}

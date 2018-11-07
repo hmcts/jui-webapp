@@ -1,14 +1,4 @@
 <app-hmcts-global-footer
-    [help]="{
-    heading: 'Help',
-    email: { address: email, text: email },
-    phone: { text: phone },
-    opening: { text: 'Monday to Friday, 8am to 6pm (excluding public holidays)' }
-    }"
-
-    [navigation]="{ items: [
-    { text: 'Terms and conditions',href: 'terms-and-conditions'},
-    { text: 'Cookies', href: 'cookies' },
-    { text: 'Privacy policy', href: 'privacy-policy'}
-    ]}"
+    [help]="helpData"
+    [navigation]="navigationData"
 ></app-hmcts-global-footer>

@@ -36,13 +36,15 @@ class World {
         this.assert = assert;
         this.expect = expect;
         this.client = browser;
-        this.EXPECTATION_TIMEOUT = seconds(90);
+        this.EXPECTATION_TIMEOUT = seconds(120);
 
         this.config = config;
         this.config.serverUrls = global.browser.params.serverUrls;
         this.config.targetEnv = global.browser.params.targetEnv;
         this.config.username = global.browser.params.username;
         this.config.password = global.browser.params.password;
+        this.config.fr_judge_username = global.browser.params.fr_judge_username;
+        this.config.fr_judge_password = global.browser.params.fr_judge_password;
     }
 
     getSelector(field) {

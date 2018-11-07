@@ -70,14 +70,14 @@ export class CreateDecisionComponent implements OnInit {
             if(this.decision) {
                 this.decisionService.updateDecisionDraft(this.case.id, values.decision, values.notes)
                     .subscribe(
-                        () => this.redirectionService.redirect(`/jurisdiction/${this.case.case_jurisdiction}/casetype/${this.case.case_type_id}/viewcase/${this.case.id}/decision/check`),
+                        () => this.redirectionService.redirect(`/case/${this.case.case_jurisdiction}/${this.case.case_type_id}/${this.case.id}/decision/check`),
                         error => this.error.server = true
                     );
             }
             else {
                 this.decisionService.submitDecisionDraft(this.case.id, values.decision, values.notes, null)
                     .subscribe(
-                        () => this.redirectionService.redirect(`/jurisdiction/${this.case.case_jurisdiction}/casetype/${this.case.case_type_id}/viewcase/${this.case.id}/decision/check`),
+                        () => this.redirectionService.redirect(`/case/${this.case.case_jurisdiction}/${this.case.case_type_id}/${this.case.id}/decision/check`),
                         error => this.error.server = true
                     );
             }

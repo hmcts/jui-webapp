@@ -1,7 +1,10 @@
-import {Component, OnInit, Renderer2, ChangeDetectorRef, AfterViewInit, OnDestroy} from '@angular/core';
+import { Component, OnInit, Renderer2, ChangeDetectorRef, AfterViewInit, OnDestroy, Inject, ViewChild } from '@angular/core';
+import { DOCUMENT } from '@angular/platform-browser';
 import {Subscription} from 'rxjs';
 import {PdfService} from '../../data/pdf.service';
 import {AnnotationStoreService} from '../../data/annotation-store.service';
+import { CommentFormComponent } from './comment-form/comment-form.component';
+import { Annotation } from '../../data/annotation-set.model';
 
 declare const PDFAnnotate: any;
 
@@ -13,44 +16,68 @@ declare const PDFAnnotate: any;
 })
 export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
 
+    dataLoadedSub: Subscription;
     selectedAnnotationId: string;
     annotations;
     pageNumber: number;
-    subscription: Subscription;
+    pageNumSub: Subscription;
+    annotationSub: Subscription;
+
+    @ViewChild(CommentFormComponent) commentFormComponent;
 
     constructor(private annotationStoreService: AnnotationStoreService,
                 private pdfService: PdfService,
                 private render: Renderer2,
-                private ref: ChangeDetectorRef) {
+                private ref: ChangeDetectorRef,
+                @Inject(DOCUMENT) private document: any) {
     }
 
     ngOnInit() {
+        this.dataLoadedSub = this.pdfService.getDataLoadedSub().subscribe(isDataLoaded => {
+            if (isDataLoaded) {
+                this.preRun();
+            }
+        });
+    }
+
+    preRun() {
         this.pageNumber = 1;
         this.showAllComments();
 
-        this.subscription = this.pdfService.getPageNumber().subscribe(
+        this.annotationSub = this.pdfService.getAnnotationClicked().subscribe(
+            annotationId => {
+                this.selectedAnnotationId = annotationId;
+                this.addHighlightedCommentStyle(annotationId);
+            });
+
+        this.pageNumSub = this.pdfService.getPageNumber().subscribe(
             pageNumber => {
                 this.pageNumber = pageNumber;
-                this.showAllComments();
+                if (!this.selectedAnnotationId) {
+                    this.showAllComments();
+                }
             });
-    };
+    }
 
     ngAfterViewInit() {
-        document.querySelector('#viewer').addEventListener('click', this.handleAnnotationBlur.bind(this));
+        this.document.querySelector('#viewer').addEventListener('click', this.handleAnnotationBlur.bind(this));
         PDFAnnotate.UI.addEventListener('annotation:click', this.handleAnnotationClick.bind(this));
     }
 
     ngOnDestroy() {
         this.ref.detach();
-        this.subscription.unsubscribe();
+        if (this.pageNumSub) {
+            this.pageNumSub.unsubscribe();
+        }
+        if (this.dataLoadedSub) {
+            this.dataLoadedSub.unsubscribe();
+        }
     }
 
     showAllComments() {
-
         // todo - refactor this out of component
         this.annotationStoreService.getAnnotationsForPage(this.pageNumber).then(
             (pageData: any) => {
-
                 const annotations = pageData.annotations.slice();
                 this.sortByY(annotations);
 
@@ -64,19 +91,11 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
     sortByY(annotations) {
         annotations.sort(
             function (a, b) {
-                var keyA = a.rectangles[0].y,
+                const keyA = a.rectangles[0].y,
                     keyB = b.rectangles[0].y;
-                if (keyA < keyB) return -1;
-                if (keyA > keyB) return 1;
+                if (keyA < keyB) { return -1; }
+                if (keyA > keyB) { return 1; }
                 return 0;
-            });
-    }
-
-    getAnnotationCommentsById(annotationId) {
-        // Refactor this out of component
-        this.annotationStoreService.getAnnotationById(annotationId).then(
-            annotation => {
-                this.annotations = this.getAnnotationComments(annotation);
             });
     }
 
@@ -93,6 +112,7 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.selectedAnnotationId = null;
         this.showAllComments();
         this.addHighlightedCommentStyle(null);
+        this.annotationStoreService.setToolBarUpdate(null, null);
     }
 
     supportsComments(target) {
@@ -103,6 +123,10 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
     handleAnnotationClick(event) {
         if (this.supportsComments(event)) {
             this.selectedAnnotationId = event.getAttribute('data-pdf-annotate-id');
+            const annotation = new Annotation(this.selectedAnnotationId, null, null, null, null, null, null, null, null, null, null,  null);
+
+            this.annotationStoreService.setToolBarUpdate(annotation, true);
+
             this.addHighlightedCommentStyle(this.selectedAnnotationId);
             if (!this.ref['destroyed']) {
                 this.ref.detectChanges();
@@ -111,7 +135,7 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     addHighlightedCommentStyle(linkedAnnotationId) {
-        const annotations = Array.from(document.querySelector(`#pageContainer${this.pageNumber} .annotationLayer`).childNodes);
+        const annotations = Array.from(this.document.querySelector(`#pageContainer${this.pageNumber} .annotationLayer`).childNodes);
 
         annotations.forEach(annotation => {
             this.render.removeClass(annotation, 'comment-selected');
@@ -120,5 +144,6 @@ export class CommentsComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.render.addClass(annotation, 'comment-selected');
             }
         });
+        setTimeout(this.commentFormComponent.setFocus(), 100);
     }
 }

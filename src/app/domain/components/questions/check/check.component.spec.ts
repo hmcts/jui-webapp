@@ -12,7 +12,7 @@ import {of} from 'rxjs';
 import {Selector} from '../../../../../../test/selector-helper';
 import {RedirectionService} from '../../../../routing/redirection.service';
 
-fdescribe('CheckQuestionsComponent', () => {
+describe('CheckQuestionsComponent', () => {
     let component: CheckQuestionsComponent;
     let fixture: ComponentFixture<CheckQuestionsComponent>;
     let httpMock: HttpTestingController;
@@ -132,7 +132,7 @@ fdescribe('CheckQuestionsComponent', () => {
                 },
                 'deadline_extension_count': 0
             };
-            request = httpMock.expectOne('/api/cases/123456789/rounds/1');
+            request = httpMock.expectOne('/api/caseQ/123456789/rounds/1');
             request.flush(mockData);
             fixture.detectChanges();
         }));
@@ -152,23 +152,23 @@ fdescribe('CheckQuestionsComponent', () => {
 
             // describe('and it succeeds', () => {
             //     beforeEach(() => {
-            //         const req = httpMock.expectOne('/api/cases/123456789/rounds/1');
+            //         const req = httpMock.expectOne('/api/caseQ/123456789/rounds/1');
             //         req.flush({});
             //     });
             //
             //     it('should redirect with success', () => {
-            //         expect(redirectionService.redirect).toHaveBeenCalledWith('/jurisdiction/SSCS/casetype/Benefit/viewcase/123456789/questions?sent=success');
+            //         expect(redirectionService.redirect).toHaveBeenCalledWith('/SSCS/Benefit/123456789/questions?sent=success');
             //     });
             // });
 
             // describe('and it fails', () => {
             //     beforeEach(() => {
-            //         const req = httpMock.expectOne('/api/cases/123456789/rounds/1');
+            //         const req = httpMock.expectOne('/api/caseQ/123456789/rounds/1');
             //         req.flush({}, {status: 500, statusText: 'It broke'});
             //     });
             //
             //     it('should redirect with failure', () => {
-            //         expect(redirectionService.redirect).toHaveBeenCalledWith('/jurisdiction/SSCS/casetype/Benefit/viewcase/123456789/questions?sent=failure');
+            //         expect(redirectionService.redirect).toHaveBeenCalledWith('/SSCS/Benefit/123456789/questions?sent=failure');
             //     });
             // });
 

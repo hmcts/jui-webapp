@@ -3,7 +3,6 @@ import {Annotation, AnnotationSet, Comment, Rectangle} from './annotation-set.mo
 import {Utils} from './utils';
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 declare const PDFAnnotate: any;
 
@@ -13,10 +12,14 @@ export class PdfAdapter {
     annotations: Annotation[];
     commentData: Comment[];
     annotationSetId: string;
-    annotationChangeSubject: Subject<{ type: String, annotation: Annotation }>;
+    private annotationChangeSubject: Subject<{ type: String, annotation: Annotation }>;
 
     constructor(private utils: Utils) {
         this.annotationChangeSubject = new Subject<{ type: String, annotation: Annotation }>();
+    }
+
+    getAnnotationChangeSubject(): Subject<{ type: String, annotation: Annotation }> {
+        return this.annotationChangeSubject;
     }
 
     setStoreData(annotationSet: AnnotationSet) {
@@ -78,8 +81,11 @@ export class PdfAdapter {
         };
 
         const getAnnotation = (documentId, annotationId) => {
-            return new Promise(function (resolve, reject) {
-                resolve(this.data.comments);
+            return new Promise((resolve, reject) => {
+                const annotation = this._getAnnotations(documentId).find(function (i) {
+                    return i.id === annotationId;
+                });
+                resolve(annotation);
             });
         };
 

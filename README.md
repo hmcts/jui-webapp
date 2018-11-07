@@ -29,7 +29,7 @@ cd rpa-jui-webapp/
 
 ## Set Environmental Variables
 ```bash
-export JUI_S2S_SECRET=
+export S2S_SECRET=
 export IDAM_SECRET=
 ```
 

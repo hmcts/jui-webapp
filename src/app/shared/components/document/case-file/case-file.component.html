@@ -1,0 +1,39 @@
+<div [ngClass]="{'jui-cf': true, 'jui-cf jui-cf--show-comments': allowAnnotations}" *ngIf="documents && documents.length; else noDocuments">
+
+    <app-case-file-tool-bar></app-case-file-tool-bar>
+
+    <!-- Case file complete start-->
+    <div class="jui-cf__window" >
+
+        <div class="jui-cf__window-container">
+
+            <div class="jui-cf__files" id="files" [ngStyle]="{'display': ((allowAnnotations) ? 'none' : 'block')}">
+                <!--<div class="jui-cf__files" id="files" style="display: none;">-->
+
+                <app-case-file-tree-list [documents]="documents"></app-case-file-tree-list>
+            </div>
+            <!-- Casefile View Code with annotation stuff starts -->
+            <div class="jui-cf__document">
+                <div class="jui-cf__document-comments" id="comments" [ngStyle]="{'display': ((allowAnnotations) ? 'block' : 'none')}">
+                    <app-hmcts-alert [iconFallbackText]="'Success'" [type]="'information'" [text]="'Select text to add a comment.'"></app-hmcts-alert>
+                    <!-- need to work on-->
+                    <!--<app-case-file-annotation-list></app-case-file-annotation-list>-->
+                </div>
+
+                <app-case-file-viewer
+                    [selectedDocument]="selectedDocument"
+                    [documentUrl]="documentUrl"
+                    [allowAnnotations]="allowAnnotations"
+                ></app-case-file-viewer>
+            </div>
+            <!-- Casefile View Code with annotation stuff ends -->
+
+        </div>
+    </div>
+    <!-- Case file complete end-->
+
+</div>
+
+<ng-template #noDocuments>
+    <p data-selector="no-documents">This case file is empty.</p>
+</ng-template>

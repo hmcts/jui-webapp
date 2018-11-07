@@ -88,7 +88,7 @@ describe('ViewCaseComponent', () => {
             expect(linkElements.length).toEqual(3);
             const linkEl = linkElements[0];
             expect(linkEl.tagName).toEqual('A');
-            expect(linkEl.getAttribute('href')).toEqual('/jurisdiction/SSCS/casetype/Benefit/viewcase/case_id/section_id1');
+            expect(linkEl.getAttribute('href')).toEqual('/case/SSCS/Benefit/case_id/section_id1');
             expect(linkEl.innerHTML).toEqual('section_name1');
         });
     });

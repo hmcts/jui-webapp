@@ -1,4 +1,4 @@
-<div id="comment-wrapper">
+<div *ngIf="pageNumber" id="comment-wrapper">
   <h4 id="comment-header">Page {{pageNumber}}</h4>
   <div class="comment-list">
     <div class="comment-list-container" 
@@ -12,13 +12,13 @@
           [annotation]="annotation"
           [comment]="comment"
           [selectedAnnotationId]="selectedAnnotationId"
-          (commentSubmitted)='getAnnotationComments($event)'
+          (commentSubmitted)='showAllComments($event)'
           (commentSelected)='addHighlightedCommentStyle($event)'></app-comment-item>
           <br *ngIf="annotation.comments.length > 0">
           
       </div>
 
-    <app-comment-form 
+    <app-comment-form
       (commentSubmitted)='showAllComments()'
       [selectedAnnotationId]="selectedAnnotationId"></app-comment-form>
     </div>

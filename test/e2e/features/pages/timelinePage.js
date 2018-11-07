@@ -17,6 +17,11 @@ function timelinePage() {
 
     this.panel_members = element(by.xpath(("//*[@id='content']/app-case-viewer/app-summary-panel/div/div[1]/app-data-list[2]/div/h2")));
     this.panel_table = element(by.xpath('//*[@id="content"]/app-case-viewer/app-summary-panel/div/div[1]/app-data-list[2]/div'));
+    this.make_decision = element(by.css('body.govuk-template__body.js-enabled:nth-child(2) div.jui-width-container main.govuk-main-wrapper app-summary-panel:nth-child(1) app-case-actions:nth-child(1) div.hmcts-page-heading div.hmcts-page-heading__actions-wrapper > a.govuk-button.hmcts-page-heading__button:nth-child(1)'));
+    this.draft_button = element(by.css('#create-2'));
+    this.button_continue = element(by.xpath('//input[@value=\'Continue\']'));
+    this.annotate_continue = element(by.xpath('//div[@class=\'govuk-radios__item\']//input[@id=\'reject-reasons-2\']'));
+    this.check_decision = element(by.xpath('//h1[@class=\'govuk-heading-xl\']'));
 }
 
 module.exports = new timelinePage();

@@ -75,6 +75,19 @@ function getOnlineHearingConversation(onlineHearingId, options) {
     return generateRequest('GET', `${url}/continuous-online-hearings/${onlineHearingId}/conversations`, options);
 }
 
+//Decision
+function postDecision(hearingId, options, body) {
+    return generateRequest('POST', `${url}/continuous-online-hearings/${hearingId}/decisions`, { options, body });
+}
+
+function putDecision(hearingId, options, body) {
+    return generateRequest('PUT', `${config.services.coh_cor_api}/continuous-online-hearings/${hearingId}/decisions`, { options, body });
+}
+
+function getDecision(hearingId, options) {
+    return generateRequest('GET', `${url}/continuous-online-hearings/${hearingId}/decisions`, { options });
+}
+
 
 // Special ones (may not need to be here could be high up business logic)
 function createHearing(caseId, userId, options, jurisdictionId = 'SSCS') {
@@ -148,6 +161,10 @@ module.exports.getRound = getRound;
 module.exports.putRound = putRound;
 // Converation (COH Events)
 module.exports.getOnlineHearingConversation = getOnlineHearingConversation;
+//Decision
+module.exports.getDecision = getDecision;
+module.exports.postDecision = postDecision;
+module.exports.putDecision = putDecision;
 // Special ones
 module.exports.createHearing = createHearing;
 module.exports.getHearingIdOrCreateHearing = getHearingIdOrCreateHearing;

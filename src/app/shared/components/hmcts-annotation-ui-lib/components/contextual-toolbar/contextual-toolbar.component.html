@@ -1,0 +1,31 @@
+<div [hidden]="!isShowToolbar" class="toolbar"
+    [style.left.px]="toolPos.left"
+    [style.top.px]="toolPos.top">
+
+    <button 
+        [hidden]="showDelete"
+        class="highlight" 
+        type="button" class="contextual-btn"
+        title="Highlight" 
+        data-tooltype="highlight"
+        (click)="handleHighlightBtnClick()"
+    >Highlight</button>
+
+    <button 
+        [hidden]="!showDelete" 
+        type="button" 
+        title="Delete" class="contextual-btn"
+        (click)="handleDeleteBtnClick()"
+    >Delete</button>
+    <div class="spacer"></div>
+    
+    <button type="button" title="Comment" class="contextual-btn"
+            (click)="handleCommentBtnClick()"
+    >Comment</button>
+
+
+    <div class="arrow-down">
+        <div class="inner-triangle"></div>
+    </div>
+
+</div>

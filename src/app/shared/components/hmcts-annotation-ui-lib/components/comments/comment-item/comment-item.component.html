@@ -3,12 +3,12 @@
   (ngSubmit)="onSubmit()" #commentItem="ngForm" 
   (click)="handleCommentClick($event)">
   <div class="comment-meta">
-    <label>Created By: {{comment.createdBy}}</label>
+    <label class="comment-author">{{comment.createdBy}}</label>
     <br>
-    <label ng-controller="datCtrl">Created On: {{ comment.createdDate | date: 'd/M/y HH:mm' }}</label>
+    <label class="comment-date" ng-controller="datCtrl">{{ comment.createdDate | date: 'd/M/y HH:mm' }}</label>
     <div *ngIf="comment.lastModifiedDate != null && comment.createdDate != comment.lastModifiedDate">
-        <label><br>Last modified By: {{ comment.lastModifiedBy }}</label>
-      <label ng-controller="datCtrl"><br>{{ comment.lastModifiedDate | date: 'd/M/y HH:mm' }}</label>
+        <label>Last modified By: {{ comment.lastModifiedBy }}</label>
+      <label class="comment-date" ng-controller="datCtrl"><br>{{ comment.lastModifiedDate | date: 'd/M/y HH:mm' }}</label>
     </div>
   </div>
 
@@ -42,8 +42,11 @@
     required
     [ngModel]="comment.id" name="commentId">
 
-    <div>
-        <button type="submit" class="btn btn-success">Save</button>
-        <button class="btn" (click)="handleDeleteComment($event, comment.id)">Delete</button>
+    <div [hidden]="hideButton" class="comment-btns">
+        <button type="submit" class="govuk-button hmcts-page-heading__button" role="button">Comment</button>
+        <button 
+        class="govuk-button hmcts-page-heading__button hmcts-button--secondary" 
+        role="button"
+        (click)="handleDeleteComment($event, comment.id)">Delete</button>
     </div>
 </form>

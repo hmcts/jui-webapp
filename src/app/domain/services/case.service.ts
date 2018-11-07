@@ -15,7 +15,7 @@ export class CaseService {
     }
 
     fetch(caseId, jurisdiction, casetype): Observable<Object> {
-        const url = `${this.configService.config.api_base_url}/api/cases/jurisdiction/${jurisdiction}/casetype/${casetype}/${caseId}`;
+        const url = `${this.configService.config.api_base_url}/api/case/${jurisdiction}/${casetype}/${caseId}`;
         const key = makeStateKey(url);
         const cache = this.state.get(key, null as any);
         if (cache) {
@@ -36,6 +36,26 @@ export class CaseService {
         }
         return this.httpClient
             .get(url)
+            .pipe(map(data => {
+                this.state.set(key, data);
+                return data;
+            }))
+            .pipe(catchError(error => {
+                const value: any = {error};
+                this.state.set(key, value);
+                return of(value);
+            }));
+    }
+
+    getNewCase(): Observable<Object> {
+        const url = `${this.configService.config.api_base_url}/api/cases/assign/new`;
+        const key = makeStateKey(url);
+        const cache = this.state.get(key, null as any);
+        if (cache) {
+            return of(cache);
+        }
+        return this.httpClient
+            .post(url, {})
             .pipe(map(data => {
                 this.state.set(key, data);
                 return data;

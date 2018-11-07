@@ -16,5 +16,4 @@ module.exports = {
     secureCookie: false,
     sessionSecret: 'secretSauce',
     logging: 'info'
-
 };
