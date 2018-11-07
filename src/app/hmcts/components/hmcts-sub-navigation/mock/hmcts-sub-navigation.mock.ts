@@ -8,10 +8,12 @@ export const mockNav: Array<SubNavigation> = [
     },
     {
         text: 'Nav item 2',
-        href: '#2'
+        href: '#2',
+        active: false
     },
     {
         text: 'Nav item 3',
-        href: '#3'
+        href: '#3',
+        active: false
     }
 ]
