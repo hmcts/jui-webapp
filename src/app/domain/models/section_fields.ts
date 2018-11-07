@@ -1,8 +1,19 @@
 export interface PageDate {
     id?: string;
-    name: string;
+    name?: string;
+}
+export interface PageDateDefault extends PageDate{
     type: string;
     sections: Array<SectionsItem>;
+}
+export interface PageDateCase extends PageDate {
+    case_jurisdiction: string;
+    case_type_id: string;
+    sections: Array<SectionsCaseItem>;
+}
+export interface SectionsCaseItem {
+    id: string;
+    name: string;
 }
 export interface SectionsItem {
     id?: string;
