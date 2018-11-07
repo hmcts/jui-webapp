@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import 'rxjs/add/operator/filter';
+import {PageDateCase} from '../../../domain/models/section_fields';
 
 @Component({
     selector: 'app-view-case',
@@ -9,7 +10,7 @@ import 'rxjs/add/operator/filter';
 })
 export class ViewCaseComponent implements OnInit {
 
-    case: any;
+    case: PageDateCase;
     caseid: string;
     links = [];
     sectionId: string;
