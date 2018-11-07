@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import {PageDate} from '../../../models/section_fields';
+import { PageDateDefault } from '../../../models/section_fields';
 
 @Component({
     selector: 'app-parties-panel',
@@ -7,5 +7,5 @@ import {PageDate} from '../../../models/section_fields';
     styleUrls: ['./parties-panel.component.scss']
 })
 export class PartiesPanelComponent {
-    @Input() panelData: PageDate;
+    @Input() panelData: PageDateDefault;
 }
