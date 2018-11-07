@@ -41,21 +41,29 @@ module.exports = {
         'reject-reasons': {
             idPrefix: 'reject-reasons',
             name: 'reject-reasons',
-            validationHeaderControls: [
+            validationHeaderMessages: [
                 {
+                    validationLevel: 'formcontrol',
                     value: 'Enter what information is needed',
                     linkToControl: 'informationNeeded',
-                    pageLinkToControl: 'informationNeeded'
+                    pageLinkToControl: '#'
                 },
                 {
+                    validationLevel: 'formcontrol',
                     value: 'Select yes if you want to include an annotated version of the draft consent order',
                     linkToControl: 'includeAnnotatedVersionDraftConsOrder',
-                    pageLinkToControl: 'includeAnnotatedVersionDraftConsOrder'
+                    pageLinkToControl: '#'
                 },
                 {
+                    validationLevel: 'formcontrol',
                     value: 'Enter the directions',
                     linkToControl: 'Directions',
-                    pageLinkToControl: 'addHrefWhenFormBuilderIsReadyWithIds'
+                    pageLinkToControl: '#'
+                },
+                {
+                    validationLevel: 'formgroup',
+                    value: 'Select reasons the consent order was not approved',
+                    identifier: 'noCheckboxIsChecked'
                 }
             ],
             header: 'What should appear in the directions order?',
@@ -78,7 +86,7 @@ module.exports = {
                         {
                             validationError: {
                                 value: 'Select reasons the consent order was not approved',
-                                linkToControl: 'informationNeeded'
+                                identifier: 'noCheckboxIsChecked'
                             }
                         },
                         {

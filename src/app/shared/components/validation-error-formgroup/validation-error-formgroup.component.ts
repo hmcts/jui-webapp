@@ -27,12 +27,7 @@ import {ObjectService} from '../../services/object.service';
  */
 export class ValidationErrorFormGroupComponent {
     @Input() group: FormGroup;
-    @Input() validationErrorName;
-
-    // so we need the formGroup.
-    // ok so we get in here
-    // "errors": { "noCheckboxIsChecked": true } }
-    // If it is true, then we should show this component.
+    @Input() validationIdentifier;
 
     constructor(private validationService: ValidationService) {
     }
@@ -42,10 +37,10 @@ export class ValidationErrorFormGroupComponent {
      *
      * Checks if there is a validation error with the formGroup.
      */
-    isValidationError(formGroup: FormGroup, validationErrorName: string): boolean {
+    isValidationError(formGroup: FormGroup, validationIdentifier: string): boolean {
 
-        if (formGroup.errors && formGroup.errors.hasOwnProperty(validationErrorName)) {
-            return formGroup.errors[validationErrorName];
+        if (formGroup.errors && formGroup.errors.hasOwnProperty(validationIdentifier)) {
+            return formGroup.errors[validationIdentifier];
         } else {
             return null;
         }

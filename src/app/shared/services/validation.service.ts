@@ -128,9 +128,11 @@ export class ValidationService {
      * as the user has checked a box, if it returns a validation error, the user has not checked any of the checkboxes.
      *
      * @param formGroup
+     * @param {string} validationIdentifier - An error name assigned by the developer, this name can then be referred
+     * to display the view.
      * @return {any}
      */
-    isAnyCheckboxChecked(formGroup: FormGroup, checkboxes: Array<string>): ValidatorFn | null {
+    isAnyCheckboxChecked(formGroup: FormGroup, checkboxes: Array<string>, validationIdentifier: string): ValidatorFn | null {
 
         const isAnyCheckboxCheckedValidationFn: ValidatorFn = (controls: FormGroup): ValidationErrors | null => {
 
@@ -141,7 +143,7 @@ export class ValidationService {
             }
 
             return {
-                'noCheckboxIsChecked': true,
+                [validationIdentifier]: true,
             };
         };
 

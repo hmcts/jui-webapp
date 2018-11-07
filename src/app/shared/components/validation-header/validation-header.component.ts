@@ -46,4 +46,28 @@ export class ValidationHeaderComponent {
     isControlValid(formGroup: FormGroup, linkToControl: string): boolean {
         return this.validationService.isControlValid(formGroup, linkToControl);
     }
+
+    /**
+     * Checks if we should show a validation message for a form control, or the
+     * form group.
+     *
+     * @param {string} validationLevel - validation level can either be formGroup or formControl.
+     * A formGroup level is validation that handles multiply form controls.
+     * formControl level is validation that handles a single form control.
+     *
+     * This abstration was based on how Angular 6's FormGroup and FormControl are abstract from each other,
+     * after reading.
+     *
+     * @param linkToControl
+     * @return {boolean}
+     */
+    isValidationLevel(validationLevel: string, level: string): boolean {
+
+        console.log('validationLevel');
+        console.log(validationLevel);
+        console.log('level');
+        console.log(level);
+
+        return validationLevel === level;
+    }
 }

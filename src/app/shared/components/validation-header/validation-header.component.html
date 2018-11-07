@@ -5,9 +5,11 @@
     </h2>
     <div class="govuk-error-summary__body">
         <ul class="govuk-list govuk-error-summary__list">
-            <li *ngFor="let validationHeaderControl of validationHeaderControls">
-                <ng-container *ngIf="!isControlValid(group, validationHeaderControl.linkToControl)">
-                    <a href="controlValidation.pageLink">{{validationHeaderControl.value}}</a>
+            <!-- TODO : rename validationHeaderControl -->
+            <li *ngFor="let headerValidationMessage of validationHeaderControls">
+
+                <ng-container *ngIf="isValidationLevel(headerValidationMessage.validationLevel, 'formcontrol') && !isControlValid(group, headerValidationMessage.linkToControl)">
+                    <a href="headerValidationMessage.pageLink">{{headerValidationMessage.value}}</a>
                 </ng-container>
             </li>
         </ul>

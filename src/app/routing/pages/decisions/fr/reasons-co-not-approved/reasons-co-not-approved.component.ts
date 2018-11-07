@@ -42,6 +42,8 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
         const checkboxes: Array<string> = ['partiesNeedAttend', 'NotEnoughInformation', 'orderNotAppearOfS25ca1973', 'd81',
             'pensionAnnex', 'applicantTakenAdvice', 'respondentTakenAdvice', 'Other2'];
 
+        const validationIdentifier = 'noCheckboxIsChecked';
+
         /**
          * Form Group Validators, are used for validation that involves one control, being dependent upon another,
          * or on a group of other controls.
@@ -54,8 +56,12 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
          * So over here you need to pass in the checkboxes. how would you do this?
          *
          * Therefore isAnyCheckboxChecked needs to return an object that is of signature of ValidationFn.
+         *
+         * So a dev would add validators here, each validator, would have a name
+         * So you should be able to pass in.
+         *
          */
-        const formGroupValidators = [this.validationService.isAnyCheckboxChecked(this.rejectReasonsForm, checkboxes)];
+        const formGroupValidators = [this.validationService.isAnyCheckboxChecked(this.rejectReasonsForm, checkboxes, validationIdentifier)];
 
 
         /**

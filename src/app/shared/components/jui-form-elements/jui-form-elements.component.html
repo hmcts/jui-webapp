@@ -14,7 +14,7 @@
     -->
 
     <ng-container *ngIf="data.validationError && validate">
-        <app-validation-error-formgroup [group]="group" [validationErrorName]="'noCheckboxIsChecked'">
+        <app-validation-error-formgroup [group]="group" [validationIdentifier]="data.validationError.identifier">
             {{data.validationError.value}}
         </app-validation-error-formgroup>
     </ng-container>
