@@ -1,8 +1,10 @@
 <nav class="hmcts-sub-navigation" attr.aria-label="{{label}}">
     <ul class="hmcts-sub-navigation__list">
         <li class="hmcts-sub-navigation__item" *ngFor="let item of items">
-            <a data-selector="sub-nav-link" class="hmcts-sub-navigation__link" aria-current="page" routerLink="{{item.href}}" *ngIf="item.active">{{item.text}}</a>
-            <a data-selector="sub-nav-link" class="hmcts-sub-navigation__link" routerLink="{{item.href}}" *ngIf="!item.active">{{item.text}}</a>
+            <ng-container *ngIf="!item.active">
+            <a data-selector="sub-nav-link" class="hmcts-sub-navigation__link" aria-current="page" routerLink="{{item.href}}" >{{item.text}}</a>
+            <a data-selector="sub-nav-link" class="hmcts-sub-navigation__link" routerLink="{{item.href}}" >{{item.text}}</a>
+            </ng-container>
         </li>
     </ul>
 </nav>
