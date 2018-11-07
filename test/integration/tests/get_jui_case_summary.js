@@ -1,5 +1,5 @@
 const { generateAPIRequestForFR } = require('./utils/generateAPI');
-var url;
+let url;
 
 suite('API/CASES -> FR case Summary Details', function()  {
     this.timeout(10000);
@@ -13,6 +13,7 @@ suite('API/CASES -> FR case Summary Details', function()  {
                 console.log(url);
             });
     });
+
     test('GET JUI case  details: (/cases)', () => {
         return generateAPIRequestForFR('GET', url, {})
             .then(response => {
