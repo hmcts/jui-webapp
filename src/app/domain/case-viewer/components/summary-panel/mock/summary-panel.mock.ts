@@ -1,23 +1,5 @@
-export interface PageDate {
-    name: string;
-    type: string;
-    sections: Array<SectionsItem>;
-}
-export interface SectionsItem {
-    name: string;
-    type: string;
-    fields: Array<FieldItem>;
-}
-export interface FieldItem {
-    label?: string;
-    value: string | Array<FieldItemValue>;
-}
-export interface FieldItemValue {
-    event_name: string;
-    user_first_name: string;
-    user_last_name: string;
-    created_date: string;
-}
+import { PageDate } from '../../../../models/section_fields';
+
 export const mockPanelData: PageDate = {
     name: 'Summary',
     type: 'summary-panel',
