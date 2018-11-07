@@ -1,10 +1,8 @@
 'use strict';
-//const Cucumber = require('cucumber');
 const { defineSupportCode } = require('cucumber');
 const fs = require('fs');
 const mkdirp = require('mkdirp');
 const conf = require('../config/conf').config;
-// const conf = require('../config/saucelabs.conf').config;
 const reporter = require('cucumber-html-reporter');
 const report = require('cucumber-html-report');
 
@@ -13,15 +11,10 @@ const htmlReports = `${process.cwd()}/reports/html`;
 // var xmlReports = process.cwd() + "/reports/xml";
 const targetJson = `${jsonReports}/cucumber_report.json`;
 // var targetXML = xmlReports + "/cucumber_report.xml";
-const { Given, When, Then } = require('cucumber');
 const fse = require('fs-extra');
 const screenshotDir = './reports/screenshots/';
 const config = require('../config/conf.js');
 const { SHORT_DELAY, MID_DELAY , LONG_DELAY } = require('../support/constants');
-
-
-
-
 
 
 // Before And After hooks used while feature executes

@@ -55,7 +55,9 @@ const config = {
     specs: ['../features/**/*.feature'],
 
     //Define which tests should be excluded from execution.
-    exclude : ['../features/app/login.feature', '../features/app/makeDecision.feature'],
+    exclude : [
+         '../features/app/login.feature', '../features/app/makeDecision.feature'
+        ],
 
 
     baseUrl: process.env.TEST_URL || 'http://localhost:3000/',

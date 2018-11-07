@@ -49,7 +49,13 @@ const cap = (argv.local) ? localConfig : jenkinsConfig;
 const config = {
     framework: 'custom',
     frameworkPath: require.resolve('protractor-cucumber-framework'),
+
+    // setting protractor to ignore uncaught exceptions to take care by protractor-cucumber-framework
+    ignoreUncaughtExceptions : true,
+
     specs: ['../features/**/*.feature'],
+    exclude: ['../features/app/questions.feature'],
+
     baseUrl: process.env.TEST_URL || 'http://localhost:3000/',
     params: {
         serverUrls: process.env.TEST_URL || 'http://localhost:3000/',
