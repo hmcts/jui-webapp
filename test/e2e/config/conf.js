@@ -69,7 +69,7 @@ const config = {
     },
     directConnect: true,
     // seleniumAddress: 'http://localhost:4444/wd/hub',
-    getPageTimeOut : 200000,
+    getPageTimeOut : 60000,
     allScriptsTimeout : 500000,
     multiCapabilities: cap,
 
