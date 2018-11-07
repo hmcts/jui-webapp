@@ -2,36 +2,53 @@
 <main class="govuk-main-wrapper" role="main">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <form *ngIf="pageitems; else loading" [formGroup]="formDraft" (ngSubmit)="onSubmit()">
-                <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset">
-                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
-                            <h1 class="govuk-fieldset__heading">{{pageitems.header}}</h1>
-                        </legend>
-                        <ng-container *ngIf="pageitems.groups">
-                            <div class="govuk-radios govuk-radios--inline" *ngFor="let element of pageitems.groups; let j = index;">
-                                <ng-container *ngIf="element.fieldset.radios;">
-                                    <div class="govuk-radios__item" *ngFor="let item of element.fieldset.radios.radioGroup; let i = index;">
-                                        <input class="govuk-radios__input" id="{{pageitems.idPrefix + '-' + (i+1) }}" type="radio" [value]= "item.value" formControlName="{{element.fieldset.radios.control}}">
-                                        <label class="govuk-label govuk-radios__label" for="{{pageitems.idPrefix + '-' + (i+1) }}">
-                                            {{item.text}}
-                                        </label>
-                                    </div>
-                                </ng-container>
-                            </div>
-                        </ng-container>
-                    </fieldset>
+            <h1 *ngIf="pageitems" class="govuk-heading-xl">{{pageitems.header}}</h1>
+            <form *ngIf="pageitems" [formGroup]="formDraft" (ngSubmit)="onSubmit()">
+                <div class="govuk-form-group" *ngFor="let group of pageitems.groups">
+                    <app-fieldset *ngIf="group.fieldset"
+                                  [classes]="'govuk-fieldset'"
+                                  [group]="formDraft"
+                                  [data]="group.fieldset">
+                    </app-fieldset>
+                    <app-jui-form-elements [group]="formDraft" [data]="group"></app-jui-form-elements>
                 </div>
-                <ng-container *ngIf="pageitems.buttons">
-                    <ng-container *ngFor="let button of pageitems.buttons; let bi = index;">
-                        <input class="govuk-button" type="submit" formControlName="{{button.control}}">
-                    </ng-container>
-                </ng-container>
             </form>
         </div>
     </div>
 </main>
-<ng-template #loading>
-    Loading Form...
-</ng-template>
+<!--<main class="govuk-main-wrapper" role="main">-->
+    <!--<div class="govuk-grid-row">-->
+        <!--<div class="govuk-grid-column-two-thirds">-->
+            <!--<form *ngIf="pageitems; else loading" [formGroup]="formDraft" (ngSubmit)="onSubmit()">-->
+                <!--<div class="govuk-form-group">-->
+                    <!--<fieldset class="govuk-fieldset">-->
+                        <!--<legend class="govuk-fieldset__legend govuk-fieldset__legend&#45;&#45;xl">-->
+                            <!--<h1 class="govuk-fieldset__heading">{{pageitems.header}}</h1>-->
+                        <!--</legend>-->
+                        <!--<ng-container *ngIf="pageitems.groups">-->
+                            <!--<div class="govuk-radios govuk-radios&#45;&#45;inline" *ngFor="let element of pageitems.groups; let j = index;">-->
+                                <!--<ng-container *ngIf="element.fieldset.radios;">-->
+                                    <!--<div class="govuk-radios__item" *ngFor="let item of element.fieldset.radios.radioGroup; let i = index;">-->
+                                        <!--<input class="govuk-radios__input" id="{{pageitems.idPrefix + '-' + (i+1) }}" type="radio" [value]= "item.value" formControlName="{{element.fieldset.radios.control}}">-->
+                                        <!--<label class="govuk-label govuk-radios__label" for="{{pageitems.idPrefix + '-' + (i+1) }}">-->
+                                            <!--{{item.text}}-->
+                                        <!--</label>-->
+                                    <!--</div>-->
+                                <!--</ng-container>-->
+                            <!--</div>-->
+                        <!--</ng-container>-->
+                    <!--</fieldset>-->
+                <!--</div>-->
+                <!--<ng-container *ngIf="pageitems.buttons">-->
+                    <!--<ng-container *ngFor="let button of pageitems.buttons; let bi = index;">-->
+                        <!--<input class="govuk-button" type="submit" formControlName="{{button.control}}">-->
+                    <!--</ng-container>-->
+                <!--</ng-container>-->
+            <!--</form>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</main>-->
+<!--<ng-template #loading>-->
+    <!--Loading Form...-->
+<!--</ng-template>-->
 
