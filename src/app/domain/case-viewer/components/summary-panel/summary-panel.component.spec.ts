@@ -1,10 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CaseViewerModule } from '../../case-viewer.module';
 import { SummaryPanelComponent } from './summary-panel.component';
-import {CUSTOM_ELEMENTS_SCHEMA, DebugElement} from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { Selector } from '../../../../../../test/selector-helper';
-import {RouterTestingModule} from '@angular/router/testing';
-import {mockPanelData} from './mock/summary-panel.mock';
+import { RouterTestingModule } from '@angular/router/testing';
+import { mockPanelData } from './mock/summary-panel.mock';
 
 describe('SummaryPanelComponent', () => {
     let component: SummaryPanelComponent;

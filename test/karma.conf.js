@@ -29,7 +29,7 @@ module.exports = config => {
                 statements: 80,
                 lines: 80,
                 branches: 0,
-                functions: 0
+                functions: 60
             }
         },
         reporters: ['progress', 'kjhtml'],

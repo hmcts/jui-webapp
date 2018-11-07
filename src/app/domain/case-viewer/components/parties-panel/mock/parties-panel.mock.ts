@@ -1,5 +1,5 @@
-import { PageDate } from '../../../../models/section_fields';
-export const mockSnapshot: PageDate = {
+import { PageDateDefault} from '../../../../models/section_fields';
+export const mockSnapshot: PageDateDefault = {
         id: 'parties-tabs',
         name: 'Parties',
         type: 'parties-panel',

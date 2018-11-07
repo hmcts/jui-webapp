@@ -1,6 +1,6 @@
-import { PageDate } from '../../../../models/section_fields';
+import { PageDateDefault } from '../../../../models/section_fields';
 
-export const mockPanelData: PageDate = {
+export const mockPanelData: PageDateDefault = {
     name: 'Summary',
     type: 'summary-panel',
     sections: [
