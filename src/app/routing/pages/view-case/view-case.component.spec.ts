@@ -10,6 +10,7 @@ import {Selector} from '../../../../../test/selector-helper';
 import {Router} from '@angular/router';
 import {HmctsModule} from '../../../hmcts/hmcts.module';
 import {SharedModule} from '../../../shared/shared.module';
+import { mockCase } from './mock/view-case.mock';
 
 describe('ViewCaseComponent', () => {
     let component: ViewCaseComponent;
@@ -22,27 +23,7 @@ describe('ViewCaseComponent', () => {
         activeRouteMock = {
             params: Observable.of({section: 'section_id2'}),
             snapshot: {
-                data: {
-                    caseData: {
-                        id: 'case_id',
-                        case_jurisdiction: 'SSCS',
-                        case_type_id: 'Benefit',
-                        sections: [
-                            {
-                                id: 'section_id1',
-                                name: 'section_name1'
-                            },
-                            {
-                                id: 'section_id2',
-                                name: 'section_name2'
-                            },
-                            {
-                                id: 'section_id3',
-                                name: 'section_name3'
-                            }
-                        ]
-                    }
-                }
+                data: mockCase
             }
         };
         return setupModule();
