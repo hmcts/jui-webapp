@@ -6,15 +6,8 @@
     <app-hint *ngIf="data.hint" [classes]="data.hint.classes">
         {{data.hint.text}}
     </app-hint>
-    <!-- How do we show this only when a user has not clicked a checkbox?
-    does the group, perhaps it is on the form itself?
-        one of them link to a single control.
-        one of them handles multiply controls on a form level.
-        The app validation error label looks at the control level.
-    -->
-
     <ng-container *ngIf="data.validationError && validate">
-        <app-validation-error-formgroup [group]="group" [validationIdentifier]="data.validationError.identifier">
+        <app-validation-error-formgroup [group]="group" [validationErrorId]="data.validationError.identifier">
             {{data.validationError.value}}
         </app-validation-error-formgroup>
     </ng-container>

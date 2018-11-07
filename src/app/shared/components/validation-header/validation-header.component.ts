@@ -50,18 +50,19 @@ export class ValidationHeaderComponent {
      * @see ValidationService
      * @param control - 'informationNeeded'
      */
-    isControlValid(formGroup: FormGroup, control: string): boolean {
-        return this.validationService.isControlValid(formGroup, control);
+    isFormControlValid(formGroup: FormGroup, control: string): boolean {
+        return this.validationService.isFormControlValid(formGroup, control);
     }
 
-    // TODO: Make DRY
-    isValidationError(formGroup: FormGroup, validationErrorId: string): boolean {
-
-        if (formGroup.errors && formGroup.errors.hasOwnProperty(validationErrorId)) {
-            return formGroup.errors[validationErrorId];
-        } else {
-            return null;
-        }
+    /**
+     * isFormGroupInvalid
+     *
+     * @param formGroup
+     * @param validationErrorId
+     * @return {boolean}
+     */
+    isFormGroupInvalid(formGroup: FormGroup, validationErrorId: string): boolean {
+        return this.validationService.isFormGroupInvalid(formGroup, validationErrorId);
     }
 
     /**

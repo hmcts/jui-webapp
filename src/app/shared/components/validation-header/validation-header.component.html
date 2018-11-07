@@ -7,12 +7,12 @@
         <ul class="govuk-list govuk-error-summary__list">
             <li *ngFor="let validationHeaderErrorMessage of validationHeaderErrorMessages">
                 <ng-container *ngIf="isValidationLevel(validationHeaderErrorMessage.validationLevel, FORM_CONTROL) &&
-                                        !isControlValid(formGroup, validationHeaderErrorMessage.controlId)">
+                                        !isFormControlValid(formGroup, validationHeaderErrorMessage.controlId)">
                     <a href="#">{{validationHeaderErrorMessage.text}}</a>
                 </ng-container>
                 <ng-container
                         *ngIf="isValidationLevel(validationHeaderErrorMessage.validationLevel, FORM_GROUP) &&
-                                isValidationError(formGroup, validationHeaderErrorMessage.formGroupValidationErrorId)">
+                                isFormGroupInvalid(formGroup, validationHeaderErrorMessage.formGroupValidationErrorId)">
                     <a href="#">{{validationHeaderErrorMessage.text}}</a>
                 </ng-container>
             </li>

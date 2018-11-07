@@ -43,7 +43,7 @@ export class TextareasComponent {
      */
     isControlInvalidAndShowValidation(formGroup: FormGroup, control: string, showValidation: boolean) {
 
-        return !this.isControlValid(formGroup, control) && showValidation;
+        return !this.isFormControlValid(formGroup, control) && showValidation;
     }
 
     /**
@@ -51,7 +51,7 @@ export class TextareasComponent {
      *
      * @see ValidationService
      */
-    isControlValid(formGroup: FormGroup, control: string): boolean {
-        return this.validationService.isControlValid(formGroup, control);
+    isFormControlValid(formGroup: FormGroup, control: string): boolean {
+        return this.validationService.isFormControlValid(formGroup, control);
     }
 }

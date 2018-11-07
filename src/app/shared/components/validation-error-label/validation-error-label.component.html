@@ -1,4 +1,4 @@
-<ng-container [formGroup]="group" *ngIf="!isControlValid(group, linkToControl)" >
+<ng-container [formGroup]="group" *ngIf="!isFormControlValid(group, linkToControl)" >
     <span id="directions-error" class="govuk-error-message">
         <ng-content></ng-content>
     </span>

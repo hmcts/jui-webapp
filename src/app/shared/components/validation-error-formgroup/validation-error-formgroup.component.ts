@@ -27,7 +27,7 @@ import {ObjectService} from '../../services/object.service';
  */
 export class ValidationErrorFormGroupComponent {
     @Input() group: FormGroup;
-    @Input() validationIdentifier;
+    @Input() validationErrorId;
 
     constructor(private validationService: ValidationService) {
     }
@@ -37,12 +37,7 @@ export class ValidationErrorFormGroupComponent {
      *
      * Checks if there is a validation error with the formGroup.
      */
-    isValidationError(formGroup: FormGroup, validationIdentifier: string): boolean {
-
-        if (formGroup.errors && formGroup.errors.hasOwnProperty(validationIdentifier)) {
-            return formGroup.errors[validationIdentifier];
-        } else {
-            return null;
-        }
+    isFormGroupInvalid(formGroup: FormGroup, validationErrorId: string): boolean {
+        return this.validationService.isFormGroupInvalid(formGroup, validationErrorId);
     }
 }

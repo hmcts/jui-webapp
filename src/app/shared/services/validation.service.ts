@@ -86,6 +86,7 @@ export class ValidationService {
      * @return {boolean}
      */
     controlHasValidation(validators: Array<string>): boolean {
+
         return validators && validators.length > 0;
     }
 
@@ -101,11 +102,36 @@ export class ValidationService {
      * @param {String} control - 'informationNeeded'
      * @return {boolean}
      */
-    isControlValid(formGroup: FormGroup, control: string): boolean {
+    isFormControlValid(formGroup: FormGroup, control: string): boolean {
+
         return formGroup.get(control).valid;
     }
 
     // FOR MULTIPLY CONTROLS - formGroup level validation.
+
+    /**
+     * Is Form Group Invalid
+     *
+     * Checks if a validation error has been thrown on the pages Angular FormGroup.
+     *
+     * FormGroup is the common ancestor of FormControls, and therefore and according to the Angular
+     * Docs the best place to validate against multiply controls, that have dependencies upon one
+     * another.
+     *
+     * An example being we should check if a user has checked one of eight checkboxes.
+     *
+     * @param formGroup
+     * @param validationErrorId
+     * @return {any}
+     */
+    isFormGroupInvalid(formGroup: FormGroup, validationErrorId: string): boolean {
+
+        if (formGroup.errors && formGroup.errors.hasOwnProperty(validationErrorId)) {
+            return formGroup.errors[validationErrorId];
+        } else {
+            return null;
+        }
+    }
 
     /**
      * isAnyCheckboxChecked

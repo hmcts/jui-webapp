@@ -28,13 +28,11 @@ export class ValidationErrorLabelComponent {
      * ie. If the control that this error message links to is not valid we
      * show the Error Message.
      *
-     * TODO: Make DRY with textareas.component.ts
-     *
      * @param formGroup
      * @param linkToControl
      * @return {boolean}
      */
-    isControlValid(formGroup: FormGroup, linkToControl: string): boolean {
-        return this.validationService.isControlValid(formGroup, linkToControl);
+    isFormControlValid(formGroup: FormGroup, linkToControl: string): boolean {
+        return this.validationService.isFormControlValid(formGroup, linkToControl);
     }
 }
