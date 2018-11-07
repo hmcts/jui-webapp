@@ -11,6 +11,7 @@ import {Router} from '@angular/router';
 import {HmctsModule} from '../../../hmcts/hmcts.module';
 import {SharedModule} from '../../../shared/shared.module';
 import { mockCase } from './mock/view-case.mock';
+import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 describe('ViewCaseComponent', () => {
     let component: ViewCaseComponent;
@@ -33,6 +34,7 @@ describe('ViewCaseComponent', () => {
 
         TestBed.configureTestingModule({
             declarations: [ViewCaseComponent],
+            schemas: [CUSTOM_ELEMENTS_SCHEMA],
             imports: [DomainModule, CaseViewerModule, RouterTestingModule, HmctsModule, SharedModule],
             providers: [
                 { provide: ActivatedRoute, useFactory: () => activeRouteMock },
