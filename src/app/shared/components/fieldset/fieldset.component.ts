@@ -12,7 +12,6 @@ export class FieldsetComponent implements OnInit, OnChanges {
     @Input() group;
     @Input() data;
     @Input() childrenOf;
-    @Input() showChilds: Observable<any>;
 
     constructor() {}
 

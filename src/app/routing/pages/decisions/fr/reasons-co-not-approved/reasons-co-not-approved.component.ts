@@ -76,9 +76,9 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
         this.showOther = this.rejectReasonsForm.controls.Other.value;
         this.showOther2 = this.rejectReasonsForm.controls.Other2.value;
 
-        this.rejectReasonsForm.valueChanges.subscribe( (value) => {
-            this.showChilds = this.rejectReasonsForm;
-        });
+        // this.rejectReasonsForm.valueChanges.subscribe( (value) => {
+        //     this.showChilds = this.rejectReasonsForm;
+        // });
     }
     ngOnInit() {
         this.rejectReasonsForm = null;
