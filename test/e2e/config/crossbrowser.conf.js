@@ -15,6 +15,10 @@ const config = {
     allScriptsTimeout: 111000,
     specs: ['../features/**/*.feature'],
 
+    exclude: [
+        //'../features/app/questions.feature'
+        ],
+
     baseUrl: (process.env.TEST_URL || 'http://localhost:3000/').replace('https', 'http'),
 
     params: {
