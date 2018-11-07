@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ValidationErrorLabelComponent } from './validation-error-label.component';
+import { ValidationErrorFormControlComponent } from './validation-error-formcontrol.component';
 
-describe('ValidationErrorLabelComponent', () => {
-  let component: ValidationErrorLabelComponent;
-  let fixture: ComponentFixture<ValidationErrorLabelComponent>;
+describe('ValidationErrorFormControlComponent', () => {
+  let component: ValidationErrorFormControlComponent;
+  let fixture: ComponentFixture<ValidationErrorFormControlComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ValidationErrorLabelComponent ]
+      declarations: [ ValidationErrorFormControlComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ValidationErrorLabelComponent);
+    fixture = TestBed.createComponent(ValidationErrorFormControlComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

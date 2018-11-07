@@ -108,7 +108,6 @@ export class ValidationService {
     }
 
     // FOR MULTIPLY CONTROLS - formGroup level validation.
-
     /**
      * Is Form Group Invalid
      *
@@ -120,9 +119,14 @@ export class ValidationService {
      *
      * An example being we should check if a user has checked one of eight checkboxes.
      *
-     * @param formGroup
-     * @param validationErrorId
-     * @return {any}
+     * TODO : Unit Test
+     *
+     * @see ValidationService
+     * @param {FormGroup} formGroup
+     * @param {string} validationErrorId - ie. 'reasonsConstentOrderNotApproved' - This is the validation identifier
+     * we assign to a group of form controls, we assign this when we currently setValidators(), note that we will
+     * need to pass this in once the Universal Form Builder is merged with Validation.
+     * @return {boolean}
      */
     isFormGroupInvalid(formGroup: FormGroup, validationErrorId: string): boolean {
 

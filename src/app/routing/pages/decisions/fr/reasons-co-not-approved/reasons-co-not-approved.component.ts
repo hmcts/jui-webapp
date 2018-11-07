@@ -42,7 +42,7 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
         const checkboxes: Array<string> = ['partiesNeedAttend', 'NotEnoughInformation', 'orderNotAppearOfS25ca1973', 'd81',
             'pensionAnnex', 'applicantTakenAdvice', 'respondentTakenAdvice', 'Other2'];
 
-        const validationIdentifier = 'noCheckboxIsChecked';
+        const validationIdentifier = 'reasonsConstentOrderNotApproved';
 
         /**
          * Form Group Validators, are used for validation that involves one control, being dependent upon another,

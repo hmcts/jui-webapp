@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ValidationErrorLabelComponent } from './validation-error-label.component';
+import { ValidationErrorFormGroupComponent } from './validation-error-formgroup.component';
 
-describe('ValidationErrorLabelComponent', () => {
-  let component: ValidationErrorLabelComponent;
-  let fixture: ComponentFixture<ValidationErrorLabelComponent>;
+describe('ValidationErrorFormGroupComponent', () => {
+  let component: ValidationErrorFormGroupComponent;
+  let fixture: ComponentFixture<ValidationErrorFormGroupComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ValidationErrorLabelComponent ]
+      declarations: [ ValidationErrorFormGroupComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ValidationErrorLabelComponent);
+    fixture = TestBed.createComponent(ValidationErrorFormGroupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

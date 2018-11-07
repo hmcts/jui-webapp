@@ -62,7 +62,7 @@ module.exports = {
                 },
                 {
                     validationLevel: 'formGroup',
-                    formGroupValidationErrorId: 'noCheckboxIsChecked',
+                    formGroupValidationErrorId: 'reasonsConstentOrderNotApproved',
                     text: 'Select reasons the consent order was not approved',
                     href: '#'
                 }
@@ -87,7 +87,7 @@ module.exports = {
                         {
                             validationError: {
                                 value: 'Select reasons the consent order was not approved',
-                                identifier: 'noCheckboxIsChecked'
+                                identifier: 'reasonsConstentOrderNotApproved'
                             }
                         },
                         {

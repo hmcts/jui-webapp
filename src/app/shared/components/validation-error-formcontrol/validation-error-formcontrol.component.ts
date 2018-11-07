@@ -7,29 +7,27 @@ import {ValidationService} from '../../services/validation.service';
     templateUrl: './validation-error-formcontrol.component.html',
     styleUrls: ['./validation-error-formcontrol.component.scss']
 })
+
 /**
- * ValidationErrorLabelComponent
+ * ValidationErrorFormControlComponent
  *
- * If the control that this error message component links to is not valid we
- * show the Error Message, sent through from the parent component.
+ * We show an error message if the FormControl that this component links to via controlId is invalid.
  */
 export class ValidationErrorFormControlComponent {
     @Input() group: FormGroup;
-    @Input() idPrefix = 'ta';
-    @Input() name = 'ta';
     @Input() controlId;
 
     constructor(private validationService: ValidationService) {
     }
 
     /**
-     * Checks if the control this error message links to is valid.
+     * Is Form Control Valid
      *
-     * ie. If the control that this error message links to is not valid we
-     * show the Error Message.
+     * TODO: Unit
      *
-     * @param formGroup
-     * @param controlId
+     * @see ValidationService
+     * @param {FormGroup} formGroup
+     * @param {string} controlId - ie. 'informationNeeded'
      * @return {boolean}
      */
     isFormControlValid(formGroup: FormGroup, controlId: string): boolean {

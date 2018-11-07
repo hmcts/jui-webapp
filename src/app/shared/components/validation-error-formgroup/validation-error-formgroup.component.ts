@@ -1,27 +1,23 @@
 import {Component, Input} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {ValidationService} from '../../services/validation.service';
-import {ObjectService} from '../../services/object.service';
 
 @Component({
     selector: 'app-validation-error-formgroup',
     templateUrl: './validation-error-formgroup.component.html',
     styleUrls: ['./validation-error-formgroup.component.scss']
 })
+
 /**
- * Validation Error Formgroup Component
+ * Validation Error FormGroup Component
  *
- * If the control that this error message component links to is not valid we
- * show the Error Message, sent through from the parent component.
+ * We show an error message if the validation error associated with the FormGroup is thrown by the FormGroup.
  *
- * Note that this is validation for the formgroup level of components, ie.
- * a FormGroup contains (is parent) of FormControls.
+ * Note that we have validation on both FormGroup and FormControl level. FormControl level to validate single
+ * controls, FormGroup level to validate multiply controls. This is the method suggested in the Angular 6 documents.
  *
- * We need to have validation on this level, as we should be able to check if
- * one of a group of FormControls is checked. Those FormControls belonging to
- * the parent FormGroup.
- *
- * This is as per the Angular 6 guidelines/docs
+ * An example of multiply controls, where we would leverage the FormGroup validation would be; checking if one
+ * Checkbox is checked, out a set of multiply Checkboxes.
  *
  * @see https://angular.io/guide/form-validation#adding-to-reactive-forms-1
  */
@@ -33,9 +29,16 @@ export class ValidationErrorFormGroupComponent {
     }
 
     /**
-     * Is Validation Error
+     * Is Form Group Invalid
      *
-     * Checks if there is a validation error with the formGroup.
+     * TODO : Unit Test
+     *
+     * @see ValidationService
+     * @param {FormGroup} formGroup
+     * @param {string} validationErrorId - ie. 'reasonsConstentOrderNotApproved' - This is the validation identifier
+     * we assign to a group of form controls, we assign this when we currently setValidators(), note that we will
+     * need to pass this in once the Universal Form Builder is merged with Validation.
+     * @return {boolean}
      */
     isFormGroupInvalid(formGroup: FormGroup, validationErrorId: string): boolean {
         return this.validationService.isFormGroupInvalid(formGroup, validationErrorId);
