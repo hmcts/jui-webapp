@@ -83,7 +83,7 @@ const config = {
     cucumberOpts: {
         strict: true,
         format: 'json:reports_json/results.json',
-        tags: ['@parties'],
+        tags: ['@all'],
         require: [
             '../support/world.js',
             '../support/*.js',
