@@ -22,6 +22,7 @@ function loginPage() {
         await this.enterUrEmail("test@gmail.com");
         await this.enterPassword("123");
         await this.clickSignIn();
+        browser.sleep(LONG_DELAY);
     };
 
     this.enterUrEmail = async function(email) {
