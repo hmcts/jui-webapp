@@ -13,6 +13,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Observable, of, throwError} from 'rxjs';
 import {DomainModule} from '../../../../domain/domain.module';
 import {RedirectionService} from '../../../redirection.service';
+import {mockCaseData} from './mock/check-hearing.mock';
 
 class MockHearingService {
     isError = false;
@@ -65,14 +66,7 @@ describe('CheckHearingComponent', () => {
                         parent: {
                             snapshot: {
                                 data: {
-                                    caseData: {
-                                        id: '1234',
-                                        decision: {
-                                            options: [
-                                                {id: 'test', name: 'test'}
-                                            ]
-                                        }
-                                    }
+                                    caseData: mockCaseData
                                 }
                             }
                         }

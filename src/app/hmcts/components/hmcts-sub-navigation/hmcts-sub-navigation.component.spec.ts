@@ -7,7 +7,7 @@ import {Component, DebugElement, ViewChild} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {SubNavigation} from '../../models/nav';
 
-fdescribe('HmctsSubNavigationComponent', () => {
+describe('HmctsSubNavigationComponent', () => {
     let component: HmctsSubNavigationComponent;
     let fixture: ComponentFixture<HmctsSubNavigationComponent>;
 
@@ -34,7 +34,7 @@ fdescribe('HmctsSubNavigationComponent', () => {
     });
 
 });
-fdescribe('HmctsSubNavigationComponent: Testing Input & Outputs', () => {
+describe('HmctsSubNavigationComponent: Testing Input & Outputs', () => {
     let testHostComponent: TestDummyHostComponent;
     let testHostFixture: ComponentFixture<TestDummyHostComponent>;
     let el: DebugElement;
