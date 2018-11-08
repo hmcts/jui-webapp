@@ -9,4 +9,5 @@ import {FormGroup} from '@angular/forms';
 export class JuiFormElementsComponent {
     @Input() group: FormGroup;
     @Input() data: Object;
+    @Input() validate;
 }

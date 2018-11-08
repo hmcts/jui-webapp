@@ -12,7 +12,8 @@
                     <app-fieldset *ngIf="group.fieldset"
                                   [classes]="'govuk-fieldset'"
                                   [group]="rejectReasonsForm"
-                                  [data]="group.fieldset">
+                                  [data]="group.fieldset"
+                                  [validate]="useValidation">
                     </app-fieldset>
                     <app-jui-form-elements [validate]="useValidation" [group]="rejectReasonsForm" [data]="group"></app-jui-form-elements>
                 </div>
