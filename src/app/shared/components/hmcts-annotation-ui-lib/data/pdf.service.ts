@@ -39,14 +39,6 @@ export class PdfService {
         this.pageNumber.next(pageNumber);
     }
 
-    getAnnotationClicked(): Subject<string> {
-        return this.annotationSub;
-    }
-
-    setAnnotationClicked(annotationId: string) {
-        this.annotationSub.next(annotationId);
-    }
-
     getRenderOptions() {
         return Object.assign({}, this.RENDER_OPTIONS);
     }
