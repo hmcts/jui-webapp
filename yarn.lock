@@ -6349,7 +6349,7 @@ number-is-nan@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
 
-nyc@^13.0.1:
+nyc@^13.1.0:
   version "13.1.0"
   resolved "https://registry.yarnpkg.com/nyc/-/nyc-13.1.0.tgz#463665c7ff6b5798e322624a5eb449a678db90e3"
   dependencies:
