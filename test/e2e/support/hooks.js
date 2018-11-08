@@ -21,17 +21,17 @@ const { SHORT_DELAY, MID_DELAY , LONG_DELAY } = require('../support/constants');
 
 const JsonFormatter = require('cucumber').JsonFormatter;
 
-defineSupportCode(function({registerHandler}) {
-    registerHandler('BeforeFeatures', function () {
-        browser.get(config.config.baseUrl);
-        browser.driver.manage().deleteAllCookies();
-        browser.refresh();
-        browser.sleep(SHORT_DELAY);
-    });
-});
+// defineSupportCode(function({registerHandler}) {
+//     registerHandler('BeforeFeatures', function () {
+//         browser.get(config.config.baseUrl);
+//         browser.driver.manage().deleteAllCookies();
+//         browser.refresh();
+//         browser.sleep(SHORT_DELAY);
+//     });
+// });
 
 defineSupportCode(function({setDefaultTimeout}) {
-    setDefaultTimeout(60 * 1000);
+    setDefaultTimeout(10 * 60 * 1000);
 });
 
 
@@ -39,7 +39,7 @@ defineSupportCode(function({setDefaultTimeout}) {
 defineSupportCode(({After, registerListener}) => {
 
     After(function(scenario, done) {
-        const world = this;
+        let world = this;
         if (scenario.isFailed()) {
             browser.takeScreenshot()
                 .then(function(png) {
