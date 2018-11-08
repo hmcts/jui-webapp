@@ -68,7 +68,6 @@ const config = {
 
     },
     directConnect: true,
-    // seleniumAddress: 'http://localhost:4444/wd/hub',
     getPageTimeOut: 60000,
     allScriptsTimeout: 500000,
     multiCapabilities: cap,
@@ -80,15 +79,11 @@ const config = {
         global.should = chai.should;
     },
 
-    // onPrepare: function () {
-    //     rmDir('../test/reports/features/*.html');
-    // },
 
     cucumberOpts: {
         strict: true,
-        // format: ['node_modules/cucumber-pretty'],
         format: 'json:reports_json/results.json',
-        tags: ['@all'],
+        tags: ['@parties'],
         require: [
             '../support/world.js',
             '../support/*.js',

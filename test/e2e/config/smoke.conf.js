@@ -56,7 +56,7 @@ const config = {
 
     //Define which tests should be excluded from execution.
     exclude : [
-         '../features/app/login.feature', '../features/app/makeDecision.feature'
+        // '../features/app/login.feature', '../features/app/makeDecision.feature'
         ],
 
 
