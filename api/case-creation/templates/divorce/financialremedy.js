@@ -56,9 +56,9 @@ module.exports = {
         respondentEmail: '',
         HWFNumber: '235',
         consentOrder: {
-            document_url: 'http://dm-store-aat.service.core-compute-aat.internal:443/documents/ba4dd7cf-2813-4164-9c9f-cbc76778ed9a',
-            document_filename: 'Profile_Pic.png',
-            document_binary_url: 'http://dm-store-aat.service.core-compute-aat.internal:443/documents/ba4dd7cf-2813-4164-9c9f-cbc76778ed9a/binary'
+            document_url: 'http://dm-store-aat.service.core-compute-aat.internal:443/documents/4a123fac-9e9a-4a7a-b5b7-3f3340c150a4',
+            document_filename: 'test.pdf',
+            document_binary_url: 'http://dm-store-aat.service.core-compute-aat.internal:443/documents/4a123fac-9e9a-4a7a-b5b7-3f3340c150a4/binary'
         },
         helpWithFeesQuestion: 'Yes',
         authorisationFirm: 'sdhf',
