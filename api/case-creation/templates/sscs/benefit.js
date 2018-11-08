@@ -8,7 +8,13 @@ module.exports = {
                     firstName: 'Bob',
                     lastName: 'Bobby'
                 }
+            },
+            hearingType: 'cor',
+            benefitType: {
+                code: 'PIP',
+                description: 'Benefit'
             }
+
         }
     }
 }
