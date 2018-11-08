@@ -45,7 +45,7 @@ function combineLists(lists) {
 }
 
 // stateType is not needed atm however it could in the future
-function getEventId (jurisdiction, caseType, stateType) {
+function getAssignEventId (jurisdiction, caseType, stateType) {
     const defaultAssignToJudgeEventId = 'assignToJudge'
     const assignToJudgeEventIds = {
         sscs: {
@@ -60,6 +60,29 @@ function getEventId (jurisdiction, caseType, stateType) {
         divorce: {
             divorce: defaultAssignToJudgeEventId,
             financialremedymvp2: 'FR_referToJudge'
+        }
+    }
+    const jud = assignToJudgeEventIds[jurisdiction.toLowerCase()]
+    const template = jud ? jud[caseType.toLowerCase()] : defaultAssignToJudgeEventId
+    return (template) || defaultAssignToJudgeEventId
+}
+
+// stateType is not needed atm however it could in the future
+function getUnassignEventId (jurisdiction, caseType, stateType) {
+    const defaultAssignToJudgeEventId = 'unassignToJudge'
+    const assignToJudgeEventIds = {
+        sscs: {
+            benefit: defaultAssignToJudgeEventId
+        },
+        cmc: {
+            moneyclaimcase: defaultAssignToJudgeEventId
+        },
+        probate: {
+            grantofrepresentation: defaultAssignToJudgeEventId
+        },
+        divorce: {
+            divorce: defaultAssignToJudgeEventId,
+            financialremedymvp2: defaultAssignToJudgeEventId
         }
     }
     const jud = assignToJudgeEventIds[jurisdiction.toLowerCase()]
@@ -102,7 +125,7 @@ function assignToJudge(userId, awaitingJuiRespCases, options) {
         const jurisdiction = newCase.jurisdiction
         const caseType = newCase.case_type_id
         const caseId = newCase.id
-        const eventId = getEventId(jurisdiction, caseType)
+        const eventId = getAssignEventId(jurisdiction, caseType)
 
         getDetails(options)
             .then(details => {
@@ -120,9 +143,31 @@ function assignToJudge(userId, awaitingJuiRespCases, options) {
             })
 
     } else {
-    //    throw error no new cases found
+        //    throw error no new cases found
         console.error(`No cases found`)
     }
+}
+
+function unassignFromJudge(userId, caseData, options) {
+    if (caseData) {
+        const jurisdiction = caseData.jurisdiction
+        const caseType = caseData.case_type_id
+        const caseId = caseData.id
+        const eventId = getUnassignEventId(jurisdiction, caseType)
+        const body = { }
+        updateCase(userId, jurisdiction, caseType, caseId, eventId, JUI_AUTO_ASSIGN, JUI_AUTO_ASSIGN, body, options)
+            .catch(error => {
+                console.error(`Couldn't update case`, error)
+            })
+
+    } else {
+        //    throw error no new cases found
+        console.error(`No cases found`)
+    }
+}
+
+function unassignAllCaseFromJudge (userId, caseList, options) {
+    return caseList.map(caseData => unassignFromJudge(userId,caseData,options))
 }
 
 function getNewCase(userId, options) {
@@ -134,3 +179,5 @@ function getNewCase(userId, options) {
 }
 
 module.exports.getNewCase = getNewCase
+module.exports.unassignFromJudge = unassignFromJudge
+module.exports.unassignAllCaseFromJudge = unassignAllCaseFromJudge
