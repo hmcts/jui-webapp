@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA, ElementRef } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Subject, Observable, of } from 'rxjs';
 
@@ -39,6 +39,7 @@ class MockPdfService {
   getPageNumber() {
     return this.pageNumber;
   }
+  setAnnotationWrapper() {}
 }
 
 class MockAnnotationStoreService {

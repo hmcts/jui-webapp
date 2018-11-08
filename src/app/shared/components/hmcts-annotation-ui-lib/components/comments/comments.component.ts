@@ -1,5 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {Subscription} from 'rxjs';
 import {PdfService} from '../../data/pdf.service';
 import {AnnotationStoreService} from '../../data/annotation-store.service';
@@ -50,7 +49,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
     showAllComments() {
         // todo - refactor this out of component
         this.annotations = [];
-        for (let i = 0; i < this.pdfService.pdfPages + 1; i++) {
+        for (let i = 0; i < this.pdfService.getPdfPages() + 1; i++) {
             this.annotationStoreService.getAnnotationsForPage(i)
                 .then((pageData: any) => {
                     this.annotations = this.annotations.concat(pageData.annotations.slice());

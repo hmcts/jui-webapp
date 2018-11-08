@@ -3,9 +3,14 @@ import { Utils } from './utils';
 import { PdfAdapter } from './pdf-adapter';
 import { AnnotationSet, Annotation, Comment, Rectangle } from './annotation-set.model';
 import { DOCUMENT } from '@angular/common';
+import { PdfService } from './pdf.service';
 
 class MockUtils {
     generateRectanglePerLine() {}
+}
+
+class MockPdfService {
+
 }
 
 class MockDocument {
@@ -14,7 +19,7 @@ class MockDocument {
     }
 }
 
-describe('PdfAdapter', () => {
+fdescribe('PdfAdapter', () => {
     const mockUtils = new MockUtils();
     const mockRectangle = new Rectangle('63225ccd-61fe-4aa7-8c5f-cf9bc31cc424',
         '4bcc2edf-487d-4ee0-a5b0-a3cdfe93bf1a',
@@ -45,11 +50,14 @@ describe('PdfAdapter', () => {
     );
     const mockDocument = new MockDocument();
 
+    const mockPdfService = new MockPdfService();
+
     beforeEach(() => {
         TestBed.configureTestingModule({
           providers: [
               PdfAdapter,
               { provide: DOCUMENT, useFactory: () => mockDocument},
+              { provide: PdfService, useFactory: () => mockPdfService},
               { provide: Utils, useFactory: () => mockUtils}
             ]
         });

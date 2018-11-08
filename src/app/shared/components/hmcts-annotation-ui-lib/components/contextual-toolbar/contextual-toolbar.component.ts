@@ -1,5 +1,4 @@
-import {Component, OnInit, ChangeDetectorRef, OnDestroy, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import {Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AnnotationStoreService } from '../../data/annotation-store.service';
 import { Annotation, Comment } from '../../data/annotation-set.model';
@@ -20,7 +19,7 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
 
   constructor(private annotationStoreService: AnnotationStoreService,
               private ref: ChangeDetectorRef,
-              @Inject(DOCUMENT) private document: any) {
+              private pdfService: PdfService) {
     this.toolPos = {
       left: 0,
       top: 0
@@ -59,10 +58,11 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
   }
 
   getRelativePosition(annotationId: string): {left: number; top: number} {
-    const svgSelector = this.document.querySelector(`g[data-pdf-annotate-id="${annotationId}"]`);
+    const svgSelector = this.pdfService.getViewerElementRef().nativeElement
+                          .querySelector(`g[data-pdf-annotate-id="${annotationId}"]`);
     const highlightRect = <DOMRect>svgSelector.getBoundingClientRect();
 
-    const wrapper = this.document.querySelector('#annotation-wrapper');
+    const wrapper = this.pdfService.getAnnotationWrapper().nativeElement;
     const wrapperRect = <DOMRect>wrapper.getBoundingClientRect();
 
     const left = ((highlightRect.x - wrapperRect.left)

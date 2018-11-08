@@ -1,9 +1,9 @@
 import {v4 as uuid} from 'uuid';
 import {Injectable, Inject} from '@angular/core';
+import { WINDOW} from '@ng-toolkit/universal';
 import {Subject} from 'rxjs';
 import {Annotation, AnnotationSet, Comment, Rectangle} from './annotation-set.model';
 import {Utils} from './utils';
-import { DOCUMENT } from '@angular/common';
 
 @Injectable()
 export class PdfAdapter {
@@ -14,7 +14,7 @@ export class PdfAdapter {
     private annotationChangeSubject: Subject<{ type: String, annotation: Annotation }>;
 
     constructor(private utils: Utils,
-                @Inject(DOCUMENT) private document: any) {
+                @Inject(WINDOW) private window: Window) {
         this.annotationChangeSubject = new Subject<{ type: String, annotation: Annotation }>();
     }
 
@@ -59,7 +59,7 @@ export class PdfAdapter {
 
 
     clearSelection() {
-        const sel = this.document.getSelection();
+        const sel = this.window.getSelection();
         if (sel) {
             if (sel.removeAllRanges) {
                 sel.removeAllRanges();
