@@ -36,58 +36,75 @@ defineSupportCode(function({setDefaultTimeout}) {
 
 
 
-defineSupportCode(({After, registerListener}) => {
+// defineSupportCode(({After, registerListener}) => {
+//
+//     After(function(scenario, done) {
+//         let world = this;
+//         if (scenario.isFailed()) {
+//             browser.takeScreenshot()
+//                 .then(function(png) {
+//                     const decodedImage = new Buffer(png.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+//                     writeScreenshotToFile(decodedImage);
+//                     world.attach(decodedImage, 'image/png');
+//                     done();
+//                 }, function(err) {
+//                     done(err);
+//                 });
+//         } else {
+//             done();
+//         }
+//
+//     });
+//
+//     var writeScreenshotToFile = function(image) {
+//
+//         if (!fse.existsSync(screenshotDir)) {
+//             fse.mkdirSync(screenshotDir);
+//         }
+//        var date = new Date();
+//         var timestamp = date.getTime();
+//         var filename = "error_"+timestamp+".png";
+//         var stream = fse.createWriteStream(screenshotDir + filename);
+//         stream.write(image);
+//         stream.end();
+//     };
+//
+//     const jsonFormatter = new JsonFormatter;
+//     jsonFormatter.log = function(string) {
+//         if (!fse.existsSync(outputDir)) {
+//             fse.mkdirSync(outputDir);
+//         }
+//
+//         fse.writeFile(targetJson, string, function(err) {
+//             if (err) {
+//                 console.log('Failed to save cucumber test results to json file.');
+//                 console.log(err);
+//             } else {
+//                 createHtmlReport(targetJson);
+//             }
+//         });
+//     };
+//
+//     registerListener(JsonFormatter);
+// });
+//
+//
 
+
+
+defineSupportCode(({ After }) => {
     After(function(scenario, done) {
-        let world = this;
-        if (scenario.isFailed()) {
-            browser.takeScreenshot()
-                .then(function(png) {
-                    const decodedImage = new Buffer(png.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
-                    writeScreenshotToFile(decodedImage);
-                    world.attach(decodedImage, 'image/png');
+        const world = this;
+        if (scenario.result.status === 'failed') {
+            browser.takeScreenshot().then(stream => {
+                const decodedImage = new Buffer(stream.replace(/^data:image\/(png|gif|jpeg);base64,/, ''), 'base64');
+                world.attach(decodedImage, 'image/png');
+            })
+                .then(() => {
                     done();
-                }, function(err) {
-                    done(err);
                 });
         } else {
             done();
         }
-
     });
-
-    var writeScreenshotToFile = function(image) {
-
-        if (!fse.existsSync(screenshotDir)) {
-            fse.mkdirSync(screenshotDir);
-        }
-       var date = new Date();
-        var timestamp = date.getTime();
-        var filename = "error_"+timestamp+".png";
-        var stream = fse.createWriteStream(screenshotDir + filename);
-        stream.write(image);
-        stream.end();
-    };
-
-    const jsonFormatter = new JsonFormatter;
-    jsonFormatter.log = function(string) {
-        if (!fse.existsSync(outputDir)) {
-            fse.mkdirSync(outputDir);
-        }
-
-        fse.writeFile(targetJson, string, function(err) {
-            if (err) {
-                console.log('Failed to save cucumber test results to json file.');
-                console.log(err);
-            } else {
-                createHtmlReport(targetJson);
-            }
-        });
-    };
-
-    registerListener(JsonFormatter);
 });
-
-
-
-

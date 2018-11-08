@@ -71,7 +71,7 @@ const config = {
 
     },
     directConnect: true,
-    getPageTimeout: 200000,
+    getPageTimeout: 120000,
     allScriptsTimeout: 500000,
     multiCapabilities: cap,
 
