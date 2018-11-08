@@ -22,7 +22,7 @@ export class PdfAnnotateWrapper {
         if (storeAdapter) {
             PDFAnnotate.setStoreAdapter(storeAdapter);
         } else {
-            PDFAnnotate.setStoreAdapater(new PDFAnnotate.LocalStoreAdapter());
+            PDFAnnotate.setStoreAdapter(new PDFAnnotate.LocalStoreAdapter());
         }
     }
 
