@@ -2,22 +2,17 @@
 <main class="govuk-main-wrapper" role="main">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
-            <form *ngIf="pageitems; else loading" [formGroup]="notesForCourtAdminForm" (ngSubmit)="onSubmit()">
-                <div class="govuk-form-group">
-                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--xl">
-                        <h1 class="govuk-fieldset__heading">{{pageitems.header}}</h1>
-                    </legend>
-                    <span id="copyconsentorder-hint" class="govuk-hint">
-                        {{pageitems.hint}}
-                    </span>
-                    <textarea class="govuk-textarea" formControlName="{{pageitems.textarea.control}}" rows="5"></textarea>
+            <h1 *ngIf="pageitems" class="govuk-heading-xl">{{pageitems.header}}</h1>
+            <form *ngIf="pageitems" [formGroup]="notesForCourtAdminForm" (ngSubmit)="onSubmit()">
+                <div class="govuk-form-group" *ngFor="let group of pageitems.groups">
+                    <app-fieldset *ngIf="group.fieldset"
+                                  [classes]="'govuk-fieldset'"
+                                  [group]="notesForCourtAdminForm"
+                                  [data]="group.fieldset">
+                    </app-fieldset>
+                    <app-jui-form-elements [group]="notesForCourtAdminForm" [data]="group"></app-jui-form-elements>
                 </div>
-                <input class="govuk-button" type="submit" formControlName="{{pageitems.button.control}}">
             </form>
         </div>
     </div>
 </main>
-<ng-template #loading>
-    Loading Form...
-</ng-template>
-

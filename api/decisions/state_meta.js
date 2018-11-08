@@ -321,16 +321,24 @@ module.exports = {
             name: 'notes-for-court-administrator',
             header: 'Notes for court administrator (optional)',
             hint: 'This won’t be seen by the parties.',
-            textarea: {
-                label: 'Notes for court administrator',
-                control: 'notesForAdmin',
-                value: 'No optional notes'
-            },
-            button: {
-                control: 'createButton',
-                value: 'Continue',
-                onEvent: 'continue'
-            }
+            groups: [
+                {
+                    textarea: {
+                        label: 'Notes for court administrator',
+                        control: 'notesForAdmin',
+                        value: 'No optional notes'
+                    }
+                },
+                {
+                    button: {
+                        control: 'createButton',
+                        value: 'Continue',
+                        type: 'submit',
+                        classes: '',
+                        onEvent: 'continue'
+                    }
+                }
+            ]
         },
         check: {
             idPrefix: 'check',
@@ -709,13 +717,15 @@ module.exports = {
                         control: 'otherHearingDetails',
                         value: 'Other hearing details text'
                     }
-                }
-            ],
-            buttons: [
+                },
                 {
-                    control: 'createButton',
-                    value: 'Continue',
-                    onEvent: 'continue'
+                    button: {
+                        control: 'createButton',
+                        value: 'Continue',
+                        type: 'submit',
+                        classes: '',
+                        onEvent: 'continue'
+                    }
                 }
             ]
         }
