@@ -185,8 +185,7 @@ module.exports = {
                                                                     value: 'Enter what information is needed'
                                                                 },
                                                                 control: 'informationNeeded',
-                                                                value: '',
-                                                                validators: ['required']
+                                                                value: ''
                                                             }
                                                         }
                                                     ]
@@ -245,7 +244,7 @@ module.exports = {
                                                 classes: 'govuk-label--m'
                                             },
                                             control: 'Reason',
-                                            value: 'Reason text'
+                                            value: ''
                                         }
                                     }
                                 ]
@@ -264,8 +263,7 @@ module.exports = {
                             controlId: 'Directions'
                         },
                         control: 'Directions',
-                        value: '',
-                        validators: ['required']
+                        value: 'Direction text'
                     }
                 },
                 {
@@ -641,62 +639,66 @@ module.exports = {
             header: 'Hearing details',
             groups: [
                 {
-                    inputs: [
-                        {
-                            label: {
-                                text: 'Estimate length of hearing in minutes',
-                                classes: 'govuk-label--m'
-                            },
-                            control: 'estimateLengthOfHearing',
-                            classes: 'govuk-input--width-3'
-                        }
-                    ]
-                },
-                {
-                    inputs: [
-                        {
-                            label: {
-                                text: 'When should the hearing take place?',
-                                classes: 'govuk-label--m'
-                            },
-                            hint: {text: 'For example, ‘fix hearing for first available date’'},
-                            control: 'whenHearingPlaced'
-                        }
-                    ]
-                },
-                {
-                    fieldset: {
-                        legend: {
-                            text: 'Which court?',
-                            isPageHeading: true,
-                            classes: 'govuk-fieldset__legend--m'
+                    input: {
+                        label: {
+                            text: 'Estimate length of hearing in minutes',
+                            classes: 'govuk-label--m'
                         },
-                        radios: {
-                            control: 'whichCourt',
-                            radioGroup: [
-                                {
-                                    value: 'southWest',
-                                    text: 'South West Divorce Centre',
-                                    hint: {text: 'Southampton'}
-                                },
-                                {
-                                    value: 'eastMidlands',
-                                    text: 'East Midlands Divorce Centre',
-                                    hint: {text: 'Nottingham'}
-                                },
-                                {
-                                    value: 'westMidlands',
-                                    text: 'West Midlands Divorce Centre',
-                                    hint: {text: 'Stoke'}
-                                },
-                                {
-                                    value: 'northWest',
-                                    text: 'North West Divorce Centre',
-                                    hint: {text: 'Liverpool'}
-                                }
-                            ]
-                        }
+                        control: 'estimateLengthOfHearing',
+                        classes: 'govuk-input--width-3'
                     }
+                },
+                {
+                    input: {
+                        label: {
+                            text: 'When should the hearing take place?',
+                            classes: 'govuk-label--m'
+                        },
+                        hint: {
+                            text: 'For example, ‘fix hearing for first available date’',
+                            classes: 'govuk-hint'
+                        },
+                        control: 'whenHearingPlaced',
+                        classes: ''
+                    }
+                },
+                {
+                    fieldset: [
+                        {
+                            legend: {
+                                text: 'Which court?',
+                                isPageHeading: true,
+                                classes: 'govuk-fieldset__legend--m'
+                            }
+                        },
+                        {
+                            radios: {
+                                control: 'whichCourt',
+                                radioGroup: [
+                                    {
+                                        value: 'southWest',
+                                        text: 'South West Divorce Centre',
+                                        hint: {text: 'Southampton'}
+                                    },
+                                    {
+                                        value: 'eastMidlands',
+                                        text: 'East Midlands Divorce Centre',
+                                        hint: {text: 'Nottingham'}
+                                    },
+                                    {
+                                        value: 'westMidlands',
+                                        text: 'West Midlands Divorce Centre',
+                                        hint: {text: 'Stoke'}
+                                    },
+                                    {
+                                        value: 'northWest',
+                                        text: 'North West Divorce Centre',
+                                        hint: {text: 'Liverpool'}
+                                    }
+                                ]
+                            }
+                        }
+                    ]
                 },
                 {
                     textarea: {

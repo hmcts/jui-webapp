@@ -1,4 +1,4 @@
-<div [attr.data]="data">
+<div [attr.validate]="validate" [attr.data]="data" [attr.group]="group">
     <!--JUI FORM builder component -->
     <app-legend *ngIf="data.legend" [classes]="data.legend.classes">
         {{data.legend.text}}
@@ -6,11 +6,12 @@
     <app-hint *ngIf="data.hint" [classes]="data.hint.classes">
         {{data.hint.text}}
     </app-hint>
-    <ng-container *ngIf="data.validationError && validate">
-        <app-validation-error-formgroup [group]="group" [validationErrorId]="data.validationError.identifier">
-            {{data.validationError.value}}
-        </app-validation-error-formgroup>
-    </ng-container>
+    <app-inputs *ngIf="data.input"
+                [item]="data.input"
+                [group]="group"
+                [hint]="data.input.hint"
+                [label]="data.input.label"
+                [labelFor]="data.input.control"></app-inputs>
     <app-radiobutton *ngIf="data.radios" [classes]="'govuk-radios govuk-radios--inline'"
                      [items]="data.radios.radioGroup"
                      [group]="group"

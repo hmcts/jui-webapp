@@ -38,6 +38,7 @@ import { ValidationErrorFormControlComponent } from './components/validation-err
 import { ValidationErrorFormGroupComponent } from './components/validation-error-formgroup/validation-error-formgroup.component';
 import { ValidationHeaderComponent } from './components/validation-header/validation-header.component';
 import { JuiFormElementsComponent } from './components/jui-form-elements/jui-form-elements.component';
+import { InputsComponent } from './components/inputs/inputs.component';
 
 @NgModule({
     imports: [
@@ -83,6 +84,7 @@ import { JuiFormElementsComponent } from './components/jui-form-elements/jui-for
         ValidationErrorFormGroupComponent,
         ValidationHeaderComponent,
         JuiFormElementsComponent,
+        InputsComponent,
     ],
     exports: [
         JuiFormElementsComponent,
