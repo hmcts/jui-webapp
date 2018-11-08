@@ -94,7 +94,7 @@ describe('ViewQuestionComponent', () => {
     describe('when we receive a question and no answer', () => {
         beforeEach(async(() => {
             httpMock
-                .expectOne('/api/case/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/43eb9981-9360-4d4b-b9fd-506b5818e7ff')
+                .expectOne('/api/caseQ/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/43eb9981-9360-4d4b-b9fd-506b5818e7ff')
                 .flush({
                     'id': '43eb9981-9360-4d4b-b9fd-506b5818e7ff',
                     'header': 'Locality',
@@ -128,7 +128,7 @@ describe('ViewQuestionComponent', () => {
     describe('when we receive a question and an answer', () => {
         beforeEach(async(() => {
             httpMock
-                .expectOne('/api/case/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/43eb9981-9360-4d4b-b9fd-506b5818e7ff')
+                .expectOne('/api/caseQ/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/43eb9981-9360-4d4b-b9fd-506b5818e7ff')
                 .flush({
                     'id': '43eb9981-9360-4d4b-b9fd-506b5818e7ff',
                     'header': 'Locality',

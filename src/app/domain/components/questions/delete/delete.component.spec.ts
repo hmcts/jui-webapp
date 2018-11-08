@@ -96,7 +96,7 @@ describe('DeleteQuestionComponent', () => {
             component.remove();
 
             httpMock
-                .expectOne('/api/case/99eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/13eb9981-9360-4d4b-b9fd-506b5818e7ff')
+                .expectOne('/api/caseQ/99eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/13eb9981-9360-4d4b-b9fd-506b5818e7ff')
                 .flush(null);
 
             expect(redirectionServiceMock).toHaveBeenCalled();
