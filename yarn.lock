@@ -1586,14 +1586,13 @@ circular-json@^0.3.1:
   version "0.3.3"
   resolved "https://registry.yarnpkg.com/circular-json/-/circular-json-0.3.3.tgz#815c99ea84f6809529d2f45791bdf82711352d66"
 
-circular-json@^0.5.4, circular-json@^0.5.5:
+circular-json@^0.5.4:
   version "0.5.9"
   resolved "https://registry.yarnpkg.com/circular-json/-/circular-json-0.5.9.tgz#932763ae88f4f7dead7a0d09c8a51a4743a53b1d"
 
 circular-json@^0.5.5:
   version "0.5.8"
   resolved "https://registry.yarnpkg.com/circular-json/-/circular-json-0.5.8.tgz#40d2ff3aadee99871ebd19b41af3c9f113490003"
-  integrity sha512-VjaKMyZuVkL40usJkknJnmqQKpn2PkKS4M3/xdTRtZ0VsWl2Wbc2xdvXFXmEdmN6CKGqkm8XGyLHuFECZYEugw==
 
 cjson@~0.2.1:
   version "0.2.1"
@@ -6316,7 +6315,7 @@ number-is-nan@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"
 
-nyc@^13.0.1:
+nyc@^13.1.0:
   version "13.1.0"
   resolved "https://registry.yarnpkg.com/nyc/-/nyc-13.1.0.tgz#463665c7ff6b5798e322624a5eb449a678db90e3"
   dependencies:

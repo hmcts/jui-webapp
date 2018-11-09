@@ -90,7 +90,6 @@ defineSupportCode(function({ Given, When, Then }) {
         }
     });
 
-            browser.sleep(3000);
 
     Then(/^I will see date details for the list of cases displayed$/, async function() {
         await expect(dashBoardPage.case_start_date_header.isDisplayed()).to.eventually.be.true;
@@ -205,16 +204,10 @@ defineSupportCode(function({ Given, When, Then }) {
     Then(/^I see FR specific cases on JUI dashboard$/, async function() {
         await dashBoardPage.type_links.isDisplayed();
         await expect(dashBoardPage.type_links.first().getText()).to.eventually.equal("Financial remedy");
-
     });
 
-    });
 
-    });
 
-    Then(/^I see FR specific cases on JUI dashboard$/, async function() {
-
-    });
 
 
 });
