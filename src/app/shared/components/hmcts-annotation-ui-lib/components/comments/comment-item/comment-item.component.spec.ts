@@ -110,7 +110,6 @@ describe('CommentItemComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    expect(component.focused).toBeFalsy();
   });
 
   describe('onInit', () => {
