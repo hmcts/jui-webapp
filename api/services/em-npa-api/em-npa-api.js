@@ -8,6 +8,14 @@ function createNpaTask(options) {
     return generateRequest('POST', `${url}/api/document-tasks`, options);
 }
 
+function getHealth(options) {
+    return generateRequest('GET', `${url}/health`, options);
+}
+
+function getInfo(options) {
+    return generateRequest('GET', `${url}/info`, options);
+}
+
 function getOptions(req) {
     return {
         headers: {
@@ -21,6 +29,14 @@ function getOptions(req) {
 module.exports = app => {
     const router = express.Router({ mergeParams: true });
     app.use('/em-npa', router);
+
+    router.get('/health', (req, res, next) => {
+        getHealth(getOptions(req)).pipe(res)
+    })
+
+    router.get('/info', (req, res, next) => {
+        getInfo(getOptions(req)).pipe(res)
+    })
 
     router.post('/document-tasks', (req, res, next) => {
         const options = getOptions(req);
