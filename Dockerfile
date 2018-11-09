@@ -1,4 +1,4 @@
-FROM node:8.9.0
+FROM node:8.9.0-alpine
 
 MAINTAINER "HMCTS Team <https://github.com/hmcts>"
 LABEL maintainer = "HMCTS Team <https://github.com/hmcts>"
@@ -10,10 +10,10 @@ COPY package.json .
 COPY package-lock.json .
 COPY yarn.lock .
 
-RUN yarn install
+RUN npm install
 
 COPY . .
-RUN yarn build
+RUN npm run build
 
 EXPOSE 8080
-CMD [ "yarn", "start" ]
+CMD [ "npm", "start" ]
