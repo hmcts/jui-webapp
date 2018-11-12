@@ -1,4 +1,6 @@
 const express = require('express')
+const fs = require('fs');
+const multiparty = require('multiparty')
 const config = require('../../../config')
 const generateRequest = require('../../lib/request/request')
 
@@ -61,7 +63,21 @@ function getDocumentVersionThumbnail(documentId, versionId, options) {
 ////////////////////////////////////////////////////
 
 // Creates a list of Stored Documents by uploading a list of binary/text files.
+/**
+ * Post Document
+ *
+ * The document .pdf, or .jpg file should come into here, and we should be able to proxy that file,
+ * onto the the DM Store.
+ *
+ * @param file
+ * @param options
+ * @return {*}
+ */
 function postDocument(file, options) {
+    console.log('Post Document')
+    console.log(file)
+    console.log(options)
+
     options.headers['Content-Type'] = 'application/x-www-form-urlencoded'
     options.body = {classification: 'PUBLIC'}
     options.formData = {
@@ -73,6 +89,7 @@ function postDocument(file, options) {
             }
         }
     }
+
     return generateRequest('POST', `${url}/documents`, options)
 }
 
@@ -147,6 +164,11 @@ function getOptions(req) {
     }
 }
 
+/**
+ * Routing Logic
+ *
+ * TODO : We should move this out into a seperate routes file.
+ */
 module.exports = app => {
     const router = express.Router({ mergeParams: true })
     app.use('/dm-store', router)
@@ -171,16 +193,52 @@ module.exports = app => {
         ownedDocument(getOptions(req)).pipe(res)
     })
 
-
     // got to solve this
-    router.post('/documents', (req, res, next) => {
-        console.dir(req.body)
+    router.post('/documents', (request, response, next) => {
 
-        const files = req.body.files
-        const classification = req.body.classification
+        const form = new multiparty.Form()
 
-        console.log(files, classification)
-        postDocument(files, getOptions(req)).pipe(res)
+        // So this is fine and linked correctly
+        // When this is connected, then let's try and
+        // Parse the multipart form
+
+        // We are taking the part of the form, well we need to take the file.
+        form.on('part', (part) => {
+            console.log('part')
+            console.log(part.name)
+
+            if(part.name === 'files'){
+                console.log('i have received a file.');
+                part.pipe(fs.createWriteStream(`./${part.filename}`))
+                    .on('close', () => {
+                        response.writeHead(200, {'Content-Type': 'text/html' });
+                        response.end('File has been saved');
+                })
+            }
+
+            // ok so the file is most likely coming through as the byteCount is 18,118
+        })
+
+        form.parse(request);
+        // So the first part is making sure that we get the file in here.
+        // So we can write a response from here correctly.
+
+        // form.on('part', (part) => {
+        //     part.pipe(createWriteStream(``))
+        //         .on('close', ()=> {
+        //             request.writeHead(200, {'Content-Type': 'text/html'})
+        //
+        //         })
+        // })
+
+        // const form = request.form();
+        // form.append
+        //
+        // const files = req.body.files
+        // const classification = req.body.classification
+        //
+        // console.log(files, classification)
+        // postDocument(files, getOptions(req)).pipe(res)
     })
 
     router.get('/documents/:documentId/binary', (req, res, next) => {
