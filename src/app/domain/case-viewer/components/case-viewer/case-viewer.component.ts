@@ -1,6 +1,9 @@
 import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-
+import {PageDateDefault} from '../../../models/section_fields';
+export interface Section {
+    sections: Array<PageDateDefault>;
+}
 @Component({
     selector: 'app-case-viewer',
     templateUrl: './case-viewer.component.html',
@@ -10,10 +13,9 @@ export class CaseViewerComponent implements OnChanges {
     @Input() case: any;
     @Input() sectionId: string;
 
-    targetSection;
+    public targetSection: Section;
 
-    constructor() {
-    }
+    constructor() {}
 
     ngOnChanges(changes) {
         if (this.case) {
