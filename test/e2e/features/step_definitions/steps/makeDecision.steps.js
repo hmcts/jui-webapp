@@ -28,6 +28,7 @@ defineSupportCode(function ({Given, When, Then}) {
         var loginButton = timelinePage.make_decision;
         await browser.wait(EC.elementToBeClickable(loginButton), MID_DELAY);
         await loginButton.click();
+        browser.sleep(MID_DELAY);
     });
 
     Then(/^I select Don't Approve and click continue$/, async function () {
@@ -39,6 +40,7 @@ defineSupportCode(function ({Given, When, Then}) {
         await timelinePage.annotate_continue.click();
         browser.sleep(MID_DELAY);
         await timelinePage.button_continue.click();
+        browser.sleep(MID_DELAY);
     });
 
     Then(/^I verify the Check Decision page$/, async function () {

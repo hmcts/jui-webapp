@@ -54,6 +54,12 @@ const config = {
     frameworkPath: require.resolve('protractor-cucumber-framework'),
     specs: ['../features/**/*.feature'],
 
+    //Define which tests should be excluded from execution.
+    exclude : [
+        // '../features/app/login.feature', '../features/app/makeDecision.feature'
+        ],
+
+
     baseUrl: process.env.TEST_URL || 'http://localhost:3000/',
     params: {
         serverUrls: process.env.TEST_URL || 'http://localhost:3000/',
@@ -65,7 +71,7 @@ const config = {
 
     },
     directConnect: true,
-    getPageTimeout: 60000,
+    getPageTimeout: 120000,
     allScriptsTimeout: 500000,
     multiCapabilities: cap,
 
@@ -83,7 +89,7 @@ const config = {
         strict: true,
         // format: ['node_modules/cucumber-pretty'],
         format: 'json:reports_json/results.json',
-        tags: ['@ignore'],
+        tags: ['@smoke'],
         require: [
             '../support/world.js',
             '../support/*.js',

@@ -28,7 +28,7 @@ defineSupportCode(function({ Given, When, Then }) {
     });
 
     When(/^I select a case(.*)$/, async function(type) {
-        browser.sleep(SHORT_DELAY);
+        browser.sleep(MID_DELAY);
         await dashBoardPage.case_number_links.first()
             .click();
         browser.sleep(LONG_DELAY);
@@ -62,7 +62,8 @@ defineSupportCode(function({ Given, When, Then }) {
 
 
     Then(/^I will be redirected to the Case Summary page for that case (.*)$/, async function(type) {
-        browser.sleep(SHORT_DELAY);
+        browser.sleep(MID_DELAY);
+
         await expect(caseSummaryPage.case_header_text.getText()).to.eventually.equal('Summary');
         if (type === 'Financial Remedy'){
             await expect(caseSummaryPage.caseDetails_header_text.getText())
@@ -117,11 +118,14 @@ defineSupportCode(function({ Given, When, Then }) {
                         });
                 }
             });
+
     });
 
 
     Then(/^I should see table header columns$/, async function() {
+        browser.sleep(SHORT_DELAY);
         await dashBoardPage.table.isDisplayed();
+        browser.sleep(SHORT_DELAY);
         await expect(dashBoardPage.table_column_header.isDisplayed()).to.eventually.be.true;
 
     });
