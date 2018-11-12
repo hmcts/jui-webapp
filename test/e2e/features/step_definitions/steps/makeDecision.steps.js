@@ -1,5 +1,6 @@
 'use strict';
 const timelinePage = require('../../pages/timelinePage');
+const makeDecisionPage = require('../../pages/makeDecisionPage');
 const {defineSupportCode} = require('cucumber');
 const { SHORT_DELAY, MID_DELAY , LONG_DELAY } = require('../../../support/constants');
 const EC = protractor.ExpectedConditions;
@@ -55,28 +56,37 @@ defineSupportCode(function ({Given, When, Then}) {
 
 
     Then(/^I see approve the draft consent order option$/, async function () {
-
+       await expect(makeDecisionPage.draft_consent_order_text.isDisplayed()).to.be.eventually.be.true;
+       await expect(makeDecisionPage.draft_consent_order_text.getText()).to.be.eventually.equal('Do you want to approve the draft consent order?');
 
     });
 
 
     When(/^I click on "Yes" option$/, async function () {
+        await makeDecisionPage.yes_btn.click();
+
 
     });
 
     Then(/^ I click on Continue$/, async function () {
+        await makeDecisionPage.continue_btn.click();
+
 
     });
 
     Then(/^I enter notes for court administration$/, async function () {
+        await makeDecisionPage.textarea.send_keys('test draft consent order');
 
     });
 
-    When(/^I click on Continue$/, async function () {
+    When(/^I click on Continue$/, async function (){
+    await makeDecisionPage.continue_btn.click();
 
     });
 
     Then(/^I am on check your decision page$/, async function () {
+        await expect(makeDecisionPage.check_decision_header.isDisplayed()).to.be.eventually.be.true;
+        await expect(makeDecisionPage.check_decision_header.getText()).to.be.eventually.equal('Check your decision');
 
     });
 
