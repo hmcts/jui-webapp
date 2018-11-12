@@ -28,7 +28,7 @@ defineSupportCode(function({ Given, When, Then }) {
     });
 
     When(/^I select a case(.*)$/, async function(type) {
-        browser.sleep(SHORT_DELAY);
+        browser.sleep(LONG_DELAY);
         await dashBoardPage.case_number_links.first()
             .click();
         browser.sleep(LONG_DELAY);
@@ -202,8 +202,10 @@ defineSupportCode(function({ Given, When, Then }) {
     });
 
     Then(/^I see FR specific cases on JUI dashboard$/, async function() {
+        browser.sleep(SHORT_DELAY);
         await dashBoardPage.type_links.isDisplayed();
         await expect(dashBoardPage.type_links.first().getText()).to.eventually.equal("Financial remedy");
+        browser.sleep(SHORT_DELAY);
 
 
     });
