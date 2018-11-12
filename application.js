@@ -54,41 +54,53 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+function healthcheckConfig(msUrl) {
+    return healthcheck.web(`${msUrl}/health`, {
+        timeout: 6000,
+        deadline: 6000
+    });
+}
+
 app.get(
     '/health',
     healthcheck.configure({
         checks: {
-            ccd_data_api: healthcheck.web(`${config.services.ccd_data_api}/health`),
-            ccd_def_api: healthcheck.web(`${config.services.ccd_def_api}/health`),
-            idam_web: healthcheck.web(`${config.services.idam_web}/health`),
-            idam_api: healthcheck.web(`${config.services.idam_api}/health`),
-            s2s: healthcheck.web(`${config.services.s2s}/health`),
-            draft_store_api: healthcheck.web(`${config.services.draft_store_api}/health`),
-            dm_store_api: healthcheck.web(`${config.services.dm_store_api}/health`),
-            em_anno_api: healthcheck.web(`${config.services.em_anno_api}/health`),
-            em_npa_api: healthcheck.web(`${config.services.em_npa_api}/health`),
-            coh_cor_api: healthcheck.web(`${config.services.coh_cor_api}/health`)
+            ccd_data_api: healthcheckConfig(config.services.ccd_data_api),
+            ccd_def_api: healthcheckConfig(config.services.ccd_def_api),
+            idam_web: healthcheckConfig(config.services.idam_web),
+            idam_api: healthcheckConfig(config.services.idam_api),
+            s2s: healthcheckConfig(config.services.s2s),
+            draft_store_api: healthcheckConfig(config.services.draft_store_api),
+            dm_store_api: healthcheckConfig(config.services.dm_store_api),
+            em_anno_api: healthcheckConfig(config.services.em_anno_api),
+            em_npa_api: healthcheckConfig(config.services.em_npa_api),
+            coh_cor_api: healthcheckConfig(config.services.coh_cor_api)
         },
         buildInfo: {}
     })
 );
 
+function infocheckConfig(msUrl) {
+    return new InfoContributor(`${msUrl}/info`);
+}
+
 app.get(
     '/info',
     infoRequestHandler({
         info: {
-            ccd_data_api: new InfoContributor(`${config.services.dm_store_api}/info`),
-            ccd_def_api: new InfoContributor(`${config.services.ccd_def_api}/info`),
-            idam_web: new InfoContributor(`${config.services.idam_web}/info`),
-            idam_api: new InfoContributor(`${config.services.idam_api}/info`),
-            s2s: new InfoContributor(`${config.services.s2s}/info`),
-            draft_store_api: new InfoContributor(`${config.services.draft_store_api}/info`),
-            dm_store_api: new InfoContributor(`${config.services.dm_store_api}/info`),
-            em_anno_api: new InfoContributor(`${config.services.em_anno_api}/info`),
-            em_npa_api: new InfoContributor(`${config.services.em_npa_api}/info`),
-            coh_cor_api: new InfoContributor(`${config.services.coh_cor_api}/info`)
+            ccd_data_api: infocheckConfig(config.services.dm_store_api),
+            ccd_def_api: infocheckConfig(config.services.ccd_def_api),
+            idam_web: infocheckConfig(config.services.idam_web),
+            idam_api: infocheckConfig(config.services.idam_api),
+            s2s: infocheckConfig(config.services.s2s),
+            draft_store_api: infocheckConfig(config.services.draft_store_api),
+            dm_store_api: infocheckConfig(config.services.dm_store_api),
+            em_anno_api: infocheckConfig(config.services.em_anno_api),
+            em_npa_api: infocheckConfig(config.services.em_npa_api),
+            coh_cor_api: infocheckConfig(config.services.coh_cor_api)
         },
         extraBuildInfo: {
+            empty: {}
             // featureToggles: config.get('featureToggles'),
             // hostname: hostname()
         }
