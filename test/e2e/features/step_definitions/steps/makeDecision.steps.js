@@ -53,6 +53,33 @@ defineSupportCode(function ({Given, When, Then}) {
             });
     });
 
+
+    Then(/^I see approve the draft consent order option$/, async function () {
+
+
+    });
+
+
+    When(/^I click on "Yes" option$/, async function () {
+
+    });
+
+    Then(/^ I click on Continue$/, async function () {
+
+    });
+
+    Then(/^I enter notes for court administration$/, async function () {
+
+    });
+
+    When(/^I click on Continue$/, async function () {
+
+    });
+
+    Then(/^I am on check your decision page$/, async function () {
+
+    });
+
 });
 
 

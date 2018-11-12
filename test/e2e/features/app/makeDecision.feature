@@ -12,7 +12,7 @@ Feature: Make Decision
         Then I select Don't Approve and click continue
         Then I verify the Check Decision page
 
-        @makedecision
+        @makedecision @all
         Scenario: Verify Approving a Make decision
             Then I see approve the draft consent order option
             When I click on "Yes" option
