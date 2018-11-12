@@ -3,8 +3,17 @@ import { TestBed, inject, async } from '@angular/core/testing';
 import { ApiHttpService } from './api-http.service';
 import { AnnotationSet, Annotation } from './annotation-set.model';
 import { DocumentTask } from './document-task.model';
+import { TransferState } from '@angular/platform-browser';
+import { PLATFORM_ID } from '@angular/core';
+
+class MockTransferState {
+    hasKey() {}
+    remove() {}
+    set() {}
+}
 
 describe('ApiHttpService', () => {
+    const mockTransferState = new MockTransferState();
     let httpMock: HttpTestingController;
     let apiHttpService: ApiHttpService;
     const baseUrl = 'http://localhost';
@@ -37,6 +46,8 @@ describe('ApiHttpService', () => {
         TestBed.configureTestingModule({
             providers: [
               ApiHttpService,
+              { provide: TransferState, useFactory: () => mockTransferState},
+              { provide: PLATFORM_ID, useValue: 'browser' },
             ],
             imports: [
                 HttpClientTestingModule

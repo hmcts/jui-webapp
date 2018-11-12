@@ -9,7 +9,7 @@ import {Annotation, IAnnotation, IAnnotationSet} from './annotation-set.model';
 
 @Injectable()
 export class ApiHttpService {
-    private baseUrl = '/api';
+    private baseUrl: string;
 
     constructor(private httpClient: HttpClient,
                 @Inject(PLATFORM_ID) private platformId,

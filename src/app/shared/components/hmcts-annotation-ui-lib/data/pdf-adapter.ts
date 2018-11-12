@@ -1,9 +1,9 @@
 import {v4 as uuid} from 'uuid';
 import {Injectable, Inject} from '@angular/core';
-import { WINDOW} from '@ng-toolkit/universal';
 import {Subject} from 'rxjs';
 import {Annotation, AnnotationSet, Comment, Rectangle} from './annotation-set.model';
 import {Utils} from './utils';
+import { WINDOW } from '@ng-toolkit/universal';
 
 @Injectable()
 export class PdfAdapter {
@@ -56,7 +56,6 @@ export class PdfAdapter {
     _getComments(documentId) {
         return this.commentData || [];
     }
-
 
     clearSelection() {
         const sel = this.window.getSelection();

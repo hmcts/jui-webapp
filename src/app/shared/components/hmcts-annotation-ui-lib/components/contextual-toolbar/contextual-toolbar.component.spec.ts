@@ -44,7 +44,6 @@ class MockViewerComponent {
   nativeElement: { querySelector() };
 }
 
-
 describe('ContextualToolbarComponent', () => {
   let component: ContextualToolbarComponent;
   let fixture: ComponentFixture<ContextualToolbarComponent>;
