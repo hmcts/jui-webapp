@@ -193,51 +193,31 @@ module.exports = app => {
         ownedDocument(getOptions(req)).pipe(res)
     })
 
-    // got to solve this
+    /**
+     * Currently we are stepping through the multi-part form and finding the parts, when we find the file
+     * we write this file to the local disk currently.
+     */
     router.post('/documents', (request, response, next) => {
 
         const form = new multiparty.Form()
+        const FILES = 'files'
 
-        // So this is fine and linked correctly
-        // When this is connected, then let's try and
-        // Parse the multipart form
-
-        // We are taking the part of the form, well we need to take the file.
         form.on('part', (part) => {
-            console.log('part')
-            console.log(part.name)
 
-            if(part.name === 'files'){
-                console.log('i have received a file.');
+            if(part.name === FILES) {
                 part.pipe(fs.createWriteStream(`./${part.filename}`))
                     .on('close', () => {
                         response.writeHead(200, {'Content-Type': 'text/html' });
                         response.end('File has been saved');
                 })
             }
-
-            // ok so the file is most likely coming through as the byteCount is 18,118
         })
 
-        form.parse(request);
-        // So the first part is making sure that we get the file in here.
-        // So we can write a response from here correctly.
+        form.parse(request)
 
-        // form.on('part', (part) => {
-        //     part.pipe(createWriteStream(``))
-        //         .on('close', ()=> {
-        //             request.writeHead(200, {'Content-Type': 'text/html'})
-        //
-        //         })
-        // })
-
-        // const form = request.form();
-        // form.append
-        //
         // const files = req.body.files
         // const classification = req.body.classification
-        //
-        // console.log(files, classification)
+
         // postDocument(files, getOptions(req)).pipe(res)
     })
 
