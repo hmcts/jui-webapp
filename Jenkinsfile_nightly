@@ -16,6 +16,8 @@ properties([
 
 ])
 
+)]
+
 @Library("Infrastructure")
 
 def type = "nodejs"
