@@ -1,7 +1,7 @@
 const request = require('request-promise');
 const should = require('should');
 
-const mainURL = 'http://localhost:3000';
+const mainURL = process.env.TEST_URL || 'https://localhost:3000';
 const LOG_REQUEST_ERROR_DETAILS = false;
 const getCookie = require('./getToken');
 let cookie ;
