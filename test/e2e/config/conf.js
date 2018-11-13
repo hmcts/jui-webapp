@@ -70,8 +70,7 @@ const config = {
     multiCapabilities: cap,
 
     onPrepare() {
-        browser.manage().window()
-            .maximize();
+        browser.manage().window().maximize();
         browser.waitForAngularEnabled(false);
         global.expect = chai.expect;
         global.assert = chai.assert;
