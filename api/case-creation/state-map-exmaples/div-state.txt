@@ -1,0 +1,87 @@
+() => create => AwaitingPayment
+() => hwfCreate => AwaitingHWFDecision
+() => solicitorCreate => SOTAgreementPayAndSubmitRequired
+
+Rejected => awaitingPaymentFromRejected => AwaitingPayment
+AwaitingPayment => paymentReferenceGenerated => AwaitingPayment
+solicitorAwaitingPaymentConfirmation => awaitingPetitionerSolicitorAwaitingPayConfirm => AwaitingDocuments
+Submitted => awaitingDocuments => AwaitingDocuments
+Rejected => awaitingDocumentsFromRejected => AwaitingDocuments
+PendingRejection => awaitingDocumentsFromPendingRejection => AwaitingDocuments
+AwaitingPayment => awaitingDocumentsFromAwaitingPayment => AwaitingDocuments
+AwaitingHWFDecision => awaitingDocumentsFromAwaitingHWFDecision => AwaitingDocuments
+AwaitingPayment => paymentMade => Submitted
+solicitorAwaitingPaymentConfirmation => pbaDebitedFromSolicitorAwaitingPayConfirm => Submitted
+solicitorAwaitingPaymentConfirmation => paymentMadeFromSolicitorAwaitingPayConfirm => Submitted
+solicitorAwaitingPaymentConfirmation => hwfAcceptedFromSolicitorAwaitingPayConfirm => Submitted
+AwaitingDocuments => submitFromAwaitingDocumentsPetResp => Submitted
+PendingRejection => hwfAcceptedFromPendingRejection => Submitted
+AwaitingPayment => hwfApplicationAccepted => Submitted
+AwaitingHWFDecision => paymentMadeFromAwaitingHWFDecision => Submitted
+AwaitingHWFDecision => hwfApplicationAcceptedfromAwaitingHWFDecision => Submitted
+AwaitingDocuments => submitFromAwaitingDocuments => Submitted
+AwaitingDocuments => hwfApplicationAcceptedFromAwaitingDocs => Submitted
+Issued => refundOnIssue => Issued
+Submitted => issueFromSubmitted => Issued
+Rejected => issueFromRejected => Issued
+PendingRejection => issueFromPendingRejection => Issued
+Issued => amendFromIssued => Issued
+AwaitingDocuments => issueFromAwaitingDocs => Issued
+solicitorAwaitingPaymentConfirmation => rejectFromSolicitorAwaitingPayConfirm => Rejected
+Submitted => rejectFromSubmitted => Rejected
+Rejected => refundOnReject => Rejected
+PendingRejection => rejectFromPendingRejection => Rejected
+Issued => rejectFromIssued => Rejected
+AwaitingPayment => rejectFromAwaitingPayment => Rejected
+AwaitingHWFDecision => rejectFromAwaitingHWFDecision => Rejected
+AwaitingDocuments => rejectFromAwaitingDocs => Rejected
+Submitted => pendingRejection => PendingRejection
+AwaitingDocuments => pendingRejectionFromAwaitingDocument => PendingRejection
+SOTAgreementPayAndSubmitRequired => solicitorUpdate => SOTAgreementPayAndSubmitRequired
+SOTAgreementPayAndSubmitRequired => solicitorStatementOfTruthPaySubmit => solicitorAwaitingPaymentConfirmation
+Issued => issueAos => AosAwaiting
+AosAwaitingAosOverdueAwaitingReissue => startAos => AosStarted
+AosStarted => aosSubmittedDefended => AosSubmittedAwaitingAnswer
+AosStarted => aosSubmittedNoAdmissionNoConsent => AosCompleted
+AwaitingConsiderationGeneralApplication => orderGrantedGeneralApplication => AwaitingDecreeNisi
+AwaitingConsiderationGeneralApplication => orderGrantedBailiffService => AwaitingDecreeNisi
+AosSubmittedAwaitingAnswer => answerNotReceived => AwaitingDecreeNisi
+AosStarted => aosReceived => AwaitingDecreeNisi
+AosStarted => aosSubmittedUndefended => AwaitingDecreeNisi
+AosAwaitingAosStarted => aosNotReceived => AosOverdue
+AwaitingConsiderationGeneralApplication => orderRefusedGeneralApplication => AosOverdue
+AwaitingConsiderationGeneralApplication => orderRefusedBailiffService => AosOverdue
+AwaitingDecreeNisi => dnReceived => AwaitingLegalAdvisorReferral
+AwaitingClarification => clarificationReceived => AwaitingConsiderationDN
+AwaitingLegalAdvisorReferral => refertoLegalAdvisorDN => AwaitingConsiderationDN
+AwaitingConsiderationDN => orderRefusedDN => AmendPetition
+AwaitingConsiderationDN => dnClarificationRequested => AwaitingClarification
+AwaitingConsiderationDN => orderGrantedDN => AwaitingListing
+AwaitingPronouncement => dnPronounced => AwaitingDAApplicationDueDate
+AwaitingDAApplicationDueDate => petitionerAuthorisedToApplyDA => AwaitingDecreeAbsolutePetitioner
+AwaitingDecreeAbsolutePetitioner => respondentAuthorisedToApplyDA => AwaitingDecreeAbsolutePetOrResp
+AwaitingDecreeAbsolutePetOrResp => daOverdue => DAApplicationOverdue
+AwaitingDecreeAbsolutePetitionerAwaitingDecreeAbsolutePetOrRespDAApplicationOverdue => daApplicationReceived => DAApplicationReceived
+DAApplicationReceivedAwaitingConsiderationDA => daGranted => DivorceGranted
+DAApplicationOverdue => daApplicationReceivedOverdue => AwaitingConsiderationDA
+AwaitingListing => caseListed => AwaitingPronouncement
+
+
+* => testAosStarted => AosStarted
+* => testAosAwaiting => AosAwaiting
+* => testAosCompleted => AosCompleted
+* => referToLegalAdvisorGA => AwaitingConsiderationGeneralApplication
+
+
+* => testIssueAosPack => Issued
+* => testIssuePetitionCOS => Issued
+* => answerReceived => DefendedDivorce
+
+
+* => generalApplicationReceived => *
+* => assignToJudge => *
+* => dataMigration => *
+* => uploadDocument => *
+* => updateDueDate => *
+* => updateContactDetails => *
+* => transferCaseToNewRDC => *

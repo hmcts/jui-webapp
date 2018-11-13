@@ -10,6 +10,7 @@ import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {GovukModule} from '../../../../govuk/govuk.module';
 import {HmctsModule} from '../../../../hmcts/hmcts.module';
+import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 describe('HearingConfirmationComponent', () => {
     let component: HearingConfirmationComponent;
@@ -17,6 +18,7 @@ describe('HearingConfirmationComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
+            schemas: [CUSTOM_ELEMENTS_SCHEMA],
             declarations: [
                 HearingConfirmationComponent
             ],

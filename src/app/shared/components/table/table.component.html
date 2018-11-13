@@ -3,7 +3,7 @@
         <ng-container cdkColumnDef="case_id">
             <cdk-header-cell *cdkHeaderCellDef class="govuk-table__header" attr.data-selector="case-number-header">Case number</cdk-header-cell>
             <cdk-cell class="govuk-table__cell" *cdkCellDef="let row;">
-                <a data-selector="case-reference-link" routerLink="/jurisdiction/{{row.case_jurisdiction}}/casetype/{{row.case_type_id}}/viewcase/{{row.case_id}}/summary">{{row.case_fields.case_ref}}</a>
+                <a data-selector="case-reference-link" routerLink="/case/{{row.case_jurisdiction}}/{{row.case_type_id}}/{{row.case_id}}/summary">{{row.case_fields.case_ref}}</a>
             </cdk-cell>
         </ng-container>
 

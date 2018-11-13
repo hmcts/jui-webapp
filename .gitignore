@@ -57,5 +57,10 @@ reports_json/
 cb_reports/
 report.json
 
+\.vscode/tasks\.json
 
 \.sessions/
+
+\.scannerwork/
+
+\.vscode/

@@ -1,35 +1,34 @@
-form{
-  padding-left: 2px;
+////////////////////////////////////////
+// comment-item.component.scss
+////////////////////////////////////////
+
+form {
+  width: 95%;
   padding-right: 2px;
-  width:94%;
+  margin-bottom: 5px;
+  position: absolute;
+  background-color: #ffffff;
+  padding: 20px 20px 0;
 }
 
-form textarea{
-  width:100%;
-  height: 75px;
-  font-size: 12px;
-  border-bottom: 1px solid #d0d0d0;
+form textarea {
+  width: 95%;
+  height: 90px;
   padding: 2px;
-  }
-
-.comment-selected {
-  background-color: #eff
+  border: none;
+  
+  font-size: 17px;
+  font-family: "nta", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  overflow-x: hidden;
 }
 
-.btn {
-  font-size: 12px;
-  padding:0px;
-  margin:0px;
-  float: right;
+.mimic-focus {
+  outline-offset: -2px;
+  outline: -webkit-focus-ring-color auto 5px;
 }
 
-.comment-meta{
-  -webkit-box-shadow: 0 0 1px 3px #000 inset;
-  -moz-box-shadow: 0 0 1px 3px #000 inset;
-  box-shadow: 0 0 1px 1px #000 inset;
-  padding: 5px;
-  width:98%;
-  text-align: left;
-  font-style: italic;
-  padding-bottom: 2px;
-}
+////////////////////////////////////////
+////////////////////////////////////////

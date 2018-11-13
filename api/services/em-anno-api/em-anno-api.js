@@ -2,7 +2,7 @@ const express = require('express');
 const config = require('../../../config');
 const generateRequest = require('../../lib/request/request');
 
-const url = config.services.em_anno_api;
+const url = config.services.em_anno_api
 
 function getAnnotionSet(uuid, options) {
     return generateRequest('GET', `${url}/api/annotation-sets/filter?documentId=${uuid}`, options);

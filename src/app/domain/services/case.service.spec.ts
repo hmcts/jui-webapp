@@ -48,7 +48,7 @@ describe('CaseService', () => {
         const mockJudistdiction = 'DIVORCE';
         const mockCaseId = '123';
         const mockCaseType = 'DIVORCE';
-        const url = `/api/cases/jurisdiction/${mockJudistdiction}/casetype/${mockCaseType}/${mockCaseId}`;
+        const url = `/api/case/${mockJudistdiction}/${mockCaseType}/${mockCaseId}`;
         caseService.fetch(mockCaseId, mockJudistdiction, mockCaseType).subscribe(data => {
              expect(data).toEqual(mockCaseData);
         });

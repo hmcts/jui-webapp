@@ -1,62 +1,125 @@
-import {Component, OnInit, Input, Output, EventEmitter, Renderer2, ElementRef, ViewChild} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, ViewChild, OnDestroy, ChangeDetectorRef, ElementRef, Inject} from '@angular/core';
 import {NgForm} from '@angular/forms';
-import {Comment} from '../../../data/annotation-set.model';
+import { Subscription } from 'rxjs';
+import {Comment, Annotation} from '../../../data/annotation-set.model';
 import {AnnotationStoreService} from '../../../data/annotation-store.service';
+import {DOCUMENT} from '@angular/platform-browser';
+import {PdfService} from '../../../data/pdf.service';
 
 @Component({
     selector: 'app-comment-item',
     templateUrl: './comment-item.component.html',
     styleUrls: ['./comment-item.component.scss']
 })
-export class CommentItemComponent implements OnInit {
+export class CommentItemComponent implements OnInit, OnDestroy {
 
-    @Input() comment;
-    @Input() selectedAnnotationId;
-    @Input() annotation;
-
-    @Output() commentSubmitted: EventEmitter<any> = new EventEmitter<any>();
-    @Output() commentSelected: EventEmitter<String> = new EventEmitter<String>();
-
-    @ViewChild('commentTextField') commentTextField: ElementRef;
-    @ViewChild('annotationIdField') annotationIdField: ElementRef;
-    @ViewChild('commentItem') commentItem: NgForm;
-
+    private commentBtnSub: Subscription;
+    private commentFocusSub: Subscription;
+    private dataLoadedSub: Subscription;
+    hideButton: boolean;
     focused: boolean;
 
-    model = new Comment(null, null, null, null, null, null, null);
+    @Input() comment: Comment;
+    @Input() annotation: Annotation;
+
+    @Output() commentSubmitted: EventEmitter<any> = new EventEmitter<any>();
+
+    @ViewChild('commentArea') commentArea: ElementRef;
+    @ViewChild('commentItem') commentItem: NgForm;
+
+
+    model = new Comment(null, null, null, null, null, null, null, null, null);
+    commentTopPos: number;
+    commentZIndex: number;
 
     constructor(private annotationStoreService: AnnotationStoreService,
-                private render: Renderer2) {
+                private ref: ChangeDetectorRef,
+                @Inject(DOCUMENT) private document: any,
+                private pdfService: PdfService) {
     }
 
     ngOnInit() {
+        this.hideButton = true;
         this.focused = false;
+
+        this.commentFocusSub = this.annotationStoreService.getCommentFocusSubject()
+            .subscribe((options) => {
+                if (options.annotation.id === this.comment.annotationId) {
+                    this.commentZIndex = 1;
+                    this.focused = true;
+                    if (options.showButton) {
+                        this.handleShowBtn();
+                        this.commentArea.nativeElement.focus();
+                    }
+                    this.ref.detectChanges();
+                } else {
+                    this.onBlur();
+                }
+        });
+
+        this.commentBtnSub = this.annotationStoreService.getCommentBtnSubject()
+            .subscribe((commentId) => {
+                if (commentId === this.comment.id) {
+                this.handleShowBtn();
+                } else {
+                this.handleHideBtn();
+                }
+          });
+
+        this.dataLoadedSub = this.pdfService.getDataLoadedSub()
+            .subscribe( (dataLoaded: boolean) => {
+                if (dataLoaded) {
+                    this.commentTopPos = this.getRelativePosition(this.comment.annotationId);
+                }
+            });
+    }
+
+    ngOnDestroy() {
+        if (this.commentFocusSub) {
+            this.commentFocusSub.unsubscribe();
+        }
+        if (this.commentBtnSub) {
+            this.commentBtnSub.unsubscribe();
+        }
+        if (this.dataLoadedSub) {
+            this.dataLoadedSub.unsubscribe();
+        }
     }
 
     onSubmit() {
         const comment = this.convertFormToComment(this.commentItem);
-        comment.lastModifiedDate = new Date();
-
         this.annotationStoreService.editComment(comment);
         this.commentSubmitted.emit(this.annotation);
+        this.handleHideBtn();
     }
 
-    onFocus() {
-        this.focused = true;
+    isModified(): boolean {
+        if (this.comment.createdDate === null) {
+            return false;
+        } else if (this.comment.lastModifiedBy === null) {
+            return false;
+        } else if (this.comment.createdDate === this.comment.lastModifiedDate) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     onBlur() {
-        setTimeout(() => {
-            this.removeCommentSelectedStyle();
-            this.focused = false;
-        }, 200);
+        // this.handleHideBtn();
+        if (!this.ref['destroyed']) {
+            this.ref.detectChanges();
+        }
+        this.commentZIndex = 0;
     }
 
-    convertFormToComment(commentForm: NgForm) {
+    convertFormToComment(commentForm: NgForm): Comment {
         return new Comment(
-            commentForm.value.commentId,
-            commentForm.value.annotationId,
+            this.comment.id,
+            this.comment.annotationId,
             null,
+            null,
+            new Date(),
             null,
             null,
             null,
@@ -64,20 +127,40 @@ export class CommentItemComponent implements OnInit {
         );
     }
 
-    handleDeleteComment(event, commentId) {
-        this.annotationStoreService.deleteComment(commentId);
+    handleDeleteComment() {
+        this.annotationStoreService.deleteComment(this.comment.id);
     }
 
-    handleCommentClick(event) {
-        this.removeCommentSelectedStyle();
-        this.render.addClass(this.commentTextField.nativeElement, 'comment-selected');
-        this.commentSelected.emit(this.commentItem.value.annotationId);
+    handleCommentClick(event: any) {
+        event.stopPropagation();
+        this.annotationStoreService.setCommentBtnSubject(this.comment.id);
+        this.annotationStoreService.setAnnotationFocusSubject(this.annotation);
+        this.commentZIndex = 1;
     }
 
-    removeCommentSelectedStyle() {
-        const listItems = Array.from(document.querySelectorAll('#comment-wrapper .comment-list-item textarea'));
-        listItems.forEach(item => {
-            this.render.removeClass(item, 'comment-selected');
-        });
+    handleShowBtn() {
+        this.focused = true;
+        this.hideButton = false;
+    }
+
+    handleHideBtn() {
+        if (!this.commentItem.value.content) {
+            this.annotationStoreService.deleteComment(this.comment.id);
+        }
+        this.focused = false;
+        this.hideButton = true;
+    }
+
+    getRelativePosition(annotationId: string): number {
+        const svgSelector = this.document.querySelector(`g[data-pdf-annotate-id="${annotationId}"]`);
+        if (svgSelector === null) {
+            return null;
+        } else {
+            const highlightRect = <DOMRect>svgSelector.getBoundingClientRect();
+            const wrapperRect = <DOMRect>this.document.querySelector('#annotation-wrapper').getBoundingClientRect();
+
+            const topPosition = (highlightRect.y - wrapperRect.top);
+            return topPosition;
+        }
     }
 }

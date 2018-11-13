@@ -68,7 +68,7 @@ export class CreateQuestionsComponent implements OnInit {
         if (this.form.valid) {
             this.questionService.create(this.caseId, values)
                 .subscribe(res => {
-                    this.redirectionService.redirect(`/jurisdiction/${this.jurisdiction}/casetype/${this.caseType}/viewcase/${this.caseId}/questions?created=success`);
+                    this.redirectionService.redirect(`/case/${this.jurisdiction}/${this.caseType}/${this.caseId}/questions?created=success`);
                 }, err => console.log);
         }
         else {

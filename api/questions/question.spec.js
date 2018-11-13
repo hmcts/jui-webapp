@@ -3,7 +3,7 @@ const supertest = require('supertest');
 const express = require('express');
 const bodyParser = require('body-parser');
 
-xdescribe('Questions route', () => {
+describe('Questions route', () => {
     let route;
     let request;
     let app;
@@ -29,7 +29,7 @@ xdescribe('Questions route', () => {
         app = express();
         app.use(bodyParser.json());
 
-        route = proxyquire('./question.js', { '../lib/request/request': httpRequest });
+        route = proxyquire('./index.js', { '../lib/request/request': httpRequest });
         app.use((req, res, next) => {
             req.auth = {
                 token: '1234567',
@@ -61,8 +61,8 @@ xdescribe('Questions route', () => {
         });
 
         describe('When I do not have an answer', () => {
-            it('It should return the question', done => {
-                request.get(`/cases/${caseNumber}/questions/${questionId}`)
+            xit('It should return the question', done => {
+                request.get(`/case/${caseNumber}/questions/${questionId}`)
                     .expect(200)
                     .then(response => {
                         expect(response.body).toEqual({
@@ -89,8 +89,8 @@ xdescribe('Questions route', () => {
             });
 
 
-            it('It should return the question with the answer', done => {
-                request.get(`/cases/${caseNumber}/questions/${questionId}`)
+            xit('It should return the question with the answer', done => {
+                request.get(`/case/${caseNumber}/questions/${questionId}`)
                     .expect(200)
                     .then(response => {
                         expect(response.body).toEqual({
@@ -150,8 +150,8 @@ xdescribe('Questions route', () => {
                 };
             });
 
-            it('should return a list of formatted questions', done => {
-                request.get(`/cases/${caseNumber}/questions`)
+            xit('should return a list of formatted questions', done => {
+                request.get(`/case/${caseNumber}/questions`)
                     .expect(200)
                     .then(response => {
                         expect(response.body).toEqual([
@@ -189,8 +189,8 @@ xdescribe('Questions route', () => {
                 cohResponses.GET[`http://coh-cor-aat.service.core-compute-aat.internal/continuous-online-hearings/${hearingId}/questionrounds/`] = { question_rounds: [] };
             });
 
-            it('should return a an empty list', done => {
-                request.get(`/cases/${caseNumber}/questions`)
+            xit('should return a an empty list', done => {
+                request.get(`/case/${caseNumber}/questions`)
                     .expect(200)
                     .then(response => {
                         expect(response.body).toEqual([]);
@@ -221,8 +221,8 @@ xdescribe('Questions route', () => {
                 };
             });
 
-            it('It should make a post request', done => {
-                request.post(`/cases/${caseNumber}/questions`)
+            xit('It should make a post request', done => {
+                request.post(`/case/${caseNumber}/questions`)
                     .expect(201)
                     .send({
                         subject: 'A great question',

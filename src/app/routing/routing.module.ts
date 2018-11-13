@@ -72,7 +72,7 @@ const routes: Routes = [
         ]
     },
     {
-        path: 'jurisdiction/:jur/casetype/:casetype/viewcase/:case_id',
+        path: 'case/:jur/:casetype/:case_id',
         resolve: {
             caseData: CaseResolve
         },

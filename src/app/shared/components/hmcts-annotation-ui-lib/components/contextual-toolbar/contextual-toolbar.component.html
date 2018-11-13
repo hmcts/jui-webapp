@@ -1,0 +1,28 @@
+<div [hidden]="!isShowToolbar" class="toolbar"
+    [style.left.px]="toolPos.left"
+    [style.top.px]="toolPos.top">
+
+    <button 
+        [hidden]="showDelete"   
+        type="button" class="jui-cf__toolbar-button jui-cf__toolbar-button--comments contextual-btn leftButton" 
+        title="Highlight" 
+        (click)="handleHighlightBtnClick()"
+    ><span>Add Highlight</span></button>
+
+    <button 
+        [hidden]="!showDelete" 
+        type="button" 
+        title="Delete" class="jui-cf__toolbar-button jui-cf__toolbar-button--comments contextual-btn leftButton" 
+        (click)="handleDeleteBtnClick()"
+    ><span>Remove Highlight</span></button>
+    
+    <button type="button" title="Comment" class="jui-cf__toolbar-button jui-cf__toolbar-button--comments contextual-btn rightButton" 
+            (click)="handleCommentBtnClick()"
+    ><span>Comment</span></button>
+
+
+    <div class="arrow-down">
+        <div class="inner-triangle"></div>
+    </div>
+
+</div>

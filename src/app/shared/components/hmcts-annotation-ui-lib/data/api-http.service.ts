@@ -1,14 +1,22 @@
-import {Observable, Subject} from 'rxjs';
+import {Observable} from 'rxjs';
 import {HttpResponse, HttpClient} from '@angular/common/http';
-import {IDocumentTask} from './document-task.model';
 import {Injectable} from '@angular/core';
+import {IDocumentTask} from './document-task.model';
 import {Annotation, IAnnotation, IAnnotationSet} from './annotation-set.model';
 
 @Injectable()
 export class ApiHttpService {
-    baseUrl = '/api';
+    private baseUrl = '/api';
 
     constructor(private httpClient: HttpClient) {
+    }
+
+    setBaseUrl(baseUrl: string) {
+        this.baseUrl = baseUrl;
+    }
+
+    getBaseUrl(): string {
+        return this.baseUrl;
     }
 
     createAnnotationSet(baseUrl, body): Observable<HttpResponse<IAnnotationSet>> {

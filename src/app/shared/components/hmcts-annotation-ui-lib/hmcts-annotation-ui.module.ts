@@ -4,8 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CommentsComponent } from './components/comments/comments.component';
 import { CommentItemComponent } from './components/comments/comment-item/comment-item.component';
-import { CommentFormComponent } from './components/comments/comment-form/comment-form.component';
-import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { PdfAdapter } from './data/pdf-adapter';
 import { NpaService } from './data/npa.service';
 import { PdfService } from './data/pdf.service';
@@ -13,6 +11,9 @@ import { AnnotationStoreService } from './data/annotation-store.service';
 import { AnnotationPdfViewerComponent } from './components/annotation-pdf-viewer/annotation-pdf-viewer.component';
 import { Utils } from './data/utils';
 import { ApiHttpService } from './data/api-http.service';
+import { ContextualToolbarComponent } from './components/contextual-toolbar/contextual-toolbar.component';
+import { PdfAnnotateWrapper } from './data/js-wrapper/pdf-annotate-wrapper';
+import { PdfWrapper } from './data/js-wrapper/pdf-wrapper';
 
 @NgModule({
   imports: [
@@ -23,11 +24,12 @@ import { ApiHttpService } from './data/api-http.service';
   declarations: [
     CommentsComponent,
     CommentItemComponent,
-    CommentFormComponent,
-    ToolbarComponent,
+    ContextualToolbarComponent,
     AnnotationPdfViewerComponent
   ],
   providers: [
+    PdfAnnotateWrapper,
+    PdfWrapper,
     PdfService,
     AnnotationStoreService,
     PdfAdapter,
@@ -38,8 +40,7 @@ import { ApiHttpService } from './data/api-http.service';
   exports: [
     CommentsComponent,
     CommentItemComponent,
-    CommentFormComponent,
-    ToolbarComponent,
+    ContextualToolbarComponent,
     AnnotationPdfViewerComponent
   ]
 })

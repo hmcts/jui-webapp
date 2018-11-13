@@ -10,7 +10,9 @@ const {
     LAZY_MODULE_MAP
 } = require('./dist-server/main');
 
-const { provideModuleMap } = require('@nguniversal/module-map-ngfactory-loader');
+const {
+    provideModuleMap
+} = require('@nguniversal/module-map-ngfactory-loader');
 
 const provider = provideModuleMap(LAZY_MODULE_MAP);
 
@@ -28,15 +30,14 @@ app.set('views', __dirname);
 app.use(express.static(`${__dirname}/assets`, { index: false }));
 app.use(express.static(`${__dirname}/dist`, { index: false }));
 
-
 app.use('/*', (req, res) => {
     console.time(`GET: ${req.originalUrl}`);
     res.render('./dist/index', {
         req,
         res,
         providers: [
-            { provide: 'REQUEST', useValue: (req) },
-            { provide: 'RESPONSE', useValue: (res) }
+            { provide: 'REQUEST', useValue: req },
+            { provide: 'RESPONSE', useValue: res }
         ]
     });
     console.timeEnd(`GET: ${req.originalUrl}`);

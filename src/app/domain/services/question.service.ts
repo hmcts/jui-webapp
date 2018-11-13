@@ -12,12 +12,12 @@ export class QuestionService {
     }
 
     fetch(caseId, questionId): Observable<Object> {
-        const url = `${this.configService.config.api_base_url}/api/cases/${caseId}/questions/${questionId}`;
+        const url = `${this.configService.config.api_base_url}/api/case/${caseId}/questions/${questionId}`;
         return this.fetchWithUrl(url);
     }
 
     fetchAll(caseId): Observable<any[]> {
-        const url = `${this.configService.config.api_base_url}/api/cases/${caseId}/questions`;
+        const url = `${this.configService.config.api_base_url}/api/case/${caseId}/questions`;
         return this.fetchWithUrl(url);
     }
 
@@ -35,25 +35,27 @@ export class QuestionService {
     }
 
     create(caseId, question) {
-        return this.http
-                   .post(`${this.configService.config.api_base_url}/api/cases/${caseId}/questions`, question);
+        const xUrl = `${this.configService.config.api_base_url}/api/caseQ/${caseId}/questions`;
+        return this.http.post(xUrl, question);
     }
 
     update(caseId, questionId, question) {
-        return this.http
-                   .put(`${this.configService.config.api_base_url}/api/cases/${caseId}/questions/${questionId}`, question);
+        const xUrl = `${this.configService.config.api_base_url}/api/caseQ/${caseId}/questions/${questionId}`;
+        return this.http.put(xUrl, question);
     }
 
     remove(caseId, questionId) {
-        return this.http
-                   .delete(`${this.configService.config.api_base_url}/api/cases/${caseId}/questions/${questionId}`);
+        const xUrl = `${this.configService.config.api_base_url}/api/caseQ/${caseId}/questions/${questionId}`;
+        return this.http.delete(xUrl);
     }
 
     sendQuestions(caseId, roundId) {
-        return this.http.put(`${this.configService.config.api_base_url}/api/cases/${caseId}/rounds/${roundId}`, {});
+        const xUrl = `${this.configService.config.api_base_url}/api/caseQ/${caseId}/rounds/${roundId}`;
+        return this.http.put(xUrl, {});
     }
 
     fetchRound(caseId, roundId): any {
-        return this.http.get(`${this.configService.config.api_base_url}/api/cases/${caseId}/rounds/${roundId}`);
+        const xUrl = `${this.configService.config.api_base_url}/api/caseQ/${caseId}/rounds/${roundId}`;
+        return this.http.get(xUrl);
     }
 }

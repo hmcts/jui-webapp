@@ -43,9 +43,9 @@ export class CheckQuestionsComponent implements OnInit {
 
     onSubmit() {
         this.questionService.sendQuestions(this.caseId, this.roundNumber).subscribe(res => {
-            this.redirectionService.redirect(`/jurisdiction/${this.jurisdiction}/casetype/${this.caseType}/viewcase/${this.caseId}/questions?sent=success`);
+            this.redirectionService.redirect(`/case/${this.jurisdiction}/${this.caseType}/${this.caseId}/questions?sent=success`);
         }, () => {
-            this.redirectionService.redirect(`/jurisdiction/${this.jurisdiction}/casetype/${this.caseType}/viewcase/${this.caseId}/questions?sent=failure`);
+            this.redirectionService.redirect(`/case/${this.jurisdiction}/${this.caseType}/${this.caseId}/questions?sent=failure`);
         });
     }
 }

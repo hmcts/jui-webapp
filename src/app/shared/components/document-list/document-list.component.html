@@ -1,0 +1,96 @@
+<div class="grid-row">
+    <div class="column-full">
+        <!-- Error Message -->
+        <div *ngIf="error" class="error-summary" role="alert" aria-labelledby="error-summary-heading-example-1" tabindex="-1">
+            <h2 class="heading-medium error-summary-heading" id="error-summary-heading-example-1">
+                Something went wrong.
+            </h2>
+            <p *ngIf="error">{{error}}</p>
+            <p *ngIf="error.status">Response status was {{error.status}}.</p>
+            <!--<p *ngIf="error.message">{{error.message}}.</p>-->
+            <!--<ul class="error-summary-list">-->
+            <!--<li><a href="javascript:history.back()">Go Back</a></li>-->
+            <!--</ul>-->
+        </div>
+
+    </div>
+</div>
+
+
+
+<!-- ======================================== -->
+<!-- ======================================== -->
+<!-- future implementation -->
+<!-- ======================================== -->
+<!-- ======================================== -->
+<!-- ======================================== -->
+<!--<div class="grid-row" *ngIf="!error">-->
+<!--<div class="column-full">-->
+<!--<table class="govuk-table">-->
+<!--<caption class="govuk-table__caption">Document List</caption>-->
+<!--<thead class="govuk-table__head">-->
+<!--<tr class="govuk-table__row">-->
+<!--<th class="govuk-table__header" scope="col" *ngFor="let h of table.head">{{h.text}}</th>-->
+<!--</tr>-->
+<!--</thead>-->
+<!--<tbody class="govuk-table__body">-->
+<!--<tr data-selector="table-row" class="govuk-table__row" *ngFor="let r of table.rows">-->
+<!--<ng-container *ngFor="let col of r"><td data-selector="table-cell" class="govuk-table__cell">{{col.text}}</td></ng-container>-->
+<!--</tr>-->
+<!--</tbody>-->
+<!--</table>-->
+<!--<div id="documentsPagination" class="pager" *ngIf="dmPage">-->
+<!--<div class="pager-controls">-->
+<!--<ul class="pager-items">-->
+<!--<li><input type="button" [ngClass]="{'button': true}" (click)="firstPage()" value="first"></li>-->
+<!--<li><input type="button" [ngClass]="{'button': true, 'button-disable' : !canPrevPage()}" [disabled]="!canPrevPage()" (click)="prevPage()" value="prev"></li>-->
+<!--<li><input type="button" [ngClass]="{'button': true, 'button-disable' : !canNextPage()}" [disabled]="!canNextPage()" (click)="nextPage()" value="next"></li>-->
+<!--<li><input type="button" [ngClass]="{'button': true}" (click)="lastPage()" value="last"></li>-->
+<!--</ul>-->
+<!--</div>-->
+<!--<div class="summary">Showing page {{getCurrentPage}} of {{getTotalPage}} of {{dmPage.totalElements}} documents</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+
+<!--<div class="grid-row" *ngIf="documents">-->
+<div class="grid-row" *ngIf="!error">
+    <div class="column-full">
+        <table id="documentTable" data-hook="document-list" class="govuk-table">
+            <caption class="govuk-table__caption">Document List</caption>
+
+            <!-- Table Header -->
+            <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+                <th class="govuk-table__header" scope="col" *ngFor="let h of table.head">{{h.text}}</th>
+            </tr>
+            </thead>
+            <!-- Table Content -->
+            <tbody class="govuk-table__body">
+            <tr data-selector="table-row" class="govuk-table__row" data-hook="dm-listview__document" *ngFor="let docs of documents" >
+                <td data-selector="table-cell" class="govuk-table__cell"><a href="{{convertUrlToProxy(docs._links.thumbnail.href)}}"><img src="{{convertUrlToProxy(docs._links.thumbnail.href)}}" width="48"></a></td>
+                <td data-selector="table-cell" class="govuk-table__cell" data-hook="dm-listview__document__name">{{docs.originalDocumentName}}</td>
+                <td data-selector="table-cell" class="govuk-table__cell">{{docs.createdBy}}</td>
+                <td data-selector="table-cell" class="govuk-table__cell">{{docs.modifiedOn}}</td>
+                <td data-selector="table-cell" class="govuk-table__cell"><a data-hook="dm-listview__document__down" href="{{convertUrlToProxy(docs._links.binary.href)}}" download="{{docs.originalDocumentName}}">Download</a></td>
+                <td data-selector="table-cell" class="govuk-table__cell"><a data-hook="dm-listview__document__view" href="/viewer?url={{docs._links.self.href}}" >View</a></td>
+                <td data-selector="table-cell" class="govuk-table__cell"><a data-hook="dm-listview__document__anno" href="/viewer?url={{docs._links.self.href}}&annotate=true">Annotate</a></td>
+                <td data-selector="table-cell" class="govuk-table__cell"><input type="button" class="govuk-button" value="Delete" (click)="deleteDocument(convertUrlToProxy(docs._links.self.href + '?permanent=true'))"/></td>
+            </tr>
+            </tbody>
+        </table>
+        <!-- Pagination -->
+        <div id="documentsPagination" class="pager" *ngIf="dmPage">
+            <div class="pager-controls">
+                <ul class="pager-items">
+                    <li><input type="button" [ngClass]="{'govuk-button': true}" (click)="firstPage()" value="first"></li>
+                    <li><input type="button" [ngClass]="{'govuk-button': true, 'govuk-button--disabled' : !canPrevPage()}" [disabled]="!canPrevPage()" (click)="prevPage()" value="prev"></li>
+                    <li><input type="button" [ngClass]="{'govuk-button': true, 'govuk-button--disabled' : !canNextPage()}" [disabled]="!canNextPage()" (click)="nextPage()" value="next"></li>
+                    <li><input type="button" [ngClass]="{'govuk-button': true}" (click)="lastPage()" value="last"></li>
+                </ul>
+            </div>
+            <div class="summary">Showing page {{getCurrentPage}} of {{getTotalPage}} of {{dmPage.totalElements}} documents</div>
+        </div>
+    </div>
+</div>
