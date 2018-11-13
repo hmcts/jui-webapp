@@ -35,7 +35,9 @@ List<LinkedHashMap<String, Object>> secrets = [
     secret('jui-s2s-token', 'S2S_SECRET'),
     secret('jui-oauth2-token', 'IDAM_SECRET'),
     secret('fr-email', 'FR_EMAIL'),
-    secret('fr-password', 'FR_PASSWORD')
+    secret('fr-password', 'FR_PASSWORD'),
+    secret('sscs-email', 'SSCS_EMAIL'),
+    secret('sscs-password', 'SSCS_PASSWORD')
 ]
 
 
@@ -53,7 +55,7 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 withNightlyPipeline(type, product, component) {
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
-    setVaultName('rpa-aat')
+    setVaultName('rpa')
 
 //    enablePerformanceTest(15)
 //    enableApiGatewayTest(15)
