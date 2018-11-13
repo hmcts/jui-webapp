@@ -23,6 +23,7 @@ function caseSummaryPage() {
     this.error_message_selection = element(by.css('#decision-error'));
     this.error_message_decision_notes = element(by.css('#notes-error'));
     this.decision_submitted = element(by.css('.govuk-heading-xl'));
+    this.questions_tab = element.all(by.css('.hmcts-sub-navigation__link'));
 }
 
 module.exports = new caseSummaryPage;

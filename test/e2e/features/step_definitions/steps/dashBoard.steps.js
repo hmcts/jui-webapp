@@ -19,12 +19,6 @@ defineSupportCode(function({ Given, When, Then }) {
             .eventually
             .equal('Dashboard');
 
-        await expect(dashBoardPage.your_cases.getText())
-            .to
-            .eventually
-            .equal('Your cases');
-
-
     });
 
     When(/^I select a case(.*)$/, async function(type) {

@@ -118,9 +118,17 @@ defineSupportCode(function({ Given, When, Then }) {
         await loginPage.password.sendKeys(this.config.fr_judge_password);
         await loginPage.clickSignIn();
         browser.sleep(SHORT_DELAY);
+    });
 
+    When(/^I am logged into JUI web app with SSCS judge details$/, async function(){
+        await loginPage.emailAddress.sendKeys(this.config.sscs_username);
+        await loginPage.password.sendKeys(this.config.sscs_password);
+        await loginPage.clickSignIn();
+        browser.sleep(SHORT_DELAY);
 
     });
+
+
 
 
 

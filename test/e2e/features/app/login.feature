@@ -12,7 +12,7 @@ Feature: Login
         Then I should see failure error summary
 
 
-    @RIUI_288 @login @all @smoke
+    @RIUI_288 @login @all
     Scenario: authenticated user login
         Given I am on Idam login page
         When I enter an valid email-address and password to login
@@ -21,7 +21,7 @@ Feature: Login
 
     @RIUI_289 @logout @all @smoke
     Scenario: log out from JUI
-        Given I am logged into JUI web app
+        Given I am logged into JUI web app with SSCS judge details
         Then I should be redirected to JUI dashboard page
         When I select the sign out link
         Then I should be redirected to the Idam login page

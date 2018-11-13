@@ -57,7 +57,9 @@ const config = {
         username: process.env.TEST_EMAIL,
         password: process.env.TEST_PASSWORD,
         fr_judge_username: process.env.FR_EMAIL,
-        fr_judge_password: process.env.FR_PASSWORD
+        fr_judge_password: process.env.FR_PASSWORD,
+        sscs_username: process.env.SSCS_EMAIL,
+        sscs_password: process.env.SSCS_PASSWORD
 
 
     },
