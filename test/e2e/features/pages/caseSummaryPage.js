@@ -1,7 +1,7 @@
 'use strict';
 
 function caseSummaryPage() {
-    this.case_header_text = element(by.css(".hmcts-page-heading__title-wrapper > h1.hmcts-page-heading__title.govuk-heading-xl"));
+    this.case_header_text = element(by.css("h1.hmcts-page-heading__title.govuk-heading-xl"));
     this.caseDetails_header_text = element(by.css('app-data-list:nth-child(2) > div > h2'));
     this.representatives_text = element(by.css('app-data-list:nth-child(3) > div > h2'));
     this.panel_members_text = element(by.css('app-data-list:nth-child(3) > div > h2'));

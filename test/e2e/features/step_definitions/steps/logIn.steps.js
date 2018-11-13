@@ -83,7 +83,7 @@ defineSupportCode(function({ Given, When, Then }) {
 
 
     Given(/^I should be redirected to the Idam login page$/, async function() {
-        browser.sleep(SHORT_DELAY);
+        browser.sleep(MID_DELAY);
         await expect(loginPage.signinTitle.getText())
             .to
             .eventually
