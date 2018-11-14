@@ -1,6 +1,7 @@
 const express = require('express')
 const config = require('../../../config')
 const generateRequest = require('../../lib/request/request')
+const headerUtilities = require('../../lib/utilities/headerUtilities')
 
 const url = config.services.dm_store_api
 

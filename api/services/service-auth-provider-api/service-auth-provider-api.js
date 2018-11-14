@@ -2,6 +2,7 @@ const express = require('express');
 const otp = require('otp');
 const config = require('../../../config');
 const generateRequest = require('../../lib/request/request');
+const headerUtilities = require('../../lib/utilities/headerUtilities')
 
 const url = config.services.s2s;
 const microservice = config.microservice;
@@ -28,12 +29,7 @@ function getInfo(options) {
 }
 
 function getOptions(req) {
-    return {
-        headers: {
-            Authorization: `Bearer ${req.auth.token}`,
-            ServiceAuthorization: req.headers.ServiceAuthorization
-        }
-    };
+    return headerUtilities.getAuthHeadersWithS2SBearer(req)
 }
 
 module.exports = app => {

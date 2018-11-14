@@ -1,6 +1,7 @@
 const express = require('express');
 const config = require('../../../config');
 const generateRequest = require('../../lib/request/request');
+const headerUtilities = require('../../lib/utilities/headerUtilities')
 
 const url = config.services.em_npa_api;
 
@@ -17,13 +18,7 @@ function getInfo(options) {
 }
 
 function getOptions(req) {
-    return {
-        headers: {
-            Authorization: `Bearer ${req.auth.token}`,
-            ServiceAuthorization: req.headers.ServiceAuthorization
-        },
-        body: req.body
-    };
+    return headerUtilities.getAuthHeadersWithBody(req)
 }
 
 module.exports = app => {

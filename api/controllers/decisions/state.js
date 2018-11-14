@@ -1,4 +1,4 @@
-const Store = require('../../lib/store')
+const Store = require('../../lib/store/store')
 const exceptionFormatter = require('exception-formatter')
 const config = require('../../../config/index')
 const ccdStore = require('../../services/ccd-store-api/ccd-store')

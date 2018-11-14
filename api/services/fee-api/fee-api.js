@@ -1,6 +1,7 @@
 const express = require('express');
 const config = require('../../../config');
 const generateRequest = require('../../lib/request/request');
+const headerUtilities = require('../../lib/utilities/headerUtilities')
 
 const url = config.services.fee_api;
 
@@ -13,12 +14,7 @@ function getInfo(options) {
 }
 
 function getOptions(req) {
-    return {
-        headers: {
-            Authorization: `Bearer ${req.auth.token}`,
-            ServiceAuthorization: req.headers.ServiceAuthorization
-        }
-    };
+    return headerUtilities.getAuthHeaders(req)
 }
 
 module.exports = app => {
