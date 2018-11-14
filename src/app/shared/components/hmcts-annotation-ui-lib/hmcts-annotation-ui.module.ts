@@ -14,9 +14,11 @@ import { ApiHttpService } from './data/api-http.service';
 import { ContextualToolbarComponent } from './components/contextual-toolbar/contextual-toolbar.component';
 import { PdfAnnotateWrapper } from './data/js-wrapper/pdf-annotate-wrapper';
 import { PdfWrapper } from './data/js-wrapper/pdf-wrapper';
+import { NgtUniversalModule } from '@ng-toolkit/universal';
 
 @NgModule({
   imports: [
+    NgtUniversalModule,
     CommonModule,
     FormsModule,
     HttpClientModule

@@ -1,4 +1,3 @@
-
 const { generateAPIRequestForFR } = require('./utils/generateAPI');
 
 suite('API/CASES -> FR case columns dashboard', function()  {
@@ -12,7 +11,7 @@ suite('API/CASES -> FR case columns dashboard', function()  {
                 response.body.columns[1].label.should.be.eql('Parties');
                 response.body.columns[2].label.should.be.eql('Type');
                 response.body.columns[3].label.should.be.eql('Decision needed on');
-                response.body.columns[4].label.should.be.eql('Start date');
+                response.body.columns[4].label.should.be.eql('Case received');
                 response.body.columns[5].label.should.be.eql('Date of last event');
             });
     });

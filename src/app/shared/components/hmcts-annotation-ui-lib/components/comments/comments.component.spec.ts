@@ -15,6 +15,7 @@ class MockPdfService {
     this.pageNumber.next(1);
   }
 
+  getPdfPages() {}
   getPageNumber() {
     return this.pageNumber;
   }

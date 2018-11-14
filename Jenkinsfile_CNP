@@ -158,6 +158,17 @@ withPipeline(type , product, component) {
         ])
     }
 
+    after('functionalTest:preview') {
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/tests/api_functional/",
+            reportFiles          : 'mochawesome.html',
+            reportName           : 'PREVIEW API Functional Tests'
+        ])
+    }
+
     after('smoketest:aat') {
         publishHTML([
             allowMissing         : true,
@@ -177,6 +188,18 @@ withPipeline(type , product, component) {
             reportDir            : "reports/tests/functional/",
             reportFiles          : 'index.html',
             reportName           : 'AAT Functional Test'
+        ])
+    }
+
+
+    after('functionalTest:aat') {
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/tests/api_functional/",
+            reportFiles          : 'mochawesome.html',
+            reportName           : 'AAT API Functional Tests'
         ])
     }
 

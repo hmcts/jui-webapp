@@ -2,13 +2,13 @@ import { TestBed, inject } from '@angular/core/testing';
 import { Utils } from './utils';
 import { PdfAdapter } from './pdf-adapter';
 import { AnnotationSet, Annotation, Comment, Rectangle } from './annotation-set.model';
-import { DOCUMENT } from '@angular/common';
+import { WINDOW } from '@ng-toolkit/universal';
 
 class MockUtils {
     generateRectanglePerLine() {}
 }
 
-class MockDocument {
+class MockWindow {
     getSelection() {
         return null;
     }
@@ -43,13 +43,13 @@ describe('PdfAdapter', () => {
         '',
         [mockAnnotation]
     );
-    const mockDocument = new MockDocument();
+    const mockWindow = new MockWindow();
 
     beforeEach(() => {
         TestBed.configureTestingModule({
           providers: [
               PdfAdapter,
-              { provide: DOCUMENT, useFactory: () => mockDocument},
+              { provide: WINDOW, useFactory: () => mockWindow},
               { provide: Utils, useFactory: () => mockUtils}
             ]
         });
@@ -138,7 +138,7 @@ describe('PdfAdapter', () => {
     describe('clearSelection', () => {
 
         it('should remove window selections', inject([PdfAdapter], (service: PdfAdapter) => {
-            spyOn(mockDocument, 'getSelection').and.callFake(() => {
+            spyOn(mockWindow, 'getSelection').and.callFake(() => {
                 return {
                     removeAllRanges() {
                         return true;
@@ -146,11 +146,11 @@ describe('PdfAdapter', () => {
                 };
             });
             service.clearSelection();
-            expect(mockDocument.getSelection).toHaveBeenCalled();
+            expect(mockWindow.getSelection).toHaveBeenCalled();
         }));
 
         it('should remove window selections', inject([PdfAdapter], (service: PdfAdapter) => {
-            spyOn(mockDocument, 'getSelection').and.callFake(() => {
+            spyOn(mockWindow, 'getSelection').and.callFake(() => {
                 return {
                     // TODO make this cover sel.empty
                     empty: true,
@@ -160,7 +160,7 @@ describe('PdfAdapter', () => {
                 };
             });
             service.clearSelection();
-            expect(mockDocument.getSelection).toHaveBeenCalled();
+            expect(mockWindow.getSelection).toHaveBeenCalled();
         }));
     });
 

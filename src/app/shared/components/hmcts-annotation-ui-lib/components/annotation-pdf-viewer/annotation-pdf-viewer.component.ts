@@ -1,5 +1,4 @@
-import {Component, OnInit, ViewChild, ElementRef, Inject, Input, ChangeDetectorRef, Renderer2, OnDestroy, AfterViewInit} from '@angular/core';
-import {DOCUMENT} from '@angular/common';
+import {Component, OnInit, ViewChild, ElementRef, Input, ChangeDetectorRef, Renderer2, OnDestroy, AfterViewInit} from '@angular/core';
 import {PdfService} from '../../data/pdf.service';
 import { Subscription } from 'rxjs';
 import {AnnotationStoreService} from '../../data/annotation-store.service';
@@ -33,6 +32,7 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
 
     @ViewChild('contentWrapper') contentWrapper: ElementRef;
     @ViewChild('viewer') viewerElementRef: ElementRef;
+    @ViewChild('annotationWrapper') annotationWrapper: ElementRef;
     @ViewChild('commentsComponent') commentsComponent: CommentsComponent;
     @ViewChild('contextualToolbar') contextualToolbar: ContextualToolbarComponent;
 
@@ -42,9 +42,8 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
                 private annotationStoreService: AnnotationStoreService,
                 private utils: Utils,
                 private ref: ChangeDetectorRef,
-                private render: Renderer2,
-                private pdfAnnotateWrapper: PdfAnnotateWrapper,
-                @Inject(DOCUMENT) private document: any) {
+                private renderer: Renderer2,
+                private pdfAnnotateWrapper: PdfAnnotateWrapper) {
     }
 
     ngOnInit() {
@@ -58,6 +57,7 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
         });
 
         this.pdfService.render(this.viewerElementRef);
+        this.pdfService.setAnnotationWrapper(this.annotationWrapper);
         this.pageNumberSubscription = this.pdfService.getPageNumber()
             .subscribe(page => this.page = page);
         this.focusedAnnotationSubscription = this.annotationStoreService.getAnnotationFocusSubject()
@@ -84,20 +84,6 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
             this.npaService.outputDmDocumentId.next(this.outputDmDocumentId);
         } else {
             this.annotationStoreService.preLoad(null);
-        }
-    }
-
-    focusHighlightStyle(focusedAnnotation: Annotation) {
-        Array.from(this.document.querySelector(`#pageContainer${this.page} .annotationLayer`).childNodes)
-            .forEach((annotationDom: HTMLInputElement) => {
-                if (annotationDom.dataset.pdfAnnotateId === focusedAnnotation.id) {
-                    this.render.addClass(annotationDom, 'comment-selected');
-                } else {
-                    this.render.removeClass(annotationDom, 'comment-selected');
-                }
-            });
-        if (!this.ref['destroyed']) {
-            this.ref.detectChanges();
         }
     }
 
@@ -134,4 +120,19 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
                 });
         }
     }
+
+    focusHighlightStyle(focusedAnnotation: Annotation) {
+        Array.from(this.viewerElementRef.nativeElement.querySelector(`#pageContainer${this.page} .annotationLayer`).childNodes)
+            .forEach((annotationDom: HTMLInputElement) => {
+                if (annotationDom.dataset.pdfAnnotateId === focusedAnnotation.id) {
+                    this.renderer.addClass(annotationDom, 'comment-selected');
+                } else {
+                    this.renderer.removeClass(annotationDom, 'comment-selected');
+                }
+            });
+        if (!this.ref['destroyed']) {
+            this.ref.detectChanges();
+        }
+    }
+
 }

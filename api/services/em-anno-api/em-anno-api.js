@@ -42,6 +42,14 @@ module.exports = app => {
     const router = express.Router({ mergeParams: true });
     app.use('/em-anno', router);
 
+    router.get('/health', (req, res, next) => {
+        getHealth(getOptions(req)).pipe(res)
+    })
+
+    router.get('/info', (req, res, next) => {
+        getInfo(getOptions(req)).pipe(res)
+    })
+
     router.post('/annotation-sets', (req, res, next) => {
         // Called when get annotation-sets returns 404
         const options = getOptions(req);

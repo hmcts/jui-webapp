@@ -1,9 +1,8 @@
-import {Component, OnInit, Input, Output, EventEmitter, ViewChild, OnDestroy, ChangeDetectorRef, ElementRef, Inject} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, ViewChild, OnDestroy, ChangeDetectorRef, ElementRef} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import { Subscription } from 'rxjs';
 import {Comment, Annotation} from '../../../data/annotation-set.model';
 import {AnnotationStoreService} from '../../../data/annotation-store.service';
-import {DOCUMENT} from '@angular/platform-browser';
 import {PdfService} from '../../../data/pdf.service';
 
 @Component({
@@ -33,9 +32,8 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     commentZIndex: number;
 
     constructor(private annotationStoreService: AnnotationStoreService,
-                private ref: ChangeDetectorRef,
-                @Inject(DOCUMENT) private document: any,
-                private pdfService: PdfService) {
+                private pdfService: PdfService,
+                private ref: ChangeDetectorRef) {
     }
 
     ngOnInit() {
@@ -152,12 +150,13 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     }
 
     getRelativePosition(annotationId: string): number {
-        const svgSelector = this.document.querySelector(`g[data-pdf-annotate-id="${annotationId}"]`);
+        const svgSelector = this.pdfService.getViewerElementRef().nativeElement
+                                .querySelector(`g[data-pdf-annotate-id="${annotationId}"]`);
         if (svgSelector === null) {
             return null;
         } else {
             const highlightRect = <DOMRect>svgSelector.getBoundingClientRect();
-            const wrapperRect = <DOMRect>this.document.querySelector('#annotation-wrapper').getBoundingClientRect();
+            const wrapperRect = <DOMRect> this.pdfService.getAnnotationWrapper().nativeElement.getBoundingClientRect();
 
             const topPosition = (highlightRect.y - wrapperRect.top);
             return topPosition;

@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
 import { Subject, Observable, of } from 'rxjs';
 
 import { AnnotationPdfViewerComponent } from './annotation-pdf-viewer.component';
@@ -39,6 +38,8 @@ class MockPdfService {
   getPageNumber() {
     return this.pageNumber;
   }
+  setAnnotationWrapper() {}
+  getPdfPages() {}
 }
 
 class MockAnnotationStoreService {
@@ -71,6 +72,10 @@ class MockUtils {
   getClickedPage() {}
 }
 
+class MockViewerComponent {
+  nativeElement: { querySelector() };
+}
+
 describe('AnnotationPdfViewerComponent', () => {
   let component: AnnotationPdfViewerComponent;
   let fixture: ComponentFixture<AnnotationPdfViewerComponent>;
@@ -81,7 +86,7 @@ describe('AnnotationPdfViewerComponent', () => {
   const mockApiHttpService = new MockApiHttpService();
   const mockUtils = new MockUtils();
   const mockPdfAnnotateWrapper = new MockPdfAnnotateWrapper();
-  let mockDocument: any;
+  const mockViewerComponent = new MockViewerComponent();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -114,12 +119,15 @@ describe('AnnotationPdfViewerComponent', () => {
     null, '116b0b0f-65da-41e3-9852-648fe4c30409', []);
 
     component.baseUrl = 'localhost:3000';
-    mockDocument = fixture.componentRef.injector.get(DOCUMENT);
     spyOn(component, 'ngAfterViewInit').and.stub();
-    spyOn(mockDocument, 'querySelector').and.callFake(function() {
+
+    const mockNativeElement = { querySelector() {} };
+    spyOn(mockNativeElement, 'querySelector').and.callFake(function() {
       const dummyElement = document.createElement('div');
       return dummyElement;
     });
+    mockViewerComponent.nativeElement = mockNativeElement;
+    component.viewerElementRef = mockViewerComponent;
     spyOn(mockAnnotationStoreService, 'getAnnotationFocusSubject')
       .and.returnValue(of(new Annotation));
 

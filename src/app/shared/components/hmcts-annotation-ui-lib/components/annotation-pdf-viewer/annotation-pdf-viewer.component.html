@@ -2,7 +2,7 @@
 <app-comments (click)="handleClick($event, false)" #commentsComponent
  *ngIf="annotate"></app-comments>
 
-<div id="annotation-wrapper">
+<div id="annotation-wrapper" #annotationWrapper>
     <app-contextual-toolbar #contextualToolbar></app-contextual-toolbar>
 
     <div id="content-wrapper"

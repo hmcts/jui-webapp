@@ -5,6 +5,7 @@ services:
 
   idam-authentication-web:
     image: docker.artifactory.reform.hmcts.net/auth/authentication-web:latest
+    container_name: idam-authentication-web
     environment:
     - IDAM_CONTINUE_URL_VALIDATOR_ENFORCE_TLS=false
     - IDAM_ENABLE_PROXY=true
@@ -30,6 +31,7 @@ services:
 
   idam-api:
     image: docker.artifactory.reform.hmcts.net/auth/idam-api:1620c9973d85ca622904ecbf01c47a4abb91f7c9
+    container_name: idam-api
     command: --wait-for-database 60
     environment:
       - IDAM_SUPERUSER_EMAIL
@@ -44,6 +46,8 @@ services:
       - IDAM_API_OAUTH2_CLIENT_CLIENT_SECRETS_CCD_GATEWAY=AAAAAAAAAAAAAAAA
       - IDAM_API_OAUTH2_CLIENT_CLIENT_SECRETS_CCD_ADMIN=AAAAAAAAAAAAAAAA
       - IDAM_API_OAUTH2_CLIENT_CLIENT_SECRETS_JUIWEBAPP=AAAAAAAAAAAAAAAA
+      - IDAM_API_OAUTH2_CLIENT_CLIENT_ID_JUIWEBAPP=AAAAAAAAAAAAAAAA
+      - IDAM_JUIWEBAPP_WHITELIST=http://locahost:3000/oauth2/callback
       - http_proxy
       - https_proxy
       - no_proxy
@@ -70,6 +74,7 @@ services:
 
   idam-database:
     image: docker.artifactory.reform.hmcts.net/auth/idam-database:latest
+    container_name: idam-database
     ports:
       - 5501:5432
 
@@ -78,6 +83,7 @@ services:
 
   service-auth-provider-app:
     image: hmcts/service-auth-provider-app:latest
+    container_name: service-auth-provider-app
     environment:
       - MICROSERVICE_KEYS_JUI_WEBAPP=AAAAAAAAAAAAAAAA
       - MICROSERVICE_KEYS_EM_GW=AAAAAAAAAAAAAAAA

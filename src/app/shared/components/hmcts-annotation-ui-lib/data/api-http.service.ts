@@ -1,14 +1,19 @@
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
+import { TransferState, makeStateKey } from '@angular/platform-browser';
+import { tap } from 'rxjs/operators';
+import { isPlatformServer } from '@angular/common';
 import {HttpResponse, HttpClient} from '@angular/common/http';
-import {Injectable} from '@angular/core';
+import {Injectable, PLATFORM_ID, Inject} from '@angular/core';
 import {IDocumentTask} from './document-task.model';
 import {Annotation, IAnnotation, IAnnotationSet} from './annotation-set.model';
 
 @Injectable()
 export class ApiHttpService {
-    private baseUrl = '/api';
+    private baseUrl: string;
 
-    constructor(private httpClient: HttpClient) {
+    constructor(private httpClient: HttpClient,
+                @Inject(PLATFORM_ID) private platformId,
+                private transferState: TransferState) {
     }
 
     setBaseUrl(baseUrl: string) {
@@ -25,8 +30,22 @@ export class ApiHttpService {
     }
 
     fetch(baseUrl, dmDocumentId): Observable<HttpResponse<IAnnotationSet>> {
-        const url = `${baseUrl}/em-anno/annotation-sets/${dmDocumentId}`;
-        return this.httpClient.get<IAnnotationSet>(url, {observe: 'response'});
+        const STATE_KEY = makeStateKey<HttpResponse<IAnnotationSet>>('annotationSet-' + dmDocumentId);
+        if (this.transferState.hasKey(STATE_KEY)) {
+            const annotationSet = this.transferState.get<HttpResponse<IAnnotationSet>>(STATE_KEY, null);
+            this.transferState.remove(STATE_KEY);
+            return of(annotationSet);
+        } else {
+            const url = `${baseUrl}/em-anno/annotation-sets/${dmDocumentId}`;
+            return this.httpClient.get<IAnnotationSet>(url, {observe: 'response'})
+                    .pipe(
+                        tap(annotationSet => {
+                            if (isPlatformServer(this.platformId)) {
+                                this.transferState.set(STATE_KEY, annotationSet);
+                            }
+                        })
+                    );
+        }
     }
 
     documentTask(dmDocumentId, outputDmDocumentId): Observable<HttpResponse<IDocumentTask>> {

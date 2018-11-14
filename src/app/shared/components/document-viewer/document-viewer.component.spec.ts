@@ -1,17 +1,24 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {DocumentViewerComponent} from './document-viewer.component';
-import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {DebugElement, SimpleChange} from '@angular/core';
 import {DocumentViewerModule} from './document-viewer.module';
 import {DocumentViewerService} from './document-viewer.service';
 import {of} from 'rxjs';
+import { TransferState } from '@angular/platform-browser';
 const originalUrl = 'http://api-gateway.dm.com/documents/1234-1234-1234';
 const url = '/demproxy/dm/documents/1234-1234-1234';
 
+class MockTransferState {
+    hasKey() {}
+    remove() {}
+    set() {}
+}
+
 describe('EmViewerComponent', () => {
+    const mockTransferState = new MockTransferState();
     let component: DocumentViewerComponent;
-    let httpMock: HttpTestingController;
     let fixture: ComponentFixture<DocumentViewerComponent>;
     let element: DebugElement;
     let mockDocuments;
@@ -25,8 +32,9 @@ describe('EmViewerComponent', () => {
     beforeEach(async(() => {
         const testingModule = TestBed.configureTestingModule({
             imports: [DocumentViewerModule, HttpClientTestingModule],
-            providers: [{
-                provide: DocumentViewerService, useValue: DocumentViewerServiceMock
+            providers: [
+                { provide: TransferState, useFactory: () => mockTransferState},
+                { provide: DocumentViewerService, useValue: DocumentViewerServiceMock
             }]
         });
 

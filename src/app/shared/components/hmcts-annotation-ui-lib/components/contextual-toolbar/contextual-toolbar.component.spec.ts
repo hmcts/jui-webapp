@@ -1,5 +1,4 @@
 import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
-import { DOCUMENT } from '@angular/common';
 import { Subject, of } from 'rxjs';
 
 import { ContextualToolbarComponent } from './contextual-toolbar.component';
@@ -18,6 +17,9 @@ class MockPdfService {
   setAnnotationClicked(annotationId) {
     this.annotationSub.next(annotationId);
   }
+
+  getViewerElementRef() {}
+  getAnnotationWrapper() {}
 }
 
 class MockAnnotationStoreService {
@@ -38,10 +40,15 @@ class MockAnnotationStoreService {
   }
 }
 
+class MockViewerComponent {
+  nativeElement: { querySelector() };
+}
+
 describe('ContextualToolbarComponent', () => {
   let component: ContextualToolbarComponent;
   let fixture: ComponentFixture<ContextualToolbarComponent>;
 
+  const mockViewerComponent = new MockViewerComponent();
   const mockPdfService = new MockPdfService();
   const mockAnnotationStoreService = new MockAnnotationStoreService();
   const dummyAnnotation = new Annotation(
@@ -56,10 +63,10 @@ describe('ContextualToolbarComponent', () => {
     1,
     'FFFF00',
     [
-        new Comment('e337ce78-c4c8-4111-8756-7d44006b4428',
-            '96978485-bb8a-4593-b7cc-3f11dc1d569a',
-            '124575', null, new Date(), null, null, null,
-            'Comment text')
+      new Comment('e337ce78-c4c8-4111-8756-7d44006b4428',
+          '96978485-bb8a-4593-b7cc-3f11dc1d569a',
+          '124575', null, new Date(), null, null, null,
+          'Comment text')
     ],
     [],
     'highlight'
@@ -79,10 +86,17 @@ describe('ContextualToolbarComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ContextualToolbarComponent);
 
-    const mockDocument = fixture.componentRef.injector.get(DOCUMENT);
-    spyOn(mockDocument, 'querySelector').and.returnValue(
-      document.createElement('div')
-    );
+    const mockBoundingRect = {
+      x: 1,
+      y: 2
+    };
+
+    const mockNativeElement = { querySelector() {}, getBoundingClientRect() {} };
+    spyOn(mockNativeElement, 'getBoundingClientRect').and.returnValue({getBoundingClientRect() {return mockBoundingRect; }});
+    spyOn(mockNativeElement, 'querySelector').and.returnValue({getBoundingClientRect() {return mockBoundingRect; }});
+    mockViewerComponent.nativeElement = mockNativeElement;
+    spyOn(mockPdfService, 'getViewerElementRef').and.returnValue(mockViewerComponent);
+    spyOn(mockPdfService, 'getAnnotationWrapper').and.returnValue(mockViewerComponent);
 
     spyOn(mockAnnotationStoreService, 'getToolbarUpdate').and
       .returnValue(of({annotation: null}));
