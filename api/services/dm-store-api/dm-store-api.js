@@ -1,6 +1,8 @@
 const express = require('express')
 const fs = require('fs');
 const multiparty = require('multiparty')
+const requestPromise = require('request-promise')
+
 const config = require('../../../config')
 const generateRequest = require('../../lib/request/request')
 
@@ -82,15 +84,110 @@ function postDocument(file, options) {
     options.body = {classification: 'PUBLIC'}
     options.formData = {
         file: {
-            value: 'hello',
+            value: 'hello', // this should be the stream
             options: {
-                filename: 'test.txt',
-                contentType: 'plain/txt'
+                filename: 'test.txt', //file name
+                contentType: 'plain/txt' //content type should be image/jpg
             }
         }
     }
 
+    // so you've got multipart in the request.js
+    // is this being used already?
+    // what does multipart look like?
+    // and then let's send it though
+    // Content-Type needs to be multipart/form-data
+
     return generateRequest('POST', `${url}/documents`, options)
+}
+
+function postMultipartFormDataDocument(options) {
+    console.log('postMultipartFormDataDocument');
+
+    // options.headers['Content-Type'] = 'application/x-www-form-urlencoded'
+    // options.body = {classification: 'PUBLIC'}
+    // options.formData = {
+    //     file: {
+    //         value: fs.createReadStream(`./circularface.jpg`), // this should be the stream or file.
+    //         options: {
+    //             filename: 'circularface.jpg', //file name
+    //             contentType: 'image/jpg' //content type should be image/jpg
+    //         }
+    //     }
+    // }
+
+    // TODO : First thing is get something returning
+    // from the Api
+
+    // so you've got multipart in the request.js
+    // is this being used already?
+    // what does multipart look like?
+    // and then let's send it though
+    // Content-Type needs to be multipart/form-data
+
+    // TODO : We need proper error messages back from the Api
+    // https://dm-store-aat.service.core-compute-aat.internal/documents
+
+    console.log('url postMultipartFormDataDocument');
+    console.log(url);
+
+    // so over here we need to see the error
+
+    return generateRequest('POST', `${url}/documents`, options)
+
+    // generateRequest('POST', `${url}/documents`, options).then(
+    //     function (response) {
+    //         console.log('Response');
+    //         console.log(response);
+    //
+    //         return response
+    //     })
+    //     .catch(function (error) {
+    //         console.log('Error');
+    //         console.log(error);
+    //         // Crawling failed...
+    //         return error
+    //     });
+
+    // return generateRequest('POST', `${url}/documents`, options)
+}
+
+function postMultiForm() {
+
+    console.log('Post MultiForm func');
+
+    // So here, if you place in a request
+    const options = {
+        method: 'GET',
+        uri: 'https://dm-store-aat.service.core-compute-aat.internal'
+        // formData: {
+        //     // Like <input type="text" name="name">
+        //     name: 'Circular Face',
+        //     // Like <input type="file" name="file">
+        //     // file: {
+        //     //     value: fs.createReadStream('./circularface.jpg'),
+        //     //     options: {
+        //     //         filename: 'circularface.jpg',
+        //     //         contentType: 'image/jpg'
+        //     //     }
+        //     // }
+        // },
+        // headers: {
+        //     'content-type': 'multipart/form-data'
+        // }
+    }
+
+    // so this works for google, but it does not work for dm-store-att, but it does not give us back an error from
+    // the backend, this could be security practice as to not reply on hit, which makes sense.
+    requestPromise(options)
+        .then(function (body) {
+            console.log(body)
+            // POST succeeded...
+        })
+        .catch(function (error) {
+            console.log(error)
+            // POST failed...
+        });
 }
 
 // Adds a Document Content Version and associates it with a given Stored Document.
@@ -196,24 +293,37 @@ module.exports = app => {
     /**
      * Currently we are stepping through the multi-part form and finding the parts, when we find the file
      * we write this file to the local disk currently.
+     *
+     * Once we have all the chunks for the data, in the Node layer we need to pass this up to
+     * the Api.
+     *
+     * TODO : You could hopefully just use a pipe to pass it straight through to the Api.
      */
     router.post('/documents', (request, response, next) => {
+
+        console.log('/documents route')
 
         const form = new multiparty.Form()
         const FILES = 'files'
 
-        form.on('part', (part) => {
+        // form.on('part', (part) => {
+        //
+        //     if(part.name === FILES) {
+        //         // As the files comes in as chunks here, we are writing it to disk, on
+        //         // close of the pipe, we say file has been saved.
+        //         part.pipe(fs.createWriteStream(`./${part.filename}`))
+        //             .on('close', () => {
+        //                 response.writeHead(200, {'Content-Type': 'text/html' });
+        //                 response.end('File has been saved');
+        //         })
+        //     }
+        // })
 
-            if(part.name === FILES) {
-                part.pipe(fs.createWriteStream(`./${part.filename}`))
-                    .on('close', () => {
-                        response.writeHead(200, {'Content-Type': 'text/html' });
-                        response.end('File has been saved');
-                })
-            }
-        })
 
-        form.parse(request)
+
+        postMultipartFormDataDocument(getOptions(request)).pipe(response)
+
+        // form.parse(request)
 
         // const files = req.body.files
         // const classification = req.body.classification
