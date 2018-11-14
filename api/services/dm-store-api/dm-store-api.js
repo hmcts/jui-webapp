@@ -133,21 +133,23 @@ function postMultipartFormDataDocument(options) {
 
     // so over here we need to see the error
 
-    return generateRequest('POST', `${url}/documents`, options)
 
-    // generateRequest('POST', `${url}/documents`, options).then(
-    //     function (response) {
-    //         console.log('Response');
-    //         console.log(response);
-    //
-    //         return response
-    //     })
-    //     .catch(function (error) {
-    //         console.log('Error');
-    //         console.log(error);
-    //         // Crawling failed...
-    //         return error
-    //     });
+    // Place back in later to get it working again.
+    // return generateRequest('POST', `${url}/documents`, options)
+
+    generateRequest('POST', `${url}/documents`, options).then(
+        (response) => {
+            console.log('Response');
+            console.log(response);
+
+            return response
+        })
+        .catch((error) => {
+            console.log('Error');
+            console.log(error);
+            // Crawling failed...
+            return error
+        });
 
     // return generateRequest('POST', `${url}/documents`, options)
 }
@@ -206,7 +208,7 @@ function postDocumentVersionVersion(documentId, file, options) {
 
 // Updates document instance (ex. ttl)
 function patchDocument(documentId, updateDocumentCommand, options) {
-    return generateRequest('PATCH', `${url}/documents/${documentId}`, { ...options, body: updateDocumentCommand })
+    return generateRequest('PATCH', `${url}/documents/${documentId}`, {...options, body: updateDocumentCommand})
 }
 
 ////////////////////////////////////////////////////
@@ -267,7 +269,7 @@ function getOptions(req) {
  * TODO : We should move this out into a seperate routes file.
  */
 module.exports = app => {
-    const router = express.Router({ mergeParams: true })
+    const router = express.Router({mergeParams: true})
     app.use('/dm-store', router)
 
     router.get('/health', (req, res, next) => {
@@ -318,7 +320,6 @@ module.exports = app => {
         //         })
         //     }
         // })
-
 
 
         postMultipartFormDataDocument(getOptions(request)).pipe(response)
