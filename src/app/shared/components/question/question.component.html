@@ -46,7 +46,7 @@
     <ng-template #questionsSent>
         <p data-selector="sent-questions-details">You sent {{round.questions.length}} {{round.questions.length <= 1 ? 'question' : 'questions'}} to the appellant {{round.questions[0].state_datetime | date: "'at' h:mmaaaaa'm 'on' d MMMM yyyy":'+00:00'}}</p>
         <p *ngIf="round.state === 'question_issued' && !round.question_deadline_expired">The appellant has until <time [attr.datetime]="round.expires.dateUtc">{{round.expires.time}} on {{round.expires.date}}</time> to reply.</p>
-        <p *ngIf="round.state === 'question_issued' && round.question_deadline_expired"><b>The appellant has not answered all the {{round.questions.length <= 1 ? 'the question' : 'all the questions'}} in time.</b></p>
+        <p *ngIf="round.state === 'question_deadline_elapsed' && round.question_deadline_expired"><b>The appellant has not answered all the {{round.questions.length <= 1 ? 'the question' : 'all the questions'}} in time.</b></p>
         <p *ngIf="round.state === 'questions_answered'"><b>The appellant has answered {{round.questions.length <= 1 ? 'the question' : 'all the questions'}} in time.</b></p>
         <app-question-list [questions]="round.questions"></app-question-list>
     </ng-template>

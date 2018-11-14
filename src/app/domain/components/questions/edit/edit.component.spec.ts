@@ -94,7 +94,7 @@ describe('EditQuestionComponent', () => {
     describe('When request is a success', () => {
         beforeEach(async(() => {
             httpMock
-                .expectOne('/api/case/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/43eb9981-9360-4d4b-b9fd-506b5818e7ff')
+                .expectOne('/api/caseQ/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/43eb9981-9360-4d4b-b9fd-506b5818e7ff')
                 .flush({header: 'Example header', body: 'Example body'});
 
             fixture.whenStable()

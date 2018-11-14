@@ -8,7 +8,7 @@ const { getAllQuestionsByCase } = require('../questions')
 const { getMutiJudCCDCases } = require('../services/ccd-store-api/ccd-store')
 const { getHearingByCase } = require('../services/coh-cor-api/coh-cor-api')
 const { getDetails } = require('../services/idam-api/idam-api')
-const { getNewCase } = require('./assignCase')
+const { getNewCase, unassignAllCaseFromJudge } = require('./assignCase')
 
 const columns = [
     {
@@ -287,6 +287,29 @@ module.exports = app => {
                 })
         })
     })
+
+    router.get('/unassign/all', (req, res, next) => {
+        const userId = req.auth.userId
+        const options = getOptions(req)
+
+        getDetails(options).then(details => {
+            const userJurisdictions = getJurisdictions(details)
+
+            getMutiJudCCDCases(userId, userJurisdictions, options)
+                .then(combineLists)
+                .then(caseList => unassignAllCaseFromJudge(userId, caseList, options))
+                .then(results => {
+                    res.setHeader('Access-Control-Allow-Origin', '*')
+                    res.setHeader('content-type', 'application/json')
+                    res.status(200).send(JSON.stringify(results))
+                })
+                .catch(response => {
+                    console.log(response.error || response)
+                    res.status(response.statusCode || 500).send(response)
+                })
+        })
+    })
+
 
     router.post('/assign/new', (req, res, next) => {
         const userId = req.auth.userId

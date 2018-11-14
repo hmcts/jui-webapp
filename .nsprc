@@ -1,3 +1,5 @@
 {
-    "exceptions": []
+    "exceptions": [
+        "https://nodesecurity.io/advisories/577"
+    ]
 }

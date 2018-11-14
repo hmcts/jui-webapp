@@ -27,9 +27,7 @@ app.use(
         resave: true,
         saveUninitialized: true,
         secret: config.sessionSecret,
-        store: new FileStore({
-            path: process.env.NOW ? '/tmp/sessions' : '.sessions'
-        })
+        store: new FileStore({ path: process.env.NOW ? '/tmp/sessions' : '.sessions' })
     })
 );
 
@@ -44,10 +42,10 @@ appInsights
     .setUseDiskRetryCaching(true)
     .start();
 
-let client = appInsights.defaultClient;
+const client = appInsights.defaultClient;
 client.trackTrace({ message: 'Test Message App Insight Activated' });
 
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
     client.trackNodeHttpRequest({ request: req, response: res });
     next();
 });
@@ -56,27 +54,53 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+function healthcheckConfig(msUrl) {
+    return healthcheck.web(`${msUrl}/health`, {
+        timeout: 6000,
+        deadline: 6000
+    });
+}
+
 app.get(
     '/health',
     healthcheck.configure({
-        checks: {},
+        checks: {
+            ccd_data_api: healthcheckConfig(config.services.ccd_data_api),
+            ccd_def_api: healthcheckConfig(config.services.ccd_def_api),
+            idam_web: healthcheckConfig(config.services.idam_web),
+            idam_api: healthcheckConfig(config.services.idam_api),
+            s2s: healthcheckConfig(config.services.s2s),
+            draft_store_api: healthcheckConfig(config.services.draft_store_api),
+            dm_store_api: healthcheckConfig(config.services.dm_store_api),
+            em_anno_api: healthcheckConfig(config.services.em_anno_api),
+            em_npa_api: healthcheckConfig(config.services.em_npa_api),
+            coh_cor_api: healthcheckConfig(config.services.coh_cor_api)
+        },
         buildInfo: {}
     })
 );
+
+function infocheckConfig(msUrl) {
+    return new InfoContributor(`${msUrl}/info`);
+}
 
 app.get(
     '/info',
     infoRequestHandler({
         info: {
-            dm_store_api: new InfoContributor(`${config.services.dm_store_api}/info`),
-            // 'em_anno_api' : new InfoContributor(`${config.services.em_anno_api}/info`),
-            // 'em_redact_api' : new InfoContributor(`${config.services.em_redact_api}/info`),
-            // 'coh_cor_api' : new InfoContributor(`${config.services.coh_cor_api}/info`),
-            // 'ccd_data_api' : new InfoContributor(`${config.services.ccd_data_api}/info`),
-            // 'idam' : new InfoContributor(`${config.services.idam}/info`),
-            s2s: new InfoContributor(`${config.services.s2s}/info`)
+            ccd_data_api: infocheckConfig(config.services.dm_store_api),
+            ccd_def_api: infocheckConfig(config.services.ccd_def_api),
+            idam_web: infocheckConfig(config.services.idam_web),
+            idam_api: infocheckConfig(config.services.idam_api),
+            s2s: infocheckConfig(config.services.s2s),
+            draft_store_api: infocheckConfig(config.services.draft_store_api),
+            dm_store_api: infocheckConfig(config.services.dm_store_api),
+            em_anno_api: infocheckConfig(config.services.em_anno_api),
+            em_npa_api: infocheckConfig(config.services.em_npa_api),
+            coh_cor_api: infocheckConfig(config.services.coh_cor_api)
         },
         extraBuildInfo: {
+            empty: {}
             // featureToggles: config.get('featureToggles'),
             // hostname: hostname()
         }
