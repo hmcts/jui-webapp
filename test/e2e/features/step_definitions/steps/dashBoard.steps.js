@@ -62,7 +62,7 @@ defineSupportCode(function({ Given, When, Then }) {
 
 
     Then(/^I will be redirected to the Case Summary page for that case (.*)$/, async function(type) {
-        browser.sleep(SHORT_DELAY);
+        browser.sleep(LONG_DELAY);
         await expect(caseSummaryPage.case_header_text.getText()).to.eventually.equal('Summary');
         if (type === 'Financial Remedy'){
             await expect(caseSummaryPage.caseDetails_header_text.getText())
