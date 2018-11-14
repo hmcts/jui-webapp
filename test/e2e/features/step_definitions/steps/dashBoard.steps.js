@@ -205,11 +205,6 @@ defineSupportCode(function({ Given, When, Then }) {
         await dashBoardPage.type_links.isDisplayed();
         await expect(dashBoardPage.type_links.first().getText()).to.eventually.equal("Financial remedy");
     });
-
-
-
-
-
 });
 
 
