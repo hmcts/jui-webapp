@@ -14,10 +14,10 @@ const templates = {
             '$.data.divorceUploadEvidence1|document_processor'
         ]
     }
-};
+}
 
 module.exports = (jurisdiction, caseType) => {
-    const jud = templates[jurisdiction.toLowerCase()];
-    const template = jud ? jud[caseType.toLowerCase()] : [];
-    return (template) ? template : [];
-};
+    const jud = templates[jurisdiction.toLowerCase()]
+    const template = jud ? jud[caseType.toLowerCase()] : []
+    return template || []
+}

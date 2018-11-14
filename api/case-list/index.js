@@ -1,7 +1,6 @@
 const express = require('express')
-const moment = require('moment')
 const getListTemplate = require('./templates')
-const processCaseStateEngine = require('../lib/processors/case-state-model')
+const { processCaseState } = require('../lib/processors/case-state-model')
 const valueProcessor = require('../lib/processors/value-processor')
 const { caseStateFilter } = require('../lib/processors/case-state-util')
 const { getAllQuestionsByCase } = require('../questions')
@@ -46,16 +45,19 @@ function getJurisdictions(details) {
                 jur: 'SSCS',
                 caseType: 'Benefit',
                 filter: `&state=appealCreated&case.appeal.benefitType.code=PIP&case.assignedToJudge=${details.email}`
+                // filter: `&state=appealCreated&case.appeal.benefitType.code=PIP`
             },
             {
                 jur: 'DIVORCE',
                 caseType: 'DIVORCE',
                 filter: `&case.assignedToJudge=${details.email}`
+                // filter: ``
             },
             {
                 jur: 'DIVORCE',
                 caseType: 'FinancialRemedyMVP2',
                 filter: `&state=referredToJudge&case.assignedToJudge=${details.email}`
+                // filter: `&state=referredToJudge`
             }
             // {
             //     jur: 'CMC',
@@ -111,36 +113,66 @@ function appendCOR(caseLists, options) {
     )
 }
 
-function latestQuestionRounds(questionsRounds) {
-    return questionsRounds ? questionsRounds.sort((a, b) => a.question_round_number < b.question_round_number)[0] : []
+
+function getLinkedCaseValues() {
+    return 'frCaseId';
 }
 
-function stateDatetimeDiff(a, b) {
-    const dateTime1 = moment.utc(a.state_datetime)
-    const dateTime2 = moment.utc(b.state_datetime)
+function getLinkedCase(casesData, userId, options) {
+    const caseType = casesData.jur
+    const caseJudristiction = casesData.type
+    const linkedCaseId = getLinkedCaseValues()
 
-    return moment.duration(moment(dateTime2).diff(moment(dateTime1))).asMilliseconds()
+    return new Promise(resolve => {
+        if (linkedCaseId && linkedCaseId.length) {
+            getCaseBySearchFilter(userId, linkedCaseId, options)
+                .then(caseData => {
+                    if (hearings.online_hearings) {
+                        const caseStateMap = new Map(hearings.online_hearings.map(hearing => [Number(hearing.case_id), hearing]))
+                        casesData.forEach(caseRow => {
+                            caseRow.linked_case_data = caseStateMap.get(Number(caseRow.id))
+                        })
+                    }
+                    resolve(casesData)
+                })
+        } else {
+            resolve(casesData)
+        }
+    })
 }
 
-function getHearingWithQuestionData(hearing, userId, options) {
-    return getAllQuestionsByCase(hearing.case_id, userId, options)
-        .then(latestQuestionRounds)
-        .then(questionRound => {
-            if (questionRound) {
-                questionRound.questions.sort((a, b) => stateDatetimeDiff(a, b))
-            }
+function appendLinkedCases(caseLists, userId, options) {
+    return Promise.all(
+        caseLists.map(
+            casesData =>
+                new Promise((resolve, reject) => {
+                    if (casesData && casesData.length) {
+                        getLinkedCase(casesData, userId, options).then(casesDataWithLinkedCase => {
+                            resolve(casesDataWithLinkedCase)
+                        })
+                    } else {
+                        resolve([])
+                    }
+                })
+        )
+    )}
+
+
+function getHearingWithQuestionData(caseData, userId, options) {
+    return getAllQuestionsByCase(caseData.id, userId, options)
+        .then(questions => {
             return {
-                hearing,
-                latest_question_round: questionRound
+                id: caseData.id,
+                questions
             }
         })
 }
 
-function hearingsWithQuestionData(caseLists, userId, options) {
+function getQuestionData(caseLists, userId, options) {
     const promiseArray = []
-    caseLists.forEach(caseRow => {
-        if (caseRow.hearing_data) {
-            promiseArray.push(getHearingWithQuestionData(caseRow.hearing_data, userId, options))
+    caseLists.forEach(caseData => {
+        if (caseData.hearing_data) {
+            promiseArray.push(getHearingWithQuestionData(caseData, userId, options))
         }
     })
     return Promise.all(promiseArray)
@@ -152,15 +184,16 @@ function appendQuestionsRound(caseLists, userId, options) {
             caseList =>
                 new Promise((resolve, reject) => {
                     if (caseList && caseList.length) {
-                        hearingsWithQuestionData(caseList, userId, options).then(hearingsWithQuestionData => {
-                            if (hearingsWithQuestionData) {
-                                const caseStateMap = new Map(
-                                    hearingsWithQuestionData.map(hearing_data => [Number(hearing_data.hearing.case_id), hearing_data])
-                                )
-                                caseList.forEach(caseData => (caseData.hearing_data = caseStateMap.get(Number(caseData.id))))
-                            }
-                            resolve(caseList)
-                        })
+                        getQuestionData(caseList, userId, options)
+                            .then(arrQuestionsWithIds => {
+                                if (arrQuestionsWithIds) {
+                                    const idToQuestionMapping = new Map(
+                                        arrQuestionsWithIds.map(questionWithId => [Number(questionWithId.id), questionWithId.questions])
+                                    )
+                                    caseList.forEach(caseData => (caseData.question_data = idToQuestionMapping.get(Number(caseData.id))))
+                                }
+                                resolve(caseList)
+                            })
                     } else {
                         resolve([])
                     }
@@ -169,38 +202,9 @@ function appendQuestionsRound(caseLists, userId, options) {
     )
 }
 
-function processState(caseLists) {
-    return caseLists.map(caselist => {
-        caselist.map(caseData => {
-            const jurisdiction = caseData.jurisdiction
-            const caseType = caseData.case_type_id
-
-            const ccdState = caseData.state
-            const hearingData = caseData.hearing_data ? caseData.hearing_data.hearing : undefined
-            const questionRoundData = hearingData ? caseData.hearing_data.latest_question_round : undefined
-
-            const consentOrder = caseData.case_data.consentOrder ? caseData.case_data.consentOrder : undefined
-
-            const caseState = processCaseStateEngine({
-                jurisdiction,
-                caseType,
-                ccdState,
-                hearingData,
-                questionRoundData,
-                consentOrder
-            })
-
-            caseData.state = caseState
-            if (caseState.stateDateTime) {
-                if (new Date(caseData.last_modified) < new Date(caseState.stateDateTime)) {
-                    caseData.last_modified = caseState.stateDateTime
-                }
-            }
-
-            return caseData
-        })
-        return caselist
-    })
+// This should be refined as used in both case and caselist
+function processCaseListsState(caseLists) {
+    return caseLists.map(caseList => caseList.map(processCaseState))
 }
 
 function applyStateFilter(caseLists) {
@@ -217,7 +221,7 @@ function rawCasesReducer(cases, columns) {
                 row[column.case_field_id] = valueProcessor(column.value, caseRow)
                 return row
             }, {}),
-            assignedToJudge: caseRow.case_data.assignedToJudge ? caseRow.case_data.assignedToJudge : undefined
+            assignedToJudge: caseRow.case_data.assignedToJudge ? caseRow.case_data.assignedToJudge : undefined // Don't think this is needed but keep as might useful
         }
     })
 }
@@ -239,12 +243,52 @@ function combineLists(lists) {
     return [].concat(...lists)
 }
 
-function sortCases(results) {
+function sortTransformedCases(results) {
     return results.sort((result1, result2) => new Date(result1.case_fields.lastModified) - new Date(result2.case_fields.lastModified))
+}
+
+function sortCases(results) {
+    return results.sort((result1, result2) => new Date(result1.last_modified) - new Date(result2.last_modified))
 }
 
 function aggregatedData(results) {
     return { columns, results }
+}
+
+function getMutiJudCaseAssignedCases(userId, details, options) {
+    const userJurisdictions = getJurisdictions(details)
+    return getMutiJudCCDCases(userId, userJurisdictions, options)
+}
+
+// Get List of case and transform to correct format
+function getMutiJudCaseTransformed(userId, details, options) {
+    return getMutiJudCaseAssignedCases(userId, details, options)
+        .then(caseLists => appendCOR(caseLists, options))
+        .then(caseLists => appendQuestionsRound(caseLists, userId, options))
+        // .then(caseLists => appendLinkedCases(caseLists, userId, options))
+        .then(processCaseListsState)
+        .then(applyStateFilter)
+        .then(convertCaselistToTemplate)
+        .then(combineLists)
+        .then(sortTransformedCases)
+        .then(aggregatedData)
+}
+
+// Get List of case and return raw output
+function getMutiJudCaseRaw(userId, details, options) {
+    return getMutiJudCaseAssignedCases(userId, details, options)
+        .then(combineLists)
+        .then(sortCases)
+}
+
+// Get List of case append coh and return raw output
+function getMutiJudCaseRawCoh(userId, details, options) {
+    return getMutiJudCaseAssignedCases(userId, details, options)
+        .then(caseLists => appendCOR(caseLists, options))
+        .then(caseLists => appendQuestionsRound(caseLists, userId, options))
+        // .then(caseLists => appendLinkedCases(caseLists, userId, options))
+        .then(combineLists)
+        .then(sortCases)
 }
 
 function getOptions(req) {
@@ -265,17 +309,7 @@ module.exports = app => {
         const options = getOptions(req)
 
         getDetails(options).then(details => {
-            const userJurisdictions = getJurisdictions(details)
-
-            getMutiJudCCDCases(userId, userJurisdictions, options)
-                .then(caseLists => appendCOR(caseLists, options))
-                .then(caseLists => appendQuestionsRound(caseLists, userId, options))
-                .then(processState)
-                .then(applyStateFilter)
-                .then(convertCaselistToTemplate)
-                .then(combineLists)
-                .then(sortCases)
-                .then(aggregatedData)
+            getMutiJudCaseTransformed(userId, details, options)
                 .then(results => {
                     res.setHeader('Access-Control-Allow-Origin', '*')
                     res.setHeader('content-type', 'application/json')
@@ -313,8 +347,8 @@ module.exports = app => {
 
     router.post('/assign/new', (req, res, next) => {
         const userId = req.auth.userId
-        const options = getOptions(req)
-        getNewCase(userId, options)
+
+        getNewCase(userId, getOptions(req))
             .then(results => {
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.setHeader('content-type', 'application/json')
@@ -331,10 +365,7 @@ module.exports = app => {
         const options = getOptions(req)
 
         getDetails(options).then(details => {
-            const userJurisdictions = getJurisdictions(details)
-
-            getMutiJudCCDCases(userId, userJurisdictions, options)
-                .then(combineLists)
+            getMutiJudCaseRaw(userId, details, options)
                 .then(results => {
                     res.setHeader('Access-Control-Allow-Origin', '*')
                     res.setHeader('content-type', 'application/json')
@@ -350,12 +381,9 @@ module.exports = app => {
     router.get('/raw/coh', (req, res, next) => {
         const userId = req.auth.userId
         const options = getOptions(req)
+
         getDetails(options).then(details => {
-            const userJurisdictions = getJurisdictions(details)
-            getMutiJudCCDCases(userId, userJurisdictions, options)
-                .then(caseLists => appendCOR(caseLists, options))
-                .then(caseLists => appendQuestionsRound(caseLists, userId, options))
-                .then(combineLists)
+            getMutiJudCaseRawCoh(userId, details, options)
                 .then(results => {
                     res.setHeader('Access-Control-Allow-Origin', '*')
                     res.setHeader('content-type', 'application/json')

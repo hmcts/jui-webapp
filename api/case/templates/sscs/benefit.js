@@ -182,7 +182,7 @@ module.exports = {
                 {
                     name: 'Questions to appellant',
                     type: 'questions-panel',
-                    fields: [{ value: '$.questions' }]
+                    fields: [{ value: '$.question_data' }]
                 }
             ]
         }
@@ -202,4 +202,4 @@ module.exports = {
             }
         ]
     }
-};
+}

@@ -6,7 +6,7 @@ const { getDocuments } = require('../services/dm-store-api/dm-store-api')
 const { getAllQuestionsByCase } = require('../questions')
 const { getCCDCase } = require('../services/ccd-store-api/ccd-store')
 const { getHearingByCase } = require('../services/coh-cor-api/coh-cor-api')
-const processCaseStateEngine = require('../lib/processors/case-state-model')
+const { processCaseState } = require('../lib/processors/case-state-model')
 
 function hasCOR(jurisdiction, caseType) {
     return jurisdiction === 'SSCS'
@@ -19,11 +19,23 @@ function getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId, o
     ]
 
     if (hasCOR(jurisdiction, caseType)) {
-        promiseArray.push(getAllQuestionsByCase(caseId, userId, options, jurisdiction))
         promiseArray.push(getHearingByCase(caseId, options))
+        promiseArray.push(getAllQuestionsByCase(caseId, userId, options, jurisdiction))
     }
 
     return Promise.all(promiseArray)
+}
+
+function appendDocuments(caseData, schema, options) {
+    return new Promise(resolve => {
+        getDocuments(getDocIdList(caseData.documents), options)
+            .then(appendDocIdToDocument)
+            .then(documents => {
+                caseData.documents = documents
+                schema.documents = documents
+                resolve({ caseData, schema })
+            })
+    })
 }
 
 function replaceSectionValues(section, caseData) {
@@ -51,6 +63,48 @@ function appendDocIdToDocument(documents) {
         doc.id = splitURL[splitURL.length - 1]
         return doc
     })
+}
+
+function appendCollectedData([caseData, events, hearings, questions]) {
+    caseData.events = events
+    caseData.hearing_data = (hearings && hearings.online_hearings) ? hearings.online_hearings[0] : []
+    caseData.question_data = (questions) ? questions.sort((a, b) => (a.question_round_number < b.question_round_number)) : []
+    return caseData
+}
+
+function applySchema(caseData) {
+    let schema = JSON.parse(JSON.stringify(getCaseTemplate(caseData.jurisdiction, caseData.case_type_id)))
+    if (schema.details) {
+        replaceSectionValues(schema.details, caseData)
+    }
+    schema.sections.forEach(section => replaceSectionValues(section, caseData))
+
+    schema = {
+        id: caseData.id,
+        case_jurisdiction: caseData.jurisdiction,
+        case_type_id: caseData.case_type_id,
+        ...schema
+    }
+
+    return { caseData, schema }
+}
+
+function getCaseData(userId, jurisdiction, caseType, caseId, req) {
+    return getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId, getOptions(req))
+        .then(([caseData, events, hearings, questions]) => appendCollectedData([caseData, events, hearings, questions]))
+}
+
+function getCaseTransformed(userId, jurisdiction, caseType, caseId, req) {
+    return getCaseData(userId, jurisdiction, caseType, caseId, getOptions(req))
+        .then(caseData => applySchema(caseData))
+        .then(({ caseData, schema }) => appendDocuments(caseData, schema, getOptionsDoc(req)))
+        .then(({ caseData, schema }) => schema)
+}
+
+function getCaseRaw(userId, jurisdiction, caseType, caseId, req) {
+    return getCaseData(userId, jurisdiction, caseType, caseId, getOptions(req))
+        .then(caseData => appendDocuments(caseData, {}, getOptionsDoc(req)))
+        .then(({ caseData, schema }) => caseData)
 }
 
 function getOptions(req) {
@@ -83,46 +137,11 @@ module.exports = app => {
         const caseType = req.params.casetype
         const caseId = req.params.case_id
 
-        getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId, getOptions(req))
-            .then(([caseData, events, questions, hearings]) => {
-                caseData.events = events
-                caseData.questions = (questions) ? questions.sort((a, b) => (a.question_round_number < b.question_round_number)) : []
-                caseData.hearing_data = (hearings && hearings.online_hearings) ? hearings.online_hearings[0] : []
-
-                const ccdState = caseData.state
-                const hearingData = (hearings && hearings.online_hearings) ? hearings.online_hearings[0] : undefined
-                const questionRoundData = caseData.questions
-                const consentOrder = caseData.case_data.consentOrder ? caseData.case_data.consentOrder : undefined
-                const hearingType = caseData.case_data.appeal ? caseData.case_data.appeal.hearingType : undefined
-
-                const caseState = processCaseStateEngine({
-                    jurisdiction,
-                    caseType,
-                    ccdState,
-                    hearingType,
-                    hearingData,
-                    questionRoundData,
-                    consentOrder
-                })
-                caseData.state = caseState
-
-                const schema = JSON.parse(JSON.stringify(getCaseTemplate(caseData.jurisdiction, caseData.case_type_id)))
-                if (schema.details) {
-                    replaceSectionValues(schema.details, caseData)
-                }
-                schema.sections.forEach(section => replaceSectionValues(section, caseData))
-                schema.id = caseData.id
-                schema.case_jurisdiction = caseData.jurisdiction
-                schema.case_type_id = caseData.case_type_id
-
-                getDocuments(getDocIdList(caseData.documents), getOptionsDoc(req))
-                    .then(appendDocIdToDocument)
-                    .then(documents => {
-                        schema.documents = documents
-                        res.setHeader('Access-Control-Allow-Origin', '*')
-                        res.setHeader('content-type', 'application/json')
-                        res.status(200).send(JSON.stringify(schema))
-                    })
+        getCaseTransformed(userId, jurisdiction, caseType, caseId, req)
+            .then(result => {
+                res.setHeader('Access-Control-Allow-Origin', '*')
+                res.setHeader('content-type', 'application/json')
+                res.status(200).send(JSON.stringify(result))
             })
             .catch(response => {
                 console.log(response.error || response)
@@ -137,34 +156,15 @@ module.exports = app => {
         const caseType = req.params.casetype
         const caseId = req.params.case_id
 
-        getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId, getOptions(req))
-            .then(([caseData, events, questions, hearings]) => {
-                caseData.events = events
-                caseData.questions = (questions) ? questions.sort((a, b) => (a.question_round_number < b.question_round_number)) : []
-                caseData.hearing_data = (hearings && hearings.online_hearings) ? hearings.online_hearings[0] : []
-
-                const schema = JSON.parse(JSON.stringify(getCaseTemplate(caseData.jurisdiction, caseData.case_type_id)))
-                if (schema.details) {
-                    replaceSectionValues(schema.details, caseData)
-                }
-                schema.sections.forEach(section => replaceSectionValues(section, caseData))
-                schema.id = caseData.id
-                schema.case_jurisdiction = caseData.jurisdiction
-                schema.case_type_id = caseData.case_type_id
-
-                getDocuments(getDocIdList(caseData.documents), getOptionsDoc(req))
-                    .then(appendDocIdToDocument)
-                    .then(documents => {
-                        schema.documents = documents
-                        res.setHeader('Access-Control-Allow-Origin', '*')
-                        res.setHeader('content-type', 'application/json')
-                        res.status(200).send(JSON.stringify(caseData))
-                    })
+        getCaseRaw(userId, jurisdiction, caseType, caseId, req)
+            .then(result => {
+                res.setHeader('Access-Control-Allow-Origin', '*')
+                res.setHeader('content-type', 'application/json')
+                res.status(200).send(JSON.stringify(result))
             })
             .catch(response => {
                 console.log(response.error || response)
-                res.status(response.error.status)
-                    .send(response.error.message)
+                res.status(response.error.status).send(response.error.message)
             })
     })
 }
