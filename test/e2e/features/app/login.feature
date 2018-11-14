@@ -12,7 +12,7 @@ Feature: Login
         Then I should see failure error summary
 
 
-    @RIUI_288 @login @all
+    @RIUI_288 @login @all @smoke
     Scenario: authenticated user login
         Given I am on Idam login page
         When I enter an valid email-address and password to login

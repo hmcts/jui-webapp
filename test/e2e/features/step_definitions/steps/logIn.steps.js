@@ -124,7 +124,7 @@ defineSupportCode(function({ Given, When, Then }) {
         await loginPage.emailAddress.sendKeys(this.config.sscs_username);
         await loginPage.password.sendKeys(this.config.sscs_password);
         await loginPage.clickSignIn();
-        browser.sleep(SHORT_DELAY);
+        browser.sleep(LONG_DELAY);
 
     });
 
