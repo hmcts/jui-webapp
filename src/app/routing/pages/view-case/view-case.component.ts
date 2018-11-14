@@ -2,7 +2,15 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import 'rxjs/add/operator/filter';
 import {PageDateCase} from '../../../domain/models/section_fields';
+import {CaseDataService} from './view-case.services';
 
+export interface LinkItem {
+    href: string;
+    text: string;
+    label: string;
+    id: string;
+    active: Boolean;
+}
 @Component({
     selector: 'app-view-case',
     templateUrl: './view-case.component.html',
@@ -12,30 +20,20 @@ export class ViewCaseComponent implements OnInit {
 
     public case: PageDateCase;
     public caseid: string;
-    public links: Array<any> = [];
+    public links: Array<LinkItem> = [];
     public sectionId: string;
-    public targetSection: any;
+    public targetSection: string | null;
 
-    constructor(public router: Router, private route: ActivatedRoute) {
+    constructor(public router: Router, private route: ActivatedRoute, private caseDataService: CaseDataService) {
         this.route.params.subscribe(params => this.sectionId = params.section || null);
     }
 
-
-
     ngOnInit() {
-        this.case = this.route.snapshot.data['caseData'];
+        this.case = this.caseDataService.getCaseData();
         if (this.case) {
-            this.links = this.case.sections.map(section => {
-                return {
-                    href: `/case/${this.case.case_jurisdiction}/${this.case.case_type_id}/${this.case.id}/${section.id}`,
-                    text: section.name,
-                    label: section.name,
-                    id: section.id,
-                    active: this.sectionId === section.id
-                };
-            });
+            this.links = this.caseDataService.getNavigation(this.case);
+            this.case.sections.find(section => section.id === this.sectionId);
         }
-        this.targetSection = (this.case) ? this.case.sections.find(section => section.id === this.sectionId) : null;
         if (!this.targetSection) {
             if (this.links[0]) {
                 this.router.navigate([this.links[0].id], {relativeTo: this.route})
