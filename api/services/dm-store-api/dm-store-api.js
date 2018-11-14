@@ -104,17 +104,17 @@ function postDocument(file, options) {
 function postMultipartFormDataDocument(options) {
     console.log('postMultipartFormDataDocument');
 
-    // options.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-    // options.body = {classification: 'PUBLIC'}
-    // options.formData = {
-    //     file: {
-    //         value: fs.createReadStream(`./circularface.jpg`), // this should be the stream or file.
-    //         options: {
-    //             filename: 'circularface.jpg', //file name
-    //             contentType: 'image/jpg' //content type should be image/jpg
-    //         }
-    //     }
-    // }
+    options.headers['Content-Type'] = 'multipart/form-data'
+    options.body = {classification: 'PUBLIC'}
+    options.formData = {
+        file: {
+            value: fs.createReadStream(`./circularface.jpg`), // this should be the stream or file.
+            options: {
+                filename: 'circularface.jpg', //file name
+                contentType: 'image/jpg' //content type should be image/jpg
+            }
+        }
+    }
 
     // TODO : First thing is get something returning
     // from the Api
@@ -145,6 +145,10 @@ function postMultipartFormDataDocument(options) {
             return response
         })
         .catch((error) => {
+            // So when you have formData set ie. it's a multipart form
+            // You get a RequestError
+            // Error: write after end
+
             console.log('Error');
             console.log(error);
             // Crawling failed...
