@@ -10,20 +10,17 @@ import {PageDateCase} from '../../../domain/models/section_fields';
 })
 export class ViewCaseComponent implements OnInit {
 
-    case: PageDateCase;
-    caseid: string;
-    links = [];
-    sectionId: string;
-    targetSection: any;
+    public case: PageDateCase;
+    public caseid: string;
+    public links: Array<any> = [];
+    public sectionId: string;
+    public targetSection: any;
 
     constructor(public router: Router, private route: ActivatedRoute) {
         this.route.params.subscribe(params => this.sectionId = params.section || null);
     }
 
-    clearFocus(event) {
-        const target = event.target || event.srcElement || event.currentTarget;
-        target.blur();
-    }
+
 
     ngOnInit() {
         this.case = this.route.snapshot.data['caseData'];
