@@ -6,7 +6,6 @@
     "ng": "ng",
     "build": "ng build --prod && ng run jui:server",
     "start": "node server.js",
-    "start-dev": "ng serve",
     "start-dev-proxy": "ng serve --proxy-config proxy.config.json",
     "start-dev-node": "export JUI_ENV=local; node dev-server.js",
     "start-dev-docker-proxy": "export JUI_ENV=docker; ng serve --proxy-config proxy.config.json",
@@ -41,6 +40,12 @@
     "test:codecov-upload": "codecov -f ./reports/tests/coverage/lcov.info",
     "snyk": "snyk test",
     "snyk-protect": "snyk protect"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint:ng",
+      "pre-push": "yarn lint:ng && yarn test && yarn test:nsp "
+    }
   },
   "private": true,
   "dependencies": {

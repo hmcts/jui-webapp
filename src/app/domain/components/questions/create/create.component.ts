@@ -43,9 +43,6 @@ export class CreateQuestionsComponent implements OnInit {
         });
     }
 
-    ngAfterViewChecked() {
-        this.cdRef.detectChanges();
-    }
 
     ngOnInit(): void {
         this.eventEmitter.subscribe(this.submitCallback.bind(this));
