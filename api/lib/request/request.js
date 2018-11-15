@@ -16,8 +16,8 @@ const request = require('request-promise')
  * @return {*}
  */
 module.exports = (method, url, params) => {
-    console.log('Request');
-    console.log(params);
+    // console.log('Request');
+    // console.log(params);
     const headers = (params.headers && config.configEnv !== 'mock') ? Object.assign(params.headers) : {}
 
     let options = {
@@ -31,26 +31,13 @@ module.exports = (method, url, params) => {
     }
 
     if (params.body) options.body = params.body
-
-    // Ok so if formData is not included we get a 500,
-    // as the multipart boundary cannot be found.
-    // So it's getting through, hitting the server,
-    // and returning a 500 from the 3rd party server.
-    // We still get 'Cannot read property 'pipe' of undefined',
-    // but
-
-    if (params.formData) options.formData = params.formData
+    if (params.form) options.form = params.form
 
     // if (params.multipart) options.multipart = params.multipart
 
     if (config.configEnv !== 'mock') {
         if (config.useProxy) options = proxy(options)
     }
-
-    // TODO: it's coming back here with a
-    // str.replace is not a function,
-    // therefore it's not doing the call for
-    // multiform
 
     console.log('options');
     console.log(options);

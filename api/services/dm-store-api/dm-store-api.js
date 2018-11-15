@@ -2,6 +2,7 @@ const express = require('express')
 const fs = require('fs');
 const multiparty = require('multiparty')
 const requestPromise = require('request-promise')
+const FormData = require('form-data');
 
 const config = require('../../../config')
 const generateRequest = require('../../lib/request/request')
@@ -65,135 +66,67 @@ function getDocumentVersionThumbnail(documentId, versionId, options) {
 ////////////////////////////////////////////////////
 
 // Creates a list of Stored Documents by uploading a list of binary/text files.
-/**
- * Post Document
- *
- * The document .pdf, or .jpg file should come into here, and we should be able to proxy that file,
- * onto the the DM Store.
- *
- * @param file
- * @param options
- * @return {*}
- */
+
 function postDocument(file, options) {
-    console.log('Post Document')
-    console.log(file)
-    console.log(options)
 
     options.headers['Content-Type'] = 'application/x-www-form-urlencoded'
     options.body = {classification: 'PUBLIC'}
     options.formData = {
         file: {
-            value: 'hello', // this should be the stream
+            value: 'hello',
             options: {
-                filename: 'test.txt', //file name
-                contentType: 'plain/txt' //content type should be image/jpg
+                filename: 'test.txt',
+                contentType: 'plain/txt'
             }
         }
     }
-
-    // so you've got multipart in the request.js
-    // is this being used already?
-    // what does multipart look like?
-    // and then let's send it though
-    // Content-Type needs to be multipart/form-data
 
     return generateRequest('POST', `${url}/documents`, options)
 }
 
+/**
+ * postMultipartFormDataDocument
+ *
+ * This looks like it's sending through the multipart form data to the DM Store. As when we
+ * don't send the form data, we're getting a 'status: 500. the request was rejected because no multipart boundary
+ * was found.'
+ *
+ * When we send the file data through to the DM store, we receive no server response, which is odd,
+ * therefore I need to ask Pawel about why this could be [15thNov2018]
+ *
+ * Note: Currently the below is taking a local file.
+ *
+ * @param options
+ */
 function postMultipartFormDataDocument(options) {
-    console.log('postMultipartFormDataDocument');
+
+    console.log('postMultipartFormDataDocument')
+
+    const formData = new FormData()
+    formData.append('file', fs.createReadStream('./circleFace.jpg'))
 
     options.headers['Content-Type'] = 'multipart/form-data'
-    options.body = {classification: 'PUBLIC'}
-    options.formData = {
-        file: {
-            value: fs.createReadStream(`./circularface.jpg`), // this should be the stream or file.
-            options: {
-                filename: 'circularface.jpg', //file name
-                contentType: 'image/jpg' //content type should be image/jpg
-            }
-        }
-    }
+    options.body = { classification: 'PUBLIC' }
+    options.form = formData
 
-    // TODO : First thing is get something returning
-    // from the Api
-
-    // so you've got multipart in the request.js
-    // is this being used already?
-    // what does multipart look like?
-    // and then let's send it though
-    // Content-Type needs to be multipart/form-data
-
-    // TODO : We need proper error messages back from the Api
-    // https://dm-store-aat.service.core-compute-aat.internal/documents
-
-    console.log('url postMultipartFormDataDocument');
-    console.log(url);
-
-    // so over here we need to see the error
-
-
-    // Place back in later to get it working again.
-    // return generateRequest('POST', `${url}/documents`, options)
-
+    // Added to see the DM Store response, usually passes up the deferred value
     generateRequest('POST', `${url}/documents`, options).then(
         (response) => {
+
             console.log('Response');
             console.log(response);
-
             return response
         })
         .catch((error) => {
-            // So when you have formData set ie. it's a multipart form
-            // You get a RequestError
-            // Error: write after end
 
             console.log('Error');
             console.log(error);
-            // Crawling failed...
             return error
         });
 
+    // TODO: Place back in when the file is uploading correctly to the Api, and
+    // pass through error messages if not.
     // return generateRequest('POST', `${url}/documents`, options)
-}
-
-function postMultiForm() {
-
-    console.log('Post MultiForm func');
-
-    // So here, if you place in a request
-    const options = {
-        method: 'GET',
-        uri: 'https://dm-store-aat.service.core-compute-aat.internal'
-        // formData: {
-        //     // Like <input type="text" name="name">
-        //     name: 'Circular Face',
-        //     // Like <input type="file" name="file">
-        //     // file: {
-        //     //     value: fs.createReadStream('./circularface.jpg'),
-        //     //     options: {
-        //     //         filename: 'circularface.jpg',
-        //     //         contentType: 'image/jpg'
-        //     //     }
-        //     // }
-        // },
-        // headers: {
-        //     'content-type': 'multipart/form-data'
-        // }
-    }
-
-    // so this works for google, but it does not work for dm-store-att, but it does not give us back an error from
-    // the backend, this could be security practice as to not reply on hit, which makes sense.
-    requestPromise(options)
-        .then(function (body) {
-            console.log(body)
-            // POST succeeded...
-        })
-        .catch(function (error) {
-            console.log(error)
-            // POST failed...
-        });
 }
 
 // Adds a Document Content Version and associates it with a given Stored Document.
@@ -262,7 +195,7 @@ function getOptions(req) {
             // Authorization: `Bearer ${req.auth.token}`,
             ServiceAuthorization: req.headers.ServiceAuthorization,
             'user-id': `${req.auth.userId}`,
-            // 'user-roles':
+            'user-roles': req.auth.data
         }
     }
 }
@@ -297,43 +230,31 @@ module.exports = app => {
     })
 
     /**
-     * Currently we are stepping through the multi-part form and finding the parts, when we find the file
-     * we write this file to the local disk currently.
+     * /documents
      *
-     * Once we have all the chunks for the data, in the Node layer we need to pass this up to
-     * the Api.
+     * part is a ReadableStream. Note that is has contentType and byteCount upon it.
      *
-     * TODO : You could hopefully just use a pipe to pass it straight through to the Api.
+     * TODO: You can use !part.filename to know that if or if not that part is a file.
+     * TODO: You could hopefully just use a pipe to pass it straight through to the Api.
      */
     router.post('/documents', (request, response, next) => {
-
-        console.log('/documents route')
 
         const form = new multiparty.Form()
         const FILES = 'files'
 
-        // form.on('part', (part) => {
-        //
-        //     if(part.name === FILES) {
-        //         // As the files comes in as chunks here, we are writing it to disk, on
-        //         // close of the pipe, we say file has been saved.
-        //         part.pipe(fs.createWriteStream(`./${part.filename}`))
-        //             .on('close', () => {
-        //                 response.writeHead(200, {'Content-Type': 'text/html' });
-        //                 response.end('File has been saved');
-        //         })
-        //     }
-        // })
+        form.on('part', (part) => {
+            if (part.name === FILES) {
 
+                //TODO: Do not save the file locally, but send the ReadableStream onto the multiparty form.
+                part.pipe(fs.createWriteStream('./circleFace.jpg'))
+                    .on('close', () => {
 
-        postMultipartFormDataDocument(getOptions(request)).pipe(response)
+                        postMultipartFormDataDocument(getOptions(request)).pipe(response)
+                    })
+            }
+        })
 
-        // form.parse(request)
-
-        // const files = req.body.files
-        // const classification = req.body.classification
-
-        // postDocument(files, getOptions(req)).pipe(res)
+        form.parse(request)
     })
 
     router.get('/documents/:documentId/binary', (req, res, next) => {

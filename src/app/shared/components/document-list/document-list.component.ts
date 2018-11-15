@@ -48,7 +48,6 @@ export class DocumentListComponent implements OnInit {
                     if (resp.page) { this.dmPage = resp.page; }
                     if (resp && resp._embedded && resp._embedded.documents) {
                         this.documents = resp._embedded.documents; // eventually remove
-
                         this.table.rows = resp._embedded.documents.map(doc => ([
                             {
                                 type: 'image',
