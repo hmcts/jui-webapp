@@ -1,7 +1,7 @@
 const express = require('express')
-const config = require('../../config')
+const config = require('../../../config/index')
 
-const { getDetails, postOauthToken } = require('../services/idam-api/idam-api')
+const { getDetails, postOauthToken } = require('../../services/idam-api/idam-api')
 
 const cookieToken = config.cookies.token
 const cookieUserId = config.cookies.userId

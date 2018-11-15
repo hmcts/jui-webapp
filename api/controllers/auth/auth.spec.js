@@ -2,7 +2,7 @@ const proxyquire = require('proxyquire')
 const supertest = require('supertest')
 const express = require('express')
 const session = require('express-session')
-const config = require('../../config')
+const config = require('../../../config/index')
 
 describe('oAuth callback route', () => {
     const getTokenCodeSpy = jasmine.createSpy()
@@ -18,8 +18,8 @@ describe('oAuth callback route', () => {
         })
 
         route = proxyquire('./index', {
-            '../lib/request/request': httpRequest,
-            '../services/idam-api/idam-api': {
+            '../../lib/request/request': httpRequest,
+            '../../services/idam-api/idam-api': {
                 getDetails: () => Promise.resolve({ id: '__userid__' }),
                 postOauthToken: getTokenCodeSpy
             }

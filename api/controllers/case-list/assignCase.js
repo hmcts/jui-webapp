@@ -1,5 +1,5 @@
-const { getMutiJudCCDCases, updateCase } = require('../services/ccd-store-api/ccd-store')
-const { getDetails } = require('../services/idam-api/idam-api')
+const { getMutiJudCCDCases, updateCase } = require('../../services/ccd-store-api/ccd-store')
+const { getDetails } = require('../../services/idam-api/idam-api')
 
 const JUI_AUTO_ASSIGN = 'Auto assigned by JUI'
 

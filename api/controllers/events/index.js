@@ -1,10 +1,10 @@
 const express = require('express');
 const moment = require('moment');
-const getEventTemplate = require('./templates');
-const valueProcessor = require('../lib/processors/value-processor');
+const getEventTemplate = require('./templates/index');
+const valueProcessor = require('../../lib/processors/value-processor');
 
-const { getCCDEvents } = require('../services/ccd-store-api/ccd-store');
-const { getHearingIdOrCreateHearing, getOnlineHearingConversation } = require('../services/coh-cor-api/coh-cor-api');
+const { getCCDEvents } = require('../../services/ccd-store-api/ccd-store');
+const { getHearingIdOrCreateHearing, getOnlineHearingConversation } = require('../../services/coh-cor-api/coh-cor-api');
 
 function hasCOR(jurisdiction, caseType) {
     return jurisdiction === 'SSCS';

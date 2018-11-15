@@ -1,5 +1,5 @@
 const express = require('express')
-const { getHearingIdOrCreateHearing, getDecision, postDecision, putDecision } = require('../services/coh-cor-api/coh-cor-api')
+const { getHearingIdOrCreateHearing, getDecision, postDecision, putDecision } = require('../../services/coh-cor-api/coh-cor-api')
 
 function getOptions(req) {
     return {

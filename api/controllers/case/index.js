@@ -1,12 +1,12 @@
 const express = require('express')
-const getCaseTemplate = require('./templates')
-const valueProcessor = require('../lib/processors/value-processor')
-const { getEvents } = require('../events')
-const { getDocuments } = require('../services/dm-store-api/dm-store-api')
-const { getAllQuestionsByCase } = require('../questions')
-const { getCCDCase } = require('../services/ccd-store-api/ccd-store')
-const { getHearingByCase } = require('../services/coh-cor-api/coh-cor-api')
-const { processCaseState } = require('../lib/processors/case-state-model')
+const getCaseTemplate = require('./templates/index')
+const valueProcessor = require('../../lib/processors/value-processor')
+const { getEvents } = require('../events/index')
+const { getDocuments } = require('../../services/dm-store-api/dm-store-api')
+const { getAllQuestionsByCase } = require('../questions/index')
+const { getCCDCase } = require('../../services/ccd-store-api/ccd-store')
+const { getHearingByCase } = require('../../services/coh-cor-api/coh-cor-api')
+const { processCaseState } = require('../../lib/processors/case-state-model')
 
 function hasCOR(jurisdiction, caseType) {
     return jurisdiction === 'SSCS'

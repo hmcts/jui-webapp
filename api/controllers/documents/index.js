@@ -1,6 +1,6 @@
 const express = require('express')
-const { getDocument, getDocumentBinary, postDocument } = require('../services/dm-store-api/dm-store-api')
-const { getCCDEventToken, postCCDEvent } = require('../services/ccd-store-api/ccd-store')
+const { getDocument, getDocumentBinary, postDocument } = require('../../services/dm-store-api/dm-store-api')
+const { getCCDEventToken, postCCDEvent } = require('../../services/ccd-store-api/ccd-store')
 
 const JUI_UPLOAD_DOCUMENT = 'Document Uploaded By Jui'
 

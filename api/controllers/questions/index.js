@@ -1,6 +1,6 @@
 const express = require('express')
 const moment = require('moment')
-const cohCor = require('../services/coh-cor-api/coh-cor-api')
+const cohCor = require('../../services/coh-cor-api/coh-cor-api')
 
 // Create a new hearing
 function createHearing(caseId, userId, options, jurisdiction = 'SSCS') {

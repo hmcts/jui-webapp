@@ -50,10 +50,10 @@ describe('case-list', () => {
         app = express();
 
         route = proxyquire('./index', {
-            '../lib/request/request': httpRequest,
-            '../services/ccd-store-api/ccd-store': { getMutiJudCCDCases: () => Promise.resolve(casesData) },
-            '../services/coh-cor-api/coh-cor-api': { getHearingByCase: () => Promise.resolve(onlineHearingData) },
-            '../services/idam-api/idam-api': { getDetails: () => Promise.resolve(userDetails) },
+            '../../lib/request/request': httpRequest,
+            '../../services/ccd-store-api/ccd-store': { getMutiJudCCDCases: () => Promise.resolve(casesData) },
+            '../../services/coh-cor-api/coh-cor-api': { getHearingByCase: () => Promise.resolve(onlineHearingData) },
+            '../../services/idam-api/idam-api': { getDetails: () => Promise.resolve(userDetails) },
             '../questions': { getAllQuestionsByCase: () => Promise.resolve([]) }
         });
 

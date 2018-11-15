@@ -1,6 +1,6 @@
 const express = require('express')
-const { createCase, updateCase } = require('../services/ccd-store-api/ccd-store')
-const getCaseCreationData = require('./templates')
+const { createCase, updateCase } = require('../../services/ccd-store-api/ccd-store')
+const getCaseCreationData = require('./templates/index')
 
 const JUI_AUTO_CREATION = 'JUI Auto Creation'
 const JUI_AUTO_UPDATE = 'JUI Auto Update'
