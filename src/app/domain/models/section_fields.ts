@@ -11,9 +11,17 @@ export interface PageDateCase extends PageDate {
     case_type_id: string;
     sections: Array<SectionsCaseItem>;
 }
+
 export interface SectionsCaseItem {
     id: string;
     name: string;
+}
+export interface LinkItem {
+    href: string;
+    text: string;
+    label: string;
+    id: string;
+    active: Boolean;
 }
 export interface SectionsItem {
     id?: string;
