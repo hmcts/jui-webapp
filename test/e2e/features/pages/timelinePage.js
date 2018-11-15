@@ -18,10 +18,10 @@ function timelinePage() {
     this.panel_members = element(by.xpath(("//*[@id='content']/app-case-viewer/app-summary-panel/div/div[1]/app-data-list[2]/div/h2")));
     this.panel_table = element(by.xpath('//*[@id="content"]/app-case-viewer/app-summary-panel/div/div[1]/app-data-list[2]/div'));
     this.make_decision = element.all(by.css('a.govuk-button.hmcts-page-heading__button'));
-    this.draft_button = element(by.css('#create-2'));
-    this.button_continue = element(by.xpath('//input[@value=\'Continue\']'));
-    this.annotate_continue = element(by.xpath('//div[@class=\'govuk-radios__item\']//input[@id=\'reject-reasons-2\']'));
-    this.check_decision = element(by.xpath('//h1[@class=\'govuk-heading-xl\']'));
+    this.draft_button = element(by.css('input#create-2'));
+    this.button_continue = element(by.css("input[type='submit'][value='Continue']"));
+    this.annotate_continue = element(by.css("input#reject-reasons-2"));
+    this.check_decision = element(by.css('h1.govuk-heading-xl'));
 }
 
 module.exports = new timelinePage();

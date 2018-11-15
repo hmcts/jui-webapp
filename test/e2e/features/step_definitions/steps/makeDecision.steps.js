@@ -15,15 +15,23 @@ defineSupportCode(function ({Given, When, Then}) {
     });
 
 
+    Then(/^I click the Make Decision button$/,  async function () {
+        browser.sleep(MID_DELAY);
+        await browser.wait(EC.elementToBeClickable(timelinePage.make_decision.first()), MID_DELAY);
+        await timelinePage.make_decision.first().click();
+        browser.sleep(SHORT_DELAY);
+    });
+
     Then(/^I select Don't Approve and click continue$/, async function () {
         browser.sleep(MID_DELAY);
         await timelinePage.draft_button.click();
         browser.sleep(LONG_DELAY);
         await timelinePage.button_continue.click();
-        browser.sleep(MID_DELAY);
+        browser.sleep(LONG_DELAY);
         await timelinePage.annotate_continue.click();
         browser.sleep(MID_DELAY);
         await timelinePage.button_continue.click();
+        browser.sleep(MID_DELAY);
     });
 
     Then(/^I verify the Check Decision page$/, async function () {

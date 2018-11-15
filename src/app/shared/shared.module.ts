@@ -20,6 +20,9 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { StatusComponent } from './components/status/status.component';
 import { CaseActionAlertComponent } from './components/case-action-alert/case-action-alert.component';
 import {CaseActionsComponent} from './components/case-actions/case-actions.component';
+import { RadiobuttonComponent } from './components/radiobutton/radiobutton.component';
+import { TextareasComponent } from './components/textareas/textareas.component';
+import { LabelComponent } from './components/label/label.component';
 import { CaseFileComponent } from './components/document/case-file/case-file.component';
 import { CaseFileToolBarComponent } from './components/document/case-file-tool-bar/case-file-tool-bar.component';
 import { CaseFileTreeListComponent } from './components/document/case-file-tree-list/case-file-tree-list.component';
@@ -27,6 +30,15 @@ import { CaseFileAnnotationListComponent } from './components/document/case-file
 import { CaseFileViewerComponent } from './components/document/case-file-viewer/case-file-viewer.component';
 import { DocumentListComponent } from './components/document-list/document-list.component';
 import { DocumentUploadComponent } from './components/document-upload/document-upload.component';
+import { FieldsetComponent } from './components/fieldset/fieldset.component';
+import { ButtonsComponent } from './components/buttons/buttons.component';
+import { LegendComponent } from './components/legend/legend.component';
+import { HintComponent } from './components/hint/hint.component';
+import { ValidationErrorFormControlComponent } from './components/validation-error-formcontrol/validation-error-formcontrol.component';
+import { ValidationErrorFormGroupComponent } from './components/validation-error-formgroup/validation-error-formgroup.component';
+import { ValidationHeaderComponent } from './components/validation-header/validation-header.component';
+import { JuiFormElementsComponent } from './components/jui-form-elements/jui-form-elements.component';
+import { InputsComponent } from './components/inputs/inputs.component';
 
 @NgModule({
     imports: [
@@ -60,9 +72,22 @@ import { DocumentUploadComponent } from './components/document-upload/document-u
         CaseFileAnnotationListComponent,
         CaseFileViewerComponent,
         DocumentListComponent,
-        DocumentUploadComponent
+        DocumentUploadComponent,
+        RadiobuttonComponent,
+        TextareasComponent,
+        LabelComponent,
+        FieldsetComponent,
+        ButtonsComponent,
+        LegendComponent,
+        HintComponent,
+        ValidationErrorFormControlComponent,
+        ValidationErrorFormGroupComponent,
+        ValidationHeaderComponent,
+        JuiFormElementsComponent,
+        InputsComponent,
     ],
     exports: [
+        JuiFormElementsComponent,
         TableComponent,
         DataListComponent,
         FooterComponent,
@@ -71,12 +96,23 @@ import { DocumentUploadComponent } from './components/document-upload/document-u
         QuestionComponent,
         ReversePipe,
         TabsComponent,
+        FieldsetComponent,
         CheckboxComponent,
+        RadiobuttonComponent,
+        TextareasComponent,
+        LabelComponent,
+        LegendComponent,
+        HintComponent,
+        ButtonsComponent,
         CaseStatusGoto,
         TabsComponent,
         StatusComponent,
         CaseActionsComponent,
         CaseActionAlertComponent,
+        DocumentViewerModule,
+        ValidationErrorFormControlComponent,
+        ValidationErrorFormGroupComponent,
+        ValidationHeaderComponent,
         DocumentViewerModule,
         CaseFileComponent,
         CaseFileToolBarComponent,

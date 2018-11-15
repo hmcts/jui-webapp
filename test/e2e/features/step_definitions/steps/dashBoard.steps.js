@@ -207,13 +207,7 @@ defineSupportCode(function({ Given, When, Then }) {
         await expect(dashBoardPage.type_links.first().getText()).to.eventually.equal("Financial remedy");
         browser.sleep(SHORT_DELAY);
 
-
     });
-
-
-
-
-
 });
 
 
