@@ -2,36 +2,47 @@ function shouldReturn() {
     return false
 }
 
-function getAuthHeaders(request) {
+function getAuthHeaders(req) {
     return {
         headers: {
-            Authorization: `Bearer ${request.auth.token}`,
-            ServiceAuthorization: request.headers.ServiceAuthorization
+            Authorization: `Bearer ${req.auth.token}`,
+            ServiceAuthorization: req.headers.ServiceAuthorization
+        }
+    }
+}
+
+function getAuthHeadersWithUserRoles(req) {
+    return {
+        headers: {
+            Authorization: `Bearer ${req.auth.token}`,
+            ServiceAuthorization: req.headers.ServiceAuthorization,
+            'user-roles': req.auth.data
         }
     }
 }
 
 // TODO: need to deprecate this function
-function getAuthHeadersWithBody(request) {
+function getAuthHeadersWithBody(req) {
     return {
         headers: {
-            Authorization: `Bearer ${request.auth.token}`,
-            ServiceAuthorization: request.headers.ServiceAuthorization
+            Authorization: `Bearer ${req.auth.token}`,
+            ServiceAuthorization: req.headers.ServiceAuthorization
         },
-        body: (request.body) ? request.body : {}
+        body: (req.body) ? req.body : {}
     }
 }
 
-function getAuthHeadersWithS2SBearer(request) {
+function getAuthHeadersWithS2SBearer(req) {
     return {
         headers: {
-            Authorization: `Bearer ${request.auth.token}`,
-            ServiceAuthorization: `Bearer ${request.headers.ServiceAuthorization}`
+            Authorization: `Bearer ${req.auth.token}`,
+            ServiceAuthorization: `Bearer ${req.headers.ServiceAuthorization}`
         }
     }
 }
 
 module.exports.getAuthHeaders = getAuthHeaders
+module.exports.getAuthHeadersWithUserRoles = getAuthHeadersWithUserRoles
 module.exports.getAuthHeadersWithBody = getAuthHeadersWithBody
 module.exports.getAuthHeadersWithS2SBearer = getAuthHeadersWithS2SBearer
 module.exports.shouldReturn = shouldReturn

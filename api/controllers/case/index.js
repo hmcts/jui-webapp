@@ -6,6 +6,7 @@ const { getDocuments } = require('../../services/dm-store-api/dm-store-api')
 const { getAllQuestionsByCase } = require('../questions/index')
 const { getCCDCase } = require('../../services/ccd-store-api/ccd-store')
 const { getHearingByCase } = require('../../services/coh-cor-api/coh-cor-api')
+const headerUtilities = require('../../lib/utilities/headerUtilities')
 
 function hasCOR(jurisdiction, caseType) {
     return jurisdiction === 'SSCS'
@@ -107,22 +108,11 @@ function getCaseRaw(userId, jurisdiction, caseType, caseId, req) {
 }
 
 function getOptions(req) {
-    return {
-        headers: {
-            Authorization: `Bearer ${req.auth.token}`,
-            ServiceAuthorization: req.headers.ServiceAuthorization
-        }
-    }
+    return headerUtilities.getAuthHeaders(req)
 }
 
 function getOptionsDoc(req) {
-    return {
-        headers: {
-            Authorization: `Bearer ${req.auth.token}`,
-            ServiceAuthorization: req.headers.ServiceAuthorization,
-            'user-roles': req.auth.data
-        }
-    }
+    return headerUtilities.getAuthHeadersWithUserRoles(req)
 }
 
 // GET case callback

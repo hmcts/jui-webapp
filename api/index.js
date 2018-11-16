@@ -12,7 +12,6 @@ const caseListRoute = require('./controllers/case-list')
 const decisionRoutes = require('./controllers/decisions')
 const questionsRoutes = require('./controllers/questions')
 const eventsRoutes = require('./controllers/events')
-const hearingRoutes = require('./controllers/hearings')
 const documentsRoutes = require('./controllers/documents')
 
 const caseCreationRoute = require('./controllers/case-creation')
@@ -40,7 +39,6 @@ caseListRoute(router)
 caseRoutes(router)
 eventsRoutes(router)
 documentsRoutes(router)
-hearingRoutes(router)
 questionsRoutes(router)
 decisionRoutes(router)
 
@@ -65,6 +63,5 @@ if (config.configEnv !== 'prod') {
 
 emAnnoApiRoutes(router)
 emNpaApiRoutes(router)
-
 
 module.exports = router

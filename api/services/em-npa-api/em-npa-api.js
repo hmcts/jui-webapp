@@ -47,3 +47,6 @@ module.exports = app => {
             });
     });
 };
+
+module.exports.getInfo = getInfo;
+module.exports.getHealth = getHealth;
