@@ -6,7 +6,6 @@ const { getDocuments } = require('../../services/dm-store-api/dm-store-api')
 const { getAllQuestionsByCase } = require('../questions/index')
 const { getCCDCase } = require('../../services/ccd-store-api/ccd-store')
 const { getHearingByCase } = require('../../services/coh-cor-api/coh-cor-api')
-const { processCaseState } = require('../../lib/processors/case-state-model')
 
 function hasCOR(jurisdiction, caseType) {
     return jurisdiction === 'SSCS'

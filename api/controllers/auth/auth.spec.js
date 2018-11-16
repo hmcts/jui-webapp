@@ -51,7 +51,6 @@ describe('oAuth callback route', () => {
 
     it('Should set cookies', () =>
         request.get('/oauth2/callback').then(res => {
-            console.log(res.headers['set-cookie'])
             expect(res.headers['set-cookie'].length).toEqual(3)
             expect(res.headers['set-cookie'][0]).toEqual(`${config.cookies.token}=__access__; Path=/`)
             expect(res.headers['set-cookie'][1]).toEqual(`${config.cookies.userId}=__userid__; Path=/`)
