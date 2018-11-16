@@ -113,9 +113,8 @@ function appendCOR(caseLists, options) {
     )
 }
 
-
 function getLinkedCaseValues() {
-    return 'frCaseId';
+    return 'frCaseId'
 }
 
 function getLinkedCase(casesData, userId, options) {
@@ -155,8 +154,8 @@ function appendLinkedCases(caseLists, userId, options) {
                     }
                 })
         )
-    )}
-
+    )
+}
 
 function getHearingWithQuestionData(caseData, userId, options) {
     return getAllQuestionsByCase(caseData.id, userId, options)
@@ -343,7 +342,6 @@ module.exports = app => {
                 })
         })
     })
-
 
     router.post('/assign/new', (req, res, next) => {
         const userId = req.auth.userId

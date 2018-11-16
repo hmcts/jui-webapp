@@ -20,7 +20,7 @@ function timelinePage() {
     this.make_decision = element.all(by.css('a.govuk-button.hmcts-page-heading__button'));
     this.draft_button = element(by.css('input#create-2'));
     this.button_continue = element(by.css("input[type='submit'][value='Continue']"));
-    this.annotate_continue = element(by.css("input#reject-reasons-2"));
+    this.annotate_continue = element(by.css('input#reject-reasons-2'));
     this.check_decision = element(by.css('h1.govuk-heading-xl'));
 }
 

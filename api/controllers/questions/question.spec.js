@@ -1,55 +1,55 @@
-const proxyquire = require('proxyquire').noPreserveCache();
-const supertest = require('supertest');
-const express = require('express');
-const bodyParser = require('body-parser');
+const proxyquire = require('proxyquire').noPreserveCache()
+const supertest = require('supertest')
+const express = require('express')
+const bodyParser = require('body-parser')
 
 describe('Questions route', () => {
-    let route;
-    let request;
-    let app;
-    let httpRequest;
-    let httpResponse;
+    let route
+    let request
+    let app
+    let httpRequest
+    let httpResponse
 
-    let cohResponses;
+    let cohResponses
     beforeEach(() => {
         cohResponses = {
             GET: {},
             POST: {},
             PUT: {},
             DELETE: {}
-        };
+        }
 
-        httpRequest = jasmine.createSpy();
+        httpRequest = jasmine.createSpy()
         httpRequest.and.callFake((method, url, options) =>
             new Promise(resolve => {
-                resolve(cohResponses[method][url]);
+                resolve(cohResponses[method][url])
             })
-        );
+        )
 
-        app = express();
-        app.use(bodyParser.json());
+        app = express()
+        app.use(bodyParser.json())
 
-        route = proxyquire('./index.js', { '../lib/request/request': httpRequest });
+        route = proxyquire('./index.js', { '../lib/request/request': httpRequest })
         app.use((req, res, next) => {
             req.auth = {
                 token: '1234567',
                 userId: '1'
-            };
-            req.headers.ServiceAuthorization = 'sdhfkajfa;ksfha;kdj';
-            next();
-        });
-        route(app);
+            }
+            req.headers.ServiceAuthorization = 'sdhfkajfa;ksfha;kdj'
+            next()
+        })
+        route(app)
 
-        request = supertest(app);
-    });
+        request = supertest(app)
+    })
 
     describe('When I try to get a single question', () => {
-        const caseNumber = '123456789';
-        const questionId = '987654321';
-        const hearingId = '564332';
+        const caseNumber = '123456789'
+        const questionId = '987654321'
+        const hearingId = '564332'
 
         beforeEach(() => {
-            cohResponses.GET[`http://coh-cor-aat.service.core-compute-aat.internal/continuous-online-hearings?case_id=${caseNumber}`] = { online_hearings: [{ online_hearing_id: hearingId }] };
+            cohResponses.GET[`http://coh-cor-aat.service.core-compute-aat.internal/continuous-online-hearings?case_id=${caseNumber}`] = { online_hearings: [{ online_hearing_id: hearingId }] }
 
             cohResponses.GET[`http://coh-cor-aat.service.core-compute-aat.internal/continuous-online-hearings/${hearingId}/questions/${questionId}`] = {
                 question_id: questionId,
@@ -57,8 +57,8 @@ describe('Questions route', () => {
                 question_body_text: 'Body text',
                 owner_reference: 'Louis',
                 current_question_state: { state_datetime: new Date(Date.UTC(2018, 6, 25, 8, 52, 38)).toDateString() }
-            };
-        });
+            }
+        })
 
         describe('When I do not have an answer', () => {
             xit('It should return the question', done => {
@@ -72,11 +72,11 @@ describe('Questions route', () => {
                             owner_reference: 'Louis',
                             state_datetime: 'Wed Jul 25 2018',
                             answer: null
-                        });
-                        done();
-                    });
-            });
-        });
+                        })
+                        done()
+                    })
+            })
+        })
 
         describe('When I have an answer', () => {
             beforeEach(() => {
@@ -85,9 +85,8 @@ describe('Questions route', () => {
                         answer_id: '12345',
                         answer_text: 'This is my answer'
                     }
-                ];
-            });
-
+                ]
+            })
 
             xit('It should return the question with the answer', done => {
                 request.get(`/case/${caseNumber}/questions/${questionId}`)
@@ -103,21 +102,21 @@ describe('Questions route', () => {
                                 answer_id: '12345',
                                 answer_text: 'This is my answer'
                             }
-                        });
-                        done();
-                    });
-            });
-        });
-    });
+                        })
+                        done()
+                    })
+            })
+        })
+    })
 
     describe('when I get all questions for a case', () => {
-        const caseNumber = '123456789';
-        const questionId = '987654321';
-        const hearingId = '564332';
+        const caseNumber = '123456789'
+        const questionId = '987654321'
+        const hearingId = '564332'
 
         beforeEach(() => {
-            cohResponses.GET[`http://coh-cor-aat.service.core-compute-aat.internal/continuous-online-hearings?case_id=${caseNumber}`] = { online_hearings: [{ online_hearing_id: hearingId }] };
-        });
+            cohResponses.GET[`http://coh-cor-aat.service.core-compute-aat.internal/continuous-online-hearings?case_id=${caseNumber}`] = { online_hearings: [{ online_hearing_id: hearingId }] }
+        })
 
         describe('when I have existing questions', () => {
             beforeEach(() => {
@@ -147,8 +146,8 @@ describe('Questions route', () => {
                             question_round_state: { state_name: 'question_drafted' }
                         }
                     ]
-                };
-            });
+                }
+            })
 
             xit('should return a list of formatted questions', done => {
                 request.get(`/case/${caseNumber}/questions`)
@@ -178,36 +177,36 @@ describe('Questions route', () => {
                                     }
                                 ]
                             }
-                        ]);
-                        done();
-                    });
-            });
-        });
+                        ])
+                        done()
+                    })
+            })
+        })
 
         describe('when I have no existing questions', () => {
             beforeEach(() => {
-                cohResponses.GET[`http://coh-cor-aat.service.core-compute-aat.internal/continuous-online-hearings/${hearingId}/questionrounds/`] = { question_rounds: [] };
-            });
+                cohResponses.GET[`http://coh-cor-aat.service.core-compute-aat.internal/continuous-online-hearings/${hearingId}/questionrounds/`] = { question_rounds: [] }
+            })
 
             xit('should return a an empty list', done => {
                 request.get(`/case/${caseNumber}/questions`)
                     .expect(200)
                     .then(response => {
-                        expect(response.body).toEqual([]);
-                        done();
-                    });
-            });
-        });
-    });
+                        expect(response.body).toEqual([])
+                        done()
+                    })
+            })
+        })
+    })
 
     describe('when I create a new question', () => {
-        const caseNumber = '123456789';
-        const questionId = '987654321';
-        const hearingId = '564332';
+        const caseNumber = '123456789'
+        const questionId = '987654321'
+        const hearingId = '564332'
 
         describe('when I have an existing coh', () => {
             beforeEach(() => {
-                cohResponses.GET[`http://coh-cor-aat.service.core-compute-aat.internal/continuous-online-hearings?case_id=${caseNumber}`] = { online_hearings: [{ online_hearing_id: hearingId }] };
+                cohResponses.GET[`http://coh-cor-aat.service.core-compute-aat.internal/continuous-online-hearings?case_id=${caseNumber}`] = { online_hearings: [{ online_hearing_id: hearingId }] }
 
                 cohResponses.POST[`http://coh-cor-aat.service.core-compute-aat.internal/continuous-online-hearings/${hearingId}/questions`] = {
                     question_id: questionId,
@@ -218,8 +217,8 @@ describe('Questions route', () => {
                         state_datetime: new Date(Date.UTC(2018, 6, 25, 8, 52, 38)).toDateString(),
                         state_name: 'question_drafted'
                     }
-                };
-            });
+                }
+            })
 
             xit('It should make a post request', done => {
                 request.post(`/case/${caseNumber}/questions`)
@@ -244,10 +243,10 @@ describe('Questions route', () => {
                                     question_round: '1',
                                     question_state: 'question_drafted'
                                 }
-                            });
-                        done();
-                    });
-            });
-        });
-    });
-});
+                            })
+                        done()
+                    })
+            })
+        })
+    })
+})

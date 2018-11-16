@@ -33,7 +33,7 @@ function createFrCaseToApplicationIssued(userId, options) {
     const data3 = {}
 
     return createFrCase(userId, options)
-        .then(obj => {console.dir(obj); return obj;})
+        .then(obj => { console.dir(obj); return obj })
         .then(caseDate => updateCase(userId, jurisdiction, caseType, caseDate.id, eventId1, JUI_AUTO_UPDATE, JUI_AUTO_UPDATE, data1, options)
             .then(() => updateCase(userId, jurisdiction, caseType, caseDate.id, eventId2, JUI_AUTO_UPDATE, JUI_AUTO_UPDATE, data2, options))
             .then(() => updateCase(userId, jurisdiction, caseType, caseDate.id, eventId3, JUI_AUTO_UPDATE, JUI_AUTO_UPDATE, data3, options))
@@ -82,5 +82,4 @@ module.exports = app => {
                 res.status(response.statusCode || 500).send(response)
             })
     })
-
 }

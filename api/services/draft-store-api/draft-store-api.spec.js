@@ -1,68 +1,66 @@
-const proxyquire = require('proxyquire').noPreserveCache();
-const supertest = require('supertest');
-const express = require('express');
-const config = require('../../../config');
+const proxyquire = require('proxyquire').noPreserveCache()
+const supertest = require('supertest')
+const express = require('express')
+const config = require('../../../config')
 
-const url = config.services.draft_store_api;
+const url = config.services.draft_store_api
 
 describe('draft-store-api spec', () => {
-    let route;
-    let request;
-    let app;
-    let httpRequest;
-    let httpResponse;
-
+    let route
+    let request
+    let app
+    let httpRequest
+    let httpResponse
 
     beforeEach(() => {
         httpResponse = (resolve, reject) => {
-            resolve({});
-        };
-        httpRequest = jasmine.createSpy();
-        httpRequest.and.callFake((url, options) => new Promise(httpResponse));
+            resolve({})
+        }
+        httpRequest = jasmine.createSpy()
+        httpRequest.and.callFake((url, options) => new Promise(httpResponse))
 
-        app = express();
+        app = express()
 
         route = proxyquire('./draft-store-api.js', {
             '../../lib/request/request': httpRequest
-        });
+        })
 
-        route(app);
+        route(app)
 
-        request = supertest(app);
-    });
+        request = supertest(app)
+    })
 
     describe('getHealth', () => {
-        let getHealth;
+        let getHealth
 
         beforeEach(() => {
-            getHealth = route.getHealth;
-        });
+            getHealth = route.getHealth
+        })
 
         it('should expose function', () => {
-            expect(getHealth).toBeTruthy();
-        });
+            expect(getHealth).toBeTruthy()
+        })
 
         it('should make a request', () => {
-            getHealth({});
-            expect(httpRequest).toHaveBeenCalledWith('GET', `${url}/health`, {});
-        });
-    });
+            getHealth({})
+            expect(httpRequest).toHaveBeenCalledWith('GET', `${url}/health`, {})
+        })
+    })
 
     describe('getInfo', () => {
-        let getInfo;
+        let getInfo
 
         beforeEach(() => {
-            getInfo = route.getInfo;
-        });
+            getInfo = route.getInfo
+        })
 
         it('should expose function', () => {
-            expect(getInfo).toBeTruthy();
-        });
+            expect(getInfo).toBeTruthy()
+        })
 
         it('should make a request', () => {
-            getInfo({});
-            expect(httpRequest).toHaveBeenCalledWith('GET', `${url}/info`, {});
-        });
-    });
-
-});
+            getInfo({})
+            expect(httpRequest).toHaveBeenCalledWith('GET', `${url}/info`, {})
+        })
+    })
+})

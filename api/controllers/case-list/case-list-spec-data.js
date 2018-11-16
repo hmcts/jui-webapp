@@ -1,9 +1,9 @@
-const userEmail = 'test@test.com';
-const DAY_IN_MILLIS = 86400000;
-const HOUR_IN_MILLIS = 3600000;
+const userEmail = 'test@test.com'
+const DAY_IN_MILLIS = 86400000
+const HOUR_IN_MILLIS = 3600000
 
-const CASE_RECEIVED_DATE = new Date();
-const LAST_MODIFIED_DATE = new Date(CASE_RECEIVED_DATE.getTime() + DAY_IN_MILLIS);
+const CASE_RECEIVED_DATE = new Date()
+const LAST_MODIFIED_DATE = new Date(CASE_RECEIVED_DATE.getTime() + DAY_IN_MILLIS)
 
 const divorceCaseData = [
     {
@@ -26,7 +26,7 @@ const divorceCaseData = [
         created_date: CASE_RECEIVED_DATE,
         last_modified: new Date(CASE_RECEIVED_DATE.getTime() + (DAY_IN_MILLIS * 2))
     }
-];
+]
 
 const sscsCaseData = [
     {
@@ -49,8 +49,8 @@ const sscsCaseData = [
         created_date: CASE_RECEIVED_DATE,
         last_modified: CASE_RECEIVED_DATE
 
-    },
-];
+    }
+]
 
 const sscsCaseDataNullCaseRef = [
     {
@@ -72,8 +72,8 @@ const sscsCaseDataNullCaseRef = [
         created_date: CASE_RECEIVED_DATE,
         last_modified: CASE_RECEIVED_DATE
 
-    },
-];
+    }
+]
 
 const onlineHearingData = {
     online_hearings: [
@@ -87,9 +87,9 @@ const onlineHearingData = {
             }
         }
     ]
-};
+}
 
-const userDetails = { email: userEmail };
+const userDetails = { email: userEmail }
 
 module.exports = {
     divorceCaseData,
@@ -98,4 +98,4 @@ module.exports = {
     onlineHearingData,
     userDetails,
     LAST_MODIFIED_DATE
-};
+}

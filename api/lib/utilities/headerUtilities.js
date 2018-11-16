@@ -42,7 +42,11 @@ function getAuthHeadersWithS2SBearer(req) {
 }
 
 module.exports.getAuthHeaders = getAuthHeaders
+
 module.exports.getAuthHeadersWithUserRoles = getAuthHeadersWithUserRoles
+
 module.exports.getAuthHeadersWithBody = getAuthHeadersWithBody
+
 module.exports.getAuthHeadersWithS2SBearer = getAuthHeadersWithS2SBearer
+
 module.exports.shouldReturn = shouldReturn

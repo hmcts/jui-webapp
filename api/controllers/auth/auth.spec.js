@@ -13,9 +13,7 @@ describe('oAuth callback route', () => {
         app = express()
 
         httpRequest = jasmine.createSpy()
-        httpRequest.and.callFake((method, url) => {
-            return new Promise({})
-        })
+        httpRequest.and.callFake((method, url) => new Promise({}))
 
         route = proxyquire('./index', {
             '../../lib/request/request': httpRequest,

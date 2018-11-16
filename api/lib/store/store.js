@@ -1,15 +1,15 @@
 class Store {
     constructor(req) {
-        this.session = req.session;
+        this.session = req.session
     }
 
     set(key, value) {
-        this.session[key] = value;
+        this.session[key] = value
     }
 
     get(key) {
-        return this.session[key];
+        return this.session[key]
     }
 }
 
-module.exports = Store;
+module.exports = Store

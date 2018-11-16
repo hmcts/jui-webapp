@@ -112,7 +112,8 @@ module.exports = {
                                 { label: 'Date of birth', value: '$.case_data.appeal.appellant.identity.dob' },
                                 { label: 'National insurances no.', value: '$.case_data.appeal.appellant.identity.nino' },
                                 {
-                                    label: 'Address', value: [
+                                    label: 'Address',
+                                    value: [
                                         '$.case_data.appeal.appellant.address.line1|newline_processor',
                                         '$.case_data.appeal.appellant.address.line2|newline_processor',
                                         '$.case_data.appeal.appellant.address.line3|newline_processor',
@@ -134,7 +135,8 @@ module.exports = {
                             type: 'tab',
                             fields: [
                                 {
-                                    label: 'Representative', value: [
+                                    label: 'Representative',
+                                    value: [
                                         '$.case_data.appeal.representative.hasRepresentative|newline_processor',
                                         '$.case_data.appeal.representative.organisation|newline_processor',
                                         '$.case_data.appeal.representative.name.firstName|newline_processor',

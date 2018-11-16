@@ -15,7 +15,7 @@ const strykerConfiguration = config => {
         htmlReporter: { baseDir: 'rep' },
         mutate:
             [
-                //'src/app/shared/components/**/*.ts'
+                // 'src/app/shared/components/**/*.ts'
                 // 'src/app/shared/components/document-viewer/*.ts'
                 'src/app/shared/components/data-list/*.spec.ts'
                 // 'api/questions/*.spec.js'
