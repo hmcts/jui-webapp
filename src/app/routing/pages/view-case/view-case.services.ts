@@ -14,9 +14,6 @@ export class CaseDataService {
     getCaseData() {
         return this.route.snapshot.data['caseData'];
     }
-
-
-
     getNavigation(obj): Array<LinkItem> {
         const sectionId = this.route.params.subscribe(params => params.section ? params.section : null);
         return obj.sections.map(item => {
