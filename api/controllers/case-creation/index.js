@@ -1,6 +1,7 @@
 const express = require('express')
 const { createCase, updateCase } = require('../../services/ccd-store-api/ccd-store')
 const getCaseCreationData = require('./templates/index')
+const headerUtilities = require('../../lib/utilities/headerUtilities')
 
 const JUI_AUTO_CREATION = 'JUI Auto Creation'
 const JUI_AUTO_UPDATE = 'JUI Auto Update'
@@ -41,12 +42,7 @@ function createFrCaseToApplicationIssued(userId, options) {
 }
 
 function getOptions(req) {
-    return {
-        headers: {
-            Authorization: `Bearer ${req.auth.token}`,
-            ServiceAuthorization: req.headers.ServiceAuthorization
-        }
-    }
+    return headerUtilities.getAuthHeaders(req)
 }
 
 module.exports = app => {

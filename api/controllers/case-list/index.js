@@ -8,6 +8,7 @@ const { getMutiJudCCDCases } = require('../../services/ccd-store-api/ccd-store')
 const { getHearingByCase } = require('../../services/coh-cor-api/coh-cor-api')
 const { getDetails } = require('../../services/idam-api/idam-api')
 const { getNewCase, unassignAllCaseFromJudge } = require('./assignCase')
+const headerUtilities = require('../../lib/utilities/headerUtilities')
 
 const columns = [
     {
@@ -291,12 +292,7 @@ function getMutiJudCaseRawCoh(userId, details, options) {
 }
 
 function getOptions(req) {
-    return {
-        headers: {
-            Authorization: `Bearer ${req.auth.token}`,
-            ServiceAuthorization: req.headers.ServiceAuthorization
-        }
-    }
+    return headerUtilities.getAuthHeadersWithUserRoles(req)
 }
 
 module.exports = app => {

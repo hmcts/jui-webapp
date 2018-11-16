@@ -127,14 +127,7 @@ function getInfo(options) {
 }
 
 function getOptions(req) {
-    return {
-        headers: {
-            // Authorization: `Bearer ${req.auth.token}`,
-            ServiceAuthorization: req.headers.ServiceAuthorization,
-            'user-id': `${req.auth.userId}`
-            // 'user-roles':
-        }
-    }
+    return headerUtilities.getAuthHeadersWithUserIdAndRoles(req)
 }
 
 module.exports = app => {

@@ -1,6 +1,7 @@
 const express = require('express')
 const { getDocument, getDocumentBinary, postDocument } = require('../../services/dm-store-api/dm-store-api')
 const { getCCDEventToken, postCCDEvent } = require('../../services/ccd-store-api/ccd-store')
+const headerUtilities = require('../../lib/utilities/headerUtilities')
 
 const JUI_UPLOAD_DOCUMENT = 'Document Uploaded By Jui'
 
@@ -37,13 +38,7 @@ function uploadDocument(userId, jurisdiction, caseType, caseId, file, options) {
 }
 
 function getOptions(req) {
-    return {
-        headers: {
-            Authorization: `Bearer ${req.auth.token}`,
-            ServiceAuthorization: req.headers.ServiceAuthorization,
-            'user-roles': req.auth.data
-        }
-    }
+    return headerUtilities.getAuthHeadersWithUserRoles(req)
 }
 
 module.exports = app => {

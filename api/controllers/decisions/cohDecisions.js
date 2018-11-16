@@ -1,13 +1,9 @@
 const express = require('express')
 const { getHearingIdOrCreateHearing, getDecision, postDecision, putDecision } = require('../../services/coh-cor-api/coh-cor-api')
+const headerUtilities = require('../../lib/utilities/headerUtilities')
 
 function getOptions(req) {
-    return {
-        headers: {
-            Authorization: `Bearer ${req.auth.token}`,
-            ServiceAuthorization: req.headers.ServiceAuthorization
-        }
-    }
+    return headerUtilities.getAuthHeaders(req)
 }
 
 module.exports = app => {

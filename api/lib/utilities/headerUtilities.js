@@ -11,12 +11,32 @@ function getAuthHeaders(req) {
     }
 }
 
+function getAuthHeadersWithS2SBearer(req) {
+    return {
+        headers: {
+            Authorization: `Bearer ${req.auth.token}`,
+            ServiceAuthorization: `Bearer ${req.headers.ServiceAuthorization}`
+        }
+    }
+}
+
 function getAuthHeadersWithUserRoles(req) {
     return {
         headers: {
             Authorization: `Bearer ${req.auth.token}`,
             ServiceAuthorization: req.headers.ServiceAuthorization,
             'user-roles': req.auth.data
+        }
+    }
+}
+
+function getAuthHeadersWithUserIdAndRoles(req) {
+    return {
+        headers: {
+            // Authorization: `Bearer ${req.auth.token}`,
+            ServiceAuthorization: req.headers.ServiceAuthorization,
+            'user-id': `${req.auth.userId}`,
+            'user-roles': `${req.auth.userId}`
         }
     }
 }
@@ -32,18 +52,11 @@ function getAuthHeadersWithBody(req) {
     }
 }
 
-function getAuthHeadersWithS2SBearer(req) {
-    return {
-        headers: {
-            Authorization: `Bearer ${req.auth.token}`,
-            ServiceAuthorization: `Bearer ${req.headers.ServiceAuthorization}`
-        }
-    }
-}
-
 module.exports.getAuthHeaders = getAuthHeaders
 
 module.exports.getAuthHeadersWithUserRoles = getAuthHeadersWithUserRoles
+
+module.exports.getAuthHeadersWithUserIdAndRoles = getAuthHeadersWithUserIdAndRoles
 
 module.exports.getAuthHeadersWithBody = getAuthHeadersWithBody
 
