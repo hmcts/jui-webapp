@@ -141,7 +141,6 @@ function assignToJudge(userId, awaitingJuiRespCases, options) {
                         }
                     })
             })
-
     } else {
         //    throw error no new cases found
         console.error(`No cases found`)
@@ -159,7 +158,6 @@ function unassignFromJudge(userId, caseData, options) {
             .catch(error => {
                 console.error(`Couldn't update case`, error)
             })
-
     } else {
         //    throw error no new cases found
         console.error(`No cases found`)
@@ -167,7 +165,7 @@ function unassignFromJudge(userId, caseData, options) {
 }
 
 function unassignAllCaseFromJudge (userId, caseList, options) {
-    return caseList.map(caseData => unassignFromJudge(userId,caseData,options))
+    return caseList.map(caseData => unassignFromJudge(userId, caseData, options))
 }
 
 function getNewCase(userId, options) {
@@ -179,5 +177,7 @@ function getNewCase(userId, options) {
 }
 
 module.exports.getNewCase = getNewCase
+
 module.exports.unassignFromJudge = unassignFromJudge
+
 module.exports.unassignAllCaseFromJudge = unassignAllCaseFromJudge

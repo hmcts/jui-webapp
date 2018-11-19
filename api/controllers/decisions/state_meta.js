@@ -686,22 +686,22 @@ module.exports = {
                                     {
                                         value: 'southWest',
                                         text: 'South West Divorce Centre',
-                                        hint: {text: 'Southampton'}
+                                        hint: { text: 'Southampton' }
                                     },
                                     {
                                         value: 'eastMidlands',
                                         text: 'East Midlands Divorce Centre',
-                                        hint: {text: 'Nottingham'}
+                                        hint: { text: 'Nottingham' }
                                     },
                                     {
                                         value: 'westMidlands',
                                         text: 'West Midlands Divorce Centre',
-                                        hint: {text: 'Stoke'}
+                                        hint: { text: 'Stoke' }
                                     },
                                     {
                                         value: 'northWest',
                                         text: 'North West Divorce Centre',
-                                        hint: {text: 'Liverpool'}
+                                        hint: { text: 'Liverpool' }
                                     }
                                 ]
                             }

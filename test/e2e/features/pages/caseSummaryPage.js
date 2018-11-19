@@ -1,7 +1,7 @@
 'use strict';
 
 function caseSummaryPage() {
-    this.case_header_text = element(by.css("h1.hmcts-page-heading__title.govuk-heading-xl"));
+    this.case_header_text = element(by.css('h1.hmcts-page-heading__title.govuk-heading-xl'));
     this.caseDetails_header_text = element(by.css('app-data-list:nth-child(2) > div > h2'));
     this.representatives_text = element(by.css('app-data-list:nth-child(3) > div > h2'));
     this.panel_members_text = element(by.css('app-data-list:nth-child(3) > div > h2'));
@@ -9,12 +9,12 @@ function caseSummaryPage() {
     this.linkedcase_text = element(by.css('app-data-list:nth-child(4) > div > h2'));
     this.casefields = element.all(by.css("[data-selector='table-cell']:nth-child(1)"));
     this.judicial_case_manager_logo = element(by.css('.hmcts-header__logotype-text'));
-    this.judicial_case_manager_link = element(by.css("a.hmcts-header__link"));
-    this.primary_nav_dashboard_link = element(by.css("a.hmcts-primary-navigation__link"));
-    this.case_bar = element(by.css(".jui-casebar"));
+    this.judicial_case_manager_link = element(by.css('a.hmcts-header__link'));
+    this.primary_nav_dashboard_link = element(by.css('a.hmcts-primary-navigation__link'));
+    this.case_bar = element(by.css('.jui-casebar'));
     this.case_alert = element(by.css("[data-selector='case-action-alert']"));
-    this.case_alert_heading = element(by.css(".jui-case-action-alert__heading"));
-    this.case_alert_content_link =element(by.css('a.jui-case-action-alert__link'));
+    this.case_alert_heading = element(by.css('.jui-case-action-alert__heading'));
+    this.case_alert_content_link = element(by.css('a.jui-case-action-alert__link'));
     this.summary_subnav_links = element.all(by.css('[data-selector="sub-nav-link"]'));
 
     this.make_decision = element(by.css('.jui-case-actions__list .jui-case-actions__item:nth-of-type(1) .jui-case-actions__link'));
@@ -26,4 +26,4 @@ function caseSummaryPage() {
     this.questions_tab = element.all(by.css('.hmcts-sub-navigation__link'));
 }
 
-module.exports = new caseSummaryPage;
+module.exports = new caseSummaryPage();

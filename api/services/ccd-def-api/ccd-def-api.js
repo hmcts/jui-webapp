@@ -1,6 +1,7 @@
 const express = require('express')
 const config = require('../../../config')
 const generateRequest = require('../../lib/request/request')
+const headerUtilities = require('../../lib/utilities/headerUtilities')
 
 const url = config.services.ccd_def_api
 
@@ -21,12 +22,7 @@ function getInfo(options) {
 }
 
 function getOptions(req) {
-    return {
-        headers: {
-            Authorization: `Bearer ${req.auth.token}`,
-            ServiceAuthorization: req.headers.ServiceAuthorization
-        }
-    }
+    return headerUtilities.getAuthHeaders(req)
 }
 
 module.exports = app => {
@@ -46,20 +42,24 @@ module.exports = app => {
         const jurisdictions = req.params.jurisdictions
         getCaseTypes(jurisdictions, getOptions(req))
             .then(obj =>
-                obj.map(jud => ({
-                    id: jud.id,
-                    events: jud.events.map(event => ({
-                            a: `${(event.pre_states.length > 0) ? (event.pre_states) : '()'} => ${event.id} => ${event.post_state}`,
-                            // event,
-                            fields: event.case_fields.filter(f => f.display_context !== 'READONLY').map(f => f.case_field_id),
-                            acls: event.acls.map(a => `${a.role} [${(a.create) ? 'C,' : ''}${(a.read) ? 'R,' : ''}${(a.update) ? 'U,' : ''}${(a.delete) ? 'D' : ''}]`),
-                            // id: event.id,
-                            // name: event.name,
-                            // pre_states: event.pre_states,
-                            // post_state: event.post_state
-                        })
-                    )
-                })))
+                obj.map(jud => {
+                    return {
+                        id: jud.id,
+                        events: jud.events.map(event => {
+                            return {
+                                a: `${(event.pre_states.length > 0) ? (event.pre_states) : '()'} => ${event.id} => ${event.post_state}`,
+                                // event,
+                                fields: event.case_fields.filter(f => f.display_context !== 'READONLY').map(f => f.case_field_id),
+                                acls: event.acls.map(a => `${a.role} [${(a.create) ? 'C,' : ''}${(a.read) ? 'R,' : ''}${(a.update) ? 'U,' : ''}${(a.delete) ? 'D' : ''}]`)
+                                // id: event.id,
+                                // name: event.name,
+                                // pre_states: event.pre_states,
+                                // post_state: event.post_state
+                            }
+                        }
+                        )
+                    }
+                }))
             .then(results => {
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.setHeader('content-type', 'application/json')
@@ -81,6 +81,7 @@ module.exports = app => {
 }
 
 module.exports.getInfo = getInfo
+
 module.exports.getHealth = getHealth
 
 module.exports.getJurisdictions = getJurisdictions

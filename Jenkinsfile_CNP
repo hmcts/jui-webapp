@@ -16,7 +16,7 @@ properties([
 def type = "nodejs"
 def product = "jui"
 def component = "webapp"
-
+def vault = "rpa"
 def channel = '#jui-pipeline'
 
 List<LinkedHashMap<String, Object>> secrets = [
@@ -28,7 +28,6 @@ List<LinkedHashMap<String, Object>> secrets = [
     secret('fr-password', 'FR_PASSWORD'),
     secret('sscs-email', 'SSCS_EMAIL'),
     secret('sscs-password', 'SSCS_PASSWORD')
-
 ]
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
@@ -40,10 +39,10 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     ]
 }
 
-withPipeline(type , product, component) {
+withPipeline(type, product, component) {
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
-    setVaultName('rpa')
+    setVaultName(vault)
 
 //    enablePerformanceTest(15)
 //    enableApiGatewayTest(15)
@@ -54,6 +53,7 @@ withPipeline(type , product, component) {
     enableDeployToAKS()
 
     after('checkout') {sh 'yarn cache clean'}
+
     after('build') {
         sh 'npm run build'
 
@@ -74,7 +74,6 @@ withPipeline(type , product, component) {
             reportFiles          : 'index.html',
             reportName           : 'ng lint Report'
         ])
-
     }
 
     after('test') {

@@ -303,4 +303,4 @@ function processCaseState(caseData) {
     return caseData
 }
 
-module.exports.processCaseState = processCaseState;
+module.exports.processCaseState = processCaseState

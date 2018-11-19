@@ -1,69 +1,66 @@
-const express = require('express');
-const config = require('../../../config');
-const generateRequest = require('../../lib/request/request');
+const express = require('express')
+const config = require('../../../config')
+const generateRequest = require('../../lib/request/request')
+const headerUtilities = require('../../lib/utilities/headerUtilities')
 
-const url = config.services.draft_store_api;
+const url = config.services.draft_store_api
 
 function getDraft(id, options) {
-    return generateRequest('GET', `${url}/drafts/${id}`, options);
+    return generateRequest('GET', `${url}/drafts/${id}`, options)
 }
 
 function getAllDrafts(options) {
-    return generateRequest('GET', `${url}/drafts`, options);
+    return generateRequest('GET', `${url}/drafts`, options)
 }
 
 function createDraft(options) {
-    return generateRequest('POST', `${url}/drafts`, options);
+    return generateRequest('POST', `${url}/drafts`, options)
 }
 
 function getHealth() {
-    return generateRequest('GET', `${url}/health`, {});
+    return generateRequest('GET', `${url}/health`, {})
 }
 
 function getInfo(options) {
-    return generateRequest('GET', `${url}/info`, options);
+    return generateRequest('GET', `${url}/info`, options)
 }
 
 function getOptions(req) {
-    return {
-        headers: {
-            Authorization: `Bearer ${req.auth.token}`,
-            ServiceAuthorization: `Bearer ${req.headers.ServiceAuthorization}` // ServiceAuthorisation needs Bearer for draft-store apparently!
-        }
-    };
+    return headerUtilities.getAuthHeadersWithS2SBearer(req)
 }
 
 module.exports = app => {
-    const router = express.Router({ mergeParams: true });
-    app.use('/draft-store', router);
+    const router = express.Router({ mergeParams: true })
+    app.use('/draft-store', router)
 
     router.get('/', (req, res, next) => {
-        getAllDrafts(getOptions(req)).pipe(res);
-    });
+        getAllDrafts(getOptions(req)).pipe(res)
+    })
 
     router.post('', (req, res, next) => {
-        createDraft(getOptions(req)).pipe(res);
-    });
+        createDraft(getOptions(req)).pipe(res)
+    })
 
     router.get(':id', (req, res, next) => {
-        const id = req.params.id;
-        getDraft(id, getOptions(req)).pipe(res);
-    });
+        const id = req.params.id
+        getDraft(id, getOptions(req)).pipe(res)
+    })
 
     router.get('/health', (req, res, next) => {
-        getHealth(getOptions(req)).pipe(res);
-    });
+        getHealth(getOptions(req)).pipe(res)
+    })
 
     router.get('/info', (req, res, next) => {
-        getInfo(getOptions(req)).pipe(res);
-    });
-};
+        getInfo(getOptions(req)).pipe(res)
+    })
+}
 
-module.exports.getInfo = getInfo;
-module.exports.getHealth = getHealth;
+module.exports.getInfo = getInfo
 
-module.exports.getDraft = getDraft;
+module.exports.getHealth = getHealth
 
-module.exports.getAllDrafts = getAllDrafts;
+module.exports.getDraft = getDraft
 
-module.exports.createDraft = createDraft;
+module.exports.getAllDrafts = getAllDrafts
+
+module.exports.createDraft = createDraft

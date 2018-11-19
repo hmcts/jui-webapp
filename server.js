@@ -10,9 +10,7 @@ const {
     LAZY_MODULE_MAP
 } = require('./dist-server/main');
 
-const {
-    provideModuleMap
-} = require('@nguniversal/module-map-ngfactory-loader');
+const { provideModuleMap } = require('@nguniversal/module-map-ngfactory-loader');
 
 const provider = provideModuleMap(LAZY_MODULE_MAP);
 

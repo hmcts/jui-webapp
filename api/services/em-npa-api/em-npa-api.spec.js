@@ -3,9 +3,9 @@ const supertest = require('supertest')
 const express = require('express')
 const config = require('../../../config')
 
-const url = config.services.fee_api
+const url = config.services.em_npa_api
 
-describe('bar-api spec', () => {
+describe('em-npa-api spec', () => {
     let route
     let request
     let app
@@ -21,7 +21,7 @@ describe('bar-api spec', () => {
 
         app = express()
 
-        route = proxyquire('./bar-api.js', {
+        route = proxyquire('./em-npa-api.js', {
             '../../lib/request/request': httpRequest
         })
 

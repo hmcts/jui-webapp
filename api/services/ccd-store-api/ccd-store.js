@@ -1,6 +1,7 @@
 const express = require('express')
 const config = require('../../../config')
 const generateRequest = require('../../lib/request/request')
+const headerUtilities = require('../../lib/utilities/headerUtilities')
 
 const url = config.services.ccd_data_api
 
@@ -37,7 +38,7 @@ function getCCDCase(userId, jurisdiction, caseType, caseId, options) {
     return generateRequest('GET', urlX, options)
 }
 
-function getCCDEvents(caseId, userId, jurisdiction, caseType, options) {
+function getCCDEvents(userId, jurisdiction, caseType, caseId, options) {
     const urlX = `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`
     return generateRequest('GET', urlX, options)
 }
@@ -87,7 +88,7 @@ function createCase(userId, jurisdiction, caseType, eventId, description, summar
                 data
             }
         })
-        .then(obj => {console.dir(obj); return obj;}) // use to debug case creation or update
+        .then(obj => { console.dir(obj); return obj }) // use to debug case creation or update
         .then(body => postCCDCase(userId, jurisdiction, caseType, body, options))
 }
 
@@ -105,7 +106,7 @@ function updateCase(userId, jurisdiction, caseType, caseId, eventId, description
                 data
             }
         })
-        .then(obj => {console.dir(obj); return obj;}) // use to debug case creation or update
+        .then(obj => { console.dir(obj); return obj }) // use to debug case creation or update
         .then(body => postCCDEvent(userId, jurisdiction, caseType, caseId, body, options))
 }
 
@@ -118,12 +119,7 @@ function getInfo(options) {
 }
 
 function getOptions(req) {
-    return {
-        headers: {
-            Authorization: `Bearer ${req.auth.token}`,
-            ServiceAuthorization: req.headers.ServiceAuthorization
-        }
-    }
+    return headerUtilities.getAuthHeaders(req)
 }
 
 module.exports = app => {

@@ -1,26 +1,26 @@
-const proxyquire = require('proxyquire');
-const supertest = require('supertest');
-const express = require('express');
+const proxyquire = require('proxyquire')
+const supertest = require('supertest')
+const express = require('express')
 
-const router = express.Router();
+const router = express.Router()
 
 describe('case spec', () => {
-    let httpRequest;
-    let route;
-    let app;
-    let request;
-    let httpResponse;
-    let eventsHttpResponse;
-    let hearingGetHttpResponse;
-    let hearingPostHttpResponse;
-    let questionsGetHttpResponse;
+    let httpRequest
+    let route
+    let app
+    let request
+    let httpResponse
+    let eventsHttpResponse
+    let hearingGetHttpResponse
+    let hearingPostHttpResponse
+    let questionsGetHttpResponse
 
     const eventsMock = {
         getEvents: () => Promise.resolve([
             { field: 'value' },
             { field: 'value' }
         ])
-    };
+    }
 
     const questionsMock = {
         getQuestionsByCase: () => Promise.resolve([
@@ -42,40 +42,39 @@ describe('case spec', () => {
                 }
             ]
         ])
-    };
+    }
 
-    const documentsMock = { getDocuments: () => Promise.resolve([]) };
-
+    const documentsMock = { getDocuments: () => Promise.resolve([]) }
 
     beforeEach(() => {
         httpResponse = (resolve, reject) => {
-            resolve({});
-        };
-        httpRequest = jasmine.createSpy();
+            resolve({})
+        }
+        httpRequest = jasmine.createSpy()
         httpRequest.and.callFake(url => {
             if (url.endsWith('events')) {
-                return new Promise(eventsHttpResponse);
+                return new Promise(eventsHttpResponse)
             } else if (url.endsWith('?case_id')) {
-                return new Promise(hearingGetHttpResponse);
+                return new Promise(hearingGetHttpResponse)
             } else if (url.endsWith('questions')) {
-                return new Promise(questionsGetHttpResponse);
+                return new Promise(questionsGetHttpResponse)
             } else if (url.endsWith('continuous-online-hearings')) {
-                return new Promise(hearingPostHttpResponse);
+                return new Promise(hearingPostHttpResponse)
             }
-            return new Promise(httpResponse);
-        });
+            return new Promise(httpResponse)
+        })
 
-        app = express();
+        app = express()
         route = proxyquire('./index', {
             '../../lib/request/request': httpRequest,
             '../../questions': questionsMock,
             '../../events': eventsMock,
             '../../documents': documentsMock
-        });
+        })
 
-        route(app);
-        request = supertest(app);
-    });
+        route(app)
+        request = supertest(app)
+    })
 
     describe('when no case data is returned', () => {
         beforeEach(() => {
@@ -85,47 +84,47 @@ describe('case spec', () => {
                         status: 400,
                         message: 'Case reference is not valid'
                     }
-                });
-            };
+                })
+            }
             eventsHttpResponse = (resolve, reject) => {
                 reject({
                     error: {
                         status: 400,
                         message: 'Case reference is not valid'
                     }
-                });
-            };
+                })
+            }
             hearingGetHttpResponse = (resolve, reject) => {
                 reject({
                     error: {
                         status: 400,
                         message: 'Case reference is not valid'
                     }
-                });
-            };
+                })
+            }
             hearingPostHttpResponse = (resolve, reject) => {
                 reject({
                     error: {
                         status: 400,
                         message: 'Case reference is not valid'
                     }
-                });
-            };
+                })
+            }
             questionsGetHttpResponse = (resolve, reject) => {
                 reject({
                     error: {
                         status: 400,
                         message: 'Case reference is not valid'
                     }
-                });
-            };
-        });
+                })
+            }
+        })
         xit('should return an error', () => request.get('/case/SSCS/Benefit/null')
-            .expect(400));
-    });
+            .expect(400))
+    })
 
     describe('when all expected case data is returned', () => {
-        let caseData;
+        let caseData
         beforeEach(() => {
             caseData = {
                 id: 1528476356357908,
@@ -153,20 +152,20 @@ describe('case spec', () => {
                         disabilityQualifiedMember: 'disabilityQualifiedMember'
                     }
                 }
-            };
-            httpResponse = (resolve, reject) => resolve(caseData);
-            eventsHttpResponse = resolve => resolve();
-            hearingPostHttpResponse = resolve => resolve();
-            hearingGetHttpResponse = resolve => resolve();
-            questionsGetHttpResponse = resolve => resolve();
-        });
+            }
+            httpResponse = (resolve, reject) => resolve(caseData)
+            eventsHttpResponse = resolve => resolve()
+            hearingPostHttpResponse = resolve => resolve()
+            hearingGetHttpResponse = resolve => resolve()
+            questionsGetHttpResponse = resolve => resolve()
+        })
 
         xit('should populate the summary panel given data is in the response', () => request.get('/SSCS/Benefit/1').expect(200)
             .then(response => {
-                const jsonRes = JSON.parse(response.text);
-                const actualSummarySection = jsonRes.sections.filter(section => section.id === 'summary')[0];
-                const caseDetails = actualSummarySection.sections[0].sections[0];
-                const representatives = actualSummarySection.sections[0].sections[1];
+                const jsonRes = JSON.parse(response.text)
+                const actualSummarySection = jsonRes.sections.filter(section => section.id === 'summary')[0]
+                const caseDetails = actualSummarySection.sections[0].sections[0]
+                const representatives = actualSummarySection.sections[0].sections[1]
 
                 expect(caseDetails.fields).toEqual([
                     {
@@ -181,7 +180,7 @@ describe('case spec', () => {
                         label: 'Case type',
                         value: caseData.case_data.appeal.benefitType.code
                     }
-                ]);
+                ])
 
                 expect(representatives.fields).toEqual([
                     {
@@ -196,15 +195,15 @@ describe('case spec', () => {
                         label: 'Disability qualified member',
                         value: caseData.case_data.panel.disabilityQualifiedMember
                     }
-                ]);
+                ])
 
-                const timelineSection = jsonRes.sections.filter(section => section.id === 'timeline')[0];
-                expect(timelineSection.sections[0].fields[0].value[0]).toEqual({ field: 'value' });
+                const timelineSection = jsonRes.sections.filter(section => section.id === 'timeline')[0]
+                expect(timelineSection.sections[0].fields[0].value[0]).toEqual({ field: 'value' })
 
                 const draftQuestionsToAppellant = jsonRes.sections
                     .filter(section => section.id === 'questions')[0].sections[0].sections
                     .filter(section => section.id === 'questions-to-appellant')[0].sections
-                    .filter(section => section.id === 'draft-questions')[0].fields[0].value[1];
+                    .filter(section => section.id === 'draft-questions')[0].fields[0].value[1]
 
                 expect(draftQuestionsToAppellant[0]).toEqual({
                     id: '9727a0fc-11bb-4212-821f-b36e312bbace',
@@ -212,7 +211,7 @@ describe('case spec', () => {
                     body: 'Test1',
                     owner_reference: '5899',
                     state_datetime: '2018-07-19 06:32:59.425'
-                });
+                })
 
                 expect(draftQuestionsToAppellant[1]).toEqual({
                     id: 'b889ed7b-61d7-4494-a6f9-94b40534b37a',
@@ -220,7 +219,7 @@ describe('case spec', () => {
                     body: 'World',
                     owner_reference: '5899',
                     state_datetime: '2018-07-18 21:16:50.729'
-                });
-            }));
-    });
-});
+                })
+            }))
+    })
+})

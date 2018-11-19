@@ -1,21 +1,21 @@
-const proxyquire = require('proxyquire').noPreserveCache();
-const supertest = require('supertest');
-const express = require('express');
-const moment = require('moment');
+const proxyquire = require('proxyquire').noPreserveCache()
+const supertest = require('supertest')
+const express = require('express')
+const moment = require('moment')
 
-const utcDate4 = moment.utc('2018-08-06T16:14:11Z');
-const utcDate3 = moment.utc('2018-08-06T16:16:11Z');
-const utcDate2 = moment.utc('2018-08-22T11:54:48Z');
-const utcDate1 = moment.utc('2018-08-22T11:56:31Z');
+const utcDate4 = moment.utc('2018-08-06T16:14:11Z')
+const utcDate3 = moment.utc('2018-08-06T16:16:11Z')
+const utcDate2 = moment.utc('2018-08-22T11:54:48Z')
+const utcDate1 = moment.utc('2018-08-22T11:56:31Z')
 
 describe('Events route', () => {
-    let route;
-    let request;
-    let app;
-    let httpRequest;
-    let httpResponse;
-    let cohHearingIdResponse;
-    let cohEventsResponse;
+    let route
+    let request
+    let app
+    let httpRequest
+    let httpResponse
+    let cohHearingIdResponse
+    let cohEventsResponse
 
     beforeEach(() => {
         cohHearingIdResponse = {
@@ -27,7 +27,7 @@ describe('Events route', () => {
                     panel: [{ name: '123141' }]
                 }
             ]
-        };
+        }
 
         httpResponse = (resolve, reject) => {
             resolve([
@@ -37,8 +37,8 @@ describe('Events route', () => {
                     user_last_name: 'user_last_name',
                     created_date: utcDate1
                 }
-            ]);
-        };
+            ])
+        }
         cohEventsResponse = {
             online_hearing: {
                 online_hearing_id: '5ea1ac54-406c-4e7e-bebe-76723672127c',
@@ -65,45 +65,45 @@ describe('Events route', () => {
                 uri: '/continuous-online-hearings/5ea1ac54-406c-4e7e-bebe-76723672127c'
             }
 
-        };
-        httpRequest = jasmine.createSpy();
+        }
+        httpRequest = jasmine.createSpy()
         httpRequest.and.callFake((method, url) => {
             if (url.includes('continuous-online-hearings?case_id=')) {
-                return Promise.resolve(cohHearingIdResponse);
+                return Promise.resolve(cohHearingIdResponse)
             } else if (url.includes('continuous-online-hearings/5ea1ac54-406c-4e7e-bebe-76723672127c/conversations')) {
-                return Promise.resolve(cohEventsResponse);
+                return Promise.resolve(cohEventsResponse)
             }
-            return Promise.resolve(httpResponse);
-        });
+            return Promise.resolve(httpResponse)
+        })
 
-        app = express();
+        app = express()
 
         route = proxyquire('./index.js', {
             '../lib/request/request': httpRequest,
             './options': () => {
                 {}
             }
-        });
+        })
 
-        route(app);
+        route(app)
 
-        request = supertest(app);
-    });
+        request = supertest(app)
+    })
 
     describe('getEvents', () => {
-        let getEvents;
+        let getEvents
 
         beforeEach(() => {
-            getEvents = route.getEvents;
-        });
+            getEvents = route.getEvents
+        })
 
         it('should expose getDocuments function', () => {
-            expect(getEvents).toBeTruthy();
-        });
+            expect(getEvents).toBeTruthy()
+        })
 
         xit('should return a promise of all outstanding requests', () => {
-            expect(getEvents().then).toBeTruthy();
-        });
+            expect(getEvents().then).toBeTruthy()
+        })
 
         xit('should return all documents requested for coh and ccd events', done => {
             httpResponse = [
@@ -119,7 +119,7 @@ describe('Events route', () => {
                     user_last_name: 'user_last_name2',
                     created_date: utcDate2
                 }
-            ];
+            ]
 
             getEvents('x', '1534513630400666', 'SSCS', 'Benefits').then(events => {
                 expect(events).toEqual([
@@ -156,10 +156,10 @@ describe('Events route', () => {
                         time: utcDate4.format('h:mma'),
                         documents: []
                     }
-                ]);
-                done();
-            });
-        });
+                ])
+                done()
+            })
+        })
 
         xit('should return all documents requested for coh and ccd events', done => {
             httpResponse = [
@@ -175,7 +175,7 @@ describe('Events route', () => {
                     user_last_name: 'user_last_name2',
                     created_date: utcDate2
                 }
-            ];
+            ]
 
             getEvents('x', '1534513630400666', 'DIVORCE', 'DIVORCE').then(events => {
                 expect(events).toEqual([
@@ -195,10 +195,9 @@ describe('Events route', () => {
                         time: utcDate2.format('h:mma'),
                         documents: []
                     }
-                ]);
-                done();
-            });
-        });
-
-    });
-});
+                ])
+                done()
+            })
+        })
+    })
+})

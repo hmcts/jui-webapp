@@ -1,6 +1,7 @@
 const express = require('express')
 const moment = require('moment')
 const cohCor = require('../../services/coh-cor-api/coh-cor-api')
+const headerUtilities = require('../../lib/utilities/headerUtilities')
 
 // Create a new hearing
 function createHearing(caseId, userId, options, jurisdiction = 'SSCS') {
@@ -139,12 +140,7 @@ function getAllQuestionsByCase(caseId, userId, options, jurisdiction) {
 }
 
 function getOptions(req) {
-    return {
-        headers: {
-            Authorization: `Bearer ${req.auth.token}`,
-            ServiceAuthorization: req.headers.ServiceAuthorization
-        }
-    }
+    return headerUtilities.getAuthHeaders(req)
 }
 
 module.exports = app => {

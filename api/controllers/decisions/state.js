@@ -1,4 +1,4 @@
-const Store = require('../../lib/store')
+const Store = require('../../lib/store/store')
 const exceptionFormatter = require('exception-formatter')
 const config = require('../../../config/index')
 const ccdStore = require('../../services/ccd-store-api/ccd-store')
@@ -7,6 +7,7 @@ const moment = require('moment')
 const stateMeta = require('./state_meta')
 const translateJson = require('./translate')
 const log4js = require('log4js')
+const headerUtilities = require('../../lib/utilities/headerUtilities')
 
 const logger = log4js.getLogger('State')
 logger.level = config.logging ? config.logging : 'OFF'
@@ -18,12 +19,7 @@ const exceptionOptions = {
 }
 
 function getOptions(req) {
-    return {
-        headers: {
-            Authorization: `Bearer ${req.auth.token}`,
-            ServiceAuthorization: req.headers.ServiceAuthorization
-        }
-    }
+    return headerUtilities.getAuthHeaders(req)
 }
 
 function perpareCaseForApproval(caseData, eventToken, eventId, user, store) {

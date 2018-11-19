@@ -1,6 +1,7 @@
 const express = require('express')
 const { createCase, updateCase } = require('../../services/ccd-store-api/ccd-store')
 const getCaseCreationData = require('./templates/index')
+const headerUtilities = require('../../lib/utilities/headerUtilities')
 
 const JUI_AUTO_CREATION = 'JUI Auto Creation'
 const JUI_AUTO_UPDATE = 'JUI Auto Update'
@@ -33,7 +34,7 @@ function createFrCaseToApplicationIssued(userId, options) {
     const data3 = {}
 
     return createFrCase(userId, options)
-        .then(obj => {console.dir(obj); return obj;})
+        .then(obj => { console.dir(obj); return obj })
         .then(caseDate => updateCase(userId, jurisdiction, caseType, caseDate.id, eventId1, JUI_AUTO_UPDATE, JUI_AUTO_UPDATE, data1, options)
             .then(() => updateCase(userId, jurisdiction, caseType, caseDate.id, eventId2, JUI_AUTO_UPDATE, JUI_AUTO_UPDATE, data2, options))
             .then(() => updateCase(userId, jurisdiction, caseType, caseDate.id, eventId3, JUI_AUTO_UPDATE, JUI_AUTO_UPDATE, data3, options))
@@ -41,12 +42,7 @@ function createFrCaseToApplicationIssued(userId, options) {
 }
 
 function getOptions(req) {
-    return {
-        headers: {
-            Authorization: `Bearer ${req.auth.token}`,
-            ServiceAuthorization: req.headers.ServiceAuthorization
-        }
-    }
+    return headerUtilities.getAuthHeaders(req)
 }
 
 module.exports = app => {
@@ -82,5 +78,4 @@ module.exports = app => {
                 res.status(response.statusCode || 500).send(response)
             })
     })
-
 }

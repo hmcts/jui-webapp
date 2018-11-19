@@ -105,7 +105,8 @@ module.exports = {
                                 { label: 'Full name', value: '$.case_data.solicitorName' },
                                 { label: 'Solicitor firm', value: '$.case_data.solicitorFirm' },
                                 {
-                                    label: 'Address', value: [
+                                    label: 'Address',
+                                    value: [
                                         '$.case_data.solicitorAddress1|newline_processor',
                                         '$.case_data.solicitorAddress2|newline_processor',
                                         '$.case_data.solicitorAddress3|newline_processor',
@@ -128,7 +129,8 @@ module.exports = {
                                     value: ['$.case_data.appRespondentFMName', ' ', '$.case_data.appRespondentLName']
                                 },
                                 {
-                                    label: 'Address', value: [
+                                    label: 'Address',
+                                    value: [
                                         '$.case_data.respondentAddress1|newline_processor',
                                         '$.case_data.respondentAddress2|newline_processor',
                                         '$.case_data.respondentAddress3|newline_processor',
@@ -151,7 +153,8 @@ module.exports = {
                                 { label: 'Full name', value: '$.case_data.rSolicitorName' },
                                 { label: 'Solicitor firm', value: '$.case_data.rSolicitorFirm' },
                                 {
-                                    label: 'Address', value: [
+                                    label: 'Address',
+                                    value: [
                                         '$.case_data.rSolicitorAddress1|newline_processor',
                                         '$.case_data.rSolicitorAddress2|newline_processor',
                                         '$.case_data.rSolicitorAddress3|newline_processor',
@@ -255,4 +258,4 @@ module.exports = {
             }
         ]
     }
-};
+}

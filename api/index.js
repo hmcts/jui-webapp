@@ -12,7 +12,6 @@ const caseListRoute = require('./controllers/case-list')
 const decisionRoutes = require('./controllers/decisions')
 const questionsRoutes = require('./controllers/questions')
 const eventsRoutes = require('./controllers/events')
-const hearingRoutes = require('./controllers/hearings')
 const documentsRoutes = require('./controllers/documents')
 
 const caseCreationRoute = require('./controllers/case-creation')
@@ -30,7 +29,6 @@ const idamApiRoutes = require('./services/idam-api/idam-api')
 const payApiRoutes = require('./services/pay-api/pay-api')
 const s2sApiRoutes = require('./services/service-auth-provider-api/service-auth-provider-api')
 
-
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 router.use(serviceTokenMiddleware)
@@ -40,7 +38,6 @@ caseListRoute(router)
 caseRoutes(router)
 eventsRoutes(router)
 documentsRoutes(router)
-hearingRoutes(router)
 questionsRoutes(router)
 decisionRoutes(router)
 
@@ -48,7 +45,7 @@ if (config.configEnv !== 'prod') {
     // Dev Tools
     caseCreationRoute(router)
 
-// Uncomment to enable direct access to Microservices
+    // Uncomment to enable direct access to Microservices
     barApiRoutes(router)
     ccdDefApiRoutes(router)
     ccdStoreApiRoutes(router)
@@ -60,11 +57,9 @@ if (config.configEnv !== 'prod') {
     idamApiRoutes(router)
     payApiRoutes(router)
     s2sApiRoutes(router)
-
 }
 
 emAnnoApiRoutes(router)
 emNpaApiRoutes(router)
-
 
 module.exports = router
