@@ -18,7 +18,6 @@
 
 
 # Judaical UI Webapp
-
 This is the Web Application to allow Judaical staff (Judges & Panel Members) to access and work on cases.
 
 ## Cloning repo
