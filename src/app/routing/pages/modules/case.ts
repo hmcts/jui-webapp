@@ -13,7 +13,7 @@ export interface CaseDataOther {
         fields: Array<{value: string}>;
     };
     decision: {
-        options: Array<SectionfiedItems>;
+        options: Array<SectionfiedItems> | [{}];
     };
 }
 export interface SectionfiedItems{
