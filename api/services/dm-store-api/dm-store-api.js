@@ -1,7 +1,7 @@
 const express = require('express')
 const fs = require('fs');
 const multiparty = require('multiparty')
-const requestPromise = require('request-promise')
+const requestPromiseNative = require('request-promise-native')
 const FormData = require('form-data');
 
 const config = require('../../../config')
@@ -102,21 +102,27 @@ function postMultipartFormDataDocument(options) {
 
     console.log('postMultipartFormDataDocument')
 
-    const formData = new FormData()
-    formData.append('file', fs.createReadStream('./circleFace.jpg'))
+    // const formData = new FormData()
+    // formData.append('file', fs.createReadStream('./circleFace.jpg'))
 
-    options.headers['Content-Type'] = 'multipart/form-data'
-    options.body = { classification: 'PUBLIC' }
-    options.form = formData
+    // options.headers['Content-Type'] = 'multipart/form-data'
+    // options.body = { classification: 'PUBLIC' }
+    options.formData = {
+        files: [
+            {
+                value: fs.createReadStream('./annotated.pdf'),
+                options: { filename: 'annotated', contentType: 'application/pdf' }
+            }
+        ],
+        classification: 'RESTRICTED'
+    }
 
     // Added to see the DM Store response, usually passes up the deferred value
-    generateRequest('POST', `${url}/documents`, options).then(
-        (response) => {
-
-            console.log('Response');
-            console.log(response);
-            return response
-        })
+    generateRequest('POST', `${url}/documents`, options).then(response => {
+        console.log('Response')
+        console.log(response)
+        return response
+    })
         .catch((error) => {
 
             console.log('Error');
@@ -192,7 +198,7 @@ function getInfo(options) {
 function getOptions(req) {
     return {
         headers: {
-            // Authorization: `Bearer ${req.auth.token}`,
+            Authorization: `Bearer ${req.auth.token}`,
             ServiceAuthorization: req.headers.ServiceAuthorization,
             'user-id': `${req.auth.userId}`,
             'user-roles': req.auth.data
@@ -244,12 +250,14 @@ module.exports = app => {
 
         form.on('part', (part) => {
             if (part.name === FILES) {
+                console.log('part.contentType')
+                // console.log(part)
+                console.log(part.headers['content-type'])
 
                 //TODO: Do not save the file locally, but send the ReadableStream onto the multiparty form.
-                part.pipe(fs.createWriteStream('./circleFace.jpg'))
+                part.pipe(fs.createWriteStream('./testPdfUpload2.pdf'))
                     .on('close', () => {
-
-                        postMultipartFormDataDocument(getOptions(request)).pipe(response)
+                        postMultipartFormDataDocument(getOptions(request))
                     })
             }
         })
