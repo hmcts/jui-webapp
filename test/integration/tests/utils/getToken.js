@@ -38,8 +38,9 @@ async function getOauth2Token () {
 }
 
 async function generateClientCode () {
-    const redirectUri = 'http://localhost:3000/oauth2/callback'
-    const url = 'http://localhost:4501/oauth2/authorize?response_type=code&client_id=' + idamClient + '&redirect_uri=' + redirectUri
+    const redirectUri = baseUrl+'/oauth2/callback'
+    // const url = 'http://localhost:4501/oauth2/authorize?response_type=code&client_id=' + idamClient + '&redirect_uri=' + redirectUri
+    const url = idam_api+'/oauth2/authorize?response_type=code&client_id=' + idamClient + '&redirect_uri=' + redirectUri
     const data = ''
 
     // let encode = base64.encode(('XXX' + ':' + 'XXX')) //local purpose
