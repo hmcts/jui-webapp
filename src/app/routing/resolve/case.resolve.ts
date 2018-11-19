@@ -13,6 +13,7 @@ export class CaseResolve implements Resolve<any> {
         const caseId = route.paramMap.get('case_id');
         const jurisdiction = route.paramMap.get('jur');
         const caseType = route.paramMap.get('casetype');
+
         return this.caseService.fetch(caseId, jurisdiction, caseType);
     }
 }
