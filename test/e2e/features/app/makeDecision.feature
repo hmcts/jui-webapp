@@ -7,12 +7,12 @@ Feature: Make Decision
         When I select a case reference
        Then I click on Make decision button
 
-    @makedecision @all @smoke
+#    @makedecision @all @smoke
     Scenario: Verify the Don't Approve on Make Decision
         Then I select Don't Approve and click continue
         Then I verify the Check Decision page
 
-    @makedecision @all @RIUI_1117
+#    @makedecision @all @RIUI_1117
         # Note:Here im not adding Approve decision test as each approved once will delete from dashboard
         Scenario: Verify Approving a Make decision
             Then I see approve the draft consent order option

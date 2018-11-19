@@ -27,7 +27,7 @@ Feature: Login
         Then I should be redirected to the Idam login page
 
 
-    @RIUI_289 @logout @all
+#    @RIUI_289 @logout @all
     Scenario: I can log out from any page within the JUI Service
         Given I am logged into JUI web app
         When I select a case type
@@ -36,7 +36,7 @@ Feature: Login
         Then I should be redirected to the Idam login page
 
 
-    @RIUI_950 @FR_case @RIUI-895 @all
+#    @RIUI_950 @FR_case @RIUI-895 @all
     Scenario: Verify FR cases 'Draft consent order' link redirection
         Then I am on Idam login page
         When I am logged into JUI web app with FR judge details

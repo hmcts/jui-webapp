@@ -45,7 +45,7 @@ Feature: Dashboard
 
 
     #SSCS specific judge
-    @RIUI-895 @all
+#    @RIUI-895 @all
     Scenario: Verify PIP cases 'Question Drafted' link redirection
         When I am logged into JUI web app with SSCS judge details
         Then I will be redirected to the JUI dashboard page
