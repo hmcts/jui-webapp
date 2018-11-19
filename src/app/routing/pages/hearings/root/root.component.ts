@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import {CaseDataOther} from '../../modules/case';
 
 @Component({
     selector: 'app-list-for-hearing',
@@ -7,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class HearingRootComponent implements OnInit {
 
-    case: any;
+    case: CaseDataOther;
 
     constructor(private route: ActivatedRoute) { }
 

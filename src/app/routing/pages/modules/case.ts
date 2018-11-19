@@ -1,3 +1,11 @@
+import {mockCaseData} from '../hearings/create-hearing/mock/create-hearing.mock';
+// TODO : This should be removed as it is inconsitent
+export interface CaseSnapShootRoot {
+    data: {
+        caseData: CaseDataOther
+    }
+}
+
 export interface CaseDataOther {
     id: string;
     sections: Array<any> | [{}];

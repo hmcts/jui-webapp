@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {RedirectionService} from '../../../redirection.service';
 import {HearingService} from '../../../../domain/services/hearing.service';
+import {CaseDataOther, CaseSnapShootRoot} from '../../modules/case';
 
 @Component({
     selector: 'app-list-for-hearing',
@@ -11,7 +12,7 @@ import {HearingService} from '../../../../domain/services/hearing.service';
 })
 export class CreateHearingComponent implements OnInit {
     form: FormGroup;
-    case: any;
+    case: CaseDataOther;
 
     relistReasonText = '';
 
@@ -48,9 +49,6 @@ export class CreateHearingComponent implements OnInit {
         this.createForm();
     }
 
-    ngAfterViewChecked() {
-        this.cdRef.detectChanges();
-    }
 
     submitCallback(values) {
         if (this.form.valid) {

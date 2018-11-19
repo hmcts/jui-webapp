@@ -12,6 +12,7 @@ export class CaseDataService {
     }
 
     getCaseData() {
+        // Not able to return ActivatedRoute via service
         return this.route.snapshot.data['caseData'];
     }
     getNavigation(obj): Array<LinkItem> {

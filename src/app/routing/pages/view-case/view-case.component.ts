@@ -20,14 +20,13 @@ export class ViewCaseComponent implements OnInit {
     public targetSection: SectionsCaseItem | null;
 
     constructor(public router: Router, private route: ActivatedRoute, private caseDataService: CaseDataService) {
+        this.case = this.route.snapshot.data['caseData'];
         this.route.params.subscribe((params: any) => {
             params.section ? this.sectionTabName = params.section : this.sectionTabName = null;
         });
     }
 
     ngOnInit() {
-
-        this.case = this.caseDataService.getCaseData();
         if (this.case) {
             this.targetSection = this.case.sections.find((item: SectionsCaseItem ) => item.id === this.sectionTabName);
             this.sections = this.caseDataService.getNavigation(this.case);
