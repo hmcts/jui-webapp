@@ -2,11 +2,13 @@
     <div class="comment-list-container">
       
       <div *ngFor="let annotation of annotations" class="highlight-group">
-        <app-comment-item 
+        <app-comment-item #commentItem
           *ngFor="let comment of annotation.comments" 
           [annotation]="annotation"
           [comment]="comment"
-          (commentSubmitted)='showAllComments($event)'></app-comment-item>
+          (commentSubmitted)='showAllComments($event)'
+          (commentRendered)='redrawCommentItemComponents()'
+          ></app-comment-item>
       </div>
     </div>
 </div>

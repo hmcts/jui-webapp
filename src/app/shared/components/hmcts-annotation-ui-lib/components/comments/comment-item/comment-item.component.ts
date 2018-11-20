@@ -22,7 +22,7 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     @Input() annotation: Annotation;
 
     @Output() commentSubmitted: EventEmitter<any> = new EventEmitter<any>();
-
+    @Output() commentRendered: EventEmitter<any> = new EventEmitter<any>();
     @ViewChild('commentArea') commentArea: ElementRef;
     @ViewChild('commentItem') commentItem: NgForm;
 
@@ -68,6 +68,7 @@ export class CommentItemComponent implements OnInit, OnDestroy {
             .subscribe( (dataLoaded: boolean) => {
                 if (dataLoaded) {
                     this.commentTopPos = this.getRelativePosition(this.comment.annotationId);
+                    this.commentRendered.emit(true);
                 }
             });
     }

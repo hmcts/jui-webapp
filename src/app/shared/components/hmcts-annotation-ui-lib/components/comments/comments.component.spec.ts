@@ -5,7 +5,12 @@ import { Subject, Observable, of } from 'rxjs';
 import { CommentsComponent } from './comments.component';
 import { AnnotationStoreService } from '../../data/annotation-store.service';
 import { PdfService } from '../../data/pdf.service';
-import { Annotation, Comment, Rectangle } from '../../data/annotation-set.model';
+import { Annotation, Comment } from '../../data/annotation-set.model';
+import { Utils } from '../../data/utils';
+
+class MockUtils {
+  isSameLine() {}
+}
 
 class MockPdfService {
   pageNumber;
@@ -61,6 +66,7 @@ class MockAnnotationStoreService {
 }
 
 describe('CommentsComponent', () => {
+  const mockUtils = new MockUtils();
   const mockAnnotationStoreService = new MockAnnotationStoreService();
   const mockPdfService = new MockPdfService();
   let component: CommentsComponent;
@@ -74,6 +80,7 @@ describe('CommentsComponent', () => {
       ],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
+        { provide: Utils, useFactory: () => mockUtils },
         { provide: PdfService, useFactory: () => mockPdfService },
         { provide: AnnotationStoreService, useFactory: () => mockAnnotationStoreService }
       ],
@@ -129,28 +136,22 @@ describe('CommentsComponent', () => {
     });
   });
 
+  describe('redrawCommentItemComponents', () => {
+    it('should call sortCommentItemComponents', (done) => {
+      spyOn(component, 'sortCommentItemComponents').and.stub();
+      component.redrawCommentItemComponents();
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+          done(); // waits for promise to complete
+      });
+    });
+  });
+
   describe('preRun', () => {
     it('should subscribe to pageNumSub', () => {
       component.preRun();
 
       expect(component['pageNumber']).toBe(1);
-    });
-  });
-
-  describe('sortByY', () => {
-    it('should sort annotations by their Y prop', () => {
-      const anno1 = new Annotation(null, null, null, null, null, null, null, null, null, null, null, null,
-        [new Rectangle(null, null, null, null, null, null, null, null, null, null, 10)]);
-      const anno2 = new Annotation(null, null, null, null, null, null, null, null, null, null, null, null,
-          [new Rectangle(null, null, null, null, null, null, null, null, null, null, 20)]);
-      const anno3 = new Annotation(null, null, null, null, null, null, null, null, null, null, null, null,
-        [new Rectangle(null, null, null, null, null, null, null, null, null, null, 30)]);
-
-      const unsortAnno = [anno2, anno3, anno1];
-      component.sortByY(unsortAnno);
-      expect(unsortAnno[0].rectangles[0].y).toBe(anno1.rectangles[0].y);
-      expect(unsortAnno[1].rectangles[0].y).toBe(anno2.rectangles[0].y);
-      expect(unsortAnno[2].rectangles[0].y).toBe(anno3.rectangles[0].y);
     });
   });
 
