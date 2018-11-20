@@ -11,14 +11,14 @@ import { DomainModule } from '../domain.module';
 import { SharedModule } from '../../shared/shared.module';
 import { BrowserTransferStateModule } from '@angular/platform-browser';
 
-const configMock = {
-    config: {
-        api_base_url: ''
-    }
-};
-
-const decisionService: DecisionService;
-const httpMock: HttpTestingController;
+// const configMock = {
+//     config: {
+//         api_base_url: ''
+//     }
+// };
+//
+// const decisionService: DecisionService;
+// const httpMock: HttpTestingController;
 
 // describe('DecisionService', () => {
 
