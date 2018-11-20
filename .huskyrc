@@ -1,0 +1,6 @@
+{
+    "hooks": {
+      "pre-commit": "yarn lint:ng",
+      "pre-push": "yarn lint:ng && yarn test && yarn test:nsp "
+    }
+}

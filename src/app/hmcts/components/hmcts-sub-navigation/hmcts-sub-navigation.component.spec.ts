@@ -7,6 +7,18 @@ import {Component, DebugElement, ViewChild} from '@angular/core';
 import {By} from '@angular/platform-browser';
 import {SubNavigation} from '../../models/nav';
 
+
+@Component({
+    selector: `app-host-dummy-component`,
+    template: `<app-hmcts-sub-navigation [items]="items" [label]="label"></app-hmcts-sub-navigation>`
+})
+class TestDummyHostComponent {
+    private label: string = mockLabel;
+    private items: Array<SubNavigation>  = mockNav;
+    @ViewChild(HmctsSubNavigationComponent)
+    public HmctsSubNavigationComponent: HmctsSubNavigationComponent;
+}
+
 describe('HmctsSubNavigationComponent', () => {
     let component: HmctsSubNavigationComponent;
     let fixture: ComponentFixture<HmctsSubNavigationComponent>;
@@ -37,7 +49,7 @@ describe('HmctsSubNavigationComponent', () => {
 describe('HmctsSubNavigationComponent: Testing Input & Outputs', () => {
     let testHostComponent: TestDummyHostComponent;
     let testHostFixture: ComponentFixture<TestDummyHostComponent>;
-    let el: DebugElement;
+    const el: DebugElement;
     let de: any;
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -79,14 +91,7 @@ describe('HmctsSubNavigationComponent: Testing Input & Outputs', () => {
         expect(testHostFixture.debugElement.queryAll(By.css('.hmcts-sub-navigation__item')).length).toEqual(3);
     });
 
-    @Component({
-        selector: `app-host-dummy-component`,
-        template: `<app-hmcts-sub-navigation [items]="items" [label]="label"></app-hmcts-sub-navigation>`
-    })
-    class TestDummyHostComponent {
-        private label: string = mockLabel;
-        private items: Array<SubNavigation>  = mockNav;
-        @ViewChild(HmctsSubNavigationComponent)
-        public HmctsSubNavigationComponent: HmctsSubNavigationComponent;
-    }
+
 });
+
+

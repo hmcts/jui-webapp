@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { linkItem } from './models/elements.module';
+import { LinkItem } from './models/elements.module';
 import { PageDateDefault } from '../../../models/section_fields';
 
 @Component({
@@ -9,8 +9,8 @@ import { PageDateDefault } from '../../../models/section_fields';
 })
 export class SummaryPanelComponent {
     @Input() panelData: PageDateDefault;
-    public createLink: linkItem = { href: '../decision/create', text: 'Make decision' };
-    public hearingLink: linkItem = {href: '../hearing/list', text: 'List for hearing'};
+    public createLink: LinkItem = { href: '../decision/create', text: 'Make decision' };
+    public hearingLink: LinkItem = {href: '../hearing/list', text: 'List for hearing'};
 }
 
 

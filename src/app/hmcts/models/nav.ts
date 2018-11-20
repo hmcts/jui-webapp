@@ -1,4 +1,4 @@
-export interface SubNavigation{
+export interface SubNavigation {
     text: string;
     href: string;
     active: Boolean;

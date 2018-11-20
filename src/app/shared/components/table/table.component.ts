@@ -1,5 +1,5 @@
-import {Component, OnChanges, Input} from '@angular/core';
-import { CaseTable } from './table';
+import {Component, Input, OnChanges} from '@angular/core';
+import {CaseTable} from './table';
 
 @Component({
     selector: 'app-table',
@@ -28,7 +28,7 @@ export class TableComponent implements OnChanges {
     }
 
     ngOnChanges(changes) {
-        console.log('data.currentValue', changes.data.currentValue)
+        console.log('data.currentValue', changes.data.currentValue);
         this.resultView = changes.data.currentValue;
     }
 }

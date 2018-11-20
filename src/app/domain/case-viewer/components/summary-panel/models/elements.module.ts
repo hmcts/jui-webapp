@@ -1,4 +1,4 @@
-export interface linkItem {
+export interface LinkItem {
     href: string;
     text: string;
 }

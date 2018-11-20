@@ -1,8 +1,9 @@
-import { PageDateCase } from '../../../../domain/models/section_fields';
+import {PageDateCase} from '../../../../domain/models/section_fields';
 
 export interface CaseData {
     caseData: PageDateCase;
 }
+
 export const mockCase: CaseData = {
     caseData: {
         id: 'case_id',
@@ -23,4 +24,4 @@ export const mockCase: CaseData = {
             }
         ]
     }
-}
+};

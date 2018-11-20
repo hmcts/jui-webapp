@@ -1,10 +1,10 @@
-import { CaseData } from '../../../modules/case';
+import {CaseData} from '../../../modules/case';
 
 export const mockCaseData: CaseData = {
     id: '1234',
     decision: {
-    options: [
-        {id: 'test', name: 'test'}
-        ]
-    }
-}
+        options: [
+            {id: 'test', name: 'test'}
+        ],
+    },
+};

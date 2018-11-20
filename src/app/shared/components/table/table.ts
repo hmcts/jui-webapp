@@ -1,7 +1,8 @@
 export interface CaseTable {
-    columns:  Array<CaseColum>;
-    results:  Array<CaseRow> | Array<[{}]> | undefined;
+    columns: Array<CaseColum>;
+    results: Array<CaseRow> | Array<[{}]> | undefined;
 }
+
 export interface CaseRow {
     case_id: number;
     case_jurisdiction: string;
@@ -9,6 +10,7 @@ export interface CaseRow {
     case_fields: Casefields;
     assignedToJudge: string;
 }
+
 export interface Casefields {
     case_ref: number;
     parties: string;
@@ -17,12 +19,14 @@ export interface Casefields {
     createdDate: string;
     lastModified: string;
 }
+
 export interface Status {
     name: string;
     actionGoTo: string;
     ID: string;
 }
-export interface CaseColum{
+
+export interface CaseColum {
     label: string;
     case_field_id: string;
 }

@@ -1,5 +1,5 @@
 import {SubNavigation} from '../../../models/nav';
-export const mockLabel: string = 'Sub navigation';
+export const mockLabel = 'Sub navigation';
 export const mockNav: Array<SubNavigation> = [
     {
         text: 'Nav item 1',
@@ -16,4 +16,4 @@ export const mockNav: Array<SubNavigation> = [
         href: '#3',
         active: false
     }
-]
+];
