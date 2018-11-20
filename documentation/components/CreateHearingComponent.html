@@ -1,0 +1,966 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>jui documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">jui documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>CreateHearingComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/routing/pages/hearings/create-hearing/create-hearing.component.ts</code>
+</p>
+
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-list-for-hearing</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./create-hearing.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./create-hearing.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#callback_options">callback_options</a>
+                            </li>
+                            <li>
+                                <a href="#case">case</a>
+                            </li>
+                            <li>
+                                <a href="#error">error</a>
+                            </li>
+                            <li>
+                                <a href="#eventEmitter">eventEmitter</a>
+                            </li>
+                            <li>
+                                <a href="#form">form</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#redirectionService">redirectionService</a>
+                            </li>
+                            <li>
+                                <a href="#relistReasonText">relistReasonText</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#createForm">createForm</a>
+                            </li>
+                            <li>
+                                <a href="#ngAfterViewChecked">ngAfterViewChecked</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#submitCallback">submitCallback</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(fb: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, route: <a href="https://angular.io/api/router/ActivatedRoute" target="_blank">ActivatedRoute</a>, hearingService: <a href="../injectables/HearingService.html">HearingService</a>, redirectionService: <a href="../injectables/RedirectionService.html">RedirectionService</a>, cdRef: <a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank">ChangeDetectorRef</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/routing/pages/hearings/create-hearing/create-hearing.component.ts:26</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>fb</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>router</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>route</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="https://angular.io/api/router/ActivatedRoute" target="_blank" >ActivatedRoute</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>hearingService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/HearingService.html" target="_self" >HearingService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>redirectionService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/RedirectionService.html" target="_self" >RedirectionService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>cdRef</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="https://angular.io/api/core/ChangeDetectorRef" target="_blank" >ChangeDetectorRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+        <h3 id="methods">
+            Methods
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="createForm"></a>
+                        <span class="name">
+                            <b>
+                            createForm
+                            </b>
+                            <a href="#createForm"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>createForm()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">src/app/routing/pages/hearings/create-hearing/create-hearing.component.ts:37</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ngAfterViewChecked"></a>
+                        <span class="name">
+                            <b>
+                            ngAfterViewChecked
+                            </b>
+                            <a href="#ngAfterViewChecked"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>ngAfterViewChecked()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">src/app/routing/pages/hearings/create-hearing/create-hearing.component.ts:51</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ngOnInit"></a>
+                        <span class="name">
+                            <b>
+                            ngOnInit
+                            </b>
+                            <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>ngOnInit()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">src/app/routing/pages/hearings/create-hearing/create-hearing.component.ts:43</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="submitCallback"></a>
+                        <span class="name">
+                            <b>
+                            submitCallback
+                            </b>
+                            <a href="#submitCallback"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>submitCallback(values)</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">src/app/routing/pages/hearings/create-hearing/create-hearing.component.ts:55</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>values</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="callback_options"></a>
+                        <span class="name">
+                            <b>
+                            callback_options
+                            </b>
+                            <a href="#callback_options"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>callback_options:     <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+        eventEmitter: this.eventEmitter
+    }</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">src/app/routing/pages/hearings/create-hearing/create-hearing.component.ts:19</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="case"></a>
+                        <span class="name">
+                            <b>
+                            case
+                            </b>
+                            <a href="#case"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>case:     <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/routing/pages/hearings/create-hearing/create-hearing.component.ts:14</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="error"></a>
+                        <span class="name">
+                            <b>
+                            error
+                            </b>
+                            <a href="#error"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>error:     <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{
+        server: false,
+        notes: false
+    }</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/routing/pages/hearings/create-hearing/create-hearing.component.ts:23</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="eventEmitter"></a>
+                        <span class="name">
+                            <b>
+                            eventEmitter
+                            </b>
+                            <a href="#eventEmitter"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>eventEmitter:     <code>EventEmitter&lt;any&gt;</code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>EventEmitter&lt;any&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new EventEmitter()</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">src/app/routing/pages/hearings/create-hearing/create-hearing.component.ts:18</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="form"></a>
+                        <span class="name">
+                            <b>
+                            form
+                            </b>
+                            <a href="#form"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>form:     <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/routing/pages/hearings/create-hearing/create-hearing.component.ts:13</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="redirectionService"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            redirectionService
+                            </b>
+                            <a href="#redirectionService"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>redirectionService:     <code><a href="../injectables/RedirectionService.html" target="_self" >RedirectionService</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../injectables/RedirectionService.html" target="_self" >RedirectionService</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">src/app/routing/pages/hearings/create-hearing/create-hearing.component.ts:33</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="relistReasonText"></a>
+                        <span class="name">
+                            <b>
+                            relistReasonText
+                            </b>
+                            <a href="#relistReasonText"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>relistReasonText:     <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&#x27;&#x27;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">src/app/routing/pages/hearings/create-hearing/create-hearing.component.ts:16</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {ChangeDetectorRef, Component, EventEmitter, OnInit} from &#x27;@angular/core&#x27;;
+import {ActivatedRoute, Router} from &#x27;@angular/router&#x27;;
+import {FormBuilder, FormGroup, Validators} from &#x27;@angular/forms&#x27;;
+import {RedirectionService} from &#x27;../../../redirection.service&#x27;;
+import {HearingService} from &#x27;../../../../domain/services/hearing.service&#x27;;
+
+@Component({
+    selector: &#x27;app-list-for-hearing&#x27;,
+    templateUrl: &#x27;./create-hearing.component.html&#x27;,
+    styleUrls: [&#x27;./create-hearing.component.scss&#x27;]
+})
+export class CreateHearingComponent implements OnInit {
+    form: FormGroup;
+    case: any;
+
+    relistReasonText &#x3D; &#x27;&#x27;;
+
+    eventEmitter: EventEmitter&lt;any&gt; &#x3D; new EventEmitter();
+    callback_options &#x3D; {
+        eventEmitter: this.eventEmitter
+    };
+
+    error &#x3D; {
+        server: false,
+        notes: false
+    };
+
+    constructor(
+        private fb: FormBuilder,
+        private router: Router,
+        private route: ActivatedRoute,
+        private hearingService: HearingService,
+        public redirectionService: RedirectionService,
+        private cdRef: ChangeDetectorRef
+    ) { }
+
+    createForm() {
+        this.form &#x3D; this.fb.group({
+            notes: [this.relistReasonText, Validators.required],
+        });
+    }
+
+    ngOnInit() {
+        this.hearingService.currentMessage.subscribe(message &#x3D;&gt; this.relistReasonText &#x3D; message);
+        this.eventEmitter.subscribe(this.submitCallback.bind(this));
+        this.case &#x3D; this.route.parent.snapshot.data[&#x27;caseData&#x27;];
+
+        this.createForm();
+    }
+
+    ngAfterViewChecked() {
+        this.cdRef.detectChanges();
+    }
+
+    submitCallback(values) {
+        if (this.form.valid) {
+            this.hearingService.changeMessage(values.notes);
+            this.router.navigate([&#x27;../check&#x27;], {relativeTo: this.route});
+        } else {
+            this.error.notes &#x3D; !this.form.controls.notes.valid;
+        }
+    }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;jui-width-container&quot;&gt;
+    &lt;main class&#x3D;&quot;govuk-main-wrapper&quot; role&#x3D;&quot;main&quot;&gt;
+            &lt;h1 class&#x3D;&quot;govuk-heading-xl&quot;&gt;List for hearing&lt;/h1&gt;
+            &lt;div class&#x3D;&quot;govuk-grid-row&quot;&gt;
+                &lt;div class&#x3D;&quot;govuk-grid-column-two-thirds&quot;&gt;
+                    &lt;div *ngIf&#x3D;&quot;error.server || error.notes&quot; class&#x3D;&quot;govuk-error-summary&quot; aria-labelledby&#x3D;&quot;error-summary-title&quot; role&#x3D;&quot;alert&quot; tabindex&#x3D;&quot;-1&quot; data-module&#x3D;&quot;error-summary&quot;&gt;
+                        &lt;h2 class&#x3D;&quot;govuk-error-summary__title&quot; id&#x3D;&quot;error-summary-title&quot;&gt;There is a problem&lt;/h2&gt;
+                        &lt;div class&#x3D;&quot;govuk-error-summary__body&quot;&gt;
+                            &lt;ul class&#x3D;&quot;govuk-list govuk-error-summary__list&quot;&gt;
+                                &lt;li *ngIf&#x3D;&quot;error.server&quot;&gt;&lt;a&gt;There Was a Server error&lt;/a&gt;&lt;/li&gt;
+                                &lt;li *ngIf&#x3D;&quot;error.notes&quot;&gt;&lt;a [routerLink]&#x3D;&quot;[&#x27;.&#x27;]&quot; fragment&#x3D;&quot;notes&quot;&gt;Enter your hearing notes&lt;/a&gt;&lt;/li&gt;
+                            &lt;/ul&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+
+                    &lt;app-form [callback_options]&#x3D;&quot;callback_options&quot; [formGroup]&#x3D;&quot;form&quot;&gt;
+
+                        &lt;app-textarea
+                            [id]&#x3D;&quot;&#x27;notes&#x27;&quot;
+                            [rows]&#x3D;&quot;&#x27;5&#x27;&quot;
+                            [label]&#x3D;&quot;&#x27;Hearing notes (optional)&#x27;&quot;
+                            [errorMessage]&#x3D;&quot;&#x27;Enter your hearing notes&#x27;&quot;
+                            [text]&#x3D;&quot;relistReasonText&quot;
+                            [error]&#x3D;&quot;error.notes&quot;
+                            [formGroup]&#x3D;&quot;form&quot;
+                        &gt;&lt;/app-textarea&gt;
+                        &lt;button class&#x3D;&quot;govuk-button&quot; type&#x3D;&quot;submit&quot;&gt;Continue&lt;/button&gt;
+                    &lt;/app-form&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+    &lt;/main&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./create-hearing.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss"></code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="jui-width-container">    <main class="govuk-main-wrapper" role="main">            <h1 class="govuk-heading-xl">List for hearing</h1>            <div class="govuk-grid-row">                <div class="govuk-grid-column-two-thirds">                    <div *ngIf="error.server || error.notes" class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="error-summary">                        <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>                        <div class="govuk-error-summary__body">                            <ul class="govuk-list govuk-error-summary__list">                                <li *ngIf="error.server"><a>There Was a Server error</a></li>                                <li *ngIf="error.notes"><a [routerLink]="[\'.\']" fragment="notes">Enter your hearing notes</a></li>                            </ul>                        </div>                    </div>                    <app-form [callback_options]="callback_options" [formGroup]="form">                        <app-textarea                            [id]="\'notes\'"                            [rows]="\'5\'"                            [label]="\'Hearing notes (optional)\'"                            [errorMessage]="\'Enter your hearing notes\'"                            [text]="relistReasonText"                            [error]="error.notes"                            [formGroup]="form"                        ></app-textarea>                        <button class="govuk-button" type="submit">Continue</button>                    </app-form>                </div>            </div>    </main></div></div>'
+    var COMPONENTS = [{'name': 'AnnotationPdfViewerComponent', 'selector': 'app-annotation-pdf-viewer'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'ButtonsComponent', 'selector': 'app-buttons'},{'name': 'CaseActionAlertComponent', 'selector': 'app-case-action-alert'},{'name': 'CaseActionsComponent', 'selector': 'app-case-actions'},{'name': 'CaseBarComponent', 'selector': 'app-casebar'},{'name': 'CaseFileAnnotationListComponent', 'selector': 'app-case-file-annotation-list'},{'name': 'CaseFileComponent', 'selector': 'app-case-file'},{'name': 'CaseFileToolBarComponent', 'selector': 'app-case-file-tool-bar'},{'name': 'CaseFileTreeListComponent', 'selector': 'app-case-file-tree-list'},{'name': 'CaseFileViewerComponent', 'selector': 'app-case-file-viewer'},{'name': 'CaseViewerComponent', 'selector': 'app-case-viewer'},{'name': 'CheckboxComponent', 'selector': 'app-checkbox'},{'name': 'CheckDecisionComponent', 'selector': 'app-check-decision'},{'name': 'CheckHearingComponent', 'selector': 'app-check-list-for-hearing'},{'name': 'CheckQuestionsComponent', 'selector': 'app-check-question'},{'name': 'CheckYourAnswersComponent', 'selector': 'app-check-your-answers'},{'name': 'CommentItemComponent', 'selector': 'app-comment-item'},{'name': 'CommentsComponent', 'selector': 'app-comments'},{'name': 'ConfirmationComponent', 'selector': 'app-confirmation'},{'name': 'ContextualToolbarComponent', 'selector': 'app-contextual-toolbar'},{'name': 'CookiesComponent', 'selector': 'app-cookies'},{'name': 'CreateDecisionComponent', 'selector': 'app-decision-make'},{'name': 'CreateHearingComponent', 'selector': 'app-list-for-hearing'},{'name': 'CreateQuestionsComponent', 'selector': 'app-create-question'},{'name': 'DashboardComponent', 'selector': 'app-dashboard'},{'name': 'DataListComponent', 'selector': 'app-data-list'},{'name': 'DecisionConfirmationComponent', 'selector': 'app-decision-confirmation'},{'name': 'DecisionRootComponent', 'selector': 'app-root'},{'name': 'DeleteQuestionComponent', 'selector': 'app-delete-question'},{'name': 'DemoComponent', 'selector': 'app-demo'},{'name': 'DocumentListComponent', 'selector': 'app-document-list'},{'name': 'DocumentPanelComponent', 'selector': 'app-document-panel'},{'name': 'DocumentUploadComponent', 'selector': 'app-document-upload'},{'name': 'DocumentViewerComponent', 'selector': 'app-document-viewer'},{'name': 'DraftConsentOrderComponent', 'selector': 'app-draft-consent-order'},{'name': 'EditQuestionComponent', 'selector': 'app-edit-question'},{'name': 'ErrorServiceUnavailableComponent', 'selector': 'app-error-service-unavailable'},{'name': 'FieldsetComponent', 'selector': 'app-fieldset'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'FormComponent', 'selector': 'app-form'},{'name': 'GenericPageComponent', 'selector': 'app-generic-page'},{'name': 'GovukBackLinkComponent', 'selector': 'app-govuk-back-link'},{'name': 'GovukBreadcrumbsComponent', 'selector': 'app-govuk-breadcrumbs'},{'name': 'GovukButtonComponent', 'selector': 'app-govuk-button'},{'name': 'GovukCheckboxesComponent', 'selector': 'app-govuk-checkboxes'},{'name': 'GovukDateInputComponent', 'selector': 'app-govuk-date-input'},{'name': 'GovukDetailsComponent', 'selector': 'app-govuk-details'},{'name': 'GovukErrorSummaryComponent', 'selector': 'app-govuk-error-summary'},{'name': 'GovukFieldsetComponent', 'selector': 'app-govuk-fieldset'},{'name': 'GovukFileUploadComponent', 'selector': 'app-govuk-file-upload'},{'name': 'GovukFooterComponent', 'selector': 'app-govuk-footer'},{'name': 'GovukHeaderComponent', 'selector': 'app-govuk-header'},{'name': 'GovukInputComponent', 'selector': 'app-govuk-input'},{'name': 'GovukInsetTextComponent', 'selector': 'app-govuk-inset-text'},{'name': 'GovukPanelComponent', 'selector': 'app-govuk-panel'},{'name': 'GovukPhaseBannerComponent', 'selector': 'app-govuk-phase-banner'},{'name': 'GovukRadiosComponent', 'selector': 'app-govuk-radios'},{'name': 'GovukSelectComponent', 'selector': 'app-govuk-select'},{'name': 'GovukSkipLinkComponent', 'selector': 'app-govuk-skip-link'},{'name': 'GovukTableComponent', 'selector': 'app-govuk-table'},{'name': 'GovukTabsComponent', 'selector': 'app-govuk-tabs'},{'name': 'GovukTagComponent', 'selector': 'app-govuk-tag'},{'name': 'GovukTextareaComponent', 'selector': 'app-govuk-textarea'},{'name': 'GovukWarningTextComponent', 'selector': 'app-govuk-warning-text'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'HearingConfirmationComponent', 'selector': 'app-list-for-hearing'},{'name': 'HearingDetailsComponent', 'selector': 'app-hearing-details'},{'name': 'HearingRootComponent', 'selector': 'app-list-for-hearing'},{'name': 'HintComponent', 'selector': 'app-hint'},{'name': 'HmctsAlertComponent', 'selector': 'app-hmcts-alert'},{'name': 'HmctsDetailsBarComponent', 'selector': 'app-hmcts-details-bar'},{'name': 'HmctsGlobalFooterComponent', 'selector': 'app-hmcts-global-footer'},{'name': 'HmctsGlobalHeaderComponent', 'selector': 'app-hmcts-global-header'},{'name': 'HmctsPrimaryNavigationComponent', 'selector': 'app-hmcts-primary-navigation'},{'name': 'HmctsProgressBarComponent', 'selector': 'app-hmcts-progress-bar'},{'name': 'HmctsSubNavigationComponent', 'selector': 'app-hmcts-sub-navigation'},{'name': 'HmctsTimelineComponent', 'selector': 'app-hmcts-timeline'},{'name': 'ImgViewerComponent', 'selector': 'app-img-viewer'},{'name': 'InputsComponent', 'selector': 'app-inputs'},{'name': 'JuiFormElementsComponent', 'selector': 'app-jui-form-elements'},{'name': 'LabelComponent', 'selector': 'app-label'},{'name': 'LegendComponent', 'selector': 'app-legend'},{'name': 'MakeDecisionComponent', 'selector': 'app-make-decision'},{'name': 'NotesForCourtAdministratorComponent', 'selector': 'app-notes-for-court-administrator'},{'name': 'PartiesPanelComponent', 'selector': 'app-parties-panel'},{'name': 'PrivacyPolicyComponent', 'selector': 'app-privacy-policy'},{'name': 'QuestionComponent', 'selector': 'app-question'},{'name': 'QuestionListComponent', 'selector': 'app-question-list'},{'name': 'QuestionsPanelComponent', 'selector': 'app-questions-panel'},{'name': 'RadiobuttonComponent', 'selector': 'app-radiobutton'},{'name': 'RadioButtonsComponent', 'selector': 'app-radio-buttons'},{'name': 'ReasonsCoNotApprovedComponent', 'selector': 'app-reasons-co-not-approved'},{'name': 'SearchResultComponent', 'selector': 'app-search-result'},{'name': 'StatusComponent', 'selector': 'app-status'},{'name': 'SummaryPanelComponent', 'selector': 'app-summary-panel'},{'name': 'TableComponent', 'selector': 'app-table'},{'name': 'TabsComponent', 'selector': 'app-tabs'},{'name': 'TaskListComponent', 'selector': 'app-task-list'},{'name': 'TermsAndConditionsComponent', 'selector': 'app-terms-and-conditions'},{'name': 'TextareaComponent', 'selector': 'app-textarea'},{'name': 'TextareasComponent', 'selector': 'app-textareas'},{'name': 'TextComponent', 'selector': 'app-text'},{'name': 'TimelineComponent', 'selector': 'app-timeline'},{'name': 'TimelinePanelComponent', 'selector': 'app-timeline-panel'},{'name': 'UnsupportedViewerComponent', 'selector': 'app-unsupported-viewer'},{'name': 'ValidationErrorFormControlComponent', 'selector': 'app-validation-error-formcontrol'},{'name': 'ValidationErrorFormGroupComponent', 'selector': 'app-validation-error-formgroup'},{'name': 'ValidationHeaderComponent', 'selector': 'app-validation-header'},{'name': 'ViewCaseComponent', 'selector': 'app-view-case'},{'name': 'ViewQuestionComponent', 'selector': 'app-view-question'}];
+    var DIRECTIVES = [{'name': 'ViewerAnchorDirective', 'selector': '[appViewerAnchor]'}];
+    var ACTUAL_COMPONENT = {'name': 'CreateHearingComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'CreateHearingComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

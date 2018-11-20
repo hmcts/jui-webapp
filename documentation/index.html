@@ -1,0 +1,189 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>jui documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+	      <link rel="stylesheet" href="./styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="./" class="navbar-brand">jui documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content getting-started">
+                   <div class="content-data">
+
+<p><a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" class="img-responsive"></a>
+<a href="https://travis-ci.org/hmcts/rpa-jui-webapp"><img src="https://travis-ci.org/hmcts/rpa-jui-webapp.svg?branch=master" alt="Build Status" class="img-responsive"></a>
+<a href="https://codecov.io/gh/hmcts/rpa-jui-webapp"><img src="https://codecov.io/gh/hmcts/rpa-jui-webapp/branch/master/graph/badge.svg" alt="codecov" class="img-responsive"></a>
+<a href="https://www.codacy.com/app/HMCTS/rpa-jui-webapp"><img src="https://api.codacy.com/project/badge/Grade/fbdfcfc51d514d7f8f405d5cb509cb5a" alt="Codacy Badge" class="img-responsive"></a>
+<a href="https://www.codacy.com/app/HMCTS/rpa-jui-webapp"><img src="https://api.codacy.com/project/badge/Coverage/fbdfcfc51d514d7f8f405d5cb509cb5a" alt="Codacy Badge" class="img-responsive"></a>
+<a href="https://snyk.io/test/github/hmcts/rpa-jui-webapp"><img src="https://snyk.io/test/github/hmcts/rpa-jui-webapp/badge.svg" alt="Known Vulnerabilities" class="img-responsive"></a></p>
+<p><a href="https://sonarcloud.io/dashboard?id=rpa-jui-webapp"><img src="https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=bugs" alt="sonarcloud" class="img-responsive"></a>
+<a href="https://sonarcloud.io/dashboard?id=rpa-jui-webapp"><img src="https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=coverage" alt="sonarcloud" class="img-responsive"></a>
+<a href="https://sonarcloud.io/dashboard?id=rpa-jui-webapp"><img src="https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=duplicated_lines_density" alt="sonarcloud" class="img-responsive"></a>
+<a href="https://sonarcloud.io/dashboard?id=rpa-jui-webapp"><img src="https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=ncloc" alt="sonarcloud" class="img-responsive"></a>
+<a href="https://sonarcloud.io/dashboard?id=rpa-jui-webapp"><img src="https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=sqale_rating" alt="sonarcloud" class="img-responsive"></a>
+<a href="https://sonarcloud.io/dashboard?id=rpa-jui-webapp"><img src="https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=alert_status" alt="sonarcloud" class="img-responsive"></a>
+<a href="https://sonarcloud.io/dashboard?id=rpa-jui-webapp"><img src="https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=reliability_rating" alt="sonarcloud" class="img-responsive"></a>
+<a href="https://sonarcloud.io/dashboard?id=rpa-jui-webapp"><img src="https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=security_rating" alt="sonarcloud" class="img-responsive"></a>
+<a href="https://sonarcloud.io/dashboard?id=rpa-jui-webapp"><img src="https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=sqale_index" alt="sonarcloud" class="img-responsive"></a>
+<a href="https://sonarcloud.io/dashboard?id=rpa-jui-webapp"><img src="https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=vulnerabilities" alt="sonarcloud" class="img-responsive"></a></p>
+<h1 id="judaical-ui-webapp">Judaical UI Webapp</h1>
+<p>This is the Web Application to allow Judaical staff (Judges &amp; Panel Members) to access and work on cases.</p>
+<h2 id="cloning-repo">Cloning repo</h2>
+<div><pre class="line-numbers"><code class="language-bash">git clone https://github.com/hmcts/rpa-jui-webapp.git
+cd rpa-jui-webapp/</code></pre></div><h2 id="set-environmental-variables">Set Environmental Variables</h2>
+<div><pre class="line-numbers"><code class="language-bash">export S2S_SECRET=
+export IDAM_SECRET=</code></pre></div><h2 id="run-local-with-quick-reload-for-angular">Run Local with quick reload for angular</h2>
+<p>To Run the Angular code</p>
+<div><pre class="line-numbers"><code class="language-bash">yarn install
+yarn start-dev-proxy</code></pre></div><p>To Run the Node Code</p>
+<div><pre class="line-numbers"><code class="language-bash">yarn install
+yarn start-dev-node
+# or if you have nodemon
+nodemon dev-server.js</code></pre></div><h2 id="run-local-like-prod">Run Local like prod</h2>
+<div><pre class="line-numbers"><code class="language-bash">yarn install
+yarn build
+yarn start</code></pre></div><h2 id="run-local-with-docker">Run Local with docker</h2>
+<p>To Run the Angular code with docker</p>
+<div><pre class="line-numbers"><code class="language-bash">yarn start-dev-docker-proxy;</code></pre></div><p>To Run the Node Code with docker</p>
+<div><pre class="line-numbers"><code class="language-bash">yarn start-dev-docker-node;</code></pre></div><p>spin up docker</p>
+<div><pre class="line-numbers"><code class="language-bash">./docker/buildrun-docker-base.sh</code></pre></div><p>setup test idam users</p>
+<div><pre class="line-numbers"><code class="language-bash">./bin/idam/idam.sh</code></pre></div><p>setup test ccd data (note you need to find your own ccd def file)</p>
+<div><pre class="line-numbers"><code class="language-bash">./bin/ccd/ccd.sh ~/Downloads/CCD_Definition.xlsx</code></pre></div><h2 id="run-test">Run test</h2>
+<h3 id="lint">lint</h3>
+<div><pre class="line-numbers"><code class="language-bash"> yarn test;
+ open ./reports/lint/node/index.html;
+ xdg-open ./reports/lint/node/index.html;
+ open ./reports/lint/ng/index.html;
+ xdg-open ./reports/lint/ng/index.html;</code></pre></div><h4 id="lint-ng-only-">lint (ng Only)</h4>
+<div><pre class="line-numbers"><code class="language-bash"> yarn test:ng;
+ open ./reports/lint/ng/index.html;
+ xdg-open ./reports/lint/ng/index.html;</code></pre></div><h4 id="lint-node-only-">lint (Node Only)</h4>
+<div><pre class="line-numbers"><code class="language-bash"> yarn test:node;
+ open ./reports/lint/node/index.html;
+ xdg-open ./reports/lint/node/index.html;</code></pre></div><h3 id="unit-test">Unit test</h3>
+<div><pre class="line-numbers"><code class="language-bash"> yarn test;
+ open ./reports/tests/unit/node/index.html;
+ xdg-open ./reports/tests/unit/node/index.html;
+ open ./reports/tests/unit/ng/index.html;
+ xdg-open ./reports/tests/unit/ng/index.html;</code></pre></div><h4 id="unit-test-ng-only-">Unit test (ng Only)</h4>
+<div><pre class="line-numbers"><code class="language-bash"> yarn test:ng;
+ open ./reports/tests/unit/ng/index.html;
+ xdg-open ./reports/tests/unit/ng/index.html;</code></pre></div><h4 id="unit-test-node-only-">Unit test (Node Only)</h4>
+<div><pre class="line-numbers"><code class="language-bash"> yarn test:node;
+ open ./reports/tests/unit/node/index.html;
+ xdg-open ./reports/tests/unit/node/index.html;</code></pre></div><h3 id="unit-test-coverage">Unit test + coverage</h3>
+<div><pre class="line-numbers"><code class="language-bash"> yarn test:coverage;
+ open ./reports/tests/coverage/node/index.html;
+ xdg-open ./reports/tests/coverage/node/index.html;
+ open ./reports/tests/coverage/ng/index.html;
+ xdg-open ./reports/tests/coverage/ng/index.html;</code></pre></div><h4 id="unit-test-coverage-ng-only-">Unit test + coverage (ng Only)</h4>
+<div><pre class="line-numbers"><code class="language-bash"> yarn test:coverage:ng;
+ open ./reports/tests/coverage/ng/index.html;
+ xdg-open ./reports/tests/coverage/ng/index.html;</code></pre></div><h4 id="unit-test-coverage-node-only-">Unit test + coverage (Node Only)</h4>
+<div><pre class="line-numbers"><code class="language-bash"> yarn test:coverage:node;
+ open ./reports/tests/coverage/node/index.html;
+ xdg-open ./reports/tests/coverage/node/index.html;</code></pre></div><h3 id="functional-test">Functional test</h3>
+<div><pre class="line-numbers"><code class="language-bash">export TEST_EMAIL=;
+export TEST_PASSWORD=;
+yarn test:functional:local 
+open ./reports/tests/functional/index.html;
+xdg-open ./reports/tests/functional/index.html;</code></pre></div><p>##Run Mock Server for CCD data for Development</p>
+<p>Install JSON Server</p>
+<div><pre class="line-numbers"><code class="language-bash">npm install -g json-server</code></pre></div><p>Set the environment variable :</p>
+<p>Mac :</p>
+<div><pre class="line-numbers"><code class="language-none"> export JUI_ENV=mock;</code></pre></div><p> Windows: </p>
+<div><pre class="line-numbers"><code class="language-none"> set JUI_ENV=mock
+ echo %JUI_ENV%</code></pre></div><p>Run the mock Server</p>
+<div><pre class="line-numbers"><code class="language-none">yarn install
+yarn start-json-server</code></pre></div><p>This will run a mock server (json-server) on port 3004 and sets the JUI_ENV as <code>mock</code>.</p>
+<p>Now, run the below in the terminal and then start running the api (node)</p>
+<div><pre class="line-numbers"><code class="language-bash">export JUI_ENV=mock; 
+yarn build; 
+yarn start</code></pre></div><p>Note : Here is the git repo for json-server : <a href="https://github.com/typicode/json-server">https://github.com/typicode/json-server</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 0;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'getting-started';
+            var COMPODOC_CURRENT_PAGE_URL = 'index.html';
+       </script>
+
+       <script src="./js/libs/custom-elements.min.js"></script>
+       <script src="./js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="./js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="./js/menu-wc.js" defer></script>
+
+       <script src="./js/libs/bootstrap-native.js"></script>
+
+       <script src="./js/libs/es6-shim.min.js"></script>
+       <script src="./js/libs/EventDispatcher.js"></script>
+       <script src="./js/libs/promise.min.js"></script>
+       <script src="./js/libs/zepto.min.js"></script>
+
+       <script src="./js/compodoc.js"></script>
+
+       <script src="./js/tabs.js"></script>
+       <script src="./js/menu.js"></script>
+       <script src="./js/libs/clipboard.min.js"></script>
+       <script src="./js/libs/prism.js"></script>
+       <script src="./js/sourceCode.js"></script>
+          <script src="./js/search/search.js"></script>
+          <script src="./js/search/lunr.min.js"></script>
+          <script src="./js/search/search-lunr.js"></script>
+          <script src="./js/search/search_index.js"></script>
+       <script src="./js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

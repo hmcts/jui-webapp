@@ -40,7 +40,8 @@
     "test:codacy-upload": "cat ./reports/tests/coverage/lcov.info | codacy-coverage",
     "test:codecov-upload": "codecov -f ./reports/tests/coverage/lcov.info",
     "snyk": "snyk test",
-    "snyk-protect": "snyk protect"
+    "snyk-protect": "snyk protect",
+    "doc:ng": "compodoc -p src/tsconfig.app.json -s"
   },
   "private": true,
   "dependencies": {
