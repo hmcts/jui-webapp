@@ -4,6 +4,7 @@ const mocha = new Mocha({
     ui: 'tdd',
     // reporter: 'spec',
     bail: 'yes',
+    options: { 'ignore-ssl-errors': 'yes' },
     reporter: 'mochawesome',
     reporterOptions: {
         reportDir: 'reports/tests/api_functional/',
