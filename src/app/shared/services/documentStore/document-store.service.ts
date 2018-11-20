@@ -42,7 +42,7 @@ export class DocumentStoreService {
     private getDmFindByCreatorUrlWithParams(page: number, sortby: string, order: string, size: number) {
         return `${this.configService.config.api_base_url}/api/dm-store/documents/owned`
             + '?page=' + page
-            + '&sort=' + sortby + ',' + order
+            + '&sort=' + order
             + '&size=' + size;
     }
 }

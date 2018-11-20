@@ -158,8 +158,9 @@ function filterDocument(options) {
 }
 
 // Search stored documents by ownership.
-function ownedDocument(options) {
-    return generateRequest('POST', `${url}/documents/owned`, options)
+function ownedDocument(params, options) {
+    const queryStringParams = Object.keys(params).map(key => key + '=' + params[key]).join('&')
+    return generateRequest('POST', `${url}/documents/owned?${queryStringParams}`, options)
 }
 
 // Starts migration for a specific version of the content of a Stored Document.
@@ -207,12 +208,8 @@ module.exports = app => {
         filterDocument(getOptions(req)).pipe(res)
     })
 
-    router.get('/documents/owned', (req, res, next) => {
-        ownedDocument(getOptions(req)).pipe(res)
-    })
-
     router.post('/documents/owned', (req, res, next) => {
-        ownedDocument(getOptions(req)).pipe(res)
+        ownedDocument(req.query, getOptions(req)).pipe(res)
     })
 
     /**
