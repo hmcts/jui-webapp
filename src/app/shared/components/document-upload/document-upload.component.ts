@@ -39,7 +39,7 @@ export class DocumentUploadComponent implements OnInit {
 
         this.documentService.postFile('PRIVATE', metadataObj, this.fileToUpload)
             .subscribe( () => this.gotoRedirect(),
-                err => {this.error = err;}
+                err => { this.error = err; }
             );
     }
 

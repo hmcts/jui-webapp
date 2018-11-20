@@ -100,10 +100,10 @@ export class CheckDecisionComponent implements OnInit {
             if (this.npaDocumentTask.outputDocumentId) {
                 this.request.formValues.documentAnnotationId = this.npaDocumentTask.outputDocumentId;
             } else {
-                console.log( "No Document ID generated =", this.npaDocumentTask.outputDocumentId );
+                console.log( 'No Document ID generated =', this.npaDocumentTask.outputDocumentId );
             }
         } else {
-            console.log( "Document hasn't generated =", this.npaDocumentTask );
+            console.log( 'Document hasn\'t generated =', this.npaDocumentTask );
         }
         console.log('Submitting properties =>', this.pageitems.name, this.request);
         this.decisionService.submitDecisionDraft('fr',
@@ -124,12 +124,12 @@ export class CheckDecisionComponent implements OnInit {
                 (response) => {
                     this.npaDocumentTask = response.body;
                     if (this.npaDocumentTask.taskState === 'FAILED') {
-                        console.log("ERROR: ",this.npaDocumentTask.failureDescription);
+                        console.log('ERROR: ', this.npaDocumentTask.failureDescription);
                        // this.handleNpaError(this.npaDocumentTask.failureDescription);
                     }
                 },
                 response => {
-                    console.log("ERROR: Could not create annotated PDF.");
+                    console.log('ERROR: Could not create annotated PDF.');
                     //this.handleNpaError('Could not create annotated PDF.');
                 });
         }

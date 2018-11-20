@@ -1,21 +1,21 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CheckDecisionComponent } from "./check-decision.component";
-import { RouterTestingModule } from "@angular/router/testing";
-import { DomainModule } from "../../../../domain/domain.module";
-import { SharedModule } from "../../../../shared/shared.module";
-import { BrowserTransferStateModule } from "@angular/platform-browser";
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { ConfigService } from "../../../../config.service";
-import { DecisionService } from "../../../../domain/services/decision.service";
-import { of } from "rxjs";
-import { ActivatedRoute } from "@angular/router";
-import { JUIFormsModule } from "../../../../forms/forms.module";
-import { RedirectionService } from "../../../redirection.service";
-import { GovukModule } from "../../../../govuk/govuk.module";
-import { HmctsModule } from "../../../../hmcts/hmcts.module";
+import { CheckDecisionComponent } from './check-decision.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { DomainModule } from '../../../../domain/domain.module';
+import { SharedModule } from '../../../../shared/shared.module';
+import { BrowserTransferStateModule } from '@angular/platform-browser';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ConfigService } from '../../../../config.service';
+import { DecisionService } from '../../../../domain/services/decision.service';
+import { of } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { JUIFormsModule } from '../../../../forms/forms.module';
+import { RedirectionService } from '../../../redirection.service';
+import { GovukModule } from '../../../../govuk/govuk.module';
+import { HmctsModule } from '../../../../hmcts/hmcts.module';
 
-describe("CheckDecisionComponent", () => {
+describe('CheckDecisionComponent', () => {
     let component: CheckDecisionComponent;
     let fixture: ComponentFixture<CheckDecisionComponent>;
     let decisionServiceFetchSpy;
@@ -52,7 +52,7 @@ describe("CheckDecisionComponent", () => {
                     provide: ConfigService,
                     useValue: {
                         config: {
-                            api_base_url: ""
+                            api_base_url: ''
                         }
                     }
                 },
@@ -66,10 +66,10 @@ describe("CheckDecisionComponent", () => {
                             snapshot: {
                                 data: {
                                     caseData: {
-                                        id: "1234",
+                                        id: '1234',
                                         decision: {
                                             options: [
-                                                { id: "test", name: "test" }
+                                                { id: 'test', name: 'test' }
                                             ]
                                         }
                                     }
@@ -85,11 +85,11 @@ describe("CheckDecisionComponent", () => {
     beforeEach(() => {
         decisionServiceFetchSpy = spyOn(
             TestBed.get(DecisionService),
-            "fetch"
+            'fetch'
         ).and.returnValue(of({}));
         decisionServiceIssueSpy = spyOn(
             TestBed.get(DecisionService),
-            "issueDecision"
+            'issueDecision'
         ).and.returnValue(of({}));
         fixture = TestBed.createComponent(CheckDecisionComponent);
         component = fixture.componentInstance;
@@ -100,18 +100,18 @@ describe("CheckDecisionComponent", () => {
         TestBed.resetTestingModule();
     });
 
-    xit("should create", () => {
+    xit('should create', () => {
         expect(component).toBeTruthy();
     });
 
-    describe("on form submission", () => {
+    describe('on form submission', () => {
         let redirectionServiceSpy;
 
-        describe("if form is valid", () => {
+        describe('if form is valid', () => {
             beforeEach(() => {
                 redirectionServiceSpy = spyOn(
                     TestBed.get(RedirectionService),
-                    "redirect"
+                    'redirect'
                 );
             });
 

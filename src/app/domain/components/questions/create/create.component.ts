@@ -58,17 +58,17 @@ export class CreateQuestionsComponent implements OnInit {
     }
 
     submitCallback(values) {
-        values.subject && this.form.controls.subject.setValue(values.subject.trim());
-        values.question && this.form.controls.question.setValue(values.question.trim());
-        values.rounds = this.roundNumber;
+        // TODO FIX THIS ASSIGN
+        // values.subject && this.form.controls.subject.setValue(values.subject.trim());
+        // values.question && this.form.controls.question.setValue(values.question.trim());
+        // values.rounds = this.roundNumber;
 
         if (this.form.valid) {
             this.questionService.create(this.caseId, values)
                 .subscribe(res => {
                     this.redirectionService.redirect(`/case/${this.jurisdiction}/${this.caseType}/${this.caseId}/questions?created=success`);
                 }, err => console.log);
-        }
-        else {
+        } else {
             this.error.subject = !this.form.controls.subject.valid;
             this.error.question = !this.form.controls.question.valid;
         }

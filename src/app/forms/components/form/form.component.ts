@@ -34,7 +34,7 @@ export class FormComponent implements OnInit {
 
     checkSubmission() {
         const values = this.formService.getFormValues();
-        if(values) {
+        if (values) {
             const fields = Object.keys(values);
             fields.forEach(field => {
                this.form.controls[field].setValue(values[field]);
@@ -44,17 +44,17 @@ export class FormComponent implements OnInit {
     }
 
     triggerCallback(values) {
-        if(this.callback_options && this.callback_options.eventEmitter) {
+        if (this.callback_options && this.callback_options.eventEmitter) {
             this.callback_options.eventEmitter.emit(values);
         }
     }
 }
 
 // Incorrectly written
-export interface JUIFormInterface {
-    submitCallback(value: Object): void;
-    form: FormGroup;
-    eventEmitter: EventEmitter<any>;
-    callback_options: object;
-    ngAfterViewChecked(): void;
-}
+// export interface JUIFormInterface {
+//     submitCallback(value: Object): void;
+//     form: FormGroup;
+//     eventEmitter: EventEmitter<any>;
+//     callback_options: object;
+//     ngAfterViewChecked(): void;
+// }

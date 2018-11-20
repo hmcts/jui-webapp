@@ -41,8 +41,8 @@ export class DraftConsentOrderComponent implements OnInit {
             this.pageitems = this.decision.meta;
             this.pageValues = this.decision.formValues;
 
-            console.log("pageitems", this.pageitems);
-            console.log("pageValues", this.pageValues);
+            console.log('pageitems', this.pageitems);
+            console.log('pageValues', this.pageValues);
 
             this.createForm(this.pageitems, this.pageValues) ;
         });
@@ -54,7 +54,7 @@ export class DraftConsentOrderComponent implements OnInit {
         this.pageValues.visitedPages['draft-consent-order'] = true;
         this.request.formValues.visitedPages = this.pageValues.visitedPages;
         console.log(this.pageitems.name, this.request);
-        this.decisionService.submitDecisionDraft('fr',this.activatedRoute.snapshot.parent.data.caseData.id, this.pageitems.name, this.request).subscribe(decision => {
+        this.decisionService.submitDecisionDraft('fr', this.activatedRoute.snapshot.parent.data.caseData.id, this.pageitems.name, this.request).subscribe(decision => {
             console.log(decision.newRoute);
             this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
         });

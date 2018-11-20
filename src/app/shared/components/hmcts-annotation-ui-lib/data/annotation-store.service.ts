@@ -1,6 +1,6 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
-import {Observable, Subscription, Subject, BehaviorSubject} from 'rxjs';
+import {Observable, Subscription, Subject, BehaviorSubject, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {v4 as uuid} from 'uuid';
 import {Annotation, Comment, IAnnotation, IAnnotationSet} from './annotation-set.model';
@@ -117,7 +117,7 @@ export class AnnotationStoreService implements OnDestroy {
                 if (err instanceof HttpErrorResponse) {
                     switch (err.status) {
                         case 400: {
-                            return Observable.throw(err.error);
+                            return throwError(err.error);
                         }
                         case 404: {
                             const body = {
@@ -127,7 +127,7 @@ export class AnnotationStoreService implements OnDestroy {
                             return this.apiHttpService.createAnnotationSet(baseUrl, body);
                         }
                         case 500: {
-                            return Observable.throw(new Error('Internal server error: ' + err));
+                            return throwError('Internal server error: ' + err);
                         }
                     }
                 }

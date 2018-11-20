@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RadioButtonsComponent } from './radio-buttons.component';
 import {FormsModule, FormGroup, FormControl} from '@angular/forms';
-import {ReactiveFormsModule} from "@angular/forms";
+import {ReactiveFormsModule} from '@angular/forms';
 
 describe('RadioButtonsComponent', () => {
     let component: RadioButtonsComponent;

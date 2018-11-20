@@ -15,9 +15,9 @@ export class CreateDecisionComponent implements OnInit {
     decision: any;
     options = [];
 
-    decisionAward: string = '';
-    decisionState: string = '';
-    decisionText: string = '';
+    decisionAward = '';
+    decisionState = '';
+    decisionText = '';
 
     eventEmitter: EventEmitter<any> = new EventEmitter();
     callback_options = {
@@ -36,7 +36,7 @@ export class CreateDecisionComponent implements OnInit {
         private router: Router,
         public decisionService: DecisionService,
         public redirectionService: RedirectionService,
-        private cdRef : ChangeDetectorRef
+        private cdRef: ChangeDetectorRef
     ) { }
 
     createForm() {
@@ -53,7 +53,7 @@ export class CreateDecisionComponent implements OnInit {
         this.decision = this.route.parent.snapshot.data['decision'];
         this.options = this.case.decision.options;
 
-        if(this.decision){
+        if (this.decision) {
             this.decisionAward = this.decision.decision_award;
             this.decisionState = this.decision.decision_state.state_name;
             this.decisionText = this.decision.decision_text;
@@ -61,20 +61,16 @@ export class CreateDecisionComponent implements OnInit {
         this.createForm();
     }
 
-    ngAfterViewChecked() {
-        this.cdRef.detectChanges();
-    }
-
+    
     submitCallback(values) {
         if (this.form.valid) {
-            if(this.decision) {
+            if (this.decision) {
                 this.decisionService.updateDecisionDraft(this.case.id, values.decision, values.notes)
                     .subscribe(
                         () => this.redirectionService.redirect(`/case/${this.case.case_jurisdiction}/${this.case.case_type_id}/${this.case.id}/decision/check`),
                         error => this.error.server = true
                     );
-            }
-            else {
+            } else {
                 this.decisionService.submitDecisionDraft(this.case.id, values.decision, values.notes, null)
                     .subscribe(
                         () => this.redirectionService.redirect(`/case/${this.case.case_jurisdiction}/${this.case.case_type_id}/${this.case.id}/decision/check`),
@@ -83,8 +79,7 @@ export class CreateDecisionComponent implements OnInit {
             }
 
 
-        }
-        else {
+        } else {
             this.error.decision = !this.form.controls.decision.valid;
             this.error.notes = !this.form.controls.notes.valid;
         }

@@ -112,7 +112,7 @@ export class ReasonsCoNotApprovedComponent implements OnInit {
             this.useValidation = true;
             return;
         } else {
-            this.decisionService.submitDecisionDraft('fr',this.activatedRoute.snapshot.parent.data.caseData.id, this.pageitems.name, this.request).subscribe(decision => {
+            this.decisionService.submitDecisionDraft('fr', this.activatedRoute.snapshot.parent.data.caseData.id, this.pageitems.name, this.request).subscribe(decision => {
                 console.log(decision.newRoute);
                 this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
             });

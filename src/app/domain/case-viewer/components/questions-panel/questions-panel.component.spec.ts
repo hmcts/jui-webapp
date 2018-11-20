@@ -11,7 +11,6 @@ describe('QuestionsPanelComponent', () => {
     let component: QuestionsPanelComponent;
     let fixture: ComponentFixture<QuestionsPanelComponent>;
     let nativeElement;
-    let mockRoute;
     let mockConfigService;
 
     beforeEach(() => {

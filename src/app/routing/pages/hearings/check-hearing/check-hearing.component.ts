@@ -41,9 +41,7 @@ export class CheckHearingComponent implements OnInit {
         this.createForm();
     }
 
-    ngAfterViewChecked() {
-        this.cdRef.detectChanges();
-    }
+
 
     submitCallback(values) {
         if (this.form.valid) {
