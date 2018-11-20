@@ -70,6 +70,14 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.commentRendered.emit(true);
                 }
             });
+
+        this.commentItem.statusChanges.subscribe(
+                result => {
+                    if (this.focused) {
+                        this.resize(null);
+                    }
+                }
+            );
     }
 
     ngAfterViewInit() {
@@ -118,6 +126,7 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
             this.ref.detectChanges();
         }
         this.commentZIndex = 0;
+        this.commentArea.nativeElement.style.height = '';
     }
 
     convertFormToComment(commentForm: NgForm): Comment {
@@ -149,6 +158,11 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
         this.setHeight(120);
         this.focused = true;
         this.hideButton = false;
+    }
+
+    resize(event) {
+        this.commentArea.nativeElement.style.height = 'auto';
+        this.commentArea.nativeElement.style.height = this.commentArea.nativeElement.scrollHeight + 'px';
     }
 
     handleHideBtn() {

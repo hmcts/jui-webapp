@@ -22,7 +22,8 @@ form textarea {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-weight: 400;
-  overflow-x: hidden;
+  overflow: hidden;
+    resize: none;
 }
 
 .mimic-focus {
