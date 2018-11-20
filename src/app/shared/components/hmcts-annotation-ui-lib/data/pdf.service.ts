@@ -74,17 +74,20 @@ export class PdfService {
                 const viewer = this.viewerElementRef.nativeElement;
                 viewer.innerHTML = '';
                 const NUM_PAGES = pdf.pdfInfo.numPages;
-                for (let i = 0; i < NUM_PAGES; i++) {
-                    const page = this.pdfAnnotateWrapper.createPage(i + 1);
-                    viewer.appendChild(page);
-                    setTimeout(() => {
-                        this.pdfAnnotateWrapper.renderPage(i + 1, this.RENDER_OPTIONS).then(() => {
-                            if (i === NUM_PAGES - 1) {
-                                this.dataLoadedUpdate(true);
-                            }
+                pdf.getPage(1).then(pdfPage => {
+                    this.RENDER_OPTIONS.rotate = pdfPage.rotate;
+                    for (let i = 0; i < NUM_PAGES; i++) {
+                        const page = this.pdfAnnotateWrapper.createPage(i + 1);
+                        viewer.appendChild(page);
+                        setTimeout(() => {
+                            this.pdfAnnotateWrapper.renderPage(i + 1, this.RENDER_OPTIONS).then(() => {
+                                if (i === NUM_PAGES - 1) {
+                                    this.dataLoadedUpdate(true);
+                                }
+                            });
                         });
-                    });
-                }
+                    }
+                });
                 this.pdfPages = NUM_PAGES;
             }).catch(
             (error) => {
