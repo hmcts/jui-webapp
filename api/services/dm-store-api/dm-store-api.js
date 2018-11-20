@@ -1,11 +1,10 @@
 const express = require('express')
 const fs = require('fs');
-const multiparty = require('multiparty')
-const requestPromiseNative = require('request-promise-native')
-const FormData = require('form-data');
+const formidable = require('formidable')
 
 const config = require('../../../config')
 const generateRequest = require('../../lib/request/request')
+const generateFormRequest = require('../../lib/request/requestFormData')
 
 const url = config.services.dm_store_api
 
@@ -66,7 +65,6 @@ function getDocumentVersionThumbnail(documentId, versionId, options) {
 ////////////////////////////////////////////////////
 
 // Creates a list of Stored Documents by uploading a list of binary/text files.
-
 function postDocument(file, options) {
 
     options.headers['Content-Type'] = 'application/x-www-form-urlencoded'
@@ -85,40 +83,26 @@ function postDocument(file, options) {
 }
 
 /**
- * postMultipartFormDataDocument
+ * Upload File
  *
- * This looks like it's sending through the multipart form data to the DM Store. As when we
- * don't send the form data, we're getting a 'status: 500. the request was rejected because no multipart boundary
- * was found.'
- *
- * When we send the file data through to the DM store, we receive no server response, which is odd,
- * therefore I need to ask Pawel about why this could be [15thNov2018]
- *
- * Note: Currently the below is taking a local file.
+ * Send through the form data, including any files to the DM Store.
  *
  * @param options
+ * @param file
  */
-function postMultipartFormDataDocument(options) {
-
-    console.log('postMultipartFormDataDocument')
-
-    // const formData = new FormData()
-    // formData.append('file', fs.createReadStream('./circleFace.jpg'))
-
-    // options.headers['Content-Type'] = 'multipart/form-data'
-    // options.body = { classification: 'PUBLIC' }
+function uploadFile(options, file) {
     options.formData = {
         files: [
             {
-                value: fs.createReadStream('./annotated.pdf'),
-                options: { filename: 'annotated', contentType: 'application/pdf' }
+                value: fs.createReadStream(file.path),
+                options: {filename: file.name, contentType: file.type}
             }
         ],
-        classification: 'RESTRICTED'
+        classification: 'PUBLIC'
     }
 
-    // Added to see the DM Store response, usually passes up the deferred value
-    generateRequest('POST', `${url}/documents`, options).then(response => {
+    //TODO: go back to using generateForm
+    generateFormRequest('POST', `${url}/documents`, options).then(response => {
         console.log('Response')
         console.log(response)
         return response
@@ -129,10 +113,6 @@ function postMultipartFormDataDocument(options) {
             console.log(error);
             return error
         });
-
-    // TODO: Place back in when the file is uploading correctly to the Api, and
-    // pass through error messages if not.
-    // return generateRequest('POST', `${url}/documents`, options)
 }
 
 // Adds a Document Content Version and associates it with a given Stored Document.
@@ -236,33 +216,18 @@ module.exports = app => {
     })
 
     /**
-     * /documents
+     * Retrieves the file from a multipart form.
      *
-     * part is a ReadableStream. Note that is has contentType and byteCount upon it.
-     *
-     * TODO: You can use !part.filename to know that if or if not that part is a file.
-     * TODO: You could hopefully just use a pipe to pass it straight through to the Api.
+     * TODO: do you need fs.unlink here?
      */
-    router.post('/documents', (request, response, next) => {
+    router.post('/documents', (req, res, next) => {
+        const form = new formidable.IncomingForm()
 
-        const form = new multiparty.Form()
-        const FILES = 'files'
-
-        form.on('part', (part) => {
-            if (part.name === FILES) {
-                console.log('part.contentType')
-                // console.log(part)
-                console.log(part.headers['content-type'])
-
-                //TODO: Do not save the file locally, but send the ReadableStream onto the multiparty form.
-                part.pipe(fs.createWriteStream('./testPdfUpload2.pdf'))
-                    .on('close', () => {
-                        postMultipartFormDataDocument(getOptions(request))
-                    })
-            }
+        form.on('file', (name, file) => {
+            uploadFile(getOptions(req), file)
         })
 
-        form.parse(request)
+        form.parse(req)
     })
 
     router.get('/documents/:documentId/binary', (req, res, next) => {
