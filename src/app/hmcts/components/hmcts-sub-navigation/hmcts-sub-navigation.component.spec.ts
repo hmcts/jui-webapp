@@ -49,7 +49,7 @@ describe('HmctsSubNavigationComponent', () => {
 describe('HmctsSubNavigationComponent: Testing Input & Outputs', () => {
     let testHostComponent: TestDummyHostComponent;
     let testHostFixture: ComponentFixture<TestDummyHostComponent>;
-    
+
     let de: any;
     beforeEach(async(() => {
         TestBed.configureTestingModule({
