@@ -1,8 +1,8 @@
-import {Component, OnInit, ChangeDetectorRef, EventEmitter} from '@angular/core';
-import { QuestionService } from '../../../services/question.service';
-import { RedirectionService } from '../../../../routing/redirection.service';
-import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import {ChangeDetectorRef, Component, EventEmitter, OnInit} from '@angular/core';
+import {QuestionService} from '../../../services/question.service';
+import {RedirectionService} from '../../../../routing/redirection.service';
+import {ActivatedRoute} from '@angular/router';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
     selector: 'app-create-question',
@@ -27,12 +27,11 @@ export class CreateQuestionsComponent implements OnInit {
     };
     roundNumber;
 
-    constructor(
-        private fb: FormBuilder,
-        private questionService: QuestionService,
-        private redirectionService: RedirectionService,
-        private route: ActivatedRoute,
-        private cdRef: ChangeDetectorRef) {
+    constructor(private fb: FormBuilder,
+                private questionService: QuestionService,
+                private redirectionService: RedirectionService,
+                private route: ActivatedRoute,
+                private cdRef: ChangeDetectorRef) {
 
     }
 
@@ -59,9 +58,13 @@ export class CreateQuestionsComponent implements OnInit {
 
     submitCallback(values) {
         // TODO FIX THIS ASSIGN
-        // values.subject && this.form.controls.subject.setValue(values.subject.trim());
-        // values.question && this.form.controls.question.setValue(values.question.trim());
-        // values.rounds = this.roundNumber;
+        if (values.subject) {
+            this.form.controls.subject.setValue(values.subject.trim());
+        }
+        if (values.question) {
+            this.form.controls.question.setValue(values.question.trim());
+        }
+         values.rounds = this.roundNumber;
 
         if (this.form.valid) {
             this.questionService.create(this.caseId, values)
