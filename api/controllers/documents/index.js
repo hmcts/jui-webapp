@@ -13,7 +13,7 @@ function getUploadDocumentEventId(jurisdiction, caseType) {
 function uploadDocument(userId, jurisdiction, caseType, caseId, file, options) {
     const eventId = getUploadDocumentEventId(jurisdiction, caseType)
 
-    postDocument(file, options)
+    postDocument(file, 'PUBLIC', options)
         .then(res => {
             getCCDEventToken(userId, jurisdiction, caseType, caseId, eventId, options)
                 .then(eventToken => {

@@ -65,7 +65,7 @@ function getDocumentVersionThumbnail(documentId, versionId, options) {
  */
 
 // Creates a list of Stored Documents by uploading a list of binary/text files.
-function postDocument(file, options) {
+function postDocument(file, classification, options) {
     options.formData = {
         files: [
             {
@@ -73,10 +73,22 @@ function postDocument(file, options) {
                 options: { filename: file.name, contentType: file.type }
             }
         ],
-        classification: 'PUBLIC'
+        classification: getClassification(classification)
     }
 
     return generateRequest('POST', `${url}/documents`, options)
+}
+
+/**
+ * getClassification
+ *
+ * If classification has not been entered, we assume that it is public.
+ *
+ * @param {String} classification - 'RESTRICTED'
+ * @return {String}
+ */
+function getClassification(classification) {
+    return classification || 'PUBLIC'
 }
 
 // Adds a Document Content Version and associates it with a given Stored Document.
@@ -176,7 +188,7 @@ module.exports = app => {
         const form = new formidable.IncomingForm()
 
         form.on('file', (name, file) => {
-            postDocument(file, getOptions(req)).pipe(res)
+            postDocument(file, 'PUBLIC', getOptions(req)).pipe(res)
         })
 
         form.parse(req)
