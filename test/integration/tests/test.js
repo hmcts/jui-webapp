@@ -8,7 +8,8 @@ const mocha = new Mocha({
     reporterOptions: {
         reportDir: 'reports/tests/api_functional/',
         reportName: 'JUI_API_Integration_tests'
-    }
+    },
+    NODE_TLS_REJECT_UNAUTHORIZED: 0
 });
 
 mocha.addFile('test/integration/tests/get_jui_cases.js');
