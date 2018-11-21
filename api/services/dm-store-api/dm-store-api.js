@@ -4,7 +4,6 @@ const formidable = require('formidable')
 
 const config = require('../../../config')
 const generateRequest = require('../../lib/request/request')
-const generateFormRequest = require('../../lib/request/requestFormData')
 
 const url = config.services.dm_store_api
 
@@ -83,36 +82,20 @@ function postDocument(file, options) {
 }
 
 /**
- * Upload File
- *
- * Send through the form data, including any files to the DM Store.
- *
- * @param options
- * @param file
+ * Uploads a file to the DM Store.
  */
 function uploadFile(options, file) {
     options.formData = {
         files: [
             {
                 value: fs.createReadStream(file.path),
-                options: {filename: file.name, contentType: file.type}
+                options: { filename: file.name, contentType: file.type }
             }
         ],
         classification: 'PUBLIC'
     }
 
-    //TODO: go back to using generateForm
-    generateFormRequest('POST', `${url}/documents`, options).then(response => {
-        console.log('Response')
-        console.log(response)
-        return response
-    })
-        .catch((error) => {
-
-            console.log('Error');
-            console.log(error);
-            return error
-        });
+    return generateRequest('POST', `${url}/documents`, options)
 }
 
 // Adds a Document Content Version and associates it with a given Stored Document.
@@ -214,14 +197,12 @@ module.exports = app => {
 
     /**
      * Retrieves the file from a multipart form.
-     *
-     * TODO: do you need fs.unlink here?
      */
     router.post('/documents', (req, res, next) => {
         const form = new formidable.IncomingForm()
 
         form.on('file', (name, file) => {
-            uploadFile(getOptions(req), file)
+            uploadFile(getOptions(req), file).pipe(res)
         })
 
         form.parse(req)
