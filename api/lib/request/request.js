@@ -16,8 +16,7 @@ const request = require('request-promise')
  * @return {*}
  */
 module.exports = (method, url, params) => {
-    // console.log('Request');
-    // console.log(params);
+
     const headers = (params.headers && config.configEnv !== 'mock') ? Object.assign(params.headers) : {}
 
     let options = {
@@ -38,9 +37,6 @@ module.exports = (method, url, params) => {
     if (config.configEnv !== 'mock') {
         if (config.useProxy) options = proxy(options)
     }
-
-    console.log('options');
-    console.log(options);
 
     return request(options)
 }

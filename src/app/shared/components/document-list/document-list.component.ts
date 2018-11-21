@@ -10,7 +10,7 @@ export class DocumentListComponent implements OnInit {
 
 
     @Input() page = 0;
-    @Input() sortby = 'asc';
+    @Input() sortby = 'desc';
     @Input() order = 'createdOn';
     @Input() size = 15;
     documents: string;
