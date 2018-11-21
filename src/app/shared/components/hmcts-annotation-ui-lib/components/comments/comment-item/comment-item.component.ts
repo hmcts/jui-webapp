@@ -35,7 +35,8 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
 
     constructor(private annotationStoreService: AnnotationStoreService,
                 private pdfService: PdfService,
-                private ref: ChangeDetectorRef) {
+                private ref: ChangeDetectorRef,
+                private renderer: Renderer2) {
     }
 
     ngOnInit() {
@@ -74,7 +75,7 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
         this.commentItem.statusChanges.subscribe(
                 result => {
                     if (this.focused) {
-                        this.resize(null);
+                        this.resize();
                     }
                 }
             );
@@ -126,7 +127,7 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
             this.ref.detectChanges();
         }
         this.commentZIndex = 0;
-        this.commentArea.nativeElement.style.height = '';
+        this.renderer.setStyle(this.commentArea.nativeElement, 'height', '');
     }
 
     convertFormToComment(commentForm: NgForm): Comment {
@@ -158,11 +159,12 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
         this.setHeight(120);
         this.focused = true;
         this.hideButton = false;
+        this.resize();
     }
 
-    resize(event) {
-        this.commentArea.nativeElement.style.height = 'auto';
-        this.commentArea.nativeElement.style.height = this.commentArea.nativeElement.scrollHeight + 'px';
+    resize() {
+        this.renderer.setStyle(this.commentArea.nativeElement, 'height', 'auto');
+        this.renderer.setStyle(this.commentArea.nativeElement, 'height', this.commentArea.nativeElement.scrollHeight + 'px');
     }
 
     handleHideBtn() {
