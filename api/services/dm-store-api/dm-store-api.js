@@ -4,6 +4,7 @@ const formidable = require('formidable')
 
 const config = require('../../../config')
 const generateRequest = require('../../lib/request/request')
+const headerUtilities = require('../../lib/utilities/headerUtilities')
 
 const url = config.services.dm_store_api
 
@@ -17,7 +18,7 @@ function getDocument(documentId, options) {
 }
 
 // Retrieves JSON[] representation of a list of Stored Document.
-//TODO: could ask DM team to have a muti doc list in the future move a layer down.
+// TODO: could ask DM team to have a muti doc list in the future move a layer down.
 function getDocuments(documentIds = [], options) {
     const promiseArray = []
     documentIds.forEach(documentId => {
@@ -160,14 +161,7 @@ function getInfo(options) {
 }
 
 function getOptions(req) {
-    return {
-        headers: {
-            Authorization: `Bearer ${req.auth.token}`,
-            ServiceAuthorization: req.headers.ServiceAuthorization,
-            'user-id': `${req.auth.userId}`,
-            'user-roles': req.auth.data
-        }
-    }
+    return headerUtilities.getAuthHeadersWithUserIdAndRoles(req)
 }
 
 /**
@@ -225,20 +219,37 @@ module.exports = app => {
 }
 
 module.exports.getInfo = getInfo
+
 module.exports.getHealth = getHealth
+
 module.exports.getDocument = getDocument
+
 module.exports.getDocuments = getDocuments
+
 module.exports.getDocumentBinary = getDocumentBinary
+
 module.exports.getDocumentThumbnail = getDocumentThumbnail
+
 module.exports.getDocumentVersion = getDocumentVersion
+
 module.exports.getDocumentVersionBinary = getDocumentVersionBinary
+
 module.exports.getDocumentVersionThumbnail = getDocumentVersionThumbnail
+
 module.exports.postDocument = postDocument
+
 module.exports.postDocumentVersion = postDocumentVersion
+
 module.exports.postDocumentVersionVersion = postDocumentVersionVersion
+
 module.exports.patchDocument = patchDocument
+
 module.exports.deleteDocument = deleteDocument
+
 module.exports.getDocumentAuditEntries = getDocumentAuditEntries
+
 module.exports.filterDocument = filterDocument
+
 module.exports.ownedDocument = ownedDocument
+
 module.exports.postDocumentVersionMigrate = postDocumentVersionMigrate

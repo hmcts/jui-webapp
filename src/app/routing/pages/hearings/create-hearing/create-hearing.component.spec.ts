@@ -13,6 +13,7 @@ import {DomainModule} from '../../../../domain/domain.module';
 import {HearingService} from '../../../../domain/services/hearing.service';
 import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
+import { mockCaseData } from './mock/create-hearing.mock';
 
 describe('CreateHearingComponent', () => {
     let component: CreateHearingComponent;
@@ -25,21 +26,7 @@ describe('CreateHearingComponent', () => {
                 params: Observable.of({caseid: '1234'}),
                 snapshot: {
                     data: {
-                        caseData: {
-                            id: '1234',
-                            sections: [],
-                            details: {
-                                fields: [
-                                    {value: '123'},
-                                    {value: 'bob v bob'}
-                                ]
-                            },
-                            decision: {
-                                options: [
-                                    {id: 'appeal-decline', name: 'Appeal Declined'}
-                                ]
-                            }
-                        }
+                        caseData: mockCaseData
                     }
                 }
             },

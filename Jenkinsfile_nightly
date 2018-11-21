@@ -8,12 +8,7 @@ properties([
     ],
     pipelineTriggers([
         cron('H 05 * * *')
-    ]),
-    parameters([
-            string(name: 'URL_TO_TEST', defaultValue: 'https://jui-webapp-aat.service.core-compute-aat.internal', description: 'The URL you want to run these tests against'),
-             string(name: 'JUI_EMAIL', defaultValue: '', description: 'The EMAIL you want to run these tests against'),
-             string(name: 'JUI_PASSWORD', defaultValue: '', description: 'The PASSWORD you want to run these tests against')
-
+    ])
 ])
 
 @Library("Infrastructure")
@@ -21,11 +16,8 @@ properties([
 def type = "nodejs"
 def product = "jui"
 def component = "webapp"
-
+def vault = "rpa-aat"
 def channel = '#jui-pipeline'
-
-
-
 
 List<LinkedHashMap<String, Object>> secrets = [
     secret('test-email', 'TEST_EMAIL'),
@@ -33,11 +25,10 @@ List<LinkedHashMap<String, Object>> secrets = [
     secret('jui-s2s-token', 'S2S_SECRET'),
     secret('jui-oauth2-token', 'IDAM_SECRET'),
     secret('fr-email', 'FR_EMAIL'),
-    secret('fr-password', 'FR_PASSWORD')
+    secret('fr-password', 'FR_PASSWORD'),
+    secret('sscs-email', 'SSCS_EMAIL'),
+    secret('sscs-password', 'SSCS_PASSWORD')
 ]
-
-
-
 
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     [ $class: 'AzureKeyVaultSecret',
@@ -51,7 +42,7 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 withNightlyPipeline(type, product, component) {
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
-    setVaultName('rpa-aat')
+    setVaultName(vault)
 
 //    enablePerformanceTest(15)
 //    enableApiGatewayTest(15)
@@ -61,15 +52,30 @@ withNightlyPipeline(type, product, component) {
     enableDockerBuild()
     enableDeployToAKS()
 
-    env.TEST_URL = params.URL_TO_TEST
-    env.TEST_EMAIL = params.JUI_EMAIL
-    env.TEST_PASSWORD = params.JUI_PASSWORD
+    env.TEST_URL = 'https://jui-webapp-aat.service.core-compute-aat.internal'
 
-    after('checkout') {
-    sh 'yarn cache clean'}
+    after('checkout') {sh 'yarn cache clean'}
 
     after('build') {
-    sh 'npm run build'
+        sh 'npm run build'
+
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/lint/node/",
+            reportFiles          : 'index.html',
+            reportName           : 'node lint Report'
+        ])
+
+        publishHTML([
+            allowMissing         : true,
+            alwaysLinkToLastBuild: true,
+            keepAll              : true,
+            reportDir            : "reports/lint/ng/",
+            reportFiles          : 'index.html',
+            reportName           : 'ng lint Report'
+        ])
     }
 
      after('crossBrowserTest') {

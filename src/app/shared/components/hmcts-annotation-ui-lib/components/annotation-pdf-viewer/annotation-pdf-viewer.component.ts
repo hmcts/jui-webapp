@@ -1,11 +1,15 @@
-import {Component, OnInit, ViewChild, ElementRef, Inject, Input} from '@angular/core';
-import {DOCUMENT} from '@angular/common';
+import {Component, OnInit, ViewChild, ElementRef, Input, ChangeDetectorRef, Renderer2, OnDestroy, AfterViewInit} from '@angular/core';
 import {PdfService} from '../../data/pdf.service';
+import { Subscription } from 'rxjs';
 import {AnnotationStoreService} from '../../data/annotation-store.service';
-import {IAnnotationSet} from '../../data/annotation-set.model';
+import {IAnnotationSet, Annotation} from '../../data/annotation-set.model';
 import {NpaService} from '../../data/npa.service';
 import {ApiHttpService} from '../../data/api-http.service';
+import { Utils } from '../../data/utils';
 import { ContextualToolbarComponent } from '../contextual-toolbar/contextual-toolbar.component';
+import { CommentsComponent } from '../comments/comments.component';
+import { PdfAnnotateWrapper } from '../../data/js-wrapper/pdf-annotate-wrapper';
+
 
 @Component({
     selector: 'app-annotation-pdf-viewer',
@@ -13,7 +17,7 @@ import { ContextualToolbarComponent } from '../contextual-toolbar/contextual-too
     styleUrls: ['./annotation-pdf-viewer.component.scss'],
     providers: []
 })
-export class AnnotationPdfViewerComponent implements OnInit {
+export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @Input() annotate: boolean;
     @Input() dmDocumentId: string;
@@ -22,18 +26,24 @@ export class AnnotationPdfViewerComponent implements OnInit {
     @Input() annotationSet: IAnnotationSet;
     @Input() baseUrl: string;
 
-    renderedPages: {};
-    page: number;
+    private page: number;
+    private focusedAnnotationSubscription: Subscription;
+    private pageNumberSubscription: Subscription;
 
     @ViewChild('contentWrapper') contentWrapper: ElementRef;
-    @ViewChild(ContextualToolbarComponent) contextualToolbar: ContextualToolbarComponent;
     @ViewChild('viewer') viewerElementRef: ElementRef;
+    @ViewChild('annotationWrapper') annotationWrapper: ElementRef;
+    @ViewChild('commentsComponent') commentsComponent: CommentsComponent;
+    @ViewChild('contextualToolbar') contextualToolbar: ContextualToolbarComponent;
 
     constructor(private pdfService: PdfService,
                 private npaService: NpaService,
                 private apiHttpService: ApiHttpService,
                 private annotationStoreService: AnnotationStoreService,
-                @Inject(DOCUMENT) private document: any) {
+                private utils: Utils,
+                private ref: ChangeDetectorRef,
+                private renderer: Renderer2,
+                private pdfAnnotateWrapper: PdfAnnotateWrapper) {
     }
 
     ngOnInit() {
@@ -46,10 +56,25 @@ export class AnnotationPdfViewerComponent implements OnInit {
             rotate: parseInt(localStorage.getItem(this.url + '/rotate'), 10) || 0
         });
 
-        this.renderedPages = {};
         this.pdfService.render(this.viewerElementRef);
-        this.pdfService.setHighlightTool();
-        this.pdfService.getPageNumber().subscribe(page => this.page = page);
+        this.pdfService.setAnnotationWrapper(this.annotationWrapper);
+        this.pageNumberSubscription = this.pdfService.getPageNumber()
+            .subscribe(page => this.page = page);
+        this.focusedAnnotationSubscription = this.annotationStoreService.getAnnotationFocusSubject()
+            .subscribe(focusedAnnotation => this.focusHighlightStyle(focusedAnnotation));
+    }
+
+    ngAfterViewInit() {
+        this.pdfAnnotateWrapper.getUi().addEventListener('annotation:click', this.handleAnnotationClick.bind(this));
+    }
+
+    ngOnDestroy() {
+        if (this.pageNumberSubscription) {
+            this.pageNumberSubscription.unsubscribe();
+        }
+        if (this.focusedAnnotationSubscription) {
+            this.focusedAnnotationSubscription.unsubscribe();
+        }
     }
 
     loadAnnotations(annotate: boolean) {
@@ -62,38 +87,52 @@ export class AnnotationPdfViewerComponent implements OnInit {
         }
     }
 
-    getClickedPage(event) {
+    handleClick(event: any, isPage?: boolean) {
+        if (this.annotate) {
+            if (!this.utils.clickIsHighlight(event)) {
+                this.unfocusAnnotation();
+                this.annotationStoreService.setToolBarUpdate(null, null);
+            }
+            this.commentsComponent.handleAnnotationBlur();
+
+            if (isPage) {
+                this.pdfService.setPageNumber(this.utils.getClickedPage(event));
+            }
+        }
+    }
+
+    unfocusAnnotation() {
+        this.annotationStoreService.setAnnotationFocusSubject(
+            new Annotation());
         this.annotationStoreService.setCommentBtnSubject(null);
-        let currentParent = event.target;
-        for (let step = 0; step < 5; step++) {
-            if (currentParent.parentNode != null) {
-                const pageNumber = currentParent.parentNode.getAttribute('data-page-number');
-                if (pageNumber != null) {
-                    this.pdfService.setPageNumber(parseInt(pageNumber, null));
-                    break;
+        this.annotationStoreService.setCommentFocusSubject(
+            new Annotation(), null);
+    }
+
+    handleAnnotationClick(event) {
+        if (!this.contextualToolbar.isShowToolbar) {
+            const annotationId = event.getAttribute('data-pdf-annotate-id');
+            this.annotationStoreService.getAnnotationById(annotationId)
+                .then((annotation: Annotation) => {
+                    this.annotationStoreService.setAnnotationFocusSubject(annotation);
+                    this.annotationStoreService.setCommentFocusSubject(annotation);
+                    this.annotationStoreService.setToolBarUpdate(annotation, true);
+                });
+        }
+    }
+
+    focusHighlightStyle(focusedAnnotation: Annotation) {
+        Array.from(this.viewerElementRef.nativeElement.querySelector(`#pageContainer${this.page} .annotationLayer`).childNodes)
+            .forEach((annotationDom: HTMLInputElement) => {
+                if (annotationDom.dataset.pdfAnnotateId === focusedAnnotation.id) {
+                    this.renderer.addClass(annotationDom, 'comment-selected');
+                } else {
+                    this.renderer.removeClass(annotationDom, 'comment-selected');
                 }
-                currentParent = currentParent.parentNode;
-            }
+            });
+        if (!this.ref['destroyed']) {
+            this.ref.detectChanges();
         }
     }
 
-    handlePdfScroll(event) {
-        const element = event.srcElement as HTMLInputElement;
-        const visiblePageNum = Math.round(element.scrollTop / 1056) + 1; // Hardcoded page height as 1056
-
-        const visiblePage = this.document.querySelector('.page[data-page-number="' + visiblePageNum + '"][data-loaded="false"]');
-        this.contextualToolbar.hideToolBar();
-
-        if (visiblePage && !this.renderedPages[visiblePageNum]) {
-            // Prevent invoking UI.renderPage on the same page more than once.
-            this.renderedPages[visiblePageNum] = true;
-            setTimeout(() => this.pdfService.renderPage(visiblePageNum), 100);
-        }
-        if (this.page !== visiblePageNum) {
-            this.page = visiblePageNum;
-            if (!isNaN(visiblePageNum)) {
-                this.pdfService.setPageNumber(visiblePageNum);
-            }
-        }
-    }
 }

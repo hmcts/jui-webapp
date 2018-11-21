@@ -3,25 +3,22 @@
     [style.top.px]="toolPos.top">
 
     <button 
-        [hidden]="showDelete"
-        class="highlight" 
-        type="button" class="contextual-btn"
+        [hidden]="showDelete"   
+        type="button" class="jui-cf__toolbar-button jui-cf__toolbar-button--comments contextual-btn leftButton" 
         title="Highlight" 
-        data-tooltype="highlight"
         (click)="handleHighlightBtnClick()"
-    >Highlight</button>
+    ><span>Add Highlight</span></button>
 
     <button 
         [hidden]="!showDelete" 
         type="button" 
-        title="Delete" class="contextual-btn"
+        title="Delete" class="jui-cf__toolbar-button jui-cf__toolbar-button--comments contextual-btn leftButton" 
         (click)="handleDeleteBtnClick()"
-    >Delete</button>
-    <div class="spacer"></div>
+    ><span>Remove Highlight</span></button>
     
-    <button type="button" title="Comment" class="contextual-btn"
+    <button type="button" title="Comment" class="jui-cf__toolbar-button jui-cf__toolbar-button--comments contextual-btn rightButton" 
             (click)="handleCommentBtnClick()"
-    >Comment</button>
+    ><span>Comment</span></button>
 
 
     <div class="arrow-down">

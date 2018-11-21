@@ -1,9 +1,10 @@
 const request = require('request-promise')
-var extend = require('util')._extend
+const extend = require('util')._extend
+
 module.exports = (method, url, params) => {
-    let options = {
-        method: method,
-        url: url,
+    const options = {
+        method,
+        url,
         headers: {
             ...params.headers,
             'Content-Type': 'application/json'

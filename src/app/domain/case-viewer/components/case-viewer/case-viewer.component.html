@@ -1,11 +1,11 @@
 <ng-container *ngIf="targetSection && targetSection.sections">
-    <ng-container *ngFor="let section of targetSection.sections">
-        <ng-container [ngSwitch]="section.type" >
-            <app-summary-panel data-selector="summary-panel" *ngSwitchCase="'summary-panel'" [panelData]="section"></app-summary-panel>
-            <app-document-panel data-selector="document-panel" *ngSwitchCase="'document-panel'" [panelData]="section" [docList]="case.documents"></app-document-panel>
-            <app-parties-panel data-selector="parties-panel" *ngSwitchCase="'parties-panel'" [panelData]="section"></app-parties-panel>
-            <app-timeline-panel data-selector="timeline-panel" *ngSwitchCase="'timeline-panel'" [panelData]="section"></app-timeline-panel>
-            <app-questions-panel data-selector="questions-panel" *ngSwitchCase="'questions-panel'" [panelData]="section"></app-questions-panel>
+    <ng-container *ngFor="let item of targetSection.sections">
+        <ng-container [ngSwitch]="item.type" >
+            <app-summary-panel data-selector="summary-panel" *ngSwitchCase="'summary-panel'" [panelData]="item"></app-summary-panel>
+            <app-document-panel data-selector="document-panel" *ngSwitchCase="'document-panel'" [panelData]="item" [docList]="case.documents"></app-document-panel>
+            <app-parties-panel data-selector="parties-panel" *ngSwitchCase="'parties-panel'" [panelData]="item"></app-parties-panel>
+            <app-timeline-panel data-selector="timeline-panel" *ngSwitchCase="'timeline-panel'" [panelData]="item"></app-timeline-panel>
+            <app-questions-panel data-selector="questions-panel" *ngSwitchCase="'questions-panel'" [panelData]="item"></app-questions-panel>
         </ng-container>
     </ng-container>
 </ng-container>

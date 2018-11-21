@@ -1,31 +1,53 @@
 import {Injectable, OnDestroy} from '@angular/core';
 import {HttpErrorResponse, HttpResponse} from '@angular/common/http';
-import {Observable, Subscription, Subject} from 'rxjs';
+import {Observable, Subscription, Subject, BehaviorSubject, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {v4 as uuid} from 'uuid';
 import {Annotation, Comment, IAnnotation, IAnnotationSet} from './annotation-set.model';
 import {PdfService} from './pdf.service';
 import {PdfAdapter} from './pdf-adapter';
 import {ApiHttpService} from './api-http.service';
-
-declare const PDFAnnotate: any;
+import { PdfAnnotateWrapper } from './js-wrapper/pdf-annotate-wrapper';
 
 @Injectable()
 export class AnnotationStoreService implements OnDestroy {
 
     annotationChangeSubscription: Subscription;
-    commentBtnSubject: Subject<string>;
+    private commentBtnSubject: Subject<string>;
+    private commentFocusSubject: BehaviorSubject<{annotation: Annotation, showButton?: boolean}>;
+    private annotationFocusSubject: Subject<Annotation>;
     private contextualToolBarOptions: Subject<{annotation: Annotation, showDelete: boolean}>;
 
     constructor(private pdfAdapter: PdfAdapter,
                 private apiHttpService: ApiHttpService,
-                private pdfService: PdfService) {
+                private pdfService: PdfService,
+                private pdfAnnotateWrapper: PdfAnnotateWrapper) {
 
         this.commentBtnSubject = new Subject();
-        this.commentBtnSubject.next(null);
+        this.commentFocusSubject = new BehaviorSubject(
+            {annotation: new Annotation(null, null, null, null, null, null, null, null, null, null, null, null)});
+
         this.contextualToolBarOptions = new Subject();
-        this.contextualToolBarOptions.next(null);
+
+        this.annotationFocusSubject = new Subject();
+
         this.annotationChangeSubscription = this.pdfAdapter.getAnnotationChangeSubject().subscribe((e) => this.handleAnnotationEvent(e));
+    }
+
+    getAnnotationFocusSubject(): Subject<Annotation> {
+        return this.annotationFocusSubject;
+    }
+
+    setAnnotationFocusSubject(annotation: Annotation) {
+        this.annotationFocusSubject.next(annotation);
+    }
+
+    getCommentFocusSubject(): BehaviorSubject<{annotation: Annotation, showButton?: boolean}> {
+        return this.commentFocusSubject;
+    }
+
+    setCommentFocusSubject(annotation: Annotation, showButton?: boolean) {
+        this.commentFocusSubject.next({annotation, showButton});
     }
 
     getCommentBtnSubject(): Subject<string> {
@@ -33,7 +55,7 @@ export class AnnotationStoreService implements OnDestroy {
     }
 
     setCommentBtnSubject(commentId: string) {
-          this.commentBtnSubject.next(commentId);
+        this.commentBtnSubject.next(commentId);
     }
 
     setToolBarUpdate(annotation: Annotation, showDelete?: boolean) {
@@ -52,9 +74,11 @@ export class AnnotationStoreService implements OnDestroy {
     preLoad(annotationData: IAnnotationSet) {
         if (annotationData != null) {
             this.pdfAdapter.setStoreData(annotationData);
-            PDFAnnotate.setStoreAdapter(this.pdfAdapter.getStoreAdapter());
+            this.pdfAnnotateWrapper.setStoreAdapter(this.pdfAdapter.getStoreAdapter());
+            this.pdfService.setHighlightTool();
         } else {
-            PDFAnnotate.setStoreAdapter(new PDFAnnotate.LocalStoreAdapter());
+            this.pdfService.setCursorTool();
+            this.pdfAnnotateWrapper.setStoreAdapter();
         }
     }
 
@@ -93,7 +117,7 @@ export class AnnotationStoreService implements OnDestroy {
                 if (err instanceof HttpErrorResponse) {
                     switch (err.status) {
                         case 400: {
-                            return Observable.throw(err.error);
+                            return throwError(err.error);
                         }
                         case 404: {
                             const body = {
@@ -103,7 +127,7 @@ export class AnnotationStoreService implements OnDestroy {
                             return this.apiHttpService.createAnnotationSet(baseUrl, body);
                         }
                         case 500: {
-                            return Observable.throw(new Error('Internal server error: ' + err));
+                            return throwError('Internal server error: ' + err);
                         }
                     }
                 }
@@ -145,9 +169,9 @@ export class AnnotationStoreService implements OnDestroy {
         this.apiHttpService.saveAnnotation(annotation).subscribe(
             response => {
                 console.log(response);
-                if (displayToolbar) {
-                    this.setToolBarUpdate(annotation);
-                }
+                // if (displayToolbar) {
+                //     this.setToolBarUpdate(annotation);
+                // }
             },
             error => console.log(error)
         );
@@ -205,37 +229,37 @@ export class AnnotationStoreService implements OnDestroy {
     }
 
     getAnnotation(annotationId: string, callback) {
-        PDFAnnotate.getStoreAdapter()
+        this.pdfAnnotateWrapper.getStoreAdapter()
             .getAnnotation(this.pdfService.getRenderOptions().documentId, annotationId)
             .then(callback);
     }
 
     getComments(annotationId: string, callback) {
-        PDFAnnotate.getStoreAdapter()
+        this.pdfAnnotateWrapper.getStoreAdapter()
             .getComments(this.pdfService.getRenderOptions().documentId, annotationId)
             .then(callback);
     }
 
     addComment(comment: Comment) {
-        PDFAnnotate.getStoreAdapter()
+        this.pdfAnnotateWrapper.getStoreAdapter()
             .addComment(this.pdfService.getRenderOptions().documentId, comment.annotationId, comment.content)
             .then();
     }
 
     getAnnotations(pageNumber: number, callback) {
-        PDFAnnotate.getStoreAdapter()
+        this.pdfAnnotateWrapper.getStoreAdapter()
             .getAnnotations(this.pdfService.getRenderOptions().documentId, pageNumber)
             .then(callback);
     }
 
     deleteComment(commentId: string) {
-        PDFAnnotate.getStoreAdapter()
+        this.pdfAnnotateWrapper.getStoreAdapter()
             .deleteComment(this.pdfService.getRenderOptions().documentId, commentId)
             .then();
     }
 
     deleteAnnotationById(annotationId: string) {
-        PDFAnnotate.getStoreAdapter()
+        this.pdfAnnotateWrapper.getStoreAdapter()
         .deleteAnnotation(this.pdfService.getRenderOptions().documentId, annotationId)
         .then(() => {
             this.pdfService.render();

@@ -3,16 +3,51 @@ import { TestBed, inject, async } from '@angular/core/testing';
 import { ApiHttpService } from './api-http.service';
 import { AnnotationSet, Annotation } from './annotation-set.model';
 import { DocumentTask } from './document-task.model';
+import { TransferState } from '@angular/platform-browser';
+import { PLATFORM_ID } from '@angular/core';
+
+class MockTransferState {
+    hasKey() {}
+    remove() {}
+    set() {}
+}
 
 describe('ApiHttpService', () => {
+    const mockTransferState = new MockTransferState();
     let httpMock: HttpTestingController;
     let apiHttpService: ApiHttpService;
     const baseUrl = 'http://localhost';
+    const dmDocumentId = 'ad88d12c-8526-49b6-ae5e-3f7ea5d08168';
+    const dummyAnnotationSet = new AnnotationSet(
+        '', '', null,
+        null,
+        null, null,
+        null,
+        dmDocumentId,
+        null
+    );
+
+    const dummyAnnotation = new Annotation(
+        'f6225689-29ab-4e0d-9bea-8519a06d16f9',
+        'ae2133a4-8dc5-430b-bb20-5290bd801f94',
+        '123141',
+        new Date(), null,
+        '123141', null,
+        new Date(),
+        dmDocumentId,
+        1,
+        'FFFF00',
+        [],
+        [],
+        'highlight'
+    );
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
               ApiHttpService,
+              { provide: TransferState, useFactory: () => mockTransferState},
+              { provide: PLATFORM_ID, useValue: 'browser' },
             ],
             imports: [
                 HttpClientTestingModule
@@ -36,11 +71,6 @@ describe('ApiHttpService', () => {
 
     describe('createAnnotationSet', () => {
         it('should return IAnnotationSet response', () => {
-            const dmDocumentId = 'ad88d12c-8526-49b6-ae5e-3f7ea5d08168';
-            const dummyAnnotationSet = new AnnotationSet(
-                '', '', null, null, null, dmDocumentId, null
-            );
-
             const requestBody = {
                 documentId: dmDocumentId,
                 id: '6d1f5e09-98ad-4891-aecc-936282b06148'
@@ -59,12 +89,6 @@ describe('ApiHttpService', () => {
 
     describe('fetch', () => {
         it('should return IAnnotationSet response', () => {
-
-            const dmDocumentId = 'ad88d12c-8526-49b6-ae5e-3f7ea5d08168';
-            const dummyAnnotationSet = new AnnotationSet(
-                '', '', null, null, null, dmDocumentId, null
-            );
-
             apiHttpService.fetch(baseUrl, dmDocumentId).subscribe((response) => {
                 expect(response.body).toEqual(jasmine.any(AnnotationSet));
                 expect(response.body.documentId).toBe(dmDocumentId);
@@ -78,8 +102,6 @@ describe('ApiHttpService', () => {
 
     describe('documentTask', () => {
         it('should return IDocumentTask response', () => {
-
-            const dmDocumentId = 'ad88d12c-8526-49b6-ae5e-3f7ea5d08168';
             const outputDocumentId = 'd29e4aca-7b4c-43e9-a594-0b3b50dc216e';
             const dummyDocumentTask = new DocumentTask(
                 100, dmDocumentId, outputDocumentId, 'DONE',
@@ -101,21 +123,7 @@ describe('ApiHttpService', () => {
 
     describe('delete annotation', () => {
         it('should return IAnnotation response', async(() => {
-            const dmDocumentId = 'ad88d12c-8526-49b6-ae5e-3f7ea5d08168';
-            const dummyAnnotation = new Annotation(
-                'f6225689-29ab-4e0d-9bea-8519a06d16f9',
-                'ae2133a4-8dc5-430b-bb20-5290bd801f94',
-                '123141',
-                new Date(),
-                '123141',
-                new Date(),
-                dmDocumentId,
-                1,
-                'FFFF00',
-                [],
-                [],
-                'highlight'
-            );
+
 
             apiHttpService.setBaseUrl(baseUrl);
 
@@ -131,22 +139,6 @@ describe('ApiHttpService', () => {
 
     describe('save annotation', () => {
         it('should return IAnnotation response', async(() => {
-            const dmDocumentId = 'ad88d12c-8526-49b6-ae5e-3f7ea5d08168';
-            const dummyAnnotation = new Annotation(
-                'f6225689-29ab-4e0d-9bea-8519a06d16f9',
-                'ae2133a4-8dc5-430b-bb20-5290bd801f94',
-                '123141',
-                new Date(),
-                '123141',
-                new Date(),
-                dmDocumentId,
-                1,
-                'FFFF00',
-                [],
-                [],
-                'highlight'
-            );
-
             apiHttpService.setBaseUrl(baseUrl);
 
             apiHttpService.saveAnnotation(dummyAnnotation).subscribe((response) => {

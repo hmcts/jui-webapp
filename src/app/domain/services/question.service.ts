@@ -11,16 +11,6 @@ export class QuestionService {
     constructor(private http: HttpClient, private configService: ConfigService, private state: TransferState) {
     }
 
-    fetch(caseId, questionId): Observable<Object> {
-        const url = `${this.configService.config.api_base_url}/api/case/${caseId}/questions/${questionId}`;
-        return this.fetchWithUrl(url);
-    }
-
-    fetchAll(caseId): Observable<any[]> {
-        const url = `${this.configService.config.api_base_url}/api/case/${caseId}/questions`;
-        return this.fetchWithUrl(url);
-    }
-
     private fetchWithUrl(url): Observable<any> {
         const key = makeStateKey(url);
         const cache = this.state.get(key, null as any);
@@ -32,6 +22,16 @@ export class QuestionService {
                 this.state.set(key, data);
                 return data;
             }));
+    }
+
+    fetch(caseId, questionId): Observable<Object> {
+        const url = `${this.configService.config.api_base_url}/api/caseQ/${caseId}/questions/${questionId}`;
+        return this.fetchWithUrl(url);
+    }
+
+    fetchAll(caseId): Observable<any[]> {
+        const url = `${this.configService.config.api_base_url}/api/caseQ/${caseId}/questions`;
+        return this.fetchWithUrl(url);
     }
 
     create(caseId, question) {

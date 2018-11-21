@@ -38,8 +38,8 @@ export class HearingDetailsComponent implements OnInit {
             this.pageitems = this.decision.meta;
             this.pageValues = this.decision.formValues;
 
-            console.log("pageitems", this.pageitems);
-            console.log("pageValues", this.pageValues);
+            console.log('pageitems', this.pageitems);
+            console.log('pageValues', this.pageValues);
 
             this.createForm(this.pageitems, this.pageValues) ;
         });
@@ -50,7 +50,7 @@ export class HearingDetailsComponent implements OnInit {
         this.request = { formValues: this.hearingDetailsForm.value, event: event };
         this.pageValues.visitedPages['hearing-details'] = true;
         this.request.formValues.visitedPages = this.pageValues.visitedPages;
-        console.log("Calling service with properties =>", this.pageitems.name, this.request);
+        console.log('Calling service with properties =>', this.pageitems.name, this.request);
         this.decisionService.submitDecisionDraft('fr',
                 this.activatedRoute.snapshot.parent.data.caseData.id,
                 this.pageitems.name,

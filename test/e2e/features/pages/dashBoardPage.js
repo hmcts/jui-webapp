@@ -3,7 +3,7 @@
 function dashBoardPage() {
     this.dashboard_header = element(by.css('h1'));
     this.table = element.all(by.css(('[data-selector="table-component"]')));
-    this.case_number_header = element(by.css(".govuk-table__header.cdk-header-cell.cdk-column-case_id"));
+    this.case_number_header = element(by.css('.govuk-table__header.cdk-header-cell.cdk-column-case_id'));
     this.parties_header = element(by.css(('[data-selector ="parties-header"]')));
     this.type_header = element(by.css(('[data-selector="type-header"]')));
     this.number_of_rows = element.all(by.css('[data-selector="table-row"]'));
@@ -24,8 +24,8 @@ function dashBoardPage() {
     this.ng_links_PIP = element.all(by.css('[ng-reflect-router-link="/case/SSCS/Be"][href]'));
     this.your_cases = element(by.css('span.govuk-heading-m'));
     this.table_column_header = element(by.css(".govuk-table__head.cdk-header-row[role='row']"));
-    this.decision_needed_on_header = element(by.css(".govuk-table__header.cdk-header-cell.cdk-column-state"));
+    this.decision_needed_on_header = element(by.css('.govuk-table__header.cdk-header-cell.cdk-column-state'));
     this.draft_consent_order_link = element.all(by.css('[data-selector="case-status-reference-link"]'));
 }
 
-module.exports = new dashBoardPage;
+module.exports = new dashBoardPage();

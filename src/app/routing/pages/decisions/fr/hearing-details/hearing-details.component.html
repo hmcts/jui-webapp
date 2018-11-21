@@ -4,43 +4,14 @@
         <div class="govuk-grid-column-two-thirds">
             <h1 *ngIf="pageitems" class="govuk-heading-xl">{{pageitems.header}}</h1>
             <form *ngIf="pageitems" [formGroup]="hearingDetailsForm" (ngSubmit)="onSubmit()">
-                <div class="govuk-form-group" *ngFor="let group of pageitems.groups; let gIndex = index">
-                    <ng-container *ngIf="group.inputs">
-                        <ng-container  *ngFor="let item of group.inputs; let i = index">
-                            <label *ngIf="item.label" class="govuk-label {{item.label.classes}}" for="{{pageitems.idPrefix + '-' + (i+1)}}">
-                                {{item.label.text}}
-                            </label>
-                            <span *ngIf="item.hint" class="govuk-hint">{{item.hint.text}}</span>
-                            <input class="govuk-input {{item.classes}}" id="{{pageitems.idPrefix + '-' + (i+1)}}" formControlName="{{item.control}}" type="text">
-                        </ng-container>
-                    </ng-container>
-                    <fieldset *ngIf="group.fieldset" class="govuk-fieldset">
-                        <legend *ngIf="group.fieldset.legend" class="govuk-fieldset__legend {{group.fieldset.legend.classes}}">
-                            {{group.fieldset.legend.text}}
-                        </legend>
-                        <div *ngIf="group.fieldset.radios" class="govuk-radios">
-                            <div class="govuk-radios__item" *ngFor="let item of group.fieldset.radios.radioGroup; let r = index">
-                                <input class="govuk-radios__input" id="{{pageitems.idPrefix + '-' + (r+1)}}" type="radio" [value]= "item.value" formControlName="{{group.fieldset.radios.control}}">
-                                <label class="govuk-label govuk-radios__label" for="{{pageitems.idPrefix + '-' + (r+1)}}">
-                                    {{item.text}}<span class="govuk-visually-hidden">{{item.hiddenAccessibilityText}}</span>
-                                </label>
-                                <span id="whichCourt-1-item-hint" class="govuk-hint govuk-radios__hint">{{item.hint.text}}</span>
-                            </div>
-                        </div>
-                    </fieldset>
-                    <ng-container *ngIf="group.textarea">
-                        <label class="govuk-label govuk-label--m" for="{{pageitems.idPrefix + '-' + group.textarea.control + (gIndex+1)}}">
-                            {{group.textarea.label}}
-                        </label>
-                        <span class="govuk-hint">{{group.textarea.hint.text}}</span>
-                        <textarea class="govuk-textarea" id="{{pageitems.idPrefix + '-' + group.textarea.control + (gIndex+1)}}" name="{{group.textarea.label}}" formControlName="{{group.textarea.control}}" rows="5"></textarea>
-                    </ng-container>
+                <div class="govuk-form-group" *ngFor="let group of pageitems.groups">
+                    <app-fieldset *ngIf="group.fieldset"
+                                  [classes]="'govuk-fieldset'"
+                                  [group]="hearingDetailsForm"
+                                  [data]="group.fieldset">
+                    </app-fieldset>
+                    <app-jui-form-elements [group]="hearingDetailsForm" [data]="group"></app-jui-form-elements>
                 </div>
-                <ng-container *ngIf="pageitems.buttons">
-                    <ng-container *ngFor="let button of pageitems.buttons; let bi = index;">
-                        <input class="govuk-button" type="submit" formControlName="{{button.control}}">
-                    </ng-container>
-                </ng-container>
             </form>
         </div>
     </div>

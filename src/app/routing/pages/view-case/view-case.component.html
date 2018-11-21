@@ -2,8 +2,8 @@
 <div data-selector="case-viewer-component">
     <div class="jui-width-container">
         <main id="content" role="main" class="govuk-main-wrapper">
-            <app-hmcts-sub-navigation [items]="links"></app-hmcts-sub-navigation>
-            <app-case-viewer [case]="case" [sectionId]="sectionId"></app-case-viewer>
+            <app-hmcts-sub-navigation [items]="sections"></app-hmcts-sub-navigation>
+            <app-case-viewer [case]="case" [sectionId]="sectionTabName"></app-case-viewer>
         </main>
     </div>
 </div>

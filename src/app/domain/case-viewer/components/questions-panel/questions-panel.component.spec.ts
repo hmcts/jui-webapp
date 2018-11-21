@@ -5,12 +5,12 @@ import {CaseViewerModule} from '../../case-viewer.module';
 import {Selector} from '../../../../../../test/selector-helper';
 import {RouterTestingModule} from '@angular/router/testing';
 import {ConfigService} from '../../../../config.service';
+import { mockQuestion } from './mock/mock-questions.mock';
 
 describe('QuestionsPanelComponent', () => {
     let component: QuestionsPanelComponent;
     let fixture: ComponentFixture<QuestionsPanelComponent>;
     let nativeElement;
-    let mockRoute;
     let mockConfigService;
 
     beforeEach(() => {
@@ -35,38 +35,7 @@ describe('QuestionsPanelComponent', () => {
                     .compileComponents();
             }));
 
-            const data = {
-                'name': 'Questions',
-                'type': 'questions-panel',
-                'fields': [
-                    {
-                        'value': [
-                            {
-                                'question_round_number': '1',
-                                'state': 'question_drafted',
-                                'questions': [
-                                    {
-                                        'id': 'be8ac935-ed7a-47b5-84ce-b5aa25e64512',
-                                        'header': 'Test header 1',
-                                        'body': 'Test body 1',
-                                        'owner_reference': '5899',
-                                        'state_datetime': new Date(Date.UTC(2018, 6, 13, 8, 52, 38)),
-                                        'state': 'question_drafted'
-                                    },
-                                    {
-                                        'id': 'c7935438-b54c-4dad-bbe8-34fff72caf81',
-                                        'header': 'Test header 2',
-                                        'body': 'Test Header 2',
-                                        'owner_reference': '5899',
-                                        'state_datetime': new Date(Date.UTC(2018, 6, 14, 8, 52, 38)),
-                                        'state': 'question_drafted'
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            };
+            const data = mockQuestion;
 
             beforeEach(async(() => {
                 fixture = TestBed.createComponent(QuestionsPanelComponent);

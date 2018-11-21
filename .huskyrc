@@ -1,0 +1,6 @@
+{
+    "hooks": {
+      "pre-commit": "npm run lint:ng",
+      "pre-push": "npm run lint:ng && npm run test && npm run test:nsp "
+    }
+}

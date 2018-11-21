@@ -2,51 +2,32 @@
 // comment-item.component.scss
 ////////////////////////////////////////
 
-form{
-  padding-left: 2px;
+form {
+  width: 95%;
   padding-right: 2px;
-  width:94%;
   margin-bottom: 5px;
+  position: absolute;
+  background-color: #ffffff;
+  padding: 20px 20px 0;
 }
 
 form textarea {
-  width: 90%;
-  min-height: 65px;
-  max-height: 200px;
-  font-size: 12px;
-  margin: 10px;
+  width: 95%;
+  height: 90px;
   padding: 2px;
   border: none;
+  
+  font-size: 17px;
+  font-family: "nta", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  overflow-x: hidden;
 }
 
-.comment-date {
-  font-weight: 200;
-}
-
-.comment-author {
-  font-weight: bold;
-}
-
-.comment-selected {
-  background-color: #eff;
-}
-
-.comment-btns button{
-  margin:10px;
-}
-
-.comment-list-item {
-  background: white;
-  -webkit-box-shadow: 0 0 1px 3px #000 inset;
-  -moz-box-shadow: 0 0 1px 3px #000 inset;
-  box-shadow: 0 0 1px 1px #000 inset;
-}
-
-.comment-meta{
-  padding: 5px;
-  width:98%;
-  text-align: left;
-  padding-bottom: 2px;
+.mimic-focus {
+  outline-offset: -2px;
+  outline: -webkit-focus-ring-color auto 5px;
 }
 
 ////////////////////////////////////////

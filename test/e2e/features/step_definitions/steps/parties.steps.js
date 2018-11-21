@@ -10,7 +10,11 @@ const EC = protractor.ExpectedConditions;
 defineSupportCode(function({ Given, When, Then }) {
 
 
-    Then(/^I can see Petitioner and Respondent tabs$/, async function() {
+    Then(/^I can see that case (.*) tab component$/, async function(type) {
+        if (type === 'Financial remedy'){
+
+
+        }
         await expect(partiesPage.parties_tabs.first().getText()).to.eventually.equal("Petitioner");
         await expect(partiesPage.parties_tabs.get(1).getText()).to.eventually.equal("Respondent");
 

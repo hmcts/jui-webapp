@@ -1,29 +1,33 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { PdfService } from './pdf.service';
+import { BehaviorSubject } from 'rxjs';
+import { PdfAnnotateWrapper } from './js-wrapper/pdf-annotate-wrapper';
+import { PdfWrapper } from './js-wrapper/pdf-wrapper';
+import { ElementRef } from '@angular/core';
 
-declare global { interface Window { PDFAnnotate: any; } }
-declare global { interface Window { PDFJS: any; } }
-
-class PDFAnnotate {
-  UI = {
-    renderPage(pageNumber) {},
-    enableRect(tool) {},
-    disableEdit() {}
-  };
+class MockPdfAnnotateWrapper {
+    renderPage(pageNumber) {}
+    enableRect(tool) {}
+    disableRect() {}
+    createPage() {}
 }
 
-class PDFJS {
-  workerSrc;
+class MockPdfWrapper {
+  workerSrc() {}
   getDocument(documentId) {}
 }
 
 describe('PdfService', () => {
-  window.PDFAnnotate = new PDFAnnotate();
-  window.PDFJS = new PDFJS();
+  const mockPdfAnnotateWrapper = new MockPdfAnnotateWrapper();
+  const mockPdfWrapper = new MockPdfWrapper();
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [PdfService]
+      providers: [
+        PdfService,
+        { provide: PdfAnnotateWrapper, useFactory: () => mockPdfAnnotateWrapper },
+        { provide: PdfWrapper, useFactory: () => mockPdfWrapper }
+      ]
     });
   });
 
@@ -31,32 +35,22 @@ describe('PdfService', () => {
     it('should be created', inject([PdfService], (service: PdfService) => {
       expect(service).toBeTruthy();
     }));
-
-    xit('initialise dataLoadedSubject', inject([PdfService], (service: PdfService) => {
-      expect(service.getDataLoadedSub).toBeFalsy();
-    }));
-  });
-
-  describe('dataLoadedUpdate', () => {
-    it('should be update the subject', inject([PdfService], (service: PdfService) => {
-      service.getDataLoadedSub().subscribe((done) => {
-        expect(done).toBeTruthy();
-      });
-      service.dataLoadedUpdate(true);
-    }));
   });
 
   describe('preRun', () => {
     it('should define pdf variables', inject([PdfService], (service: PdfService) => {
+      spyOn(mockPdfWrapper, 'workerSrc').and.stub();
+
       service.preRun();
-      expect(service.UI).toBeTruthy();
+
       expect(service.getPageNumber()).toBeTruthy();
+      expect(mockPdfWrapper.workerSrc).toHaveBeenCalled();
     }));
   });
 
   describe('render', () => {
     it('render should set workerSrc', inject([PdfService], (service: PdfService) => {
-      spyOn(window.PDFJS, 'getDocument').and.returnValue(
+      spyOn(mockPdfWrapper, 'getDocument').and.returnValue(
           new Promise((resolve) => {
             resolve({pdfInfo: { numPages: 65}});
           }
@@ -67,34 +61,54 @@ describe('PdfService', () => {
           scale: 1.33,
           rotate: 0
         });
-      service.render(null);
+      const nativeElement = document.createElement('div');
+      spyOn(nativeElement, 'appendChild').and.callFake(() => {
 
-      expect(window.PDFJS.workerSrc).toBeTruthy();
+      const viewerElementRef = new ElementRef(nativeElement);
+      spyOn(mockPdfAnnotateWrapper, 'createPage').and.stub();
+
+      service['viewerElementRef'] = viewerElementRef;
+      service.render(viewerElementRef);
+      expect(mockPdfAnnotateWrapper.createPage).toHaveBeenCalled();
+    });
+  }));
+});
+
+  describe('setPageNumber', () => {
+    it('should set the pageNumber value', inject([PdfService], (service: PdfService) => {
+      service['pageNumber'] = new BehaviorSubject(1);
+      service.getPageNumber().subscribe(pageNumber => {
+        expect(pageNumber).toBe(1);
+      });
+      service.setPageNumber(1);
     }));
+  });
 
-    it('calls renderPage method', inject([PdfService], (service: PdfService) => {
-      spyOn(window.PDFAnnotate.UI, 'renderPage');
-      service.renderPage(1);
-      expect(window.PDFAnnotate.UI.renderPage).toHaveBeenCalled();
+  describe('getRenderOptions', () => {
+    it('should return RENDER_OPTIONS', inject([PdfService], (service: PdfService) => {
+      const mockRenderOptions = {documentId: 'id', pdfDocument: null, scale: 1, rotate: 0};
+      service.setRenderOptions(mockRenderOptions);
+      expect(service.getRenderOptions().documentId).toBe(mockRenderOptions.documentId);
     }));
   });
 
   describe('setHighlightTool', () => {
     it('invokes PDFAnnotate methods when setHighlightTool called',  inject([PdfService], (service: PdfService) => {
-      spyOn(window.PDFAnnotate.UI, 'enableRect');
-      spyOn(window.PDFAnnotate.UI, 'disableEdit');
+      spyOn(mockPdfAnnotateWrapper, 'enableRect').and.stub();
 
-      service.setRenderOptions({
-        documentId: 'documentId',
-        pdfDocument: null,
-        scale: 1.33,
-        rotate: 0
-      });
       service.setHighlightTool();
 
-      expect(window.PDFAnnotate.UI.enableRect).toHaveBeenCalled();
-      expect(window.PDFAnnotate.UI.disableEdit).toHaveBeenCalled();
+      expect(mockPdfAnnotateWrapper.enableRect).toHaveBeenCalled();
     }));
   });
 
+  describe('setCursorTool', () => {
+    it('invokes PDFAnnotate methods when setHighlightTool called',  inject([PdfService], (service: PdfService) => {
+      spyOn(mockPdfAnnotateWrapper, 'disableRect').and.stub();
+
+      service.setCursorTool();
+
+      expect(mockPdfAnnotateWrapper.disableRect).toHaveBeenCalled();
+    }));
+  });
 });

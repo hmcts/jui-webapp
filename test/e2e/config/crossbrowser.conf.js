@@ -36,64 +36,64 @@ const config = {
     useAllAngular2AppRoots: true,
     multiCapabilities: [
         {
-            'browserName': 'chrome',
-            'version': 'latest',
-            'platform': 'Windows 10',
-            'name': 'chrome-tests',
+            browserName: 'chrome',
+            version: 'latest',
+            platform: 'Windows 10',
+            name: 'chrome-tests',
             'tunnel-identifier': 'reformtunnel',
-            'extendedDebugging': true,
-            'shardTestFiles': true,
-            'maxInstances': 2
+            extendedDebugging: true,
+            shardTestFiles: true,
+            maxInstances: 2
 
         }
 
         // {
-//     browserName: 'chrome',
-//     name: 'MAC_CHROME_LATEST',
-//     platform: 'macOS 10.13',
-//     version: 'latest',
-//     'tunnel-identifier': 'reformtunnel'
-//         // shardTestFiles: true,
-//         // maxInstances: 1
-//
-// },
+        //     browserName: 'chrome',
+        //     name: 'MAC_CHROME_LATEST',
+        //     platform: 'macOS 10.13',
+        //     version: 'latest',
+        //     'tunnel-identifier': 'reformtunnel'
+        //         // shardTestFiles: true,
+        //         // maxInstances: 1
+        //
+        // },
 
 
-// {
-//     browserName: 'firefox',
-//     name: 'WIN_FIREFOX_LATEST',
-//     platform: 'Windows 10',
-//     version: 'latest',
-//     'tunnel-identifier': 'reformtunne',
-//     shardTestFiles: true,
-//     maxInstances: 1
-//
-// },
-//
-// {
-//     browserName: 'firefox',
-//     name: 'MAC_FIREFOX_LATEST',
-//     platform: 'macOS 10.13',
-//     version: 'latest',
-//     'tunnel-identifier': 'reformtunne',
-//     shardTestFiles: true,
-//     maxInstances: 1
-// }
-//
+        // {
+        //     browserName: 'firefox',
+        //     name: 'WIN_FIREFOX_LATEST',
+        //     platform: 'Windows 10',
+        //     version: 'latest',
+        //     'tunnel-identifier': 'reformtunne',
+        //     shardTestFiles: true,
+        //     maxInstances: 1
+        //
+        // },
+        //
+        // {
+        //     browserName: 'firefox',
+        //     name: 'MAC_FIREFOX_LATEST',
+        //     platform: 'macOS 10.13',
+        //     version: 'latest',
+        //     'tunnel-identifier': 'reformtunne',
+        //     shardTestFiles: true,
+        //     maxInstances: 1
+        // }
+        //
 
 
-// {
-//     'browserName': 'internet explorer',
-//     'platform': 'Windows 10',
-//     'version': '11.103',
-//     'name': ‘JUI-IE-TEST',
-// 'tunnel-identifier': 'reformtunnel',
-//     'extendedDebugging': true,
-//     'shardTestFiles': true,
-//     'maxInstances': 2
-//
-// }
-//
+        // {
+        //     'browserName': 'internet explorer',
+        //     'platform': 'Windows 10',
+        //     'version': '11.103',
+        //     'name': ‘JUI-IE-TEST',
+        // 'tunnel-identifier': 'reformtunnel',
+        //     'extendedDebugging': true,
+        //     'shardTestFiles': true,
+        //     'maxInstances': 2
+        //
+        // }
+        //
 
 
     ],
@@ -111,11 +111,10 @@ const config = {
 
 
     onComplete() {
-        const printSessionId = function (jobName) {
+        const printSessionId = function(jobName) {
             browser.getSession()
                 .then(session => {
-
-                    console.log('SauceOnDemandSessionID=' + session.getId() + ' job-name=' + jobName);
+                    console.log(`SauceOnDemandSessionID=${session.getId()} job-name=${jobName}`);
                 });
         };
         printSessionId('JUI CB Tests');

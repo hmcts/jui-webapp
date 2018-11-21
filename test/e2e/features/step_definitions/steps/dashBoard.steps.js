@@ -12,23 +12,17 @@ defineSupportCode(function({ Given, When, Then }) {
 
 
     When(/^I will be redirected to the JUI dashboard page$/, async function() {
-        browser.sleep(SHORT_DELAY);
+        browser.sleep(LONG_DELAY);
         await expect(dashBoardPage.dashboard_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.dashboard_header.getText())
             .to
             .eventually
             .equal('Dashboard');
 
-        await expect(dashBoardPage.your_cases.getText())
-            .to
-            .eventually
-            .equal('Your cases');
-
-
     });
 
     When(/^I select a case(.*)$/, async function(type) {
-        browser.sleep(SHORT_DELAY);
+        browser.sleep(LONG_DELAY);
         await dashBoardPage.case_number_links.first()
             .click();
         browser.sleep(LONG_DELAY);
@@ -62,7 +56,7 @@ defineSupportCode(function({ Given, When, Then }) {
 
 
     Then(/^I will be redirected to the Case Summary page for that case (.*)$/, async function(type) {
-        browser.sleep(SHORT_DELAY);
+        browser.sleep(LONG_DELAY);
         await expect(caseSummaryPage.case_header_text.getText()).to.eventually.equal('Summary');
         if (type === 'Financial Remedy'){
             await expect(caseSummaryPage.caseDetails_header_text.getText())
@@ -202,16 +196,12 @@ defineSupportCode(function({ Given, When, Then }) {
     });
 
     Then(/^I see FR specific cases on JUI dashboard$/, async function() {
+        browser.sleep(SHORT_DELAY);
         await dashBoardPage.type_links.isDisplayed();
         await expect(dashBoardPage.type_links.first().getText()).to.eventually.equal("Financial remedy");
-
+        browser.sleep(SHORT_DELAY);
 
     });
-
-
-
-
-
 });
 
 

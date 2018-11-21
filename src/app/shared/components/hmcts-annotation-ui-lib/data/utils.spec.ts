@@ -6,22 +6,22 @@ describe('Utils', () => {
 
     const rectangleX1Y3 = new Rectangle('63225ccd-61fe-4aa7-8c5f-cf9bc31cc424',
                                     '4bcc2edf-487d-4ee0-a5b0-a3cdfe93bf1a',
-                                    '123141', new Date(), null, null,
+                                    '123141', null, new Date(), null, null, null,
                                     9.6, 60,
                                     50, 87);
     const rectangleX2Y1 = new Rectangle('de8155b9-5a8e-46f0-b771-d39d3906eeb6',
                                     '4bcc2edf-487d-4ee0-a5b0-a3cdfe93bf1a',
-                                    '123141', new Date(), null, null,
+                                    '123141', null, new Date(), null, null, null,
                                     9.6, 50,
                                     68, 70);
     const rectangleX3Y2 = new Rectangle('606fadd5-655b-4675-aa9a-df65f86fb37c',
                                     '4bcc2edf-487d-4ee0-a5b0-a3cdfe93bf1a',
-                                    '123141', new Date(), null, null,
+                                    '123141', null, new Date(), null, null, null,
                                     9.6, 45.6,
                                     99, 73);
     const rectangleX4Y4 = new Rectangle('5b864e88-e00e-4f7a-b691-399b83f6cb50',
                                     '4bcc2edf-487d-4ee0-a5b0-a3cdfe93bf1a',
-                                    '123141', new Date(), null, null,
+                                    '123141', null, new Date(), null, null, null,
                                     9.6, 20,
                                     108, 90);
 
@@ -144,6 +144,16 @@ describe('Utils', () => {
             let returnedRectangles = [];
             utils.generateRectanglePerLine(rectangles, returnedRectangles);
             expect(returnedRectangles.length).toBe(2);
+        });
+    });
+
+    describe('clickIsHighlight', () => {
+        it('should return false if target has no firstElementChild', () => {
+            const event = new MouseEvent('');
+            spyOnProperty(event, 'target', 'get')
+                .and.returnValue(document.createElement('div'));
+            const isHighlight = utils.clickIsHighlight(event);
+            expect(isHighlight).toBeFalsy();
         });
     });
 });

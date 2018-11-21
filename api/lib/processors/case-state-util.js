@@ -54,11 +54,9 @@ const STATE = {
         'CaseCreated',
         'CasePaymentFailed'
     ],
-    CMC: [
-        'open'
-    ]
+    CMC: ['open']
 
-};
+}
 
 // at the moment these are all the main place you can go.
 // maybe in the future we should have one for listing and making decision to align with more boxwork functions
@@ -67,8 +65,9 @@ const GO_TO = {
     PARTIES_GO_TO: 'parties',
     CASE_FILE_GO_TO: 'casefile',
     TIMELINE_GO_TO: 'timeline',
-    QUESTIONS_GO_TO: 'questions'
-};
+    QUESTIONS_GO_TO: 'questions',
+    DECISION_GO_TO: 'decision'
+}
 
 // these are state a judge should be able to see.
 const stateToBeShown = [
@@ -84,10 +83,10 @@ const stateToBeShown = [
     ...[...STATE.DIV],
     ...[...STATE.CMC],
     ...[...STATE.PRO]
-];
+]
 
 function caseStateFilter(caseData) {
-    return stateToBeShown.find(toBeFiltered => caseData.state.stateName === toBeFiltered);
+    return stateToBeShown.find(toBeFiltered => caseData.state.stateName === toBeFiltered)
 }
 
 function createCaseState(state, date, actionUrl, id) {
@@ -96,12 +95,12 @@ function createCaseState(state, date, actionUrl, id) {
         stateDateTime: date,
         actionGoTo: actionUrl || GO_TO.SUMMARY_GO_TO,
         ID: id
-    };
+    }
 }
 
 function getDocId(consentOrder) {
-    const splitURL = consentOrder.document_url.split('/');
-    return splitURL[splitURL.length - 1];
+    const splitURL = consentOrder.document_url.split('/')
+    return splitURL[splitURL.length - 1]
 }
 
 module.exports = {
@@ -110,4 +109,4 @@ module.exports = {
     caseStateFilter,
     createCaseState,
     getDocId
-};
+}

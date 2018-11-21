@@ -53,7 +53,7 @@ export class DocumentViewerComponent implements OnChanges, OnInit {
                 this.docName = resp.originalDocumentName;
                 this.viewerComponent =
                     this.viewerFactoryService.buildViewer(resp, this.annotate, this.viewerAnchor.viewContainerRef, this.baseUrl);
-                if (this.viewerComponent != null) {
+                if (this.viewerComponent != null && this.viewerComponent.pageChanged) {
                     this.viewerComponent.pageChanged.subscribe((value => {
                         this.pageChanged.emit(value);
                     }));

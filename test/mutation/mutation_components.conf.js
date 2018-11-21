@@ -7,7 +7,7 @@ const strykerConfiguration = config => {
         // jasmineConfigFile: 'spec/support/jasmine.json',
         mutator: 'javascript',
 
-         transpilers: [],
+        transpilers: [],
         // babelrcFile: '.babelrc',
 
         reporter:
@@ -25,9 +25,10 @@ const strykerConfiguration = config => {
         //         //'!app/assets/**/*.test.js'
         //     ],
 
-        mutate: [ 'api/questions/*.js',
+        mutate: [
+            'api/questions/*.js',
             '!api/questions/*.spec.js'
-            ],
+        ],
         files: ['**/*'],
         maxConcurrentTestRunners: 2,
         symlinkNodeModules: false,
@@ -48,10 +49,10 @@ const strykerConfiguration = config => {
         logLevel: 'debug',
         plugins:
             [
-                //'stryker-mocha-runner',
+                // 'stryker-mocha-runner',
                 'stryker-jasmine-runner',
                 'stryker-jasmine',
-                //'stryker-mocha-framework',
+                // 'stryker-mocha-framework',
                 'stryker-javascript-mutator',
                 'stryker-html-reporter'
             ]

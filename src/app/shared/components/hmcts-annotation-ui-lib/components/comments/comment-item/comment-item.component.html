@@ -1,52 +1,33 @@
-<form *ngIf="selectedAnnotationId == annotation.id || !selectedAnnotationId" 
+<form class="jui-comment"
   class="comment-list-item" 
   (ngSubmit)="onSubmit()" #commentItem="ngForm" 
-  (click)="handleCommentClick($event)">
-  <div class="comment-meta">
-    <label class="comment-author">{{comment.createdBy}}</label>
-    <br>
-    <label class="comment-date" ng-controller="datCtrl">{{ comment.createdDate | date: 'd/M/y HH:mm' }}</label>
-    <div *ngIf="comment.lastModifiedDate != null && comment.createdDate != comment.lastModifiedDate">
-        <label>Last modified By: {{ comment.lastModifiedBy }}</label>
-      <label class="comment-date" ng-controller="datCtrl"><br>{{ comment.lastModifiedDate | date: 'd/M/y HH:mm' }}</label>
+  (click)="handleCommentClick($event)"
+  [style.top.px]="commentTopPos"
+  [style.z-index]="commentZIndex">
+  <div class="jui-comment__header">
+    <span *ngIf="comment.createdByDetails" class="jui-comment__author">{{comment.createdByDetails.forename}} {{comment.createdByDetails.surname}}</span>
+    <time class="jui-comment__meta" ng-controller="datCtrl">{{ comment.createdDate | date: 'd MMMM y h:mm a' }}</time>
+    <div *ngIf="false">
+        <span>modified By: {{comment.lastModifiedByDetails.forename}} {{comment.lastModifiedByDetails.surname}}</span>
+      <time class="jui-comment__meta" ng-controller="datCtrl"><br>{{ comment.lastModifiedDate | date: 'd MMMM y h:mm a' }}</time>
     </div>
   </div>
 
-  <input 
-    type="hidden" 
-    id="createdBy" 
-    required
-    [ngModel]="comment.createdBy" name="createdBy"
-    value={{comment.createdBy}}>
-
   <textarea 
-    (focus)="onFocus()"
+    #commentArea
     (blur)="onBlur()"
     type="text" 
-    class="form-control" id="comment"
+    [class.mimic-focus]="focused"
+    class="jui-comment__content form-control mimic-focus"
     required
-    #commentTextField
     [ngModel]="comment.content" name="content"
     value="comment.content"></textarea>
 
-  <input 
-    type="hidden" 
-    id="annotationId"
-    required
-    [ngModel]="comment.annotationId" name="annotationId"
-    >
-
-  <input 
-    type="hidden" 
-    id="commentId"
-    required
-    [ngModel]="comment.id" name="commentId">
-
-    <div [hidden]="hideButton" class="comment-btns">
-        <button type="submit" class="govuk-button hmcts-page-heading__button" role="button">Comment</button>
+    <div [hidden]="hideButton" class="jui-comment__footer">
+        <button type="submit" class="govuk-button" role="button">Edit</button>
         <button 
-        class="govuk-button hmcts-page-heading__button hmcts-button--secondary" 
-        role="button"
-        (click)="handleDeleteComment($event, comment.id)">Delete</button>
+          class="govuk-button hmcts hmcts-button--secondary" 
+          role="button"
+          (click)="handleDeleteComment()">Delete</button>
     </div>
 </form>

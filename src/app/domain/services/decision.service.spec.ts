@@ -1,24 +1,24 @@
-import { TestBed, inject } from "@angular/core/testing";
+import { TestBed, inject } from '@angular/core/testing';
 
-import { DecisionService } from "./decision.service";
+import { DecisionService } from './decision.service';
 import {
     HttpClientTestingModule,
     HttpTestingController
-} from "@angular/common/http/testing";
-import { ConfigService } from "../../config.service";
-import { RouterTestingModule } from "@angular/router/testing";
-import { DomainModule } from "../domain.module";
-import { SharedModule } from "../../shared/shared.module";
-import { BrowserTransferStateModule } from "@angular/platform-browser";
+} from '@angular/common/http/testing';
+import { ConfigService } from '../../config.service';
+import { RouterTestingModule } from '@angular/router/testing';
+import { DomainModule } from '../domain.module';
+import { SharedModule } from '../../shared/shared.module';
+import { BrowserTransferStateModule } from '@angular/platform-browser';
 
-const configMock = {
-    config: {
-        api_base_url: ""
-    }
-};
-
-let decisionService: DecisionService;
-let httpMock: HttpTestingController;
+// const configMock = {
+//     config: {
+//         api_base_url: ''
+//     }
+// };
+//
+// const decisionService: DecisionService;
+// const httpMock: HttpTestingController;
 
 // describe('DecisionService', () => {
 

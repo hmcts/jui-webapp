@@ -112,7 +112,7 @@ export const mockResultData = {
     'case_id': 1528476356357908,
     'case_reference': '123-123-123',
     'case_jurisdiction': 'SSCS',
-    'case_type_id':'Benefit',
+    'case_type_id': 'Benefit',
     'case_fields': {
         'caseRef': null,
         'parties': 'A v May_146863',
@@ -129,7 +129,7 @@ export const mockResultData2 = {
     'case_id': 1528476358303157,
     'case_reference': '321-321-321',
     'case_jurisdiction': 'SSCS',
-    'case_type_id':'Benefit',
+    'case_type_id': 'Benefit',
     'case_fields': {
         'caseRef': null,
         'parties': 'B v May_417228',

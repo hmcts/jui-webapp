@@ -1,8 +1,9 @@
-import {Component, OnInit, Input, Output, EventEmitter, Renderer2, ElementRef, ViewChild, OnDestroy} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, ViewChild, OnDestroy, ChangeDetectorRef, ElementRef} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import { Subscription } from 'rxjs';
 import {Comment, Annotation} from '../../../data/annotation-set.model';
 import {AnnotationStoreService} from '../../../data/annotation-store.service';
+import {PdfService} from '../../../data/pdf.service';
 
 @Component({
     selector: 'app-comment-item',
@@ -11,72 +12,113 @@ import {AnnotationStoreService} from '../../../data/annotation-store.service';
 })
 export class CommentItemComponent implements OnInit, OnDestroy {
 
-    commentBtnSub: Subscription;
+    private commentBtnSub: Subscription;
+    private commentFocusSub: Subscription;
+    private dataLoadedSub: Subscription;
     hideButton: boolean;
+    focused: boolean;
 
-    @Input() comment;
-    @Input() selectedAnnotationId;
+    @Input() comment: Comment;
     @Input() annotation: Annotation;
 
     @Output() commentSubmitted: EventEmitter<any> = new EventEmitter<any>();
-    @Output() commentSelected: EventEmitter<String> = new EventEmitter<String>();
-
-    @ViewChild('commentTextField') commentTextField: ElementRef;
-    @ViewChild('annotationIdField') annotationIdField: ElementRef;
+    @Output() commentRendered: EventEmitter<any> = new EventEmitter<any>();
+    @ViewChild('commentArea') commentArea: ElementRef;
     @ViewChild('commentItem') commentItem: NgForm;
 
-    focused: boolean;
 
-    model = new Comment(null, null, null, null, null, null, null);
+    model = new Comment(null, null, null, null, null, null, null, null, null);
+    commentTopPos: number;
+    commentZIndex: number;
 
     constructor(private annotationStoreService: AnnotationStoreService,
-                private renderer: Renderer2) {
+                private pdfService: PdfService,
+                private ref: ChangeDetectorRef) {
     }
 
     ngOnInit() {
         this.hideButton = true;
         this.focused = false;
 
-        this.commentBtnSub = this.annotationStoreService.getCommentBtnSubject().subscribe((commentId) => {
-            if (commentId === this.comment.id) {
-              this.handleShowBtn();
-            } else {
-              this.handleHideBtn();
-            }
+        this.commentFocusSub = this.annotationStoreService.getCommentFocusSubject()
+            .subscribe((options) => {
+                if (options.annotation.id === this.comment.annotationId) {
+                    this.commentZIndex = 1;
+                    this.focused = true;
+                    if (options.showButton) {
+                        this.handleShowBtn();
+                        this.commentArea.nativeElement.focus();
+                    }
+                    this.ref.detectChanges();
+                } else {
+                    this.onBlur();
+                }
+        });
+
+        this.commentBtnSub = this.annotationStoreService.getCommentBtnSubject()
+            .subscribe((commentId) => {
+                if (commentId === this.comment.id) {
+                this.handleShowBtn();
+                } else {
+                this.handleHideBtn();
+                }
           });
+
+        this.dataLoadedSub = this.pdfService.getDataLoadedSub()
+            .subscribe( (dataLoaded: boolean) => {
+                if (dataLoaded) {
+                    this.commentTopPos = this.getRelativePosition(this.comment.annotationId);
+                    this.commentRendered.emit(true);
+                }
+            });
+    }
+
+    ngOnDestroy() {
+        if (this.commentFocusSub) {
+            this.commentFocusSub.unsubscribe();
+        }
+        if (this.commentBtnSub) {
+            this.commentBtnSub.unsubscribe();
+        }
+        if (this.dataLoadedSub) {
+            this.dataLoadedSub.unsubscribe();
+        }
     }
 
     onSubmit() {
         const comment = this.convertFormToComment(this.commentItem);
-        comment.lastModifiedDate = new Date();
-
         this.annotationStoreService.editComment(comment);
         this.commentSubmitted.emit(this.annotation);
+        this.handleHideBtn();
     }
 
-    ngOnDestroy() {
-        if (this.commentBtnSub) {
-            this.commentBtnSub.unsubscribe();
+    isModified(): boolean {
+        if (this.comment.createdDate === null) {
+            return false;
+        } else if (this.comment.lastModifiedBy === null) {
+            return false;
+        } else if (this.comment.createdDate === this.comment.lastModifiedDate) {
+            return false;
+        } else {
+            return true;
         }
-     }
-
-    onFocus() {
-        this.focused = true;
     }
 
     onBlur() {
-        setTimeout(() => {
-            this.removeCommentSelectedStyle();
-            this.focused = false;
-            this.handleHideBtn();
-        }, 200);
+        // this.handleHideBtn();
+        if (!this.ref['destroyed']) {
+            this.ref.detectChanges();
+        }
+        this.commentZIndex = 0;
     }
 
-    convertFormToComment(commentForm: NgForm) {
+    convertFormToComment(commentForm: NgForm): Comment {
         return new Comment(
-            commentForm.value.commentId,
-            commentForm.value.annotationId,
+            this.comment.id,
+            this.comment.annotationId,
             null,
+            null,
+            new Date(),
             null,
             null,
             null,
@@ -84,29 +126,41 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         );
     }
 
-    handleDeleteComment(event, commentId) {
-        this.annotationStoreService.deleteComment(commentId);
+    handleDeleteComment() {
+        this.annotationStoreService.deleteComment(this.comment.id);
     }
 
-    handleCommentClick(event) {
+    handleCommentClick(event: any) {
+        event.stopPropagation();
         this.annotationStoreService.setCommentBtnSubject(this.comment.id);
-        this.removeCommentSelectedStyle();
-        this.renderer.addClass(this.commentTextField.nativeElement, 'comment-selected');
-        this.commentSelected.emit(this.comment.annotationId);
+        this.annotationStoreService.setAnnotationFocusSubject(this.annotation);
+        this.commentZIndex = 1;
     }
 
     handleShowBtn() {
+        this.focused = true;
         this.hideButton = false;
-      }
+    }
 
     handleHideBtn() {
+        if (!this.commentItem.value.content) {
+            this.annotationStoreService.deleteComment(this.comment.id);
+        }
+        this.focused = false;
         this.hideButton = true;
     }
 
-    removeCommentSelectedStyle() {
-        const listItems = Array.from(document.querySelectorAll('#comment-wrapper .comment-list-item textarea'));
-        listItems.forEach(item => {
-            this.renderer.removeClass(item, 'comment-selected');
-        });
+    getRelativePosition(annotationId: string): number {
+        const svgSelector = this.pdfService.getViewerElementRef().nativeElement
+                                .querySelector(`g[data-pdf-annotate-id="${annotationId}"]`);
+        if (svgSelector === null) {
+            return null;
+        } else {
+            const highlightRect = <DOMRect>svgSelector.getBoundingClientRect();
+            const wrapperRect = <DOMRect> this.pdfService.getAnnotationWrapper().nativeElement.getBoundingClientRect();
+
+            const topPosition = (highlightRect.y - wrapperRect.top);
+            return topPosition;
+        }
     }
 }

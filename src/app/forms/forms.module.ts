@@ -1,7 +1,7 @@
 import {NgModule, ModuleWithProviders } from '@angular/core';
 import {CommonModule} from '@angular/common';
 import { FormComponent } from './components/form/form.component';
-import { FormService } from "./services/form.service";
+import { FormService } from './services/form.service';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -21,7 +21,7 @@ import { TextComponent } from './components/text/text.component';
         RadioButtonsComponent,
         TextComponent
     ],
-    exports:[
+    exports: [
         FormComponent,
         TextareaComponent,
         RadioButtonsComponent,

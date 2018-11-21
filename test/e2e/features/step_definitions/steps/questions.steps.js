@@ -12,8 +12,8 @@ const EC = protractor.ExpectedConditions;
 defineSupportCode(function ({Given, When, Then}) {
 
     When(/^I navigate to Questions page$/, async function () {
-        //browser.sleep(SHORT_DELAY);
-        await questionsPage.questions_nav_link.get(3).click();
+        browser.sleep(SHORT_DELAY);
+        await questionsPage.questions_nav_link.get(4).click();
         });
 
     Then(/^I am on the questions screen$/, async function () {

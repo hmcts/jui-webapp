@@ -59,7 +59,6 @@ describe('TimelinePanelComponent', () => {
                     }
                 ]
             };
-
             fixture.whenStable().then(() => {
                 fixture.detectChanges();
             });

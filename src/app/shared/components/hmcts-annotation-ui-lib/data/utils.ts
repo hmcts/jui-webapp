@@ -59,5 +59,45 @@ export class Utils {
         });
     }
 
+    isSameLine(a, b): boolean {
+        return this.difference(a.commentTopPos, b.commentTopPos) < 5;
+    }
+
+    sortByLinePosition(a, b): number {
+        // Same line. Now check from left to right
+        this.sortByX(a.annotation.rectangles, true);
+        this.sortByX(b.annotation.rectangles, true);
+        if (a.annotation.rectangles[0].x < b.annotation.rectangles[0].x) {
+            return -1;
+        } else {
+            return 1;
+        }
+    }
+
     difference(a, b): number { return Math.abs(a - b); }
+
+    clickIsHighlight(event: MouseEvent): boolean {
+        const target = <HTMLElement> event.target;
+        const isHighlight = target.firstElementChild;
+        if (isHighlight == null) {
+            return false;
+        } else if (isHighlight.id.includes('pdf-annotate-screenreader')) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    getClickedPage(event: any): number {
+        let currentParent = event.target;
+        for (let step = 0; step < 5; step++) {
+            if (currentParent.parentNode != null) {
+                const pageNumber = currentParent.parentNode.getAttribute('data-page-number');
+                if (pageNumber != null) {
+                    return parseInt(pageNumber, null);
+                }
+                currentParent = currentParent.parentNode;
+            }
+        }
+    }
 }

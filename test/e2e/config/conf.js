@@ -1,6 +1,7 @@
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const minimist = require('minimist');
+
 const argv = minimist(process.argv.slice(2));
 
 chai.use(chaiAsPromised);
@@ -57,13 +58,15 @@ const config = {
         username: process.env.TEST_EMAIL,
         password: process.env.TEST_PASSWORD,
         fr_judge_username: process.env.FR_EMAIL,
-        fr_judge_password: process.env.FR_PASSWORD
+        fr_judge_password: process.env.FR_PASSWORD,
+        sscs_username: process.env.SSCS_EMAIL,
+        sscs_password: process.env.SSCS_PASSWORD
 
 
     },
     directConnect: true,
     // seleniumAddress: 'http://localhost:4444/wd/hub',
-    getPageTimeout: 60000,
+    getPageTimeout: 120000,
     allScriptsTimeout: 500000,
     multiCapabilities: cap,
 
@@ -82,7 +85,7 @@ const config = {
         strict: true,
         // format: ['node_modules/cucumber-pretty'],
         format: 'json:reports_json/results.json',
-        tags: ['@all'],
+        tags: ['@ignore'],
         require: [
             '../support/world.js',
             '../support/*.js',

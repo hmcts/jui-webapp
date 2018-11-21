@@ -10,7 +10,7 @@ import {ConfigService} from '../../../../config.service';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {Observable} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
-import {JUIFormsModule} from "../../../../forms/forms.module";
+import {JUIFormsModule} from '../../../../forms/forms.module';
 import {GovukModule} from '../../../../govuk/govuk.module';
 import {HmctsModule} from '../../../../hmcts/hmcts.module';
 

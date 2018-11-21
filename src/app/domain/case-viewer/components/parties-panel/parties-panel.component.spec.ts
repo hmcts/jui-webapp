@@ -6,6 +6,7 @@ import { CaseViewerModule } from '../../case-viewer.module';
 import { PartiesPanelComponent } from './parties-panel.component';
 import { Observable } from 'rxjs';
 import { SharedModule } from '../../../../shared/shared.module';
+import {mockSnapshot} from './mock/parties-panel.mock';
 
 describe('Component: PartiesPanelComponent', () => {
     let component: PartiesPanelComponent;
@@ -25,75 +26,7 @@ describe('Component: PartiesPanelComponent', () => {
             }),
             fragment: Observable.of('petitioner'),
             snapshot: {
-                data: {
-                    'id': 'parties-tabs',
-                    'name': 'Parties',
-                    'type': 'parties-panel',
-                    'sections': [
-                        {
-                            'id': 'petitioner',
-                            'name': 'Petitioner',
-                            'type': 'tab',
-                            'fields': [
-                                {
-                                    'label': 'Full name',
-                                    'value': ['David ', 'Francis']
-                                },
-                                {
-                                    'label': 'Date of birth',
-                                    'value': '7 June 1981'
-                                },
-                                {
-                                    'label': 'Address',
-                                    'value': '24 Park Road<br>Lewisham<br>London<br>E11 4PR'
-                                },
-                                {
-                                    'label': 'Phone',
-                                    'value': '07787 557 967'
-                                },
-                                {
-                                    'label': 'Email',
-                                    'value': 'david.francis@gmail.com'
-                                },
-                                {
-                                    'label': 'Representative',
-                                    'value': 'Unrepresented'
-                                }
-                            ]
-                        },
-                        {
-                            'id': 'respondent',
-                            'name': 'Respondent',
-                            'type': 'tab',
-                            'fields': [
-                                {
-                                    'label': 'Full name',
-                                    'value': ['Susan ', 'Francis']
-                                },
-                                {
-                                    'label': 'Date of birth',
-                                    'value': '16 April 1979'
-                                },
-                                {
-                                    'label': 'Address',
-                                    'value': '89 London Road<br>Hinckley<br>London<br>LE10 1HH'
-                                },
-                                {
-                                    'label': 'Phone',
-                                    'value': '07700 900 772'
-                                },
-                                {
-                                    'label': 'Email',
-                                    'value': 'susan.francis@gmail.com'
-                                },
-                                {
-                                    'label': 'Representative',
-                                    'value': 'Unrepresented'
-                                }
-                            ]
-                        }
-                    ]
-                }
+                data: mockSnapshot
             }
         };
         return setupModule();
@@ -117,7 +50,7 @@ describe('Component: PartiesPanelComponent', () => {
     function createComponent() {
         fixture = TestBed.createComponent(PartiesPanelComponent);
         component = fixture.componentInstance;
-        component.panelData = activeRouteMock.snapshot.data;
+        component.panelData = mockSnapshot;
         fixture.detectChanges();
     }
 
@@ -128,4 +61,5 @@ describe('Component: PartiesPanelComponent', () => {
     it('should create PartiesComponent', () => {
         expect(component).toBeTruthy();
     });
+
 });

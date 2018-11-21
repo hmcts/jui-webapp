@@ -6,10 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./check-your-answers.component.scss']
 })
 export class CheckYourAnswersComponent implements OnInit {
-
   constructor() { }
-
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
 }

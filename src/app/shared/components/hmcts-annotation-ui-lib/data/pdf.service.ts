@@ -1,40 +1,45 @@
 import {ElementRef, Injectable} from '@angular/core';
-import {Subject} from 'rxjs';
-
-declare const PDFJS: any;
-declare const PDFAnnotate: any;
+import {BehaviorSubject} from 'rxjs';
+import { PdfWrapper } from './js-wrapper/pdf-wrapper';
+import { PdfAnnotateWrapper } from './js-wrapper/pdf-annotate-wrapper';
 
 @Injectable()
 export class PdfService {
 
-    PAGE_HEIGHT;
-    UI;
-    comments;
+    private pdfPages: number;
     private RENDER_OPTIONS: { documentId: string, pdfDocument: any, scale: any, rotate: number };
-    private pageNumber: Subject<number>;
-    private annotationSub: Subject<string>;
-    private dataLoadedSubject: Subject<boolean>;
+    private pageNumber: BehaviorSubject<number>;
+    private dataLoadedSubject: BehaviorSubject<boolean>;
+    private viewerElementRef: ElementRef;
+    private annotationWrapper: ElementRef;
 
-    pdfPages: number;
-    viewerElementRef: ElementRef;
-
-    constructor() {
-        this.dataLoadedSubject = new Subject();
-        this.dataLoadedSubject.next(false);
+    constructor(private pdfWrapper: PdfWrapper,
+                private pdfAnnotateWrapper: PdfAnnotateWrapper) {
+        this.dataLoadedSubject = new BehaviorSubject(false);
     }
 
     preRun() {
-        this.PAGE_HEIGHT = void 0;
-        this.UI = PDFAnnotate.UI;
-
-        this.pageNumber = new Subject();
-        this.pageNumber.next(1);
-
-        this.annotationSub = new Subject();
-        this.annotationSub.next(null);
+        this.pdfWrapper.workerSrc('/public/javascripts/pdf.worker.js');
+        this.pageNumber = new BehaviorSubject(1);
     }
 
-    getDataLoadedSub(): Subject<boolean> {
+    getPdfPages(): number {
+        return this.pdfPages;
+    }
+
+    getAnnotationWrapper(): ElementRef {
+        return this.annotationWrapper;
+    }
+
+    setAnnotationWrapper(annotationWrapper: ElementRef) {
+        this.annotationWrapper = annotationWrapper;
+    }
+
+    getViewerElementRef(): ElementRef {
+        return this.viewerElementRef;
+    }
+
+    getDataLoadedSub(): BehaviorSubject<boolean> {
         return this.dataLoadedSubject;
     }
 
@@ -42,20 +47,12 @@ export class PdfService {
         this.dataLoadedSubject.next(isLoaded);
     }
 
-    getPageNumber(): Subject<number> {
+    getPageNumber(): BehaviorSubject<number> {
         return this.pageNumber;
     }
 
     setPageNumber(pageNumber: number) {
         this.pageNumber.next(pageNumber);
-    }
-
-    getAnnotationClicked(): Subject<string> {
-        return this.annotationSub;
-    }
-
-    setAnnotationClicked(annotationId: string) {
-        this.annotationSub.next(annotationId);
     }
 
     getRenderOptions() {
@@ -70,56 +67,42 @@ export class PdfService {
         if (viewerElementRef != null) {
             this.viewerElementRef = viewerElementRef;
         }
-        PDFJS.workerSrc = '/public/javascripts/pdf.worker.js';
-        // TODO THIS FAILS OUR NG TESTS
-        // PDFJS.getDocument(this.RENDER_OPTIONS.documentId)
-        //     .then(pdf => {
-        //         // TODO THIS FAILS OUR NG TESTS
-        //         // this.RENDER_OPTIONS.pdfDocument = pdf;
-        //
-        //         const viewer = this.viewerElementRef.nativeElement;
-        //         viewer.innerHTML = '';
-        //         const NUM_PAGES = pdf.pdfInfo.numPages;
-        //         for (let i = 0; i < NUM_PAGES; i++) {
-        //             const page = this.UI.createPage(i + 1);
-        //             viewer.appendChild(page);
-        //             setTimeout(() => {
-        //                 this.UI.renderPage(i + 1, this.RENDER_OPTIONS);
-        //             });
-        //         }
-        //         this.pdfPages = NUM_PAGES;
-        //         this.dataLoadedUpdate(true);
-        //     }).catch(
-        //     (error) => {
-        //         const errorMessage = new Error('Unable to render your supplied PDF. ' +
-        //             this.RENDER_OPTIONS.documentId + '. Error is: ' + error);
-        //         console.log(errorMessage);
-        //     }
-        // );
-    }
 
-    renderPage(visiblePageNum: number) {
-        PDFAnnotate.UI.renderPage(visiblePageNum, this.RENDER_OPTIONS);
+        this.pdfWrapper.getDocument(this.RENDER_OPTIONS.documentId)
+            .then(pdf => {
+                this.RENDER_OPTIONS.pdfDocument = pdf;
+                const viewer = this.viewerElementRef.nativeElement;
+                viewer.innerHTML = '';
+                const NUM_PAGES = pdf.pdfInfo.numPages;
+                pdf.getPage(1).then(pdfPage => {
+                    this.RENDER_OPTIONS.rotate = pdfPage.rotate;
+                    for (let i = 0; i < NUM_PAGES; i++) {
+                        const page = this.pdfAnnotateWrapper.createPage(i + 1);
+                        viewer.appendChild(page);
+                        setTimeout(() => {
+                            this.pdfAnnotateWrapper.renderPage(i + 1, this.RENDER_OPTIONS).then(() => {
+                                if (i === NUM_PAGES - 1) {
+                                    this.dataLoadedUpdate(true);
+                                }
+                            });
+                        });
+                    }
+                });
+                this.pdfPages = NUM_PAGES;
+            }).catch(
+            (error) => {
+                const errorMessage = new Error('Unable to render your supplied PDF. ' +
+                    this.RENDER_OPTIONS.documentId + '. Error is: ' + error);
+                console.log(errorMessage);
+            }
+        );
     }
 
     setHighlightTool() {
-        localStorage.setItem(this.RENDER_OPTIONS.documentId + '/tooltype', 'highlight');
-        PDFAnnotate.UI.enableRect('highlight');
-        PDFAnnotate.UI.disableEdit();
+        this.pdfAnnotateWrapper.enableRect('highlight');
     }
 
     setCursorTool() {
-        PDFAnnotate.UI.disableRect();
-        PDFAnnotate.UI.enableEdit();
-        localStorage.setItem(this.RENDER_OPTIONS.documentId + '/tooltype', 'cursor');
-    }
-
-    setScale(scale) {
-        scale = parseFloat(scale);
-        if (this.RENDER_OPTIONS.scale !== scale) {
-            this.RENDER_OPTIONS.scale = scale;
-            localStorage.setItem(this.RENDER_OPTIONS.documentId + '/scale', this.RENDER_OPTIONS.scale);
-            this.render();
-        }
+        this.pdfAnnotateWrapper.disableRect();
     }
 }

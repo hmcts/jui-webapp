@@ -22,8 +22,7 @@ Feature: Dashboard
         Examples:
             | type    |
             | Financial Remedy |
-#            | Divorce |
-#            | PIP |
+
 
 
     @RIUI_417 @all
@@ -46,13 +45,14 @@ Feature: Dashboard
 
 
     #SSCS specific judge
-    @RIUI-895
+    @RIUI-895 @all
     Scenario: Verify PIP cases 'Question Drafted' link redirection
-        When I am logged into JUI web app
+        When I am logged into JUI web app with SSCS judge details
         Then I will be redirected to the JUI dashboard page
-        When I see Question
-        When I select Question Drafted link
-        Then I will be redirected to Questions Landing page
+        When I select a case link
+        Then I will be redirected to the Case Summary page for that case type
+        When I navigate to Questions page
+        Then I am on the questions screen
 
 
 

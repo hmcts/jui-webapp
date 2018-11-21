@@ -6,16 +6,15 @@ const config = require('../config')
 
 const authInterceptor = require('./lib/middleware/auth')
 const serviceTokenMiddleware = require('./lib/middleware/service-token')
-const auth = require('./auth')
-const caseRoutes = require('./case')
-const caseListRoute = require('./case-list')
-const decisionRoutes = require('./decisions')
-const questionsRoutes = require('./questions')
-const eventsRoutes = require('./events')
-const hearingRoutes = require('./hearings')
-const documentsRoutes = require('./documents')
+const auth = require('./controllers/auth')
+const caseRoutes = require('./controllers/case')
+const caseListRoute = require('./controllers/case-list')
+const decisionRoutes = require('./controllers/decisions')
+const questionsRoutes = require('./controllers/questions')
+const eventsRoutes = require('./controllers/events')
+const documentsRoutes = require('./controllers/documents')
 
-const caseCreationRoute = require('./case-creation')
+const caseCreationRoute = require('./controllers/case-creation')
 
 const barApiRoutes = require('./services/bar-api/bar-api')
 const ccdDefApiRoutes = require('./services/ccd-def-api/ccd-def-api')
@@ -30,7 +29,6 @@ const idamApiRoutes = require('./services/idam-api/idam-api')
 const payApiRoutes = require('./services/pay-api/pay-api')
 const s2sApiRoutes = require('./services/service-auth-provider-api/service-auth-provider-api')
 
-
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 router.use(serviceTokenMiddleware)
@@ -40,7 +38,6 @@ caseListRoute(router)
 caseRoutes(router)
 eventsRoutes(router)
 documentsRoutes(router)
-hearingRoutes(router)
 questionsRoutes(router)
 decisionRoutes(router)
 
@@ -48,7 +45,7 @@ if (config.configEnv !== 'prod') {
     // Dev Tools
     caseCreationRoute(router)
 
-// Uncomment to enable direct access to Microservices
+    // Uncomment to enable direct access to Microservices
     barApiRoutes(router)
     ccdDefApiRoutes(router)
     ccdStoreApiRoutes(router)
@@ -60,11 +57,9 @@ if (config.configEnv !== 'prod') {
     idamApiRoutes(router)
     payApiRoutes(router)
     s2sApiRoutes(router)
-
 }
 
 emAnnoApiRoutes(router)
 emNpaApiRoutes(router)
-
 
 module.exports = router

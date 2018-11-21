@@ -64,13 +64,13 @@ describe('TableComponent', () => {
             expect(element.nativeElement.querySelectorAll(Selector.selector('table-row')).length).toBe(0);
         });
 
-        xit('should have ALL the headers', () => {
-            dataWithNoRows.columns.splice(0,1);
-            dataWithNoRows.columns.forEach((column) => {
-                const header = element.nativeElement.querySelector(Selector.selector(`table-component|${column.case_field_id}-header`));
-                expect(header.textContent).toEqual(column.label);
-            });
-        });
+        // xit('should have ALL the headers', () => {
+        //     dataWithNoRows.columns.splice(0,1);
+        //     dataWithNoRows.columns.forEach((column) => {
+        //         const header = element.nativeElement.querySelector(Selector.selector(`table-component|${column.case_field_id}-header`));
+        //         expect(header.textContent).toEqual(column.label);
+        //     });
+        // });
     });
 
     describe('when I pass the table data with results', () => {
@@ -101,12 +101,12 @@ describe('TableComponent', () => {
             expect(links[0].attributes.href.value).toEqual('/case/SSCS/Benefit/1528476356357908/casefile');
         });
 
-        xit('should have ALL the headers', () => {
-            dataWithNoRows.columns.splice(0,1);
-            dataWithTwoRows.columns.forEach((column) => {
-                const header = element.nativeElement.querySelector(Selector.selector(`table-component|${column.case_field_id}-header`));
-                expect(header.textContent).toEqual(column.label);
-            });
-        });
+        // xit('should have ALL the headers', () => {
+        //     dataWithNoRows.columns.splice(0,1);
+        //     dataWithTwoRows.columns.forEach((column) => {
+        //         const header = element.nativeElement.querySelector(Selector.selector(`table-component|${column.case_field_id}-header`));
+        //         expect(header.textContent).toEqual(column.label);
+        //     });
+        // });
     });
 });

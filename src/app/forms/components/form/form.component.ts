@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {  ElementRef, HostListener, Input, Output, EventEmitter } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {FormService} from "../../services/form.service";
+import {FormService} from '../../services/form.service';
 
 @Component({
     selector: 'app-form',
@@ -19,7 +19,7 @@ export class FormComponent implements OnInit {
         this.submitListener();
     }
 
-    constructor(private formService:FormService) {
+    constructor(private formService: FormService) {
 
     }
 
@@ -34,26 +34,27 @@ export class FormComponent implements OnInit {
 
     checkSubmission() {
         const values = this.formService.getFormValues();
-        if(values) {
+        if (values) {
             const fields = Object.keys(values);
             fields.forEach(field => {
-               this.form.controls[field].setValue(values[field])
+               this.form.controls[field].setValue(values[field]);
             });
             this.triggerCallback(values);
         }
     }
 
     triggerCallback(values) {
-        if(this.callback_options && this.callback_options.eventEmitter) {
+        if (this.callback_options && this.callback_options.eventEmitter) {
             this.callback_options.eventEmitter.emit(values);
         }
     }
 }
 
-export interface JUIFormInterface {
-    submitCallback(value: Object): void
-    form: FormGroup;
-    eventEmitter: EventEmitter<any>;
-    callback_options: object
-    ngAfterViewChecked(): void
-}
+// Incorrectly written
+// export interface JUIFormInterface {
+//     submitCallback(value: Object): void;
+//     form: FormGroup;
+//     eventEmitter: EventEmitter<any>;
+//     callback_options: object;
+//     ngAfterViewChecked(): void;
+// }

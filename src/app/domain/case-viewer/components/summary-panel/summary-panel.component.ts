@@ -1,4 +1,6 @@
-import {Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { LinkItem } from './models/elements.module';
+import { PageDateDefault } from '../../../models/section_fields';
 
 @Component({
     selector: 'app-summary-panel',
@@ -6,9 +8,9 @@ import {Component, Input} from '@angular/core';
     styleUrls: ['./summary-panel.component.scss']
 })
 export class SummaryPanelComponent {
-
-    @Input() panelData;
-
+    @Input() panelData: PageDateDefault;
+    public createLink: LinkItem = { href: '../decision/create', text: 'Make decision' };
+    public hearingLink: LinkItem = {href: '../hearing/list', text: 'List for hearing'};
 }
 
 

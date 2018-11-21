@@ -42,6 +42,7 @@ import { TermsAndConditionsComponent } from './pages/generic-page/terms-and-cond
 import { CookiesComponent } from './pages/generic-page/cookies/cookies.component';
 import { PrivacyPolicyComponent } from './pages/generic-page/privacy-policy/privacy-policy.component';
 import { DemoComponent } from './pages/generic-page/demo/demo.component';
+import {CaseDataService} from './pages/view-case/view-case.services';
 
 const routes: Routes = [
     {
@@ -176,7 +177,8 @@ const routes: Routes = [
     providers: [
         CaseResolve,
  //       DecisionResolve,
-        RedirectionService
+        RedirectionService,
+        CaseDataService
     ],
     exports: [
         RouterModule

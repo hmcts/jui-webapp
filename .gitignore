@@ -60,3 +60,7 @@ report.json
 \.vscode/tasks\.json
 
 \.sessions/
+
+\.scannerwork/
+
+\.vscode/

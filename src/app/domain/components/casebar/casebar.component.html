@@ -1,8 +1,14 @@
 <div class="jui-casebar">
     <div class="jui-width-container">
-        <div class="jui-casebar__details">
-            <span data-selector="data-casebar-details-component" class="jui-casebar__reference">{{case.details?.fields[0].value || ""}}</span>
-            <span data-selector="data-casebar-title-component" class="jui-casebar__title"> <b>{{case.details?.fields[1].value || ""}}</b></span>
+        <div class="jui-casebar__details" *ngIf="case">
+            <span
+                *ngIf="case.details.fields[0]"
+                data-selector="data-casebar-details-component" class="jui-casebar__reference">{{case.details.fields[0].value}}
+            </span>
+            <span
+                *ngIf="case.details.fields[1]"
+                data-selector="data-casebar-title-component" class="jui-casebar__title"> <b> {{case.details.fields[1].value}}</b>
+            </span>
         </div>
     </div>
 </div>

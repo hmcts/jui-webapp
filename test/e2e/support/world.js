@@ -45,6 +45,8 @@ class World {
         this.config.password = global.browser.params.password;
         this.config.fr_judge_username = global.browser.params.fr_judge_username;
         this.config.fr_judge_password = global.browser.params.fr_judge_password;
+        this.config.sscs_username = global.browser.params.sscs_username;
+        this.config.sscs_password = global.browser.params.sscs_password;
     }
 
     getSelector(field) {

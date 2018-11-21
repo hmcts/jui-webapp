@@ -1,5 +1,5 @@
 // TODO add an interface
-export const question = {
+export const mockQuestion = {
     'name': 'Questions',
     'type': 'questions-panel',
     'fields': [
@@ -46,7 +46,8 @@ export const questionIssuePending = {
     'type': 'questions-panel',
     'fields': [
     {
-        'value': [{
+        'value': [
+            {
             'question_round_number': '1',
             'state': 'question_issue_pending',
             'questions': [
@@ -77,7 +78,8 @@ export const questionIssuePending2 = {
     'type': 'questions-panel',
     'fields': [
         {
-            'value': [{
+            'value': [
+                {
                 'question_round_number': '1',
                 'state': 'question_issue_pending',
                 'questions': [
