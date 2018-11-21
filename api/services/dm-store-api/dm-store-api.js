@@ -8,9 +8,9 @@ const headerUtilities = require('../../lib/utilities/headerUtilities')
 
 const url = config.services.dm_store_api
 
-////////////////////////////////////////////////////
-// Document Data
-////////////////////////////////////////////////////
+/**
+ * DOCUMENT DATA
+ */
 
 // Retrieves JSON representation of a Stored Document.
 function getDocument(documentId, options) {
@@ -32,9 +32,9 @@ function getDocumentVersion(documentId, options) {
     return generateRequest('GET', `${url}/documents/${documentId}/versions/${versionId}`, options)
 }
 
-////////////////////////////////////////////////////
-// Document Binary
-////////////////////////////////////////////////////
+/**
+ * DOCUMENT BINARY
+ */
 
 // Streams contents of the most recent Document Content Version associated with the Stored Document.
 function getDocumentBinary(documentId, options) {
@@ -46,9 +46,9 @@ function getDocumentVersionBinary(documentId, options) {
     return generateRequest('GET', `${url}/documents/${documentId}/versions/${versionId}/binary`, options)
 }
 
-////////////////////////////////////////////////////
-// Document Thumbnail
-////////////////////////////////////////////////////
+/**
+ * DOCUMENT THUMBNAIL
+ */
 
 // Streams contents of the most recent Document Content Version associated with the Stored Document.
 function getDocumentThumbnail(documentId, options) {
@@ -60,15 +60,15 @@ function getDocumentVersionThumbnail(documentId, versionId, options) {
     return generateRequest('GET', `${url}/documents/${documentId}/versions/${versionId}/thumbnail`, options)
 }
 
-////////////////////////////////////////////////////
-// Document Creation
-////////////////////////////////////////////////////
+/**
+ * DOCUMENT CREATION
+ */
 
 // Creates a list of Stored Documents by uploading a list of binary/text files.
 function postDocument(file, options) {
 
     options.headers['Content-Type'] = 'application/x-www-form-urlencoded'
-    options.body = {classification: 'PUBLIC'}
+    options.body = { classification: 'PUBLIC' }
     options.formData = {
         file: {
             value: 'hello',
@@ -109,27 +109,27 @@ function postDocumentVersionVersion(documentId, file, options) {
     return generateRequest('POST', `${url}/documents/${documentId}/versions`, options)
 }
 
-////////////////////////////////////////////////////
-// Document Update
-////////////////////////////////////////////////////
+/**
+ * DOCUMENT UPDATE
+ */
 
 // Updates document instance (ex. ttl)
 function patchDocument(documentId, updateDocumentCommand, options) {
-    return generateRequest('PATCH', `${url}/documents/${documentId}`, {...options, body: updateDocumentCommand})
+    return generateRequest('PATCH', `${url}/documents/${documentId}`, { ...options, body: updateDocumentCommand })
 }
 
-////////////////////////////////////////////////////
-// Document Deletion
-////////////////////////////////////////////////////
+/**
+ * DOCUMENT DELETION
+ */
 
 // Deletes a Stored Document.
 function deleteDocument(documentId, updateDocumentCommand, options) {
     return generateRequest('DELETE', `${url}/documents/${documentId}`, options)
 }
 
-////////////////////////////////////////////////////
-// Document Others
-////////////////////////////////////////////////////
+/**
+ * DOCUMENT ORDERS
+ */
 
 // Retrieves audits related to a Stored Document.
 function getDocumentAuditEntries(documentId, updateDocumentCommand, options) {
@@ -170,7 +170,7 @@ function getOptions(req) {
  * TODO : We should move this out into a seperate routes file.
  */
 module.exports = app => {
-    const router = express.Router({mergeParams: true})
+    const router = express.Router({ mergeParams: true })
     app.use('/dm-store', router)
 
     router.get('/health', (req, res, next) => {
