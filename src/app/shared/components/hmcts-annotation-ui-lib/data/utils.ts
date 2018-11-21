@@ -66,10 +66,9 @@ export class Utils {
     }
 
     sortByLinePosition(a: Rectangle[], b: Rectangle[]): number {
-        // Same line. Now check from left to right
         this.sortByX(a, true);
         this.sortByX(b, true);
-        return (a[0].x < b[0].x) ? 1 : -1;
+        return (a[0].x > b[0].x) ? 1 : -1;
     }
 
     difference(a, b): number { return Math.abs(a - b); }

@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, EventEmitter, ViewChild, OnDestroy, ChangeDetectorRef, ElementRef, AfterContentInit, Renderer2, AfterContentChecked} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, ViewChild, OnDestroy, ChangeDetectorRef, ElementRef, AfterViewInit} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import { Subscription } from 'rxjs';
 import {Comment, Annotation} from '../../../data/annotation-set.model';
@@ -10,7 +10,7 @@ import {PdfService} from '../../../data/pdf.service';
     templateUrl: './comment-item.component.html',
     styleUrls: ['./comment-item.component.scss']
 })
-export class CommentItemComponent implements OnInit, AfterContentChecked, OnDestroy {
+export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private commentBtnSub: Subscription;
     private commentFocusSub: Subscription;
@@ -31,11 +31,11 @@ export class CommentItemComponent implements OnInit, AfterContentChecked, OnDest
     commentTopPos: number;
     commentZIndex: number;
     commentHeight: number;
+    annotationTopPos: number;
 
     constructor(private annotationStoreService: AnnotationStoreService,
                 private pdfService: PdfService,
-                private ref: ChangeDetectorRef,
-                private elRef: ElementRef) {
+                private ref: ChangeDetectorRef) {
     }
 
     ngOnInit() {
@@ -65,15 +65,21 @@ export class CommentItemComponent implements OnInit, AfterContentChecked, OnDest
         this.dataLoadedSub = this.pdfService.getDataLoadedSub()
             .subscribe( (dataLoaded: boolean) => {
                 if (dataLoaded) {
-                    this.commentTopPos = this.getRelativePosition(this.comment.annotationId);
+                    this.annotationTopPos = this.getRelativePosition(this.comment.annotationId);
+                    this.commentTopPos = this.annotationTopPos;
                     this.commentRendered.emit(true);
                 }
             });
     }
 
-    ngAfterContentChecked() {
-        console.log(this.elRef.nativeElement.getBoundingClientRect());
-        this.commentHeight = this.commentArea.nativeElement.offsetHeight + this.detailsWrapper.nativeElement.offsetHeight;
+    ngAfterViewInit() {
+        this.setHeight();
+    }
+
+    setHeight(modifier = 50) {
+        const extraHeight = modifier;
+        this.commentHeight = this.commentArea.nativeElement.offsetHeight + this.detailsWrapper.nativeElement.offsetHeight + extraHeight;
+        this.commentRendered.emit(true);
     }
 
     ngOnDestroy() {
@@ -140,11 +146,13 @@ export class CommentItemComponent implements OnInit, AfterContentChecked, OnDest
     }
 
     handleShowBtn() {
+        this.setHeight(120);
         this.focused = true;
         this.hideButton = false;
     }
 
     handleHideBtn() {
+        this.setHeight();
         if (!this.commentItem.value.content) {
             this.annotationStoreService.deleteComment(this.comment.id);
         }

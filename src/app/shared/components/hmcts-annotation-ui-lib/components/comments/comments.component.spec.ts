@@ -176,8 +176,12 @@ describe('CommentsComponent', () => {
     it('should calculate previous comment height if overlapping', () => {
       const previousCommentItemComponent = new MockCommentItemComponent();
       previousCommentItemComponent.commentTopPos = 10;
+      previousCommentItemComponent.annotationTopPos = 10;
+      previousCommentItemComponent.commentHeight = 10;
+
       const commentItemComponent = new MockCommentItemComponent();
       commentItemComponent.commentTopPos = 10;
+      commentItemComponent.annotationTopPos = 10;
 
       const returnedComment = component.isOverlapping(commentItemComponent, previousCommentItemComponent);
       expect(returnedComment.commentTopPos).toBe(previousCommentItemComponent.commentTopPos + previousCommentItemComponent.commentHeight);
