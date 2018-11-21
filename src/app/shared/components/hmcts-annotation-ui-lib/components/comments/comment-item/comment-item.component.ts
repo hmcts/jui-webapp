@@ -17,6 +17,7 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
     private dataLoadedSub: Subscription;
     hideButton: boolean;
     focused: boolean;
+    sliceComment: string;
 
     @Input() comment: Comment;
     @Input() annotation: Annotation;
@@ -42,6 +43,7 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnInit() {
         this.hideButton = true;
         this.focused = false;
+        this.sliceComments();
 
         this.commentFocusSub = this.annotationStoreService.getCommentFocusSubject()
             .subscribe((options) => {
@@ -103,11 +105,25 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
 
+    sliceComments() {
+        if (this.comment.content !== null) {
+            if (this.comment.content.split('\n').length > 4 || this.comment.content.toString().length > 100) {
+                if (this.comment.content.toString().length > 100) {
+                    this.sliceComment = this.comment.content.slice(0, 100) + '...';
+                } else {
+                    this.sliceComment = this.comment.content.slice(0, (this.comment.content.toString().length / 2)) + '...';
+                }
+            } else {
+                this.sliceComment = this.comment.content;
+            }
+        }
+    }
     onSubmit() {
         const comment = this.convertFormToComment(this.commentItem);
         this.annotationStoreService.editComment(comment);
         this.commentSubmitted.emit(this.annotation);
         this.handleHideBtn();
+        this.sliceComments();
     }
 
     isModified(): boolean {
@@ -127,7 +143,6 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
             this.ref.detectChanges();
         }
         this.commentZIndex = 0;
-        this.renderer.setStyle(this.commentArea.nativeElement, 'height', '');
     }
 
     convertFormToComment(commentForm: NgForm): Comment {
@@ -174,6 +189,7 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         this.focused = false;
         this.hideButton = true;
+        this.renderer.setStyle(this.commentArea.nativeElement, 'height', '');
     }
 
     getRelativePosition(annotationId: string): number {

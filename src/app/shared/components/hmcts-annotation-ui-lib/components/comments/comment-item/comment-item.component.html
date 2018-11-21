@@ -20,8 +20,8 @@
       [class.mimic-focus]="focused"
       class="jui-comment__content form-control mimic-focus"
       required
-      [ngModel]="comment.content" name="content"
       value="comment.content"></textarea>
+    [ngModel]="focused ? comment.content : sliceComment" name="content"
 
       <div [hidden]="hideButton" class="jui-comment__footer">
           <button type="submit" class="govuk-button" role="button">Edit</button>
