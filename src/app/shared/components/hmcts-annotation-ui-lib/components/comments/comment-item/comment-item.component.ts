@@ -43,7 +43,7 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnInit() {
         this.hideButton = true;
         this.focused = false;
-        this.sliceComments();
+        this.collapseComment();
 
         this.commentFocusSub = this.annotationStoreService.getCommentFocusSubject()
             .subscribe((options) => {
@@ -75,9 +75,9 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
             });
 
         this.commentItem.statusChanges.subscribe(
-                result => {
+                () => {
                     if (this.focused) {
-                        this.resize();
+                        this.expandComment();
                     }
                 }
             );
@@ -105,25 +105,11 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
 
-    sliceComments() {
-        if (this.comment.content !== null) {
-            if (this.comment.content.split('\n').length > 4 || this.comment.content.toString().length > 100) {
-                if (this.comment.content.toString().length > 100) {
-                    this.sliceComment = this.comment.content.slice(0, 100) + '...';
-                } else {
-                    this.sliceComment = this.comment.content.slice(0, (this.comment.content.toString().length / 2)) + '...';
-                }
-            } else {
-                this.sliceComment = this.comment.content;
-            }
-        }
-    }
     onSubmit() {
         const comment = this.convertFormToComment(this.commentItem);
         this.annotationStoreService.editComment(comment);
         this.commentSubmitted.emit(this.annotation);
         this.handleHideBtn();
-        this.sliceComments();
     }
 
     isModified(): boolean {
@@ -174,12 +160,7 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
         this.setHeight(120);
         this.focused = true;
         this.hideButton = false;
-        this.resize();
-    }
-
-    resize() {
-        this.renderer.setStyle(this.commentArea.nativeElement, 'height', 'auto');
-        this.renderer.setStyle(this.commentArea.nativeElement, 'height', this.commentArea.nativeElement.scrollHeight + 'px');
+        this.expandComment();
     }
 
     handleHideBtn() {
@@ -189,7 +170,20 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         this.focused = false;
         this.hideButton = true;
+        this.collapseComment();
+    }
+
+    collapseComment() {
         this.renderer.setStyle(this.commentArea.nativeElement, 'height', '');
+        if (this.comment.content !== null && this.comment.content.toString().length > 4) {
+            this.sliceComment = this.comment.content.slice(0, 10) + '...';
+        }
+    }
+
+    expandComment() {
+        this.renderer.setStyle(this.commentArea.nativeElement, 'height', 'auto');
+        this.renderer.setStyle(this.commentArea.nativeElement, 'height', this.commentArea.nativeElement.scrollHeight + 'px');
+        this.sliceComment = this.comment.content;
     }
 
     getRelativePosition(annotationId: string): number {
