@@ -176,7 +176,7 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
     collapseComment() {
         this.renderer.setStyle(this.commentArea.nativeElement, 'height', '');
         if (this.comment.content !== null && this.comment.content.toString().length > 4) {
-            this.sliceComment = this.comment.content.slice(0, 10) + '...';
+            this.sliceComment = this.comment.content.slice(0, 40) + '...';
         }
     }
 
