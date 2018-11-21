@@ -1,5 +1,5 @@
 const express = require('express')
-const fs = require('fs');
+const fs = require('fs')
 const formidable = require('formidable')
 
 const config = require('../../../config')
