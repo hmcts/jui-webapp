@@ -1,33 +1,33 @@
-<form class="jui-comment"
-  class="comment-list-item" 
-  (ngSubmit)="onSubmit()" #commentItem="ngForm" 
-  (click)="handleCommentClick($event)"
-  [style.top.px]="commentTopPos"
-  [style.z-index]="commentZIndex">
-  <div class="jui-comment__header">
-    <span *ngIf="comment.createdByDetails" class="jui-comment__author">{{comment.createdByDetails.forename}} {{comment.createdByDetails.surname}}</span>
-    <time class="jui-comment__meta" ng-controller="datCtrl">{{ comment.createdDate | date: 'd MMMM y h:mm a' }}</time>
-    <div *ngIf="false">
-        <span>modified By: {{comment.lastModifiedByDetails.forename}} {{comment.lastModifiedByDetails.surname}}</span>
-      <time class="jui-comment__meta" ng-controller="datCtrl"><br>{{ comment.lastModifiedDate | date: 'd MMMM y h:mm a' }}</time>
+  <form class="jui-comment comment-list-item"
+    (ngSubmit)="onSubmit()" 
+    #commentItem="ngForm" 
+    (click)="handleCommentClick($event)"
+    [style.top.px]="commentTopPos"
+    [style.z-index]="commentZIndex">
+    <div #detailsWrapper class="jui-comment__header">
+      <span *ngIf="comment.createdByDetails" class="jui-comment__author">{{comment.createdByDetails.forename}} {{comment.createdByDetails.surname}}</span>
+      <time class="jui-comment__meta" ng-controller="datCtrl">{{ comment.createdDate | date: 'd MMMM y h:mm a' }}</time>
+      <div *ngIf="false">
+          <span>modified By: {{comment.lastModifiedByDetails.forename}} {{comment.lastModifiedByDetails.surname}}</span>
+        <time class="jui-comment__meta" ng-controller="datCtrl"><br>{{ comment.lastModifiedDate | date: 'd MMMM y h:mm a' }}</time>
+      </div>
     </div>
-  </div>
 
-  <textarea 
-    #commentArea
-    (blur)="onBlur()"
-    type="text" 
-    [class.mimic-focus]="focused"
-    class="jui-comment__content form-control mimic-focus"
-    required
-    [ngModel]="comment.content" name="content"
-    value="comment.content"></textarea>
+    <textarea 
+      #commentArea
+      (blur)="onBlur()"
+      type="text" 
+      [class.mimic-focus]="focused"
+      class="jui-comment__content form-control mimic-focus"
+      required
+      [ngModel]="comment.content" name="content"
+      value="comment.content"></textarea>
 
-    <div [hidden]="hideButton" class="jui-comment__footer">
-        <button type="submit" class="govuk-button" role="button">Edit</button>
-        <button 
-          class="govuk-button hmcts hmcts-button--secondary" 
-          role="button"
-          (click)="handleDeleteComment()">Delete</button>
-    </div>
-</form>
+      <div [hidden]="hideButton" class="jui-comment__footer">
+          <button type="submit" class="govuk-button" role="button">Edit</button>
+          <button 
+            class="govuk-button hmcts hmcts-button--secondary" 
+            role="button"
+            (click)="handleDeleteComment()">Delete</button>
+      </div>
+  </form>

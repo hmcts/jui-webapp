@@ -140,8 +140,7 @@ describe('Utils', () => {
 
     describe('split rectangles by line', () => {
         it('should return 1 rectangle per line', () => {
-            // tslint:disable-next-line:prefer-const
-            let returnedRectangles = [];
+            const returnedRectangles = [];
             utils.generateRectanglePerLine(rectangles, returnedRectangles);
             expect(returnedRectangles.length).toBe(2);
         });
@@ -154,6 +153,33 @@ describe('Utils', () => {
                 .and.returnValue(document.createElement('div'));
             const isHighlight = utils.clickIsHighlight(event);
             expect(isHighlight).toBeFalsy();
+        });
+    });
+
+    describe('isSameLine', () => {
+        it('should return true if Y positions are almost identical', () => {
+            const sameLine = utils.isSameLine(10, 10);
+            expect(sameLine).toBeTruthy();
+        });
+        it('should return false if Y positions are different', () => {
+            const sameLine = utils.isSameLine(20, 10);
+            expect(sameLine).toBeFalsy();
+        });
+    });
+
+    describe('sortByLinePosition', () => {
+        it('should return 1 if first rectandle is leftest', () => {
+            const sameLine = utils.sortByLinePosition([
+                new Rectangle('myId', 'myId', '', null, null, null, null, null, null, null, 10, 0)], 
+                [new Rectangle('myId', 'myId', '', null, null, null, null, null, null, null, 15, 0)]);
+            expect(sameLine).toBe(1);
+        });
+
+        it('should return -1 if second rectandle is leftest', () => {
+            const sameLine = utils.sortByLinePosition([
+                new Rectangle('myId', 'myId', '', null, null, null, null, null, null, null, 15, 0)], 
+                [new Rectangle('myId', 'myId', '', null, null, null, null, null, null, null, 10, 0)]);
+            expect(sameLine).toBe(-1);
         });
     });
 });

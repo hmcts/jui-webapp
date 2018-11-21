@@ -157,6 +157,18 @@ describe('AnnotationStoreService', () => {
     }));
   });
 
+  describe('getToolbarUpdate', () => {
+    it('should return contextualToolBarOptionsSubject', inject([AnnotationStoreService], (service: AnnotationStoreService) => {
+      const contextualToolBarOptions = service['contextualToolBarOptions'];
+      service.getToolbarUpdate().subscribe(contextualOptions => {
+        expect(contextualOptions.showDelete).toBeTruthy();
+        expect(contextualOptions.annotation).not.toBeNull();
+      });
+
+      spyOn(contextualToolBarOptions, 'unsubscribe').and.returnValue(of({annotation: new Annotation(), showDelete: true}));
+    }));
+  });
+
   describe('getAnnotationFocusSubject', () => {
     it('should return annotationFocusSubject', inject([AnnotationStoreService], (service: AnnotationStoreService) => {
       expect(service.getAnnotationFocusSubject()).toBeTruthy();

@@ -1,3 +1,5 @@
+import { Rectangle } from "./annotation-set.model";
+
 export class Utils {
 
     buildLineRectangle(rectangles) {
@@ -59,19 +61,15 @@ export class Utils {
         });
     }
 
-    isSameLine(a, b): boolean {
-        return this.difference(a.commentTopPos, b.commentTopPos) < 5;
+    isSameLine(a: number, b: number): boolean {
+        return this.difference(a, b) < 5;
     }
 
-    sortByLinePosition(a, b): number {
+    sortByLinePosition(a: Rectangle[], b: Rectangle[]): number {
         // Same line. Now check from left to right
-        this.sortByX(a.annotation.rectangles, true);
-        this.sortByX(b.annotation.rectangles, true);
-        if (a.annotation.rectangles[0].x < b.annotation.rectangles[0].x) {
-            return -1;
-        } else {
-            return 1;
-        }
+        this.sortByX(a, true);
+        this.sortByX(b, true);
+        return (a[0].x < b[0].x) ? 1 : -1;
     }
 
     difference(a, b): number { return Math.abs(a - b); }

@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA, QueryList } from '@angular/core';
 import { Subject, Observable, of } from 'rxjs';
 
 import { CommentsComponent } from './comments.component';
@@ -7,9 +7,11 @@ import { AnnotationStoreService } from '../../data/annotation-store.service';
 import { PdfService } from '../../data/pdf.service';
 import { Annotation, Comment } from '../../data/annotation-set.model';
 import { Utils } from '../../data/utils';
+import { CommentItemComponent } from './comment-item/comment-item.component';
 
 class MockUtils {
   isSameLine() {}
+  sortByLinePosition() {}
 }
 
 class MockPdfService {
@@ -65,6 +67,12 @@ class MockAnnotationStoreService {
   }
 }
 
+class MockCommentItemComponent extends CommentItemComponent {
+  constructor() {
+    super(null, null, null);
+  }
+}
+
 describe('CommentsComponent', () => {
   const mockUtils = new MockUtils();
   const mockAnnotationStoreService = new MockAnnotationStoreService();
@@ -96,7 +104,7 @@ describe('CommentsComponent', () => {
 
     fixture = TestBed.createComponent(CommentsComponent);
     component = fixture.componentInstance;
-
+    component.commentItems = new QueryList();
     spyOn(mockPdfService, 'getDataLoadedSub').and.returnValue(of(true));
     spyOn(mockAnnotationStoreService, 'getAnnotationsForPage').and
     .callFake(() => {
@@ -146,6 +154,35 @@ describe('CommentsComponent', () => {
       });
     });
   });
+
+  describe('sortCommentItemComponents', () => {
+    it('should sort comments by their top position', () => {
+      spyOn(mockUtils, 'isSameLine').and.stub();
+      spyOn(mockUtils, 'sortByLinePosition').and.stub();
+
+      component.commentItems = new QueryList();
+      const sortedMap = component.sortCommentItemComponents();
+      expect(sortedMap).not.toBeNull();
+    });
+  });
+
+  describe('isOverlapping', () => {
+    it('should return the current comment', () => {
+      const commentItemComponent = new MockCommentItemComponent();
+      const returnedComment = component.isOverlapping(commentItemComponent, null);
+      expect(returnedComment).toBe(commentItemComponent);
+    });
+
+    it('should calculate previous comment height if overlapping', () => {
+      const previousCommentItemComponent = new MockCommentItemComponent();
+      previousCommentItemComponent.commentTopPos = 10;
+      const commentItemComponent = new MockCommentItemComponent();
+      commentItemComponent.commentTopPos = 10;
+
+      const returnedComment = component.isOverlapping(commentItemComponent, previousCommentItemComponent);
+      expect(returnedComment.commentTopPos).toBe(previousCommentItemComponent.commentTopPos + previousCommentItemComponent.commentHeight);
+    });
+  }); 
 
   describe('preRun', () => {
     it('should subscribe to pageNumSub', () => {

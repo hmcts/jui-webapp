@@ -47,7 +47,9 @@ export class CommentsComponent implements OnInit, OnDestroy {
     sortCommentItemComponents() {
         return this.commentItems.map((commentItem: CommentItemComponent) => commentItem)
             .sort((a, b) => {
-                if (this.utils.isSameLine(a, b)) { return this.utils.sortByLinePosition(a, b); }
+                if (this.utils.isSameLine(a.commentTopPos, b.commentTopPos)) { 
+                    return this.utils.sortByLinePosition(a.annotation.rectangles, a.annotation.rectangles); 
+                }
                 if (a.commentTopPos < b.commentTopPos) { return -1; }
                 if (a.commentTopPos > b.commentTopPos) { return 1; }
                 return 0;
@@ -55,9 +57,8 @@ export class CommentsComponent implements OnInit, OnDestroy {
     }
 
     isOverlapping(commentItem: CommentItemComponent, previousCommentItem: CommentItemComponent): CommentItemComponent {
-        const previousCommentHeight = 220;
         if (previousCommentItem) {
-            const endOfPreviousCommentItem = (previousCommentItem.commentTopPos + previousCommentHeight);
+            const endOfPreviousCommentItem = (previousCommentItem.commentTopPos + previousCommentItem.commentHeight);
             if (commentItem.commentTopPos <= endOfPreviousCommentItem) {
                 commentItem.commentTopPos = endOfPreviousCommentItem;
             }
