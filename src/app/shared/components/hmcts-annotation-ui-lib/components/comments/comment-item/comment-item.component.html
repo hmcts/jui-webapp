@@ -1,5 +1,6 @@
   <form class="jui-comment comment-list-item"
-    (ngSubmit)="onSubmit()" 
+    (ngSubmit)="onSubmit()"
+        #commentSelector
     #commentItem="ngForm" 
     (click)="handleCommentClick($event)"
     [style.top.px]="commentTopPos"
@@ -20,7 +21,7 @@
       [class.mimic-focus]="focused"
       class="jui-comment__content form-control mimic-focus"
       required
-      [ngModel]="focused ? comment.content : sliceComment" name="content"
+      [ngModel]="sliceComment" name="content"
       value="comment.content"></textarea>
 
       <div [hidden]="hideButton" class="jui-comment__footer">

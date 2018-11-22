@@ -24,6 +24,7 @@ export class CommentItemComponent implements OnInit, OnDestroy {
 
     @Output() commentSubmitted: EventEmitter<any> = new EventEmitter<any>();
     @Output() commentRendered: EventEmitter<any> = new EventEmitter<any>();
+    @ViewChild('commentSelector') commentSelector: ElementRef;
     @ViewChild('commentArea') commentArea: ElementRef;
     @ViewChild('commentItem') commentItem: NgForm;
     @ViewChild('detailsWrapper') detailsWrapper: ElementRef;
@@ -82,9 +83,8 @@ export class CommentItemComponent implements OnInit, OnDestroy {
             );
     }
 
-    setHeight(modifier = 50) {
-        const extraHeight = modifier;
-        this.commentHeight = this.commentArea.nativeElement.offsetHeight + this.detailsWrapper.nativeElement.offsetHeight + extraHeight;
+    setHeight() {
+        this.commentHeight =  this.commentSelector.nativeElement.getBoundingClientRect().height;
         this.commentRendered.emit(true);
     }
 
@@ -104,7 +104,6 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         const comment = this.convertFormToComment(this.commentItem);
         this.annotationStoreService.editComment(comment);
         this.commentSubmitted.emit(this.annotation);
-        this.handleHideBtn();
     }
 
     isModified(): boolean {
@@ -152,20 +151,24 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     }
 
     handleShowBtn() {
-        this.setHeight(120);
         this.focused = true;
         this.hideButton = false;
         this.expandComment();
+        setTimeout(() => {
+            this.setHeight();
+        });
     }
 
     handleHideBtn() {
-        this.setHeight();
         if (!this.commentItem.value.content) {
             this.annotationStoreService.deleteComment(this.comment.id);
         }
         this.focused = false;
         this.hideButton = true;
         this.collapseComment();
+        setTimeout(() => {
+            this.setHeight();
+        });
     }
 
     collapseComment() {
@@ -176,7 +179,7 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         this.setHeight();
     }
 
-    isCommentEmpty() {
+    isCommentEmpty(): boolean {
         return this.comment.content === null;
     }
     
@@ -200,10 +203,9 @@ export class CommentItemComponent implements OnInit, OnDestroy {
 
     expandComment() {
         this.renderer.setStyle(this.commentArea.nativeElement, 'height', 'auto');
-        const expandedHeight = this.commentArea.nativeElement.scrollHeight;
-        this.renderer.setStyle(this.commentArea.nativeElement, 'height', expandedHeight + 'px');
+        this.renderer.setStyle(this.commentArea.nativeElement, 'height', this.commentArea.nativeElement.scrollHeight + 'px');
         this.sliceComment = this.comment.content;
-        this.setHeight(expandedHeight - 65);
+        this.setHeight();
     }
 
     getRelativePosition(annotationId: string): number {
