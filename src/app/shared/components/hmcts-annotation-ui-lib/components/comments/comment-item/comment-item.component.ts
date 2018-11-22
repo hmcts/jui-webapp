@@ -50,10 +50,10 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
                 if (options.annotation.id === this.comment.annotationId) {
                     this.commentZIndex = 1;
                     this.focused = true;
-                    if (options.showButton) {
+                    // if (options.showButton) {
                         this.handleShowBtn();
                         this.commentArea.nativeElement.focus();
-                    }
+                    // }
                     this.ref.detectChanges();
                 } else {
                     this.onBlur();
@@ -85,7 +85,7 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit() {
-        this.setHeight();
+        // this.setHeight();
     }
 
     setHeight(modifier = 50) {
@@ -184,13 +184,15 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
             }
         }
         this.renderer.setStyle(this.commentArea.nativeElement, 'height', '90px');
-
+        this.setHeight();
     }
 
     expandComment() {
         this.renderer.setStyle(this.commentArea.nativeElement, 'height', 'auto');
-        this.renderer.setStyle(this.commentArea.nativeElement, 'height', this.commentArea.nativeElement.scrollHeight + 'px');
+        const expandedHeight = this.commentArea.nativeElement.scrollHeight;
+        this.renderer.setStyle(this.commentArea.nativeElement, 'height', expandedHeight + 'px');
         this.sliceComment = this.comment.content;
+        this.setHeight(expandedHeight);
     }
 
     getRelativePosition(annotationId: string): number {
