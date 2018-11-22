@@ -1,6 +1,7 @@
 const express = require('express')
 const getCaseTemplate = require('./templates/index')
 const valueProcessor = require('../../lib/processors/value-processor')
+const { processCaseState } = require('../../lib/processors/case-state-model')
 const { getEvents } = require('../events/index')
 const { getDocuments } = require('../../services/dm-store-api/dm-store-api')
 const { getAllQuestionsByCase } = require('../questions/index')
@@ -96,7 +97,8 @@ function getCaseData(userId, jurisdiction, caseType, caseId, options) {
 
 function getCaseTransformed(userId, jurisdiction, caseType, caseId, req) {
     return getCaseData(userId, jurisdiction, caseType, caseId, getOptions(req))
-        .then(caseData => applySchema(caseData))
+        .then(processCaseState)
+        .then(applySchema)
         .then(({ caseData, schema }) => appendDocuments(caseData, schema, getOptionsDoc(req)))
         .then(({ caseData, schema }) => schema)
 }

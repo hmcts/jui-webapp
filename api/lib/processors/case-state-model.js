@@ -268,22 +268,42 @@ function processCaseStateEngine(param) {
 }
 
 function processCaseState(caseData) {
+
+    // Example of caseData Model at this current moment
+    // const caseData = {
+    //     jurisdiction: "", // CCD Case jurisdiction
+    //     case_type_id: "", // CCD Case case type
+    //     state: "", // CCD Case state
+    //     case_data:{ // CCD Case Data
+    //         consentOrder: "", // used in FR only
+    //         appeal: {
+    //             hearingType: "" // used in SSCS only
+    //         }
+    //     },
+    //     hearing_data: { // COH Hearing Data
+    //         // used in COH only
+    //     },
+    //     question_data: { // COH Question Data
+    //         question_round_number // used in COH only
+    //     }
+    // }
+
     const jurisdiction = caseData.jurisdiction
     const caseType = caseData.case_type_id
     const ccdState = caseData.state
 
-    // COH Realted Cases Only
+    // COH Related Cases Only
     const hearingData = caseData.hearing_data ? caseData.hearing_data : undefined
     const questionRoundData = caseData.question_data
 
     const latestQuestions = (questionRoundData) ? questionRoundData.sort((a, b) => a.question_round_number < b.question_round_number)[0] : undefined
 
-    // FR realted only
+    // FR related only
     const consentOrder = caseData.case_data.consentOrder ? caseData.case_data.consentOrder : undefined
-    // SSCS realted only
+    // SSCS related only
     const hearingType = caseData.case_data.appeal ? caseData.case_data.appeal.hearingType : undefined
 
-    const caseState = processCaseStateEngine({
+    const inputStates = {
         jurisdiction,
         caseType,
         ccdState,
@@ -291,8 +311,9 @@ function processCaseState(caseData) {
         hearingData,
         latestQuestions,
         consentOrder
-    })
+    }
 
+    const caseState = processCaseStateEngine(inputStates)
     caseData.state = caseState
     if (caseState.stateDateTime) {
         if (new Date(caseData.last_modified) < new Date(caseState.stateDateTime)) {
