@@ -43,7 +43,7 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
     ngOnInit() {
         this.hideButton = true;
         this.focused = false;
-        this.collapseComment();
+        this.sliceComment = this.comment.content;
 
         this.commentFocusSub = this.annotationStoreService.getCommentFocusSubject()
             .subscribe((options) => {
@@ -71,6 +71,7 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.annotationTopPos = this.getRelativePosition(this.comment.annotationId);
                     this.commentTopPos = this.annotationTopPos;
                     this.commentRendered.emit(true);
+                    this.collapseComment();
                 }
             });
 
@@ -174,10 +175,16 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     collapseComment() {
-        this.renderer.setStyle(this.commentArea.nativeElement, 'height', '');
-        if (this.comment.content !== null && this.comment.content.toString().length > 4) {
-            this.sliceComment = this.comment.content.slice(0, 40) + '...';
+        if (this.comment.content !== null &&
+            (this.comment.content.toString().split('\n').length > 4 || this.comment.content.length > 100) ) {
+            if (this.comment.content.length > 100) {
+                this.sliceComment = this.comment.content.slice(0, 100) + '...';
+            } else {
+                this.sliceComment = this.comment.content.slice(0, this.comment.content.length / 2) + '...';
+            }
         }
+        this.renderer.setStyle(this.commentArea.nativeElement, 'height', '90px');
+
     }
 
     expandComment() {
