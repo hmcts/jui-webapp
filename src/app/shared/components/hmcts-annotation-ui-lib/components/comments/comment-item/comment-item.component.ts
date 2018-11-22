@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, EventEmitter, ViewChild, OnDestroy, ChangeDetectorRef, ElementRef, AfterViewInit, Renderer2} from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, ViewChild, OnDestroy, ChangeDetectorRef, ElementRef, Renderer2} from '@angular/core';
 import {NgForm} from '@angular/forms';
 import { Subscription } from 'rxjs';
 import {Comment, Annotation} from '../../../data/annotation-set.model';
@@ -10,7 +10,7 @@ import {PdfService} from '../../../data/pdf.service';
     templateUrl: './comment-item.component.html',
     styleUrls: ['./comment-item.component.scss']
 })
-export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CommentItemComponent implements OnInit, OnDestroy {
 
     private commentBtnSub: Subscription;
     private commentFocusSub: Subscription;
@@ -50,10 +50,8 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
                 if (options.annotation.id === this.comment.annotationId) {
                     this.commentZIndex = 1;
                     this.focused = true;
-                    // if (options.showButton) {
-                        this.handleShowBtn();
-                        this.commentArea.nativeElement.focus();
-                    // }
+                    this.handleShowBtn();
+                    this.commentArea.nativeElement.focus();
                     this.ref.detectChanges();
                 } else {
                     this.onBlur();
@@ -82,10 +80,6 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
                     }
                 }
             );
-    }
-
-    ngAfterViewInit() {
-        // this.setHeight();
     }
 
     setHeight(modifier = 50) {
@@ -175,16 +169,33 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     collapseComment() {
-        if (this.comment.content !== null &&
-            (this.comment.content.toString().split('\n').length > 4 || this.comment.content.length > 100) ) {
-            if (this.comment.content.length > 100) {
+        if (!this.isCommentEmpty()) {
+            this.splitComment();
+        }
+        this.renderer.setStyle(this.commentArea.nativeElement, 'height', '90px');
+        this.setHeight();
+    }
+
+    isCommentEmpty() {
+        return this.comment.content === null;
+    }
+    
+    isSplitable(): boolean {
+        return this.comment.content.toString().split('\n').length > 4 || this.comment.content.length > 100;
+    }
+
+    isOvermultipleLines(): boolean {
+        return this.comment.content.length > 100;
+    }
+
+    splitComment() {
+        if (this.isSplitable()) {
+            if (this.isOvermultipleLines()) {
                 this.sliceComment = this.comment.content.slice(0, 100) + '...';
             } else {
                 this.sliceComment = this.comment.content.slice(0, this.comment.content.length / 2) + '...';
             }
         }
-        this.renderer.setStyle(this.commentArea.nativeElement, 'height', '90px');
-        this.setHeight();
     }
 
     expandComment() {
@@ -192,7 +203,7 @@ export class CommentItemComponent implements OnInit, AfterViewInit, OnDestroy {
         const expandedHeight = this.commentArea.nativeElement.scrollHeight;
         this.renderer.setStyle(this.commentArea.nativeElement, 'height', expandedHeight + 'px');
         this.sliceComment = this.comment.content;
-        this.setHeight(expandedHeight);
+        this.setHeight(expandedHeight - 65);
     }
 
     getRelativePosition(annotationId: string): number {
