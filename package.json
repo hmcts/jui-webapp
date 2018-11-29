@@ -74,7 +74,7 @@
     "base-64": "^0.1.0",
     "body-parser": "1.18.3",
     "cookie-parser": "1.4.3",
-    "core-js": "2.4.1",
+    "core-js": "2.5.7",
     "eslint-html-reporter": "0.5.2",
     "exception-formatter": "1.0.7",
     "express": "4.16.2",
