@@ -77,6 +77,13 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
         }
     }
 
+    onRotateClick() {
+        const RENDER_OPTIONS = this.pdfService.getRenderOptions();
+        RENDER_OPTIONS.rotate = RENDER_OPTIONS.rotate + 90;
+        this.pdfService.setRenderOptions(RENDER_OPTIONS);
+        this.pdfService.render();
+    }
+
     loadAnnotations(annotate: boolean) {
         if (annotate) {
             this.apiHttpService.setBaseUrl(this.baseUrl);

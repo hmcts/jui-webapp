@@ -40,6 +40,7 @@ class MockPdfService {
   }
   setAnnotationWrapper() {}
   getPdfPages() {}
+  getRenderOptions() {}
 }
 
 class MockAnnotationStoreService {
@@ -173,6 +174,30 @@ describe('AnnotationPdfViewerComponent', () => {
       spyOn(component['focusedAnnotationSubscription'], 'unsubscribe');
       component.ngOnDestroy();
       expect(component['focusedAnnotationSubscription'].unsubscribe).toHaveBeenCalled();
+    });
+  });
+
+  describe('onRotateClick', () => {
+    const renderOptions = { documentId: null, pdfDocument: null, scale: 1.33, rotate: 0 };
+
+    it('should add 90 degrees to the rotation option', () => {
+      spyOn(mockPdfService, 'getRenderOptions').and.returnValue(renderOptions);
+      component.onRotateClick();
+      expect(renderOptions.rotate).toBe(90);
+    });
+
+    it('should set modifed render options', () => {
+      spyOn(mockPdfService, 'getRenderOptions').and.returnValue(renderOptions);
+      spyOn(mockPdfService, 'setRenderOptions').and.stub();
+      component.onRotateClick();
+      expect(mockPdfService.setRenderOptions).toHaveBeenCalledWith(renderOptions);
+    });
+
+    it('should call render', () => {
+      spyOn(mockPdfService, 'getRenderOptions').and.returnValue(renderOptions);
+      spyOn(mockPdfService, 'render').and.stub();
+      component.onRotateClick();
+      expect(mockPdfService.render).toHaveBeenCalled();
     });
   });
 

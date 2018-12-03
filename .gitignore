@@ -68,3 +68,5 @@ report.json
 \.scannerwork/
 
 \.vscode/
+
+reports/tests/coverage/ng/
