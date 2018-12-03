@@ -186,7 +186,7 @@ describe('AnnotationPdfViewerComponent', () => {
       expect(renderOptions.rotate).toBe(90);
     });
 
-    it('should set modifed render options', () => {
+    it('should set modified render options', () => {
       spyOn(mockPdfService, 'getRenderOptions').and.returnValue(renderOptions);
       spyOn(mockPdfService, 'setRenderOptions').and.stub();
       component.onRotateClick();

@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { PdfAnnotateWrapper } from './js-wrapper/pdf-annotate-wrapper';
 import { PdfWrapper } from './js-wrapper/pdf-wrapper';
 import { ElementRef } from '@angular/core';
+import { PdfPage } from './js-wrapper/pdf-page';
 
 class MockPdfAnnotateWrapper {
     renderPage(pageNumber) {}
@@ -70,9 +71,60 @@ describe('PdfService', () => {
       service['viewerElementRef'] = viewerElementRef;
       service.render(viewerElementRef);
       expect(mockPdfAnnotateWrapper.createPage).toHaveBeenCalled();
-    });
-  }));
-});
+      });
+    }));
+  });
+
+  describe('calculateRotation', () => {
+    const renderOptions = {documentId: null, pdfDocument: null, scale: 1.33, rotate: 180};
+
+    it('should return the sum value of current rotation and new rotation', inject([PdfService], (service: PdfService) => {
+      service.setRenderOptions(renderOptions);
+      const rotationAdd = 90;
+      const rotation = service.calculateRotation(new PdfPage(rotationAdd));
+      expect(rotation).toBe(renderOptions.rotate + rotationAdd);
+    }));
+
+    it('should return 360 degrees as 0', inject([PdfService], (service: PdfService) => {
+      service.setRenderOptions(renderOptions);
+      const rotationAdd = 180;
+      const rotation = service.calculateRotation(new PdfPage(rotationAdd));
+      expect(rotation).toBe(0);
+    }));
+
+    it('should return new rotation in 360 degrees', inject([PdfService], (service: PdfService) => {
+      service.setRenderOptions(renderOptions);
+      const rotationAdd = 270;
+      const rotation = service.calculateRotation(new PdfPage(rotationAdd));
+      expect(rotation).toBe(90);
+    }));
+  });
+
+  describe('getPdfPages', () => {
+    it('should set the pageNumber value', inject([PdfService], (service: PdfService) => {
+      service['pdfPages'] = 10;
+      const pdfPages = service.getPdfPages();
+      expect(pdfPages).toBe(10);
+    }));
+  });
+
+  describe('getDataLoadedSub', () => {
+    it('should return dataLoadedSubject', inject([PdfService], (service: PdfService) => {
+      service['dataLoadedSubject'] = new BehaviorSubject(true);
+      service.getDataLoadedSub().subscribe(result => {
+        expect(result).toBeTruthy();
+      });
+    }));
+  });
+
+  describe('dataLoadedUpdate', () => {
+    it('should set dataLoadedUpdate to true', inject([PdfService], (service: PdfService) => {
+      service.dataLoadedUpdate(true);
+      service['dataLoadedSubject'].subscribe(result => {
+        expect(result).toBeTruthy();
+      });
+    }));
+  });
 
   describe('setPageNumber', () => {
     it('should set the pageNumber value', inject([PdfService], (service: PdfService) => {

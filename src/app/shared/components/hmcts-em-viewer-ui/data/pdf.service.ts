@@ -2,6 +2,7 @@ import {ElementRef, Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import { PdfWrapper } from './js-wrapper/pdf-wrapper';
 import { PdfAnnotateWrapper } from './js-wrapper/pdf-annotate-wrapper';
+import { PdfPage } from './js-wrapper/pdf-page';
 
 @Injectable()
 export class PdfService {
@@ -73,22 +74,21 @@ export class PdfService {
                 this.RENDER_OPTIONS.pdfDocument = pdf;
                 const viewer = this.viewerElementRef.nativeElement;
                 viewer.innerHTML = '';
-                const NUM_PAGES = pdf.pdfInfo.numPages;
-                pdf.getPage(1).then(pdfPage => {
-                    this.RENDER_OPTIONS.rotate = pdfPage.rotate;
-                    for (let i = 0; i < NUM_PAGES; i++) {
+                this.pdfPages = pdf.pdfInfo.numPages;
+                pdf.getPage(1).then((pdfPage: PdfPage) => {
+                    this.RENDER_OPTIONS.rotate = this.calculateRotation(pdfPage);
+                    for (let i = 0; i < this.pdfPages; i++) {
                         const page = this.pdfAnnotateWrapper.createPage(i + 1);
                         viewer.appendChild(page);
                         setTimeout(() => {
                             this.pdfAnnotateWrapper.renderPage(i + 1, this.RENDER_OPTIONS).then(() => {
-                                if (i === NUM_PAGES - 1) {
+                                if (i === this.pdfPages - 1) {
                                     this.dataLoadedUpdate(true);
                                 }
                             });
                         });
                     }
                 });
-                this.pdfPages = NUM_PAGES;
             }).catch(
             (error) => {
                 const errorMessage = new Error('Unable to render your supplied PDF. ' +
@@ -96,6 +96,11 @@ export class PdfService {
                 console.log(errorMessage);
             }
         );
+    }
+
+    calculateRotation(pdfPage: PdfPage): number {
+        const rotateVal = pdfPage.rotate + this.RENDER_OPTIONS.rotate;
+        return (rotateVal >= 360) ? rotateVal - 360 : rotateVal;
     }
 
     setHighlightTool() {
