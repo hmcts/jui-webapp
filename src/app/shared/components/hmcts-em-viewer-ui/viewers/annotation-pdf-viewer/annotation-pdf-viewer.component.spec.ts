@@ -177,26 +177,50 @@ describe('AnnotationPdfViewerComponent', () => {
     });
   });
 
-  describe('onRotateClick', () => {
+  describe('onRotateClockwise', () => {
     const renderOptions = { documentId: null, pdfDocument: null, scale: 1.33, rotate: 0 };
 
     it('should add 90 degrees to the rotation option', () => {
       spyOn(mockPdfService, 'getRenderOptions').and.returnValue(renderOptions);
-      component.onRotateClick();
+      component.onRotateClockwise();
       expect(renderOptions.rotate).toBe(90);
     });
 
     it('should set modified render options', () => {
       spyOn(mockPdfService, 'getRenderOptions').and.returnValue(renderOptions);
       spyOn(mockPdfService, 'setRenderOptions').and.stub();
-      component.onRotateClick();
+      component.onRotateClockwise();
       expect(mockPdfService.setRenderOptions).toHaveBeenCalledWith(renderOptions);
     });
 
     it('should call render', () => {
       spyOn(mockPdfService, 'getRenderOptions').and.returnValue(renderOptions);
       spyOn(mockPdfService, 'render').and.stub();
-      component.onRotateClick();
+      component.onRotateClockwise();
+      expect(mockPdfService.render).toHaveBeenCalled();
+    });
+  });
+
+  describe('onRotateAntiClockwise', () => {
+    const renderOptions = { documentId: null, pdfDocument: null, scale: 1.33, rotate: 0 };
+
+    it('should add 90 degrees to the rotation option', () => {
+      spyOn(mockPdfService, 'getRenderOptions').and.returnValue(renderOptions);
+      component.onRotateAntiClockwise();
+      expect(renderOptions.rotate).toBe(-90);
+    });
+
+    it('should set modified render options', () => {
+      spyOn(mockPdfService, 'getRenderOptions').and.returnValue(renderOptions);
+      spyOn(mockPdfService, 'setRenderOptions').and.stub();
+      component.onRotateAntiClockwise();
+      expect(mockPdfService.setRenderOptions).toHaveBeenCalledWith(renderOptions);
+    });
+
+    it('should call render', () => {
+      spyOn(mockPdfService, 'getRenderOptions').and.returnValue(renderOptions);
+      spyOn(mockPdfService, 'render').and.stub();
+      component.onRotateAntiClockwise();
       expect(mockPdfService.render).toHaveBeenCalled();
     });
   });

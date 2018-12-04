@@ -77,9 +77,16 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
         }
     }
 
-    onRotateClick() {
+    onRotateClockwise() {
         const RENDER_OPTIONS = this.pdfService.getRenderOptions();
         RENDER_OPTIONS.rotate = RENDER_OPTIONS.rotate + 90;
+        this.pdfService.setRenderOptions(RENDER_OPTIONS);
+        this.pdfService.render();
+    }
+    
+     onRotateAntiClockwise() {
+        const RENDER_OPTIONS = this.pdfService.getRenderOptions();
+        RENDER_OPTIONS.rotate = RENDER_OPTIONS.rotate - 90;
         this.pdfService.setRenderOptions(RENDER_OPTIONS);
         this.pdfService.render();
     }

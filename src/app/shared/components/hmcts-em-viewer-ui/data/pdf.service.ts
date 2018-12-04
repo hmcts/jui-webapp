@@ -100,7 +100,11 @@ export class PdfService {
 
     calculateRotation(pdfPage: PdfPage): number {
         const rotateVal = pdfPage.rotate + this.RENDER_OPTIONS.rotate;
-        return (rotateVal >= 360) ? rotateVal - 360 : rotateVal;
+        if (rotateVal >= 0) {
+            return (rotateVal >= 360) ? rotateVal - 360 : rotateVal;
+        } else {
+            return 360 - Math.abs(rotateVal);
+        }
     }
 
     setHighlightTool() {

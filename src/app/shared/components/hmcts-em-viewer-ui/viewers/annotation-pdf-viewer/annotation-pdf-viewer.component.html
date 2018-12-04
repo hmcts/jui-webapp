@@ -4,8 +4,9 @@
 
 <div id="annotation-wrapper" #annotationWrapper>
     <app-contextual-toolbar #contextualToolbar></app-contextual-toolbar>
-
-    <button class="govuk-button hmcts hmcts-button--secondary rotate" title="Rotate" role="button" (click)="onRotateClick()"></button>
+    <button class="govuk-button hmcts hmcts-button--secondary rotate" title="Clockwise" role="button" (click)="onRotateClockwise()"></button>
+    <button class="govuk-button hmcts hmcts-button--secondary rotate anti" title="Anticlockwise" role="button" (click)="onRotateAntiClockwise()"></button>
+   
     <div id="content-wrapper"
          #contentWrapper
         (click)="handleClick($event, true)">

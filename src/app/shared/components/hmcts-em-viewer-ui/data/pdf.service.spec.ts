@@ -76,7 +76,7 @@ describe('PdfService', () => {
   });
 
   describe('calculateRotation', () => {
-    const renderOptions = {documentId: null, pdfDocument: null, scale: 1.33, rotate: 180};
+    let renderOptions = {documentId: null, pdfDocument: null, scale: 1.33, rotate: 180};
 
     it('should return the sum value of current rotation and new rotation', inject([PdfService], (service: PdfService) => {
       service.setRenderOptions(renderOptions);
@@ -97,6 +97,15 @@ describe('PdfService', () => {
       const rotationAdd = 270;
       const rotation = service.calculateRotation(new PdfPage(rotationAdd));
       expect(rotation).toBe(90);
+    }));
+
+    it('should return rotation in 360 degrees if negative', inject([PdfService], (service: PdfService) => {
+      renderOptions = {documentId: null, pdfDocument: null, scale: 1.33, rotate: -90};
+
+      service.setRenderOptions(renderOptions);
+      const rotationSubstract = -90;
+      const rotation = service.calculateRotation(new PdfPage(rotationSubstract));
+      expect(rotation).toBe(180);
     }));
   });
 
