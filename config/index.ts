@@ -5,7 +5,7 @@ import * as docker from './environments/docker.config';
 import * as spreview from './environments/spreview.config';
 import * as saat from './environments/saat.config';
 import * as sprod from './environments/sprod.config';
-import * as preview from './environments/mock.config';
+import * as preview from './environments/preview.config';
 import * as demo from './environments/demo.config';
 import * as aat from './environments/aat.config';
 import * as prod from './environments/prod.config';

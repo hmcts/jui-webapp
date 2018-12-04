@@ -86,7 +86,7 @@ const config = {
         strict: true,
         // format: ['node_modules/cucumber-pretty'],
         format: 'json:reports_json/results.json',
-        tags: ['@smoke'],
+        tags: ['@ignore'],
         require: [
             '../support/world.js',
             '../support/*.js',
