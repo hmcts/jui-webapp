@@ -6,7 +6,7 @@
     "ng": "ng",
     "nuke": "rm -rf dist",
     "build": "tsc && ng build --prod && ng run jui:server",
-    "start": "cd dist/jui-backend && node server.js",
+    "start": "node ./dist/jui-backend/server.js",
     "start-dev-proxy": "ng serve --proxy-config proxy.config.json",
     "start-dev-node": "cd dist/jui-backend && export JUI_ENV=local; node dev-server.js",
     "start-json-server": "export JUI_ENV=mock; node ./support/mock-server/mockserver.js",
