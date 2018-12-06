@@ -10,8 +10,8 @@ import { PdfService } from '../../../data/pdf.service';
 import { AnnotationStoreService } from '../../../data/annotation-store.service';
 
 class MockUtils {
-  isSameLine() {}
   sortByLinePosition() {}
+  difference() {}
 }
 
 class MockPdfService {
@@ -69,7 +69,7 @@ class MockAnnotationStoreService {
 
 class MockCommentItemComponent extends CommentItemComponent {
   constructor() {
-    super(null, null, null, null);
+    super(null, null, null, null, null);
   }
 }
 
@@ -157,12 +157,61 @@ describe('CommentsComponent', () => {
 
   describe('sortCommentItemComponents', () => {
     it('should sort comments by their top position', () => {
-      spyOn(mockUtils, 'isSameLine').and.stub();
       spyOn(mockUtils, 'sortByLinePosition').and.stub();
-
       component.commentItems = new QueryList();
       const sortedMap = component.sortCommentItemComponents();
       expect(sortedMap).not.toBeNull();
+    });
+  });
+
+  describe('processSort', () => {
+    const aCommentItemComponent = new MockCommentItemComponent();
+    aCommentItemComponent.annotationHeight = 10;
+    aCommentItemComponent.annotationTopPos = 100;
+    aCommentItemComponent.annotationLeftPos = 20;
+
+    const bCommentItemComponent = new MockCommentItemComponent();
+    bCommentItemComponent.annotationHeight = 9;
+    bCommentItemComponent.annotationTopPos = 90;
+    bCommentItemComponent.annotationLeftPos = 40;
+
+    it('should return the lowest annotationTop first', () => {
+      spyOn(component, 'isAnnotationOnSameLine').and.returnValue(false);
+      const result = component.processSort(aCommentItemComponent, bCommentItemComponent);
+      expect(result).toBe(1);
+    });
+
+    it('should return the highest annotationTop last', () => {
+      spyOn(component, 'isAnnotationOnSameLine').and.returnValue(false);
+      const result = component.processSort(bCommentItemComponent, aCommentItemComponent);
+      expect(result).toBe(-1);
+    });
+
+    it('should return the left annotation if on the same line', () => {
+      spyOn(component, 'isAnnotationOnSameLine').and.returnValue(true);
+      const result = component.processSort(aCommentItemComponent, bCommentItemComponent);
+      expect(result).toBe(-1);
+    });
+  });
+
+  describe('isAnnotationOnSameLine', () => {
+    
+    const aCommentItemComponent = new MockCommentItemComponent();
+    aCommentItemComponent.annotationHeight = 10;
+
+    const bCommentItemComponent = new MockCommentItemComponent();
+    bCommentItemComponent.annotationHeight = 9;
+
+    it('should return true if annotation topPos difference is lesser than height', () => {
+      spyOn(mockUtils, 'difference').and.returnValue(5);
+      const isSameLine = component.isAnnotationOnSameLine(aCommentItemComponent, bCommentItemComponent);
+      expect(isSameLine).toBeTruthy();
+    });
+
+    it('should return false if annotation topPos difference is greater than height', () => {
+      spyOn(mockUtils, 'difference').and.returnValue(15);
+      const isSameLine = component.isAnnotationOnSameLine(aCommentItemComponent, bCommentItemComponent);
+      expect(isSameLine).toBeFalsy();
     });
   });
 

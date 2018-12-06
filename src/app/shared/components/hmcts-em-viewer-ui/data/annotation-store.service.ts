@@ -85,15 +85,15 @@ export class AnnotationStoreService implements OnDestroy {
     handleAnnotationEvent(e) {
         switch (e.type) {
             case 'addAnnotation': {
-                this.saveAnnotation(e.annotation, true);
+                this.saveAnnotation(e.annotation);
                 break;
             }
             case 'addComment': {
-                this.saveAnnotation(e.annotation);
+                this.saveAnnotation(e.annotation, e.type);
                 break;
             }
             case 'editComment': {
-                this.saveAnnotation(e.annotation);
+                this.saveAnnotation(e.annotation, e.type);
                 break;
             }
             case 'deleteComment': {
@@ -165,13 +165,14 @@ export class AnnotationStoreService implements OnDestroy {
         this.pdfAdapter.annotationSet = loadedData;
     }
 
-    saveAnnotation(annotation: Annotation, displayToolbar?: boolean) {
+    saveAnnotation(annotation: Annotation, type?: string) {
         this.apiHttpService.saveAnnotation(annotation).subscribe(
             response => {
+                if (type === 'addComment' || type === 'editComment') {
+                    this.pdfAdapter.annotationSet.annotations[this.pdfAdapter.annotationSet.annotations
+                        .findIndex(x => x.id === annotation.id)] = response.body;
+                }
                 console.log(response);
-                // if (displayToolbar) {
-                //     this.setToolBarUpdate(annotation);
-                // }
             },
             error => console.log(error)
         );

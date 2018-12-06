@@ -46,14 +46,28 @@ export class CommentsComponent implements OnInit, OnDestroy {
 
     sortCommentItemComponents() {
         return this.commentItems.map((commentItem: CommentItemComponent) => commentItem)
-            .sort((a, b) => {
-                if (this.utils.isSameLine(a.annotationTopPos, b.annotationTopPos)) {
-                    return this.utils.sortByLinePosition(a.annotation.rectangles, b.annotation.rectangles); 
-                }
-                if (a.commentTopPos < b.commentTopPos) { return -1; }
-                if (a.commentTopPos > b.commentTopPos) { return 1; }
-                return 0;
+            .sort((a: CommentItemComponent, b: CommentItemComponent) => {
+                return this.processSort(a, b);
             });
+    }
+
+    processSort(a: CommentItemComponent, b: CommentItemComponent): number {
+        if (this.isAnnotationOnSameLine(a, b)) {
+            if (a.annotationLeftPos < b.annotationLeftPos) { return -1; }
+            if (a.annotationLeftPos >= b.annotationLeftPos) { return 1; }
+        }
+        if (a.annotationTopPos < b.annotationTopPos) { return -1; }
+        if (a.annotationTopPos >= b.annotationTopPos) { return 1; }
+
+        return 0;
+    }
+
+    isAnnotationOnSameLine(a: CommentItemComponent, b: CommentItemComponent): boolean {
+        const delta = (a.annotationHeight >= b.annotationHeight) ? a.annotationHeight : b.annotationHeight;
+        if (this.utils.difference(a.annotationTopPos, b.annotationTopPos) > delta) {
+            return false;
+        }
+        return true;
     }
 
     isOverlapping(commentItem: CommentItemComponent, previousCommentItem: CommentItemComponent): CommentItemComponent {

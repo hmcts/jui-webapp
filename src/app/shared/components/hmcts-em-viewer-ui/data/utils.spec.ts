@@ -156,17 +156,6 @@ describe('Utils', () => {
         });
     });
 
-    describe('isSameLine', () => {
-        it('should return true if Y positions are almost identical', () => {
-            const sameLine = utils.isSameLine(10, 10);
-            expect(sameLine).toBeTruthy();
-        });
-        it('should return false if Y positions are different', () => {
-            const sameLine = utils.isSameLine(20, 10);
-            expect(sameLine).toBeFalsy();
-        });
-    });
-
     describe('sortByLinePosition', () => {
         it('should return -1 if first rectandle is leftest', () => {
             const sameLine = utils.sortByLinePosition([

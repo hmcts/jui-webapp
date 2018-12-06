@@ -1,13 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgForm, FormsModule } from '@angular/forms';
 import {Subject, of} from 'rxjs';
-
-import { CommentItemComponent } from './comment-item.component';
 import { NO_ERRORS_SCHEMA, Renderer2 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { Annotation, Comment } from '../../../../data/annotation-set.model';
+
+import { CommentItemComponent } from './comment-item.component';
+import { Rectangle, Annotation, Comment } from '../../../../data/annotation-set.model';
 import { AnnotationStoreService } from '../../../../data/annotation-store.service';
 import { PdfService } from '../../../../data/pdf.service';
+import { Utils } from '../../../../data/utils';
+
 
 class MockAnnotationStoreService {
   comment: Comment;
@@ -31,6 +33,13 @@ class MockAnnotationStoreService {
 
 class MockPdfService {
     getDataLoadedSub() {}
+    getRelativePosition() {}
+}
+
+class MockUtils {
+  sortByX() {}
+  sortByY() {}
+  getAnnotationLineHeight() {}
 }
 
 describe('CommentItemComponent', () => {
@@ -48,6 +57,17 @@ describe('CommentItemComponent', () => {
     'A new comment'
     );
 
+  const rectangleBottom = new Rectangle('63225ccd-61fe-4aa7-8c5f-cf9bc31cc424',
+    '4bcc2edf-487d-4ee0-a5b0-a3cdfe93bf1a',
+    '123141', null, new Date(), null, null, null,
+    9.6, 60,
+    50, 87);
+  const rectangleTop = new Rectangle('de8155b9-5a8e-46f0-b771-d39d3906eeb6',
+    '4bcc2edf-487d-4ee0-a5b0-a3cdfe93bf1a',
+    '123141', null, new Date(), null, null, null,
+    9.6, 50,
+    68, 70);
+  
   const annotation = new Annotation(
     'ca68f5b0-a9dd-4f8e-95b8-3cad024c54be',
     '563ba4f8-47af-4652-961a-1274059269c6',
@@ -59,12 +79,13 @@ describe('CommentItemComponent', () => {
     1,
     'FFFF00',
     [comment],
-    [],
+    [rectangleBottom, rectangleTop],
     'highlight'
   );
 
   const mockPdfService = new MockPdfService();
   const mockAnnotationStoreService = new MockAnnotationStoreService();
+  const mockUtils = new MockUtils();
   const mockComment = new Comment(
     'cfe6bdad-8fc5-4240-adfc-d583bdaee47a',
     '22a3bde9-18d6-46b2-982b-36e0a631ea4b',
@@ -85,6 +106,7 @@ describe('CommentItemComponent', () => {
       providers: [
         { provide: AnnotationStoreService, useFactory: () => mockAnnotationStoreService },
         { provide: PdfService, useFactory: () => mockPdfService },
+        { provide: Utils, useFactory: () => mockUtils },
         Renderer2
       ],
       imports: [ FormsModule ]
@@ -101,7 +123,9 @@ describe('CommentItemComponent', () => {
     spyOn(mockAnnotationStoreService, 'getCommentFocusSubject').and
       .returnValue(of({annotation: annotation, showButton: false}));
     spyOn(mockPdfService, 'getDataLoadedSub').and
-          .returnValue(of(null));
+          .returnValue(of(true));
+
+    spyOn(component, 'getRelativePosition').and.returnValue(rectangleTop.y);
     component.comment = comment;
     component.annotation = annotation;
 
@@ -138,6 +162,23 @@ describe('CommentItemComponent', () => {
         .returnValue(of('some other id'));
       component.ngOnInit();
       expect(component['hideButton']).toBeTruthy();
+    });
+
+    it('should set the annotation height, leftPos and topPos on dataloaded', () => {
+      spyOn(mockUtils, 'getAnnotationLineHeight').and.returnValue(rectangleTop.height);
+      component.ngOnInit();
+      expect(component.annotationTopPos).toBe(rectangleTop.y);
+      expect(component.commentTopPos).toBe(component.annotationTopPos);
+      expect(component.annotationHeight).toBe(rectangleTop.height);
+      expect(component.annotationLeftPos).toBe(rectangleBottom.x);
+    });
+
+    it('should emit commentRendered event emitter on dataloaded', (done) => {
+      component.commentRendered.subscribe((commentRendered: boolean) => {
+        expect(commentRendered).toBeTruthy();
+        done();
+     });
+      component.ngOnInit();
     });
   });
 
@@ -198,10 +239,8 @@ describe('CommentItemComponent', () => {
   });
 
   describe('onBlur', () => {
-    it('should unfocus the component when onBlur is called', async(() => {
+    it('should run on blur', async(() => {
       component.onBlur();
-      expect(component['focused']).toBeFalsy();
-      expect(component['hideButton']).toBeTruthy();
     }));
   });
 

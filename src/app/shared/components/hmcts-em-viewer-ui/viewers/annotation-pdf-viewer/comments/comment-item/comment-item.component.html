@@ -3,11 +3,10 @@
         #commentSelector
     #commentItem="ngForm" 
     (click)="handleCommentClick($event)"
-    [style.top.px]="commentTopPos"
-    [style.z-index]="commentZIndex">
-    <div #detailsWrapper class="jui-comment__header">
+    [style.top.px]="commentTopPos">
+    <div #detailsWrapper id="detailsWrapper" class="jui-comment__header">
       <span *ngIf="comment.createdByDetails" class="jui-comment__author">{{comment.createdByDetails.forename}} {{comment.createdByDetails.surname}}</span>
-      <time class="jui-comment__meta" ng-controller="datCtrl">{{ comment.createdDate | date: 'd MMMM y h:mm a' }}</time>
+      <time #commentDate class="jui-comment__meta" ng-controller="datCtrl">{{ comment.createdDate | date: 'd MMMM y h:mm a' }}</time>
       <div *ngIf="false">
           <span>modified By: {{comment.lastModifiedByDetails.forename}} {{comment.lastModifiedByDetails.surname}}</span>
         <time class="jui-comment__meta" ng-controller="datCtrl"><br>{{ comment.lastModifiedDate | date: 'd MMMM y h:mm a' }}</time>
@@ -19,16 +18,24 @@
       (blur)="onBlur()"
       type="text" 
       [class.mimic-focus]="focused"
-      class="jui-comment__content form-control mimic-focus"
+      class="jui-comment__content form-control mimic-focus view-mode"
       required
       [ngModel]="sliceComment" name="content"
-      value="comment.content"></textarea>
+      value="comment.content"
+        [readonly]="!focused"></textarea>
 
-      <div [hidden]="hideButton" class="jui-comment__footer">
-          <button type="submit" class="govuk-button" role="button">Save</button>
-          <button 
+      <div [hidden]="hideButton" class="jui-comment__footer commentBtns">
+          <button *ngIf="focused" type="submit" class="govuk-button" role="button">Save</button>
+          <button *ngIf="!focused" (click)="onEdit()" class="govuk-button" role="button">Edit</button>
+          <button
+              *ngIf="!focused"
             class="govuk-button hmcts hmcts-button--secondary" 
             role="button"
             (click)="handleDeleteComment()">Delete</button>
+          <button
+              *ngIf="focused"
+              class="govuk-button hmcts hmcts-button--secondary"
+              role="button"
+              (click)="onCancel()">Cancel</button>
       </div>
   </form>

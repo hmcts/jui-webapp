@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { Annotation, Comment } from '../../../../data/annotation-set.model';
 import { AnnotationStoreService } from '../../../../data/annotation-store.service';
 import { PdfService } from '../../../../data/pdf.service';
+import { Utils } from '../../../../data/utils';
 
 @Component({
     selector: 'app-comment-item',
@@ -28,17 +29,20 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     @ViewChild('commentArea') commentArea: ElementRef;
     @ViewChild('commentItem') commentItem: NgForm;
     @ViewChild('detailsWrapper') detailsWrapper: ElementRef;
-
+    @ViewChild('commentDate') commentDate: ElementRef;
+    
     model = new Comment(null, null, null, null, null, null, null, null, null);
     commentTopPos: number;
-    commentZIndex: number;
     commentHeight: number;
     annotationTopPos: number;
-
+    annotationLeftPos: number;
+    annotationHeight: number;
+    
     constructor(private annotationStoreService: AnnotationStoreService,
                 private pdfService: PdfService,
                 private ref: ChangeDetectorRef,
-                private renderer: Renderer2) {
+                private renderer: Renderer2,
+                private utils: Utils) {
     }
 
     ngOnInit() {
@@ -49,10 +53,13 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         this.commentFocusSub = this.annotationStoreService.getCommentFocusSubject()
             .subscribe((options) => {
                 if (options.annotation.id === this.comment.annotationId) {
-                    this.commentZIndex = 1;
-                    this.focused = true;
-                    this.handleShowBtn();
-                    this.commentArea.nativeElement.focus();
+
+                    if (options.showButton) {
+                        this.onEdit();
+                    } else {
+                        this.handleShowBtn();
+                    }
+                    
                     this.ref.detectChanges();
                 } else {
                     this.onBlur();
@@ -69,6 +76,9 @@ export class CommentItemComponent implements OnInit, OnDestroy {
                 if (dataLoaded) {
                     this.annotationTopPos = this.getRelativePosition(this.comment.annotationId);
                     this.commentTopPos = this.annotationTopPos;
+                    this.utils.sortByX(this.annotation.rectangles, true);
+                    this.annotationHeight = this.utils.getAnnotationLineHeight(this.annotation.rectangles);
+                    this.annotationLeftPos = this.annotation.rectangles[0].x;
                     this.commentRendered.emit(true);
                     this.collapseComment();
                 }
@@ -84,8 +94,13 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     }
 
     setHeight() {
+        this.renderer.setStyle(this.commentArea.nativeElement, 'height', 'fit-content');
+        this.renderer.setStyle(this.commentArea.nativeElement, 'height', (this.commentArea.nativeElement.scrollHeight) + 'px');
         this.commentHeight =  this.commentSelector.nativeElement.getBoundingClientRect().height;
         this.commentRendered.emit(true);
+        if (!this.ref['destroyed']) {
+            this.ref.detectChanges();
+        }
     }
 
     ngOnDestroy() {
@@ -104,6 +119,27 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         const comment = this.convertFormToComment(this.commentItem);
         this.annotationStoreService.editComment(comment);
         this.commentSubmitted.emit(this.annotation);
+
+        this.viewOnly();
+    }
+
+    onEdit() {
+        this.editOnly();
+    }
+
+    onCancel() {
+        this.renderer.setProperty(this.commentArea.nativeElement, 'value', this.comment.content);
+        this.viewOnly();
+    }
+
+    viewOnly() {
+        this.renderer.addClass(this.commentArea.nativeElement, 'view-mode');
+        this.focused = false;
+    }
+
+    editOnly() {
+        this.focused = true;
+        this.renderer.removeClass(this.commentArea.nativeElement, 'view-mode');
     }
 
     isModified(): boolean {
@@ -122,7 +158,6 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         if (!this.ref['destroyed']) {
             this.ref.detectChanges();
         }
-        this.commentZIndex = 0;
     }
 
     convertFormToComment(commentForm: NgForm): Comment {
@@ -147,63 +182,76 @@ export class CommentItemComponent implements OnInit, OnDestroy {
         event.stopPropagation();
         this.annotationStoreService.setCommentBtnSubject(this.comment.id);
         this.annotationStoreService.setAnnotationFocusSubject(this.annotation);
-        this.commentZIndex = 1;
     }
 
     handleShowBtn() {
-        this.focused = true;
-        this.hideButton = false;
-        this.expandComment();
-        setTimeout(() => {
+        new Promise(resolve => {
+            this.hideButton = false;
+            this.expandComment();
+            resolve('Success');
+        }).then(() => {
             this.setHeight();
+            setTimeout(() => {
+                this.commentArea.nativeElement.focus();
+            });
         });
     }
 
     handleHideBtn() {
-        if (!this.commentItem.value.content) {
-            this.annotationStoreService.deleteComment(this.comment.id);
-        }
-        this.focused = false;
-        this.hideButton = true;
-        this.collapseComment();
-        setTimeout(() => {
+        new Promise(resolve => {
+            if (!this.commentItem.value.content) {
+                this.annotationStoreService.deleteComment(this.comment.id);
+            }
+            this.focused = false;
+            this.hideButton = true;
+            this.collapseComment();
+            resolve('Success');
+        }).then(() => {
             this.setHeight();
         });
     }
 
     collapseComment() {
-        if (!this.isCommentEmpty()) {
-            this.splitComment();
-        }
-        this.renderer.setStyle(this.commentArea.nativeElement, 'height', '90px');
-        this.setHeight();
+        new Promise(resolve => {
+            this.expandComment();
+            resolve('Success');
+        }).then(() => {
+            if (!this.isCommentEmpty()) {
+                this.shrinkComment();
+            }
+            this.renderer.addClass(this.commentArea.nativeElement, 'collapsed');
+            this.renderer.removeClass(this.commentArea.nativeElement, 'expanded');
+            this.renderer.addClass(this.detailsWrapper.nativeElement, 'collapsed');
+            this.renderer.addClass(this.commentArea.nativeElement, 'view-mode');
+
+            this.setHeight();
+        });
     }
 
     isCommentEmpty(): boolean {
         return this.comment.content === null;
     }
     
-    isSplitable(): boolean {
-        return this.comment.content.toString().split('\n').length > 4 || this.comment.content.length > 100;
+    isShrinkable(): boolean {
+        return this.commentArea.nativeElement.scrollHeight > 31;
     }
 
-    isOvermultipleLines(): boolean {
-        return this.comment.content.length > 100;
-    }
-
-    splitComment() {
-        if (this.isSplitable()) {
-            if (this.isOvermultipleLines()) {
-                this.sliceComment = this.comment.content.slice(0, 100) + '...';
-            } else {
-                this.sliceComment = this.comment.content.slice(0, this.comment.content.length / 2) + '...';
-            }
+    shrinkComment() {
+        if (this.isShrinkable()) {
+            this.sliceComment = this.removeMultipleLines().slice(0, 20) + '...';
         }
     }
 
+    removeMultipleLines(): string {
+        return this.comment.content.split('\n').join(' ');
+    }
+
     expandComment() {
-        this.renderer.setStyle(this.commentArea.nativeElement, 'height', 'auto');
-        this.renderer.setStyle(this.commentArea.nativeElement, 'height', this.commentArea.nativeElement.scrollHeight + 'px');
+        this.renderer.addClass(this.commentArea.nativeElement, 'expanded');
+        this.renderer.removeClass(this.commentArea.nativeElement, 'collapsed');
+        this.renderer.removeClass(this.detailsWrapper.nativeElement, 'collapsed');
+        this.renderer.addClass(this.detailsWrapper.nativeElement, 'expanded');
+
         this.sliceComment = this.comment.content;
         this.setHeight();
     }
@@ -217,8 +265,7 @@ export class CommentItemComponent implements OnInit, OnDestroy {
             const highlightRect = <DOMRect> svgSelector.getBoundingClientRect();
             const wrapperRect = <DOMRect> this.pdfService.getAnnotationWrapper().nativeElement.getBoundingClientRect();
 
-            const topPosition = (highlightRect.y - wrapperRect.top);
-            return topPosition;
+            return (highlightRect.y - wrapperRect.top);
         }
     }
 }

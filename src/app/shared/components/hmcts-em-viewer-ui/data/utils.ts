@@ -4,11 +4,11 @@ export class Utils {
 
     buildLineRectangle(rectangles) {
 
-        this.sortByY(rectangles, true);
+        this.sortByY(rectangles);
         const lowestY = rectangles[0].y;
         const lineHeight = rectangles[0].height;
 
-        this.sortByX(rectangles, true);
+        this.sortByX(rectangles);
         const lowestX = rectangles[0].x;
         const upperX = rectangles[rectangles.length - 1].x;
         const width = rectangles[rectangles.length - 1].width;
@@ -22,12 +22,12 @@ export class Utils {
         return rectangle;
     }
 
-    generateRectanglePerLine(annotationRectangles, generatedRectangles) {
+    generateRectanglePerLine(annotationRectangles: Rectangle[], generatedRectangles: Rectangle[]) {
 
-        this.sortByY(annotationRectangles, true);
+        this.sortByY(annotationRectangles);
         const highestY = annotationRectangles[annotationRectangles.length - 1].y;
         const lowestY = annotationRectangles[0].y;
-        const lineHeight = annotationRectangles[0].height;
+        const lineHeight = this.getAnnotationLineHeight(annotationRectangles);
 
         if (this.difference(highestY, lowestY) > lineHeight) {
             const currentLineRectangles = annotationRectangles.filter(rectangle => rectangle.y <= (lowestY + lineHeight));
@@ -39,7 +39,11 @@ export class Utils {
         }
     }
 
-    sortByY(rectangles, lowest) {
+    getAnnotationLineHeight(rectangles: Rectangle[]): number {
+        return rectangles[0].height;
+    }
+
+    sortByY(rectangles: Rectangle[], lowest = true) {
         rectangles.sort(
             function (a, b) {
                 const keyA = a.y,
@@ -50,7 +54,7 @@ export class Utils {
             });
     }
 
-    sortByX(rectangles, lowest) {
+    sortByX(rectangles: Rectangle[], lowest = true) {
         rectangles.sort(
             function (a, b) {
                 const keyA = a.x,
@@ -61,17 +65,13 @@ export class Utils {
             });
     }
 
-    isSameLine(a: number, b: number): boolean {
-        return this.difference(a, b) < 5;
-    }
-
     sortByLinePosition(a: Rectangle[], b: Rectangle[]): number {
-        this.sortByX(a, true);
-        this.sortByX(b, true);
+        this.sortByX(a);
+        this.sortByX(b);
         return (a[0].x > b[0].x) ? 1 : -1;
     }
 
-    difference(a, b): number { return Math.abs(a - b); }
+    difference(a: number, b: number): number { return Math.abs(a - b); }
 
     clickIsHighlight(event: MouseEvent): boolean {
         const target = <HTMLElement>event.target;

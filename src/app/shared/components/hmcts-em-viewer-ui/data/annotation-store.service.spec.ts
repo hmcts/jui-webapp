@@ -19,7 +19,7 @@ class MockPdfAnnotateWrapper {
 
 class MockPdfAdapter {
   annotationSet: AnnotationSet;
-  annotations: [Annotation];
+  annotations: Annotation[];
 
   private annotationChangeSubject: Subject<{ type: String, annotation: Annotation }>;
 
@@ -105,16 +105,7 @@ describe('AnnotationStoreService', () => {
     'comment string'
   );
 
-  const mockAnnotationSet = new AnnotationSet(
-    '9ad31e66-ec05-476d-9a38-09973d51c0c3',
-    '111111',
-    null,
-    new Date(),
-    '111111', null,
-    new Date(),
-    '',
-    [mockAnnotation]
-  );
+  mockPdfAdapter.annotationSet = dummyAnnotationSet;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -270,10 +261,10 @@ describe('AnnotationStoreService', () => {
   describe('fetchData', () => {
 
     it('should return annotationSet if successful', inject([AnnotationStoreService], (service: AnnotationStoreService) => {
-      const mockResponse = new HttpResponse().clone({body: mockAnnotationSet});
+      const mockResponse = new HttpResponse().clone({body: dummyAnnotationSet});
       spyOn(mockApiHttpService, 'fetch').and.returnValue(Observable.of(mockResponse));
       service.fetchData('http://localhost:3000', 'documentId').subscribe(response => {
-        expect(response.body).toBe(mockAnnotationSet);
+        expect(response.body).toBe(dummyAnnotationSet);
       });
     }));
 
