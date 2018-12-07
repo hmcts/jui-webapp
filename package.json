@@ -176,7 +176,7 @@
     "sinon-express-mock": "^2.1.0",
     "socks-proxy-agent": "3.0.1",
     "sonar-scanner": "3.0.3",
-    "style-loader": "0.19.1",
+    "style-loader": "0.23.1",
     "stylus-loader": "3.0.1",
     "supertest": "3.1.0",
     "ts-node": "^7.0.1",
