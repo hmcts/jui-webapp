@@ -167,7 +167,7 @@
     "protractor-cucumber-framework": "5.0.0",
     "protractor-multiple-cucumber-html-reporter-plugin": "1.8.0",
     "proxyquire": "2.1.0",
-    "raw-loader": "0.5.1",
+    "raw-loader": "1.0.0",
     "sass-loader": "6.0.6",
     "should": "13.2.3",
     "simon": "^0.2.3",
