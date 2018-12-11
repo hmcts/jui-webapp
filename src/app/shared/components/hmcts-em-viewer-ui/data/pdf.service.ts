@@ -2,7 +2,6 @@ import {ElementRef, Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import { PdfWrapper } from './js-wrapper/pdf-wrapper';
 import { PdfAnnotateWrapper } from './js-wrapper/pdf-annotate-wrapper';
-import { PdfPage } from './js-wrapper/pdf-page';
 
 @Injectable()
 export class PdfService {
@@ -75,7 +74,7 @@ export class PdfService {
                 const viewer = this.viewerElementRef.nativeElement;
                 viewer.innerHTML = '';
                 this.pdfPages = pdf.pdfInfo.numPages;
-                pdf.getPage(1).then((pdfPage: PdfPage) => {
+                pdf.getPage(1).then((pdfPage) => {
                     this.RENDER_OPTIONS.rotate = this.calculateRotation(pdfPage);
                     for (let i = 0; i < this.pdfPages; i++) {
                         const page = this.pdfAnnotateWrapper.createPage(i + 1);
@@ -98,7 +97,7 @@ export class PdfService {
         );
     }
 
-    calculateRotation(pdfPage: PdfPage): number {
+    calculateRotation(pdfPage): number {
         const rotateVal = pdfPage.rotate + this.RENDER_OPTIONS.rotate;
         if (rotateVal >= 0) {
             return (rotateVal >= 360) ? rotateVal - 360 : rotateVal;
