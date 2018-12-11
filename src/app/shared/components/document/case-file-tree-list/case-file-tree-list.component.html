@@ -8,7 +8,7 @@
             <li class="jui-tree__doc" *ngFor="let document of documents; let i = index;">
                 <a class="jui-tree__doc-link" routerLink="../{{document.id}}" [attr.aria-current]="(selectedDocument && document.id === selectedDocument.id) || null" role="treeitem" tabindex="-1">
                     <span class="jui-tree__doc-name">{{document.name}}</span>
-                    <span class="jui-tree__doc-meta">Added {{getHumanReadableDate(document.modifiedOn)}}</span>
+                    <span class="jui-tree__doc-meta">Added {{ document.modifiedOn  | date: 'd MMMM y h:mm a' }}</span>
                 </a>
             </li>
         </ul>
