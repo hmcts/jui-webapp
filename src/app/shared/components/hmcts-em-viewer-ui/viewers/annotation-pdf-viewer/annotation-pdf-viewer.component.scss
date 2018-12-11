@@ -11,19 +11,5 @@
     overflow: auto;
 }
 
-.rotate {
-    z-index: 1;
-    position: absolute;
-    right: 0px;
-    background-repeat: no-repeat; 
-    background-size: 14px 14px; 
-    background-position: 3px 50%;
-    background-image: url(/public/images/em-viewer-rotate.svg); 
-}
-.anti{
-    right: 24px;
-    -webkit-transform: scaleX(-1);
-    transform: scaleX(-1);
-}
 ////////////////////////////////////////
 ////////////////////////////////////////

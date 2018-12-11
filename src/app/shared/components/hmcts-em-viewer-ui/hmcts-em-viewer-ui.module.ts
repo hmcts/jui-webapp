@@ -23,6 +23,8 @@ import { DocumentViewerComponent } from './document-viewer/document-viewer.compo
 import { ViewerAnchorDirective } from './document-viewer/viewer-anchor.directive';
 import { BrowserModule } from '@angular/platform-browser';
 import { DocumentViewerService } from './document-viewer/document-viewer.service';
+import { RotationComponent } from './viewers/annotation-pdf-viewer/rotation-toolbar/rotation.component';
+import { RotationFactoryService } from './viewers/rotation-factory.service';
 
 @NgModule({
   imports: [
@@ -40,12 +42,14 @@ import { DocumentViewerService } from './document-viewer/document-viewer.service
     ImageViewerComponent,
     UnsupportedViewerComponent,
     DocumentViewerComponent,
-    ViewerAnchorDirective
+    ViewerAnchorDirective,
+    RotationComponent
   ],
   entryComponents: [
     AnnotationPdfViewerComponent,
     ImageViewerComponent,
-    UnsupportedViewerComponent
+    UnsupportedViewerComponent,
+    RotationComponent
 ],
   providers: [
     PdfAnnotateWrapper,
@@ -58,7 +62,8 @@ import { DocumentViewerService } from './document-viewer/document-viewer.service
     Utils,
     UrlFixerService,
     ViewerFactoryService,
-    DocumentViewerService
+    DocumentViewerService,
+    RotationFactoryService
   ],
   exports: [
     CommentsComponent,

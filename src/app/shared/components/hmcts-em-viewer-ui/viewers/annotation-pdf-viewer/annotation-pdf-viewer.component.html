@@ -2,11 +2,10 @@
 <app-comments (click)="handleClick($event, false)" #commentsComponent
  *ngIf="annotate"></app-comments>
 
+ <!-- <app-rotation-toolbar></app-rotation-toolbar> -->
 <div id="annotation-wrapper" #annotationWrapper>
     <app-contextual-toolbar #contextualToolbar></app-contextual-toolbar>
-    <!-- <button class="govuk-button hmcts hmcts-button--secondary rotate" title="Clockwise" role="button" (click)="onRotateClockwise()"></button> -->
-    <!-- <button class="govuk-button hmcts hmcts-button--secondary rotate anti" title="Anticlockwise" role="button" (click)="onRotateAntiClockwise()"></button> -->
-   
+
     <div id="content-wrapper"
          #contentWrapper
         (click)="handleClick($event, true)">

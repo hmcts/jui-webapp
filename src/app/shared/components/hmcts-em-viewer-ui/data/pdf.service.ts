@@ -3,6 +3,7 @@ import {BehaviorSubject} from 'rxjs';
 import { PdfWrapper } from './js-wrapper/pdf-wrapper';
 import { PdfAnnotateWrapper } from './js-wrapper/pdf-annotate-wrapper';
 import { RenderOptions } from './js-wrapper/renderOptions.model';
+import { RotationFactoryService } from '../viewers/rotation-factory.service';
 
 @Injectable()
 export class PdfService {
@@ -15,7 +16,8 @@ export class PdfService {
     private annotationWrapper: ElementRef;
 
     constructor(private pdfWrapper: PdfWrapper,
-                private pdfAnnotateWrapper: PdfAnnotateWrapper) {
+                private pdfAnnotateWrapper: PdfAnnotateWrapper,
+                private rotationFactoryService: RotationFactoryService) {
         this.dataLoadedSubject = new BehaviorSubject(false);
     }
 
@@ -76,7 +78,7 @@ export class PdfService {
                 viewer.innerHTML = '';
                 this.pdfPages = pdf.pdfInfo.numPages;
 
-                for (let i = 1; i < this.pdfPages; i++) {
+                for (let i = 1; i < this.pdfPages + 1; i++) {
                     const page = this.pdfAnnotateWrapper.createPage(i);
                     
                     // Create a copy of the render options for each page.
@@ -92,8 +94,12 @@ export class PdfService {
                                 }
                             });
                         });
-                        
                     });
+
+                    const rect = page.getBoundingClientRect();
+
+                    this.rotationFactoryService.addToDom(i, rect);
+                    
                 }
             }).catch(
             (error) => {
@@ -113,15 +119,6 @@ export class PdfService {
             rotation = pdfPage.rotate;
         }
         return rotation;
-    }
-
-    calculateRotation(pdfPage): number {
-        const rotateVal = pdfPage.rotate + this.RENDER_OPTIONS.rotate;
-        if (rotateVal >= 0) {
-            return (rotateVal >= 360) ? rotateVal - 360 : rotateVal;
-        } else {
-            return 360 - Math.abs(rotateVal);
-        }
     }
 
     setHighlightTool() {

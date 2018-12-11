@@ -9,6 +9,7 @@ import { Utils } from '../../data/utils';
 import { PdfAnnotateWrapper } from '../../data/js-wrapper/pdf-annotate-wrapper';
 import { CommentsComponent } from './comments/comments.component';
 import { ContextualToolbarComponent } from './contextual-toolbar/contextual-toolbar.component';
+import { RenderOptions } from '../../data/js-wrapper/renderOptions.model';
 
 
 @Component({
@@ -49,13 +50,13 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
     ngOnInit() {
         this.loadAnnotations(this.annotate);
         this.pdfService.preRun();
-        this.pdfService.setRenderOptions({
-            documentId: this.url,
-            pdfDocument: null,
-            scale: parseFloat('1.33'),
-            rotate: 0,
-            rotationPages: []
-        });
+        this.pdfService.setRenderOptions( new RenderOptions(
+            this.url,
+            null,
+            parseFloat('1.33'),
+            0,
+            []
+        ));
 
         this.pdfService.render(this.viewerElementRef);
         this.pdfService.setAnnotationWrapper(this.annotationWrapper);
@@ -76,20 +77,6 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
         if (this.focusedAnnotationSubscription) {
             this.focusedAnnotationSubscription.unsubscribe();
         }
-    }
-
-    onRotateClockwise() {
-        const RENDER_OPTIONS = this.pdfService.getRenderOptions();
-        RENDER_OPTIONS.rotate = RENDER_OPTIONS.rotate + 90;
-        this.pdfService.setRenderOptions(RENDER_OPTIONS);
-        this.pdfService.render();
-    }
-    
-     onRotateAntiClockwise() {
-        const RENDER_OPTIONS = this.pdfService.getRenderOptions();
-        RENDER_OPTIONS.rotate = RENDER_OPTIONS.rotate - 90;
-        this.pdfService.setRenderOptions(RENDER_OPTIONS);
-        this.pdfService.render();
     }
 
     loadAnnotations(annotate: boolean) {
