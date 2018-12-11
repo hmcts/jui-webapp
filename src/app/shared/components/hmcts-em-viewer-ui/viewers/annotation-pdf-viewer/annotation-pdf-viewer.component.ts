@@ -53,7 +53,8 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
             documentId: this.url,
             pdfDocument: null,
             scale: parseFloat('1.33'),
-            rotate: 0
+            rotate: 0,
+            rotationPages: []
         });
 
         this.pdfService.render(this.viewerElementRef);

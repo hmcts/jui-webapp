@@ -2,12 +2,13 @@ import {ElementRef, Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import { PdfWrapper } from './js-wrapper/pdf-wrapper';
 import { PdfAnnotateWrapper } from './js-wrapper/pdf-annotate-wrapper';
+import { RenderOptions } from './js-wrapper/renderOptions.model';
 
 @Injectable()
 export class PdfService {
 
     private pdfPages: number;
-    private RENDER_OPTIONS: { documentId: string, pdfDocument: any, scale: any, rotate: number };
+    private RENDER_OPTIONS: RenderOptions;
     private pageNumber: BehaviorSubject<number>;
     private dataLoadedSubject: BehaviorSubject<boolean>;
     private viewerElementRef: ElementRef;
@@ -59,7 +60,7 @@ export class PdfService {
         return Object.assign({}, this.RENDER_OPTIONS);
     }
 
-    setRenderOptions(RENDER_OPTIONS: { documentId: string; pdfDocument: null; scale: number; rotate: number; }): any {
+    setRenderOptions(RENDER_OPTIONS: RenderOptions): any {
         this.RENDER_OPTIONS = RENDER_OPTIONS;
     }
 
@@ -74,20 +75,26 @@ export class PdfService {
                 const viewer = this.viewerElementRef.nativeElement;
                 viewer.innerHTML = '';
                 this.pdfPages = pdf.pdfInfo.numPages;
-                pdf.getPage(1).then((pdfPage) => {
-                    this.RENDER_OPTIONS.rotate = this.calculateRotation(pdfPage);
-                    for (let i = 0; i < this.pdfPages; i++) {
-                        const page = this.pdfAnnotateWrapper.createPage(i + 1);
-                        viewer.appendChild(page);
+
+                for (let i = 1; i < this.pdfPages; i++) {
+                    const page = this.pdfAnnotateWrapper.createPage(i);
+                    
+                    // Create a copy of the render options for each page.
+                    const pageOptions = Object.assign({}, this.RENDER_OPTIONS);
+                    viewer.appendChild(page);
+                    pdf.getPage(i).then((pdfPage) => {
+                        // Get current page rotation from page rotation objects
+                        pageOptions.rotate = this.getPageRotation(pageOptions, pdfPage);
                         setTimeout(() => {
-                            this.pdfAnnotateWrapper.renderPage(i + 1, this.RENDER_OPTIONS).then(() => {
+                            this.pdfAnnotateWrapper.renderPage(i, pageOptions).then(() => {
                                 if (i === this.pdfPages - 1) {
                                     this.dataLoadedUpdate(true);
                                 }
                             });
                         });
-                    }
-                });
+                        
+                    });
+                }
             }).catch(
             (error) => {
                 const errorMessage = new Error('Unable to render your supplied PDF. ' +
@@ -95,6 +102,17 @@ export class PdfService {
                 console.log(errorMessage);
             }
         );
+    }
+
+    getPageRotation(pageOptions: RenderOptions, pdfPage: any): number {
+        let rotation = pageOptions.rotationPages
+            .filter(rotateObj => rotateObj.page === pdfPage.pageNumber)
+            .map(rotateObj => rotateObj.rotate)[0];
+        if (!rotation) {
+            this.RENDER_OPTIONS.rotationPages.push({page: pdfPage.pageNumber, rotate: pdfPage.rotate});
+            rotation = pdfPage.rotate;
+        }
+        return rotation;
     }
 
     calculateRotation(pdfPage): number {
