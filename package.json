@@ -171,7 +171,7 @@
     "sass-loader": "6.0.6",
     "should": "13.2.3",
     "simon": "^0.2.3",
-    "sinon": "^7.1.1",
+    "sinon": "^7.2.2",
     "sinon-chai": "^3.3.0",
     "sinon-express-mock": "^2.1.0",
     "socks-proxy-agent": "3.0.1",
