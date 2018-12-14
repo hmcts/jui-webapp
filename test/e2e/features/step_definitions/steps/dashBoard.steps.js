@@ -17,7 +17,7 @@ defineSupportCode(function({ Given, When, Then }) {
         await expect(dashBoardPage.dashboard_header.getText())
             .to
             .eventually
-            .equal('Dashboard');
+            .equal('Your cases');
 
     });
 
