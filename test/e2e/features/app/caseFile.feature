@@ -7,7 +7,7 @@ Feature: Case File
         When I select a case type
         Then I will be redirected to the Case Summary page for that case type
 
-    @all
+    @all @smoke
     Scenario: Verify case file navigation from case summary page
         Then I can see sub nav links as Parties,Case file,Timeline
         When I click on Case file sub nav link

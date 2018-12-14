@@ -12,7 +12,7 @@ const { SHORT_DELAY, MID_DELAY , LONG_DELAY } = require('../../../support/consta
 defineSupportCode(function ({Given, When, Then}) {
 
     Then(/^I see the timeline link$/, async function () {
-        browser.sleep(SHORT_DELAY);
+        browser.sleep(MID_DELAY);
         await expect(timelinePage.timelineLink.isDisplayed()).to.eventually.be.true;
     });
 
