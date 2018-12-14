@@ -5,6 +5,7 @@ import { AnnotationSet, Annotation } from './annotation-set.model';
 import { DocumentTask } from './document-task.model';
 import { TransferState } from '@angular/platform-browser';
 import { PLATFORM_ID } from '@angular/core';
+import { EmLoggerService } from '../logging/em-logger.service';
 
 class MockTransferState {
     hasKey() {}
@@ -45,9 +46,10 @@ describe('ApiHttpService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
-              ApiHttpService,
-              { provide: TransferState, useFactory: () => mockTransferState},
-              { provide: PLATFORM_ID, useValue: 'browser' },
+                EmLoggerService,
+                ApiHttpService,
+                { provide: TransferState, useFactory: () => mockTransferState},
+                { provide: PLATFORM_ID, useValue: 'browser' },
             ],
             imports: [
                 HttpClientTestingModule

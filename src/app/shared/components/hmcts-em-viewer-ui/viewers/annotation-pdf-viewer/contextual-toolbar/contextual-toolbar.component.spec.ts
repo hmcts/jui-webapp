@@ -4,6 +4,7 @@ import { ContextualToolbarComponent } from './contextual-toolbar.component';
 import { Annotation, Comment } from '../../../data/annotation-set.model';
 import { PdfService } from '../../../data/pdf.service';
 import { AnnotationStoreService } from '../../../data/annotation-store.service';
+import { EmLoggerService } from '../../../logging/em-logger.service';
 
 class MockPdfService {
   annotationSub: Subject<string>;
@@ -75,6 +76,7 @@ describe('ContextualToolbarComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ ContextualToolbarComponent ],
       providers: [
+        EmLoggerService,
         {provide: PdfService, useFactory: () => mockPdfService},
         {provide: AnnotationStoreService, useFactory: () => mockAnnotationStoreService}
       ]

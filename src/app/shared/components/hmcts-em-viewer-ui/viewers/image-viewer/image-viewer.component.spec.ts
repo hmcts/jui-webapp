@@ -1,6 +1,7 @@
 import { async, TestBed, ComponentFixture } from '@angular/core/testing';
 import { NO_ERRORS_SCHEMA, Renderer2 } from '@angular/core';
 import { ImageViewerComponent } from './image-viewer.component';
+import { EmLoggerService } from '../../logging/em-logger.service';
 
 class MockRenderer {
 
@@ -16,6 +17,7 @@ describe('ImageViewerComponent', () => {
       declarations: [ ImageViewerComponent ],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
+        EmLoggerService,
         { provide: Renderer2, useFactory: () => mockRenderer },
       ]
     })

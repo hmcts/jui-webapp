@@ -8,6 +8,7 @@ import { PdfAdapter } from './pdf-adapter';
 import { PdfService } from './pdf.service';
 import { Annotation, AnnotationSet, Comment } from './annotation-set.model';
 import { PdfAnnotateWrapper } from './js-wrapper/pdf-annotate-wrapper';
+import { EmLoggerService } from '../logging/em-logger.service';
 
 class MockPdfAnnotateWrapper {
   setStoreAdapter() {}
@@ -110,6 +111,7 @@ describe('AnnotationStoreService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        EmLoggerService,
         AnnotationStoreService,
         { provide: ApiHttpService, useFactory: () => mockApiHttpService },
         { provide: PdfAdapter, useFactory: () => mockPdfAdapter},

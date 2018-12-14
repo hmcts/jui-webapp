@@ -3,6 +3,7 @@ import { Utils } from './utils';
 import { PdfAdapter } from './pdf-adapter';
 import { AnnotationSet, Annotation, Comment, Rectangle } from './annotation-set.model';
 import { WINDOW } from '@ng-toolkit/universal';
+import { EmLoggerService } from '../logging/em-logger.service';
 
 class MockUtils {
     generateRectanglePerLine() {}
@@ -48,9 +49,10 @@ describe('PdfAdapter', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
           providers: [
-              PdfAdapter,
-              { provide: WINDOW, useFactory: () => mockWindow},
-              { provide: Utils, useFactory: () => mockUtils}
+                EmLoggerService,
+                PdfAdapter,
+                { provide: WINDOW, useFactory: () => mockWindow},
+                { provide: Utils, useFactory: () => mockUtils}
             ]
         });
       });

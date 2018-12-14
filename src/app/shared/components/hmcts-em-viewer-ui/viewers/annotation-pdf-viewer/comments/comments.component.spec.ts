@@ -8,6 +8,7 @@ import { Annotation, Comment } from '../../../data/annotation-set.model';
 import { Utils } from '../../../data/utils';
 import { PdfService } from '../../../data/pdf.service';
 import { AnnotationStoreService } from '../../../data/annotation-store.service';
+import { EmLoggerService } from '../../../logging/em-logger.service';
 
 class MockUtils {
   sortByLinePosition() {}
@@ -68,8 +69,10 @@ class MockAnnotationStoreService {
 }
 
 class MockCommentItemComponent extends CommentItemComponent {
+  
   constructor() {
-    super(null, null, null, null, null);
+    const log = new EmLoggerService();
+    super(null, null, null, null, null, log);
   }
 }
 
@@ -88,6 +91,7 @@ describe('CommentsComponent', () => {
       ],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
+        EmLoggerService,
         { provide: Utils, useFactory: () => mockUtils },
         { provide: PdfService, useFactory: () => mockPdfService },
         { provide: AnnotationStoreService, useFactory: () => mockAnnotationStoreService }
