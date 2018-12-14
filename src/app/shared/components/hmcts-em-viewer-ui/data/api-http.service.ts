@@ -6,14 +6,17 @@ import {HttpResponse, HttpClient} from '@angular/common/http';
 import {Injectable, PLATFORM_ID, Inject} from '@angular/core';
 import {IDocumentTask} from './document-task.model';
 import {Annotation, IAnnotation, IAnnotationSet} from './annotation-set.model';
+import { EmLoggerService } from '../logging/em-logger.service';
 
 @Injectable()
 export class ApiHttpService {
     private baseUrl: string;
 
-    constructor(private httpClient: HttpClient,
+    constructor(private log: EmLoggerService,
+                private httpClient: HttpClient,
                 @Inject(PLATFORM_ID) private platformId,
                 private transferState: TransferState) {
+        log.setClass('ApiHttpService');
     }
 
     setBaseUrl(baseUrl: string) {
@@ -53,6 +56,7 @@ export class ApiHttpService {
             inputDocumentId: dmDocumentId,
             outputDocumentId: outputDmDocumentId
         };
+        this.log.info('Calling NPA service-' + dmDocumentId);
         return this.httpClient.post<IDocumentTask>(url, documentTasks, {observe: 'response'});
     }
 

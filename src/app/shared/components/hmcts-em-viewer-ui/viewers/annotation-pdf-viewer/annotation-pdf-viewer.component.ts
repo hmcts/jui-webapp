@@ -9,6 +9,7 @@ import { Utils } from '../../data/utils';
 import { PdfAnnotateWrapper } from '../../data/js-wrapper/pdf-annotate-wrapper';
 import { CommentsComponent } from './comments/comments.component';
 import { ContextualToolbarComponent } from './contextual-toolbar/contextual-toolbar.component';
+import { EmLoggerService } from '../../logging/em-logger.service';
 
 
 @Component({
@@ -43,7 +44,9 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
                 private utils: Utils,
                 private ref: ChangeDetectorRef,
                 private renderer: Renderer2,
-                private pdfAnnotateWrapper: PdfAnnotateWrapper) {
+                private pdfAnnotateWrapper: PdfAnnotateWrapper,
+                private log: EmLoggerService) {
+        log.setClass('AnnotationPdfViewerComponent');
     }
 
     ngOnInit() {
@@ -79,10 +82,12 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
 
     loadAnnotations(annotate: boolean) {
         if (annotate) {
+            this.log.info('annotations are enabled');
             this.apiHttpService.setBaseUrl(this.baseUrl);
             this.annotationStoreService.preLoad(this.annotationSet);
             this.npaService.outputDmDocumentId.next(this.outputDmDocumentId);
         } else {
+            this.log.info('annotations are disabled');
             this.annotationStoreService.preLoad(null);
         }
     }

@@ -4,6 +4,7 @@ import {Subject} from 'rxjs';
 import {Annotation, AnnotationSet, Comment, Rectangle} from './annotation-set.model';
 import {Utils} from './utils';
 import { WINDOW } from '@ng-toolkit/universal';
+import { EmLoggerService } from '../logging/em-logger.service';
 
 @Injectable()
 export class PdfAdapter {
@@ -13,9 +14,11 @@ export class PdfAdapter {
     annotationSetId: string;
     private annotationChangeSubject: Subject<{ type: String, annotation: Annotation }>;
 
-    constructor(private utils: Utils,
+    constructor(private log: EmLoggerService,
+                private utils: Utils,
                 @Inject(WINDOW) private window: Window) {
         this.annotationChangeSubject = new Subject<{ type: String, annotation: Annotation }>();
+        log.setClass('PdfAdapter');
     }
 
     getAnnotationChangeSubject(): Subject<{ type: String, annotation: Annotation }> {

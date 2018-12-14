@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs';
 import { Annotation, Comment } from '../../../data/annotation-set.model';
 import { AnnotationStoreService } from '../../../data/annotation-store.service';
 import { PdfService } from '../../../data/pdf.service';
+import { EmLoggerService } from '../../../logging/em-logger.service';
 
 @Component({
   selector: 'app-contextual-toolbar',
@@ -19,7 +20,9 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
 
   constructor(private annotationStoreService: AnnotationStoreService,
               private ref: ChangeDetectorRef,
-              private pdfService: PdfService) {
+              private pdfService: PdfService,
+              private log: EmLoggerService) {
+    this.log.setClass('ContextualToolbarComponent');
     this.toolPos = {
       left: 0,
       top: 0
