@@ -1,0 +1,17 @@
+export const  lookup  =  {
+        applicantTakenAdvice: 'Applicant independent legal advice',
+        capitalPositions: 'The parties capital positions',
+        childrensHousingNeeds: 'The children’s housing needs',
+        d81: 'D81 form is incomplete',
+        eastMidlands: 'EZ801',
+        justificationDeparture: 'The justification of capital',
+        netEffectOrder: 'The net effect of the order',
+        northWest: 'LV251',
+        orderNotAppearOfS25ca1973: 'S25 Matrimonial',
+        partiesHousingNeeds: 'The parties housing needs',
+        partiesPensionProvision: 'he parties pension provision',
+        pensionAnnex: 'Pension annex was not attached',
+        respondentTakenAdvice: 'Respondent independent legal advice',
+        southWest: 'RS800',
+        westMidlands: 'ST333',
+    }

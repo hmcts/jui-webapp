@@ -1,4 +1,3 @@
 <ng-container [formGroup]="group">
-    <input [class]="classes" [type]="typeBtn" [formControlName]="control" [value]="value">
+    <input id="{{control + value}}" [class]="classes" [type]="typeBtn" [formControlName]="control" [value]="value">
 </ng-container>
-

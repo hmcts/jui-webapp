@@ -1,4 +1,5 @@
 import * as express from 'express'
+
 const { getHearingIdOrCreateHearing, getDecision, postDecision, putDecision } = require('../../services/coh-cor-api/coh-cor-api')
 const headerUtilities = require('../../lib/utilities/headerUtilities')
 
@@ -6,7 +7,7 @@ function getOptions(req) {
     return headerUtilities.getAuthHeaders(req)
 }
 
-module.exports = app => {
+export default app => {
     const router = express.Router({ mergeParams: true })
     /* istanbul ignore next */
     app.use('/decisions', router)

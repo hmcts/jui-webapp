@@ -30,14 +30,14 @@ export class FormsService {
         if (typeof someJson === 'object') {
 
             // Runs through the props
-            console.log('someJson');
-            console.log(someJson);
+            // console.log('someJson');
+            // console.log(someJson);
 
             for (const prop in someJson) {
 
                 if (prop === 'control') {
-                    console.log('prop');
-                    console.log(prop);
+                    // console.log('prop');
+                    // console.log(prop);
                     if (someJson.radioGroup !== undefined) {
                         // RadioButton Logic
                         if (Object.keys(someData).length !== 0) {
@@ -65,7 +65,7 @@ export class FormsService {
             }
         }
         if (someJson !== undefined && someJson.isArray) {
-            console.log('someJson is something');
+           // console.log('someJson is something');
             for (const item  of someJson) {
                 this.create(someJson[item], someData);
             }

@@ -9,10 +9,8 @@ import { ViewCaseComponent } from './pages/view-case/view-case.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RedirectionService } from './redirection.service';
 import { DecisionRootComponent } from './pages/decisions/root/root.component';
-import { CreateDecisionComponent } from './pages/decisions/create-decision/create-decision.component';
 import { CheckDecisionComponent } from './pages/decisions/check-decision/check-decision.component';
 import { DecisionConfirmationComponent } from './pages/decisions/decision-confirmation/decision-confirmation.component';
-//import { DecisionResolve } from './resolve/decision.resolve';
 import { HearingRootComponent } from './pages/hearings/root/root.component';
 import { CreateHearingComponent } from './pages/hearings/create-hearing/create-hearing.component';
 import { CheckHearingComponent } from './pages/hearings/check-hearing/check-hearing.component';
@@ -27,12 +25,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { JUIFormsModule } from '../forms/forms.module';
 import { GovukModule } from '../govuk/govuk.module';
 import { HmctsModule } from '../hmcts/hmcts.module';
-import { ReasonsCoNotApprovedComponent } from './pages/decisions/fr/reasons-co-not-approved/reasons-co-not-approved.component';
 import { MakeDecisionComponent } from './pages/decisions/fr/make-decision/make-decision.component';
-import { NotesForCourtAdministratorComponent } from './pages/decisions/fr/notes-for-court-administrator/notes-for-court-administrator.component';
 import { DraftConsentOrderComponent } from './pages/decisions/fr/draft-consent-order/draft-consent-order.component';
-import { HearingDetailsComponent } from './pages/decisions/fr/hearing-details/hearing-details.component';
-import {FormsService} from '../shared/services/forms.service';
 import { GenericPageComponent } from './pages/generic-page/generic-page.component';
 import { ErrorServiceUnavailableComponent } from './pages/generic-page/error-service-unavailable/error-service-unavailable.component';
 import { ConfirmationComponent } from './pages/generic-page/confirmation/confirmation.component';
@@ -42,7 +36,7 @@ import { TermsAndConditionsComponent } from './pages/generic-page/terms-and-cond
 import { CookiesComponent } from './pages/generic-page/cookies/cookies.component';
 import { PrivacyPolicyComponent } from './pages/generic-page/privacy-policy/privacy-policy.component';
 import { DemoComponent } from './pages/generic-page/demo/demo.component';
-import {CaseDataService} from './pages/view-case/view-case.services';
+import { CaseDataService } from './pages/view-case/view-case.services';
 
 const routes: Routes = [
     {
@@ -81,13 +75,35 @@ const routes: Routes = [
             {
                 path: 'decision', component: DecisionRootComponent,
                 children: [
+//Common routes
                     {path: 'create', component: MakeDecisionComponent},
-                    {path: 'reject-reasons', component: ReasonsCoNotApprovedComponent},
-                    {path: 'notes-for-court-administrator', component: NotesForCourtAdministratorComponent},
-                    {path: 'draft-consent-order', component: DraftConsentOrderComponent},
-                    {path: 'hearing-details', component: HearingDetailsComponent},
                     {path: 'check', component: CheckDecisionComponent},
-                    {path: 'decision-confirmation', component: DecisionConfirmationComponent}
+                    {path: 'check-tribunal', component: CheckDecisionComponent},
+                    {path: 'check-final-decision', component: CheckDecisionComponent},
+                    {path: 'decision-confirmation', component: DecisionConfirmationComponent},
+//Preliminary view routes
+                    {path: 'preliminary-advanced', component: MakeDecisionComponent},
+                    {path: 'final-decision', component: MakeDecisionComponent},
+                    {path: 'set-award-dates', component: MakeDecisionComponent},
+                    {path: 'scores', component: MakeDecisionComponent},
+                    {path: 'communicating-verbally', component: MakeDecisionComponent},
+                    {path: 'dressing-undressing', component: MakeDecisionComponent},
+                    {path: 'engaging-face', component: MakeDecisionComponent},
+                    {path: 'budgeting-decisions', component: MakeDecisionComponent},
+                    {path: 'managing-therapy', component: MakeDecisionComponent},
+                    {path: 'managing-toilet', component: MakeDecisionComponent},
+                    {path: 'moving-around', component: MakeDecisionComponent},
+                    {path: 'planning-journeys', component: MakeDecisionComponent},
+                    {path: 'preparing-food', component: MakeDecisionComponent},
+                    {path: 'reading-signs', component: MakeDecisionComponent},
+                    {path: 'taking-nutrition', component: MakeDecisionComponent},
+                    {path: 'washing-bathing', component: MakeDecisionComponent},
+//Financial Ramedy routes
+                    {path: 'reject-reasons', component: MakeDecisionComponent},
+                    {path: 'notes-for-court-administrator', component: MakeDecisionComponent},
+                    {path: 'draft-consent-order', component: DraftConsentOrderComponent},
+                    {path: 'hearing-details', component: MakeDecisionComponent}
+
                 ]
             },
             {
@@ -154,7 +170,6 @@ const routes: Routes = [
         PrivacyPolicyComponent,
         TermsAndConditionsComponent,
         ViewCaseComponent,
-        CreateDecisionComponent,
         CheckDecisionComponent,
         DecisionRootComponent,
         DecisionConfirmationComponent,
@@ -163,11 +178,8 @@ const routes: Routes = [
         CheckHearingComponent,
         HearingConfirmationComponent,
         DemoComponent,
-        ReasonsCoNotApprovedComponent,
         MakeDecisionComponent,
         DraftConsentOrderComponent,
-        NotesForCourtAdministratorComponent,
-        HearingDetailsComponent,
         GenericPageComponent,
         ErrorServiceUnavailableComponent,
         ConfirmationComponent,
@@ -176,7 +188,6 @@ const routes: Routes = [
     ],
     providers: [
         CaseResolve,
- //       DecisionResolve,
         RedirectionService,
         CaseDataService
     ],
@@ -187,11 +198,3 @@ const routes: Routes = [
 
 export class RoutingModule {
 }
-
-
-
-
-
-
-
-

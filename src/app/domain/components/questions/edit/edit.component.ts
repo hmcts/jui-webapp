@@ -29,10 +29,17 @@ export class EditQuestionComponent implements OnInit {
         private route: ActivatedRoute
     ) { }
 
+    public noWhitespaceValidator(control: FormControl) {
+      console.log('Validator works');
+      const isWhitespace = (control.value || '').trim().length === 0;
+      const isValid = !isWhitespace;
+      return isValid ? null : { 'whitespace': true };
+  }
+
     createForm(subject, question) {
         this.form = this.fb.group({
-            subject: [subject, Validators.required],
-            question: [question, Validators.required],
+            subject: [subject, Validators.compose([Validators.required, this.noWhitespaceValidator])],
+            question: [question, Validators.compose([Validators.required, this.noWhitespaceValidator])],
         });
     }
 
@@ -63,6 +70,9 @@ export class EditQuestionComponent implements OnInit {
     }
 
     onSubmit() {
+
+      console.log("Form Valid===>",this.form);
+
         if (this.form.valid) {
             const values = {
                 ...this.form.value,

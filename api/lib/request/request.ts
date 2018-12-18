@@ -20,6 +20,7 @@ module.exports = (method, url, params) => {
         headers: {
             ...headers,
             'Content-Type': params.headers['Content-Type'] || 'application/json'
+
         },
         json: true
     }
@@ -27,9 +28,10 @@ module.exports = (method, url, params) => {
     if (params.body) options.body = params.body
     if (params.formData) options.formData = params.formData
 
-    if (config.configEnv !== 'mock') {
-        if (config.useProxy) options = proxy(options)
-    }
+    // if (config.configEnv !== 'mock') {
+    //     if (config.useProxy) options = proxy(options)
+    // }
+    // N.B. Not needed - AJ
 
     return request(options)
 }

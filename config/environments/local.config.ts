@@ -15,9 +15,12 @@ export default {
         em_npa_api: 'https://em-npa-aat.service.core-compute-aat.internal',
         coh_cor_api: 'https://coh-cor-aat.service.core-compute-aat.internal'
     },
-    useProxy: true,
+    proxy: {
+        host: '172.16.0.7',
+        port: 8080,
+    },
     protocol: 'http',
     secureCookie: false,
     sessionSecret: 'secretSauce',
-    logging: 'info'
+    logging: 'debug'
 };

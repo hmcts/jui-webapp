@@ -1,3 +1,4 @@
+import axios from 'axios'
 const jwtDecode = require('jwt-decode')
 import { config } from '../../../config'
 
@@ -15,6 +16,11 @@ module.exports = (req, res, next) => {
         req.auth = jwtData
         req.auth.token = jwt
         req.auth.userId = userId
+
+        axios.defaults.headers.common.Authorization = `Bearer ${req.auth.token}`
+        if (req.headers.ServiceAuthorization) {
+            axios.defaults.headers.common.ServiceAuthorization = req.headers.ServiceAuthorization
+        }
         next()
     }
 }

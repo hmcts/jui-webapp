@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, OnChanges} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import { Observable, EMPTY } from 'rxjs';
 
 @Component({
@@ -6,24 +6,9 @@ import { Observable, EMPTY } from 'rxjs';
   templateUrl: './fieldset.component.html',
   styleUrls: ['./fieldset.component.scss']
 })
-export class FieldsetComponent implements OnInit, OnChanges {
+export class FieldsetComponent {
     @Input() classes;
     @Input() validate;
     @Input() group;
     @Input() data;
-
-    //TODO: Can we deprecate?
-    @Input() childrenOf;
-
-    constructor() {}
-
-    ngOnInit() {
-        // this.showChilds.subscribe( (value) => {
-        //     this.showChilds = value;
-        //     console.log(value);
-        // });
-    }
-    ngOnChanges() {
-      //  console.log(this.showChilds, this.childrenOf);
-    }
 }

@@ -47,9 +47,8 @@ export class ApiHttpService {
                     );
         }
     }
-
-    documentTask(dmDocumentId, outputDmDocumentId): Observable<HttpResponse<IDocumentTask>> {
-        const url = `${this.baseUrl}/em-npa/document-tasks`;
+    documentTask(dmDocumentId, outputDmDocumentId, baseUrl: string): Observable<HttpResponse<IDocumentTask>> {
+        const url = `${baseUrl}/api/em-npa/document-tasks`;
         const documentTasks = {
             inputDocumentId: dmDocumentId,
             outputDocumentId: outputDmDocumentId

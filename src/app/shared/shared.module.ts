@@ -39,6 +39,7 @@ import { ValidationHeaderComponent } from './components/validation-header/valida
 import { JuiFormElementsComponent } from './components/jui-form-elements/jui-form-elements.component';
 import { InputsComponent } from './components/inputs/inputs.component';
 import { HmctsEmViewerUiModule } from './components/hmcts-em-viewer-ui/hmcts-em-viewer-ui.module';
+import { DateComponent } from './components/date/date.component';
 
 @NgModule({
     imports: [
@@ -85,6 +86,7 @@ import { HmctsEmViewerUiModule } from './components/hmcts-em-viewer-ui/hmcts-em-
         ValidationHeaderComponent,
         JuiFormElementsComponent,
         InputsComponent,
+        DateComponent,
     ],
     exports: [
         JuiFormElementsComponent,
@@ -120,10 +122,8 @@ import { HmctsEmViewerUiModule } from './components/hmcts-em-viewer-ui/hmcts-em-
         CaseFileViewerComponent,
         DocumentListComponent,
         DocumentUploadComponent,
+        DateComponent
     ]
 })
 
 export class SharedModule {}
-
-
-

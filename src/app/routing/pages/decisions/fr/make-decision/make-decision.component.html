@@ -1,19 +1,28 @@
- <section role="region">
-     <app-govuk-back-link></app-govuk-back-link>
-     <div class="govuk-grid-row">
-         <div class="govuk-grid-column-two-thirds">
-             <h1 *ngIf="pageitems" class="govuk-heading-xl">{{pageitems.header}}</h1>
-             <form *ngIf="pageitems" [formGroup]="formDraft" (ngSubmit)="onSubmit()">
-                 <div class="govuk-form-group" *ngFor="let group of pageitems.groups">
-                     <app-fieldset *ngIf="group.fieldset"
-                                   [classes]="'govuk-fieldset'"
-                                   [group]="formDraft"
-                                   [data]="group.fieldset">
-                     </app-fieldset>
-                     <app-jui-form-elements [group]="formDraft" [data]="group"></app-jui-form-elements>
-                 </div>
-             </form>
-         </div>
-     </div>
- </section>
-
+<app-govuk-back-link></app-govuk-back-link>
+<main class="govuk-main-wrapper" role="main">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <ng-container *ngIf="useValidation && formDraft.invalid">
+                <app-validation-header [validationHeaderErrorMessages]="pageitems.validationHeaderErrorMessages" [formGroup]="formDraft">
+                </app-validation-header>
+            </ng-container>
+            <form *ngIf="pageitems" [formGroup]="formDraft" (ngSubmit)="onSubmit()">
+                <div [ngClass]="{'govuk-form-group':true, 'govuk-form-group--error' : useValidation && formDraft.invalid }">
+                    <h1 class="govuk-heading-xl">
+                      <span *ngIf="pageitems.caption" [class]="pageitems.caption.classes">{{ pageitems.caption.text }}</span>
+                      {{pageitems.header}}
+                    </h1>
+                    <div class="govuk-form-group" *ngFor="let group of pageitems.groups">
+                        <app-fieldset *ngIf="group.fieldset"
+                                      [classes]="'govuk-fieldset'"
+                                      [group]="formDraft"
+                                      [data]="group.fieldset"
+                                      [validate]="useValidation">
+                        </app-fieldset>
+                        <app-jui-form-elements [group]="formDraft" [validate]="useValidation" [data]="group"></app-jui-form-elements>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
