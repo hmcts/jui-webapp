@@ -1,7 +1,7 @@
 <app-case-actions
     [header]="panelData.name"
-    [actionPrimaryButton]="{href: '../decision/create', text: 'Make decision'}"
-    [actionSecondaryButton]="{href: '../hearing/list', text: 'List for hearing'}"
+    [actionPrimaryButton]="actionPrimaryButton"
+    [actionSecondaryButton]="actionSecondaryButton"
 ></app-case-actions>
 
 <app-tabs [data]="panelData"></app-tabs>

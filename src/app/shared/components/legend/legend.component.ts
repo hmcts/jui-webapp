@@ -6,5 +6,5 @@ import {Component, Input} from '@angular/core';
   styleUrls: ['./legend.component.scss']
 })
 export class LegendComponent {
-    @Input() classes;
+    @Input() classes:  string;
 }

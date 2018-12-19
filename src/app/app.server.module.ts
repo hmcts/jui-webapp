@@ -33,6 +33,5 @@ import {ServerFormService} from './forms/services/form.service.server';
 })
 export class AppServerModule {
     constructor() {
-        console.log('server!');
     }
 }

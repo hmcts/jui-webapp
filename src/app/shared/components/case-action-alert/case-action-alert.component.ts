@@ -8,9 +8,9 @@ import {Component, Input, OnInit} from '@angular/core';
 export class CaseActionAlertComponent implements OnInit {
 
 
-    @Input() title = 'Decision needed';
-    @Input() href = '#';
-    @Input() status = { name: 'Some action', actionGoTo: '#', ID: ''};
+    @Input() title: string;
+    @Input() href;
+    @Input() status;
     state = '';
 
   constructor() { }

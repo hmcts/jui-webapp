@@ -7,10 +7,10 @@ import {Component, Input, OnChanges} from '@angular/core';
 })
 export class DataListComponent implements OnChanges {
 
-    @Input() classes = null;
-    @Input() title = null;
-    @Input() dataList = [];
-    newDataList = [];
+    @Input() classes: string ;
+    @Input() title: string;
+    @Input() dataList: Array<any>;
+    newDataList: Array<any>;
 
     // Todo: the dash '-' need to be moved to the API level one day.
     ngOnChanges(changes): void {

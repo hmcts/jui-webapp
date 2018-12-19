@@ -9,6 +9,7 @@ import { Rectangle, Annotation, Comment } from '../../../../data/annotation-set.
 import { AnnotationStoreService } from '../../../../data/annotation-store.service';
 import { PdfService } from '../../../../data/pdf.service';
 import { Utils } from '../../../../data/utils';
+import { EmLoggerService } from '../../../../logging/em-logger.service';
 
 
 class MockAnnotationStoreService {
@@ -104,6 +105,7 @@ describe('CommentItemComponent', () => {
       declarations: [ CommentItemComponent ],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
+        EmLoggerService,
         { provide: AnnotationStoreService, useFactory: () => mockAnnotationStoreService },
         { provide: PdfService, useFactory: () => mockPdfService },
         { provide: Utils, useFactory: () => mockUtils },

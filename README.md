@@ -41,7 +41,7 @@ yarn start-dev-proxy
 To Run the Node Code
 ```bash
 yarn install
-yarn start-dev-node
+npm run watch-dev-node
 # or if you have nodemon
 nodemon dev-server.js
 ```

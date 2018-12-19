@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CaseFileTreeListComponent } from './case-file-tree-list.component';
+import {RouterTestingModule} from '@angular/router/testing';
+import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 describe('CaseFileTreeListComponent', () => {
   let component: CaseFileTreeListComponent;
@@ -8,7 +10,9 @@ describe('CaseFileTreeListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CaseFileTreeListComponent ]
+      imports: [RouterTestingModule],
+      declarations: [ CaseFileTreeListComponent ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
   }));
@@ -19,7 +23,7 @@ describe('CaseFileTreeListComponent', () => {
     fixture.detectChanges();
   });
 
-  xit('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

@@ -9,7 +9,7 @@ import {RedirectionService} from '../../../routing/redirection.service';
 })
 export class DocumentUploadComponent implements OnInit {
 
-    @Input() redirect = '/';
+    @Input() redirect;
     error: string;
     fileToUpload: File = null;
 

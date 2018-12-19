@@ -2288,7 +2288,6 @@ function getVerbosityLevel() {
 // end users.
 function info(msg) {
   if (verbosity >= VERBOSITY_LEVELS.infos) {
-    console.log('Info: ' + msg);
   }
 }
 
@@ -2301,15 +2300,14 @@ function warn(msg) {
 
 // Deprecated API function -- display regardless of the PDFJS.verbosity setting.
 function deprecated(details) {
-  console.log('Deprecated API usage: ' + details);
+  s
 }
 
 // Fatal errors that should trigger the fallback UI and halt execution by
 // throwing an exception.
 function error(msg) {
   if (verbosity >= VERBOSITY_LEVELS.errors) {
-    console.log('Error: ' + msg);
-    console.log(backtrace());
+
   }
   throw new Error(msg);
 }

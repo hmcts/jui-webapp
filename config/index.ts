@@ -31,10 +31,8 @@ const configs = {
 
 export const configEnv = process ? process.env.JUI_ENV || 'local' : 'local';
 export const config = { ...configs[configEnv].default, ...application };
-console.log(config);
 
 if (configEnv === 'local') {
     config.protocol = 'http';
 }
 
-console.log('Using', configEnv, 'Config');

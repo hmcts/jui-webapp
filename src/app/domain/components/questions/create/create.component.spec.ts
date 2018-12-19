@@ -1,7 +1,5 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {CreateQuestionsComponent} from './create.component';
-import {SharedModule} from '../../../../shared/shared.module';
-import {DomainModule} from '../../../domain.module';
 import {QuestionService} from '../../../services/question.service';
 import {Selector} from '../../../../shared/selector-helper';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
@@ -12,8 +10,9 @@ import {RouterTestingModule} from '@angular/router/testing';
 import {RedirectionService} from '../../../../routing/redirection.service';
 import {CaseService} from '../../../services/case.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {of} from 'rxjs';
-import {JUIFormsModule} from '../../../../forms/forms.module';
+import {mockQuestionCreateActivateRoute} from '../../../mock/activateRoute.mock';
+import {mockConfigService} from '../../../mock/config.mock';
+import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 describe('CreateQuestionsComponent', () => {
     let component: CreateQuestionsComponent;
@@ -23,11 +22,10 @@ describe('CreateQuestionsComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [],
+            declarations: [
+                CreateQuestionsComponent
+            ],
             imports: [
-                JUIFormsModule,
-                DomainModule,
-                SharedModule,
                 BrowserTransferStateModule,
                 HttpClientTestingModule,
                 RouterTestingModule,
@@ -35,6 +33,7 @@ describe('CreateQuestionsComponent', () => {
                 ReactiveFormsModule,
                 FormsModule
             ],
+            schemas: [CUSTOM_ELEMENTS_SCHEMA],
             providers: [
                 {
                     provide: RedirectionService,
@@ -47,39 +46,11 @@ describe('CreateQuestionsComponent', () => {
                 QuestionService,
                 {
                     provide: ActivatedRoute,
-                    useValue: {
-                        snapshot: {
-                            _lastPathIndex: 0,
-                            params: {
-                                round: '1'
-                            },
-                            queryParams: {}
-                        },
-                        params: of({
-                            round: '1'
-                        }),
-                        parent: {
-                            params: of({
-                                case_id: '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
-                            }),
-                            snapshot: {
-                                params: {
-                                    case_id: '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
-                                },
-                                queryParams: {}
-                            }
-                        },
-                        queryParams: of({}),
-                        fragment: of(['question-fragment', 'subject-fragment'])
-                    }
+                    useValue: mockQuestionCreateActivateRoute
                 },
                 {
                     provide: ConfigService,
-                    useValue: {
-                        config: {
-                            api_base_url: ''
-                        }
-                    }
+                    useValue: mockConfigService
                 }
             ]
         })
@@ -147,7 +118,7 @@ describe('CreateQuestionsComponent', () => {
                 });
         }));
 
-        xit('should send a request for a valid form', () => {
+        it('should send a request for a valid form', () => {
             expect(component.form.valid).toBeFalsy();
             component.form.controls['subject'].setValue('Example subject');
             component.form.controls['question'].setValue('Example question');
@@ -194,17 +165,6 @@ describe('CreateQuestionsComponent', () => {
         expect(nativeElement.querySelector(Selector.selector('create-questions-heading')).textContent)
             .toBe('Create question');
     });
-
-    it('should display a subject text input for new question item', () => {
-        expect(nativeElement.querySelector(Selector.selector('subject-label')).textContent).toBe('Subject');
-        expect(nativeElement.querySelectorAll(Selector.selector('subject-input')).length).toBe(1);
-    });
-
-    it('should display a question text area for each new question item', () => {
-        expect(nativeElement.querySelector(Selector.selector('question-label')).textContent).toBe('Question');
-        expect(nativeElement.querySelectorAll(Selector.selector('question-textarea')).length).toBe(1);
-    });
-
     it('should display a button to save question items', () => {
         expect(nativeElement.querySelectorAll(Selector.selector('save-button')).length).toBe(1);
     });

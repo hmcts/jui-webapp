@@ -33,8 +33,6 @@ defineSupportCode(function({ Given, When, Then }) {
 
         var no_of_types = dashBoardPage.type_links.count()
             .then(function(count) {
-
-                console.log('count', +count);
                 if (count > 0) {
 
                     dashBoardPage.case_links.first()

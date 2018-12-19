@@ -13,7 +13,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { RedirectionService } from '../../../../routing/redirection.service';
 import { CaseService } from '../../../services/case.service';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { of } from 'rxjs';
+import {mockActivateRoute} from '../../../mock/activateRoute.mock';
+import {mockConfigService} from '../../../mock/config.mock';
+import {mockRedirectionService} from '../../../mock/redirection.mock';
 
 describe('EditQuestionComponent', () => {
     let component: EditQuestionComponent;
@@ -23,10 +27,10 @@ describe('EditQuestionComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [],
+            declarations: [
+                EditQuestionComponent
+            ],
             imports: [
-                DomainModule,
-                SharedModule,
                 BrowserTransferStateModule,
                 HttpClientTestingModule,
                 RouterTestingModule,
@@ -34,45 +38,21 @@ describe('EditQuestionComponent', () => {
                 ReactiveFormsModule,
                 FormsModule
             ],
+            schemas: [CUSTOM_ELEMENTS_SCHEMA],
             providers: [
                 {
                     provide: RedirectionService,
-                    useValue: {
-                        redirect: {}
-                    }
+                    useValue: mockRedirectionService
                 },
                 CaseService,
                 QuestionService,
                 {
                     provide: ActivatedRoute,
-                    useValue: {
-                        snapshot: {
-                            _lastPathIndex: 0
-                        },
-                        parent: {
-                            params: of({
-                                'case_id': '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
-                            }),
-                            snapshot: {
-                                params: {
-                                    'case_id': '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
-                                },
-                                queryParams: {}
-                            }
-                        },
-                        params: of({
-                            'question_id': '43eb9981-9360-4d4b-b9fd-506b5818e7ff'
-                        }),
-                        fragment: of(['question-fragment', 'subject-fragment'])
-                    }
+                    useValue: mockActivateRoute
                 },
                 {
                     provide: ConfigService,
-                    useValue: {
-                        config: {
-                            api_base_url: ''
-                        }
-                    }
+                    useValue: mockConfigService
                 }
             ]
         })
@@ -91,10 +71,14 @@ describe('EditQuestionComponent', () => {
         httpMock.verify();
     });
 
+    // generateDecisionUrl( jurId: string, caseId: string, pageId: string ) {
+    //     return `${this.configService.config.api_base_url}/api/decisions/state/${jurId}/${caseId}/${pageId}`;
+    // }
+
     describe('When request is a success', () => {
         beforeEach(async(() => {
             httpMock
-                .expectOne('/api/caseQ/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/43eb9981-9360-4d4b-b9fd-506b5818e7ff')
+                .expectOne(req => req.method === 'GET' && req.url === '/api/caseQ/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/43eb9981-9360-4d4b-b9fd-506b5818e7ff')
                 .flush({header: 'Example header', body: 'Example body'});
 
             fixture.whenStable()
@@ -104,6 +88,8 @@ describe('EditQuestionComponent', () => {
         }));
 
         it('form valid as form is populated with original values', () => {
+            // component.ngOnInit();
+            // fixture.detectChanges();
             expect(component.form.valid).toBeTruthy();
         });
 

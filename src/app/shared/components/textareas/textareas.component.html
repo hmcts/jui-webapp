@@ -11,5 +11,6 @@
               [ngClass]="{'govuk-textarea--error':isControlInvalidAndShowValidation(group, control, showValidation)}"
               [rows]="rows"
               [id]="labelFor"
+              [attr.aria-label]="labelFor"
               [formControlName]="control"></textarea>
 </ng-container>

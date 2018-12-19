@@ -1,7 +1,6 @@
 <div [ngClass]="{ 'hmcts-alert' : true,
                 'hmcts-alert--success': type === 'success',
-                'hmcts-alert--warning': type === 'warning',
-                classes : true
+                'hmcts-alert--warning': type === 'warning'
                 }">
 
     <ng-container [ngSwitch]="type" >

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { PageDateDefault } from '../../../models/section_fields';
+import {LinkItem, PageDateDefault} from '../../../models/section_fields';
 
 @Component({
     selector: 'app-parties-panel',
@@ -8,4 +8,6 @@ import { PageDateDefault } from '../../../models/section_fields';
 })
 export class PartiesPanelComponent {
     @Input() panelData: PageDateDefault;
+    actionPrimaryButton: LinkItem = {href: '../decision/create', text: 'Make decision'};
+    actionSecondaryButton: LinkItem = {href: '../hearing/list', text: 'List for hearing'};
 }

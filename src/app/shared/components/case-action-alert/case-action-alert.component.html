@@ -1,8 +1,9 @@
 <div class="jui-case-action-alert" *ngIf="href">
-    <h2 class="jui-case-action-alert__heading" role="heading" aria-level="2">{{title}}</h2>
+    <h2 class="jui-case-action-alert__heading" role="heading" data-selector="title" aria-level="2">{{title}}</h2>
     <div class="jui-case-action-alert__content">
         <p><a class="jui-case-action-alert__link"
               attr.aria-label="{{state}}"
+              data-selector="primary-button"
               role="button"
               routerLink="{{href}}">{{state}}</a></p>
     </div>

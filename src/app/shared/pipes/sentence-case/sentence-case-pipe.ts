@@ -7,7 +7,7 @@ import {
 })
 export class SentenceCasePipe implements PipeTransform {
     transform(value: string): any {
-        if (!value) { return value; }
+        if (!value || value === '') return value;
 
         return this.toUpper(value) + this.toLower(value.substr(1));
     }

@@ -8,8 +8,8 @@ import {FormGroup} from '@angular/forms';
 })
 export class CheckboxComponent {
     @Input() group: FormGroup;
-    @Input() idPrefix = 'waste';
-    @Input() name = 'waste';
+    @Input() idPrefix;
+    @Input() name;
     @Input() items;
     @Input() classes;
     @Input() labelClasses;

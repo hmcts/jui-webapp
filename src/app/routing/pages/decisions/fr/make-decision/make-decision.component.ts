@@ -52,15 +52,12 @@ export class MakeDecisionComponent implements OnInit {
             this.decision = decision;
             this.pageitems = this.decision.meta;
             this.pageValues = this.decision.formValues;
-            console.log(this.decision.formValues.visitedPages);
             if (this.decision.formValues.visitedPages === undefined) {
                 this.decision.formValues.visitedPages = {};
                 this.decision.formValues.visitedPages['create'] =  true ;
             } else {
                 this.decision.formValues.visitedPages[pageId] = true;
             }
-            console.log('decision is = >', decision);
-
             this.createForm(this.pageitems, this.pageValues) ;
         });
     }
@@ -69,13 +66,6 @@ export class MakeDecisionComponent implements OnInit {
         delete this.formDraft.value.createButton;
         this.request = { formValues: this.formDraft.value, event: event };
         this.request.formValues.visitedPages = this.pageValues.visitedPages;
-        console.log(this.pageitems.name, this.request);
-
-
-        console.log('IsValid :', this.useValidation);
-        console.log('formDraft:', this.formDraft);
-        console.log('Form is valid:', this.formDraft.valid);
-
         if (this.formDraft.invalid) {
             this.useValidation = true;
             return;
@@ -86,20 +76,8 @@ export class MakeDecisionComponent implements OnInit {
                 this.pageitems.name,
                 this.typeId,
                 this.request).subscribe(decision => {
-                console.log(decision.newRoute);
                 this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
             });
         }
-
-        // this.decisionService.submitDecisionDraft(
-        //     this.jurId,
-        //     this.activatedRoute.snapshot.parent.data.caseData.id,
-        //     this.pageitems.name,
-        //     this.typeId,
-        //     this.request)
-        //     .subscribe(decision => {
-        //     console.log(decision.newRoute);
-        //     this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
-        // });
     }
 }

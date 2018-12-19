@@ -14,8 +14,6 @@ export class DecisionConfirmationComponent implements OnInit {
 
     ngOnInit() {
         this.case = this.route.parent.snapshot.data['caseData'];
-        console.log('Case', this.case.id);
-
     }
 
 }

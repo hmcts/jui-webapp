@@ -25,7 +25,7 @@ export class DocumentStoreService {
         if (metaDate) {
             metaDate.forEach( (v, k) => {
                 formData.append('metadata[' + k + ']', v);
-                console.log('metadata[' + k + '] = ' + v);
+
             });
         }
         return this.http.post<any>(`${this.configService.config.api_base_url}/api/dm-store/documents`, formData);

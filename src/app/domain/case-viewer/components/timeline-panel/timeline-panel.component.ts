@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import {LinkItem, PageDateWithFields} from '../../../models/section_fields';
 
 @Component({
     selector: 'app-timeline-panel',
@@ -6,5 +7,7 @@ import {Component, Input} from '@angular/core';
     styleUrls: ['./timeline-panel.component.scss']
 })
 export class TimelinePanelComponent {
-    @Input() panelData;
+    @Input() panelData:  PageDateWithFields;
+    actionPrimaryButton: LinkItem = {href: '../decision/create', text: 'Make decision'};
+    actionSecondaryButton: LinkItem = {href: '../hearing/list', text: 'List for hearing'};
 }

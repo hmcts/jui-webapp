@@ -5,6 +5,7 @@ import { Annotation } from '../../../data/annotation-set.model';
 import { AnnotationStoreService } from '../../../data/annotation-store.service';
 import { PdfService } from '../../../data/pdf.service';
 import { Utils } from '../../../data/utils';
+import { EmLoggerService } from '../../../logging/em-logger.service';
 
 @Component({
     selector: 'app-comments',
@@ -22,7 +23,9 @@ export class CommentsComponent implements OnInit, OnDestroy {
 
     constructor(private annotationStoreService: AnnotationStoreService,
                 private pdfService: PdfService,
-                private utils: Utils) {
+                private utils: Utils,
+                private log: EmLoggerService) {
+        this.log.setClass('CommentsComponent');
     }
 
     ngOnInit() {

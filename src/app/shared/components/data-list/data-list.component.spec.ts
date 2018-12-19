@@ -1,23 +1,50 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DataListComponent } from './data-list.component';
-import { SharedModule } from '../../shared.module';
-import { DebugElement } from '@angular/core';
+import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, Input, ViewChild} from '@angular/core';
 import {Selector} from '../../../shared/selector-helper';
-import {HmctsModule} from '../../../hmcts/hmcts.module';
-import {GovukModule} from '../../../govuk/govuk.module';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {mockDatalist} from './mock/datalist.mock';
 
 describe('DataListComponent', () => {
+    @Component({
+        selector: `app-host-dummy-component`,
+        template: `<app-data-list
+            [classes] = classes
+            [title] = title
+            [dataList] = dataList
+        ></app-data-list>`
+    })
+    class TestDummyHostComponent {
+        classes: string;
+        title = 'Wow Bingo';
+        dataList: Array<any> = mockDatalist;
+        @ViewChild(DataListComponent)
+        public dataListComponent: DataListComponent;
+    }
+
+    let testHostComponent: TestDummyHostComponent;
+    let testHostFixture: ComponentFixture<TestDummyHostComponent>;
+    let el: DebugElement;
+    let de: any;
     let component: DataListComponent;
     let fixture: ComponentFixture<DataListComponent>;
     let element: DebugElement;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [SharedModule, GovukModule, HmctsModule]
+            imports: [
+                ReactiveFormsModule,
+                FormsModule
+            ],
+            declarations: [ DataListComponent, TestDummyHostComponent ],
+            schemas: [CUSTOM_ELEMENTS_SCHEMA]
         })
-               .compileComponents();
+            .compileComponents();
     }));
-
+    beforeEach(() => {
+        testHostFixture = TestBed.createComponent(TestDummyHostComponent);
+        testHostComponent = testHostFixture.componentInstance;
+    });
     beforeEach(() => {
         fixture = TestBed.createComponent(DataListComponent);
         component = fixture.componentInstance;
@@ -27,80 +54,26 @@ describe('DataListComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+    it('should be created by angular', () => {
+        expect(fixture).not.toBeNull();
+    });
+    it('should panelData not load', () => {
+        expect(testHostComponent.dataListComponent.classes).toBeUndefined();
+        expect(testHostComponent.dataListComponent.dataList).toBeUndefined();
+        expect(testHostComponent.dataListComponent.newDataList).toBeUndefined();
+        expect(testHostComponent.dataListComponent.title).toBeUndefined();
+        testHostFixture.detectChanges();
+        expect(testHostComponent.dataListComponent.title).toEqual('Wow Bingo');
+        expect(testHostComponent.dataListComponent.dataList).toEqual(mockDatalist);
+    });
 
-    describe('Setting inputs:: ', () => {
-        it('should display the title', () => {
-            component.title = 'Example';
-            fixture.detectChanges();
-            expect(element.nativeElement.querySelector(Selector.selector('title')).textContent).toBe(component.title);
-        });
+    it('should display the title', () => {
+        testHostFixture.detectChanges();
+        expect(testHostFixture.debugElement.nativeElement.querySelector(Selector.selector('title')).textContent).toBe(testHostComponent.dataListComponent.title);
+    });
 
-        it('should display a table row per an item in the data list', () => {
-            component.dataList = [
-                {
-                    label: 'label 1',
-                    value: 'value 1'
-                },
-                {
-                    label: 'label 2',
-                    value: 'value 2'
-                }
-            ];
-
-            component.ngOnChanges({
-                dataList: []
-            });
-
-            fixture.detectChanges();
-            expect(element.nativeElement.querySelectorAll(Selector.selector('table-row')).length).toBe(2);
-        });
-
-        xit('should display all table headers that match the dataList labels', () => {
-            component.dataList = [
-                {
-                    label: 'label 1',
-                    value: 'value 1'
-                },
-                {
-                    label: 'label 2',
-                    value: 'value 2'
-                }
-            ];
-
-            component.ngOnChanges({
-                dataList: []
-            });
-
-            fixture.detectChanges();
-
-            const actualHeaders = element.nativeElement.querySelectorAll(Selector.selector('table-header'));
-            component.dataList.map((expectedItem, index) => {
-                expect(actualHeaders[index].textContent).toEqual(expectedItem.label);
-            });
-        });
-
-        xit('should display all table standard cells that match the dataList values', () => {
-            component.dataList = [
-                {
-                    label: 'label 1',
-                    value: 'value 1'
-                },
-                {
-                    label: 'label 2',
-                    value: 'value 2'
-                }
-            ];
-
-            component.ngOnChanges({
-                dataList: []
-            });
-
-            fixture.detectChanges();
-
-            const actualCells = element.nativeElement.querySelectorAll(Selector.selector('table-cell'));
-            component.dataList.map((expectedItem, index) => {
-                expect(actualCells[index].textContent).toEqual(expectedItem.value);
-            });
-        });
+    it('should display a table row per an item in the data list', () => {
+        testHostFixture.detectChanges();
+        expect(testHostFixture.debugElement.nativeElement.querySelectorAll(Selector.selector('title')).length).toBe(1);
     });
 });

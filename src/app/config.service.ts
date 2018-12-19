@@ -18,7 +18,6 @@ export class ConfigService {
             config.api_base_url = this.getBaseUrl(config);
             this.state.set(this.CONFIG_KEY, config);
             this.config = config;
-            console.log(JSON.stringify(this.config));
         }
     }
 

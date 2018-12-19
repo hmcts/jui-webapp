@@ -54,7 +54,12 @@
 
 
 <app-document-upload></app-document-upload>
-<app-document-list></app-document-list>
+<app-document-list
+    [page]="0"
+    [sortby]="'desc'"
+    [order]="'createdOn'"
+    [size]="15"
+></app-document-list>
 
 <!--<h1 class="govuk-heading-xl">Generic Pages</h1>-->
 <!--<hr class="govuk-section-break govuk-section-break&#45;&#45;l govuk-section-break&#45;&#45;visible">-->

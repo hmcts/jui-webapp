@@ -8,6 +8,7 @@ import { Annotation, Comment } from '../../../data/annotation-set.model';
 import { Utils } from '../../../data/utils';
 import { PdfService } from '../../../data/pdf.service';
 import { AnnotationStoreService } from '../../../data/annotation-store.service';
+import { EmLoggerService } from '../../../logging/em-logger.service';
 
 class MockUtils {
   sortByLinePosition() {}
@@ -68,8 +69,10 @@ class MockAnnotationStoreService {
 }
 
 class MockCommentItemComponent extends CommentItemComponent {
+  
   constructor() {
-    super(null, null, null, null, null);
+    const log = new EmLoggerService();
+    super(null, null, null, null, null, log);
   }
 }
 
@@ -88,6 +91,7 @@ describe('CommentsComponent', () => {
       ],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
+        EmLoggerService,
         { provide: Utils, useFactory: () => mockUtils },
         { provide: PdfService, useFactory: () => mockPdfService },
         { provide: AnnotationStoreService, useFactory: () => mockAnnotationStoreService }
@@ -144,17 +148,6 @@ describe('CommentsComponent', () => {
     });
   });
 
-  describe('redrawCommentItemComponents', () => {
-    it('should call sortCommentItemComponents', (done) => {
-      spyOn(component, 'sortCommentItemComponents').and.stub();
-      component.redrawCommentItemComponents();
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-          done(); // waits for promise to complete
-      });
-    });
-  });
-
   describe('sortCommentItemComponents', () => {
     it('should sort comments by their top position', () => {
       spyOn(mockUtils, 'sortByLinePosition').and.stub();
@@ -195,7 +188,7 @@ describe('CommentsComponent', () => {
   });
 
   describe('isAnnotationOnSameLine', () => {
-    
+
     const aCommentItemComponent = new MockCommentItemComponent();
     aCommentItemComponent.annotationHeight = 10;
 
@@ -235,7 +228,7 @@ describe('CommentsComponent', () => {
       const returnedComment = component.isOverlapping(commentItemComponent, previousCommentItemComponent);
       expect(returnedComment.commentTopPos).toBe(previousCommentItemComponent.commentTopPos + previousCommentItemComponent.commentHeight);
     });
-  }); 
+  });
 
   describe('preRun', () => {
     it('should subscribe to pageNumSub', () => {

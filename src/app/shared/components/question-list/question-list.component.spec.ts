@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { QuestionListComponent } from './question-list.component';
 import {RouterTestingModule} from '@angular/router/testing';
+import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 
 describe('QuestionListComponent', () => {
     let component: QuestionListComponent;
@@ -10,6 +11,7 @@ describe('QuestionListComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [RouterTestingModule],
+            schemas: [CUSTOM_ELEMENTS_SCHEMA],
             declarations: [ QuestionListComponent ]
         })
             .compileComponents();
@@ -21,7 +23,7 @@ describe('QuestionListComponent', () => {
         fixture.detectChanges();
     });
 
-    xit('should create', () => {
+    it('should create', () => {
         expect(component).toBeTruthy();
     });
 });

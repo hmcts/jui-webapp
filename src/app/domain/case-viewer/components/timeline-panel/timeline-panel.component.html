@@ -1,9 +1,9 @@
 <section role="region">
-    <app-case-actions
-        [header]="panelData.name"
-        [actionPrimaryButton]="{href: '../decision/create', text: 'Make decision'}"
-        [actionSecondaryButton]="{href: '../hearing/list', text: 'List for hearing'}"
-    ></app-case-actions>
+<app-case-actions
+    [header]="panelData.name"
+    [actionPrimaryButton]="actionPrimaryButton"
+    [actionSecondaryButton]="actionSecondaryButton"
+></app-case-actions>
 
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">

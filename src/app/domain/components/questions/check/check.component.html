@@ -15,7 +15,7 @@
                         </div>
                     </dl>
                 </div>
-                <button data-selector="send-questions" class="govuk-button" (click)="onSubmit()">Send questions</button>
+                <button [disabled]="!asyncResolved" data-selector="send-questions" class="govuk-button" (click)="onSubmit()">Send questions</button>
             </div>
         </div>
     </main>

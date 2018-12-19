@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
+import {PageDateDefault} from '../../../domain/models/section_fields';
 
 @Component({
   selector: 'app-tabs',
@@ -8,7 +9,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 })
 export class TabsComponent implements OnInit {
 
-    @Input() data;
+    @Input() data: PageDateDefault;
 
     params: any;
     prop: any;
@@ -25,14 +26,16 @@ export class TabsComponent implements OnInit {
         });
     }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.switchTabs(this.data);
         if (this.fragment === undefined) {
-            window.location.hash = this.data.sections[0].id;
+            if (this.data.sections.length !== 0) {
+                window.location.hash = this.data.sections[0].id;
+            }
         }
     }
 
-    switchTabs(data) {
+    switchTabs(data): void {
         if (data) {
             for (const dataTab of data.sections) {
                 if (dataTab.id === this.fragment) {

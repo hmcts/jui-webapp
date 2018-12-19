@@ -1,3 +1,4 @@
+
 <div class="jui-width-container">
     <app-govuk-back-link></app-govuk-back-link>
     <div class="govuk-grid-row govuk-main-wrapper">
@@ -38,7 +39,8 @@
                             [formGroup]="form"
                     ></app-textarea>
                 </fieldset>
-                <button data-selector="save-button" class="govuk-button" type="submit">Save question</button>
+                <button [disabled]="!asyncResolved" data-selector="save-button" class="govuk-button" type="submit">{{asynctext}}</button>
+                
             </app-form>
         </div>
     </div>

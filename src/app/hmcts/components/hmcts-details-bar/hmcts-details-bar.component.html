@@ -2,7 +2,9 @@
     <div class="hmcts-details-bar__container">
         <div class="hmcts-details-bar__details">
             <span class="hmcts-details-bar__reference">{{reference}}</span>
-            <span class="hmcts-details-bar__title" [innerHtml]="title.html"></span>
+            <span
+                *ngIf="title"
+                class="hmcts-details-bar__title" [innerHtml]="title.html"></span>
         </div>
         <div class="hmcts-details-bar__actions" *ngIf="items">
             <ng-container *ngFor="let item of items">

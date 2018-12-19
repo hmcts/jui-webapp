@@ -3,6 +3,7 @@ import {ViewerAnchorDirective} from './viewer-anchor.directive';
 import {DocumentViewerService} from './document-viewer.service';
 import { ViewerFactoryService } from '../viewers/viewer-factory.service';
 import { UrlFixerService } from '../data/url-fixer.service';
+import { EmLoggerService } from '../logging/em-logger.service';
 
 @Component({
     selector: 'app-document-viewer',
@@ -23,9 +24,11 @@ export class DocumentViewerComponent implements OnChanges, OnInit {
     viewerComponent: any;
     error: string;
 
-    constructor(private viewerFactoryService: ViewerFactoryService,
+    constructor(private log: EmLoggerService,
+                private viewerFactoryService: ViewerFactoryService,
                 private urlFixer: UrlFixerService,
                 private documentViewerService: DocumentViewerService) {
+        log.setClass('DocumentViewerComponent');
     }
 
 
@@ -41,7 +44,8 @@ export class DocumentViewerComponent implements OnChanges, OnInit {
 
     buildComponent() {
         if (!this.url) {
-            throw new Error('url is a required arguments');
+            this.log.error('url is required argument');
+            throw new Error('url is required argument');
         }
         this.documentViewerService.fetch(`${this.urlFixer.fixDm(this.url, this.baseUrl)}`).subscribe(resp => {
             if (resp && resp._links) {
@@ -50,6 +54,7 @@ export class DocumentViewerComponent implements OnChanges, OnInit {
                     this.viewerFactoryService.buildViewer(resp, this.annotate, this.viewerAnchor.viewContainerRef, this.baseUrl);
             }
         }, err => {
+            this.log.error(err);
             this.error = err;
         });
     }

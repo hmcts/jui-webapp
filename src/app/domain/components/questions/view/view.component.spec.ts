@@ -8,11 +8,12 @@ import { ConfigService } from '../../../../config.service';
 import { BrowserTransferStateModule } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
-import { RouterModule } from '@angular/router';
 import { CaseService } from '../../../services/case.service';
-import { of } from 'rxjs';
 import {Selector} from '../../../../shared/selector-helper';
 import { RedirectionService } from '../../../../routing/redirection.service';
+import {mockConfigService} from '../../../mock/config.mock';
+import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import {mockQuestionViewActivateRoute} from '../../../mock/activateRoute.mock';
 
 describe('ViewQuestionComponent', () => {
     let component: ViewQuestionComponent;
@@ -22,15 +23,13 @@ describe('ViewQuestionComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [],
+            declarations: [ViewQuestionComponent],
             imports: [
-                DomainModule,
-                SharedModule,
                 BrowserTransferStateModule,
                 HttpClientTestingModule,
-                RouterTestingModule,
-                RouterModule
+                RouterTestingModule
             ],
+            schemas: [CUSTOM_ELEMENTS_SCHEMA],
             providers: [
                 {
                     provide: RedirectionService,
@@ -42,37 +41,11 @@ describe('ViewQuestionComponent', () => {
                 QuestionService,
                 {
                     provide: ConfigService,
-                    useValue: {
-                        config: {
-                            api_base_url: ''
-                        }
-                    }
+                    useValue: mockConfigService
                 },
                 {
                     provide: ActivatedRoute,
-                    useValue: {
-                        snapshot: {
-                            _lastPathIndex: 0,
-                            params: of({
-                                'question_id': '43eb9981-9360-4d4b-b9fd-506b5818e7ff'
-                            }),
-                        },
-                        parent: {
-                            params: of({
-                                'case_id': '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
-                            }),
-                            snapshot: {
-                                params: {
-                                    'case_id': '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
-                                },
-                                queryParams: {}
-                            }
-                        },
-                        params: of({
-                            'question_id': '43eb9981-9360-4d4b-b9fd-506b5818e7ff'
-                        }),
-                        fragment: of(['question-fragment', 'subject-fragment'])
-                    }
+                    useValue: mockQuestionViewActivateRoute
                 },
             ]
         })
@@ -91,7 +64,7 @@ describe('ViewQuestionComponent', () => {
         httpMock.verify();
     });
 
-    describe('when we receive a question and no answer', () => {
+   describe('when we receive a question and no answer', () => {
         beforeEach(async(() => {
             httpMock
                 .expectOne('/api/caseQ/13eb9981-9360-4d4b-b9fd-506b5818e7ff/questions/43eb9981-9360-4d4b-b9fd-506b5818e7ff')

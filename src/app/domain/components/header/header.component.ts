@@ -9,7 +9,8 @@ export class HeaderComponent implements  OnInit {
 
     logoutLink: string;
     navItems: Array<{}>;
-
+    navigations;
+    serviceName;
     constructor(public authService: AuthService) {
         this.logoutLink = `/logout?redirect=${encodeURIComponent(this.authService.generateLoginUrl())}`;
     }
@@ -20,6 +21,17 @@ export class HeaderComponent implements  OnInit {
             href: '/',
             active: true
         }];
+        this.serviceName = {
+            name: 'Judicial case manager',
+            url: '/'
+        };
+        this.navigations = {
+            label: 'Account navigation',
+            items: [{
+                text: 'Sign out',
+                href: this.logoutLink
+            }]
+        };
     }
 
 

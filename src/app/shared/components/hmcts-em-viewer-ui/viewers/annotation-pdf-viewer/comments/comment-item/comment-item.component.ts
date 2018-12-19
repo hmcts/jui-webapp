@@ -5,6 +5,7 @@ import { Annotation, Comment } from '../../../../data/annotation-set.model';
 import { AnnotationStoreService } from '../../../../data/annotation-store.service';
 import { PdfService } from '../../../../data/pdf.service';
 import { Utils } from '../../../../data/utils';
+import { EmLoggerService } from '../../../../logging/em-logger.service';
 
 @Component({
     selector: 'app-comment-item',
@@ -42,7 +43,9 @@ export class CommentItemComponent implements OnInit, OnDestroy {
                 private pdfService: PdfService,
                 private ref: ChangeDetectorRef,
                 private renderer: Renderer2,
-                private utils: Utils) {
+                private utils: Utils,
+                private log: EmLoggerService) {
+        this.log.setClass('CommentItemComponent');
     }
 
     ngOnInit() {

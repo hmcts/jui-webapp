@@ -1,8 +1,8 @@
-import {ChangeDetectorRef, Component, EventEmitter, OnInit} from '@angular/core';
-import {QuestionService} from '../../../services/question.service';
-import {RedirectionService} from '../../../../routing/redirection.service';
-import {ActivatedRoute} from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { ChangeDetectorRef, Component, EventEmitter, OnInit } from '@angular/core';
+import { QuestionService } from '../../../services/question.service';
+import { RedirectionService } from '../../../../routing/redirection.service';
+import { ActivatedRoute } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-create-question',
@@ -14,6 +14,9 @@ export class CreateQuestionsComponent implements OnInit {
     caseId: string;
     jurisdiction: string;
     caseType: string;
+    asyncResolved: boolean = true;
+    asynctext: string = 'Save question'
+
 
     eventEmitter: EventEmitter<any> = new EventEmitter();
     callback_options = {
@@ -28,10 +31,10 @@ export class CreateQuestionsComponent implements OnInit {
     roundNumber;
 
     constructor(private fb: FormBuilder,
-                private questionService: QuestionService,
-                private redirectionService: RedirectionService,
-                private route: ActivatedRoute,
-                private cdRef: ChangeDetectorRef) {
+        private questionService: QuestionService,
+        private redirectionService: RedirectionService,
+        private route: ActivatedRoute,
+        private cdRef: ChangeDetectorRef) {
 
     }
 
@@ -64,13 +67,19 @@ export class CreateQuestionsComponent implements OnInit {
         if (values.question) {
             this.form.controls.question.setValue(values.question.trim());
         }
-         values.rounds = this.roundNumber;
+        values.rounds = this.roundNumber;
 
         if (this.form.valid) {
+            this.asyncResolved = false;
+            this.asynctext = 'saving...';
             this.questionService.create(this.caseId, values)
                 .subscribe(res => {
+                    //this.asyncResolved = true;
                     this.redirectionService.redirect(`/case/${this.jurisdiction}/${this.caseType}/${this.caseId}/questions?created=success`);
-                }, err => console.log);
+ 		}, err => {
+                    this.asyncResolved = true;
+                    this.asynctext = 'Save question';
+                });
         } else {
             this.error.subject = !this.form.controls.subject.valid;
             this.error.question = !this.form.controls.question.valid;

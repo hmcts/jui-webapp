@@ -1,3 +1,5 @@
-<ng-container [formGroup]="group">
+<ng-container 
+*ngIf="group"
+[formGroup]="group">
     <input id="{{control + value}}" [class]="classes" [type]="typeBtn" [formControlName]="control" [value]="value">
 </ng-container>

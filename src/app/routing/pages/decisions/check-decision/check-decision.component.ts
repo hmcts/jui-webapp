@@ -46,16 +46,6 @@ export class CheckDecisionComponent implements OnInit {
         this.form.setValidators(formGroupValidators);
     }
 
-    //pawel-k [1:35 PM]
-    //Dont delete this comment
-    // we have to check if annotations exist onInit by reuest this service  - api-http.service.ts
-    //
-    // fetch - to get all the annotations
-    // Then render them on summary
-    // If there is no annotations don't call burnAnnotatedDocument
-    // If there is annotations call burnAnnotatedDocument - to create new document
-    // Pass data from call to Alan to back end to CCD store
-
     isSectionExist(value) {
         if ( this.pageValues.visitedPages[value] === true ) {
             return true;
@@ -75,26 +65,12 @@ export class CheckDecisionComponent implements OnInit {
             }
 
         });
-
         const pageId = this.activatedRoute.snapshot.url[0].path;
         const caseId = this.case.id;
-
-
-
-        // console.log('JurID=>', this.jurId);
-        // console.log('TypeID=>', this.typeId);
-
-
         // if Financial Remedy then call document annotation service
         if ( this.jurId === 'DIVORCE' && this.typeId === 'FinancialRemedyMVP2' ) {
-
-            //console.log('docId=>', this.consentOrderDocumentId);
-
             this.annotationStoreService.fetchData('/api', this.consentOrderDocumentId).subscribe((results) => {
                 this.annotations = results.body.annotations;
-
-               // console.log('annotations => ', this.annotations);
-
                 //If document has bee annotated then burn new document
                 if (this.annotations !== null) {
                     this.burnAnnotatedDocument();
@@ -106,16 +82,13 @@ export class CheckDecisionComponent implements OnInit {
             this.decision = decision;
             this.pageitems = this.decision.meta;
             this.pageValues = this.decision.formValues;
-
-            console.log('pageitems', this.pageitems);
-            console.log('pageValues', this.pageValues);
             this.createForm(this.pageitems, this.pageValues);
         });
     }
 
     // For preliminary view only
     hasActivities(activities) {
-        for (let activity of activities) {
+        for (const activity of activities) {
             if ( this.pageValues[activity.type] === true ) return true;
         }
     }
@@ -128,35 +101,12 @@ export class CheckDecisionComponent implements OnInit {
             event = 'change';
         }
         delete this.form.value.createButton;
-
-        //console.log('FORM VALUE==>', Object.keys(this.form.value).length);
-
         this.request = { formValues: { ...this.pageValues, ...this.form.value }, event: event };
-
-        // For final submission to server use other request below
-        // Temporary hack for Preliminary view, has to be fixed later
-        // Don't delete this comment!!
-
-        // if (Object.keys(this.form.value).length <= 1){
-        //     this.request = { formValues: this.pageValues, event: event };
-        // }
-
         if (this.npaDocumentTask) {
             if (this.npaDocumentTask.outputDocumentId) {
                 this.request.formValues.documentAnnotationId = this.npaDocumentTask.outputDocumentId;
-            } else {
-                console.log( 'No Document ID generated =', this.npaDocumentTask.outputDocumentId );
-            }
-        } else {
-            console.log( 'Document hasn\'t generated =', this.npaDocumentTask );
-        }
-
-        console.log('Submitting properties =>', this.pageitems.name, this.request);
-
-        console.log('IsValid :', this.useValidation);
-        console.log('formDraft:', this.form);
-        console.log('Form is valid:', this.form.valid);
-
+            } else {}
+        } else {}
         if (this.form.invalid && event === 'continue') {
             this.useValidation = true;
             return;
@@ -168,7 +118,6 @@ export class CheckDecisionComponent implements OnInit {
                 this.typeId,
                 this.request)
                 .subscribe(decision => {
-                    console.log(decision.newRoute);
                     this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
                 });
         }
@@ -176,20 +125,13 @@ export class CheckDecisionComponent implements OnInit {
 
     burnAnnotatedDocument() {
         if (this.consentOrderDocumentId != null) {
-            // this will generate a new document each time it's called.
-            // provide second argument to upload the document as a next version of this document
-
             this.npaService.exportPdf(this.consentOrderDocumentId, null, this.configService.config.api_base_url /*, second arg - already existing doc id*/).subscribe(
                 (response) => {
                     this.npaDocumentTask = response.body;
                     if (this.npaDocumentTask.taskState === 'FAILED') {
-                        console.log('ERROR: ', this.npaDocumentTask.failureDescription);
-                       // this.handleNpaError(this.npaDocumentTask.failureDescription);
                     }
                 },
                 response => {
-                    console.log('ERROR: Could not create annotated PDF.');
-                    //this.handleNpaError('Could not create annotated PDF.');
                 });
         }
     }

@@ -30,7 +30,6 @@ export class EditQuestionComponent implements OnInit {
     ) { }
 
     public noWhitespaceValidator(control: FormControl) {
-      console.log('Validator works');
       const isWhitespace = (control.value || '').trim().length === 0;
       const isValid = !isWhitespace;
       return isValid ? null : { 'whitespace': true };
@@ -70,18 +69,15 @@ export class EditQuestionComponent implements OnInit {
     }
 
     onSubmit() {
-
-      console.log("Form Valid===>",this.form);
-
         if (this.form.valid) {
             const values = {
                 ...this.form.value,
                 rounds: this.roundNumber
             };
             this.questionService.update(this.caseId, this.questionId, values)
-                .subscribe(res => {
+                .subscribe((res: any) => {
                     this.redirectionService.redirect(`/case/${this.jurisdiction}/${this.caseType}/${this.caseId}/questions?updated=success`);
-                }, err => console.log(err));
+                }, (err: any) => {});
         }
         this.submitted = true;
     }

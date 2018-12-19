@@ -3,10 +3,18 @@
         <h1 data-selector="heading" role="heading" aria-level="1" class="hmcts-page-heading__title govuk-heading-xl">{{header}}</h1>
     </div>
     <div *ngIf="actionPrimaryButton || actionSecondaryButton" class="hmcts-page-heading__actions-wrapper">
-        <a *ngIf="actionPrimaryButton" [routerLink]="actionPrimaryButton.href" role="button" class="govuk-button hmcts-page-heading__button">
+        <a *ngIf="actionPrimaryButton"
+           data-selector="primary-button"
+           [routerLink]="actionPrimaryButton.href"
+           role="button"
+           class="govuk-button hmcts-page-heading__button">
             {{actionPrimaryButton.text}}
         </a>
-        <a *ngIf="actionSecondaryButton"  [routerLink]="actionSecondaryButton.href" role="button" class="govuk-button hmcts-page-heading__button hmcts-button--secondary">
+        <a *ngIf="actionSecondaryButton"
+           data-selector="secondary-button"
+           [routerLink]="actionSecondaryButton.href"
+           role="button"
+           class="govuk-button hmcts-page-heading__button hmcts-button--secondary">
             {{actionSecondaryButton.text}}
         </a>
     </div>

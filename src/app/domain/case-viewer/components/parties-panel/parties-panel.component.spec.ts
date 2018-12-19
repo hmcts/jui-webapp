@@ -1,65 +1,58 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute, Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
-import { DomainModule } from '../../../domain.module';
-import { CaseViewerModule } from '../../case-viewer.module';
 import { PartiesPanelComponent } from './parties-panel.component';
-import { Observable } from 'rxjs';
-import { SharedModule } from '../../../../shared/shared.module';
-import {mockSnapshot} from './mock/parties-panel.mock';
+import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild} from '@angular/core';
+import {mockPanelData} from '../summary-panel/mock/summary-panel.mock';
+import {PageDateDefault} from '../../../models/section_fields';
 
-describe('Component: PartiesPanelComponent', () => {
+
+describe('PartiesPanelComponent Component: Testing Input & Output', () => {
+    @Component({
+        selector: `app-host-dummy-component`,
+        template: `<app-parties-panel [panelData]="data"></app-parties-panel>`
+    })
+    class TestDummyHostComponent {
+        public data:  PageDateDefault = mockPanelData;
+        @ViewChild(PartiesPanelComponent)
+        public partiesPanelComponent: PartiesPanelComponent;
+    }
+    let testHostComponent: TestDummyHostComponent;
+    let testHostFixture: ComponentFixture<TestDummyHostComponent>;
+    let el: DebugElement;
+    let de: any;
     let component: PartiesPanelComponent;
     let fixture: ComponentFixture<PartiesPanelComponent>;
-    let activeRouteMock;
-    let routerNavigateSpy;
-    let router;
+    let element: DebugElement;
 
     beforeEach(async(() => {
-        activeRouteMock = {
-            params: Observable.of({
-                section: 'parties',
-                jur: 'SSCS',
-                casetype: 'Benefit',
-                case_id: '1234',
-                section_item_id: 'petitioner'
-            }),
-            fragment: Observable.of('petitioner'),
-            snapshot: {
-                data: mockSnapshot
-            }
-        };
-        return setupModule();
-    }));
-
-    function setupModule(providers = []) {
-
         TestBed.configureTestingModule({
-            declarations: [],
-            imports: [ SharedModule, DomainModule, CaseViewerModule, RouterTestingModule],
-            providers: [
-                { provide: ActivatedRoute, useFactory: () => activeRouteMock },
-                ...providers
-            ]
-        }).compileComponents();
-
-        router = TestBed.get(Router);
-        routerNavigateSpy = spyOn(router, 'navigate').and.returnValue(Promise.resolve({}));
-    }
-
-    function createComponent() {
+            declarations: [ PartiesPanelComponent, TestDummyHostComponent ],
+            schemas: [CUSTOM_ELEMENTS_SCHEMA]
+        })
+            .compileComponents();
+    }));
+    beforeEach(() => {
+        testHostFixture = TestBed.createComponent(TestDummyHostComponent);
+        testHostComponent = testHostFixture.componentInstance;
+    });
+    beforeEach(() => {
         fixture = TestBed.createComponent(PartiesPanelComponent);
         component = fixture.componentInstance;
-        component.panelData = mockSnapshot;
-        fixture.detectChanges();
-    }
-
-    beforeEach(() => {
-        createComponent();
+        element = fixture.debugElement;
     });
-
-    it('should create PartiesComponent', () => {
+    it('should create', () => {
         expect(component).toBeTruthy();
     });
+    it('should be created by angular', () => {
+        expect(fixture).not.toBeNull();
+    });
 
+    it('should panelData not load', () => {
+        expect(testHostComponent.partiesPanelComponent.panelData).toBeUndefined();
+        testHostFixture.detectChanges();
+    });
+
+    it('panelData should have data loaded', () => {
+        testHostFixture.detectChanges();
+        expect( typeof testHostComponent.partiesPanelComponent.panelData === 'object').toBeTruthy();
+    });
 });

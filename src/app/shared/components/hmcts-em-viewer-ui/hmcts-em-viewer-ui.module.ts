@@ -23,6 +23,7 @@ import { DocumentViewerComponent } from './document-viewer/document-viewer.compo
 import { ViewerAnchorDirective } from './document-viewer/viewer-anchor.directive';
 import { BrowserModule } from '@angular/platform-browser';
 import { DocumentViewerService } from './document-viewer/document-viewer.service';
+import { EmLoggerService } from './logging/em-logger.service';
 
 @NgModule({
   imports: [
@@ -58,7 +59,8 @@ import { DocumentViewerService } from './document-viewer/document-viewer.service
     Utils,
     UrlFixerService,
     ViewerFactoryService,
-    DocumentViewerService
+    DocumentViewerService,
+    EmLoggerService
   ],
   exports: [
     CommentsComponent,

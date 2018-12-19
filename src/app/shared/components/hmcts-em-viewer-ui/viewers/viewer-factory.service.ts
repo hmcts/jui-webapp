@@ -5,13 +5,16 @@ import { ImageViewerComponent } from './image-viewer/image-viewer.component';
 import { UnsupportedViewerComponent } from './unsupported-viewer/unsupported-viewer.component';
 import { IAnnotationSet } from '../data/annotation-set.model';
 import { AnnotationPdfViewerComponent } from './annotation-pdf-viewer/annotation-pdf-viewer.component';
+import { EmLoggerService } from '../logging/em-logger.service';
 
 @Injectable()
 export class ViewerFactoryService {
 
     constructor(private componentFactoryResolver: ComponentFactoryResolver,
                 private annotationStoreService: AnnotationStoreService,
-                private urlFixer: UrlFixerService) {
+                private urlFixer: UrlFixerService,
+                private log: EmLoggerService) {
+        this.log.setClass('ViewerFactoryService');
     }
 
     private static determineComponent(mimeType: string) {

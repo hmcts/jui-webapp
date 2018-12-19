@@ -11,12 +11,5 @@ export class DecisionResolve implements Resolve<any> {
     }
 
     resolve(route: ActivatedRouteSnapshot) {
-        // const caseId = route.paramMap.get('case_id');
-        // const jurisdiction = route.paramMap.get('jur');
-        // const caseType = route.paramMap.get('casetype');
-        // return this.decisionService.fetch(jurisdiction, caseId, ).pipe(catchError(error => {
-        //         console.log(error);
-        //         return of(null);
-        // }));
     }
 }

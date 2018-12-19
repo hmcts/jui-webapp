@@ -8,6 +8,7 @@ import { PdfAdapter } from './pdf-adapter';
 import { PdfService } from './pdf.service';
 import { Annotation, AnnotationSet, Comment } from './annotation-set.model';
 import { PdfAnnotateWrapper } from './js-wrapper/pdf-annotate-wrapper';
+import { EmLoggerService } from '../logging/em-logger.service';
 
 class MockPdfAnnotateWrapper {
   setStoreAdapter() {}
@@ -44,6 +45,8 @@ class MockApiHttpService {
 }
 
 class MockPdfService {
+  setCursorTool() {}
+  setHighlightTool() {}
   getRenderOptions() {
     return {
       documentId: 'docId'
@@ -110,6 +113,7 @@ describe('AnnotationStoreService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        EmLoggerService,
         AnnotationStoreService,
         { provide: ApiHttpService, useFactory: () => mockApiHttpService },
         { provide: PdfAdapter, useFactory: () => mockPdfAdapter},
@@ -146,6 +150,51 @@ describe('AnnotationStoreService', () => {
       service.ngOnDestroy();
       expect(annotationChangeSubscription.unsubscribe).toHaveBeenCalled();
     }));
+  });
+
+  describe('preLoad', () => {
+
+    describe('when called with null annotation data', () => {
+      it('should not call pdfAdapter', inject([AnnotationStoreService], (service: AnnotationStoreService) => {
+        spyOn(mockPdfAdapter, 'setStoreData').and.stub();
+        service.preLoad(null);
+        expect(mockPdfAdapter.setStoreData).not.toHaveBeenCalled();
+      }));
+
+      it('should set cursorTool and setStoreAdapter with null', 
+        inject([AnnotationStoreService], (service: AnnotationStoreService) => {
+          spyOn(mockPdfService, 'setCursorTool').and.stub();
+          spyOn(mockPdfAnnotateWrapper, 'setStoreAdapter').and.stub();
+
+          service.preLoad(null);
+
+          expect(mockPdfService.setCursorTool).toHaveBeenCalled();
+          expect(mockPdfAnnotateWrapper.setStoreAdapter).toHaveBeenCalledWith();
+      }));
+    });
+
+    describe('when called with annotation data', () => {
+      const mockAnnotationSet = new AnnotationSet(null, null, null, null, null, null, null, null, null);
+      it('should call pdfAdapter with data', inject([AnnotationStoreService], (service: AnnotationStoreService) => {
+        spyOn(mockPdfAdapter, 'setStoreData').and.stub();
+        service.preLoad(mockAnnotationSet);
+        expect(mockPdfAdapter.setStoreData).toHaveBeenCalledWith(mockAnnotationSet);
+      }));
+
+      it('should call setStoreAdapter', inject([AnnotationStoreService], (service: AnnotationStoreService) => {
+        const dummyAdapter = 'dummy';
+        spyOn(mockPdfAdapter, 'getStoreAdapter').and.returnValue(dummyAdapter);
+        spyOn(mockPdfAnnotateWrapper, 'setStoreAdapter').and.stub();
+        service.preLoad(mockAnnotationSet);
+        expect(mockPdfAnnotateWrapper.setStoreAdapter).toHaveBeenCalledWith(dummyAdapter);
+      }));
+
+      it('should call setHighlightTool', inject([AnnotationStoreService], (service: AnnotationStoreService) => {
+        spyOn(mockPdfService, 'setHighlightTool').and.stub();
+        service.preLoad(mockAnnotationSet);
+        expect(mockPdfService.setHighlightTool).toHaveBeenCalled();
+      }));
+    });
   });
 
   describe('getToolbarUpdate', () => {

@@ -4,6 +4,7 @@ import { ContextualToolbarComponent } from './contextual-toolbar.component';
 import { Annotation, Comment } from '../../../data/annotation-set.model';
 import { PdfService } from '../../../data/pdf.service';
 import { AnnotationStoreService } from '../../../data/annotation-store.service';
+import { EmLoggerService } from '../../../logging/em-logger.service';
 
 class MockPdfService {
   annotationSub: Subject<string>;
@@ -75,6 +76,7 @@ describe('ContextualToolbarComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ ContextualToolbarComponent ],
       providers: [
+        EmLoggerService,
         {provide: PdfService, useFactory: () => mockPdfService},
         {provide: AnnotationStoreService, useFactory: () => mockAnnotationStoreService}
       ]
@@ -182,15 +184,6 @@ describe('ContextualToolbarComponent', () => {
       expect(mockAnnotationStoreService.setAnnotationFocusSubject).toHaveBeenCalled();
       expect(mockAnnotationStoreService.deleteAnnotationById).toHaveBeenCalled();
       expect(component.isShowToolbar).toBeFalsy();
-    });
-  });
-
-  describe('handleClearClick', () => {
-    it('should call pdfservice with null value and hide the toolbar', () => {
-      spyOn(mockAnnotationStoreService, 'clearAnnotations').and.returnValue(null);
-
-      component.handleClearAnnotations();
-      expect(mockAnnotationStoreService.clearAnnotations).toHaveBeenCalled();
     });
   });
 

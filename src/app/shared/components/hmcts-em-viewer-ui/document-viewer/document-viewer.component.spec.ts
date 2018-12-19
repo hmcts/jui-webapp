@@ -7,6 +7,7 @@ import {DocumentViewerService} from './document-viewer.service';
 import {of} from 'rxjs';
 import { TransferState } from '@angular/platform-browser';
 import { HmctsEmViewerUiModule } from '../hmcts-em-viewer-ui.module';
+import { EmLoggerService } from '../logging/em-logger.service';
 
 const originalUrl = 'http://api-gateway.dm.com/documents/1234-1234-1234';
 const url = '/demproxy/dm/documents/1234-1234-1234';
@@ -34,6 +35,7 @@ describe('EmViewerComponent', () => {
         const testingModule = TestBed.configureTestingModule({
             imports: [HmctsEmViewerUiModule, HttpClientTestingModule],
             providers: [
+                EmLoggerService,
                 { provide: TransferState, useFactory: () => mockTransferState},
                 { provide: DocumentViewerService, useValue: DocumentViewerServiceMock
             }]

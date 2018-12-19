@@ -7,10 +7,10 @@ import {Component, Input, OnChanges, OnInit} from '@angular/core';
 })
 export class CaseFileComponent implements OnInit, OnChanges {
 
-    @Input() documents: any[] = [];
+    @Input() documents: any[];
     @Input() selectedDocument: any;
     @Input() documentUrl: string;
-    @Input() caseFileType: String;
+    @Input() caseFileType: string;
     allowAnnotations: boolean;
 
     constructor() { }

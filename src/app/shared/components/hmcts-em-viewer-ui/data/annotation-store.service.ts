@@ -8,6 +8,7 @@ import {PdfService} from './pdf.service';
 import {PdfAdapter} from './pdf-adapter';
 import {ApiHttpService} from './api-http.service';
 import { PdfAnnotateWrapper } from './js-wrapper/pdf-annotate-wrapper';
+import { EmLoggerService } from '../logging/em-logger.service';
 
 @Injectable()
 export class AnnotationStoreService implements OnDestroy {
@@ -18,11 +19,13 @@ export class AnnotationStoreService implements OnDestroy {
     private annotationFocusSubject: Subject<Annotation>;
     private contextualToolBarOptions: Subject<{annotation: Annotation, showDelete: boolean}>;
 
-    constructor(private pdfAdapter: PdfAdapter,
+    constructor(private log: EmLoggerService,
+                private pdfAdapter: PdfAdapter,
                 private apiHttpService: ApiHttpService,
                 private pdfService: PdfService,
                 private pdfAnnotateWrapper: PdfAnnotateWrapper) {
 
+        log.setClass('AnnotationStoreService');
         this.commentBtnSubject = new Subject();
         this.commentFocusSubject = new BehaviorSubject(
             {annotation: new Annotation(null, null, null, null, null, null, null, null, null, null, null, null)});
@@ -117,6 +120,7 @@ export class AnnotationStoreService implements OnDestroy {
                 if (err instanceof HttpErrorResponse) {
                     switch (err.status) {
                         case 400: {
+                            this.log.error('Bad request: ' + err.error);
                             return throwError(err.error);
                         }
                         case 404: {
@@ -124,9 +128,11 @@ export class AnnotationStoreService implements OnDestroy {
                                 documentId: dmDocumentId,
                                 id: uuid()
                             };
+                            this.log.info('Creating new annotation set for document id:' + dmDocumentId);
                             return this.apiHttpService.createAnnotationSet(baseUrl, body);
                         }
                         case 500: {
+                            this.log.error('Internal server error: ' + err);
                             return throwError('Internal server error: ' + err);
                         }
                     }
@@ -148,15 +154,15 @@ export class AnnotationStoreService implements OnDestroy {
 
         toKeepAnnotations.forEach((annotation: Annotation) => {
             this.apiHttpService.saveAnnotation(annotation).subscribe(
-                response => console.log(response),
-                error => console.log(error)
+                response => this.log.info(response),
+                error => this.log.error(error)
             );
         });
 
         toRemoveAnnotations.forEach((annotation: Annotation) => {
             this.apiHttpService.deleteAnnotation(annotation).subscribe(
-                response => console.log(response),
-                error => console.log(error)
+                response => this.log.info(response),
+                error => this.log.error(error)
             );
         });
 
@@ -172,27 +178,19 @@ export class AnnotationStoreService implements OnDestroy {
                     this.pdfAdapter.annotationSet.annotations[this.pdfAdapter.annotationSet.annotations
                         .findIndex(x => x.id === annotation.id)] = response.body;
                 }
-                console.log(response);
+                this.log.info(response);
             },
-            error => console.log(error)
+            error => this.log.error(error)
         );
     }
 
     deleteAnnotation(annotation) {
         this.apiHttpService.deleteAnnotation(annotation).subscribe(
             response => {
-                console.log(response);
+                this.log.info(response);
             },
-            error => console.log(error)
+            error => this.log.error(error)
         );
-    }
-
-    clearAnnotations() {
-        if (confirm('Are you sure you want to clear annotations?')) {
-            this.pdfAdapter.annotations = [];
-            this.pdfService.render();
-            this.saveData();
-        }
     }
 
     editComment(comment: Comment) {

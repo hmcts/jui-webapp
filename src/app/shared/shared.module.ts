@@ -4,21 +4,21 @@ import { TableComponent } from './components/table/table.component';
 import { DataListComponent } from './components/data-list/data-list.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { FormsModule } from '@angular/forms';
-import {CdkTableModule} from '@angular/cdk/table';
-import { RouterModule} from '@angular/router';
+import { CdkTableModule } from '@angular/cdk/table';
+import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
-import {GovukModule} from '../govuk/govuk.module';
-import {HmctsModule} from '../hmcts/hmcts.module';
-import {TimelineComponent} from './components/timeline/timeline.component';
-import {QuestionListComponent} from './components/question-list/question-list.component';
-import {QuestionComponent} from './components/question/question.component';
-import {ReversePipe} from './pipes/array-reverse/reverse.pipe';
-import {CaseStatusGoto} from './pipes/case-status-goto/case.status.goto';
+import { GovukModule } from '../govuk/govuk.module';
+import { HmctsModule } from '../hmcts/hmcts.module';
+import { TimelineComponent } from './components/timeline/timeline.component';
+import { QuestionListComponent } from './components/question-list/question-list.component';
+import { QuestionComponent } from './components/question/question.component';
+import { ReversePipe } from './pipes/array-reverse/reverse.pipe';
+import { CaseStatusGoto } from './pipes/case-status-goto/case.status.goto';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { StatusComponent } from './components/status/status.component';
 import { CaseActionAlertComponent } from './components/case-action-alert/case-action-alert.component';
-import {CaseActionsComponent} from './components/case-actions/case-actions.component';
+import { CaseActionsComponent } from './components/case-actions/case-actions.component';
 import { RadiobuttonComponent } from './components/radiobutton/radiobutton.component';
 import { TextareasComponent } from './components/textareas/textareas.component';
 import { LabelComponent } from './components/label/label.component';
@@ -40,6 +40,7 @@ import { JuiFormElementsComponent } from './components/jui-form-elements/jui-for
 import { InputsComponent } from './components/inputs/inputs.component';
 import { HmctsEmViewerUiModule } from './components/hmcts-em-viewer-ui/hmcts-em-viewer-ui.module';
 import { DateComponent } from './components/date/date.component';
+import { CustombuttonsComponent } from './components/custombuttons/custombuttons.component';
 
 @NgModule({
     imports: [
@@ -87,6 +88,7 @@ import { DateComponent } from './components/date/date.component';
         JuiFormElementsComponent,
         InputsComponent,
         DateComponent,
+        CustombuttonsComponent,
     ],
     exports: [
         JuiFormElementsComponent,
@@ -126,4 +128,4 @@ import { DateComponent } from './components/date/date.component';
     ]
 })
 
-export class SharedModule {}
+export class SharedModule { }

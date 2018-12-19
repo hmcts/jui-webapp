@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { PdfAnnotateWrapper } from './js-wrapper/pdf-annotate-wrapper';
 import { PdfWrapper } from './js-wrapper/pdf-wrapper';
 import { ElementRef } from '@angular/core';
+import { EmLoggerService } from '../logging/em-logger.service';
 
 class MockPdfAnnotateWrapper {
     renderPage(pageNumber) {}
@@ -24,6 +25,7 @@ describe('PdfService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        EmLoggerService,
         PdfService,
         { provide: PdfAnnotateWrapper, useFactory: () => mockPdfAnnotateWrapper },
         { provide: PdfWrapper, useFactory: () => mockPdfWrapper }
