@@ -1,14 +1,11 @@
 import * as express from 'express'
 import * as log4js from 'log4js'
-import { config } from '../../../config/index'
+import { config } from '../../../config'
 import { asyncReturnOrError, exists } from '../../lib/util'
-
-const { getDetails, postOauthToken } = require('../../services/idam-api/idam-api')
+import { getDetails, postOauthToken} from '../../services/idam-api/idam-api'
 
 const cookieToken = config.cookies.token
 const cookieUserId = config.cookies.userId
-
-const test = true
 
 const logger = log4js.getLogger('auth')
 logger.level = config.logging || 'off'
