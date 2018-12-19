@@ -31,11 +31,13 @@ describe('Auth', () => {
     describe('authenticate user', () => {
         let req
         let res
+        let sandbox
         const accessToken = 'access'
         const details = { id: 1, name: 'testuser' }
-        let sandbox
         beforeEach(() => {
             sandbox = sinon.createSandbox()
+            sandbox.stub(idam, 'postOauthToken').resolves({ access_token: `${accessToken}` })
+            sandbox.stub(idam, 'getDetails').resolves(details)
             req = mockReq({
                 get: () => 'localhost',
                 query: {
@@ -53,16 +55,12 @@ describe('Auth', () => {
         })
 
         it('should set the authorisation header', async () => {
-            sandbox.stub(idam, 'postOauthToken').resolves({ access_token: `${accessToken}` })
-            sandbox.stub(idam, 'getDetails').resolves(details)
             await authenticateUser(req, res)
             expect(idam.postOauthToken).to.be.calledWith(1, 'localhost')
             expect(idam.getDetails).to.have.been.calledWith({ headers: { Authorization: `Bearer ${accessToken}` } })
         })
 
         it('should set the session, cookies and redirect the user', async () => {
-            sandbox.stub(idam, 'postOauthToken').resolves({ access_token: `${accessToken}` })
-            sandbox.stub(idam, 'getDetails').resolves(details)
             await authenticateUser(req, res)
             expect(req.session.user).to.be.equals(details)
             expect(res.cookie).to.be.calledWith(config.cookies.token, accessToken)
@@ -71,8 +69,9 @@ describe('Auth', () => {
         })
 
         it('should redirect the user if an error occurs in getting access token', async () => {
+            // @ts-ignore
+            idam.postOauthToken.restore()
             sandbox.stub(idam, 'postOauthToken').resolves({ error: `${accessToken}` })
-            sandbox.stub(idam, 'getDetails').resolves(details)
             await authenticateUser(req, res)
             expect(req.session.user).not.to.be.equals(details)
             expect(res.cookie).not.to.be.calledWith(config.cookies.token, accessToken)
@@ -81,7 +80,8 @@ describe('Auth', () => {
         })
 
         it('should redirect the user if cannot get user details', async () => {
-            sandbox.stub(idam, 'postOauthToken').resolves({ access_token: `${accessToken}` })
+            // @ts-ignore
+            idam.getDetails.restore()
             sandbox.stub(idam, 'getDetails').resolves(null)
             await authenticateUser(req, res)
             expect(req.session.user).not.to.be.equals(details)
