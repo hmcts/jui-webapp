@@ -13,21 +13,40 @@ export class HearingService {
     constructor(private httpClient: HttpClient, private configService: ConfigService) { }
 
     generateHearingsUrl(caseId: string) {
-        return `${this.configService.config.api_base_url}/api/hearings/${caseId}`;
+        return `${this.configService.config.api_base_url}/api/decisions/${caseId}/hearing/relist`;
+    }
+
+    getHearingUrl(caseId: string) {
+        return `${this.configService.config.api_base_url}/api/decisions/${caseId}/hearing`;
     }
 
     changeMessage(message: string) {
         this.messageSource.next(message);
     }
 
-    listForHearing(caseId: string, relist_reason: string): Observable<any> {
+    listForHearing(caseId: string, relistReason: string, relistState: string): Observable<any> {
         const url = this.generateHearingsUrl(caseId);
 
         const body = {
-            online_hearing_state: 'continuous_online_hearing_relisted',
-            reason: relist_reason,
+            state: relistState,
+            reason: relistReason,
         };
 
-        return this.httpClient.post(url, body);
+        return this.httpClient.put(url, body);
+    }
+
+    /**
+     * getHearing
+     *
+     * Retrieves the hearing so that we can pull off the draft information.
+     *
+     * @param caseId
+     * @return {Observable<Object>}
+     */
+    getHearing(caseId: string): Observable<any> {
+
+        const url = this.getHearingUrl(caseId);
+
+        return this.httpClient.get(url);
     }
 }

@@ -1,7 +1,9 @@
 import * as log4js from 'log4js'
 import * as moment from 'moment'
-import { config } from '../../config'
-import { http } from '../lib/http'
+import {config} from '../../config'
+import {http} from '../lib/http'
+
+import {ERROR_NO_HEARING_IDENTIFIER, ERROR_UNABLE_TO_RELIST_HEARING} from '../constants/cohConstants'
 
 export const url = config.services.coh_cor_api
 
@@ -20,7 +22,7 @@ function convertDateTime(dateObj: string): DateTimeObject {
     const date = conDateTime.format('D MMMM YYYY')
     const time = conDateTime.format('h:mma')
 
-    return { date, dateUtc, time }
+    return {date, dateUtc, time}
 }
 
 function mergeCohEvents(eventsJson: any): any[] {
@@ -43,7 +45,7 @@ export async function createHearing(caseId: string, userId: string, jurisdiction
     const response = await http.post(`${url}/continuous-online-hearings`, {
         case_id: caseId,
         jurisdiction: jurisdictionId,
-        panel: [{ identity_token: 'string', name: userId }],
+        panel: [{identity_token: 'string', name: userId}],
         start_date: new Date().toISOString(),
     })
 
@@ -136,13 +138,13 @@ export async function getData(hearingId) {
 
     try {
         response = await http.get(`${url}/continuous-online-hearings/${hearingId}/decisions`)
-    } catch {
+    } catch (error) {
         logger.info(`No decision for hearing ${hearingId} found`)
     }
     const data = response.data.decision_text || {}
     try {
         return JSON.parse(data)
-    } catch {
+    } catch (error) {
         return {}
     }
 }
@@ -151,7 +153,6 @@ export async function getOrCreateDecision(caseId, userId) {
     let decisionId
     let decision
 
-    // first lets try and get a hearing
     const hearingId = await getOrCreateHearing(caseId, userId)
 
     if (!hearingId) {
@@ -161,7 +162,7 @@ export async function getOrCreateDecision(caseId, userId) {
         try {
             decision = await getDecision(hearingId)
             logger.info(decision)
-        } catch {
+        } catch (error) {
             logger.info(`Can't find decision`)
         }
 
@@ -176,6 +177,49 @@ export async function getOrCreateDecision(caseId, userId) {
 
     // needs to return hearingId
     return hearingId
+}
+
+/**
+ * relistHearing
+ *
+ * Occurs when a re-listing for hearing is requested by a Judge.
+ *
+ * A Judge is able to re-list a hearing at any point, within a hearings lifecycle. A re-listing
+ * is a manual process by a case worker, therefore we just need to send a message to CoH.
+ *
+ * @see RIUI-652
+ * @param caseId
+ * @param userId
+ * @param state - 'issued' / 'drafted'. A state should either be 'issued' or 'drafted', and not
+ * 'continuous_online_hearing_relisted' as suggested by the CoH Wiki.
+ * [17.12.2018]
+ * @param reason - 'freetext'
+ * @return {Promise}
+ */
+export async function relistHearing(caseId: string, userId: string, state: string, reason: string): Promise<any> {
+
+    const hearingId = await getOrCreateHearing(caseId, userId)
+
+    if (!hearingId) {
+        return Promise.reject({
+            message: ERROR_NO_HEARING_IDENTIFIER,
+            status: 400,
+        })
+    }
+
+    try {
+        const response = await http.put(`${url}/continuous-online-hearings/${hearingId}/relist`,
+            {state, reason})
+        return response
+    } catch (error) {
+        return Promise.reject({
+            message: ERROR_UNABLE_TO_RELIST_HEARING,
+            serviceError: {
+                message: error.response.data,
+                status: error.response.status,
+            },
+        })
+    }
 }
 
 export class Store {
