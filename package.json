@@ -71,7 +71,7 @@
     "@ng-toolkit/universal": "^1.1.45",
     "@nguniversal/express-engine": "6.0.0",
     "@nguniversal/module-map-ngfactory-loader": "6.0.0",
-    "applicationinsights": "1.0.3",
+    "applicationinsights": "1.0.8",
     "axios": "^0.18.0",
     "base-64": "^0.1.0",
     "body-parser": "1.18.3",
