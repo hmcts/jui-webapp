@@ -4368,10 +4368,10 @@ got@^6.7.1:
     unzip-response "^2.0.1"
     url-parse-lax "^1.0.0"
 
-govuk-frontend@1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/govuk-frontend/-/govuk-frontend-1.3.0.tgz#b145d8c5d6bd7e88a5b34b340867799f328bbb03"
-  integrity sha512-NROJGh4wZgOSWhEzJOkcijIMR7GeFBOinG45wouVwK7ne6ihR4uyS/LQBkG/GGEkNkLZYuOG8cb+6fMVwP2W7Q==
+govuk-frontend@2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/govuk-frontend/-/govuk-frontend-2.4.1.tgz#4e8e3b16aa588a25e6b7f97ab3ac0045df52c60c"
+  integrity sha512-6cqX9YxypQfE7gfuexqSll3EAQLW2MDgL2w8LUEnmfW36cadUktZHjzyusOY/ggJxDAiiyEcC+9R8Oj57g90mw==
 
 graceful-fs@^4.0.0, graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.3, graceful-fs@^4.1.6, graceful-fs@^4.1.9:
   version "4.1.15"
