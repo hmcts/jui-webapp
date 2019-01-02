@@ -66,7 +66,12 @@ module.exports={
                                 text: 'Which court?',
                                 classes: 'govuk-label--m'
                             },
+                            validationError: {
+                                value: 'Enter the directions that are required',
+                                controlId: 'Directions'
+                            },
                             control: 'whichCourt',
+                            validators: ['required'],
                             value: ''
                         }
                     }
