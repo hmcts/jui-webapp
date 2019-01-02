@@ -62,22 +62,26 @@ export class MakeDecisionComponent implements OnInit {
         });
     }
     onSubmit() {
-        const event = this.formDraft.value.createButton.toLowerCase();
-        delete this.formDraft.value.createButton;
-        this.request = { formValues: this.formDraft.value, event: event };
-        this.request.formValues.visitedPages = this.pageValues.visitedPages;
-        if (this.formDraft.invalid) {
-            this.useValidation = true;
-            return;
-        } else {
-            this.decisionService.submitDecisionDraft(
-                this.jurId,
-                this.activatedRoute.snapshot.parent.data.caseData.id,
-                this.pageitems.name,
-                this.typeId,
-                this.request).subscribe(decision => {
-                this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
-            });
+        console.log("from group object =>>", this.formDraft);
+
+        if (this.formDraft.value.createButton) {
+            const event = this.formDraft.value.createButton.toLowerCase();
+            delete this.formDraft.value.createButton;
+            this.request = { formValues: this.formDraft.value, event: event };
+            this.request.formValues.visitedPages = this.pageValues.visitedPages;
+            if (this.formDraft.invalid) {
+                this.useValidation = true;
+                return;
+            } else {
+                this.decisionService.submitDecisionDraft(
+                    this.jurId,
+                    this.activatedRoute.snapshot.parent.data.caseData.id,
+                    this.pageitems.name,
+                    this.typeId,
+                    this.request).subscribe(decision => {
+                    this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
+                });
+            }
         }
     }
 }

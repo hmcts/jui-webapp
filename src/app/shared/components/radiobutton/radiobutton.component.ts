@@ -12,6 +12,7 @@ export class RadiobuttonComponent {
     @Input() items;
     @Input() classes;
     @Input() control;
+    @Input() validate;
     @Input() showValidation;
     @Input() validationError;
 

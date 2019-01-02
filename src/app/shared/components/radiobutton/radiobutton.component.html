@@ -6,7 +6,7 @@
       <ng-container *ngFor="let data of items; let i = index">
         <div class="govuk-radios__item">
             <input class="govuk-radios__input" id="{{control + data.value}}" [formControlName]="control" type="radio" [value]= "data.value">
-            <label class="govuk-label govuk-radios__label" for="{{idPrefix + '-' + (i+1)}}">
+            <label class="govuk-label govuk-radios__label" for="{{control + data.value}}">
                 {{data.text}}
             </label>
             <ul *ngIf="data.list" [class]="'govuk-list' + data.list.classes">
@@ -23,9 +23,10 @@
                                   [classes]="'govuk-fieldset'"
                                   [group]="group"
                                   [data]="subgroup.fieldset"
+                                  [validate]="validate"
                                   >
                     </app-fieldset>
-                    <app-jui-form-elements [group]="group" [data]="subgroup"></app-jui-form-elements>
+                    <app-jui-form-elements [validate]="validate" [group]="group" [data]="subgroup"></app-jui-form-elements>
                 </ng-container>
             </div>
         </div>
