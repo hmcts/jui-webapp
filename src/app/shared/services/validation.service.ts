@@ -160,7 +160,7 @@ export class ValidationService {
      * @return {any}
      */
     isAnyCheckboxChecked(formGroup: FormGroup, checkboxes: Array<string>, validationIdentifier: string): ValidatorFn | null {
-console.log(checkboxes);
+
         const isAnyCheckboxCheckedValidationFn: ValidatorFn = (controls: FormGroup): ValidationErrors | null => {
 
             for (const checkbox of checkboxes) {
@@ -179,7 +179,7 @@ console.log(checkboxes);
 
 
     isAllFieldsRequired(formGroup: FormGroup, fields: Array<string>, validationIdentifier: string): ValidatorFn | null {
-        console.log("fields", fields);
+
         const isAllFieldsRequiredValidationFn: ValidatorFn = (controls: FormGroup): ValidationErrors | null => {
 
             for (const field of fields) {

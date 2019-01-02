@@ -51,8 +51,6 @@ export class ValidationHeaderComponent {
      */
     isFormControlValid(formGroup: FormGroup, control: string): boolean {
 
-        console.log("Form control invalid => ", control, this.validationService.isFormControlValid(formGroup, control));
-
         return this.validationService.isFormControlValid(formGroup, control);
     }
 
@@ -64,7 +62,7 @@ export class ValidationHeaderComponent {
      * @return {boolean}
      */
     isFormGroupInvalid(formGroup: FormGroup, validationErrorId: string): boolean {
-        console.log("Form group invalid => ", validationErrorId, this.validationService.isFormGroupInvalid(formGroup, validationErrorId));
+
         return this.validationService.isFormGroupInvalid(formGroup, validationErrorId);
     }
 
