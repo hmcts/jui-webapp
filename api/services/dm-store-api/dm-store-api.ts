@@ -4,8 +4,8 @@ const generateRequest = require('../../lib/request/request')
 const headerUtilities = require('../../lib/utilities/headerUtilities')
 const fs = require('fs')
 const formidable = require('formidable')
-const ccdStoreTokenUtilities = require('../../lib/utilities/ccdStoreTokenUtilities')
 
+import { getTokenAndMakePayload } from '../../lib/utilities/ccdStoreTokenUtilities'
 
 const url = config.services.dm_store_api
 
@@ -95,27 +95,30 @@ function postDocument(req, file, classification, options) {
  * @param options
  */
 function postDocumentAndAssociateWithCase(req, caseId, file, classification, options) {
+    const reqOptions = {
+        ...options, ...{
+            formData: {
+                classification: getClassification(classification),
+                files: [
+                    {
+                        options: { filename: file.name, contentType: file.type },
+                        value: fs.createReadStream(file.path),
+                    },
+                ],
+            },
+        },
+    }
 
-    console.log('postDocumentAndAssociateWithCase')
+    return generateRequest('POST', `${url}/documents`, reqOptions)
+
+    /*console.log('postDocumentAndAssociateWithCase')
     console.log(caseId)
     console.log(classification)
     console.log(options)
     console.log(file.name)
     console.log(file.type)
 
-    console.log(ccdStoreTokenUtilities.getTokenAndMakePayload(req, caseId))
-
-    options.formData = {
-        files: [
-            {
-                value: fs.createReadStream(file.path),
-                options: { filename: file.name, contentType: file.type }
-            }
-        ],
-        classification: getClassification(classification)
-    }
-
-    return generateRequest('POST', `${url}/documents`, options)
+    console.log(getTokenAndMakePayload(req, caseId))*/
 }
 
 /**
@@ -243,12 +246,12 @@ module.exports = app => {
      * TODO: Should this be here?
      * TODO: Should we have two endpoints? should the front end know that it needs to be associated?
      */
-    router.post('/documents/upload/:caseId', (req, res, next) => {
+    router.post('/documents/upload/:caseId', (req, res) => {
 
-        console.log('Upload document');
+        console.log('Upload document')
 
         const form = new formidable.IncomingForm()
-        const caseId = req.params.caseId;
+        const caseId = req.params.caseId
 
         form.on('file', (name, file) => {
             postDocumentAndAssociateWithCase(req, caseId, file, 'PUBLIC', getOptions(req)).pipe(res)

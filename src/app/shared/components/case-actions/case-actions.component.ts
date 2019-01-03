@@ -11,5 +11,6 @@ export class CaseActionsComponent {
     @Input() header = '';
     @Input() actionPrimaryButton: LinkItem;
     @Input() actionSecondaryButton: LinkItem;
+    @Input() actionThirdButton: LinkItem;
     constructor() { }
 }

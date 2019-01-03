@@ -16,7 +16,7 @@ function getOptions(req) {
     return headerUtilities.getAuthHeaders(req)
 }
 
-async function getTokenAndMakePayload(req, caseId) {
+export async function getTokenAndMakePayload(req, caseId) {
 
     const authHeaders = getOptions(req)
 
@@ -31,8 +31,8 @@ async function getTokenAndMakePayload(req, caseId) {
 
     const eventTokenAndCase = await getEventTokenAndCase(userId, caseId, jurisdiction, caseType, eventId, authHeaders)
 
-    console.log('eventTokenAndCase');
-    console.log(eventTokenAndCase);
+    console.log('eventTokenAndCase')
+    console.log(eventTokenAndCase)
 
     const eventToken = eventTokenAndCase.token
     const caseDetails = eventTokenAndCase.caseDetails
@@ -43,6 +43,7 @@ async function getTokenAndMakePayload(req, caseId) {
 
     console.log('eventToken going in ')
     console.log(eventToken)
+    console.log('caseDetails', JSON.stringify(caseDetails, null, 2))
 
     // const payload = prepareCaseForApproval(
     //     eventToken,
@@ -64,7 +65,7 @@ async function getTokenAndMakePayload(req, caseId) {
     // console.log(caseDetails)
 }
 
-async function postCaseWithEventToken(userId, caseId, jurisdiction, caseType, payload, authHeaders) {
+export async function postCaseWithEventToken(userId, caseId, jurisdiction, caseType, payload, authHeaders) {
 
     try {
         console.log('Payload assembled')
@@ -119,8 +120,8 @@ async function getEventTokenAndCase(userId, caseId, jurisdiction, caseType, even
         )
         return eventTokenAndCase
     } catch (error) {
-        console.log('error');
-        console.log(error.error);
+        console.log('error')
+        console.log(error.error)
         // TODO: Handle StatusCodeError: 422 - {"exception":"uk.gov.hmcts.ccd.endpoint.exceptions.ValidationException","timestamp":"2018-12-03T12:41:46.138","status":422,"error":"Unprocessable Entity","message":"The case status did not qualify for the event",
 
         // console.log('Error getting event token', exceptionFormatter(exception, exceptionOptions))
