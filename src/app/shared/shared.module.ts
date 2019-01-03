@@ -41,6 +41,8 @@ import { InputsComponent } from './components/inputs/inputs.component';
 import { HmctsEmViewerUiModule } from './components/hmcts-em-viewer-ui/hmcts-em-viewer-ui.module';
 import { DateComponent } from './components/date/date.component';
 import { CustombuttonsComponent } from './components/custombuttons/custombuttons.component';
+import { TextEditorComponent } from './components/text-editor/text-editor.component';
+import { TextareaCustomComponent } from './components/textarea-custom/textarea-custom.component';
 
 @NgModule({
     imports: [
@@ -88,7 +90,9 @@ import { CustombuttonsComponent } from './components/custombuttons/custombuttons
         JuiFormElementsComponent,
         InputsComponent,
         DateComponent,
-        CustombuttonsComponent
+        CustombuttonsComponent,
+        TextEditorComponent,
+        TextareaCustomComponent,
     ],
     exports: [
         JuiFormElementsComponent,
@@ -124,7 +128,8 @@ import { CustombuttonsComponent } from './components/custombuttons/custombuttons
         CaseFileViewerComponent,
         DocumentListComponent,
         DocumentUploadComponent,
-        DateComponent
+        DateComponent,
+        TextEditorComponent,
     ]
 })
 
