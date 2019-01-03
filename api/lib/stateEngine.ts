@@ -73,7 +73,7 @@ export async function process(req, res, mapping, payload, templates, store) {
     if (variables) {
         // get current store
         let stored = await store.get(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`)
-        console.log('stored', stored)
+        
         if (!(stored + '').length) {
             stored = {}
         }
@@ -132,8 +132,7 @@ export async function process(req, res, mapping, payload, templates, store) {
             meta,
             newRoute,
         }
-        console.log('reached')
-
+        
         req.session.save(() => res.send(JSON.stringify(response)))
     }
 }
