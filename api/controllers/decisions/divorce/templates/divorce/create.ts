@@ -1,13 +1,13 @@
 module.exports = {
     idPrefix: 'create',
     name: 'create',
-    header: 'Make a decision',
+    header: 'Do you want to approve the draft consent order?',
     formGroupValidators: [],
     validationHeaderErrorMessages: [
         {
             validationLevel: 'formControl',
-            controlId: 'makeDecision',
-            text: 'Select yes if you want to make a decision',
+            controlId: 'approveDraftConsent',
+            text: 'Select yes if you want to approve the draft consent order',
             href: '#'
         }
     ],
@@ -15,20 +15,13 @@ module.exports = {
         {
             fieldset: [
                 {
-                    legend: {
-                        text: 'Are you satisfied that petitioner is entitled to a decree of divorce on the ground that the marriage has broken down irretrievably?',
-                        isPageHeading: true,
-                        classes: 'govuk-fieldset__legend--m'
-                    }
-                },
-                {
                     radios: {
-                        control: 'makeDecision',
+                        control: 'approveDraftConsent',
                         classes: 'govuk-radios--inline',
                         validators: ['required'],
                         validationError: {
-                            value: 'Please select one of the option',
-                            controlId: 'makeDecision'
+                            value: 'Select yes if you want to approve the draft consent order',
+                            controlId: 'preliminaryView'
                         },
                         radioGroup: [
                             {
