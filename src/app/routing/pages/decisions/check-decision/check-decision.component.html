@@ -18,11 +18,12 @@
 
                         <!-- Financial Remedy -->
                         <ng-container *ngIf="(isSectionExist(group.page) && this.typeId === 'FinancialRemedyMVP2') || (this.typeId === 'Benefit' && pageitems.name === 'check-final-decision')">
-                            <h2 class="govuk-heading-m">{{ group.header }}</h2>
+                            <h2 class="govuk-heading-m" *ngIf="isSectionExist('reject-reasons')">{{ group.header }}</h2>
                             <dl class="app-check-your-answers app-check-your-answers--short govuk-!-margin-bottom-8">
                                 <div class="app-check-your-answers__contents" *ngFor="let content of group.contents; let c = index">
                                     <ng-container>
-                                        <dt class="app-check-your-answers__question">{{content.title}}</dt>
+                                        <dt class="app-check-your-answers__question" *ngIf="isSectionExist('reject-reasons')">{{content.title}}</dt>
+                                        <dt class="app-check-your-answers__question" *ngIf="!isSectionExist('reject-reasons')">{{content.titleYes}}</dt>
                                         <dd class="app-check-your-answers__answer">
                                             <ng-container *ngFor="let detail of content.details; let i = index">
                                                 <p *ngIf="detail.type === 'radio'">{{detail[pageValues[detail.control]]}}</p>

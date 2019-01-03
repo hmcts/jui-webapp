@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {DecisionService} from '../../../../../domain/services/decision.service';
-import {FormsService} from '../../../../../shared/services/forms.service';
-import { ValidationService } from '../../../../../shared/services/validation.service';
+import {DecisionService} from '../../../../domain/services/decision.service';
+import {FormsService} from '../../../../shared/services/forms.service';
+import { ValidationService } from '../../../../shared/services/validation.service';
 
 @Component({
   selector: 'app-make-decision',
