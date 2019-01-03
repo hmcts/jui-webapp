@@ -29,7 +29,7 @@
                             [formGroup]="form"
                     ></app-text>
 
-                    <app-textarea
+                    <!-- <app-textarea
                             [id]="'question'"
                             [rows]="'5'"
                             [label]="'Question'"
@@ -37,7 +37,17 @@
                             [text]=""
                             [error]="error.question"
                             [formGroup]="form"
-                    ></app-textarea>
+                    ></app-textarea> -->
+                    
+                    <app-text-editor
+                        [id]="'question'"
+                        [label]="'Question'"
+                        [errorMessage]="'Enter a question'"
+                        [text]="'test'"
+                        [error]="error.question"
+                        [formGroup]="form"
+                        [disable]="true"
+                    ></app-text-editor>
                 </fieldset>
                 <button [disabled]="!asyncResolved" data-selector="save-button" class="govuk-button" type="submit">{{asynctext}}</button>
                 
