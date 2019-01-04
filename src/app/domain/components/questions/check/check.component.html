@@ -8,7 +8,7 @@
                     <dl class="app-check-your-answers  app-check-your-answers--short  govuk-!-margin-bottom-6">
                         <div data-selector="question-check" class="app-check-your-answers__contents" *ngFor="let question of questions$ | async">
                             <dt class="app-check-your-answers__question">{{question.question_header_text}}</dt>
-                            <dd class="app-check-your-answers__answer">{{question.question_body_text}}</dd>
+                            <dd class="app-check-your-answers__answer" [innerHTML]="question.question_body_text"></dd>
                             <dd class="app-check-your-answers__change">
                                 <a routerLink="../../{{question.question_id}}/edit">Change</a>
                             </dd>

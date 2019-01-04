@@ -8,6 +8,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TextareaComponent } from './components/textarea/textarea.component';
 import { RadioButtonsComponent } from './components/radio-buttons/radio-buttons.component';
 import { TextComponent } from './components/text/text.component';
+import { TextEditorComponent } from './components/text-editor/text-editor.component';
+import { TextareaCustomComponent } from './components/text-editor/textarea-custom/textarea-custom.component';
 
 @NgModule({
     imports: [
@@ -19,13 +21,16 @@ import { TextComponent } from './components/text/text.component';
         FormComponent,
         TextareaComponent,
         RadioButtonsComponent,
-        TextComponent
+        TextComponent,
+        TextEditorComponent,
+        TextareaCustomComponent
     ],
     exports: [
         FormComponent,
         TextareaComponent,
         RadioButtonsComponent,
-        TextComponent
+        TextComponent,
+        TextEditorComponent
     ]
 })
 export class JUIFormsModule {
