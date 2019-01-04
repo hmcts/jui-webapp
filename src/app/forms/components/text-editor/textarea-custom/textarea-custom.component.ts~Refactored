@@ -8,12 +8,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => TextareaCustomComponent),
     multi: true,
-  }],
-  styles: [`
-    div[disabled] {
-      @extend textarea[disabled];
-    }
-  `]
+  }]
 })
 
 export class TextareaCustomComponent implements ControlValueAccessor {
@@ -22,7 +17,6 @@ export class TextareaCustomComponent implements ControlValueAccessor {
   @Input() id: string;
   @Input() error: boolean;
   @Input() disable: boolean;
-  @Input() text = '';
   
   onChange;
   onTouched;
@@ -45,10 +39,10 @@ export class TextareaCustomComponent implements ControlValueAccessor {
 
   setDisabledState(isDisabled: boolean) : void {  }
 
-  change(event) {    
+  change(event) {
+    document.execCommand('defaultParagraphSeparator', false, 'p');
     this.onChange(event.target.innerHTML);
     this.onTouched(event.target.innerHTML);
-    document.execCommand('defaultParagraphSeparator', false, 'p');
   }
 
 }
