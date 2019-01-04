@@ -162,7 +162,7 @@
     "less-loader": "4.0.5",
     "minimist": "1.2.0",
     "mocha": "^5.2.0",
-    "mochawesome": "3.0.3",
+    "mochawesome": "3.1.1",
     "nodemon": "1.17.5",
     "nsp": "3.2.1",
     "nyc": "13.0.1",
