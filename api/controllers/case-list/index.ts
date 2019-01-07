@@ -100,7 +100,6 @@ function getCOR(casesData, options) {
 }
 
 function appendCOR(caseLists) {
-    console.log(caseLists)
     return Promise.all(
         caseLists.map(
             caseList =>
