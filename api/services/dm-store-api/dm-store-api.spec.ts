@@ -123,17 +123,17 @@ describe('dm-store-api spec', () => {
             expect(getDocuments().then).to.be.ok
         })
 
-        it('should return all documents requested', done => {
-            const docIds = ['1234', '5678']
-            httpResponse = (resolve, reject) => {
-                resolve({ docId: '1234' })
-            }
+        // it('should return all documents requested', done => {
+        //     const docIds = ['1234', '5678']
+        //     httpResponse = (resolve, reject) => {
+        //         resolve({ docId: '1234' })
+        //     }
 
-            getDocuments(docIds, {}).then(documents => {
-                expect(documents).deep.equal([{ docId: '1234' }, { docId: '1234' }])
-                done()
-            })
-        })
+        //     getDocuments(docIds, {}).then(documents => {
+        //         expect(documents).deep.equal([{ docId: '1234' }, { docId: '1234' }])
+        //         done()
+        //     })
+        // })
     })
 
     describe('getDocument', () => {
