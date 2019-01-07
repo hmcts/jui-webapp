@@ -12,7 +12,7 @@ export function asyncReturnOrError(
             return data
         })
         .catch(err => {
-            const msg = `${message}: ${err.message}`
+            const msg = `${message}`
             logger.error(msg)
 
             if (setResponse) {
