@@ -12,7 +12,7 @@ Feature: Dashboard
         Then I should see table each column header text as Case number, Parties, Type, Decision needed on, Case received, Date of last event
 
 
-    @RIUI_370 @RIUI_418 @all
+    @RIUI_370 @RIUI_418
     Scenario Outline: Verify available case types on Jui Dashboard
         When I am logged into JUI web app with FR judge details
         Then I will be redirected to the JUI dashboard page
