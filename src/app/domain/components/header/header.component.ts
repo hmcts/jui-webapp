@@ -12,7 +12,7 @@ export class HeaderComponent implements  OnInit {
     navigations;
     serviceName;
     constructor(public authService: AuthService) {
-        this.logoutLink = `/logout?redirect=${encodeURIComponent(this.authService.generateLoginUrl())}`;
+        this.logoutLink = `/api/logout`;
     }
 
     ngOnInit(): void {
