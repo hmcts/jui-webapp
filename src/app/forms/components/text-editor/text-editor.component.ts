@@ -1,10 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-text-editor',
   templateUrl: './text-editor.component.html'
 })
-export class TextEditorComponent implements OnInit {
+export class TextEditorComponent {
 
   @Input() id: string;
   @Input() error: boolean;
@@ -14,9 +14,7 @@ export class TextEditorComponent implements OnInit {
   public selectedStyleButton: string;
   private keys: any;
 
-  constructor() { }
-
-  ngOnInit() {
+  constructor() {
     this.keys = {
       left: 37,
       right: 39,
@@ -38,7 +36,7 @@ export class TextEditorComponent implements OnInit {
     let focusableButton = e.srcElement;
     const siblingButton = direction === 'next' ? focusableButton.nextSibling : focusableButton.previousSibling;
     if(siblingButton) {
-      siblingButton.focus();
+      return siblingButton.focus();
     }
   }
 
@@ -55,7 +53,6 @@ export class TextEditorComponent implements OnInit {
   }
 
   onKeyDown(e) {
-    let focusableButton = e.srcElement;
     switch(e.keyCode) {
       case this.keys.right:
       case this.keys.down:
