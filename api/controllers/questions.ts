@@ -1,10 +1,9 @@
 
 import * as express from 'express'
-import * as cohCor from '../../services/coh-cor-api/coh-cor-api'
+import * as moment from 'moment'
+import * as cohCor from '../services/coh-cor-api/coh-cor-api'
 
-const moment = require('moment')
-
-const headerUtilities = require('../../lib/utilities/headerUtilities')
+const headerUtilities = require('../lib/utilities/headerUtilities')
 
 // Create a new hearing
 function createHearing(caseId, userId, options, jurisdiction = 'SSCS') {

@@ -11,7 +11,7 @@ const expect = chai.expect
 const assert = chai.assert
 const proxyquire = pq.noPreserveCache()
 
-import {config} from '../../../config'
+import {config} from '../../config'
 
 const url = config.services.idam_api
 
@@ -31,7 +31,7 @@ describe('idam-api spec', () => {
 
         app = express()
 
-        route = proxyquire('./idam-api.ts', {
+        route = proxyquire('./idam.ts', {
             '../../lib/http': httpRequest
         })
 

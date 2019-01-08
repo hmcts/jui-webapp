@@ -10,7 +10,7 @@ chai.use(sinonChai)
 const expect = chai.expect
 const proxyquire = pq.noPreserveCache()
 
-import {config} from '../../../config'
+import {config} from '../../config'
 
 const url = config.services.ccd_data_api
 
@@ -30,7 +30,7 @@ describe('ccd-store spec', () => {
 
         app = express()
 
-        route = proxyquire('./ccd-store.ts', {
+        route = proxyquire('./ccdStore.ts', {
             '../../lib/http': httpRequest,
         })
 

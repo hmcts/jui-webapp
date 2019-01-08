@@ -1,7 +1,7 @@
 import * as express from 'express'
 import * as config from '../config'
 import { auth } from './controllers/auth'
-import ccdStoreApiRoutes from './services/ccd-store-api/ccd-store'
+import ccdStoreApiRoutes from './services/ccdStore'
 import cohCorApiRoutes from './services/coh-cor-api/coh-cor-api'
 //import idamApiRoutes from './services/idam-api/idam-api'
 

@@ -1,10 +1,10 @@
 import * as express from 'express'
 import * as log4js from 'log4js'
 import { map } from 'p-iteration'
-import { config } from '../../../config'
-import { http } from '../../lib/http'
-import { CCDEventResponse } from '../../lib/models'
-import { asyncReturnOrError } from '../../lib/util'
+import { config } from '../../config'
+import { http } from '../lib/http'
+import { CCDEventResponse } from '../lib/models'
+import { asyncReturnOrError } from '../lib/util'
 
 const logger = log4js.getLogger('ccd-store')
 logger.level = config.logging || 'off'
@@ -98,45 +98,36 @@ export async function getMutiJudCCDCases(userId: string, jurisdictions: any[]): 
 export async function createCase(
     userId: string, jurisdiction: string, caseType: string, eventId: string,
     description: string, summary: string, data: any): Promise<any> {
-    return getCCDEventTokenWithoutCase(userId, jurisdiction, caseType, eventId)
-        .then(eventToken => {
-            return {
-                data,
-                event: {
-                    description,
-                    id: eventId,
-                    summary,
-                },
-                event_token: eventToken.token,
-                ignore_warning: true,
-            }
-        })
-        .then(obj => {
-            return obj
-        }) // use to debug case creation or update
-        .then(body => postCCDCase(userId, jurisdiction, caseType, body))
+    const eventToken = await  getCCDEventTokenWithoutCase(userId, jurisdiction, caseType, eventId)
+
+    return await postCCDCase(userId, jurisdiction, caseType, {
+        data,
+        event: {
+            description,
+            id: eventId,
+            summary,
+        },
+        event_token: eventToken.token,
+        ignore_warning: true,
+    })
 }
 
 export async function updateCase(
     userId: string, jurisdiction: string, caseType: string,
     caseId: string, eventId: string, description: string, summary: string, data: any): Promise<any> {
-    return getCCDEventToken(userId, jurisdiction, caseType, caseId, eventId)
-        .then(eventToken => {
-            return {
-                data,
-                event: {
-                    description,
-                    id: eventId,
-                    summary,
-                },
-                event_token: eventToken.token,
-                ignore_warning: true,
-            }
+        const eventToken = await getCCDEventToken(userId, jurisdiction, caseType, caseId, eventId)
+
+        return await postCCDEvent(userId, jurisdiction, caseType, caseId,  {
+            data,
+            event: {
+                description,
+                id: eventId,
+                summary,
+            },
+            event_token: eventToken.token,
+            ignore_warning: true,
         })
-        .then(obj => {
-            return obj
-        }) // use to debug case creation or update
-        .then(body => postCCDEvent(userId, jurisdiction, caseType, caseId, body))
+
 }
 
 export async function getHealth(): Promise<any> {

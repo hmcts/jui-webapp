@@ -10,7 +10,7 @@ const { getHearingByCase } = require('../../services/coh-cor-api/coh-cor-api')
 
 import { getEvents } from '../events/index'
 import * as headerUtilities from '../../lib/utilities/headerUtilities'
-import { getCCDCase } from '../../services/ccd-store-api/ccd-store'
+import { getCCDCase } from '../../services/ccdStore'
 
 function hasCOR(jurisdiction, caseType) {
     return jurisdiction === 'SSCS'
@@ -90,6 +90,7 @@ function applySchema(caseData) {
         ...schema,
     }
 
+    console.log(caseData)
     return { caseData, schema }
 }
 

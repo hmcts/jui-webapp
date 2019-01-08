@@ -1,8 +1,8 @@
 import * as express from 'express'
 import * as log4js from 'log4js'
-import { config } from '../../../config'
-import { asyncReturnOrError, exists } from '../../lib/util'
-import { getDetails, postOauthToken} from '../../services/idam-api/idam-api'
+import { config } from '../../config'
+import { asyncReturnOrError, exists } from '../lib/util'
+import { getDetails, postOauthToken} from '../services/idam'
 
 const cookieToken = config.cookies.token
 const cookieUserId = config.cookies.userId
@@ -28,10 +28,10 @@ export async function authenticateUser(req: any, res) {
 
     if (exists(data, 'access_token')) {
 
-        const options = { headers: { Authorization: `Bearer ${data.access_token}` } }
+        const headers = { headers: { Authorization: `Bearer ${data.access_token}` } }
 
         const details = await asyncReturnOrError(
-            getDetails(options),
+            getDetails(headers),
             'Cannot get user details',
             res,
             logger,

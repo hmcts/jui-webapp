@@ -6,9 +6,9 @@ import * as sinonChai from 'sinon-chai'
 import { mockReq, mockRes } from 'sinon-express-mock'
 chai.use(sinonChai)
 
-import { config } from '../../../config'
-import * as idam from '../../services/idam-api/idam-api'
-import { authenticateUser, logout } from './index'
+import { config } from '../../config'
+import * as idam from '../services/idam'
+import { authenticateUser, logout } from './auth'
 
 describe('Auth', () => {
 
