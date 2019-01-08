@@ -121,7 +121,7 @@ export async function createHearing(caseId, userId, jurisdictionId = 'SSCS') {
 
 export async function getHearingIdOrCreateHearing(caseId, userId) {
     const hearing: any = await getHearingByCase(caseId)
-    return  hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : createHearing(caseId, userId)
+    return  hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : await createHearing(caseId, userId)
 }
 
 export async function postHearing(body) {
