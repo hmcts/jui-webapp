@@ -22,4 +22,42 @@ describe('TextareaCustomComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should call onChange with parameter', () => {
+    const event = {
+      target: {
+        innerHTML: 'dummy'
+      }
+    };
+
+    const onChange = spyOn(component, 'onChange');
+
+    component.change(event);
+    expect(onChange).toHaveBeenCalledWith('dummy');
+  });
+
+  it('should call onTouched with parameter', () => {
+    const event = {
+      target: {
+        innerHTML: 'dummy'
+      }
+    };
+
+    const onTouched = spyOn(component, 'onTouched');
+
+    component.change(event);
+    expect(onTouched).toHaveBeenCalledWith('dummy');
+  });
+
+  it('should return text wrapped in a p tag when onKeyUp called', () => {
+    const event = {
+      keyCode: 13
+    };
+
+    component.textarea.nativeElement.innerHTML = 'a';
+    component.onKeyUp(event);
+
+    expect(component.textarea.nativeElement.innerHTML).toBe('<p>a</p>');
+  });
+
 });

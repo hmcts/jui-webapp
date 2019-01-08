@@ -18,8 +18,8 @@ export class TextareaCustomComponent implements ControlValueAccessor {
   @Input() error: boolean;
   @Input() disable: boolean;
   
-  onChange;
-  onTouched;
+  onChange = new Function;
+  onTouched = new Function;
 
   constructor(private renderer: Renderer2) {
   }
@@ -37,12 +37,23 @@ export class TextareaCustomComponent implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
-  setDisabledState(isDisabled: boolean) : void {  }
-
   change(event) {
     document.execCommand('defaultParagraphSeparator', false, 'p');
     this.onChange(event.target.innerHTML);
     this.onTouched(event.target.innerHTML);
+  }
+
+  onKeyUp(event) {
+    const div = this.textarea.nativeElement;
+    const firstChild = div.firstChild;
+    const firstChildText = firstChild ? div.firstChild.textContent : null;
+    
+    if (event.keyCode === 13 && firstChildText.indexOf('<p>') === -1) {
+      div.removeChild(div.firstChild);
+      const p: HTMLParagraphElement = document.createElement('p');
+      p.innerHTML = firstChildText;
+      div.insertBefore(p, div.firstChild);
+    }
   }
 
 }
