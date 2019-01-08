@@ -53,7 +53,7 @@ module.exports = {
                 type: 'submit',
                 classes: '',
                 onEvent: 'continue'
-            },
-        },
-    ],
+            }
+        }
+    ]
 }
