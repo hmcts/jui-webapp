@@ -13,7 +13,7 @@ module.exports = {
         },
         {
             validatorFunc: 'isTextAreaValidWhenCheckboxChecked',
-            validationErrorId: 'additionalInformationText',
+            validationErrorId: 'addInfo',
             controls: {
                 checkboxControl: 'additionalInformation',
                 textareaControl: 'additionalInformationText'
@@ -29,7 +29,7 @@ module.exports = {
         },
         {
             validationLevel: 'formGroup',
-            formGroupValidationErrorId: 'additionalInformationText',
+            formGroupValidationErrorId: 'addInfo',
             text: 'Enter additional information',
             href: '#'
         }
@@ -91,7 +91,7 @@ module.exports = {
                     {
                         validationError: {
                             value: 'Enter additional information',
-                            identifier: 'additionalInformationText'
+                            identifier: 'addInfoText'
                         }
                     },
                     {
