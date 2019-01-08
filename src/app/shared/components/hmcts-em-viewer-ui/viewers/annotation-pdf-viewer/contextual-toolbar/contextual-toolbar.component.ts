@@ -4,6 +4,7 @@ import { Annotation, Comment } from '../../../data/annotation-set.model';
 import { AnnotationStoreService } from '../../../data/annotation-store.service';
 import { PdfService } from '../../../data/pdf.service';
 import { EmLoggerService } from '../../../logging/em-logger.service';
+import { PdfRenderService } from '../../../data/pdf-render.service';
 
 @Component({
   selector: 'app-contextual-toolbar',
@@ -20,6 +21,7 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
 
   constructor(private annotationStoreService: AnnotationStoreService,
               private ref: ChangeDetectorRef,
+              private pdfRenderService: PdfRenderService,
               private pdfService: PdfService,
               private log: EmLoggerService) {
     this.log.setClass('ContextualToolbarComponent');
@@ -61,7 +63,7 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
   }
 
   getRelativePosition(annotationId: string): {left: number; top: number} {
-    const svgSelector = this.pdfService.getViewerElementRef().nativeElement
+    const svgSelector = this.pdfRenderService.getViewerElementRef().nativeElement
                           .querySelector(`g[data-pdf-annotate-id="${annotationId}"]`);
     const highlightRect = <DOMRect>svgSelector.getBoundingClientRect();
 

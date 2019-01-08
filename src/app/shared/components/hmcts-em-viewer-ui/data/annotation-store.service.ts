@@ -9,6 +9,7 @@ import {PdfAdapter} from './pdf-adapter';
 import {ApiHttpService} from './api-http.service';
 import { PdfAnnotateWrapper } from './js-wrapper/pdf-annotate-wrapper';
 import { EmLoggerService } from '../logging/em-logger.service';
+import { PdfRenderService } from './pdf-render.service';
 
 @Injectable()
 export class AnnotationStoreService implements OnDestroy {
@@ -23,7 +24,8 @@ export class AnnotationStoreService implements OnDestroy {
                 private pdfAdapter: PdfAdapter,
                 private apiHttpService: ApiHttpService,
                 private pdfService: PdfService,
-                private pdfAnnotateWrapper: PdfAnnotateWrapper) {
+                private pdfAnnotateWrapper: PdfAnnotateWrapper,
+                private pdfRenderService: PdfRenderService) {
 
         log.setClass('AnnotationStoreService');
         this.commentBtnSubject = new Subject();
@@ -229,39 +231,39 @@ export class AnnotationStoreService implements OnDestroy {
 
     getAnnotation(annotationId: string, callback) {
         this.pdfAnnotateWrapper.getStoreAdapter()
-            .getAnnotation(this.pdfService.getRenderOptions().documentId, annotationId)
+            .getAnnotation(this.pdfRenderService.getRenderOptions().documentId, annotationId)
             .then(callback);
     }
 
     getComments(annotationId: string, callback) {
         this.pdfAnnotateWrapper.getStoreAdapter()
-            .getComments(this.pdfService.getRenderOptions().documentId, annotationId)
+            .getComments(this.pdfRenderService.getRenderOptions().documentId, annotationId)
             .then(callback);
     }
 
     addComment(comment: Comment) {
         this.pdfAnnotateWrapper.getStoreAdapter()
-            .addComment(this.pdfService.getRenderOptions().documentId, comment.annotationId, comment.content)
+            .addComment(this.pdfRenderService.getRenderOptions().documentId, comment.annotationId, comment.content)
             .then();
     }
 
     getAnnotations(pageNumber: number, callback) {
         this.pdfAnnotateWrapper.getStoreAdapter()
-            .getAnnotations(this.pdfService.getRenderOptions().documentId, pageNumber)
+            .getAnnotations(this.pdfRenderService.getRenderOptions().documentId, pageNumber)
             .then(callback);
     }
 
     deleteComment(commentId: string) {
         this.pdfAnnotateWrapper.getStoreAdapter()
-            .deleteComment(this.pdfService.getRenderOptions().documentId, commentId)
+            .deleteComment(this.pdfRenderService.getRenderOptions().documentId, commentId)
             .then();
     }
 
     deleteAnnotationById(annotationId: string) {
         this.pdfAnnotateWrapper.getStoreAdapter()
-        .deleteAnnotation(this.pdfService.getRenderOptions().documentId, annotationId)
+        .deleteAnnotation(this.pdfRenderService.getRenderOptions().documentId, annotationId)
         .then(() => {
-            this.pdfService.render();
+            this.pdfRenderService.render();
         });
     }
 
