@@ -4,12 +4,6 @@ module.exports = {
     header: 'What type of costs order is needed?',
     formGroupValidators: [],
     validationHeaderErrorMessages: [
-        {
-            validationLevel: 'formControl',
-            controlId: 'costOrder',
-            text: 'Please choose an order',
-            href: '#'
-        }
     ],
     groups: [
         {
@@ -18,11 +12,6 @@ module.exports = {
                     radios: {
                         control: 'costOrder',
                         classes: '',
-                        validators: ['required'],
-                        validationError: {
-                            value: 'Please select one of the option',
-                            controlId: 'costOrder'
-                        },
                         radioGroup: [
                             {
                                 value: 'orderCosts',
@@ -108,13 +97,8 @@ module.exports = {
                                                 text: 'Details',
                                                 classes:''
                                             },
-                                            validationError: {
-                                                value: 'Please enter details',
-                                                controlId: 'details'
-                                            },
                                             control: 'details',
-                                            value: '',
-                                            validators: ['required']
+                                            value: ''
                                         }
                                     },
                                 ]
@@ -139,7 +123,7 @@ module.exports = {
                 type: 'submit',
                 classes: '',
                 onEvent: 'continue'
-            },
-        },
-    ],
+            }
+        }
+    ]
 }
