@@ -81,6 +81,7 @@ export class CheckDecisionComponent implements OnInit {
             this.decision = decision;
             this.pageitems = this.decision.meta;
             this.pageValues = this.decision.formValues;
+            console.log(this.pageValues);
             this.createForm(this.pageitems, this.pageValues);
         });
     }

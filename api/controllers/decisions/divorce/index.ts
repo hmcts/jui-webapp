@@ -10,6 +10,7 @@ import * as headerUtilities from '../../../lib/utilities/headerUtilities'
 
 import * as Mapping from './mapping'
 import * as  Templates from './templates'
+
 export const mapping = Mapping.mapping
 export const templates = Templates.templates
 
@@ -240,7 +241,13 @@ async function makeDecision(decision, req, state, store) {
     }
 }
 
-export async function payload(req, res, store) {
+export const payload: any = []
+
+payload.divorce = async (req, res, store) => {
+    //no payload
+}
+
+payload.financialremedymvp2 = async (req, res, store) => {
     const jurisdiction = req.params.jurId
     const caseId = req.params.caseId
     const caseTypeId = req.params.caseTypeId

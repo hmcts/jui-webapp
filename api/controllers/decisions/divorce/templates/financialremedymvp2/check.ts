@@ -11,6 +11,7 @@ module.exports = {
                 contents: [
                     {
                         title: 'Decision',
+                        titleYes: 'Decision',
                         details: [
                             {
                                 control: 'approveDraftConsent',
@@ -33,6 +34,7 @@ module.exports = {
                 contents: [
                     {
                         title: 'Notes',
+                        titleYes: 'Notes for court administrator',
                         details: [
                             {
                                 control: 'notesForAdmin',

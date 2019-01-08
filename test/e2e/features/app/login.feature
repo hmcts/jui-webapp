@@ -19,7 +19,7 @@ Feature: Login
         Then I should be redirected to JUI dashboard page
 
 
-    @RIUI_289 @logout @all @smoke
+    @RIUI_289 @logout
     Scenario: log out from JUI
         Given I am logged into JUI web app with SSCS judge details
         Then I should be redirected to JUI dashboard page

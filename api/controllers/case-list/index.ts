@@ -1,4 +1,5 @@
 import * as express from 'express'
+import { getHearingByCase } from '../../services/coh-cor-api/coh-cor-api'
 
 const getListTemplate = require('./templates/index')
 const { processCaseState } = require('../../lib/processors/case-state-model')
@@ -6,7 +7,7 @@ const valueProcessor = require('../../lib/processors/value-processor')
 const { caseStateFilter } = require('../../lib/processors/case-state-util')
 const { getAllQuestionsByCase } = require('../questions/index')
 const { getMutiJudCCDCases } = require('../../services/ccd-store-api/ccd-store')
-const { getHearingByCase } = require('../../services/coh-cor-api/coh-cor-api')
+
 const { getDetails } = require('../../services/idam-api/idam-api')
 const { getNewCase, unassignAllCaseFromJudge } = require('./assignCase')
 const headerUtilities = require('../../lib/utilities/headerUtilities')
@@ -83,7 +84,7 @@ function getCOR(casesData, options) {
     const caseIds = casesData.map(caseRow => `case_id=${caseRow.id}`).join('&')
     return new Promise(resolve => {
         if (hasCOR(casesData[0])) {
-            getHearingByCase(caseIds, options).then(hearings => {
+            getHearingByCase(caseIds).then(hearings => {
                 if (hearings.online_hearings) {
                     const caseStateMap = new Map(hearings.online_hearings.map(hearing => [Number(hearing.case_id), hearing]))
                     casesData.forEach(caseRow => {
@@ -98,13 +99,13 @@ function getCOR(casesData, options) {
     })
 }
 
-function appendCOR(caseLists, options) {
+function appendCOR(caseLists) {
     return Promise.all(
         caseLists.map(
             caseList =>
                 new Promise((resolve, reject) => {
                     if (caseList && caseList.length) {
-                        getCOR(caseList, options).then(casesDataWithCor => {
+                        getCOR(caseList, {}).then(casesDataWithCor => {
                             resolve(casesDataWithCor)
                         })
                     } else {
@@ -163,7 +164,7 @@ function getHearingWithQuestionData(caseData, userId, options) {
     return getAllQuestionsByCase(caseData.id, userId, options).then(questions => {
         return {
             id: caseData.id,
-            questions
+            questions,
         }
     })
 }
@@ -257,17 +258,23 @@ function aggregatedData(results) {
     return { columns, results }
 }
 
-function getMutiJudCaseAssignedCases(userId, details, options) {
+async function getMutiJudCaseAssignedCases(userId, details) {
     const userJurisdictions = getJurisdictions(details)
-    return getMutiJudCCDCases(userId, userJurisdictions, options)
+    return await getMutiJudCCDCases(userId, userJurisdictions)
 }
 
+function getOptions(req) {
+    return headerUtilities.getAuthHeadersWithUserRoles(req)
+}
+
+
+
 // Get List of case and transform to correct format
-function getMutiJudCaseTransformed(userId, details, options) {
-    return (
-        getMutiJudCaseAssignedCases(userId, details, options)
-            .then(caseLists => appendCOR(caseLists, options))
-            .then(caseLists => appendQuestionsRound(caseLists, userId, options))
+async function getMutiJudCaseTransformed(userId, details, options) {
+     return (
+        await getMutiJudCaseAssignedCases(userId, details)
+            .then(caseLists => appendCOR(caseLists))
+            .then(caseLists => appendQuestionsRound(caseLists, userId, options ))
             // .then(caseLists => appendLinkedCases(caseLists, userId, options))
             .then(processCaseListsState)
             .then(applyStateFilter)
@@ -279,27 +286,25 @@ function getMutiJudCaseTransformed(userId, details, options) {
 }
 
 // Get List of case and return raw output
-function getMutiJudCaseRaw(userId, details, options) {
-    return getMutiJudCaseAssignedCases(userId, details, options)
+function getMutiJudCaseRaw(userId, details) {
+    return getMutiJudCaseAssignedCases(userId, details)
         .then(combineLists)
         .then(sortCases)
 }
 
 // Get List of case append coh and return raw output
-function getMutiJudCaseRawCoh(userId, details, options) {
+function getMutiJudCaseRawCoh(userId, details) {
     return (
-        getMutiJudCaseAssignedCases(userId, details, options)
-            .then(caseLists => appendCOR(caseLists, options))
-            .then(caseLists => appendQuestionsRound(caseLists, userId, options))
+        getMutiJudCaseAssignedCases(userId, details)
+            .then(caseLists => appendCOR(caseLists))
+            .then(caseLists => appendQuestionsRound(caseLists, userId, {}))
             // .then(caseLists => appendLinkedCases(caseLists, userId, options))
             .then(combineLists)
             .then(sortCases)
     )
 }
 
-function getOptions(req) {
-    return headerUtilities.getAuthHeadersWithUserRoles(req)
-}
+
 
 module.exports = app => {
     const router = express.Router({ mergeParams: true })
@@ -307,9 +312,9 @@ module.exports = app => {
 
     router.get('/', (req: any, res, next) => {
         const userId = req.auth.userId
-        const options = getOptions(req)
-        getDetails(options).then(details => {
-            getMutiJudCaseTransformed(userId, details, options)
+
+        getDetails(getOptions(req)).then(details => {
+            getMutiJudCaseTransformed(userId, details, getOptions(req))
                 .then(results => {
                     res.setHeader('Access-Control-Allow-Origin', '*')
                     res.setHeader('content-type', 'application/json')
@@ -324,14 +329,13 @@ module.exports = app => {
 
     router.get('/unassign/all', (req: any, res, next) => {
         const userId = req.auth.userId
-        const options = getOptions(req)
 
-        getDetails(options).then(details => {
+        getDetails(getOptions(req)).then(details => {
             const userJurisdictions = getJurisdictions(details)
 
-            getMutiJudCCDCases(userId, userJurisdictions, options)
+            getMutiJudCCDCases(userId, userJurisdictions)
                 .then(combineLists)
-                .then(caseList => unassignAllCaseFromJudge(userId, caseList, options))
+                .then(caseList => unassignAllCaseFromJudge(userId, caseList))
                 .then(results => {
                     res.setHeader('Access-Control-Allow-Origin', '*')
                     res.setHeader('content-type', 'application/json')
@@ -347,7 +351,7 @@ module.exports = app => {
     router.post('/assign/new', (req: any, res, next) => {
         const userId = req.auth.userId
 
-        getNewCase(userId, getOptions(req))
+        getNewCase(userId)
             .then(results => {
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.setHeader('content-type', 'application/json')
@@ -361,10 +365,9 @@ module.exports = app => {
 
     router.get('/raw', (req: any, res, next) => {
         const userId = req.auth.userId
-        const options = getOptions(req)
 
-        getDetails(options).then(details => {
-            getMutiJudCaseRaw(userId, details, options)
+        getDetails().then(details => {
+            getMutiJudCaseRaw(userId, details)
                 .then(results => {
                     res.setHeader('Access-Control-Allow-Origin', '*')
                     res.setHeader('content-type', 'application/json')
@@ -379,10 +382,9 @@ module.exports = app => {
 
     router.get('/raw/coh', (req: any, res, next) => {
         const userId = req.auth.userId
-        const options = getOptions(req)
 
-        getDetails(options).then(details => {
-            getMutiJudCaseRawCoh(userId, details, options)
+        getDetails().then(details => {
+            getMutiJudCaseRawCoh(userId, details)
                 .then(results => {
                     res.setHeader('Access-Control-Allow-Origin', '*')
                     res.setHeader('content-type', 'application/json')

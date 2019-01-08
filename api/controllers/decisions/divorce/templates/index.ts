@@ -1,6 +1,7 @@
 export const templates: any = {}
 
 templates.financialremedymvp2 = {}
+templates.divorce  = {}
 
 // Define all the pages for a case type
 templates.financialremedymvp2.create = require('./financialremedymvp2/create')
@@ -11,3 +12,6 @@ templates.financialremedymvp2['hearing-details'] = require('./financialremedymvp
 templates.financialremedymvp2['notes-for-court-administrator'] = require('./financialremedymvp2/notesForCourtAdministrator')
 templates.financialremedymvp2['reject-reasons'] = require('./financialremedymvp2/rejectReasons')
 
+
+
+templates.divorce.create = require('./divorce/create')

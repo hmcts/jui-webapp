@@ -27,6 +27,7 @@ export async function authenticateUser(req: any, res) {
         )
 
     if (exists(data, 'access_token')) {
+
         const options = { headers: { Authorization: `Bearer ${data.access_token}` } }
 
         const details = await asyncReturnOrError(

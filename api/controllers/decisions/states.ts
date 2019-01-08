@@ -14,12 +14,13 @@ const sscsType = 'SSCS'
 async function handleStateRoute(req, res) {
 
     const jurisdiction = req.params.jurId
+    const caseTypeId = req.params.caseTypeId.toLowerCase()
 
     const store = new Store(req)
 
     switch (jurisdiction) {
         case divorceType:
-            process(req, res, divorce.mapping, divorce.payload, divorce.templates, new Store(req))
+            process(req, res, divorce.mapping[caseTypeId], divorce.payload[caseTypeId], divorce.templates, new Store(req))
             break
         case sscsType:
             const hearingId = await sscs.init(req, res)

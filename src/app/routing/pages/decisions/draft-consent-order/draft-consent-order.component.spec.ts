@@ -1,23 +1,24 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {MakeDecisionComponent } from './make-decision.component';
-import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, Input, ViewChild} from '@angular/core';
-import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { DraftConsentOrderComponent } from './draft-consent-order.component';
+import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild} from '@angular/core';
 import {RouterTestingModule} from '@angular/router/testing';
-import {HttpClientModule} from '@angular/common/http';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {FormsService} from '../../../../shared/services/forms.service';
+import {MakeDecisionComponent} from '../make-decision/make-decision.component';
+import {DecisionService} from '../../../../domain/services/decision.service';
+import {ConfigService} from '../../../../config.service';
 import {Observable, of} from 'rxjs';
-import {ActivatedRoute, Router} from '@angular/router';
-import {FormsService} from '../../../../../shared/services/forms.service';
-import {DecisionService} from '../../../../../domain/services/decision.service';
-import {ConfigService} from '../../../../../config.service';
+import {ActivatedRoute} from '@angular/router';
+import {HttpClientModule} from '@angular/common/http';
 
-describe('MakeDecisionComponent', () => {
+describe('DraftConsentOrderComponent', () => {
 
     @Component({
         selector: `app-host-dummy-component`,
-        template: `<app-make-decision
+        template: `<app-draft-consent-order
             [pageitems]="pageitems"
-        ></app-make-decision>`
+        ></app-draft-consent-order>`
     })
     class TestDummyHostComponent {
         pageitems = {
@@ -26,16 +27,16 @@ describe('MakeDecisionComponent', () => {
                 fieldset : ''
             }
         };
-        @ViewChild(MakeDecisionComponent)
-        public makeDecisionComponent: MakeDecisionComponent;
+        @ViewChild(DraftConsentOrderComponent)
+        public draftConsentOrderComponent: DraftConsentOrderComponent;
     }
 
     let testHostComponent: TestDummyHostComponent;
     let testHostFixture: ComponentFixture<TestDummyHostComponent>;
     let el: DebugElement;
     let de: any;
-    let component: MakeDecisionComponent;
-    let fixture: ComponentFixture<MakeDecisionComponent>;
+    let component: DraftConsentOrderComponent;
+    let fixture: ComponentFixture<DraftConsentOrderComponent>;
 
     let element: DebugElement;
 
@@ -47,22 +48,22 @@ describe('MakeDecisionComponent', () => {
                 RouterTestingModule,
                 HttpClientModule
             ],
-            declarations: [ MakeDecisionComponent, TestDummyHostComponent ],
+            declarations: [ DraftConsentOrderComponent, TestDummyHostComponent ],
             schemas: [CUSTOM_ELEMENTS_SCHEMA],
             providers: [
                 {
-                  provide: FormsService,
-                  useValue: {
-                      create: () => {
-                        return '';
-                      },
-                      createFormControl: () => {
-                          return '';
-                      },
-                      defineformControls: () => {
-                          return '';
-                      }
-                  }
+                    provide: FormsService,
+                    useValue: {
+                        create: () => {
+                            return '';
+                        },
+                        createFormControl: () => {
+                            return '';
+                        },
+                        defineformControls: () => {
+                            return '';
+                        }
+                    }
                 },
                 {
                     provide: ConfigService,
@@ -73,7 +74,8 @@ describe('MakeDecisionComponent', () => {
                     }
                 },
                 {
-                    provide: ActivatedRoute, useValue: {
+                    provide: ActivatedRoute,
+                    useValue: {
                         parent: {
                             params: Observable.of({caseid: '1234'}),
                             snapshot: {
@@ -129,7 +131,7 @@ describe('MakeDecisionComponent', () => {
         testHostComponent = testHostFixture.componentInstance;
     });
     beforeEach(() => {
-        fixture = TestBed.createComponent(MakeDecisionComponent);
+        fixture = TestBed.createComponent(DraftConsentOrderComponent);
         component = fixture.componentInstance;
         element = fixture.debugElement;
     });
@@ -141,7 +143,7 @@ describe('MakeDecisionComponent', () => {
         expect(fixture).not.toBeNull();
     });
     it('should pageitems not load', () => {
-        expect(testHostComponent.makeDecisionComponent.pageitems).toBeUndefined();
+        expect(testHostComponent.draftConsentOrderComponent.pageitems).toBeUndefined();
         // testHostFixture.detectChanges();
         // expect(testHostComponent.makeDecisionComponent.pageitems).toEqual('waste');
     });

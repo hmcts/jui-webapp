@@ -50,6 +50,7 @@ export class ValidationHeaderComponent {
      * @param control - 'informationNeeded'
      */
     isFormControlValid(formGroup: FormGroup, control: string): boolean {
+
         return this.validationService.isFormControlValid(formGroup, control);
     }
 
@@ -61,6 +62,7 @@ export class ValidationHeaderComponent {
      * @return {boolean}
      */
     isFormGroupInvalid(formGroup: FormGroup, validationErrorId: string): boolean {
+
         return this.validationService.isFormGroupInvalid(formGroup, validationErrorId);
     }
 

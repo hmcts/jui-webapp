@@ -18,6 +18,7 @@ module.exports = (req, res, next) => {
         req.auth.userId = userId
 
         axios.defaults.headers.common.Authorization = `Bearer ${req.auth.token}`
+        axios.defaults.headers.common['user-roles'] = req.auth.data
         if (req.headers.ServiceAuthorization) {
             axios.defaults.headers.common.ServiceAuthorization = req.headers.ServiceAuthorization
         }
