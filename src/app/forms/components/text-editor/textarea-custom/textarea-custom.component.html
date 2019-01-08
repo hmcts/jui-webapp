@@ -10,4 +10,5 @@
   [attr.data-selector]="id + '-textarea'"
   [attr.contenteditable]="disable ? false : true"
   (input)="change($event)"
-><p></p></div>
+  (keyup)="onKeyUp($event)"
+></div>
