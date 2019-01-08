@@ -62,6 +62,9 @@ export class MakeDecisionComponent implements OnInit {
         });
     }
     onSubmit() {
+
+        console.log("Hi", this.formDraft);
+
         if (this.formDraft.value.createButton) {
             const event = this.formDraft.value.createButton.toLowerCase();
             delete this.formDraft.value.createButton;
@@ -77,7 +80,7 @@ export class MakeDecisionComponent implements OnInit {
                     this.pageitems.name,
                     this.typeId,
                     this.request).subscribe(decision => {
-                    this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
+                   // this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
                 });
             }
         }

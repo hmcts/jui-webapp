@@ -9,6 +9,13 @@ module.exports = {
             controls: [
                 'awardStartDateDay', 'awardStartDateMonth', 'awardStartDateYear'
             ]
+        },
+        {
+            validatorFunc: 'isAllFieldsRequired',
+            validationErrorId: 'endDate',
+            controls: [
+                'awardEndDateDay', 'awardEndDateMonth', 'awardEndDateYear'
+            ]
         }
     ],
     validationHeaderErrorMessages: [
