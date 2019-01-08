@@ -20,5 +20,5 @@ export interface FormGroupValidator {
      * checkboxes - Validation function specific param, the checkboxes required for the isAnyCheckboxChecked
      * validation func.
      */
-    checkboxes: Array<string>;
+    controls: Array<string>;
 }
