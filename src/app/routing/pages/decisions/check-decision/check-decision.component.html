@@ -18,11 +18,12 @@
 
                         <!-- Financial Remedy -->
                         <ng-container *ngIf="(isSectionExist(group.page) && this.typeId === 'FinancialRemedyMVP2') || (this.typeId === 'Benefit' && pageitems.name === 'check-final-decision')">
-                            <h2 class="govuk-heading-m">{{ group.header }}</h2>
+                            <h2 class="govuk-heading-m" *ngIf="isSectionExist('reject-reasons')">{{ group.header }}</h2>
                             <dl class="app-check-your-answers app-check-your-answers--short govuk-!-margin-bottom-8">
                                 <div class="app-check-your-answers__contents" *ngFor="let content of group.contents; let c = index">
                                     <ng-container>
-                                        <dt class="app-check-your-answers__question">{{content.title}}</dt>
+                                        <dt class="app-check-your-answers__question" *ngIf="isSectionExist('reject-reasons')">{{content.title}}</dt>
+                                        <dt class="app-check-your-answers__question" *ngIf="!isSectionExist('reject-reasons')">{{content.titleYes}}</dt>
                                         <dd class="app-check-your-answers__answer">
                                             <ng-container *ngFor="let detail of content.details; let i = index">
                                                 <p *ngIf="detail.type === 'radio'">{{detail[pageValues[detail.control]]}}</p>
@@ -69,11 +70,20 @@
 
                             <div *ngIf="group.information" class="panel panel--information">
                                 <p>The tribunal have considered all the information submitted by you and DWP.</p>
-                                <p *ngIf="pageValues.approveDraftConsent === 'endDate'">Their view is that you’re entitled to PIP at the rate below from
+                                <p *ngIf="pageValues.approveDraftConsent === 'endDate'
+                                            && pageValues['awardStartDateDay']
+                                            && pageValues['awardStartDateMonth']
+                                            && pageValues['awardStartDateYear']
+                                            && pageValues['awardEndDateDay']
+                                            && pageValues['awardEndDateMonth']
+                                            && pageValues['awardEndDateYear']">Their view is that you’re entitled to PIP at the rate below from
                                     {{ pageValues['awardStartDateDay']+'/'+pageValues['awardStartDateMonth']+'/'+pageValues['awardStartDateYear'] | date: 'dd MMMM yyyy' }}
                                     until
                                     {{ pageValues['awardEndDateDay']+'/'+pageValues['awardEndDateMonth']+'/'+pageValues['awardEndDateYear'] | date: 'dd MMMM yyyy' }}.</p>
-                                <p *ngIf="pageValues.approveDraftConsent === 'indefinite'">Their view is that you’re entitled to PIP at the rate below from
+                                <p *ngIf="pageValues.approveDraftConsent === 'indefinite'
+                                            && pageValues['awardStartDateDay']
+                                            && pageValues['awardStartDateMonth']
+                                            && pageValues['awardStartDateYear']">Their view is that you’re entitled to PIP at the rate below from
                                     {{ pageValues['awardStartDateDay']+'/'+pageValues['awardStartDateMonth']+'/'+pageValues['awardStartDateYear'] | date: 'dd MMMM yyyy' }}
                                     until indefinite award date.</p>
                                 <table class="govuk-table">

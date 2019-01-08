@@ -14,7 +14,9 @@
       <app-date *ngIf="data.date"
                 [id]="data.date.formName"
                 [data]="data.date"
-                [group]="group">
+                [group]="group"
+                [validate]="validate"
+                [validationError]="data.date.validationError">
       </app-date>
       <app-inputs *ngIf="data.input"
                   [item]="data.input"
@@ -29,6 +31,7 @@
                        [group]="group"
                        [control]="data.radios.control"
                        [idPrefix]="data.radios.control"
+                       [validate]="validate"
                        [showValidation]="validate"
                        [validationError]="data.radios.validationError">
       </app-radiobutton>

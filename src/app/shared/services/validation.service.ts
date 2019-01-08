@@ -177,6 +177,23 @@ export class ValidationService {
         return isAnyCheckboxCheckedValidationFn;
     }
 
+
+    isAllFieldsRequired(formGroup: FormGroup, fields: Array<string>, validationIdentifier: string): ValidatorFn | null {
+
+        const isAllFieldsRequiredValidationFn: ValidatorFn = (controls: FormGroup): ValidationErrors | null => {
+
+            for (const field of fields) {
+                if (!controls.get(field).value) {
+                    return {
+                        [validationIdentifier]: true
+                    };
+                }
+            }
+        };
+
+        return isAllFieldsRequiredValidationFn;
+    }
+
     /**
      * isTextAreaValidWhenCheckboxChecked
      *

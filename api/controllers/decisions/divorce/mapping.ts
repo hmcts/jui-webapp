@@ -12,7 +12,12 @@
 // [state] and [end] are special casess
 
 /*tslint:disable */
-export const mapping = [
+export const mapping = []
+
+mapping['divorce'] = []
+
+
+mapping['financialremedymvp2'] = [
     {
         event: 'change',
         result: '[state]'
