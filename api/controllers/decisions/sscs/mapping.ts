@@ -20,18 +20,18 @@
 export const mapping = [
     {
         register: [
-            { communicatingVerbally: 'communicating-verbally' },
+            { preparingFood: 'preparing-food' },
+            { takingNutrition: 'taking-nutrition' },
+            { managingTherapy: 'managing-therapy' },
+            { washingBathing: 'washing-bathing' },
+            { managingToilet: 'managing-toilet' },
             { dressingUndressing: 'dressing-undressing' },
+            { communicatingVerbally: 'communicating-verbally' },
+            { readingAndUnderstanding: 'reading-signs' },
             { engagingWithOtherPeople: 'engaging-face' },
             { makingBudgetingDecisions: 'budgeting-decisions' },
-            { managingTherapy: 'managing-therapy' },
-            { managingToilet: 'managing-toilet' },
+            { planningFollowingJourneys: 'planning-journeys' }, 
             { movingAround: 'moving-around' },
-            { planningFollowingJourneys: 'planning-journeys' },
-            { preparingFood: 'preparing-food' },
-            { readingAndUnderstanding: 'reading-signs' },
-            { takingNutrition: 'taking-nutrition' },
-            { washingBathing: 'washing-bathing' },
             'check'
         ]
     },
