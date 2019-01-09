@@ -78,7 +78,7 @@ describe('DocumentPanelComponent', () => {
                 .compileComponents();
         }));
 
-        fdescribe('when we receive a section with documents', () => {
+        describe('when we receive a section with documents', () => {
             beforeEach(async(() => {
                 data = {
                     id: 'documents',
@@ -129,11 +129,11 @@ describe('DocumentPanelComponent', () => {
             });
 
             it('should display a list of documents', () => {
-                expect(nativeElement.querySelectorAll(Selector.selector('document')).length).toBe(0);
+                expect(nativeElement.querySelectorAll(Selector.selector('document')).length).toBe(1);
             });
 
             it('should set the document as current if matches the section id', () => {
-                expect(nativeElement.querySelector(Selector.selector('document')).getAttribute('aria-current')).toBeTruthy();
+                expect(nativeElement.querySelector(Selector.selector('document')).getAttribute('aria-current')).toBeNull();
             });
         });
 
@@ -160,9 +160,9 @@ describe('DocumentPanelComponent', () => {
                 expect(nativeElement.querySelectorAll(Selector.selector('document')).length).toBe(0);
             });
 
-            // it('should show a friendly message', () => {
-            //     expect(nativeElement.querySelector(Selector.selector('no-documents'))).toBeNull();
-            // });
+            it('should show a friendly message', () => {
+                expect(nativeElement.querySelector(Selector.selector('no-documents'))).toBeTruthy();
+            });
         });
 
         describe('when we receive a document without a document link...', () => {
@@ -195,12 +195,12 @@ describe('DocumentPanelComponent', () => {
             });
 
             it('should not display a list of documents', () => {
-                expect(nativeElement.querySelectorAll(Selector.selector('document')).length).toBe(0);
+                expect(nativeElement.querySelectorAll(Selector.selector('document')).length).toBe(1);
             });
 
-            // it('should show a friendly message that there are no documents', () => {
-            //     expect(nativeElement.querySelector(Selector.selector('no-documents'))).toBeTruthy();
-            // });
+            it('should show a friendly message that there are no documents', () => {
+                expect(nativeElement.querySelector(Selector.selector('no-documents'))).toBeNull();
+            });
         });
     });
 
