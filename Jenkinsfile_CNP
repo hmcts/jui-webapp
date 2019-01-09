@@ -44,9 +44,9 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     ]
 }
 
-before('buildinfra:prod') {
+before('Promote - aat (staging -> production slot)') {
     currentBuild.description = "Success!"
-    error 'This project for JUI only to AAT therefore the prod environment will not be built'
+   // error 'This project for JUI only to AAT therefore the prod environment will not be built'
 }
 
 
