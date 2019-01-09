@@ -367,44 +367,44 @@
     on-finished "^2.3.0"
     winston "^2.4.1"
 
-"@ng-toolkit/_utils@1.1.47", "@ng-toolkit/_utils@^1.1.47":
-  version "1.1.47"
-  resolved "https://registry.yarnpkg.com/@ng-toolkit/_utils/-/_utils-1.1.47.tgz#4272c2944a2f4a6815bd33d0b167c3462ffdb24e"
-  integrity sha512-WONMvCiLfXGvYIjwHMzTAZGYCz1+iUhSvL1tJwBHUbLsznXKfHEgL8zoavQ/G0A2IpEg4XlYK+jBzau6/8KWcQ==
+"@ng-toolkit/_utils@1.1.50", "@ng-toolkit/_utils@^1.1.50":
+  version "1.1.50"
+  resolved "https://registry.yarnpkg.com/@ng-toolkit/_utils/-/_utils-1.1.50.tgz#caeeac00c626ee9656851cf2e9b7a182fe3547bb"
+  integrity sha512-2UKHmgDmi7c3z8zMIwOV4aAVVg/5y4ceVghWTWocsayjJe3OlekMTG9isJuxvRAo7uEhKaoJJo7DrKE+69/YHA==
   dependencies:
     "@angular-devkit/core" "~7.0.0"
     "@angular-devkit/schematics" "~7.0.0"
     "@schematics/angular" "~7.0.0"
     bugsnag "^2.3.1"
 
-"@ng-toolkit/pwa@1.1.47":
-  version "1.1.47"
-  resolved "https://registry.yarnpkg.com/@ng-toolkit/pwa/-/pwa-1.1.47.tgz#35f489f45cdd4bc627b3542c9619b8b88f390866"
-  integrity sha512-BlgkeCPTYwRqvY+QHIJ7YqzJ7ELb8LkibaLqtOF8QktHJL9pd7X9SWS4i8B6sb8THGxfdT7u2/8WAC7670JKXw==
+"@ng-toolkit/pwa@1.1.50":
+  version "1.1.50"
+  resolved "https://registry.yarnpkg.com/@ng-toolkit/pwa/-/pwa-1.1.50.tgz#f9eb0a2b466c07d71a9f26318df132dd27efff00"
+  integrity sha512-8aNaT3W9gFsjZGysFdM4uXyc78oXe/lsjYkeoVVtryrbICRYpzNO3yMkA7NM65Yp4kXOFgcrQJnKCmeQEcHj5w==
   dependencies:
-    "@ng-toolkit/_utils" "1.1.47"
+    "@ng-toolkit/_utils" "1.1.50"
     bugsnag "^2.4.2"
     tslib "^1.9.0"
 
-"@ng-toolkit/serverless@1.1.47":
-  version "1.1.47"
-  resolved "https://registry.yarnpkg.com/@ng-toolkit/serverless/-/serverless-1.1.47.tgz#a687b40a1bd1b05cdaa2f15c6b156434d82d53af"
-  integrity sha512-/rpZYGvRh7h9REhk56ObAFBLaQtdYp409ZvDmsC2gAO9bugWtex0igv2a6mra0881/ifsITbDt3hGcwrq5tW5A==
+"@ng-toolkit/serverless@1.1.50":
+  version "1.1.50"
+  resolved "https://registry.yarnpkg.com/@ng-toolkit/serverless/-/serverless-1.1.50.tgz#4103390e79b048003316c214afb5c1d51c965d11"
+  integrity sha512-d/olIOI32lwgE8fDxBVjkK+EEXhfQwmdobSPgm0b11yiKgobF0ojBtLWkJ2G112V7210QO7o9Q8GhQcHnvdKvA==
   dependencies:
     "@angular-devkit/core" "~7.0.0"
     "@angular-devkit/schematics" "~7.0.0"
-    "@ng-toolkit/_utils" "^1.1.47"
+    "@ng-toolkit/_utils" "^1.1.50"
     "@schematics/angular" "~7.0.0"
     bugsnag "^2.3.1"
 
-"@ng-toolkit/universal@^1.1.45":
-  version "1.1.47"
-  resolved "https://registry.yarnpkg.com/@ng-toolkit/universal/-/universal-1.1.47.tgz#20c9de2a1f5bb8ccbfc3a4cce9076ba378c81f8a"
-  integrity sha512-oyzwK9nVCEy07uhxHhVAJ2cSJHlt1tNqpaA7cY+yQTpJGCxMUOwvhkokTx3Ga1DPLKgURLLJnMldxfvKXmiBxg==
+"@ng-toolkit/universal@^1.1.50":
+  version "1.1.50"
+  resolved "https://registry.yarnpkg.com/@ng-toolkit/universal/-/universal-1.1.50.tgz#fc3d62ff2c01c40e1bc747bdd97dfe4b126e3266"
+  integrity sha512-e+qmW+V1ld+j1XLbiBNz8GOekyG+vfzebPiV3S54ZXjG219/b1k55fum1gkLkpU4tTBXmoFRzWBLDCmla4MhyQ==
   dependencies:
-    "@ng-toolkit/_utils" "1.1.47"
-    "@ng-toolkit/pwa" "1.1.47"
-    "@ng-toolkit/serverless" "1.1.47"
+    "@ng-toolkit/_utils" "1.1.50"
+    "@ng-toolkit/pwa" "1.1.50"
+    "@ng-toolkit/serverless" "1.1.50"
     bugsnag "^2.4.2"
     tslib "^1.9.0"
 
