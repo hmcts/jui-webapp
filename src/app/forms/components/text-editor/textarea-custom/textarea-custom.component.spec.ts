@@ -53,11 +53,24 @@ describe('TextareaCustomComponent', () => {
     const event = {
       keyCode: 13
     };
+    const lineFeed = '<p><br></p>';
 
-    component.textarea.nativeElement.innerHTML = 'a';
+    component.textarea.nativeElement.innerHTML = 'a' + lineFeed;
     component.onKeyUp(event);
 
-    expect(component.textarea.nativeElement.innerHTML).toBe('<p>a</p>');
+    expect(component.textarea.nativeElement.innerHTML).toBe('<p>a</p>' + lineFeed);
+  });
+
+  it('should return html wrapped in a p tag when onKeyUp called', () => {
+    const event = {
+      keyCode: 13
+    };
+    const lineFeed = '<p><br></p>';
+
+    component.textarea.nativeElement.innerHTML = '<b>a</b>' + lineFeed;
+    component.onKeyUp(event);
+
+    expect(component.textarea.nativeElement.innerHTML).toBe('<p><b>a</b></p>' + lineFeed);
   });
 
 });

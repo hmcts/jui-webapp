@@ -46,13 +46,24 @@ export class TextareaCustomComponent implements ControlValueAccessor {
   onKeyUp(event) {
     const div = this.textarea.nativeElement;
     const firstChild = div.firstChild;
-    const firstChildText = firstChild ? div.firstChild.textContent : null;
-    
-    if (event.keyCode === 13 && firstChildText.indexOf('<p>') === -1) {
-      div.removeChild(div.firstChild);
+    const lastChild = div.lastChild;
+
+    if (event.keyCode === 13 && firstChild.nodeName.toLowerCase() !== 'p') {
+
+      const content = div.innerHTML;
+      const firstPIndex = content.indexOf('<p>'); // there always be a <p> because of keyCode 13
+
+      while(div.hasChildNodes()){ // remove all because b or u tags etc will not be in first child
+        div.removeChild(div.lastChild);
+      }
+
       const p: HTMLParagraphElement = document.createElement('p');
-      p.innerHTML = firstChildText;
+      p.innerHTML = content.slice(0, firstPIndex);
+      div.insertBefore(lastChild, div.firstChild);
       div.insertBefore(p, div.firstChild);
+
+      const selection = window.getSelection();
+      selection.collapse(div.lastChild, div.lastChild.length); // set cursor to end
     }
   }
 
