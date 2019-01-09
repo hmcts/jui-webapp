@@ -48,7 +48,11 @@ export class TextareaCustomComponent implements ControlValueAccessor {
     const firstChild = div.firstChild;
     const lastChild = div.lastChild;
 
-    if (event.keyCode === 13 && firstChild.nodeName.toLowerCase() !== 'p') {
+    if (
+      event.keyCode === 13
+      && !event.shiftKey
+      && firstChild.nodeName.toLowerCase() !== 'p'
+    ) {
 
       const content = div.innerHTML;
       const firstPIndex = content.indexOf('<p>'); // there always be a <p> because of keyCode 13
