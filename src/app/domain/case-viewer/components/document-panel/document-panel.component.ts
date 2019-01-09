@@ -23,8 +23,7 @@ export class DocumentPanelComponent implements OnInit {
 
     ngOnInit(): void {
         this.getDocuments();
-
-        if (this.documents.length) {
+        if (this.documents.length && this.route.queryParams) {
             this.route.queryParams.subscribe(queryParams => {
                 this.caseFileType = queryParams['type'];
             });
