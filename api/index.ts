@@ -3,13 +3,12 @@ import * as config from '../config'
 import { auth } from './controllers/auth'
 import ccdStoreApiRoutes from './services/ccdStore'
 import cohCorApiRoutes from './services/coh-cor-api/coh-cor-api'
-//import idamApiRoutes from './services/idam-api/idam-api'
+import idamApiRoutes from './services/idam'
 
 const router = express.Router()
 
 import decisionRoutes from './controllers/decisions'
 
-const idamApiRoutes = require('./services/idam-api/idam-api')
 
 const authInterceptor = require('./lib/middleware/auth')
 const serviceTokenMiddleware = require('./lib/middleware/service-token')

@@ -1,14 +1,14 @@
 import * as express from 'express'
+import { getMutiJudCCDCases } from '../../services/ccdStore'
 import { getHearingByCase } from '../../services/coh-cor-api/coh-cor-api'
+
 
 const getListTemplate = require('./templates/index')
 const { processCaseState } = require('../../lib/processors/case-state-model')
 const valueProcessor = require('../../lib/processors/value-processor')
 const { caseStateFilter } = require('../../lib/processors/case-state-util')
-const { getAllQuestionsByCase } = require('../questions/index')
-const { getMutiJudCCDCases } = require('../../services/ccd-store-api/ccd-store')
-
-const { getDetails } = require('../../services/idam-api/idam-api')
+const { getAllQuestionsByCase } = require('../questions')
+const { getDetails } = require('../../services/idam')
 const { getNewCase, unassignAllCaseFromJudge } = require('./assignCase')
 const headerUtilities = require('../../lib/utilities/headerUtilities')
 

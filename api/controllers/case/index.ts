@@ -4,7 +4,7 @@ const valueProcessor = require('../../lib/processors/value-processor')
 const { processCaseState } = require('../../lib/processors/case-state-model')
 
 const { getDocuments } = require('../../services/dm-store-api/dm-store-api')
-const { getAllQuestionsByCase } = require('../questions/index')
+const { getAllQuestionsByCase } = require('../questions')
 
 const { getHearingByCase } = require('../../services/coh-cor-api/coh-cor-api')
 

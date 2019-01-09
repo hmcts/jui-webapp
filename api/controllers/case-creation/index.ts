@@ -1,12 +1,12 @@
 import * as express from 'express'
-const { createCase, updateCase } = require('../../services/ccd-store-api/ccd-store')
+import { createCase, updateCase } from '../../services/ccdStore'
+
 const getCaseCreationData = require('./templates/index')
-const headerUtilities = require('../../lib/utilities/headerUtilities')
 
 const JUI_AUTO_CREATION = 'JUI Auto Creation'
 const JUI_AUTO_UPDATE = 'JUI Auto Update'
 
-function createDefaultCase(userId, jurisdiction, caseType, options) {
+function createDefaultCase(userId, jurisdiction, caseType) {
     const caseCreationData = getCaseCreationData(jurisdiction, caseType)
     return createCase(
         userId,
@@ -16,23 +16,22 @@ function createDefaultCase(userId, jurisdiction, caseType, options) {
         JUI_AUTO_CREATION,
         JUI_AUTO_CREATION,
         caseCreationData.data,
-        options
     )
 }
 
-function createSscsCase(userId, options) {
-    return createDefaultCase(userId, 'SSCS', 'Benefits', options)
+function createSscsCase(userId) {
+    return createDefaultCase(userId, 'SSCS', 'Benefits')
 }
 
-function createDivCase(userId, options) {
-    return createDefaultCase(userId, 'DIVORCE', 'DIVORCE', options)
+function createDivCase(userId) {
+    return createDefaultCase(userId, 'DIVORCE', 'DIVORCE')
 }
 
-function createFrCase(userId, options) {
-    return createDefaultCase(userId, 'DIVORCE', 'FinancialRemedyMVP2', options)
+function createFrCase(userId) {
+    return createDefaultCase(userId, 'DIVORCE', 'FinancialRemedyMVP2')
 }
 
-function createFrCaseToApplicationIssued(userId, options) {
+function createFrCaseToApplicationIssued(userId) {
     const jurisdiction = 'DIVORCE'
     const caseType = 'FinancialRemedyMVP2'
     const eventId1 = 'FR_paymentRequired'
@@ -42,24 +41,20 @@ function createFrCaseToApplicationIssued(userId, options) {
     const data2 = {}
     const data3 = {}
 
-    return createFrCase(userId, options)
+    return createFrCase(userId)
         .then(obj => {
             console.dir(obj)
             return obj
         })
         .then(caseDate =>
-            updateCase(userId, jurisdiction, caseType, caseDate.id, eventId1, JUI_AUTO_UPDATE, JUI_AUTO_UPDATE, data1, options)
+            updateCase(userId, jurisdiction, caseType, caseDate.id, eventId1, JUI_AUTO_UPDATE, JUI_AUTO_UPDATE, data1)
                 .then(() =>
-                    updateCase(userId, jurisdiction, caseType, caseDate.id, eventId2, JUI_AUTO_UPDATE, JUI_AUTO_UPDATE, data2, options)
+                    updateCase(userId, jurisdiction, caseType, caseDate.id, eventId2, JUI_AUTO_UPDATE, JUI_AUTO_UPDATE, data2)
                 )
                 .then(() =>
-                    updateCase(userId, jurisdiction, caseType, caseDate.id, eventId3, JUI_AUTO_UPDATE, JUI_AUTO_UPDATE, data3, options)
+                    updateCase(userId, jurisdiction, caseType, caseDate.id, eventId3, JUI_AUTO_UPDATE, JUI_AUTO_UPDATE, data3)
                 )
         )
-}
-
-function getOptions(req: any) {
-    return headerUtilities.getAuthHeaders(req)
 }
 
 module.exports = app => {
@@ -70,7 +65,7 @@ module.exports = app => {
         const userId = req.auth.userId
         const jurisdiction = req.params.jur
         const caseType = req.params.casetype
-        createDefaultCase(userId, jurisdiction, caseType, getOptions(req))
+        createDefaultCase(userId, jurisdiction, caseType)
             .then(results => {
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.setHeader('content-type', 'application/json')
@@ -84,7 +79,7 @@ module.exports = app => {
 
     router.get('/DIVORCE/FinancialRemedyMVP2/applicationIssued', (req: any, res, next) => {
         const userId = req.auth.userId
-        createFrCaseToApplicationIssued(userId, getOptions(req))
+        createFrCaseToApplicationIssued(userId)
             .then(results => {
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.setHeader('content-type', 'application/json')

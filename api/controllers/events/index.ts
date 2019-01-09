@@ -1,8 +1,9 @@
 import * as express from 'express'
+import { getCCDEvents } from '../../services/ccdStore'
+
 const moment = require('moment')
 const getEventTemplate = require('./templates/index')
 const valueProcessor = require('../../lib/processors/value-processor')
-const { getCCDEvents } = require('../../services/ccd-store-api/ccd-store')
 const { getHearingIdOrCreateHearing, getOnlineHearingConversation } = require('../../services/coh-cor-api/coh-cor-api')
 const headerUtilities = require('../../lib/utilities/headerUtilities')
 

@@ -1,16 +1,15 @@
 import * as exceptionFormatter from 'exception-formatter'
 import * as log4js from 'log4js'
 import { config } from '../../../../config'
-import * as headerUtilities from '../../../lib/utilities/headerUtilities'
+import * as ccdStore from '../../../services/ccdStore'
 import * as coh from '../../../services/coh'
 import * as Mapping from './mapping'
 import * as Templates from './templates'
 
+
 const ERROR400 = 400
 export const mapping = Mapping.mapping
 export const templates = Templates.templates
-
-const ccdStore = require('../../../services/ccd-store-api/ccd-store')
 
 const logger = log4js.getLogger('scss engine')
 logger.level = config.logging ? config.logging : 'OFF'
@@ -29,9 +28,6 @@ export async function init(req, res) {
     return hearingId
 }
 
-function getOptions(req) {
-    return headerUtilities.getAuthHeaders(req)
-}
 
 function perpareCaseForFinalDecision(eventToken, eventId, data) {
     /* eslint-disable-next-line id-blacklist */
@@ -65,7 +61,6 @@ async function finalDecision(req, state, data) {
             'Benefit',
             state.caseId,
             event,
-            getOptions(req)
         )
 
         eventToken = eventTokenAndCase.token
@@ -83,7 +78,7 @@ async function finalDecision(req, state, data) {
         logger.info('Payload assembled')
         logger.info(JSON.stringify(payloadData))
 
-        await ccdStore.postCaseWithEventToken(req.auth.userId, 'SSCS', 'Benefit', state.caseId, payloadData, getOptions(req))
+        await ccdStore.postCaseWithEventToken(req.auth.userId, 'SSCS', 'Benefit', state.caseId, payloadData)
 
         return true
     } catch (exception) {

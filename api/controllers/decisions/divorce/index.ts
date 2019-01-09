@@ -2,6 +2,7 @@ import * as exceptionFormatter from 'exception-formatter'
 import * as log4js from 'log4js'
 import { config } from '../../../../config'
 import { Store } from '../../../lib/store/store'
+import * as ccdStore from '../../../services/ccdStore'
 
 import * as moment from 'moment'
 import * as translateJson from './translate'
@@ -14,20 +15,12 @@ import * as  Templates from './templates'
 export const mapping = Mapping.mapping
 export const templates = Templates.templates
 
-//ccdStore from '../../../services/ccd-store-api/ccd-store'
-
-const ccdStore = require('../../../services/ccd-store-api/ccd-store')
-
 const logger = log4js.getLogger('State')
 logger.level = config.logging ? config.logging : 'OFF'
 
 const ERROR400 = 400
 const exceptionOptions = {
     maxLines: 1,
-}
-
-function getOptions(req) {
-    return headerUtilities.getAuthHeaders(req)
 }
 
 function perpareCaseForApproval(caseData, eventToken, eventId, user, store) {
@@ -190,7 +183,6 @@ async function makeDecision(decision, req, state, store) {
             'FinancialRemedyMVP2',
             state.caseId,
             event,
-            getOptions(req)
         )
 
         eventToken = eventTokenAndCAse.token
@@ -231,7 +223,6 @@ async function makeDecision(decision, req, state, store) {
             'FinancialRemedyMVP2',
             state.caseId,
             payloadData,
-            getOptions(req)
         )
 
         return true
