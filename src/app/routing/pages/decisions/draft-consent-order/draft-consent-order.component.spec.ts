@@ -142,10 +142,10 @@ describe('DraftConsentOrderComponent', () => {
     it('should be created by angular', () => {
         expect(fixture).not.toBeNull();
     });
-    it('should pageitems not load', () => {
-        expect(testHostComponent.draftConsentOrderComponent.pageitems).toBeUndefined();
-        // testHostFixture.detectChanges();
-        // expect(testHostComponent.makeDecisionComponent.pageitems).toEqual('waste');
-    });
+    // it('should pageitems not load', () => {
+    //     expect(testHostComponent.draftConsentOrderComponent.pageitems).toBeUndefined();
+    //     testHostFixture.detectChanges();
+    //     expect(testHostComponent.pageitems.header).toBe('something ');
+    // });
 
 });

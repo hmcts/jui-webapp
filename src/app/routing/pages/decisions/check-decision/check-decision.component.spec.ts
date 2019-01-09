@@ -14,6 +14,8 @@ import { JUIFormsModule } from '../../../../forms/forms.module';
 import { RedirectionService } from '../../../redirection.service';
 import { GovukModule } from '../../../../govuk/govuk.module';
 import { HmctsModule } from '../../../../hmcts/hmcts.module';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import 'rxjs/observable';
 
 describe('CheckDecisionComponent', () => {
     let component: CheckDecisionComponent;
@@ -34,7 +36,9 @@ describe('CheckDecisionComponent', () => {
                 HttpClientTestingModule,
                 RouterTestingModule,
                 GovukModule,
-                HmctsModule
+                HmctsModule,
+                FormsModule,
+                ReactiveFormsModule
             ],
             providers: [
                 {
@@ -80,6 +84,7 @@ describe('CheckDecisionComponent', () => {
                 }
             ]
         }).compileComponents();
+
     }));
 
     beforeEach(() => {
@@ -93,14 +98,13 @@ describe('CheckDecisionComponent', () => {
         ).and.returnValue(of({}));
         fixture = TestBed.createComponent(CheckDecisionComponent);
         component = fixture.componentInstance;
-        fixture.detectChanges();
+        // fixture.detectChanges();
     });
-
     afterEach(() => {
         TestBed.resetTestingModule();
     });
 
-    xit('should create', () => {
+    it('should create', () => {
         expect(component).toBeTruthy();
     });
 
@@ -113,10 +117,11 @@ describe('CheckDecisionComponent', () => {
                     TestBed.get(RedirectionService),
                     'redirect'
                 );
+                component.pageitems.name = 'test';
             });
 
             // it('should issue the decision', () => {
-            //     component.submitCallback({});
+            //     component.onSubmit({});
             //     expect(decisionServiceIssueSpy).toHaveBeenCalledWith('1234', {});
             //     expect(redirectionServiceSpy).toHaveBeenCalled();
             // });
