@@ -116,6 +116,17 @@
     rxjs "6.3.3"
     source-map "0.7.3"
 
+"@angular-devkit/core@7.2.0":
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/@angular-devkit/core/-/core-7.2.0.tgz#c138be754f17908b773dba7c20fe6f40a080d10b"
+  integrity sha512-0T9SJQ2f8qxGClonulQd4pMFfOrEv/it+doPgnalsM8UhQ3RRSrziFGEB97kpLTjH8fIPEgC/80YbtwOarfojg==
+  dependencies:
+    ajv "6.6.2"
+    chokidar "2.0.4"
+    fast-json-stable-stringify "2.0.0"
+    rxjs "6.3.3"
+    source-map "0.7.3"
+
 "@angular-devkit/schematics@0.7.0":
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/@angular-devkit/schematics/-/schematics-0.7.0.tgz#23d0f9ed693eeaa9ee97921c064030eca4310c4f"
@@ -606,6 +617,16 @@ ajv@6.5.3:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
+ajv@6.6.2, ajv@^6.1.0, ajv@^6.5.5:
+  version "6.6.2"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.6.2.tgz#caceccf474bf3fc3ce3b147443711a24063cc30d"
+  integrity sha512-FBHEW6Jf5TB9MGBgUUA9XHkTbjXYfAUjY43ACMfmdMRHniyoMHjHjzD50OK8LGDWQwp4rWEsIq5kEqq7rvIM1g==
+  dependencies:
+    fast-deep-equal "^2.0.1"
+    fast-json-stable-stringify "^2.0.0"
+    json-schema-traverse "^0.4.1"
+    uri-js "^4.2.2"
+
 ajv@^5.0.0, ajv@^5.2.3, ajv@^5.3.0:
   version "5.5.2"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-5.5.2.tgz#73b5eeca3fab653e3d3f9422b341ad42205dc965"
@@ -615,16 +636,6 @@ ajv@^5.0.0, ajv@^5.2.3, ajv@^5.3.0:
     fast-deep-equal "^1.0.0"
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.3.0"
-
-ajv@^6.1.0, ajv@^6.5.5:
-  version "6.6.1"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.6.1.tgz#6360f5ed0d80f232cc2b294c362d5dc2e538dd61"
-  integrity sha512-ZoJjft5B+EJBjUyu9C9Hc0OZyPZSSlOF+plzouTrg6UlA8f+e/n8NIgBFG/9tppJtpPWfthHakK7juJdNDODww==
-  dependencies:
-    fast-deep-equal "^2.0.1"
-    fast-json-stable-stringify "^2.0.0"
-    json-schema-traverse "^0.4.1"
-    uri-js "^4.2.2"
 
 ajv@~6.4.0:
   version "6.4.0"
