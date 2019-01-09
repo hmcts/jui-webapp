@@ -44,6 +44,12 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     ]
 }
 
+before('buildinfra:prod') {
+    currentBuild.description = "Success!"
+    error 'This project for JUI only to AAT therefore the prod environment will not be built'
+}
+
+
 withPipeline(type, product, component) {
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
@@ -165,16 +171,6 @@ withPipeline(type, product, component) {
         ])
     }
 
-    after('functionalTest:preview') {
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/api_functional/",
-            reportFiles          : 'mochawesome.html',
-            reportName           : 'PREVIEW API Functional Tests'
-        ])
-    }
 
     after('smoketest:aat') {
         publishHTML([
@@ -198,17 +194,17 @@ withPipeline(type, product, component) {
         ])
     }
 
-
-    after('functionalTest:aat') {
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/api_functional/",
-            reportFiles          : 'mochawesome.html',
-            reportName           : 'AAT API Functional Tests'
-        ])
-    }
+//
+//    after('functionalTest:aat') {
+//        publishHTML([
+//            allowMissing         : true,
+//            alwaysLinkToLastBuild: true,
+//            keepAll              : true,
+//            reportDir            : "reports/tests/api_functional/",
+//            reportFiles          : 'mochawesome.html',
+//            reportName           : 'AAT API Functional Tests'
+//        ])
+//    }
 
     after('smoketest:prod'){
         publishHTML([
