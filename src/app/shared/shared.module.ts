@@ -88,7 +88,7 @@ import { CustombuttonsComponent } from './components/custombuttons/custombuttons
         JuiFormElementsComponent,
         InputsComponent,
         DateComponent,
-        CustombuttonsComponent
+        CustombuttonsComponent,
     ],
     exports: [
         JuiFormElementsComponent,
