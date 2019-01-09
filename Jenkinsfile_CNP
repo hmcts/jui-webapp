@@ -44,10 +44,7 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     ]
 }
 
-after('functionalTest:aat') {
-    currentBuild.description = "Success!"
-   // error 'This project for JUI only to AAT therefore the prod environment will not be built'
-}
+
 
 
 withPipeline(type, product, component) {
@@ -206,15 +203,19 @@ withPipeline(type, product, component) {
 //        ])
 //    }
 
-    after('smoketest:prod'){
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/smoke_tests/functional/",
-            reportFiles          : 'index.html',
-            reportName           : 'PROD Smoke Test'
-        ])
-    }
+//    after('smoketest:prod'){
+//        publishHTML([
+//            allowMissing         : true,
+//            alwaysLinkToLastBuild: true,
+//            keepAll              : true,
+//            reportDir            : "reports/smoke_tests/functional/",
+//            reportFiles          : 'index.html',
+//            reportName           : 'PROD Smoke Test'
+//        ])
+//    }
 
+    before('smoketest:prod') {
+        currentBuild.description = "Success!"
+        // error 'This project for JUI only to AAT therefore the prod environment will not be built'
+    }
 }
