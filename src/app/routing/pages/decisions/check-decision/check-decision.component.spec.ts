@@ -48,6 +48,9 @@ fdescribe('CheckDecisionComponent', () => {
                         },
                         issueDecision: () => {
                             return of({});
+                        },
+                        submitDecisionDraft: () => {
+                            return of({});
                         }
                     }
                 },
