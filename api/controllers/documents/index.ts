@@ -37,7 +37,7 @@ function uploadDocument(userId = null, jurisdiction = null, caseType = null, cas
 }
 
 module.exports = app => {
-    const route = express.Router({ mergeParams: true })
+    /*const route = express.Router({ mergeParams: true })
     app.use('/documents', route)
 
     route.get('/:document_id', (req, res, next) => {
@@ -54,5 +54,5 @@ module.exports = app => {
 
     route.post('/', (req, res, next) => {
       //  uploadDocument().pipe(res)
-    })
+    })*/
 }

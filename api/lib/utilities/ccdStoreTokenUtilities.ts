@@ -1,3 +1,11 @@
+import * as log4js from 'log4js'
+import { config } from '../../../config'
+import { DMDocument } from '../models'
+import { asyncReturnOrError } from '../util'
+
+const logger = log4js.getLogger('dm-store')
+logger.level = config.logging || 'off'
+
 const moment = require('moment')
 
 const ccdStore = require('../../services/ccd-store-api/ccd-store')
@@ -16,74 +24,43 @@ function getOptions(req) {
     return headerUtilities.getAuthHeaders(req)
 }
 
-export async function getTokenAndMakePayload(req, caseId) {
-
-    const authHeaders = getOptions(req)
-
-    console.log('getTokenAndMakePayload')
-
-    const user = req.session.user
+export async function getTokenAndMakePayload(req, caseId, dmDocument: DMDocument) {
     const userId = req.auth.userId
+    const comments = 'testing' // TODO: get from request once it's posted
 
     const jurisdiction = 'DIVORCE'
     const caseType = 'FinancialRemedyMVP2'
-    const eventId = 'FR_approveApplication'
+    const eventId = 'FR_uploadDocument'
 
-    const eventTokenAndCase = await getEventTokenAndCase(userId, caseId, jurisdiction, caseType, eventId, authHeaders)
-
-    console.log('eventTokenAndCase')
-    console.log(eventTokenAndCase)
+    const eventTokenAndCase = await getEventTokenAndCase(userId, caseId, jurisdiction, caseType, eventId)
 
     const eventToken = eventTokenAndCase.token
-    const caseDetails = eventTokenAndCase.caseDetails
 
-    const directionComments = ''
-    // console.log(eventToken);
-    // console.log(caseDetails);
+    const payload = prepareCaseForUpload(
+        eventToken,
+        eventId,
+        dmDocument,
+        comments
+    )
 
-    console.log('eventToken going in ')
-    console.log(eventToken)
-    console.log('caseDetails', JSON.stringify(caseDetails, null, 2))
-
-    // const payload = prepareCaseForApproval(
-    //     eventToken,
-    //     eventId,
-    //     user,
-    //     directionComments
-    // )
-    //
-    // console.log('payload')
-    // console.log(payload)
-    //
-    // const caseWithEventToken = await postCaseWithEventToken(userId, caseId, jurisdiction, caseType, payload,
-    //                             authHeaders)
-    //
-    // console.log('caseWithEventToken')
-    // console.log(caseWithEventToken)
-
-    // console.log(eventToken)
-    // console.log(caseDetails)
+    return await postCaseWithEventToken(userId, caseId, jurisdiction, caseType, payload)
 }
 
-export async function postCaseWithEventToken(userId, caseId, jurisdiction, caseType, payload, authHeaders) {
+export async function postCaseWithEventToken(userId, caseId, jurisdiction, caseType, payload) {
 
-    try {
-        console.log('Payload assembled')
-        console.log(JSON.stringify(payload))
-        const caseWithEventToken = await ccdStore.postCaseWithEventToken(
+    const response = await asyncReturnOrError(
+        ccdStore.postCaseWithEventToken(
             userId,
             jurisdiction,
             caseType,
             caseId,
-            payload,
-            authHeaders
-        )
-
-        return caseWithEventToken
-    } catch (error) {
-        console.log('Error sending event')
-        console.log(error)
-    }
+            payload
+        ),
+        `Error sending event`,
+        null,
+        logger,
+        false)
+    return response
 }
 
 /**
@@ -98,25 +75,16 @@ export async function postCaseWithEventToken(userId, caseId, jurisdiction, caseT
  * @param {String} jurisdiction - 'DIVORCE'
  * @param {String} caseType - 'FinancialRemedyMVP2'
  * @param {String} eventId - 'FR_approveApplication'
- * @param {Object} authHeaders - { Authorization: 'Bearer eyJhb...', ServiceAuthorization: 'eyJhb...' }
  * @return {Promise.<*>}
  */
-async function getEventTokenAndCase(userId, caseId, jurisdiction, caseType, eventId, authHeaders) {
-    console.log('getEventTokenAndCase')
-    console.log(userId)
-    console.log(caseId)
-    console.log(jurisdiction)
-    console.log(caseType)
-    console.log(eventId)
-    console.log(authHeaders)
+async function getEventTokenAndCase(userId, caseId, jurisdiction, caseType, eventId) {
     try {
         const eventTokenAndCase = await ccdStore.getEventTokenAndCase(
             userId,
             jurisdiction,
             caseType,
             caseId,
-            eventId,
-            authHeaders
+            eventId
         )
         return eventTokenAndCase
     } catch (error) {
@@ -158,10 +126,10 @@ function prepareCaseForApproval(eventToken, eventId, user, directionComments) {
         /* eslint-disable-next-line id-blacklist */
         data: {
             orderDirection: 'Order Accepted as drafted',
+            orderDirectionAddComments: directionComments,
             orderDirectionDate: moment(new Date()).format('YYYY-MM-DD'),
             orderDirectionJudge: 'District Judge',
-            orderDirectionJudgeName: `${user.forename} ${user.surname} `,
-            orderDirectionAddComments: directionComments
+            orderDirectionJudgeName: `${user.forename} ${user.surname} `
         },
         event: {
             id: eventId
@@ -169,6 +137,33 @@ function prepareCaseForApproval(eventToken, eventId, user, directionComments) {
         event_token: eventToken,
 
         ignore_warning: true
+    }
+}
+
+export function prepareCaseForUpload(eventToken, eventId, dmDocument: DMDocument, comments) {
+    return {
+        data: {
+            uploadDocuments: [
+                {
+                    value: {
+                        documentComment: comments,
+                        // documentDateAdded: dmDocument.createdOn,
+                        documentEmailContent: '',
+                        documentFileName: dmDocument.originalDocumentName, // TODO: need this from form upload field if set
+                        documentLink: {
+                            document_url: dmDocument._links.self.href,
+                        },
+                        documentType: 'Other',
+                    },
+                },
+            ],
+        },
+        event: {
+            id: eventId,
+        },
+        event_token: eventToken,
+
+        ignore_warning: true,
     }
 }
 

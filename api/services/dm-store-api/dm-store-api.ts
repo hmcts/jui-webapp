@@ -10,6 +10,7 @@ const headerUtilities = require('../../lib/utilities/headerUtilities')
 const fs = require('fs')
 const formidable = require('formidable')
 
+import { Classification, DMDocument, DMDocuments } from '../../lib/models'
 import { getTokenAndMakePayload } from '../../lib/utilities/ccdStoreTokenUtilities'
 
 const url = config.services.dm_store_api
@@ -81,17 +82,27 @@ function getDocumentVersionThumbnail(documentId, versionId, options) {
 
 // Creates a list of Stored Documents by uploading a list of binary/text files.
 export function postDocument(file, classification, options) {
-    options.formData = {
-        files: [
-            {
-                value: fs.createReadStream(file.path),
-                options: { filename: file.name, contentType: file.type }
-            }
-        ],
-        classification: getClassification(classification)
+    const reqOptions = {
+        ...options, ...{
+            formData: {
+                classification: getClassification(classification),
+                files: [
+                    {
+                        options: { filename: file.name, contentType: file.type },
+                        value: fs.createReadStream(file.path),
+                    },
+                ],
+            },
+        headers: {
+            ...options.headers, ...{
+                    'Content-Type': 'multipart/form-data',
+                },
+            },
+        },
+        json: false,
     }
 
-    return generateRequest('POST', `${url}/documents`, options)
+    return generateRequest('POST', `${url}/documents`, reqOptions)
 }
 
 //TODO: is this the proper place for this?
@@ -107,31 +118,19 @@ export function postDocument(file, classification, options) {
  * @param classification
  * @param options
  */
-function postDocumentAndAssociateWithCase(req, caseId, file, classification, options) {
-    const reqOptions = {
-        ...options, ...{
-            formData: {
-                classification: getClassification(classification),
-                files: [
-                    {
-                        options: { filename: file.name, contentType: file.type },
-                        value: fs.createReadStream(file.path),
-                    },
-                ],
-            },
-        },
-    }
+async function postDocumentAndAssociateWithCase(req, caseId, file, classification, options) {
 
-    return generateRequest('POST', `${url}/documents`, reqOptions)
+    const response = await asyncReturnOrError(
+        postDocument(file, classification, options),
+        `Error uploading document`,
+        null,
+        logger,
+        false)
 
-    /*console.log('postDocumentAndAssociateWithCase')
-    console.log(caseId)
-    console.log(classification)
-    console.log(options)
-    console.log(file.name)
-    console.log(file.type)
+    const data: DMDocuments = JSON.parse(response)
+    const dmDocument: DMDocument = data._embedded.documents.pop()
+    return await getTokenAndMakePayload(req, caseId, dmDocument)
 
-    console.log(getTokenAndMakePayload(req, caseId))*/
 }
 
 /**
@@ -142,8 +141,8 @@ function postDocumentAndAssociateWithCase(req, caseId, file, classification, opt
  * @param {String} classification - 'RESTRICTED'
  * @return {String}
  */
-function getClassification(classification) {
-    return classification || 'PUBLIC'
+function getClassification(classification: Classification) {
+    return classification || Classification.Public
 }
 
 // Adds a Document Content Version and associates it with a given Stored Document.
@@ -244,8 +243,9 @@ module.exports = app => {
     router.post('/documents', (req, res, next) => {
         const form = new formidable.IncomingForm()
 
-        form.on('file', (name, file) => {
-            postDocument(file, 'PUBLIC', getOptions(req)).pipe(res)
+        form.on('file', async (name, file) => {
+            const response = postDocument(file, Classification.Public, getOptions(req))
+            res.send(response).status(200)
         })
 
         form.parse(req)
@@ -261,13 +261,12 @@ module.exports = app => {
      */
     router.post('/documents/upload/:caseId', (req, res) => {
 
-        console.log('Upload document')
-
         const form = new formidable.IncomingForm()
         const caseId = req.params.caseId
 
-        form.on('file', (name, file) => {
-            postDocumentAndAssociateWithCase(req, caseId, file, 'PUBLIC', getOptions(req)).pipe(res)
+        form.on('file', async (name, file) => {
+            const response = await postDocumentAndAssociateWithCase(req, caseId, file, 'PUBLIC', getOptions(req))
+            res.send(response).status(200)
         })
 
         form.parse(req)

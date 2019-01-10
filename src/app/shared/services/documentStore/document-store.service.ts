@@ -24,7 +24,7 @@ export class DocumentStoreService {
 
         if (metaDate) {
             metaDate.forEach( (v, k) => {
-                formData.append('metadata[' + k + ']', v);
+                formData.append(`metadata[${k}]`, v);
 
             });
         }
@@ -38,19 +38,18 @@ export class DocumentStoreService {
      * find the document later, associated on that case.
      *
      * @param classification
-     * @param metaDate
+     * @param metaData
      * @param file
      * @return {Observable<Object>}
      */
-    postFileAndAssociateWithCase(classification: string, metaDate: Map<string, string>, file: File, caseId: String) {
+    postFileAndAssociateWithCase(classification: string, metaData: Map<string, string>, file: File, caseId: String) {
         const formData: FormData = new FormData();
         formData.append('classification', classification);
         formData.append('files', file, file.name);
 
-        if (metaDate) {
-            metaDate.forEach( (v, k) => {
-                formData.append('metadata[' + k + ']', v);
-                console.log('metadata[' + k + '] = ' + v);
+        if (metaData) {
+            metaData.forEach( (v, k) => {
+                formData.append(`metadata[${k}]`, v);
             });
         }
 
