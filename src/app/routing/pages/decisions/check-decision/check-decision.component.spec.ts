@@ -15,9 +15,8 @@ import { RedirectionService } from '../../../redirection.service';
 import { GovukModule } from '../../../../govuk/govuk.module';
 import { HmctsModule } from '../../../../hmcts/hmcts.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import 'rxjs/observable';
 
-describe('CheckDecisionComponent', () => {
+fdescribe('CheckDecisionComponent', () => {
     let component: CheckDecisionComponent;
     let fixture: ComponentFixture<CheckDecisionComponent>;
     let decisionServiceFetchSpy;
@@ -62,12 +61,13 @@ describe('CheckDecisionComponent', () => {
                 },
                 {
                     provide: ActivatedRoute,
-                    useValue: {
+                    useValue: ({ 
                         snapshot: {
-                            _lastPathIndex: 0
-                        },
-                        parent: {
-                            snapshot: {
+                            _lastPathIndex: 0,
+                            url: [{
+                                path: 'dummy'
+                            }],
+                            parent: {
                                 data: {
                                     caseData: {
                                         id: '1234',
@@ -79,8 +79,21 @@ describe('CheckDecisionComponent', () => {
                                     }
                                 }
                             }
+                        },
+                        parent: {
+                            data: of({
+                                caseData: {
+                                    id: '1234',
+                                    decision: {
+                                        options: [
+                                            { id: 'test', name: 'test' }
+                                        ]
+                                    }
+                                }
+                            })
                         }
-                    }
+                    } as any) as ActivatedRoute
+                    
                 }
             ]
         }).compileComponents();
@@ -98,7 +111,7 @@ describe('CheckDecisionComponent', () => {
         ).and.returnValue(of({}));
         fixture = TestBed.createComponent(CheckDecisionComponent);
         component = fixture.componentInstance;
-        // fixture.detectChanges();
+        fixture.detectChanges();
     });
     afterEach(() => {
         TestBed.resetTestingModule();
@@ -117,14 +130,14 @@ describe('CheckDecisionComponent', () => {
                     TestBed.get(RedirectionService),
                     'redirect'
                 );
-                component.pageitems.name = 'test';
             });
 
-            // it('should issue the decision', () => {
-            //     component.onSubmit({});
-            //     expect(decisionServiceIssueSpy).toHaveBeenCalledWith('1234', {});
-            //     expect(redirectionServiceSpy).toHaveBeenCalled();
-            // });
+            it('should issue the decision', () => {
+                component.pageitems = {};
+                component.onSubmit({});
+                expect(decisionServiceIssueSpy).toHaveBeenCalledWith('1234', {});
+                expect(redirectionServiceSpy).toHaveBeenCalled();
+            });
         });
     });
 });
