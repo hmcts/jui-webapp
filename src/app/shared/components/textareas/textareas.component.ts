@@ -31,13 +31,13 @@ export class TextareasComponent {
     }
 
     isGroupInvalidAndShowValidation (formGroup: FormGroup, showValidation: boolean) {
-        if(formGroup.errors) {
-            if(formGroup.errors[this.control] && showValidation) {
+
+            if(formGroup.errors && formGroup.errors[this.control] && showValidation) {
                 return true
             } else {
                 return false
             }
-        }
+
     }
 
     /**
