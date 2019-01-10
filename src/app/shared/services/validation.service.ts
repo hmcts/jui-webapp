@@ -203,9 +203,9 @@ export class ValidationService {
      * @param validationIdentifier
      * @return {any}
      */
+
     isTextAreaValidWhenCheckboxChecked(formGroup: FormGroup, controls: controlsisTextAreaValidWhenCheckboxChecked, validationIdentifier: string) {
 
-        console.log("isTextAreaValidWhenCheckboxChecked = >called",  controls.checkboxControl, controls.textareaControl, validationIdentifier);
 
         const isTextAreaValidWhenCheckboxChecked: ValidatorFn = (formControls: FormGroup): ValidationErrors | null => {
 
