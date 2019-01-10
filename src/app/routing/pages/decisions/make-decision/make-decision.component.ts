@@ -80,7 +80,7 @@ export class MakeDecisionComponent implements OnInit {
                     this.pageitems.name,
                     this.typeId,
                     this.request).subscribe(decision => {
-                   // this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
+                    this.router.navigate([`../${decision.newRoute}`], {relativeTo: this.activatedRoute});
                 });
             }
         }
