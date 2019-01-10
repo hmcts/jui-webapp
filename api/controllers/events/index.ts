@@ -95,9 +95,9 @@ function reduceCohEvents(events) {
 }
 
 export async function getCohEvents(userId, caseId) {
-    const hearingId =  getHearingIdOrCreateHearing(caseId, userId)
+    const hearingId =  await getHearingIdOrCreateHearing(caseId, userId)
 
-    getOnlineHearingConversation(hearingId)
+    return getOnlineHearingConversation(hearingId)
         .then(mergeCohEvents)
         .then(reduceCohEvents)
 

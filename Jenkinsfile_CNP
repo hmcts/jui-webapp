@@ -44,6 +44,9 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     ]
 }
 
+
+
+
 withPipeline(type, product, component) {
     enableSlackNotifications(channel)
     loadVaultSecrets(secrets)
@@ -165,16 +168,6 @@ withPipeline(type, product, component) {
         ])
     }
 
-    after('functionalTest:preview') {
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/api_functional/",
-            reportFiles          : 'mochawesome.html',
-            reportName           : 'PREVIEW API Functional Tests'
-        ])
-    }
 
     after('smoketest:aat') {
         publishHTML([
@@ -198,27 +191,31 @@ withPipeline(type, product, component) {
         ])
     }
 
+//
+//    after('functionalTest:aat') {
+//        publishHTML([
+//            allowMissing         : true,
+//            alwaysLinkToLastBuild: true,
+//            keepAll              : true,
+//            reportDir            : "reports/tests/api_functional/",
+//            reportFiles          : 'mochawesome.html',
+//            reportName           : 'AAT API Functional Tests'
+//        ])
+//    }
 
-    after('functionalTest:aat') {
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/tests/api_functional/",
-            reportFiles          : 'mochawesome.html',
-            reportName           : 'AAT API Functional Tests'
-        ])
+//    after('smoketest:prod'){
+//        publishHTML([
+//            allowMissing         : true,
+//            alwaysLinkToLastBuild: true,
+//            keepAll              : true,
+//            reportDir            : "reports/smoke_tests/functional/",
+//            reportFiles          : 'index.html',
+//            reportName           : 'PROD Smoke Test'
+//        ])
+//    }
+
+    before('smoketest:prod') {
+        currentBuild.description = "Success!"
+        // error 'This project for JUI only to AAT therefore the prod environment will not be built'
     }
-
-    after('smoketest:prod'){
-        publishHTML([
-            allowMissing         : true,
-            alwaysLinkToLastBuild: true,
-            keepAll              : true,
-            reportDir            : "reports/smoke_tests/functional/",
-            reportFiles          : 'index.html',
-            reportName           : 'PROD Smoke Test'
-        ])
-    }
-
 }

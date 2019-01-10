@@ -14,7 +14,10 @@ module.exports = {
     groups: [
         {
             textarea: {
-                label: 'Enter decision notes',
+                label: {
+                    text: 'Enter decision notes',
+                    classes: 'govuk-label--m'
+                },
                 validationError: {
                     value: 'Enter your decision notes',
                     controlId: 'decisionNotes'

@@ -14,7 +14,32 @@
 /*tslint:disable */
 export const mapping = []
 
-mapping['divorce'] = []
+mapping['divorce'] = [
+    {
+        event: 'continue',
+        states: [
+            {
+                state: 'create',
+                conditions: [
+                    {
+                        condition: [{ makeDecision: 'yes' }],
+                        result: 'costs-order'
+                    },
+                    {
+                        condition: [{ makeDecision: 'no' }],
+                        result: 'provide-reason'
+                    }
+                ]
+            },
+            {
+                state: 'cost-order',
+                result: 'check-your-answers'
+            }
+            
+        ]
+    }
+
+]
 
 
 mapping['financialremedymvp2'] = [

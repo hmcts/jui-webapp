@@ -1,7 +1,8 @@
 <div [ngClass]="{'govuk-form-group': true, 'govuk-form-group--error': error}" [formGroup]="formGroup">
     <label class="govuk-label govuk-label--m" for="{{id}}" [attr.data-selector]="id + '-label'">{{label}}</label>
     <span *ngIf="error" id="{{id}}-error" class="govuk-error-message">{{errorMessage}}</span>
-    <textarea [ngClass]="{
+    <textarea *ngIf="!richTextMode"
+               [ngClass]="{
                         'govuk-textarea': true,
                         'govuk-input--width-30x': true,
                         'govuk-textarea--error': error
@@ -13,4 +14,10 @@
               [attr.disabled]="disable ? '' : null"
               formControlName="{{id}}"
             >{{text}}</textarea>
+
+    <app-text-editor *ngIf="richTextMode"
+      [id]="id"
+      [error]="error"
+      [formGroup]="formGroup"
+    ></app-text-editor>
 </div>

@@ -78,7 +78,7 @@
     "body-parser": "1.18.3",
     "camelcase": "^5.0.0",
     "cookie-parser": "1.4.3",
-    "core-js": "2.6.0",
+    "core-js": "2.6.1",
     "eslint-html-reporter": "0.5.2",
     "exception-formatter": "1.0.7",
     "express-session": "^1.15.6",
@@ -109,7 +109,7 @@
     "url": "0.11.0",
     "util": "0.11.1",
     "yarn": "1.6.0",
-    "zone.js": "0.8.19"
+    "zone.js": "0.8.26"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.6.0",
@@ -159,13 +159,13 @@
     "karma-jasmine": "1.1.2",
     "karma-jasmine-html-reporter": "0.2.2",
     "karma-phantomjs-launcher": "1.0.4",
-    "less-loader": "4.0.5",
+    "less-loader": "4.1.0",
     "minimist": "1.2.0",
     "mocha": "^5.2.0",
     "mochawesome": "3.1.1",
     "nodemon": "1.17.5",
     "nsp": "3.2.1",
-    "nyc": "13.0.1",
+    "nyc": "13.1.0",
     "postcss-import": "12.0.1",
     "postcss-loader": "3.0.0",
     "postcss-url": "8.0.0",

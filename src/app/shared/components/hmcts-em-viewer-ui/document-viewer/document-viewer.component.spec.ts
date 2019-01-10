@@ -18,7 +18,7 @@ class MockTransferState {
     set() {}
 }
 
-describe('EmViewerComponent', () => {
+describe('DocumentViewerComponent', () => {
     const mockTransferState = new MockTransferState();
     let component: DocumentViewerComponent;
     let fixture: ComponentFixture<DocumentViewerComponent>;

@@ -13,6 +13,9 @@ import { Utils } from '../../data/utils';
 import { PdfAnnotateWrapper } from '../../data/js-wrapper/pdf-annotate-wrapper';
 import { CommentsComponent } from './comments/comments.component';
 import { EmLoggerService } from '../../logging/em-logger.service';
+import { PdfRenderService } from '../../data/pdf-render.service';
+import { RotationFactoryService } from './rotation-toolbar/rotation-factory.service';
+import { RenderOptions } from '../../data/js-wrapper/renderOptions.model';
 
 class MockPdfAnnotateWrapper {
   setStoreAdapter() {}
@@ -27,17 +30,12 @@ class MockPdfService {
     this.pageNumber.next(1);
   }
 
-  getDataLoadedSub() {}
   setHighlightTool() {}
-  setRenderOptions() {}
   setPageNumber(page: number) {}
-  render() {}
-  renderPage() {}
   getPageNumber() {
     return this.pageNumber;
   }
   setAnnotationWrapper() {}
-  getPdfPages() {}
 }
 
 class MockAnnotationStoreService {
@@ -74,10 +72,26 @@ class MockViewerComponent {
   nativeElement: { querySelector() };
 }
 
+class MockPdfRenderService {
+
+  listPagesSubject = new Subject();
+  
+  setRenderOptions() {}
+  getRenderOptions() {}
+  getDataLoadedSub() {}
+  render() {}
+  getPdfPages() {}
+} 
+
+class MockRotationFactoryService {
+}
+
 describe('AnnotationPdfViewerComponent', () => {
   let component: AnnotationPdfViewerComponent;
   let fixture: ComponentFixture<AnnotationPdfViewerComponent>;
 
+  const mockPdfRenderService = new MockPdfRenderService();
+  const mockRotationFactoryService = new MockRotationFactoryService(); 
   const mockAnnotationStoreService = new MockAnnotationStoreService();
   const mockPdfService = new MockPdfService();
   const mockNpaService = new MockNpaService();
@@ -97,7 +111,9 @@ describe('AnnotationPdfViewerComponent', () => {
         { provide: AnnotationStoreService, useFactory: () => mockAnnotationStoreService },
         { provide: NpaService, useFactory: () => mockNpaService },
         { provide: PdfAnnotateWrapper, useFactory: () => mockPdfAnnotateWrapper },
-        { provide: ApiHttpService, useFactory: () => mockApiHttpService }
+        { provide: ApiHttpService, useFactory: () => mockApiHttpService },
+        { provide: PdfRenderService, useFactory: () => mockPdfRenderService },
+        { provide: RotationFactoryService, useFactory: () => mockRotationFactoryService }
       ]
     })
     .compileComponents();
@@ -130,7 +146,7 @@ describe('AnnotationPdfViewerComponent', () => {
     spyOn(mockAnnotationStoreService, 'getAnnotationFocusSubject')
       .and.returnValue(of(new Annotation));
 
-    spyOn(mockPdfService, 'getDataLoadedSub').and.returnValue(of(true));
+    spyOn(mockPdfRenderService, 'getDataLoadedSub').and.returnValue(of(true));
     fixture.detectChanges();
     const mockCommentsComponent = fixture.componentInstance.commentsComponent;
     spyOn(mockCommentsComponent, 'handleAnnotationBlur').and.stub();
@@ -143,19 +159,20 @@ describe('AnnotationPdfViewerComponent', () => {
   describe('onInit', () => {
     it('should run tasks', async(() => {
       spyOn(mockPdfService, 'preRun');
-      spyOn(mockPdfService, 'render');
-      spyOn(mockPdfService, 'setRenderOptions');
+      spyOn(mockPdfRenderService, 'render');
+      spyOn(mockPdfRenderService, 'setRenderOptions');
       spyOn(mockPdfService, 'getPageNumber').and.returnValue(Observable.of(1));
 
       component.ngOnInit();
+      const renderOptions = new RenderOptions(component.url,
+        null,
+        parseFloat('1.33'),
+        0, []);
 
-      expect(mockPdfService.setRenderOptions)
-        .toHaveBeenCalledWith({documentId: component.url,
-                                pdfDocument: null,
-                                scale: parseFloat('1.33'),
-                                rotate: 0});
+      expect(mockPdfRenderService.setRenderOptions)
+        .toHaveBeenCalledWith(renderOptions);
       expect(mockPdfService.preRun).toHaveBeenCalledTimes(1);
-      expect(mockPdfService.render).toHaveBeenCalledTimes(1);
+      expect(mockPdfRenderService.render).toHaveBeenCalledTimes(1);
       expect(mockAnnotationStoreService.getAnnotationFocusSubject).toHaveBeenCalled();
       expect(component['page']).toBe(1);
     }));

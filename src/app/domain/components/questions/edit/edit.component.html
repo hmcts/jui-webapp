@@ -33,17 +33,12 @@
                     <div [ngClass]="{'govuk-form-group': true, 'govuk-form-group--error': submitted && form.get('question').valid === false}">
                         <label id="question-fragment" data-selector="item-question-label" class="govuk-label">Question</label>
                         <span *ngIf="submitted && form.get('question').valid === false" data-selector="subject-error" class="govuk-error-message">Enter a question</span>
-                        <textarea
-                            data-selector="item-question-textarea"
-                            type="text"
-                            [ngClass]="{
-                                'govuk-textarea': true,
-                                'form-control': true,
-                                'govuk-input--width-30x': true,
-                                'govuk-textarea--error': submitted && form.get('question').valid === false
-                            }"
-                            formControlName="question"
-                        ></textarea>
+                                                
+                        <app-text-editor
+                            [id]="'question'"
+                            [error]="submitted && form.get('question').valid === false"
+                            [formGroup]="form"
+                        ></app-text-editor>
                     </div>
                 </fieldset>
                 <button data-selector="save-button" class="govuk-button" type="submit">Save question</button>

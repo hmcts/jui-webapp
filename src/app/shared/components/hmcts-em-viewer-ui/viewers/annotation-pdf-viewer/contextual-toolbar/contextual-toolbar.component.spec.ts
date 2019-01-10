@@ -5,6 +5,7 @@ import { Annotation, Comment } from '../../../data/annotation-set.model';
 import { PdfService } from '../../../data/pdf.service';
 import { AnnotationStoreService } from '../../../data/annotation-store.service';
 import { EmLoggerService } from '../../../logging/em-logger.service';
+import { PdfRenderService } from '../../../data/pdf-render.service';
 
 class MockPdfService {
   annotationSub: Subject<string>;
@@ -18,7 +19,6 @@ class MockPdfService {
     this.annotationSub.next(annotationId);
   }
 
-  getViewerElementRef() {}
   getAnnotationWrapper() {}
 }
 
@@ -44,10 +44,15 @@ class MockViewerComponent {
   nativeElement: { querySelector() };
 }
 
+class MockPdfRenderService {
+  getViewerElementRef() {}
+}
+
 describe('ContextualToolbarComponent', () => {
   let component: ContextualToolbarComponent;
   let fixture: ComponentFixture<ContextualToolbarComponent>;
 
+  const mockPdfRenderService = new MockPdfRenderService();
   const mockViewerComponent = new MockViewerComponent();
   const mockPdfService = new MockPdfService();
   const mockAnnotationStoreService = new MockAnnotationStoreService();
@@ -78,6 +83,7 @@ describe('ContextualToolbarComponent', () => {
       providers: [
         EmLoggerService,
         {provide: PdfService, useFactory: () => mockPdfService},
+        {provide: PdfRenderService, useFactory: () => mockPdfRenderService},
         {provide: AnnotationStoreService, useFactory: () => mockAnnotationStoreService}
       ]
     })
@@ -96,7 +102,7 @@ describe('ContextualToolbarComponent', () => {
     spyOn(mockNativeElement, 'getBoundingClientRect').and.returnValue({getBoundingClientRect() {return mockBoundingRect; }});
     spyOn(mockNativeElement, 'querySelector').and.returnValue({getBoundingClientRect() {return mockBoundingRect; }});
     mockViewerComponent.nativeElement = mockNativeElement;
-    spyOn(mockPdfService, 'getViewerElementRef').and.returnValue(mockViewerComponent);
+    spyOn(mockPdfRenderService, 'getViewerElementRef').and.returnValue(mockViewerComponent);
     spyOn(mockPdfService, 'getAnnotationWrapper').and.returnValue(mockViewerComponent);
 
     spyOn(mockAnnotationStoreService, 'getToolbarUpdate').and

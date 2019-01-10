@@ -9,6 +9,7 @@ import { PdfService } from './pdf.service';
 import { Annotation, AnnotationSet, Comment } from './annotation-set.model';
 import { PdfAnnotateWrapper } from './js-wrapper/pdf-annotate-wrapper';
 import { EmLoggerService } from '../logging/em-logger.service';
+import { PdfRenderService } from './pdf-render.service';
 
 class MockPdfAnnotateWrapper {
   setStoreAdapter() {}
@@ -54,9 +55,13 @@ class MockPdfService {
   }
 }
 
+class MockPdfRenderService {
+
+}
+
 describe('AnnotationStoreService', () => {
   const mockPdfAnnotateWrapper = new MockPdfAnnotateWrapper();
-
+  const mockPdfRenderService = new MockPdfRenderService();
   const mockPdfService = new MockPdfService();
   const mockApiHttpService = new MockApiHttpService();
   const mockPdfAdapter = new MockPdfAdapter();
@@ -115,6 +120,7 @@ describe('AnnotationStoreService', () => {
       providers: [
         EmLoggerService,
         AnnotationStoreService,
+        { provide: PdfRenderService, useFactory: () => mockPdfRenderService },
         { provide: ApiHttpService, useFactory: () => mockApiHttpService },
         { provide: PdfAdapter, useFactory: () => mockPdfAdapter},
         { provide: PdfService, useFactory: () => mockPdfService},

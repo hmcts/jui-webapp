@@ -37,7 +37,9 @@
                             [text]=""
                             [error]="error.question"
                             [formGroup]="form"
+                            [richTextMode]="true"
                     ></app-textarea>
+                    
                 </fieldset>
                 <button [disabled]="!asyncResolved" data-selector="save-button" class="govuk-button" type="submit">{{asynctext}}</button>
                 
