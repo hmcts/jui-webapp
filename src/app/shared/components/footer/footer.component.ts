@@ -17,7 +17,7 @@ export class FooterComponent {
             text: environment.serviceDeskTel
         },
         opening: {
-            text: 'Monday to Friday, 8am to 6pm (excluding public holidays)'
+            text: 'Monday to Friday, 8am to 6pm'
         }
     };
     public navigationData: Navigation = {
