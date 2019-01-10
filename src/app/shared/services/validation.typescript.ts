@@ -22,3 +22,8 @@ export interface FormGroupValidator {
      */
     controls: Array<string>;
 }
+
+export interface controlsisTextAreaValidWhenCheckboxChecked {
+    checkboxControl: string,
+    textareaControl: string
+}

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Form, FormGroup} from '@angular/forms';
 import {Validators, ValidationErrors, ValidatorFn} from '@angular/forms';
-import {FormGroupValidator} from './validation.typescript';
+import {controlsisTextAreaValidWhenCheckboxChecked, FormGroupValidator} from './validation.typescript';
 
 @Injectable({
     providedIn: 'root'
@@ -203,7 +203,7 @@ export class ValidationService {
      * @param validationIdentifier
      * @return {any}
      */
-    isTextAreaValidWhenCheckboxChecked(formGroup: FormGroup, controls: Object<string>, validationIdentifier: string) {
+    isTextAreaValidWhenCheckboxChecked(formGroup: FormGroup, controls: controlsisTextAreaValidWhenCheckboxChecked, validationIdentifier: string) {
 
         console.log("isTextAreaValidWhenCheckboxChecked = >called",  controls.checkboxControl, controls.textareaControl, validationIdentifier);
 
