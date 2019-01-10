@@ -56,55 +56,55 @@ describe('ccd-def-api spec', () => {
     //     })
     // })
 
-    describe('getInfo', () => {
-        let getInfo
+    // describe('getInfo', () => {
+    //     let getInfo
 
-        beforeEach(() => {
-            getInfo = route.getInfo
-        })
+    //     beforeEach(() => {
+    //         getInfo = route.getInfo
+    //     })
 
-        it('should expose function', () => {
-            expect(getInfo).to.be.ok
-        })
+    //     it('should expose function', () => {
+    //         expect(getInfo).to.be.ok
+    //     })
 
-        it('should make a request', () => {
-            getInfo({})
-            expect(httpRequest).to.have.been.calledWith('GET', `${url}/info`, {})
-        })
-    })
+    //     it('should make a request', () => {
+    //         getInfo({})
+    //         expect(httpRequest).to.have.been.calledWith('GET', `${url}/info`, {})
+    //     })
+    // })
 
-    describe('getJurisdictions', () => {
-        let getJurisdictions
+    // describe('getJurisdictions', () => {
+    //     let getJurisdictions
 
-        beforeEach(() => {
-            getJurisdictions = route.getJurisdictions
-        })
+    //     beforeEach(() => {
+    //         getJurisdictions = route.getJurisdictions
+    //     })
 
-        it('should expose function', () => {
-            expect(getJurisdictions).to.be.ok
-        })
+    //     it('should expose function', () => {
+    //         expect(getJurisdictions).to.be.ok
+    //     })
 
-        it('should make a request', () => {
-            getJurisdictions({})
-            expect(httpRequest).to.have.been.calledWith('GET', `${url}/api/data/jurisdictions`, {})
-        })
-    })
+    //     it('should make a request', () => {
+    //         getJurisdictions({})
+    //         expect(httpRequest).to.have.been.calledWith('GET', `${url}/api/data/jurisdictions`, {})
+    //     })
+    // })
 
-    describe('getCaseTypes', () => {
-        let getCaseTypes
+    // describe('getCaseTypes', () => {
+    //     let getCaseTypes
 
-        beforeEach(() => {
-            getCaseTypes = route.getCaseTypes
-        })
+    //     beforeEach(() => {
+    //         getCaseTypes = route.getCaseTypes
+    //     })
 
-        it('should expose function', () => {
-            expect(getCaseTypes).to.be.ok
-        })
+    //     it('should expose function', () => {
+    //         expect(getCaseTypes).to.be.ok
+    //     })
 
-        // it('should make a request', () => {
-        //     const jurisdictions = 'jud'
-        //     getCaseTypes(`${jurisdictions}`, {})
-        //     expect(httpRequest).to.have.been.calledWith('GET', `${url}/api/data/jurisdictions/${jurisdictions}/case-type`, {})
-        // })
-    })
+    //     // it('should make a request', () => {
+    //     //     const jurisdictions = 'jud'
+    //     //     getCaseTypes(`${jurisdictions}`, {})
+    //     //     expect(httpRequest).to.have.been.calledWith('GET', `${url}/api/data/jurisdictions/${jurisdictions}/case-type`, {})
+    //     // })
+    // })
 })
