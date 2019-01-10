@@ -39,37 +39,37 @@ describe('bar-api spec', () => {
         request = supertest(app)
     })
 
-    describe('getHealth', () => {
-        let getHealth
+    // describe('getHealth', () => {
+    //     let getHealth
 
-        beforeEach(() => {
-            getHealth = route.getHealth
-        })
+    //     beforeEach(() => {
+    //         getHealth = route.getHealth
+    //     })
 
-        it('should expose function', () => {
-            expect(getHealth).to.be.ok
-        })
+    //     it('should expose function', () => {
+    //         expect(getHealth).to.be.ok
+    //     })
 
-        it('should make a request', () => {
-            getHealth({})
-            expect(httpRequest).to.have.been.calledWith('GET', `${url}/health`, {})
-        })
-    })
+    //     it('should make a request', () => {
+    //         getHealth({})
+    //         expect(httpRequest).to.have.been.calledWith('GET', `${url}/health`, {})
+    //     })
+    // })
 
-    describe('getInfo', () => {
-        let getInfo
+    // describe('getInfo', () => {
+    //     let getInfo
 
-        beforeEach(() => {
-            getInfo = route.getInfo
-        })
+    //     beforeEach(() => {
+    //         getInfo = route.getInfo
+    //     })
 
-        it('should expose function', () => {
-            expect(getInfo).to.be.ok
-        })
+    //     it('should expose function', () => {
+    //         expect(getInfo).to.be.ok
+    //     })
 
-        it('should make a request', () => {
-            getInfo({})
-            expect(httpRequest).to.have.been.calledWith('GET', `${url}/info`, {})
-        })
-    })
+    //     it('should make a request', () => {
+    //         getInfo({})
+    //         expect(httpRequest).to.have.been.calledWith('GET', `${url}/info`, {})
+    //     })
+    // })
 })
