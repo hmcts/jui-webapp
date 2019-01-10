@@ -269,7 +269,7 @@ export class ValidationService {
      * @return {ValidatorFn}
      */
     createFormGroupValidator(formGroup: FormGroup, validatorFunc: string, controls: any, validationErrorId: string): ValidatorFn {
-        console.log(validatorFunc);
+
         return this[validatorFunc](formGroup, controls, validationErrorId);
     }
 }
