@@ -33,10 +33,10 @@ export class TextareasComponent {
     isGroupInvalidAndShowValidation (formGroup: FormGroup, showValidation: boolean) {
 
             if(formGroup.errors && formGroup.errors[this.control] && showValidation) {
-                return true
-            } else {
-                return false
+                return true;
             }
+            
+            return false;
 
     }
 
