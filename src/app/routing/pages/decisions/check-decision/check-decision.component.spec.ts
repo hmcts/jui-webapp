@@ -11,16 +11,15 @@ import { DecisionService } from '../../../../domain/services/decision.service';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { JUIFormsModule } from '../../../../forms/forms.module';
-import { RedirectionService } from '../../../redirection.service';
 import { GovukModule } from '../../../../govuk/govuk.module';
 import { HmctsModule } from '../../../../hmcts/hmcts.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { ValidationService } from '../../../../shared/services/validation.service';
 
-fdescribe('CheckDecisionComponent', () => {
+describe('CheckDecisionComponent', () => {
     let component: CheckDecisionComponent;
     let fixture: ComponentFixture<CheckDecisionComponent>;
     let decisionServiceFetchSpy;
-    let decisionServiceIssueSpy;
     let decision;
 
     beforeEach(async(() => {
@@ -46,9 +45,6 @@ fdescribe('CheckDecisionComponent', () => {
                         fetch: () => {
                             return of(decision);
                         },
-                        issueDecision: () => {
-                            return of({});
-                        },
                         submitDecisionDraft: () => {
                             return of({});
                         }
@@ -60,6 +56,12 @@ fdescribe('CheckDecisionComponent', () => {
                         config: {
                             api_base_url: ''
                         }
+                    }
+                },
+                {
+                    provide: ValidationService,
+                    useValue: {
+                        createFormGroupValidators: () => {}
                     }
                 },
                 {
@@ -101,21 +103,20 @@ fdescribe('CheckDecisionComponent', () => {
             ]
         }).compileComponents();
 
-    }));
-
-    beforeEach(() => {
         decisionServiceFetchSpy = spyOn(
             TestBed.get(DecisionService),
             'fetch'
-        ).and.returnValue(of({}));
-        decisionServiceIssueSpy = spyOn(
-            TestBed.get(DecisionService),
-            'issueDecision'
-        ).and.returnValue(of({}));
+        ).and.returnValue(of({
+            meta: {
+            },
+            formValues: {}
+        }));
         fixture = TestBed.createComponent(CheckDecisionComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
-    });
+
+    }));
+
     afterEach(() => {
         TestBed.resetTestingModule();
     });
@@ -124,23 +125,44 @@ fdescribe('CheckDecisionComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    describe('on form submission', () => {
-        let redirectionServiceSpy;
+    describe('on form submission', () => {        
 
         describe('if form is valid', () => {
+            let decisionServiceSubmitDecisionDraftSpy;
+
             beforeEach(() => {
-                redirectionServiceSpy = spyOn(
-                    TestBed.get(RedirectionService),
-                    'redirect'
-                );
+                decisionServiceSubmitDecisionDraftSpy = spyOn(
+                    TestBed.get(DecisionService),
+                    'submitDecisionDraft'
+                ).and.returnValue(of({}));
             });
 
-            it('should issue the decision', () => {
-                component.pageitems = {};
+            it('should submit the decision', () => {                
                 component.onSubmit({});
-                expect(decisionServiceIssueSpy).toHaveBeenCalledWith('1234', {});
-                expect(redirectionServiceSpy).toHaveBeenCalled();
+                expect(decisionServiceSubmitDecisionDraftSpy).toHaveBeenCalled();
             });
         });
+    });
+
+    it('should check whether section exists', () => {
+        component.pageValues = {
+            visitedPages: {
+                section: true
+            }
+        };
+
+        expect(component.isSectionExist('section')).toBeTruthy();
+    });
+
+    it('should check has actvities', () => {
+        const activities = [
+            { type: 'dummy' }
+        ];
+
+        component.pageValues = {
+            dummy: true
+        };
+
+        expect(component.hasActivities(activities)).toBeTruthy();
     });
 });
