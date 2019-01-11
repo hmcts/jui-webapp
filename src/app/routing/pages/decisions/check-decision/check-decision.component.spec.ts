@@ -102,7 +102,9 @@ describe('CheckDecisionComponent', () => {
                 }
             ]
         }).compileComponents();
+    }));
 
+    beforeEach(() => {
         decisionServiceFetchSpy = spyOn(
             TestBed.get(DecisionService),
             'fetch'
@@ -115,7 +117,7 @@ describe('CheckDecisionComponent', () => {
         component = fixture.componentInstance;
         fixture.detectChanges();
 
-    }));
+    });
 
     afterEach(() => {
         TestBed.resetTestingModule();
