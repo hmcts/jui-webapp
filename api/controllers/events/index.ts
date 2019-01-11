@@ -54,8 +54,8 @@ function reduceCcdEvents(jurisdiction, caseType, caseId, events) {
     })
 }
 
-function getCcdEvents(userId, jurisdiction, caseType, caseId) {
-    return getCCDEvents(userId, jurisdiction, caseType, caseId).then(events =>
+async function getCcdEvents(userId, jurisdiction, caseType, caseId) {
+    return await getCCDEvents(userId, jurisdiction, caseType, caseId).then(events =>
         reduceCcdEvents(jurisdiction, caseType, caseId, events)
     )
 }
@@ -117,9 +117,9 @@ function sortEvents(events) {
 
 export async function getEvents(userId, jurisdiction, caseType, caseId) {
     const promiseArray = []
-    promiseArray.push(getCcdEvents(userId, jurisdiction, caseType, caseId))
+    promiseArray.push(await getCcdEvents(userId, jurisdiction, caseType, caseId))
     if (hasCOR(jurisdiction, caseType)) {
-        promiseArray.push(getCohEvents(userId, caseId))
+        promiseArray.push( await getCohEvents(userId, caseId))
     }
     return Promise.all(promiseArray)
         .then(combineLists)
