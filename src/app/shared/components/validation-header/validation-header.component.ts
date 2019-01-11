@@ -4,8 +4,7 @@ import {ValidationService} from '../../services/validation.service';
 
 @Component({
     selector: 'app-validation-header',
-    templateUrl: './validation-header.component.html',
-    styleUrls: ['./validation-header.component.scss']
+    templateUrl: './validation-header.component.html'
 })
 /**
  * ValidationHeaderComponent
@@ -51,6 +50,7 @@ export class ValidationHeaderComponent {
      * @param control - 'informationNeeded'
      */
     isFormControlValid(formGroup: FormGroup, control: string): boolean {
+
         return this.validationService.isFormControlValid(formGroup, control);
     }
 
@@ -62,6 +62,7 @@ export class ValidationHeaderComponent {
      * @return {boolean}
      */
     isFormGroupInvalid(formGroup: FormGroup, validationErrorId: string): boolean {
+
         return this.validationService.isFormGroupInvalid(formGroup, validationErrorId);
     }
 

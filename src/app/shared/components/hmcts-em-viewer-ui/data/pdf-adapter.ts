@@ -4,6 +4,7 @@ import {Subject} from 'rxjs';
 import {Annotation, AnnotationSet, Comment, Rectangle} from './annotation-set.model';
 import {Utils} from './utils';
 import { WINDOW } from '@ng-toolkit/universal';
+import { EmLoggerService } from '../logging/em-logger.service';
 
 @Injectable()
 export class PdfAdapter {
@@ -11,14 +12,16 @@ export class PdfAdapter {
     annotations: Annotation[];
     private commentData: Comment[];
     annotationSetId: string;
-    private annotationChangeSubject: Subject<{ type: String, annotation: Annotation }>;
+    private annotationChangeSubject: Subject<{ type: string, annotation: Annotation }>;
 
-    constructor(private utils: Utils,
+    constructor(private log: EmLoggerService,
+                private utils: Utils,
                 @Inject(WINDOW) private window: Window) {
-        this.annotationChangeSubject = new Subject<{ type: String, annotation: Annotation }>();
+        this.annotationChangeSubject = new Subject<{ type: string, annotation: Annotation }>();
+        log.setClass('PdfAdapter');
     }
 
-    getAnnotationChangeSubject(): Subject<{ type: String, annotation: Annotation }> {
+    getAnnotationChangeSubject(): Subject<{ type: string, annotation: Annotation }> {
         return this.annotationChangeSubject;
     }
 
@@ -39,6 +42,7 @@ export class PdfAdapter {
             annotation.comments
                 .filter(storeComment => storeComment.id === comment.id)
                 .map(storeComment => {
+                    this.log.info('Editing comment:' + comment.id);
                     storeComment.content = comment.content;
                     this.annotationChangeSubject.next({'type': 'editComment', 'annotation': annotation});
                 });
@@ -116,6 +120,7 @@ export class PdfAdapter {
                 persistAnnotation.annotationSetId = this.annotationSetId;
 
                 const rectangles = [];
+                this.log.info('Generating efficient rectangles for new annotation:' + persistAnnotation.id);
                 this.utils.generateRectanglePerLine(annotation.rectangles, rectangles);
 
                 rectangles.forEach(
@@ -127,6 +132,7 @@ export class PdfAdapter {
 
                 const annotations = this._getAnnotations(documentId);
                 annotations.push(persistAnnotation);
+                this.log.info('Added annotation:' + annotation.id);
                 this.annotationChangeSubject.next({'type': 'addAnnotation', 'annotation': persistAnnotation});
                 resolve(persistAnnotation);
             });
@@ -136,6 +142,7 @@ export class PdfAdapter {
             return new Promise((resolve, reject) => {
                 const annotation = this.findById(this.annotations, annotationId);
                 this.remove(this.annotations, annotationId);
+                this.log.info('Deleted annotation:' + annotationId);
                 this.annotationChangeSubject.next({'type': 'deleteAnnotation', 'annotation': annotation});
                 resolve(this.annotations);
             });
@@ -156,11 +163,14 @@ export class PdfAdapter {
                 );
                 this.updateComments(documentId, comment);
                 const annotation: Annotation = this.findById(this.annotations, annotationId);
+                this.log.info('Comment:' + comment.id + ' has been added to annotation:' + annotationId);
                 annotation.comments.push(comment);
 
                 if (this.isDraftComment(comment)) {
+                    this.log.info('Removing comment box because no content exists');
                     resolve(comment);
                 } else {
+                    this.log.info('Add comment:' + comment.id + '-' + 'annotationId:' + annotation.id);
                     this.annotationChangeSubject.next({'type': 'addComment', 'annotation': annotation});
                     resolve(comment);
                 }
@@ -175,8 +185,10 @@ export class PdfAdapter {
                 this.remove(annotation.comments, commentId);
 
                 if (this.isDraftComment(comment)) {
+                    this.log.info('Removing comment box because no content exists');
                     resolve(comment);
                 } else {
+                    this.log.info('Deleted comment:' + commentId + '-' + 'annotationId:' + annotation.id);
                     this.annotationChangeSubject.next({'type': 'deleteComment', 'annotation': annotation});
                     resolve(this.annotations);
                 }

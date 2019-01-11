@@ -4,8 +4,7 @@ import {ConfigService} from '../../../../config.service';
 
 @Component({
     selector: 'app-document-panel',
-    templateUrl: './document-panel.component.html',
-    styleUrls: ['./document-panel.component.scss']
+    templateUrl: './document-panel.component.html'
 })
 export class DocumentPanelComponent implements OnInit {
 

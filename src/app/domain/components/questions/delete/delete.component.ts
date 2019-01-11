@@ -31,6 +31,6 @@ export class DeleteQuestionComponent implements OnInit {
     remove() {
         this.questionService.remove(this.caseId, this.questionId).subscribe(res => {
             this.redirectionService.redirect(`/case/${this.jurisdiction}/${this.caseType}/${this.caseId}/questions?deleted=success`);
-        }, err => console.log);
+        }, (err:any) => {});
     }
 }

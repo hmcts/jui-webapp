@@ -1,12 +1,39 @@
 module.exports = {
     idPrefix: 'set-award-dates',
     name: 'set-award-dates',
-    header: 'Do you want to approve the draft consent order?',
-    formGroupValidators: [],
+    header: 'Set award dates',
+    formGroupValidators: [
+        {
+            validatorFunc: 'isAllFieldsRequired',
+            validationErrorId: 'startDate',
+            checkboxes: [
+                'awardStartDateDay', 'awardStartDateMonth', 'awardStartDateYear'
+            ]
+        },
+        {
+            validatorFunc: 'isAllFieldsRequired',
+            validationErrorId: 'endDate',
+            checkboxes: [
+                'awardEndDateDay', 'awardEndDateMonth', 'awardEndDateYear'
+            ]
+        }
+    ],
     validationHeaderErrorMessages: [
         {
+            validationLevel: 'formGroup',
+            formGroupValidationErrorId: 'startDate',
+            text: 'Select start date',
+            href: '#'
+        },
+        {
+            validationLevel: 'formGroup',
+            formGroupValidationErrorId: 'endDate',
+            text: 'Select the end date',
+            href: '#'
+        },
+        {
             validationLevel: 'formControl',
-            controlId: 'approveDraftConsent',
+            controlId: 'endDateRadio',
             text: 'Select the end date',
             href: '#'
         }
@@ -27,6 +54,10 @@ module.exports = {
         },
         {
             date: {
+                validationError: {
+                    value: 'Select start date',
+                    identifier: 'startDate'
+                },
                 formName: 'startDate',
                 day: {
                     input: {
@@ -35,7 +66,8 @@ module.exports = {
                             classes: 'govuk-date-input__label'
                         },
                         control: 'awardStartDateDay',
-                        classes: 'govuk-date-input__input govuk-input--width-2'
+                        classes: 'govuk-date-input__input govuk-input--width-2',
+                        validators: ['required']
                     }
                 },
                 month: {
@@ -45,7 +77,8 @@ module.exports = {
                             classes: 'govuk-date-input__label'
                         },
                         control: 'awardStartDateMonth',
-                        classes: 'govuk-date-input__input govuk-input--width-2'
+                        classes: 'govuk-date-input__input govuk-input--width-2',
+                        validators: ['required']
                     }
                 },
                 year: {
@@ -55,7 +88,8 @@ module.exports = {
                             classes: 'govuk-date-input__label'
                         },
                         control: 'awardStartDateYear',
-                        classes: 'govuk-date-input__input govuk-input--width-4'
+                        classes: 'govuk-date-input__input govuk-input--width-4',
+                        validators: ['required']
                     }
                 }
             }
@@ -64,12 +98,12 @@ module.exports = {
             fieldset: [
                 {
                     radios: {
-                        control: 'approveDraftConsent',
-                        validators: ['required'],
+                        control: 'endDateRadio',
                         validationError: {
                             value: 'Select the end date',
-                            controlId: 'approveDraftConsent'
+                            controlId: 'endDateRadio'
                         },
+                        validators: ['required'],
                         radioGroup: [
                             {
                                 value: 'endDate',
@@ -92,6 +126,10 @@ module.exports = {
                                     {
                                         date: {
                                             formName: 'endDate',
+                                            validationError: {
+                                                value: 'Select the end date',
+                                                identifier: 'endDate'
+                                            },
                                             day: {
                                                 input: {
                                                     label: {
@@ -99,7 +137,8 @@ module.exports = {
                                                         classes: 'govuk-date-input__label'
                                                     },
                                                     control: 'awardEndDateDay',
-                                                    classes: 'govuk-date-input__input govuk-input--width-2'
+                                                    classes: 'govuk-date-input__input govuk-input--width-2',
+                                                    validators: ['required']
                                                 }
                                             },
                                             month: {
@@ -109,7 +148,8 @@ module.exports = {
                                                         classes: 'govuk-date-input__label'
                                                     },
                                                     control: 'awardEndDateMonth',
-                                                    classes: 'govuk-date-input__input govuk-input--width-2'
+                                                    classes: 'govuk-date-input__input govuk-input--width-2',
+                                                    validators: ['required']
                                                 }
                                             },
                                             year: {
@@ -119,7 +159,8 @@ module.exports = {
                                                         classes: 'govuk-date-input__label'
                                                     },
                                                     control: 'awardEndDateYear',
-                                                    classes: 'govuk-date-input__input govuk-input--width-4'
+                                                    classes: 'govuk-date-input__input govuk-input--width-4',
+                                                    validators: ['required']
                                                 }
                                             }
                                         }

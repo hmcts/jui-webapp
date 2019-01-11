@@ -3,13 +3,12 @@ import {FormGroup} from '@angular/forms';
 
 @Component({
     selector: 'app-checkbox',
-    templateUrl: './checkbox.component.html',
-    styleUrls: ['./checkbox.component.scss']
+    templateUrl: './checkbox.component.html'
 })
 export class CheckboxComponent {
     @Input() group: FormGroup;
-    @Input() idPrefix = 'waste';
-    @Input() name = 'waste';
+    @Input() idPrefix;
+    @Input() name;
     @Input() items;
     @Input() classes;
     @Input() labelClasses;

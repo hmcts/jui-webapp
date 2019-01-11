@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import 'rxjs/add/operator/filter';
-import {CaseDataOther} from '../../../routing/pages/modules/case';
+import {PageDateCaseBar} from '../../models/section_fields';
 
 @Component({
         selector: 'app-casebar',
@@ -9,7 +9,7 @@ import {CaseDataOther} from '../../../routing/pages/modules/case';
 })
 export class CaseBarComponent {
 
-    @Input() case: CaseDataOther;
+    @Input() case: PageDateCaseBar;
 
     constructor() {}
 

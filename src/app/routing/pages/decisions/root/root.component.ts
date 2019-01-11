@@ -18,6 +18,5 @@ export class DecisionRootComponent implements OnInit {
     ngOnInit() {
       this.case = this.route.snapshot.data['caseData'];
       this.decisionService.issueDecision(this.case);
-      console.log('Decision root componnet called', this.case);
     }
 }

@@ -1,8 +1,24 @@
 <div class="jui-cf__toolbar" role="toolbar">
     <div class="jui-cf__toolbar-container">
         <!-- show case list tree-->
-        <button class="jui-cf__toolbar-button jui-cf__toolbar-button--items" type="button" aria-controls="files" [attr.aria-pressed]="!isCommentView" role="button" (click)="listView()">All items</button>
+        <button
+            class="jui-cf__toolbar-button jui-cf__toolbar-button--items"
+            type="button"
+            aria-controls="files"
+            data-selector="button-items"
+            [attr.aria-pressed]="!isCommentView"
+            role="button"
+            (click)="listView()">
+            All items
+        </button>
         <!-- show case annotations-->
-        <button class="jui-cf__toolbar-button jui-cf__toolbar-button--comments" type="button" aria-controls="comments" [attr.aria-pressed]="isCommentView" role="button" (click)="commentView()">Comments</button>
+        <button class="jui-cf__toolbar-button jui-cf__toolbar-button--comments"
+                type="button"
+                aria-controls="comments"
+                data-selector="button-comments"
+                [attr.aria-pressed]="isCommentView"
+                role="button" (click)="commentView()">
+            Comments
+        </button>
     </div>
 </div>

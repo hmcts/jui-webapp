@@ -8,6 +8,8 @@ import { Annotation, Comment } from '../../../data/annotation-set.model';
 import { Utils } from '../../../data/utils';
 import { PdfService } from '../../../data/pdf.service';
 import { AnnotationStoreService } from '../../../data/annotation-store.service';
+import { EmLoggerService } from '../../../logging/em-logger.service';
+import { PdfRenderService } from '../../../data/pdf-render.service';
 
 class MockUtils {
   sortByLinePosition() {}
@@ -22,11 +24,9 @@ class MockPdfService {
     this.pageNumber.next(1);
   }
 
-  getPdfPages() {}
   getPageNumber() {
     return this.pageNumber;
   }
-  getDataLoadedSub() {}
 }
 
 class MockAnnotationStoreService {
@@ -68,15 +68,24 @@ class MockAnnotationStoreService {
 }
 
 class MockCommentItemComponent extends CommentItemComponent {
+  
   constructor() {
-    super(null, null, null, null, null);
+    const log = new EmLoggerService();
+    super(null, null, null, null, null, null, log);
   }
+}
+
+class MockPdfRenderService {
+  getDataLoadedSub() {}
+  getPdfPages() {}
 }
 
 describe('CommentsComponent', () => {
   const mockUtils = new MockUtils();
   const mockAnnotationStoreService = new MockAnnotationStoreService();
   const mockPdfService = new MockPdfService();
+  const mockPdfRenderService = new MockPdfRenderService();
+
   let component: CommentsComponent;
   let fixture: ComponentFixture<CommentsComponent>;
 
@@ -88,7 +97,9 @@ describe('CommentsComponent', () => {
       ],
       schemas: [NO_ERRORS_SCHEMA],
       providers: [
+        EmLoggerService,
         { provide: Utils, useFactory: () => mockUtils },
+        { provide: PdfRenderService, useFactory: () => mockPdfRenderService },
         { provide: PdfService, useFactory: () => mockPdfService },
         { provide: AnnotationStoreService, useFactory: () => mockAnnotationStoreService }
       ],
@@ -105,7 +116,7 @@ describe('CommentsComponent', () => {
     fixture = TestBed.createComponent(CommentsComponent);
     component = fixture.componentInstance;
     component.commentItems = new QueryList();
-    spyOn(mockPdfService, 'getDataLoadedSub').and.returnValue(of(true));
+    spyOn(mockPdfRenderService, 'getDataLoadedSub').and.returnValue(of(true));
     spyOn(mockAnnotationStoreService, 'getAnnotationsForPage').and
     .callFake(() => {
         return new Promise((resolve) => {
@@ -141,17 +152,6 @@ describe('CommentsComponent', () => {
       spyOn(component['dataLoadedSub'], 'unsubscribe');
       component.ngOnDestroy();
       expect(component['dataLoadedSub'].unsubscribe).toHaveBeenCalled();
-    });
-  });
-
-  describe('redrawCommentItemComponents', () => {
-    it('should call sortCommentItemComponents', (done) => {
-      spyOn(component, 'sortCommentItemComponents').and.stub();
-      component.redrawCommentItemComponents();
-      fixture.detectChanges();
-      fixture.whenStable().then(() => {
-          done(); // waits for promise to complete
-      });
     });
   });
 
@@ -195,7 +195,7 @@ describe('CommentsComponent', () => {
   });
 
   describe('isAnnotationOnSameLine', () => {
-    
+
     const aCommentItemComponent = new MockCommentItemComponent();
     aCommentItemComponent.annotationHeight = 10;
 
@@ -235,7 +235,7 @@ describe('CommentsComponent', () => {
       const returnedComment = component.isOverlapping(commentItemComponent, previousCommentItemComponent);
       expect(returnedComment.commentTopPos).toBe(previousCommentItemComponent.commentTopPos + previousCommentItemComponent.commentHeight);
     });
-  }); 
+  });
 
   describe('preRun', () => {
     it('should subscribe to pageNumSub', () => {

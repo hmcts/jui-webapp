@@ -68,3 +68,11 @@ export const mockSnapshot: PageDateDefault = {
             }
         ]
     };
+
+export const mockParams = {
+    section: 'parties',
+    jur: 'SSCS',
+    casetype: 'Benefit',
+    case_id: '1234',
+    section_item_id: 'petitioner'
+};

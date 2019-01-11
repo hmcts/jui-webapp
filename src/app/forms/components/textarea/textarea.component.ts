@@ -16,5 +16,7 @@ export class TextareaComponent {
     @Input() text = '';
     @Input() formGroup;
 
+    @Input()  richTextMode: boolean;
+
     constructor() { }
 }

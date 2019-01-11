@@ -3,8 +3,7 @@ import {LinkItem} from '../../../domain/models/section_fields';
 
 @Component({
     selector: 'app-case-actions',
-    templateUrl: './case-actions.component.html',
-    styleUrls: ['./case-actions.component.scss']
+    templateUrl: './case-actions.component.html'
 })
 export class CaseActionsComponent {
 

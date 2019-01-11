@@ -1,7 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DeleteQuestionComponent } from './delete.component';
-import { SharedModule } from '../../../../shared/shared.module';
-import { DomainModule } from '../../../domain.module';
 import { QuestionService } from '../../../services/question.service';
 import { Selector } from '../../../../shared/selector-helper';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
@@ -12,7 +10,10 @@ import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RedirectionService } from '../../../../routing/redirection.service';
 import { CaseService } from '../../../services/case.service';
-import { Observable, of } from 'rxjs';
+import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import {mockConfigService} from '../../../mock/config.mock';
+import {mockQuestionDeleteActivateRoute} from '../../../mock/activateRoute.mock';
+import {mockRedirectionService} from '../../../mock/redirection.mock';
 
 
 describe('DeleteQuestionComponent', () => {
@@ -23,45 +24,30 @@ describe('DeleteQuestionComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [],
+            declarations: [
+                DeleteQuestionComponent
+            ],
             imports: [
-                DomainModule,
-                SharedModule,
                 BrowserTransferStateModule,
                 HttpClientTestingModule,
                 RouterTestingModule,
                 RouterModule
             ],
+            schemas: [CUSTOM_ELEMENTS_SCHEMA],
             providers: [
                 {
                     provide: RedirectionService,
-                    useValue: {
-                        redirect: {}
-                    }
+                    useValue: mockRedirectionService
                 },
                 CaseService,
                 QuestionService,
                 {
                     provide: ActivatedRoute,
-                    useValue: {
-                        params: of({
-                            'question_id': '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
-                        }),
-                        queryParams: of({}),
-                        parent: {
-                            params: of({
-                                'case_id': '99eb9981-9360-4d4b-b9fd-506b5818e7ff'
-                            }),
-                        }
-                    }
+                    useValue: mockQuestionDeleteActivateRoute
                 },
                 {
                     provide: ConfigService,
-                    useValue: {
-                        config: {
-                            api_base_url: ''
-                        }
-                    }
+                    useValue: mockConfigService
                 }
             ]
         })
@@ -92,7 +78,7 @@ describe('DeleteQuestionComponent', () => {
                    });
         }));
 
-        xit('submitting a form emits a delete request', () => {
+        it('submitting a form emits a delete request', () => {
             component.remove();
 
             httpMock

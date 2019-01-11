@@ -1,0 +1,53 @@
+<div class="jui-editor" [formGroup]="formGroup">
+  <div class="jui-editor__toolbar" role="toolbar">
+    
+    <button class="jui-editor__toolbar-button jui-editor__toolbar-button--bold" type="button"
+      data-command="bold"
+      tabindex="{{selectedStyleButton === 'bold' || selectedStyleButton === undefined ? 0 : -1}}"
+      (click)="onClick($event)"
+      (focus)="onFocus($event)"
+      (keydown)="onKeyDown($event)"
+    ><span class="govuk-visually-hidden">Bold</span></button>
+
+    <button class="jui-editor__toolbar-button jui-editor__toolbar-button--italic" type="button"
+      data-command="italic"
+      tabindex="{{selectedStyleButton === 'italic' ? 0 : -1}}"
+      (click)="onClick($event)"
+      (focus)="onFocus($event)"
+      (keydown)="onKeyDown($event)"
+    ><span class="govuk-visually-hidden">Italic</span></button>
+
+    <button class="jui-editor__toolbar-button jui-editor__toolbar-button--underline" type="button"
+      data-command="underline"
+      tabindex="{{selectedStyleButton === 'underline' ? 0 : -1}}"
+      (click)="onClick($event)"
+      (focus)="onFocus($event)"
+      (keydown)="onKeyDown($event)"
+    ><span class="govuk-visually-hidden">Underline</span></button>
+
+    <button class="jui-editor__toolbar-button jui-editor__toolbar-button--unordered-list" type="button"
+      data-command="insertUnorderedList"
+      tabindex="{{selectedStyleButton === 'insertUnorderedList' ? 0 : -1}}"
+      (click)="onClick($event)"
+      (focus)="onFocus($event)"
+      (keydown)="onKeyDown($event)"
+    ><span class="govuk-visually-hidden">Unordered list</span></button>
+
+    <button class="jui-editor__toolbar-button jui-editor__toolbar-button--ordered-list" type="button"
+      data-command="insertOrderedList"
+      tabindex="{{selectedStyleButton === 'insertOrderedList' ? 0 : -1}}"
+      (click)="onClick($event)"
+      (focus)="onFocus($event)"
+      (keydown)="onKeyDown($event)"
+    ><span class="govuk-visually-hidden">Ordered list</span></button>
+
+  </div>
+
+  <app-textarea-custom 
+    [id]="id" 
+    formControlName="{{id}}"
+    [error]="error"
+    [disable]="disable"
+  ></app-textarea-custom>
+
+</div>

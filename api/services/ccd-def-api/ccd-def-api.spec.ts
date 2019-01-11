@@ -10,7 +10,7 @@ chai.use(sinonChai)
 const expect = chai.expect
 const proxyquire = pq.noPreserveCache()
 
-import {config} from '../../../config'
+import { config } from '../../../config'
 
 const url = config.services.ccd_def_api
 
@@ -101,10 +101,10 @@ describe('ccd-def-api spec', () => {
             expect(getCaseTypes).to.be.ok
         })
 
-        it('should make a request', () => {
-            const jurisdictions = 'jud'
-            getCaseTypes(`${jurisdictions}`, {})
-            expect(httpRequest).to.have.been.calledWith('GET', `${url}/api/data/jurisdictions/${jurisdictions}/case-type`, {})
-        })
+        // it('should make a request', () => {
+        //     const jurisdictions = 'jud'
+        //     getCaseTypes(`${jurisdictions}`, {})
+        //     expect(httpRequest).to.have.been.calledWith('GET', `${url}/api/data/jurisdictions/${jurisdictions}/case-type`, {})
+        // })
     })
 })

@@ -31,7 +31,6 @@ async function getOauth2Token () {
             return res.code
         })
         .catch(error => {
-            console.log(error)
         })
 
     return token;

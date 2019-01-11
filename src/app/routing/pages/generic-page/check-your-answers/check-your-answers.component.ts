@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-check-your-answers',
-  templateUrl: './check-your-answers.component.html',
-  styleUrls: ['./check-your-answers.component.scss']
+  templateUrl: './check-your-answers.component.html'
 })
 export class CheckYourAnswersComponent implements OnInit {
   constructor() { }

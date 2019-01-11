@@ -4,7 +4,7 @@ Feature: Dashboard
     Background:
         Given I navigate to JUI Url
 
-    @RIUI-956 @all
+    @RIUI-956 @all @smoke
     Scenario: Verify Dashboard table column header texts
         When I am logged into JUI web app
         Then I will be redirected to the JUI dashboard page
@@ -12,9 +12,9 @@ Feature: Dashboard
         Then I should see table each column header text as Case number, Parties, Type, Decision needed on, Case received, Date of last event
 
 
-    @RIUI_370 @RIUI_418 @all
+    @RIUI_370 @RIUI_418
     Scenario Outline: Verify available case types on Jui Dashboard
-        When I am logged into JUI web app
+        When I am logged into JUI web app with FR judge details
         Then I will be redirected to the JUI dashboard page
         When one or more cases <type> are displayed
         When I select a case <type>
@@ -25,7 +25,7 @@ Feature: Dashboard
 
 
 
-    @RIUI_417 @all
+    @RIUI_417 @all @smoke
     Scenario: Verify date details for all type of cases
         When I am logged into JUI web app
         Then I will be redirected to the JUI dashboard page

@@ -9,49 +9,12 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { ConfigService } from '../../../config.service';
 import { BrowserTransferStateModule, StateKey } from '@angular/platform-browser';
 import { makeStateKey, TransferState } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import {mockColums} from './mock/columns.mock';
+import {mockConfigService} from '../../mock/config.mock';
 
-const columns = [
-    {
-        'label': 'Parties',
-        'order': 2,
-        'case_field_id': 'parties',
-        'lookup': [
-            '$.appeal.appellant.name.firstName',
-            '$.appeal.appellant.name.lastName',
-            'vs DWP'
-        ]
-    },
-    {
-        'label': 'Type',
-        'order': 3,
-        'case_field_id': 'type',
-        'lookup': 'PIP',
-
-    },
-    {
-        'label': 'Case received',
-        'order': 4,
-        'case_field_id': 'createdDate',
-        'lookup': '$.created_date',
-        'date_format': 'd MMMM yyyy \'at\' h:mmaaaaa\'m\''
-    },
-    {
-        'label': 'Date of Last Action',
-        'order': 5,
-        'case_field_id': 'lastModified',
-        'lookup': '$.last_modified',
-        'date_format': 'd MMMM yyyy \'at\' h:mmaaaaa\'m\''
-    }
-];
+const columns = mockColums;
 const casesUrl = '/api/cases';
-
-const configMock = {
-    config: {
-        api_base_url: ''
-    }
-};
 
 describe('SearchResultComponent', () => {
     let component: SearchResultComponent;
@@ -73,21 +36,28 @@ describe('SearchResultComponent', () => {
                 CaseService,
                 {
                     provide: ConfigService,
-                    useValue: configMock
+                    useValue: mockConfigService
                 }
             ]
         })
                .compileComponents();
     }));
+    beforeEach(() => {
+        fixture = TestBed.createComponent(SearchResultComponent);
+        component = fixture.componentInstance;
+        nativeElement = fixture.nativeElement;
+        httpMock = TestBed.get(HttpTestingController);
+        fixture.detectChanges();
+    });
+    beforeEach(async(() => {
+        fixture.whenStable()
+            .then(() => {
+                fixture.detectChanges();
+            });
+    }));
 
     describe('when there is no data in the transfer state', () => {
-        beforeEach(() => {
-            fixture = TestBed.createComponent(SearchResultComponent);
-            component = fixture.componentInstance;
-            nativeElement = fixture.nativeElement;
-            httpMock = TestBed.get(HttpTestingController);
-            fixture.detectChanges();
-        });
+
 
         it('should create', () => {
             expect(component)
@@ -104,21 +74,11 @@ describe('SearchResultComponent', () => {
                 });
             }));
 
-            beforeEach(async(() => {
-                fixture.whenStable()
-                       .then(() => {
-                           fixture.detectChanges();
-                       });
-            }));
+
 
             it('should have zero rows', () => {
                 expect(nativeElement.querySelectorAll(Selector.selector('search-result|table-row')).length)
                     .toBe(0);
-            });
-
-            it('should show a message saying that there are no cases', () => {
-                expect(nativeElement.querySelector(Selector.selector('search-result|no-results-text')))
-                    .toBeTruthy();
             });
         });
 

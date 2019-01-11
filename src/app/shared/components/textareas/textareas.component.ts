@@ -4,8 +4,7 @@ import {ValidationService} from '../../services/validation.service';
 
 @Component({
     selector: 'app-textareas',
-    templateUrl: './textareas.component.html',
-    styleUrls: ['./textareas.component.scss']
+    templateUrl: './textareas.component.html'
 })
 /**
  * TextareasComponent

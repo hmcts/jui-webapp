@@ -12,7 +12,7 @@
             <cdk-header-cell *cdkHeaderCellDef class="govuk-table__header" attr.data-selector="decision-needed-on-header">Decision needed on</cdk-header-cell>
             <cdk-cell class="govuk-table__cell" *cdkCellDef="let row;">
                 <span attr.data-selector="case-status-value" *ngIf="!row.case_fields.status.actionGoTo">{{row.case_fields.status.name}}</span>
-                <a data-selector="case-status-reference-link" *ngIf="row.case_fields.status.actionGoTo" routerLink="{{row.case_fields.status | casestatusgoto: row.case_jurisdiction:row.case_type_id:row.case_id}}">{{row.case_fields.status.name}}</a>
+                <a data-selector="case-status-reference-link" *ngIf="row.case_fields.status.actionGoTo" routerLink="{{row.case_fields.status | casestatusgoto: row.case_jurisdiction:row.case_type_id:row.case_id}}">{{getStateLinkLabel(row)}}</a>
             </cdk-cell>
         </ng-container>
 

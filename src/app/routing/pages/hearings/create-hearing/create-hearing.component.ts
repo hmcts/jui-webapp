@@ -26,14 +26,13 @@ export class CreateHearingComponent implements OnInit {
         notes: false
     };
 
-    constructor(
-        private fb: FormBuilder,
-        private router: Router,
-        private route: ActivatedRoute,
-        private hearingService: HearingService,
-        public redirectionService: RedirectionService,
-        private cdRef: ChangeDetectorRef
-    ) { }
+    constructor(private fb: FormBuilder,
+                private router: Router,
+                private route: ActivatedRoute,
+                private hearingService: HearingService,
+                public redirectionService: RedirectionService,
+                private cdRef: ChangeDetectorRef) {
+    }
 
     createForm() {
         this.form = this.fb.group({
@@ -47,11 +46,48 @@ export class CreateHearingComponent implements OnInit {
         this.case = this.route.parent.snapshot.data['caseData'];
 
         this.createForm();
+
+        this.getDraftedHearingReason(this.case.id);
     }
 
+    /**
+     * getDraftedHearingState
+     *
+     * We store the reason for re-listing within CoH therefore we need to retrieve the reason when we display
+     * this page to the user.
+     *
+     * If we get an error response, for now we will let the user pass through to the continue page.
+     *
+     * @param caseId - 1545063650329442
+     */
+    getDraftedHearingReason(caseId) {
+        this.hearingService.getHearing(caseId)
+            .subscribe((response) => {
+                    this.relistReasonText = response.online_hearings[0].relisting.reason;
+                }, error => {
+                }
+            );
+    }
+
+    /**
+     * saveDraftedHearingReason
+     *
+     * We store the reason for re-listing within CoH, in a 'drafted' state.
+     *
+     * @param caseId - 1545063650329442
+     * @param relistReason - 'user freetext'
+     */
+    saveDraftedHearingReason(caseId, relistReason) {
+        this.hearingService.listForHearing(caseId, relistReason, 'drafted')
+            .subscribe((response) => {
+                }, error => {
+                }
+            );
+    }
 
     submitCallback(values) {
         if (this.form.valid) {
+            this.saveDraftedHearingReason(this.case.id, values.notes);
             this.hearingService.changeMessage(values.notes);
             this.router.navigate(['../check'], {relativeTo: this.route});
         } else {

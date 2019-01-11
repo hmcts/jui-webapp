@@ -1,69 +1,75 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CaseViewerModule } from '../../case-viewer.module';
-import { SummaryPanelComponent } from './summary-panel.component';
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
+import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, Input, ViewChild} from '@angular/core';
 import {Selector} from '../../../../shared/selector-helper';
-import { RouterTestingModule } from '@angular/router/testing';
-import { mockPanelData } from './mock/summary-panel.mock';
+import {mockPanelData} from './mock/summary-panel.mock';
+import {PageDateDefault, SectionSummaryItem} from '../../../models/section_fields';
+import {SummaryPanelComponent} from './summary-panel.component';
 
-describe('SummaryPanelComponent', () => {
+describe('SummaryPanelComponent Component: Testing Input & Output', () => {
+    @Component({
+        selector: `app-host-dummy-component`,
+        template: `<app-summary-panel [panelData]="data"></app-summary-panel>`
+    })
+    class TestDummyHostComponent {
+        public data:  PageDateDefault = mockPanelData;
+        @ViewChild(SummaryPanelComponent)
+        public summaryPanelComponent: SummaryPanelComponent;
+    }
+    let testHostComponent: TestDummyHostComponent;
+    let testHostFixture: ComponentFixture<TestDummyHostComponent>;
+    let el: DebugElement;
+    let de: any;
     let component: SummaryPanelComponent;
     let fixture: ComponentFixture<SummaryPanelComponent>;
     let element: DebugElement;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            schemas: [CUSTOM_ELEMENTS_SCHEMA],
-            imports: [CaseViewerModule, RouterTestingModule]
+            declarations: [ SummaryPanelComponent, TestDummyHostComponent ],
+            schemas: [CUSTOM_ELEMENTS_SCHEMA]
         })
-       .compileComponents();
+            .compileComponents();
     }));
-
+    beforeEach(() => {
+        testHostFixture = TestBed.createComponent(TestDummyHostComponent);
+        testHostComponent = testHostFixture.componentInstance;
+    });
     beforeEach(() => {
         fixture = TestBed.createComponent(SummaryPanelComponent);
         component = fixture.componentInstance;
         element = fixture.debugElement;
     });
-
     it('should create', () => {
-        expect(component)
-            .toBeTruthy();
+        expect(component).toBeTruthy();
+    });
+    it('should be created by angular', () => {
+        expect(fixture).not.toBeNull();
     });
 
-    describe('Setting inputs', () => {
-        beforeEach(() => {
-            component.panelData = mockPanelData;
-            fixture.detectChanges();
-        });
-
-        xit('should set a DataList Component for each section in panelData', () => {
-            expect(element.nativeElement.querySelectorAll(Selector.selector('data-list-component')).length).toBe(2);
-        });
-
-        xit(`should set the DataList Component's title to the sections name`, () => {
-            const actualTitles = element.nativeElement.querySelectorAll(Selector.selector('title'));
-            component.panelData.sections.filter(s => s.type !== 'timeline').map((expectedItem, index) => {
-                expect(actualTitles[index].textContent).toEqual(expectedItem.name);
-            });
-        });
-
-        xit(`should see the recent events`, () => {
-            it('should see two events', () => {
-                expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-item')).length).toBe(2);
-            });
-
-            it('should see HEARING first and CREATED_EVENT second', () => {
-                expect(element.nativeElement.querySelectorAll(
-                    Selector.selector('timeline-event-name'))[0].textContent).toBe('Create/update Panel');
-                expect(element.nativeElement.querySelectorAll(
-                    Selector.selector('timeline-event-name'))[1].textContent).toBe('Appeal created');
-            });
-
-            it('should see John first and Gilbert second', () => {
-                expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-by'))[0].textContent).toBe('by John Smith');
-                expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-by'))[1].textContent).toBe('by Gilbert Smith');
-            });
-        });
+    it('should panelData not load', () => {
+        expect(testHostComponent.summaryPanelComponent.panelData).toBeUndefined();
+        testHostFixture.detectChanges();
     });
-});
+    it('panelData should be valid', () => {
+        testHostFixture.detectChanges();
+        expect(typeof testHostComponent.summaryPanelComponent.panelData === 'object').toBeTruthy();
+    });
+    it('panelData should have data loaded', () => {
+        testHostFixture.detectChanges();
 
+        // const actualTitles = element.nativeElement.querySelectorAll(Selector.selector('title'));
+       const filtered = (testHostComponent.summaryPanelComponent.panelData.sections as Array<SectionSummaryItem>
+       ).filter(item => item.type !== 'timeline').map(item => item);
+        expect(filtered[0].name).toEqual('Case Details');
+        expect(filtered[1].name).toEqual('Representative');
+
+        expect(testHostComponent.summaryPanelComponent.panelData.sections.length).toEqual(3);
+    });
+    it('should see John first and Gilbert second', () => {
+        testHostFixture.detectChanges();
+        const filtered: Array<SectionSummaryItem> = (testHostComponent.summaryPanelComponent.panelData.sections as Array<SectionSummaryItem>
+        ).filter((item: SectionSummaryItem) => item.type === 'timeline');
+        expect(filtered[0].type).toBe('timeline');
+
+    });
+})

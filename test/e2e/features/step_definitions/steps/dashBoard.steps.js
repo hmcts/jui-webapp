@@ -17,14 +17,14 @@ defineSupportCode(function({ Given, When, Then }) {
         await expect(dashBoardPage.dashboard_header.getText())
             .to
             .eventually
-            .equal('Dashboard');
+            .equal('Your cases');
 
     });
 
     When(/^I select a case(.*)$/, async function(type) {
         browser.sleep(LONG_DELAY);
-        await dashBoardPage.case_number_links.first()
-            .click();
+        await browser.wait(EC.elementToBeClickable(dashBoardPage.case_number_links.first().click()), LONG_DELAY);
+        //await dashBoardPage.case_number_links.click();
         browser.sleep(LONG_DELAY);
     });
 
@@ -33,8 +33,6 @@ defineSupportCode(function({ Given, When, Then }) {
 
         var no_of_types = dashBoardPage.type_links.count()
             .then(function(count) {
-
-                console.log('count', +count);
                 if (count > 0) {
 
                     dashBoardPage.case_links.first()
@@ -78,7 +76,7 @@ defineSupportCode(function({ Given, When, Then }) {
         else if (type === 'Divorce'){
             await expect(caseSummaryPage.caseDetails_header_text.getText()).to.eventually.equal('Case details');
             await expect(caseSummaryPage.representatives_text.isDisplayed()).to.eventually.be.true;
-            await expect(caseSummaryPage.representatives_text.getText()).to.eventually.equal('Representatives');
+            await expect(caseSummaryPage.representatives_text.getText()).to.eventually.equal('Related cases');
             await expect(caseSummaryPage.linkedcase_text.isDisplayed()).to.eventually.be.true;
             await expect(caseSummaryPage.linkedcase_text.getText()).to.eventually.equal('Linked cases');
         }

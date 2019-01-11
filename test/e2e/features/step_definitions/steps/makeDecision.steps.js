@@ -43,7 +43,6 @@ defineSupportCode(function ({Given, When, Then}) {
 
         browser.sleep(MID_DELAY);
         await timelinePage.check_decision.getText().then(function (text) {
-                console.log(text);
                 expect(text).equal('Check your decision');
             });
     });

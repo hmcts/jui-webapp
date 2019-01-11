@@ -1,15 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-error-service-unavailable',
-  templateUrl: './error-service-unavailable.component.html',
-  styleUrls: ['./error-service-unavailable.component.scss']
+  templateUrl: './error-service-unavailable.component.html'
 })
-export class ErrorServiceUnavailableComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+export class ErrorServiceUnavailableComponent {
 }

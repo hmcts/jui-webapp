@@ -1,23 +1,18 @@
 import {Component, Input, OnInit} from '@angular/core';
 
+export interface TitleObject {
+    html: string;
+}
+
 @Component({
     selector: 'app-hmcts-details-bar',
-    templateUrl: './hmcts-details-bar.component.html',
-    styleUrls: ['./hmcts-details-bar.component.scss']
+    templateUrl: './hmcts-details-bar.component.html'
 })
 export class HmctsDetailsBarComponent implements OnInit {
 
-    @Input() reference = 'FR1231612322';
-    @Input() title = { html: '<b>John Smith</b> v <b>Jane Smith</b>' };
-    @Input() items = [
-        {
-            text: 'Make a decision'
-        },
-        {
-            classes: 'hmcts-button--secondary',
-            text: 'List for hearing'
-        }
-    ];
+    @Input() reference: string;
+    @Input() title: TitleObject;
+    @Input() items: Array<any>;
 
     constructor() { }
 

@@ -24,32 +24,30 @@ describe('case spec', () => {
     let questionsGetHttpResponse
 
     const eventsMock = {
-        getEvents: () => Promise.resolve([
-            { field: 'value' },
-            { field: 'value' }
-        ])
+        getEvents: () => Promise.resolve([{ field: 'value' }, { field: 'value' }])
     }
 
     const questionsMock = {
-        getQuestionsByCase: () => Promise.resolve([
-            null,
-            [
-                {
-                    id: '9727a0fc-11bb-4212-821f-b36e312bbace',
-                    header: 'Test',
-                    body: 'Test1',
-                    owner_reference: '5899',
-                    state_datetime: '2018-07-19 06:32:59.425'
-                },
-                {
-                    id: 'b889ed7b-61d7-4494-a6f9-94b40534b37a',
-                    header: 'Hello',
-                    body: 'World',
-                    owner_reference: '5899',
-                    state_datetime: '2018-07-18 21:16:50.729'
-                }
-            ]
-        ])
+        getQuestionsByCase: () =>
+            Promise.resolve([
+                null,
+                [
+                    {
+                        id: '9727a0fc-11bb-4212-821f-b36e312bbace',
+                        header: 'Test',
+                        body: 'Test1',
+                        owner_reference: '5899',
+                        state_datetime: '2018-07-19 06:32:59.425'
+                    },
+                    {
+                        id: 'b889ed7b-61d7-4494-a6f9-94b40534b37a',
+                        header: 'Hello',
+                        body: 'World',
+                        owner_reference: '5899',
+                        state_datetime: '2018-07-18 21:16:50.729'
+                    }
+                ]
+            ])
     }
 
     const documentsMock = { getDocuments: () => Promise.resolve([]) }
@@ -127,8 +125,7 @@ describe('case spec', () => {
                 })
             }
         })
-        xit('should return an error', () => request.get('/case/SSCS/Benefit/null')
-            .expect(400))
+        xit('should return an error', () => request.get('/case/SSCS/Benefit/null').expect(400))
     })
 
     describe('when all expected case data is returned', () => {
@@ -150,10 +147,7 @@ describe('case spec', () => {
                         benefitType: { code: 'PIP' }
                     },
                     region: 'LEEDS',
-                    sscsDocument: [
-                        { id: 'b4390fb6-8248-49d5-8560-41a7c2f27418' },
-                        { id: '6ad97d36-2c85-4aec-9909-e5ca7592faae' }
-                    ],
+                    sscsDocument: [{ id: 'b4390fb6-8248-49d5-8560-41a7c2f27418' }, { id: '6ad97d36-2c85-4aec-9909-e5ca7592faae' }],
                     panel: {
                         assignedTo: 'assignedTo',
                         medicalMember: 'medicalMember',
@@ -168,66 +162,71 @@ describe('case spec', () => {
             questionsGetHttpResponse = resolve => resolve()
         })
 
-        xit('should populate the summary panel given data is in the response', () => request.get('/SSCS/Benefit/1').expect(200)
-            .then(response => {
-                const jsonRes = JSON.parse(response.text)
-                const actualSummarySection = jsonRes.sections.filter(section => section.id === 'summary')[0]
-                const caseDetails = actualSummarySection.sections[0].sections[0]
-                const representatives = actualSummarySection.sections[0].sections[1]
+        xit('should populate the summary panel given data is in the response', () =>
+            request
+                .get('/SSCS/Benefit/1')
+                .expect(200)
+                .then(response => {
+                    const jsonRes = JSON.parse(response.text)
+                    const actualSummarySection = jsonRes.sections.filter(section => section.id === 'summary')[0]
+                    const caseDetails = actualSummarySection.sections[0].sections[0]
+                    const representatives = actualSummarySection.sections[0].sections[1]
 
-                expect(caseDetails.fields).toEqual([
-                    {
-                        label: 'Parties',
-                        value: `${caseData.case_data.appeal.appellant.name.firstName} ${caseData.case_data.appeal.appellant.name.lastName} v DWP`
-                    },
-                    {
-                        label: 'Case number',
-                        value: caseData.case_data.caseReference
-                    },
-                    {
-                        label: 'Case type',
-                        value: caseData.case_data.appeal.benefitType.code
-                    }
-                ])
+                    expect(caseDetails.fields).to.equal([
+                        {
+                            label: 'Parties',
+                            value: `${caseData.case_data.appeal.appellant.name.firstName} ${
+                                caseData.case_data.appeal.appellant.name.lastName
+                            } v DWP`
+                        },
+                        {
+                            label: 'Case number',
+                            value: caseData.case_data.caseReference
+                        },
+                        {
+                            label: 'Case type',
+                            value: caseData.case_data.appeal.benefitType.code
+                        }
+                    ])
 
-                expect(representatives.fields).toEqual([
-                    {
-                        label: 'Judge',
-                        value: caseData.case_data.panel.assignedTo
-                    },
-                    {
-                        label: 'Medical member',
-                        value: caseData.case_data.panel.medicalMember
-                    },
-                    {
-                        label: 'Disability qualified member',
-                        value: caseData.case_data.panel.disabilityQualifiedMember
-                    }
-                ])
+                    expect(representatives.fields).to.equal([
+                        {
+                            label: 'Judge',
+                            value: caseData.case_data.panel.assignedTo
+                        },
+                        {
+                            label: 'Medical member',
+                            value: caseData.case_data.panel.medicalMember
+                        },
+                        {
+                            label: 'Disability qualified member',
+                            value: caseData.case_data.panel.disabilityQualifiedMember
+                        }
+                    ])
 
-                const timelineSection = jsonRes.sections.filter(section => section.id === 'timeline')[0]
-                expect(timelineSection.sections[0].fields[0].value[0]).toEqual({ field: 'value' })
+                    const timelineSection = jsonRes.sections.filter(section => section.id === 'timeline')[0]
+                    expect(timelineSection.sections[0].fields[0].value[0]).to.equal({ field: 'value' })
 
-                const draftQuestionsToAppellant = jsonRes.sections
-                    .filter(section => section.id === 'questions')[0].sections[0].sections
-                    .filter(section => section.id === 'questions-to-appellant')[0].sections
-                    .filter(section => section.id === 'draft-questions')[0].fields[0].value[1]
+                    const draftQuestionsToAppellant = jsonRes.sections
+                        .filter(section => section.id === 'questions')[0]
+                        .sections[0].sections.filter(section => section.id === 'questions-to-appellant')[0]
+                        .sections.filter(section => section.id === 'draft-questions')[0].fields[0].value[1]
 
-                expect(draftQuestionsToAppellant[0]).toEqual({
-                    id: '9727a0fc-11bb-4212-821f-b36e312bbace',
-                    header: 'Test',
-                    body: 'Test1',
-                    owner_reference: '5899',
-                    state_datetime: '2018-07-19 06:32:59.425'
-                })
+                    expect(draftQuestionsToAppellant[0]).to.equal({
+                        id: '9727a0fc-11bb-4212-821f-b36e312bbace',
+                        header: 'Test',
+                        body: 'Test1',
+                        owner_reference: '5899',
+                        state_datetime: '2018-07-19 06:32:59.425'
+                    })
 
-                expect(draftQuestionsToAppellant[1]).toEqual({
-                    id: 'b889ed7b-61d7-4494-a6f9-94b40534b37a',
-                    header: 'Hello',
-                    body: 'World',
-                    owner_reference: '5899',
-                    state_datetime: '2018-07-18 21:16:50.729'
-                })
-            }))
+                    expect(draftQuestionsToAppellant[1]).to.equal({
+                        id: 'b889ed7b-61d7-4494-a6f9-94b40534b37a',
+                        header: 'Hello',
+                        body: 'World',
+                        owner_reference: '5899',
+                        state_datetime: '2018-07-18 21:16:50.729'
+                    })
+                }))
     })
 })

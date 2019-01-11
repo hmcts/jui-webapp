@@ -99,7 +99,7 @@ defineSupportCode(function({ Given, When, Then }) {
         await expect(caseSummaryPage.primary_nav_dashboard_link.getText())
             .to
             .eventually
-            .equal(dashboard_link);
+            .equal("Your cases");
     });
 
     Then(/^I should see a jui case bar$/, async function() {

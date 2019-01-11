@@ -1,5 +1,10 @@
 import * as express from 'express'
+import * as log4js from 'log4js'
+import { map } from 'p-iteration'
 import { config } from '../../../config'
+import { http } from '../../lib/http'
+import { asyncReturnOrError } from '../../lib/util'
+
 const generateRequest = require('../../lib/request/request')
 const headerUtilities = require('../../lib/utilities/headerUtilities')
 const fs = require('fs')
@@ -7,23 +12,32 @@ const formidable = require('formidable')
 
 const url = config.services.dm_store_api
 
+const logger = log4js.getLogger('dm-store')
+logger.level = config.logging || 'off'
+
 /**
  * DOCUMENT DATA
  */
 
 // Retrieves JSON representation of a Stored Document.
-function getDocument(documentId, options) {
-    return generateRequest('GET', `${url}/documents/${documentId}`, options)
+async function getDocument(documentId) {
+    const response = await  http.get(`${url}/documents/${documentId}`)
+    return response.data
 }
 
 // Retrieves JSON[] representation of a list of Stored Document.
 // TODO: could ask DM team to have a muti doc list in the future move a layer down.
-function getDocuments(documentIds = [], options) {
-    const promiseArray = []
-    documentIds.forEach(documentId => {
-        promiseArray.push(getDocument(documentId, options))
+async function getDocuments(documentIds = [], options) {
+    const documents = await map(documentIds, async (documentId: any) => {
+        return await asyncReturnOrError(
+            getDocument(documentId),
+            `Error getting document ${documentId}`,
+            null,
+            logger,
+            false)
     })
-    return Promise.all(promiseArray)
+
+    return documents.filter(document => !!document)
 }
 
 // Returns a specific version of the content of a Stored Document.
@@ -64,15 +78,15 @@ function getDocumentVersionThumbnail(documentId, versionId, options) {
  */
 
 // Creates a list of Stored Documents by uploading a list of binary/text files.
-function postDocument(file, classification, options) {
+export function postDocument(file, classification, options) {
     options.formData = {
+        classification: getClassification(classification),
         files: [
             {
+                options: { filename: file.name, contentType: file.type },
                 value: fs.createReadStream(file.path),
-                options: { filename: file.name, contentType: file.type }
-            }
+            },
         ],
-        classification: getClassification(classification)
     }
 
     return generateRequest('POST', `${url}/documents`, options)

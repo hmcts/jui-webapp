@@ -12,7 +12,37 @@
 // [state] and [end] are special casess
 
 /*tslint:disable */
-export const mapping = [
+export const mapping = []
+
+mapping['divorce'] = [
+    {
+        event: 'continue',
+        states: [
+            {
+                state: 'create',
+                conditions: [
+                    {
+                        condition: [{ makeDecision: 'yes' }],
+                        result: 'costs-order'
+                    },
+                    {
+                        condition: [{ makeDecision: 'no' }],
+                        result: 'provide-reason'
+                    }
+                ]
+            },
+            {
+                state: 'cost-order',
+                result: 'check-your-answers'
+            }
+            
+        ]
+    }
+
+]
+
+
+mapping['financialremedymvp2'] = [
     {
         event: 'change',
         result: '[state]'

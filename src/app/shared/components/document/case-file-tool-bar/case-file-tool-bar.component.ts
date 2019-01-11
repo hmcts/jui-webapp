@@ -1,28 +1,25 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 
+export interface ListView {
+    command: Array<any>;
+    extra: {
+        queryParams: {
+            type:  string;
+        }
+    }
+};
 @Component({
     selector: 'app-case-file-tool-bar',
-    templateUrl: './case-file-tool-bar.component.html',
-    styleUrls: ['./case-file-tool-bar.component.scss']
+    templateUrl: './case-file-tool-bar.component.html'
 })
-export class CaseFileToolBarComponent implements OnInit {
+export class CaseFileToolBarComponent {
     isCommentView = false;
 
-    @Input() commentViewRedirect = {
-        command: [],
-        extra: { queryParams: { type: 'comment'} }
-    };
-
-    @Input() listViewRedirect = {
-        command: [],
-        extra: {queryParams: {type: 'list'}}
-    };
+    @Input() commentViewRedirect: ListView;
+    @Input() listViewRedirect: ListView;
 
     constructor(private router: Router) { }
-
-    ngOnInit() {
-    }
 
     commentView() {
         this.isCommentView = true;

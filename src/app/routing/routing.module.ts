@@ -25,8 +25,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { JUIFormsModule } from '../forms/forms.module';
 import { GovukModule } from '../govuk/govuk.module';
 import { HmctsModule } from '../hmcts/hmcts.module';
-import { MakeDecisionComponent } from './pages/decisions/fr/make-decision/make-decision.component';
-import { DraftConsentOrderComponent } from './pages/decisions/fr/draft-consent-order/draft-consent-order.component';
+import { MakeDecisionComponent } from './pages/decisions/make-decision/make-decision.component';
+import { DraftConsentOrderComponent } from './pages/decisions/draft-consent-order/draft-consent-order.component';
 import { GenericPageComponent } from './pages/generic-page/generic-page.component';
 import { ErrorServiceUnavailableComponent } from './pages/generic-page/error-service-unavailable/error-service-unavailable.component';
 import { ConfirmationComponent } from './pages/generic-page/confirmation/confirmation.component';
@@ -80,6 +80,7 @@ const routes: Routes = [
                     {path: 'check', component: CheckDecisionComponent},
                     {path: 'check-tribunal', component: CheckDecisionComponent},
                     {path: 'check-final-decision', component: CheckDecisionComponent},
+                    {path: 'check-your-answers', component: CheckDecisionComponent},
                     {path: 'decision-confirmation', component: DecisionConfirmationComponent},
 //Preliminary view routes
                     {path: 'preliminary-advanced', component: MakeDecisionComponent},
@@ -102,8 +103,10 @@ const routes: Routes = [
                     {path: 'reject-reasons', component: MakeDecisionComponent},
                     {path: 'notes-for-court-administrator', component: MakeDecisionComponent},
                     {path: 'draft-consent-order', component: DraftConsentOrderComponent},
-                    {path: 'hearing-details', component: MakeDecisionComponent}
-
+                    {path: 'hearing-details', component: MakeDecisionComponent},
+//Divorce routes
+                    {path: 'provide-reason', component: MakeDecisionComponent},
+                    {path: 'costs-order', component: MakeDecisionComponent}
                 ]
             },
             {

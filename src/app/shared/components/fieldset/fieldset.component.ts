@@ -1,14 +1,12 @@
 import {Component, Input} from '@angular/core';
-import { Observable, EMPTY } from 'rxjs';
 
 @Component({
   selector: 'app-fieldset',
-  templateUrl: './fieldset.component.html',
-  styleUrls: ['./fieldset.component.scss']
+  templateUrl: './fieldset.component.html'
 })
 export class FieldsetComponent {
-    @Input() classes;
+       @Input() classes;
     @Input() validate;
     @Input() group;
-    @Input() data;
+    @Input() data: Array<any>;
 }

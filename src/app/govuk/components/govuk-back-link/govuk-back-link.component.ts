@@ -8,15 +8,15 @@ import {Location} from '@angular/common';
 })
 export class GovukBackLinkComponent {
 
+    location: Location;
     @Input() text = 'Back';
-    @Input() href = '#';
 
-    constructor() { }
+    constructor(private _location: Location) {
+        this.location = _location;
+    }
 
-    // constructor(private location: Location) {}
-
-    // back() {
-    //     this.location.back();
-    // }
+    back() {
+        this.location.back();
+    }
 
 }

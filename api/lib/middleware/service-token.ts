@@ -27,7 +27,6 @@ function generateToken() {
                 resolve()
             })
             .catch(e => {
-                console.log('Error creating S2S token! S2S service error - ', e.message)
                 reject()
             })
     })
@@ -43,7 +42,6 @@ function serviceTokenGenerator() {
                     resolve(getToken())
                 })
                 .catch(e => {
-                    console.log('Failed to get S2S token')
                     reject()
                 })
         }
@@ -55,7 +53,6 @@ module.exports = async (req, res, next) => {
         const token: any = await serviceTokenGenerator()
         req.headers.ServiceAuthorization = token.token
     } catch (e) {
-        console.log('Could not add S2S token header')
     }
 
     next()

@@ -1,7 +1,8 @@
 import * as express from 'express'
+import * as headerUtilities from '../../lib/utilities/headerUtilities'
+import {getHearing, relistHearing} from '../../services/coh'
 
-const { getHearingIdOrCreateHearing, getDecision, postDecision, putDecision } = require('../../services/coh-cor-api/coh-cor-api')
-const headerUtilities = require('../../lib/utilities/headerUtilities')
+const {getHearingIdOrCreateHearing, getDecision, postDecision, putDecision} = require('../../services/coh-cor-api/coh-cor-api')
 
 function getOptions(req) {
     return headerUtilities.getAuthHeaders(req)
@@ -62,5 +63,48 @@ export default app => {
                 console.log(response.error || response)
                 res.status(response.error.status).send(response.error.message)
             })
+    })
+
+    /**
+     * Returns a list of online hearings
+     */
+    router.get('/:case_id/hearing', async (req: any, res, next) => {
+        const caseId = req.params.case_id
+
+        try {
+            const response = await getHearing(caseId)
+
+            res.setHeader('Access-Control-Allow-Origin', '*')
+            res.setHeader('content-type', 'application/json')
+
+            res.status(200).send(JSON.stringify(response))
+        } catch (error) {
+
+            res.status(400).send(JSON.stringify(error))
+        }
+    })
+
+    router.put('/:case_id/hearing/relist', async (req: any, res, next) => {
+        const userId = req.auth.userId
+        const caseId = req.params.case_id
+
+        const state = req.body.state
+        const reason = req.body.reason
+
+        try {
+            const response = await relistHearing(caseId, userId, state, reason)
+
+            res.setHeader('Access-Control-Allow-Origin', '*')
+            res.setHeader('content-type', 'application/json')
+
+            res.status(response.status).send(JSON.stringify(response.data))
+        } catch (error) {
+
+            if (error.hasOwnProperty('serviceError')) {
+                return res.status(error.serviceError.status).send(error.serviceError.message)
+            } else {
+                return res.status(error.status).send(error.message)
+            }
+        }
     })
 }

@@ -5,6 +5,8 @@ import { Annotation, Comment } from '../../../../data/annotation-set.model';
 import { AnnotationStoreService } from '../../../../data/annotation-store.service';
 import { PdfService } from '../../../../data/pdf.service';
 import { Utils } from '../../../../data/utils';
+import { EmLoggerService } from '../../../../logging/em-logger.service';
+import { PdfRenderService } from '../../../../data/pdf-render.service';
 
 @Component({
     selector: 'app-comment-item',
@@ -40,9 +42,12 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     
     constructor(private annotationStoreService: AnnotationStoreService,
                 private pdfService: PdfService,
+                private pdfRenderService: PdfRenderService,
                 private ref: ChangeDetectorRef,
                 private renderer: Renderer2,
-                private utils: Utils) {
+                private utils: Utils,
+                private log: EmLoggerService) {
+        this.log.setClass('CommentItemComponent');
     }
 
     ngOnInit() {
@@ -71,7 +76,7 @@ export class CommentItemComponent implements OnInit, OnDestroy {
                 (commentId === this.comment.id) ? this.handleShowBtn() : this.handleHideBtn();
           });
 
-        this.dataLoadedSub = this.pdfService.getDataLoadedSub()
+        this.dataLoadedSub = this.pdfRenderService.getDataLoadedSub()
             .subscribe( (dataLoaded: boolean) => {
                 if (dataLoaded) {
                     this.annotationTopPos = this.getRelativePosition(this.comment.annotationId);
@@ -257,7 +262,7 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     }
 
     getRelativePosition(annotationId: string): number {
-        const svgSelector = this.pdfService.getViewerElementRef().nativeElement
+        const svgSelector = this.pdfRenderService.getViewerElementRef().nativeElement
                                 .querySelector(`g[data-pdf-annotate-id="${annotationId}"]`);
         if (svgSelector === null) {
             return null;

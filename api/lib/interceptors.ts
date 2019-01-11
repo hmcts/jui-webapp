@@ -27,17 +27,17 @@ export function successInterceptor(response) {
     return response
 }
 
-export function errorInterceptor(response) {
+export function errorInterceptor(error) {
     const logger = log4js.getLogger('return')
     logger.level = config.logging
 
-    const url = shorten(response.config.url, config.maxLogLine)
+    const url = shorten(error.config.url, config.maxLogLine)
 
-    const error = valueOrNull(response, 'response.status') ? response.response.status : Error(response).message
-    const data = valueOrNull(response, 'response.status') ? JSON.stringify(response.response.data, null, 2) : null
+    const status = valueOrNull(error, 'response.status') ? error.response.status : Error(error).message
+    const data = valueOrNull(error, 'response.status') ? JSON.stringify(error.response.data, null, 2) : null
 
-    logger.error(`Error on ${response.config.method.toUpperCase()} to ${url} (${error}) \n 
+    logger.error(`Error on ${error.config.method.toUpperCase()} to ${url} (${error}) \n 
     ${exceptionFormatter(data, exceptionOptions)}`)
 
-    return Promise.reject(response)
+    return Promise.reject(error.response)
 }

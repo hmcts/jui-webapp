@@ -4,7 +4,7 @@ import { config } from '../../../../config'
 import * as headerUtilities from '../../../lib/utilities/headerUtilities'
 import * as coh from '../../../services/coh'
 import * as Mapping from './mapping'
-import * as  Templates from './templates'
+import * as Templates from './templates'
 
 const ERROR400 = 400
 export const mapping = Mapping.mapping
@@ -20,7 +20,6 @@ const exceptionOptions = {
 }
 
 export async function init(req, res) {
-
     const jurisdiction = req.params.jurId
     const caseId = req.params.caseId
     const caseTypeId = req.params.caseTypeId.toLowerCase()
@@ -35,7 +34,6 @@ function getOptions(req) {
 }
 
 function perpareCaseForFinalDecision(eventToken, eventId, data) {
-
     /* eslint-disable-next-line id-blacklist */
 
     return {
@@ -79,37 +77,25 @@ async function finalDecision(req, state, data) {
         return false
     }
 
-    payloadData = perpareCaseForFinalDecision(
-        eventToken,
-        event,
-        data
-    )
+    payloadData = perpareCaseForFinalDecision(eventToken, event, data)
 
     try {
         logger.info('Payload assembled')
         logger.info(JSON.stringify(payloadData))
 
-        await ccdStore.postCaseWithEventToken(
-            req.auth.userId,
-            'SSCS',
-            'Benefit',
-            state.caseId,
-            payloadData,
-            getOptions(req)
-        )
+        await ccdStore.postCaseWithEventToken(req.auth.userId, 'SSCS', 'Benefit', state.caseId, payloadData, getOptions(req))
 
         return true
     } catch (exception) {
         logger.error('Error sending event', exceptionFormatter(exception, exceptionOptions))
         return false
     }
-
 }
 
 export async function payload(req, res, data) {
     const jurisdiction = req.params.jurId
     const caseId = req.params.caseId
-    const caseTypeId = req.params.caseTypeId
+    const caseTypeId = req.params.caseTypeId.toLowerCase()
     const stateId = req.params.stateId
 
     const state = {
@@ -119,17 +105,30 @@ export async function payload(req, res, data) {
         stateId,
     }
 
-    logger.info('Posting to CCD')
-    let result = false
-    result = await finalDecision(req, state, data)
+    if (stateId === 'check-tribunal') {
+        // lets update the state on the COH decision
+        // get hearingId
+        const hearingId = await coh.getOrCreateDecision(req.params.caseId, req.auth.userId)
+        // then save
 
-    logger.info('Posted to CCD', result)
-
-    if (result) {
-        return true
+        const keyedData = {}
+        keyedData[`decisions_${jurisdiction}_${caseTypeId}_${caseId}`] = data
+        await coh.storeData(hearingId, keyedData, 'decision_issue_pending')
+        return 'decision-confirmation'
     }
+    if (stateId === 'check-final-decision') {
+        logger.info('Posting to CCD')
+        let result = true
+        result = await finalDecision(req, state, data)
 
-    res.status(ERROR400)
-    res.send('Error updating case')
-    return null
+        logger.info('Posted to CCD', result)
+
+        if (result) {
+            return 'decision-confirmation'
+        }
+
+        res.status(ERROR400)
+        res.send('Error updating case')
+        return null
+    }
 }

@@ -1,17 +1,24 @@
 import * as express from 'express'
 import { Logger } from 'log4js'
 
-import { config } from '../../config'
-
-export function asyncReturnOrError(promise: any, message: string, res: express.Response, logger: Logger): any {
+export function asyncReturnOrError(
+    promise: any,
+    message: string,
+    res: express.Response | null,
+    logger: Logger,
+    setResponse: boolean  = true): any {
     return promise
         .then(data => {
             return data
         })
         .catch(err => {
-            const msg = `${message}: ${err.message}`
+            const msg = `${message}`
             logger.error(msg)
-            res.status(err.statusCode || 500).send(msg)
+
+            if (setResponse) {
+                res.status(err.statusCode || 500).send(msg)
+            }
+
             return null
         })
 }

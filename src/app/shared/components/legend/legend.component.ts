@@ -2,9 +2,8 @@ import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-legend',
-  templateUrl: './legend.component.html',
-  styleUrls: ['./legend.component.scss']
+  templateUrl: './legend.component.html'
 })
 export class LegendComponent {
-    @Input() classes;
+    @Input() classes:  string;
 }

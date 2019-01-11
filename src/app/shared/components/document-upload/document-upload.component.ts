@@ -4,12 +4,11 @@ import {RedirectionService} from '../../../routing/redirection.service';
 
 @Component({
   selector: 'app-document-upload',
-  templateUrl: './document-upload.component.html',
-  styleUrls: ['./document-upload.component.scss']
+  templateUrl: './document-upload.component.html'
 })
 export class DocumentUploadComponent implements OnInit {
 
-    @Input() redirect = '/';
+    @Input() redirect;
     error: string;
     fileToUpload: File = null;
 

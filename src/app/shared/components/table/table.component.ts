@@ -30,4 +30,8 @@ export class TableComponent implements OnChanges {
     ngOnChanges(changes) {
         this.resultView = changes.data.currentValue;
     }
+
+    getStateLinkLabel(row){
+        return row.case_type_id === 'FinancialRemedyMVP2' ? row.assignedToJudgeReason : row.case_fields.status.name;
+    }
 }

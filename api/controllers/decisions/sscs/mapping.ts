@@ -20,24 +20,24 @@
 export const mapping = [
     {
         register: [
-            { communicatingVerbally: 'communicating-verbally' },
+            { preparingFood: 'preparing-food' },
+            { takingNutrition: 'taking-nutrition' },
+            { managingTherapy: 'managing-therapy' },
+            { washingBathing: 'washing-bathing' },
+            { managingToilet: 'managing-toilet' },
             { dressingUndressing: 'dressing-undressing' },
+            { communicatingVerbally: 'communicating-verbally' },
+            { readingAndUnderstanding: 'reading-signs' },
             { engagingWithOtherPeople: 'engaging-face' },
             { makingBudgetingDecisions: 'budgeting-decisions' },
-            { managingTherapy: 'managing-therapy' },
-            { managingToilet: 'managing-toilet' },
+            { planningFollowingJourneys: 'planning-journeys' }, 
             { movingAround: 'moving-around' },
-            { planningFollowingJourneys: 'planning-journeys' },
-            { preparingFood: 'preparing-food' },
-            { readingAndUnderstanding: 'reading-signs' },
-            { takingNutrition: 'taking-nutrition' },
-            { washingBathing: 'washing-bathing' },
-            'check',
+            'check'
         ]
     },
     {
         event: 'change',
-        result: '[state]',
+        result: '[state]'
     },
     {
         event: 'continue',
@@ -47,11 +47,11 @@ export const mapping = [
                 conditions: [
                     {
                         condition: [{ preliminaryView: 'yes' }],
-                        result: 'preliminary-advanced',
+                        result: 'preliminary-advanced'
                     },
                     {
                         condition: [{ preliminaryView: 'no' }],
-                        result: 'final-decision',
+                        result: 'final-decision'
                     }
                 ]
             },
@@ -65,11 +65,11 @@ export const mapping = [
             },
             {
                 state: 'preliminary-advanced',
-                result: 'set-award-dates',
+                result: 'set-award-dates'
             },
             {
                 state: 'set-award-dates',
-                result: 'scores',
+                result: 'scores'
             },
             {
                 state: 'scores',
@@ -80,52 +80,56 @@ export const mapping = [
                 result: 'check-tribunal'
             },
             {
+                state: 'check-tribunal',
+                result: '.'
+            },
+            {
                 state: 'communicating-verbally',
-                result: '...',
+                result: '...'
             },
             {
                 state: 'dressing-undressing',
-                result: '...',
+                result: '...'
             },
             {
                 state: 'engaging-face',
-                result: '...',
+                result: '...'
             },
             {
                 state: 'budgeting-decisions',
-                result: '...',
+                result: '...'
             },
             {
                 state: 'managing-therapy',
-                result: '...',
+                result: '...'
             },
             {
                 state: 'managing-toilet',
-                result: '...',
+                result: '...'
             },
             {
                 state: 'moving-around',
-                result: '...',
+                result: '...'
             },
             {
                 state: 'planning-journeys',
-                result: '...',
+                result: '...'
             },
             {
                 state: 'preparing-food',
-                result: '...',
+                result: '...'
             },
             {
                 state: 'reading-signs',
-                result: '...',
+                result: '...'
             },
             {
                 state: 'taking-nutrition',
-                result: '...',
+                result: '...'
             },
             {
                 state: 'washing-bathing',
-                result: '...',
+                result: '...'
             }
         ]
     }

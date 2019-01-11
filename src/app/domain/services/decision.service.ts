@@ -11,45 +11,25 @@ import {ActivatedRoute, Router} from '@angular/router';
 export class DecisionService {
     constructor(
             private httpClient: HttpClient,
-            private configService: ConfigService,
-            private router: Router,
-            private activatedRoute: ActivatedRoute
+            private configService: ConfigService
     ) { }
 
     generateDecisionUrl( jurId: string, caseId: string, pageId: string, caseType: string ) {
-        console.log(`${this.configService.config.api_base_url}/api/decisions/state/${jurId}/${caseType}/${caseId}/${pageId}`);
         return `${this.configService.config.api_base_url}/api/decisions/state/${jurId}/${caseType}/${caseId}/${pageId}`;
     }
 
     fetch(jurId: string, caseId: string, pageId: string, caseType: string): Observable<any> {
 
         const url = this.generateDecisionUrl(jurId, caseId, pageId, caseType);
-        console.log('url = ', url);
         return this.httpClient.get(url);
     }
 
     submitDecisionDraft(jurId: string, caseId: string, pageId: string, caseType: string, body: any): Observable<any> {
         const url = this.generateDecisionUrl(jurId, caseId, pageId, caseType);
-        console.log('Submit', url, jurId, caseId, pageId, caseType, body);
         return this.httpClient.post(url, body);
     }
 
-    issueDecision(decision: any): void  {
-        console.log("Decisin", decision);
-        //this.router.navigate([`/demo`], {relativeTo: this.activatedRoute});
-        // const url = this.generateDecisionUrl('fr', caseId, 'create');
-        //
-        // const body = {
-        //     decision_award: decision.decision_award,
-        //     decision_header: decision.decision_header,
-        //     decision_reason: decision.decision_reason,
-        //     decision_text: decision.decision_text,
-        //     decision_state: 'decision_issue_pending'
-        // };
-        // return this.httpClient.put(url, body);
-    }
-
-
+    issueDecision(decision: any): void  {}
     findConsentOrderDocumentUrl(caseData): string {
         try {
             return caseData.sections

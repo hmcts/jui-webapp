@@ -9,11 +9,11 @@ const idamClient = config.idam_client
 const idamProtocol = config.protocol
 const oauthCallbackUrl = config.oauth_callback_url
 
-function getDetails(options) {
+export function getDetails(options) {
     return generateRequest('GET', `${url}/details`, options)
 }
 
-function postOauthToken(code, host) {
+export function postOauthToken(code, host) {
     const redirectUri = `${idamProtocol}://${host}/${oauthCallbackUrl}`
     const urlX = `${url}/oauth2/token?grant_type=authorization_code&code=${code}&redirect_uri=${redirectUri}`
 

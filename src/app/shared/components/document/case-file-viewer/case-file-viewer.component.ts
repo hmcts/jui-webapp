@@ -2,8 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
     selector: 'app-case-file-viewer',
-    templateUrl: './case-file-viewer.component.html',
-    styleUrls: ['./case-file-viewer.component.scss']
+    templateUrl: './case-file-viewer.component.html'
 })
 export class CaseFileViewerComponent implements OnInit {
 

@@ -40,7 +40,7 @@ export class CaseService {
                 this.state.set(key, data);
                 return data;
             }))
-            .pipe(catchError(error => {
+            .pipe(catchError((error: any) => {
                 const value: any = {error};
                 this.state.set(key, value);
                 return of(value);

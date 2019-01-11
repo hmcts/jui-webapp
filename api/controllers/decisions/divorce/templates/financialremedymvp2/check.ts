@@ -11,6 +11,7 @@ module.exports = {
                 contents: [
                     {
                         title: 'Decision',
+                        titleYes: 'Decision',
                         details: [
                             {
                                 control: 'approveDraftConsent',
@@ -33,6 +34,7 @@ module.exports = {
                 contents: [
                     {
                         title: 'Notes',
+                        titleYes: 'Notes for court administrator',
                         details: [
                             {
                                 control: 'notesForAdmin',
@@ -228,23 +230,7 @@ module.exports = {
                         details: [
                             {
                                 control: 'whichCourt',
-                                type: 'radio',
-                                southWest: 'South West Divorce Centre'
-                            },
-                            {
-                                control: 'whichCourt',
-                                type: 'radio',
-                                eastMidlands: 'East Midlands Divorce Centre'
-                            },
-                            {
-                                control: 'whichCourt',
-                                type: 'radio',
-                                westMidlands: 'West Midlands Divorce Centre'
-                            },
-                            {
-                                control: 'whichCourt',
-                                type: 'radio',
-                                northWest: 'North West Divorce Centre'
+                                type: 'input'
                             }
                         ],
                         link: {

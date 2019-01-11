@@ -8,6 +8,8 @@ import {PdfService} from './pdf.service';
 import {PdfAdapter} from './pdf-adapter';
 import {ApiHttpService} from './api-http.service';
 import { PdfAnnotateWrapper } from './js-wrapper/pdf-annotate-wrapper';
+import { EmLoggerService } from '../logging/em-logger.service';
+import { PdfRenderService } from './pdf-render.service';
 
 @Injectable()
 export class AnnotationStoreService implements OnDestroy {
@@ -18,11 +20,14 @@ export class AnnotationStoreService implements OnDestroy {
     private annotationFocusSubject: Subject<Annotation>;
     private contextualToolBarOptions: Subject<{annotation: Annotation, showDelete: boolean}>;
 
-    constructor(private pdfAdapter: PdfAdapter,
+    constructor(private log: EmLoggerService,
+                private pdfAdapter: PdfAdapter,
                 private apiHttpService: ApiHttpService,
                 private pdfService: PdfService,
-                private pdfAnnotateWrapper: PdfAnnotateWrapper) {
+                private pdfAnnotateWrapper: PdfAnnotateWrapper,
+                private pdfRenderService: PdfRenderService) {
 
+        log.setClass('AnnotationStoreService');
         this.commentBtnSubject = new Subject();
         this.commentFocusSubject = new BehaviorSubject(
             {annotation: new Annotation(null, null, null, null, null, null, null, null, null, null, null, null)});
@@ -117,6 +122,7 @@ export class AnnotationStoreService implements OnDestroy {
                 if (err instanceof HttpErrorResponse) {
                     switch (err.status) {
                         case 400: {
+                            this.log.error('Bad request: ' + err.error);
                             return throwError(err.error);
                         }
                         case 404: {
@@ -124,9 +130,11 @@ export class AnnotationStoreService implements OnDestroy {
                                 documentId: dmDocumentId,
                                 id: uuid()
                             };
+                            this.log.info('Creating new annotation set for document id:' + dmDocumentId);
                             return this.apiHttpService.createAnnotationSet(baseUrl, body);
                         }
                         case 500: {
+                            this.log.error('Internal server error: ' + err);
                             return throwError('Internal server error: ' + err);
                         }
                     }
@@ -148,15 +156,15 @@ export class AnnotationStoreService implements OnDestroy {
 
         toKeepAnnotations.forEach((annotation: Annotation) => {
             this.apiHttpService.saveAnnotation(annotation).subscribe(
-                response => console.log(response),
-                error => console.log(error)
+                response => this.log.info('Successfully saved annotation:' + response),
+                error => this.log.error('There has been a problem saving the annotation:' + annotation.id + '-' + error)
             );
         });
 
         toRemoveAnnotations.forEach((annotation: Annotation) => {
             this.apiHttpService.deleteAnnotation(annotation).subscribe(
-                response => console.log(response),
-                error => console.log(error)
+                response => this.log.info('Successfully deleted annotation:' + response),
+                error => this.log.error('There has been a problem deleting annotation:' + annotation.id + '-' + error)
             );
         });
 
@@ -172,27 +180,19 @@ export class AnnotationStoreService implements OnDestroy {
                     this.pdfAdapter.annotationSet.annotations[this.pdfAdapter.annotationSet.annotations
                         .findIndex(x => x.id === annotation.id)] = response.body;
                 }
-                console.log(response);
+                this.log.info('Successfully saved annotation:' + response);
             },
-            error => console.log(error)
+            error => this.log.error('There has been a problem saving the annotation:' + annotation.id + '-' + error)
         );
     }
 
     deleteAnnotation(annotation) {
         this.apiHttpService.deleteAnnotation(annotation).subscribe(
             response => {
-                console.log(response);
+                this.log.info('Successfully deleted annotation:' + annotation.id + '-' + response);
             },
-            error => console.log(error)
+            error => this.log.error('There has been a problem deleting annotation:' + annotation.id + '-' + error)
         );
-    }
-
-    clearAnnotations() {
-        if (confirm('Are you sure you want to clear annotations?')) {
-            this.pdfAdapter.annotations = [];
-            this.pdfService.render();
-            this.saveData();
-        }
     }
 
     editComment(comment: Comment) {
@@ -231,39 +231,39 @@ export class AnnotationStoreService implements OnDestroy {
 
     getAnnotation(annotationId: string, callback) {
         this.pdfAnnotateWrapper.getStoreAdapter()
-            .getAnnotation(this.pdfService.getRenderOptions().documentId, annotationId)
+            .getAnnotation(this.pdfRenderService.getRenderOptions().documentId, annotationId)
             .then(callback);
     }
 
     getComments(annotationId: string, callback) {
         this.pdfAnnotateWrapper.getStoreAdapter()
-            .getComments(this.pdfService.getRenderOptions().documentId, annotationId)
+            .getComments(this.pdfRenderService.getRenderOptions().documentId, annotationId)
             .then(callback);
     }
 
     addComment(comment: Comment) {
         this.pdfAnnotateWrapper.getStoreAdapter()
-            .addComment(this.pdfService.getRenderOptions().documentId, comment.annotationId, comment.content)
+            .addComment(this.pdfRenderService.getRenderOptions().documentId, comment.annotationId, comment.content)
             .then();
     }
 
     getAnnotations(pageNumber: number, callback) {
         this.pdfAnnotateWrapper.getStoreAdapter()
-            .getAnnotations(this.pdfService.getRenderOptions().documentId, pageNumber)
+            .getAnnotations(this.pdfRenderService.getRenderOptions().documentId, pageNumber)
             .then(callback);
     }
 
     deleteComment(commentId: string) {
         this.pdfAnnotateWrapper.getStoreAdapter()
-            .deleteComment(this.pdfService.getRenderOptions().documentId, commentId)
+            .deleteComment(this.pdfRenderService.getRenderOptions().documentId, commentId)
             .then();
     }
 
     deleteAnnotationById(annotationId: string) {
         this.pdfAnnotateWrapper.getStoreAdapter()
-        .deleteAnnotation(this.pdfService.getRenderOptions().documentId, annotationId)
+        .deleteAnnotation(this.pdfRenderService.getRenderOptions().documentId, annotationId)
         .then(() => {
-            this.pdfService.render();
+            this.pdfRenderService.render();
         });
     }
 

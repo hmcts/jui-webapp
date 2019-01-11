@@ -3,6 +3,9 @@ import * as moment from 'moment'
 import { config } from '../../config'
 import { http } from '../lib/http'
 
+import { ERROR_NO_HEARING_IDENTIFIER, ERROR_UNABLE_TO_RELIST_HEARING } from '../constants/cohConstants'
+import { valueOrNull } from '../lib/util'
+
 export const url = config.services.coh_cor_api
 
 const logger = log4js.getLogger('cases')
@@ -26,9 +29,7 @@ function convertDateTime(dateObj: string): DateTimeObject {
 function mergeCohEvents(eventsJson: any): any[] {
     const history = eventsJson.online_hearing.history
     const questionHistory = eventsJson.online_hearing.questions
-        ? eventsJson.online_hearing.questions
-            .map(arr => arr.history)
-            .reduce((historyArray, item) => historyArray.concat(item), [])
+        ? eventsJson.online_hearing.questions.map(arr => arr.history).reduce((historyArray, item) => historyArray.concat(item), [])
         : []
 
     const answersHistory = eventsJson.online_hearing.answers
@@ -111,38 +112,47 @@ export async function getOrCreateHearing(caseId, userId) {
 
 export async function createDecision(hearingId: string): Promise<string> {
     const response = await http.post(`${url}/continuous-online-hearings/${hearingId}/decisions`, {
-        "decision_award": "n/a",
-        "decision_header": "n/a",
-        "decision_reason": "n/a",
-        "decision_text": "n/a",
+        decision_award: 'n/a',
+        decision_header: 'n/a',
+        decision_reason: 'n/a',
+        decision_text: 'n/a',
     })
 
     return response.data.decision_id
 }
 
-export async function storeData(hearingId, data) {
-    const response = await http.put(`${url}/continuous-online-hearings/${hearingId}/decisions`, {
-        "decision_award": "n/a",
-        "decision_header": "n/a",
-        "decision_reason": "n/a",
-        "decision_state": "decision_drafted",
-        "decision_text": JSON.stringify(data),
-    })
+export async function storeData(hearingId, data, state = 'decision_drafted') {
+    // okay we need to check the state of the decision. Not very efficent to do this every set, but
+    // while things are being sorted out this is safest
+
+    const decision = await getDecision(hearingId)
+
+    if (
+        valueOrNull(decision, 'decision_state.state_name') !== 'decision_issued' &&
+        valueOrNull(decision, 'decision_state.state_name') !== 'decision_issue_pending'
+    ) {
+        const response = await http.put(`${url}/continuous-online-hearings/${hearingId}/decisions`, {
+            decision_award: 'n/a',
+            decision_header: 'n/a',
+            decision_reason: 'n/a',
+            decision_state: state,
+            decision_text: JSON.stringify(data),
+        })
+    }
 }
 
 export async function getData(hearingId) {
-
     let response
 
     try {
         response = await http.get(`${url}/continuous-online-hearings/${hearingId}/decisions`)
-    } catch {
+    } catch (error) {
         logger.info(`No decision for hearing ${hearingId} found`)
     }
     const data = response.data.decision_text || {}
     try {
         return JSON.parse(data)
-    } catch {
+    } catch (error) {
         return {}
     }
 }
@@ -151,7 +161,6 @@ export async function getOrCreateDecision(caseId, userId) {
     let decisionId
     let decision
 
-    // first lets try and get a hearing
     const hearingId = await getOrCreateHearing(caseId, userId)
 
     if (!hearingId) {
@@ -161,7 +170,7 @@ export async function getOrCreateDecision(caseId, userId) {
         try {
             decision = await getDecision(hearingId)
             logger.info(decision)
-        } catch {
+        } catch (error) {
             logger.info(`Can't find decision`)
         }
 
@@ -178,6 +187,47 @@ export async function getOrCreateDecision(caseId, userId) {
     return hearingId
 }
 
+/**
+ * relistHearing
+ *
+ * Occurs when a re-listing for hearing is requested by a Judge.
+ *
+ * A Judge is able to re-list a hearing at any point, within a hearings lifecycle. A re-listing
+ * is a manual process by a case worker, therefore we just need to send a message to CoH.
+ *
+ * @see RIUI-652
+ * @param caseId
+ * @param userId
+ * @param state - 'issued' / 'drafted'. A state should either be 'issued' or 'drafted', and not
+ * 'continuous_online_hearing_relisted' as suggested by the CoH Wiki.
+ * [17.12.2018]
+ * @param reason - 'freetext'
+ * @return {Promise}
+ */
+export async function relistHearing(caseId: string, userId: string, state: string, reason: string): Promise<any> {
+    const hearingId = await getOrCreateHearing(caseId, userId)
+
+    if (!hearingId) {
+        return Promise.reject({
+            message: ERROR_NO_HEARING_IDENTIFIER,
+            status: 400,
+        })
+    }
+
+    try {
+        const response = await http.put(`${url}/continuous-online-hearings/${hearingId}/relist`, { state, reason })
+        return response
+    } catch (error) {
+        return Promise.reject({
+            message: ERROR_UNABLE_TO_RELIST_HEARING,
+            serviceError: {
+                message: error.response.data,
+                status: error.response.status,
+            },
+        })
+    }
+}
+
 export class Store {
     hearingId
 
@@ -189,7 +239,6 @@ export class Store {
         const data = {}
         data[key] = value
         await storeData(this.hearingId, data)
-
     }
 
     async get(key) {

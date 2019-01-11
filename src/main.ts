@@ -11,7 +11,6 @@ if (environment.production) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('dom content loaded!!!!');
     platformBrowserDynamic().bootstrapModule(AppModule)
-        .catch(err => console.log(err));
+        .catch(err => {});
 });

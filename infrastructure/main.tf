@@ -63,3 +63,7 @@ data "azurerm_key_vault_secret" "oauth2_secret" {
     name = "jui-oauth2-token"
     vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
 }
+
+provider "azurerm" {
+  version = "1.19.0"
+}

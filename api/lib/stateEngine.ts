@@ -73,10 +73,13 @@ export async function process(req, res, mapping, payload, templates, store) {
     if (variables) {
         // get current store
         let stored = await store.get(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`)
+        
         if (!(stored + '').length) {
             stored = {}
         }
-        await store.set(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`, { ...stored, ...variables })
+        variables = { ...stored, ...variables }
+
+        await store.set(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`, variables)
     }
 
     if (req.method === 'POST') {
@@ -117,20 +120,20 @@ export async function process(req, res, mapping, payload, templates, store) {
             return false
         })
     } else {
+        console.log('casetype', caseTypeId)
         meta = templates[caseTypeId][stateId]
         result = true
     }
 
     if (result) {
-        variables = await store.get(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`) || {}
+        variables = (await store.get(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`)) || {}
 
         const response = {
             formValues: variables,
             meta,
             newRoute,
         }
-        console.log('reached')
-
+        
         req.session.save(() => res.send(JSON.stringify(response)))
     }
 }

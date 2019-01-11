@@ -114,7 +114,6 @@ const config = {
         const printSessionId = function(jobName) {
             browser.getSession()
                 .then(session => {
-                    console.log(`SauceOnDemandSessionID=${session.getId()} job-name=${jobName}`);
                 });
         };
         printSessionId('JUI CB Tests');

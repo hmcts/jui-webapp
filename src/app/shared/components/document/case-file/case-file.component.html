@@ -1,6 +1,9 @@
 <div [ngClass]="{'jui-cf': true, 'jui-cf jui-cf--show-comments': allowAnnotations}" *ngIf="documents && documents.length; else noDocuments">
 
-    <app-case-file-tool-bar></app-case-file-tool-bar>
+    <app-case-file-tool-bar
+    [commentViewRedirect]="{command: [], extra: { queryParams: { type: 'comment'}}}"
+    [listViewRedirect]="{command: [], extra: {queryParams: {type: 'list'}}}"
+    ></app-case-file-tool-bar>
 
     <!-- Case file complete start-->
     <div class="jui-cf__window" >
@@ -15,7 +18,10 @@
             <!-- Casefile View Code with annotation stuff starts -->
             <div class="jui-cf__document">
                 <div class="jui-cf__document-comments" id="comments" [ngStyle]="{'display': ((allowAnnotations) ? 'block' : 'none')}">
-                    <app-hmcts-alert [iconFallbackText]="'Success'" [type]="'information'" [text]="'Select text to add a comment.'"></app-hmcts-alert>
+                    <app-hmcts-alert
+                        [iconFallbackText]="'Success'"
+                        [type]="'information'"
+                        [text]="'Select text to add a comment.'"></app-hmcts-alert>
                     <!-- need to work on-->
                     <!--<app-case-file-annotation-list></app-case-file-annotation-list>-->
                 </div>

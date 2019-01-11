@@ -61,63 +61,27 @@ module.exports={
             {
                 fieldset: [
                     {
-                        legend: {
-                            text: 'Which court?',
-                            isPageHeading: true,
-                            classes: 'govuk-fieldset__legend--m'
-                        }
-                    },
-                    {
-                        radios: {
+                        textarea: {
+                            label: {
+                                text: 'Which court?',
+                                classes: 'govuk-label--m'
+                            },
+                            validationError: {
+                                value: 'Enter the directions that are required',
+                                controlId: 'Directions'
+                            },
                             control: 'whichCourt',
                             validators: ['required'],
-                            validationError: {
-                                value: 'Choose a court',
-                                controlId: 'whichCourt'
-                            },
-                            radioGroup: [
-                                {
-                                    value: 'southWest',
-                                    text: 'South West Divorce Centre',
-                                    hint: {
-                                      text: 'Southampton',
-                                      classes: 'govuk-hint govuk-radios__hint'
-                                    }
-                                },
-                                {
-                                    value: 'eastMidlands',
-                                    text: 'East Midlands Divorce Centre',
-                                    hint: {
-                                      text: 'Nottingham',
-                                      classes: 'govuk-hint govuk-radios__hint'
-                                    }
-                                },
-                                {
-                                    value: 'westMidlands',
-                                    text: 'West Midlands Divorce Centre',
-                                    hint: {
-                                      text: 'Stoke',
-                                      classes: 'govuk-hint govuk-radios__hint'
-                                    }
-                                },
-                                {
-                                    value: 'northWest',
-                                    text: 'North West Divorce Centre',
-                                    hint: {
-                                      text: 'Liverpool',
-                                      classes: 'govuk-hint govuk-radios__hint'
-                                    }
-                                }
-                            ]
+                            value: ''
                         }
                     }
                 ]
             },
             {
                 textarea: {
-                    label: 'Any other hearing details (optional)',
-                    hint: {
-                        text: 'For example, if you need to hear the case. Or if you need to transfer either the financial remedy or entire divorce case to another court.'
+                    label: {
+                        text: 'Any other hearing details (optional)',
+                        classes: 'govuk-label--m'
                     },
                     control: 'otherHearingDetails',
                     value: ''

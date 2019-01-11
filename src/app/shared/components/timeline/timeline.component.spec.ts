@@ -1,57 +1,68 @@
-///<reference path="mock/timeline.mock.ts"/>
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CaseViewerModule } from '../../../domain/case-viewer/case-viewer.module';
-import { DebugElement } from '@angular/core';
-import {Selector} from '../../../shared/selector-helper';
+import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild} from '@angular/core';
 import {TimelineComponent} from './timeline.component';
-import {HmctsTimelineComponent} from '../../../hmcts/components/hmcts-timeline/hmcts-timeline.component';
-import {SentenceCasePipe} from '../../../hmcts/pipes/sentence-case/sentence-case-pipe';
-import { mockData } from './mock/timeline.mock';
+import {mockData, TimeDataStamp} from './mock/timeline.mock';
 
-describe('TimelineComponent', () => {
+describe('TimelineComponent Component: Testing Input & Output', () => {
+    @Component({
+        selector: `app-host-dummy-component`,
+        template: `<app-timeline [events]="data" [maxHistory]="maxHistory"></app-timeline>`
+    })
+    class TestDummyHostComponent {
+        public data: Array<TimeDataStamp> = mockData;
+        public maxHistory: number;
+        @ViewChild(TimelineComponent)
+        public timelineComponent: TimelineComponent;
+    }
+
+    let testHostComponent: TestDummyHostComponent;
+    let testHostFixture: ComponentFixture<TestDummyHostComponent>;
+    let el: DebugElement;
+    let de: any;
     let component: TimelineComponent;
     let fixture: ComponentFixture<TimelineComponent>;
     let element: DebugElement;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [TimelineComponent, HmctsTimelineComponent, SentenceCasePipe]
+            declarations: [ TimelineComponent, TestDummyHostComponent ],
+            schemas: [CUSTOM_ELEMENTS_SCHEMA]
         })
             .compileComponents();
     }));
-
+    beforeEach(() => {
+        testHostFixture = TestBed.createComponent(TestDummyHostComponent);
+        testHostComponent = testHostFixture.componentInstance;
+    });
     beforeEach(() => {
         fixture = TestBed.createComponent(TimelineComponent);
         component = fixture.componentInstance;
         element = fixture.debugElement;
-        fixture.detectChanges();
     });
-
-    xit('should create', () => {
+    it('should create', () => {
         expect(component).toBeTruthy();
     });
-
-    describe('when some data is available', () => {
-        beforeEach(async(() => {
-            component.events = mockData;
-
-            fixture.whenStable().then(() => {
-                fixture.detectChanges();
-            });
-        }));
-
-        xit('should see two events', () => {
-            expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-item')).length).toBe(2);
-        });
-
-        xit('should see Hearing first and Created_event second', () => {
-            expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-event-name'))[0].textContent).toBe('Hearing');
-            expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-event-name'))[1].textContent).toBe('Created_event');
-        });
-
-        xit('should see John first and Gilbert second', () => {
-            expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-by'))[0].textContent).toBe(' by John Smith');
-            expect(element.nativeElement.querySelectorAll(Selector.selector('timeline-by'))[1].textContent).toBe(' by Gilbert Smith');
-        });
+    it('should be created by angular', () => {
+        expect(fixture).not.toBeNull();
     });
-});
+
+    it('should panelData not load', () => {
+        expect(testHostComponent.timelineComponent.events).toBeUndefined();
+        expect(testHostComponent.timelineComponent.maxHistory).toBeUndefined();
+        testHostFixture.detectChanges();
+        expect(testHostComponent.timelineComponent.events.length).toEqual(2);
+        expect(testHostComponent.timelineComponent.events[0].title).toEqual('HEARING');
+    });
+    it('Events length is bigger than maxHistory, than slice ', () => {
+        component.maxHistory = 1;
+        component.events = mockData;
+        component.ngOnChanges();
+        expect(component.events.length).toEqual(1);
+    })
+    it('Events length is smaller than maxHistory', () => {
+        component.maxHistory = 5;
+        component.events = mockData;
+        component.ngOnChanges();
+        expect(component.events.length).toEqual(mockData.length);
+    })
+})
