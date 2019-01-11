@@ -31,7 +31,7 @@ export class DraftConsentOrderComponent implements OnInit {
         this.draftConsentOrderForm = new FormGroup(this.formsService.defineformControls(pageitems, pageValues));
     }
     ngOnInit() {
-        this.activatedRoute.parent.snapshot.data.subscribe(data => {
+        this.activatedRoute.parent.data.subscribe(data => {
             this.case = data.caseData;
             this.consentDocumentUrl = this.decisionService.findConsentOrderDocumentUrl(this.case);
         });
