@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Form, FormGroup} from '@angular/forms';
 import {Validators, ValidationErrors, ValidatorFn} from '@angular/forms';
-import {FormGroupValidator} from './validation.typescript';
+import {controlsisTextAreaValidWhenCheckboxChecked, FormGroupValidator} from './validation.typescript';
 
 @Injectable({
     providedIn: 'root'
@@ -198,21 +198,22 @@ export class ValidationService {
      * isTextAreaValidWhenCheckboxChecked
      *
      * @param formGroup
-     * @param checkboxControl
-     * @param textareaControl
+     * @param controls is object
+     * { checkboxControl : string, textareaControl : string }
      * @param validationIdentifier
      * @return {any}
      */
-    isTextAreaValidWhenCheckboxChecked(formGroup: FormGroup, checkboxControl: string, textareaControl: string,
-                                       validationIdentifier: string) {
 
-        const isTextAreaValidWhenCheckboxChecked: ValidatorFn = (controls: FormGroup): ValidationErrors | null => {
+    isTextAreaValidWhenCheckboxChecked(formGroup: FormGroup, controls: controlsisTextAreaValidWhenCheckboxChecked, validationIdentifier: string) {
 
-            if (!controls.get(checkboxControl).value) {
+
+        const isTextAreaValidWhenCheckboxChecked: ValidatorFn = (formControls: FormGroup): ValidationErrors | null => {
+
+            if (!formControls.get(controls.checkboxControl).value) {
                 return null;
             }
 
-            if (controls.get(textareaControl).value.length > 0) {
+            if (formControls.get(controls.textareaControl).value.length > 0) {
                 return null;
             }
 
@@ -248,7 +249,7 @@ export class ValidationService {
 
             const groupValidator: FormGroupValidator = formGroupValidator;
 
-            return this.createFormGroupValidator(formGroup, groupValidator.validatorFunc, groupValidator.checkboxes,
+            return this.createFormGroupValidator(formGroup, groupValidator.validatorFunc, groupValidator.controls,
                 groupValidator.validationErrorId);
         });
     }
@@ -262,14 +263,13 @@ export class ValidationService {
      *
      * @param formGroup
      * @param {String} validatorFunc - 'isAnyCheckboxChecked'
-     * @param {Array} checkboxes - ['partiesNeedAttend', 'NotEnoughInformation']
+     * @param {Array or Object} controls - ['partiesNeedAttend', 'NotEnoughInformation'] or { checkbox: 'controlName', textarea: 'controlName' }
      * @param {String} validationErrorId - 'reasonsConstentOrderNotApproved'
      *
      * @return {ValidatorFn}
      */
-    createFormGroupValidator(formGroup: FormGroup, validatorFunc: string, checkboxes: Array<string>,
-                             validationErrorId: string): ValidatorFn {
+    createFormGroupValidator(formGroup: FormGroup, validatorFunc: string, controls: any, validationErrorId: string): ValidatorFn {
 
-        return this[validatorFunc](formGroup, checkboxes, validationErrorId);
+        return this[validatorFunc](formGroup, controls, validationErrorId);
     }
 }

@@ -43,7 +43,8 @@
                         [classes]="'govuk-checkboxes__item'"
                         [labelClasses]="'govuk-label govuk-checkboxes__label'">
               <div class="govuk-form-group">
-                  <div *ngIf="data.checkbox.groups && group.controls[data.checkbox.control].value" class="govuk-checkboxes__conditional">
+                  <div *ngIf="data.checkbox.groups && group.controls[data.checkbox.control].value" class="govuk-checkboxes__conditional"
+                       [ngStyle] = "{ 'border-left': (validate && group.invalid) ? '5px solid #b10e1e' : '' }">
                       <ng-container  *ngFor="let subgroup of data.checkbox.groups">
                           <app-fieldset *ngIf="subgroup.fieldset"
                                         [validate]="validate"

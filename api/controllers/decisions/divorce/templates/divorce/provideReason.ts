@@ -2,13 +2,49 @@ module.exports = {
     idPrefix: 'provide-reason',
     name: 'provide-reason',
     header: 'Provide a reason',
-    formGroupValidators: [],
-    validationHeaderErrorMessages: [],
+    formGroupValidators: [
+        {
+            validatorFunc: 'isAnyCheckboxChecked',
+            validationErrorId: 'provideReasons',
+            controls: [
+                'petitionerDidNotProvideInfo', 'statementOfCase', 'previousProceedings', 'marriageCertificateNotAcceptable',
+                'translationMarriageCertificateNotAcceptable', 'translationMarriageCertificateNotAcceptable', 'additionalInformation'
+            ]
+        },
+        {
+            validatorFunc: 'isTextAreaValidWhenCheckboxChecked',
+            validationErrorId: 'additionalInformationText',
+            controls: {
+                checkboxControl: 'additionalInformation',
+                textareaControl: 'additionalInformationText'
+            }
+        }
+    ],
+    validationHeaderErrorMessages: [
+        {
+            validationLevel: 'formGroup',
+            formGroupValidationErrorId: 'provideReasons',
+            text: 'Select at least one reason',
+            href: '#'
+        },
+        {
+            validationLevel: 'formGroup',
+            formGroupValidationErrorId: 'additionalInformationText',
+            text: 'Enter additional information',
+            href: '#'
+        }
+    ],
     groups: [
         {
             hint: {
                 text: 'Choose at least one of the following:',
                 classes: 'govuk-hint'
+            }
+        },
+        {
+            validationError: {
+                value: 'Select at least one reason',
+                identifier: 'provideReasons'
             }
         },
         {
@@ -53,6 +89,12 @@ module.exports = {
                 text: 'Any additional information.',
                 groups: [
                     {
+                        validationError: {
+                            value: 'Enter additional information',
+                            identifier: 'additionalInformationText'
+                        }
+                    },
+                    {
                         textarea: {
                             label: {
                                 text: 'Additional information',
@@ -60,6 +102,7 @@ module.exports = {
                             },
                             control: 'additionalInformationText',
                             value: '',
+
                         }
                     }
                 ]
