@@ -5,7 +5,7 @@ export default {
         ccd_def_api:
             'https://ccd-definition-store-api-saat.service.core-compute-saat.internal',
         idam_web: 'https://idam-test.dev.ccidam.reform.hmcts.net',
-        idam_api: 'https://betaDevBccidamAppLB.reform.hmcts.net',
+        //idam_api: 'https://betaDevBccidamAppLB.reform.hmcts.net',
         s2s:
             'https://rpe-service-auth-provider-saat.service.core-compute-saat.internal',
         draft_store_api:
