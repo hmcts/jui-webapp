@@ -41,7 +41,8 @@ module.exports = app => {
     app.use('/documents', route)
 
     route.get('/:document_id', (req, res, next) => {
-        getDocument(req.params.document_id, {}).pipe(res)
+        const response = getDocument(req.params.document_id, {})
+        res.send(response).status(200)
     })
 
     route.get('/:document_id/binary', (req, res, next) => {

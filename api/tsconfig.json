@@ -1,6 +1,7 @@
 {
     "compileOnSave": false,
     "compilerOptions": {
+        "sourceMap": true,
         "outDir": "../dist/jui-backend",
         "target": "es5",
         "types": [
