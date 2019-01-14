@@ -5,10 +5,26 @@ module.exports = {
             {
                 validatorFunc: 'isAnyCheckboxChecked',
                 validationErrorId: 'reasonsConstentOrderNotApproved',
-                checkboxes: [
+                controls: [
                     'partiesNeedAttend', 'NotEnoughInformation', 'orderNotAppearOfS25ca1973', 'd81',
                     'pensionAnnex', 'applicantTakenAdvice', 'respondentTakenAdvice', 'Other2'
                 ]
+            },
+            {
+                validatorFunc: 'isTextAreaValidWhenCheckboxChecked',
+                validationErrorId: 'informationNeeded',
+                controls: {
+                    checkboxControl: 'Other',
+                    textareaControl: 'informationNeeded'
+                }
+            },
+            {
+                validatorFunc: 'isTextAreaValidWhenCheckboxChecked',
+                validationErrorId: 'Reason',
+                controls: {
+                    checkboxControl: 'Other2',
+                    textareaControl: 'Reason'
+                }
             }
         ],
         validationHeaderErrorMessages: [
@@ -34,6 +50,18 @@ module.exports = {
                 validationLevel: 'formGroup',
                 formGroupValidationErrorId: 'reasonsConstentOrderNotApproved',
                 text: 'Select reasons the consent order was not approved',
+                href: '#'
+            },
+            {
+                validationLevel: 'formGroup',
+                formGroupValidationErrorId: 'informationNeeded',
+                text: 'Enter additional information',
+                href: '#'
+            },
+            {
+                validationLevel: 'formGroup',
+                formGroupValidationErrorId: 'Reason',
+                text: 'Enter the reason',
                 href: '#'
             }
         ],
@@ -140,13 +168,16 @@ module.exports = {
                                                 text: 'Other',
                                                 groups: [
                                                     {
+                                                        validationError: {
+                                                            value: 'Enter additional information',
+                                                            identifier: 'informationNeeded'
+                                                        }
+                                                    },
+                                                    {
                                                         textarea: {
                                                             label: {
                                                                 text: 'What information is needed?',
                                                                 classes: 'govuk-label--m'
-                                                            },
-                                                            validationError: {
-                                                                value: 'Enter what information is needed'
                                                             },
                                                             control: 'informationNeeded',
                                                             value: ''
@@ -201,6 +232,12 @@ module.exports = {
                             value: false,
                             text: 'Other',
                             groups: [
+                                {
+                                    validationError: {
+                                        value: 'Enter the reason',
+                                        identifier: 'Reason'
+                                    }
+                                },
                                 {
                                     textarea: {
                                         label: {

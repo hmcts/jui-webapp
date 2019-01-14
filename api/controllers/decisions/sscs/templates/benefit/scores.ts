@@ -6,7 +6,7 @@ module.exports = {
         {
             validatorFunc: 'isAnyCheckboxChecked',
             validationErrorId: 'selectActivities',
-            checkboxes: [
+            controls: [
                 'preparingFood',
                 'takingNutrition',
                 'managingTherapy',
