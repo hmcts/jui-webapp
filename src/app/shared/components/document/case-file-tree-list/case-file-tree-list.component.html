@@ -2,10 +2,10 @@
 <h2 class="govuk-visually-hidden" id="all-items">All items</h2>
 <ul class="jui-tree" aria-labelledby="all-items" role="tree">
 
-    <li class="jui-tree__item jui-tree__item--open" role="treeitem" aria-expanded="true" tabindex="0">
+    <li class="jui-tree__item jui-tree__item--open" role="treeitem" aria-expanded="true" tabindex="0" >
         <span class="jui-tree__folder">Documents</span>
         <ul class="jui-tree__folder-group">
-            <li class="jui-tree__doc" *ngFor="let document of documents; let i = index;">
+            <li class="jui-tree__doc" *ngFor="let document of documents; let i = index;" [attr.data-selector]="'document'">
                 <a class="jui-tree__doc-link" routerLink="../{{document.id}}" [attr.aria-current]="(selectedDocument && document.id === selectedDocument.id) || null" role="treeitem" tabindex="-1">
                     <span class="jui-tree__doc-name">{{document.name}}</span>
                     <span class="jui-tree__doc-meta">Added {{ document.modifiedOn  | date: 'd MMMM y h:mm a' }}</span>
