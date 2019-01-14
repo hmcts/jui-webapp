@@ -3641,8 +3641,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return;
 	  }
 
-	  var boundingRect = svg.getBoundingClientRect();
-
 	  if (!color) {
 	    if (type === 'highlight') {
 	      color = 'FFFF00';
@@ -3656,13 +3654,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    type: type,
 	    color: color,
 	    rectangles: [].concat(_toConsumableArray(rects)).map(function (r) {
-	      var offset = 0;
 
-	      if (type === 'strikeout') {
-	        offset = r.height / 2;
-	      }
-
-	      var rotatedAnnotation = rotateAnnotation(svg, boundingRect, offset, r);
+	      var rotatedAnnotation = rotateAnnotation(svg, type, r);
 
 	      return (0, _utils.scaleDown)(svg, {
 	        y: rotatedAnnotation.top,
@@ -3702,50 +3695,51 @@ return /******/ (function(modules) { // webpackBootstrap
 	  });
 	}
 
-        /**
-         * adjusting the coordinates of new annotations being added after rotation
-         * to stay in sync with the original location of the top left
-         */
+    /**
+     * adjusting the coordinates of new annotations being added after rotation
+     * to stay in sync with the original location of the top left
+     */
+    function rotateAnnotation(svg, type, rect) {
+        var top, left;
+        var width = rect.width;
+        var height = rect.height;
+        var rotation =  JSON.parse(svg.getAttribute("data-pdf-annotate-viewport")).rotation;
+        var pageHeight = svg.getAttribute("height");
+        var pageWidth = svg.getAttribute("width");
+        var boundingRect = svg.getBoundingClientRect();
+        var offset = type === 'strikeout' ? r.height/2 : 0;
+        var relativeTop = rect.top + offset - boundingRect.top;
+        var relativeLeft = rect.left - boundingRect.left;
 
-        function rotateAnnotation(svg, boundingRect, offset, rect) {
-            var top, left;
-            var width = rect.width;
-            var height = rect.height;
-            var rotation =  JSON.parse(svg.getAttribute("data-pdf-annotate-viewport")).rotation;
-            var pageHeight = svg.getAttribute("height");
-            var pageWidth = svg.getAttribute("width");
-            var relativeTop = rect.top + offset - boundingRect.top;
-            var relativeLeft = rect.left - boundingRect.left;
-
-            switch (rotation) {
-                case 90:
-                    top = pageWidth - relativeLeft - rect.height;
-                    left = relativeTop;
-                    width = rect.height;
-                    height = rect.width;
-                    break;
-                case 180:
-                    top = pageHeight - relativeTop - rect.height;
-                    left = pageWidth - relativeLeft - rect.width;
-                    break;
-                case 270:
-                    top = relativeLeft;
-                    left = pageHeight - relativeTop - rect.height;
-                    width = rect.height;
-                    height = rect.width;
-                    break;
-                default:
-                    top = relativeTop;
-                    left = relativeLeft;
-            }
-            return {
-                top: top,
-                left: left,
-                height: height,
-                width: width
-            }
-
+        switch (rotation) {
+            case 90:
+                top = pageWidth - relativeLeft - rect.height;
+                left = relativeTop;
+                width = rect.height;
+                height = rect.width;
+                break;
+            case 180:
+                top = pageHeight - relativeTop - rect.height;
+                left = pageWidth - relativeLeft - rect.width;
+                break;
+            case 270:
+                top = relativeLeft;
+                left = pageHeight - relativeTop - rect.height;
+                width = rect.height;
+                height = rect.width;
+                break;
+            default:
+                top = relativeTop;
+                left = relativeLeft;
         }
+        return {
+            top: top,
+            left: left,
+            height: height,
+            width: width
+        }
+
+    }
 
 	/**
 	 * Enable rect behavior
