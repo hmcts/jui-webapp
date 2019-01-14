@@ -82,7 +82,7 @@
     "eslint-html-reporter": "0.5.2",
     "exception-formatter": "1.0.7",
     "express-session": "^1.15.6",
-    "govuk-frontend": "2.4.1",
+    "govuk-frontend": "2.5.0",
     "http-proxy-middleware": "0.19.1",
     "https-proxy-agent": "^2.2.1",
     "jsonpath": "1.0.0",
