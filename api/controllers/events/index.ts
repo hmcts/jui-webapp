@@ -54,8 +54,8 @@ function reduceCcdEvents(jurisdiction, caseType, caseId, events) {
     })
 }
 
-function getCcdEvents(userId, jurisdiction, caseType, caseId) {
-    return getCCDEvents(userId, jurisdiction, caseType, caseId).then(events =>
+async function getCcdEvents(userId, jurisdiction, caseType, caseId) {
+    return await getCCDEvents(userId, jurisdiction, caseType, caseId).then(events =>
         reduceCcdEvents(jurisdiction, caseType, caseId, events)
     )
 }
@@ -97,10 +97,9 @@ function reduceCohEvents(events) {
 export async function getCohEvents(userId, caseId) {
     const hearingId =  await getHearingIdOrCreateHearing(caseId, userId)
 
-    return getOnlineHearingConversation(hearingId)
-        .then(mergeCohEvents)
-        .then(reduceCohEvents)
-
+    const conversation = await getOnlineHearingConversation(hearingId)
+    const mergedEvents = mergeCohEvents(conversation)
+    return reduceCohEvents(mergedEvents)
 }
 
 /// ///////////////////////
@@ -112,18 +111,21 @@ function combineLists(lists) {
 }
 
 function sortEvents(events) {
-    return events.sort((result1, result2) => moment.duration(moment(result2.dateUtc).diff(moment(result1.dateUtc))).asMilliseconds())
+    return events.sort((result1, result2) => 
+    moment.duration(moment(result2.dateUtc).diff(moment(result1.dateUtc))).asMilliseconds())
 }
 
 export async function getEvents(userId, jurisdiction, caseType, caseId) {
-    const promiseArray = []
-    promiseArray.push(getCcdEvents(userId, jurisdiction, caseType, caseId))
+    let cohEvents 
+    const ccdEvents = await getCcdEvents(userId, jurisdiction, caseType, caseId)
+
     if (hasCOR(jurisdiction, caseType)) {
-        promiseArray.push(getCohEvents(userId, caseId))
+         cohEvents = await getCohEvents(userId, caseId)
     }
-    return Promise.all(promiseArray)
-        .then(combineLists)
-        .then(sortEvents)
+
+    const combined = combineLists([ccdEvents, cohEvents])
+    return sortEvents(combined)
+
 }
 
 module.exports = app => {
