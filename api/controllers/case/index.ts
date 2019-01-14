@@ -73,6 +73,7 @@ function appendCollectedData([caseData, events, hearings, questions]) {
     caseData.events = events
     caseData.hearing_data = hearings && hearings.online_hearings ? hearings.online_hearings[0] : []
     caseData.question_data = questions ? questions.sort((a, b) => a.question_round_number < b.question_round_number) : []
+
     return caseData
 }
 
@@ -123,6 +124,7 @@ module.exports = app => {
     app.use('/case', router)
 
     router.get('/:jur/:casetype/:case_id', (req, res, next) => {
+    
         const userId = req.auth.userId
         const jurisdiction = req.params.jur
         const caseType = req.params.casetype
