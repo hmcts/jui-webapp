@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, ElementRef, Input, ChangeDetectorRef, Renderer2, OnDestroy, AfterViewInit} from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef, Input, ChangeDetectorRef, Renderer2, OnDestroy, AfterViewInit, ComponentRef} from '@angular/core';
 import {PdfService} from '../../data/pdf.service';
 import { Subscription } from 'rxjs';
 import {AnnotationStoreService} from '../../data/annotation-store.service';
@@ -10,6 +10,11 @@ import { PdfAnnotateWrapper } from '../../data/js-wrapper/pdf-annotate-wrapper';
 import { CommentsComponent } from './comments/comments.component';
 import { ContextualToolbarComponent } from './contextual-toolbar/contextual-toolbar.component';
 import { EmLoggerService } from '../../logging/em-logger.service';
+import { RenderOptions } from '../../data/js-wrapper/renderOptions.model';
+import { PdfRenderService } from '../../data/pdf-render.service';
+import { RotationFactoryService } from './rotation-toolbar/rotation-factory.service';
+import { RotationComponent } from './rotation-toolbar/rotation.component';
+import { RotationModel } from '../../model/rotation-factory.model';
 
 
 @Component({
@@ -30,6 +35,8 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
     private page: number;
     private focusedAnnotationSubscription: Subscription;
     private pageNumberSubscription: Subscription;
+    private pdfPageSubscription: Subscription;
+    rotationComponents: ComponentRef<RotationComponent>[] = [];
 
     @ViewChild('contentWrapper') contentWrapper: ElementRef;
     @ViewChild('viewer') viewerElementRef: ElementRef;
@@ -45,22 +52,33 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
                 private ref: ChangeDetectorRef,
                 private renderer: Renderer2,
                 private pdfAnnotateWrapper: PdfAnnotateWrapper,
+                private pdfRenderService: PdfRenderService,
+                private rotationFactoryService: RotationFactoryService,
                 private log: EmLoggerService) {
-        log.setClass('AnnotationPdfViewerComponent');
     }
 
     ngOnInit() {
         this.loadAnnotations(this.annotate);
         this.pdfService.preRun();
-        this.pdfService.setRenderOptions({
-            documentId: this.url,
-            pdfDocument: null,
-            scale: parseFloat('1.33'),
-            rotate: parseInt(localStorage.getItem(this.url + '/rotate'), 10) || 0
-        });
+        this.pdfRenderService.setRenderOptions( new RenderOptions(
+            this.url,
+            null,
+            parseFloat('1.33'),
+            0,
+            []
+        ));
 
-        this.pdfService.render(this.viewerElementRef);
+        this.pdfPageSubscription = this.pdfRenderService.listPagesSubject
+            .subscribe((listPages: RotationModel[]) => {
+                this.rotationComponents.forEach(rc => rc.destroy());
+                listPages.forEach(pageDetails => {
+                    this.rotationComponents.push(this.rotationFactoryService.addToDom(pageDetails));
+                });
+        }); 
+        
+        this.pdfRenderService.render(this.viewerElementRef);
         this.pdfService.setAnnotationWrapper(this.annotationWrapper);
+
         this.pageNumberSubscription = this.pdfService.getPageNumber()
             .subscribe(page => this.page = page);
         this.focusedAnnotationSubscription = this.annotationStoreService.getAnnotationFocusSubject()
@@ -77,6 +95,9 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
         }
         if (this.focusedAnnotationSubscription) {
             this.focusedAnnotationSubscription.unsubscribe();
+        }
+        if (this.pdfPageSubscription) {
+            this.pdfPageSubscription.unsubscribe();
         }
     }
 

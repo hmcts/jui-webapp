@@ -6,7 +6,7 @@
             <div class="jui-question">
                 <p data-selector="question-date" class="jui-question__meta">From <span class="jui-question__author">{{question.owner_reference}}</span>, added on {{question.state_datetime | date: "d MMMM yyyy"}}</p>
                 <div class="govuk-prose-scope">
-                    <p data-selector="question-body">{{question.body}}</p>
+                    <p data-selector="question-body" [innerHTML]="question.body"></p>
                 </div>
             </div>
             <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible" *ngIf="question.answer" >

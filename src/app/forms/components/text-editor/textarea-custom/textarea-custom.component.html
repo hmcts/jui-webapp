@@ -1,0 +1,14 @@
+<div
+  #textarea
+  class="jui-editor__content govuk-textarea govuk-input--width-30x"
+  spellcheck="false"
+  [ngClass]="{
+    'govuk-textarea--error': error
+  }"
+  id="{{id}}"
+  [attr.name]="id"
+  [attr.data-selector]="id + '-textarea'"
+  [attr.contenteditable]="disable ? false : true"
+  (input)="change($event)"
+  (keyup)="onKeyUp($event)"
+></div>

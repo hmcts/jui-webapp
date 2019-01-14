@@ -9,6 +9,7 @@ import { Utils } from '../../../data/utils';
 import { PdfService } from '../../../data/pdf.service';
 import { AnnotationStoreService } from '../../../data/annotation-store.service';
 import { EmLoggerService } from '../../../logging/em-logger.service';
+import { PdfRenderService } from '../../../data/pdf-render.service';
 
 class MockUtils {
   sortByLinePosition() {}
@@ -23,11 +24,9 @@ class MockPdfService {
     this.pageNumber.next(1);
   }
 
-  getPdfPages() {}
   getPageNumber() {
     return this.pageNumber;
   }
-  getDataLoadedSub() {}
 }
 
 class MockAnnotationStoreService {
@@ -72,14 +71,21 @@ class MockCommentItemComponent extends CommentItemComponent {
   
   constructor() {
     const log = new EmLoggerService();
-    super(null, null, null, null, null, log);
+    super(null, null, null, null, null, null, log);
   }
+}
+
+class MockPdfRenderService {
+  getDataLoadedSub() {}
+  getPdfPages() {}
 }
 
 describe('CommentsComponent', () => {
   const mockUtils = new MockUtils();
   const mockAnnotationStoreService = new MockAnnotationStoreService();
   const mockPdfService = new MockPdfService();
+  const mockPdfRenderService = new MockPdfRenderService();
+
   let component: CommentsComponent;
   let fixture: ComponentFixture<CommentsComponent>;
 
@@ -93,6 +99,7 @@ describe('CommentsComponent', () => {
       providers: [
         EmLoggerService,
         { provide: Utils, useFactory: () => mockUtils },
+        { provide: PdfRenderService, useFactory: () => mockPdfRenderService },
         { provide: PdfService, useFactory: () => mockPdfService },
         { provide: AnnotationStoreService, useFactory: () => mockAnnotationStoreService }
       ],
@@ -109,7 +116,7 @@ describe('CommentsComponent', () => {
     fixture = TestBed.createComponent(CommentsComponent);
     component = fixture.componentInstance;
     component.commentItems = new QueryList();
-    spyOn(mockPdfService, 'getDataLoadedSub').and.returnValue(of(true));
+    spyOn(mockPdfRenderService, 'getDataLoadedSub').and.returnValue(of(true));
     spyOn(mockAnnotationStoreService, 'getAnnotationsForPage').and
     .callFake(() => {
         return new Promise((resolve) => {

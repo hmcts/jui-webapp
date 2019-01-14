@@ -10,6 +10,7 @@ import { AnnotationStoreService } from '../../../../data/annotation-store.servic
 import { PdfService } from '../../../../data/pdf.service';
 import { Utils } from '../../../../data/utils';
 import { EmLoggerService } from '../../../../logging/em-logger.service';
+import { PdfRenderService } from '../../../../data/pdf-render.service';
 
 
 class MockAnnotationStoreService {
@@ -33,7 +34,6 @@ class MockAnnotationStoreService {
 }
 
 class MockPdfService {
-    getDataLoadedSub() {}
     getRelativePosition() {}
 }
 
@@ -41,6 +41,10 @@ class MockUtils {
   sortByX() {}
   sortByY() {}
   getAnnotationLineHeight() {}
+}
+
+class MockPdfRenderService {
+  getDataLoadedSub() {}
 }
 
 describe('CommentItemComponent', () => {
@@ -84,6 +88,7 @@ describe('CommentItemComponent', () => {
     'highlight'
   );
 
+  const mockPdfRenderService = new MockPdfRenderService();
   const mockPdfService = new MockPdfService();
   const mockAnnotationStoreService = new MockAnnotationStoreService();
   const mockUtils = new MockUtils();
@@ -107,6 +112,7 @@ describe('CommentItemComponent', () => {
       providers: [
         EmLoggerService,
         { provide: AnnotationStoreService, useFactory: () => mockAnnotationStoreService },
+        { provide: PdfRenderService, useFactory: () => mockPdfRenderService },
         { provide: PdfService, useFactory: () => mockPdfService },
         { provide: Utils, useFactory: () => mockUtils },
         Renderer2
@@ -124,7 +130,7 @@ describe('CommentItemComponent', () => {
     component = fixture.componentInstance;
     spyOn(mockAnnotationStoreService, 'getCommentFocusSubject').and
       .returnValue(of({annotation: annotation, showButton: false}));
-    spyOn(mockPdfService, 'getDataLoadedSub').and
+    spyOn(mockPdfRenderService, 'getDataLoadedSub').and
           .returnValue(of(true));
 
     spyOn(component, 'getRelativePosition').and.returnValue(rectangleTop.y);

@@ -80,6 +80,7 @@ const routes: Routes = [
                     {path: 'check', component: CheckDecisionComponent},
                     {path: 'check-tribunal', component: CheckDecisionComponent},
                     {path: 'check-final-decision', component: CheckDecisionComponent},
+                    {path: 'check-your-answers', component: CheckDecisionComponent},
                     {path: 'decision-confirmation', component: DecisionConfirmationComponent},
 //Preliminary view routes
                     {path: 'preliminary-advanced', component: MakeDecisionComponent},
@@ -102,8 +103,10 @@ const routes: Routes = [
                     {path: 'reject-reasons', component: MakeDecisionComponent},
                     {path: 'notes-for-court-administrator', component: MakeDecisionComponent},
                     {path: 'draft-consent-order', component: DraftConsentOrderComponent},
-                    {path: 'hearing-details', component: MakeDecisionComponent}
-
+                    {path: 'hearing-details', component: MakeDecisionComponent},
+//Divorce routes
+                    {path: 'provide-reason', component: MakeDecisionComponent},
+                    {path: 'costs-order', component: MakeDecisionComponent}
                 ]
             },
             {
