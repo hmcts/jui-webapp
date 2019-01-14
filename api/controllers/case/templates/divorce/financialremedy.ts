@@ -62,6 +62,14 @@ export const template = {
                                 {
                                     label: 'Case number',
                                     value: '$.id'
+                                },
+                                {
+                                    label: 'Decree nisi granted',
+                                    value: '1 May 2018'
+                                },
+                                {
+                                    label: 'Decree absolute granted',
+                                    value: '14 January 2019'
                                 }
                             ]
                         },
