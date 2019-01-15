@@ -21,8 +21,14 @@ logger.level = config.logging || 'off'
 
 // Retrieves JSON representation of a Stored Document.
 async function getDocument(documentId) {
-    const response = await  http.get(`${url}/documents/${documentId}`)
-    return response.data
+    const response =  await asyncReturnOrError(
+        http.get(`${url}/documents/${documentId}`),
+        `Error getting document ${documentId}`,
+        null,
+        logger,
+        false)
+
+    return response? response.data : null
 }
 
 // Retrieves JSON[] representation of a list of Stored Document.

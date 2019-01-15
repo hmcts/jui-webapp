@@ -41,7 +41,12 @@ module.exports = app => {
     app.use('/documents', route)
 
     route.get('/:document_id', async (req, res, next) => {
-        res.send(await getDocument(req.params.document_id, {})).status(200)
+        const document = await getDocument(req.params.document_id, {})
+        if (document) {
+            res.send(document).status(200)
+        } else {
+            res.send(`Error getting document ${req.params.document_id}`).status(500)
+        }
     })
 
     route.get('/:document_id/binary', (req, res, next) => {
