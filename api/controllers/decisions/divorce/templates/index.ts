@@ -12,6 +12,7 @@ templates.financialremedymvp2['hearing-details'] = require('./financialremedymvp
 templates.financialremedymvp2['notes-for-court-administrator'] = require('./financialremedymvp2/notesForCourtAdministrator')
 templates.financialremedymvp2['reject-reasons'] = require('./financialremedymvp2/rejectReasons')
 
-
-
 templates.divorce.create = require('./divorce/create')
+templates.divorce['provide-reason'] = require('./divorce/provideReason')
+templates.divorce['costs-order'] = require('./divorce/costsOrder')
+templates.divorce['check-your-answers'] = require('./divorce/checkYourAnswers')

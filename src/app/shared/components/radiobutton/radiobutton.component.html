@@ -4,7 +4,8 @@
   </ng-container>
   <div [class]="classes" [formGroup]="group">
       <ng-container *ngFor="let data of items; let i = index">
-        <div class="govuk-radios__item">
+        <div *ngIf="data.devider" class="govuk-radios__divider">{{data.devider}}</div>
+        <div *ngIf="!data.devider" class="govuk-radios__item">
             <input class="govuk-radios__input" id="{{control + data.value}}" [formControlName]="control" type="radio" [value]= "data.value">
             <label class="govuk-label govuk-radios__label" for="{{control + data.value}}">
                 {{data.text}}

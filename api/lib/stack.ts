@@ -46,7 +46,6 @@ export async function shiftStack(req, variables) {
         if (isObject(currentItem)) {
             const key = Object.keys(currentItem)[0]
             if (Object.keys(currentItem).length) { // item is an object with variable to evaluate
-                console.log('key:', key, variables[key])
                 matching = (variables[key]) ? currentItem[key] : null
                 currentItem = currentItem[key]
             }

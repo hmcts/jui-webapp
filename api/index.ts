@@ -40,11 +40,12 @@ router.use(serviceTokenMiddleware)
 auth(router)
 router.use(authInterceptor)
 caseListRoute(router)
+decisionRoutes(router)
 caseRoutes(router)
 eventsRoutes(router)
 documentsRoutes(router)
 questionsRoutes(router)
-decisionRoutes(router)
+
 
 if (config.configEnv !== 'prod') {
     // Dev Tools

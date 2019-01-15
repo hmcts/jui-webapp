@@ -1,151 +1,126 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { DraftConsentOrderComponent } from './draft-consent-order.component';
-import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild} from '@angular/core';
-import {RouterTestingModule} from '@angular/router/testing';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {FormsService} from '../../../../shared/services/forms.service';
-import {MakeDecisionComponent} from '../make-decision/make-decision.component';
-import {DecisionService} from '../../../../domain/services/decision.service';
-import {ConfigService} from '../../../../config.service';
-import {Observable, of} from 'rxjs';
-import {ActivatedRoute} from '@angular/router';
-import {HttpClientModule} from '@angular/common/http';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { BrowserTransferStateModule } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
+import { DecisionService } from '../../../../domain/services/decision.service';
 
 describe('DraftConsentOrderComponent', () => {
+  let component: DraftConsentOrderComponent;
+  let fixture: ComponentFixture<DraftConsentOrderComponent>;
+  let decisionServiceFetchSpy;
+  let decision;
 
-    @Component({
-        selector: `app-host-dummy-component`,
-        template: `<app-draft-consent-order
-            [pageitems]="pageitems"
-        ></app-draft-consent-order>`
-    })
-    class TestDummyHostComponent {
-        pageitems = {
-            header: 'something',
-            groups: {
-                fieldset : ''
-            }
-        };
-        @ViewChild(DraftConsentOrderComponent)
-        public draftConsentOrderComponent: DraftConsentOrderComponent;
-    }
-
-    let testHostComponent: TestDummyHostComponent;
-    let testHostFixture: ComponentFixture<TestDummyHostComponent>;
-    let el: DebugElement;
-    let de: any;
-    let component: DraftConsentOrderComponent;
-    let fixture: ComponentFixture<DraftConsentOrderComponent>;
-
-    let element: DebugElement;
-
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            imports: [
-                ReactiveFormsModule,
-                FormsModule,
-                RouterTestingModule,
-                HttpClientModule
-            ],
-            declarations: [ DraftConsentOrderComponent, TestDummyHostComponent ],
-            schemas: [CUSTOM_ELEMENTS_SCHEMA],
-            providers: [
-                {
-                    provide: FormsService,
-                    useValue: {
-                        create: () => {
-                            return '';
-                        },
-                        createFormControl: () => {
-                            return '';
-                        },
-                        defineformControls: () => {
-                            return '';
-                        }
-                    }
-                },
-                {
-                    provide: ConfigService,
-                    useValue: {
-                        config: {
-                            api_base_url: ''
-                        }
-                    }
-                },
-                {
-                    provide: ActivatedRoute,
-                    useValue: {
-                        parent: {
-                            params: Observable.of({caseid: '1234'}),
-                            snapshot: {
-                                data: {
-                                    caseData: {
-                                        sections: [],
-                                        details: {
-                                            fields: [
-                                                { value: '123' },
-                                                { value: 'bob v bob' }
-                                            ]
-                                        }
-                                    }
-                                }
+  beforeEach(async(() => {
+    decision = {};
+    TestBed.configureTestingModule({
+      declarations: [ DraftConsentOrderComponent ],
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule,
+        BrowserTransferStateModule,
+        FormsModule,
+        ReactiveFormsModule
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      providers: [ 
+        {
+          provide: DecisionService,
+          useValue: {
+              fetch: () => {
+                  return of(decision);
+              },
+              submitDecisionDraft: () => {
+                  return of({});
+              }
+          }
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: ({ 
+            snapshot: {
+                _lastPathIndex: 0,
+                url: [{
+                    path: 'dummy'
+                }],
+                parent: {
+                    data: {
+                        caseData: {
+                            id: '1234',
+                            decision: {
+                                options: [
+                                    { id: 'test', name: 'test' }
+                                ]
                             }
-                        },
-                        params: Observable.of({caseid: '1234'})
-                    }
-                },
-                {
-                    provide: DecisionService,
-                    useValue: {
-                        generateDecisionUrl: () => {
-                            return '';
-                        },
-                        fetch: () => {
-                            return of({});
-                        },
-                        submitDecisionDraft: () => {
-                            return of({});
-                        },
-                        updateDecisionDraft: () => {
-                            return of({});
-                        },
-                        issueDecision:() => {
-                            return of({});
-                        },
-                        findConsentOrderDocumentUrl: () => {
-                            return '';
-                        },
-                        findConsentOrderDocumentId: () => {
-                            return '';
                         }
                     }
                 }
+            },
+            parent: {
+                data: of({
+                    caseData: {
+                        id: '1234',
+                        decision: {
+                            options: [
+                                { id: 'test', name: 'test' }
+                            ]
+                        }
+                    }
+                })
+            }
+          } as any) as ActivatedRoute
+          
+        }
+      ]
+    })
+    .compileComponents();
+  }));
 
-            ],
-        })
-            .compileComponents();
+  beforeEach(() => {
+    decisionServiceFetchSpy = spyOn(
+        TestBed.get(DecisionService),
+        'fetch'
+    ).and.returnValue(of({
+        meta: {
+        },
+        formValues: {}
     }));
-    beforeEach(() => {
-        testHostFixture = TestBed.createComponent(TestDummyHostComponent);
-        testHostComponent = testHostFixture.componentInstance;
-    });
-    beforeEach(() => {
-        fixture = TestBed.createComponent(DraftConsentOrderComponent);
-        component = fixture.componentInstance;
-        element = fixture.debugElement;
-    });
+    fixture = TestBed.createComponent(DraftConsentOrderComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+  
+  afterEach(() => {
+    TestBed.resetTestingModule();
+  });
 
-    it('should create', () => {
-        expect(component).toBeTruthy();
-    });
-    it('should be created by angular', () => {
-        expect(fixture).not.toBeNull();
-    });
-    it('should pageitems not load', () => {
-        expect(testHostComponent.draftConsentOrderComponent.pageitems).toBeUndefined();
-        // testHostFixture.detectChanges();
-        // expect(testHostComponent.makeDecisionComponent.pageitems).toEqual('waste');
-    });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 
+  describe('on form submission', () => {
+
+    describe('if form is valid', () => {
+        let decisionServiceSubmitDecisionDraftSpy;
+
+        beforeEach(() => {
+            decisionServiceSubmitDecisionDraftSpy = spyOn(
+                TestBed.get(DecisionService),
+                'submitDecisionDraft'
+            ).and.returnValue(of({}));
+        });
+
+        it('should submit the decision', () => {
+            component.draftConsentOrderForm.value.createButton = {
+              toLowerCase: () => true
+            };
+            component.onSubmit();
+            expect(decisionServiceSubmitDecisionDraftSpy).toHaveBeenCalled();
+        });
+    });
+  });
 });

@@ -26,6 +26,24 @@ const DEFAULT_CCD_STATE = {
 // SSCS States
 /// //////////////////////////////////////////////////////////////////////////////////////
 
+
+// if a final decision is made in the absence of any real state change look at property of case
+// this seems pretty hacky through
+
+const ccdFinalDecisionState = {
+    when(context) {
+        return !!context.caseData.decisionNotes
+    },
+    then(context) {
+        context.outcome = createCaseState(
+            STATE.COH_DECISION_ISSUED_STATE,
+            null,
+            GO_TO.SUMMARY_GO_TO
+        )
+        context.stop = true
+    }
+}
+
 // if we have coh and nothing else has happen
 // then
 // set state to COH Started
@@ -206,6 +224,7 @@ const processEngineMap = {
         benefit: {
             stateConditions: [
                 DEFAULT_CCD_STATE,
+                ccdFinalDecisionState,
                 cohDecisionState,
                 cohRelistState,
                 cohState,
@@ -242,12 +261,12 @@ const processEngineMap = {
 function getProcessEngine(jurisdiction, caseType) {
     const jud = processEngineMap[jurisdiction.toLowerCase()]
     const conditionsList = jud ? jud[caseType.toLowerCase()] : null
+
     return (conditionsList) || [DEFAULT_CCD_STATE]
 }
 
 function processCaseStateEngine(param) {
     const stateConditions = getProcessEngine(param.jurisdiction, param.caseType).stateConditions
-
     const context = {
         caseData: param,
         stop: false,
@@ -268,26 +287,6 @@ function processCaseStateEngine(param) {
 }
 
 export function processCaseState(caseData) {
-
-
-    // Example of caseData Model at this current moment
-    // const caseData = {
-    //     jurisdiction: "", // CCD Case jurisdiction
-    //     case_type_id: "", // CCD Case case type
-    //     state: "", // CCD Case state
-    //     case_data:{ // CCD Case Data
-    //         consentOrder: "", // used in FR only
-    //         appeal: {
-    //             hearingType: "" // used in SSCS only
-    //         }
-    //     },
-    //     hearing_data: { // COH Hearing Data
-    //         // used in COH only
-    //     },
-    //     question_data: { // COH Question Data
-    //         question_round_number // used in COH only
-    //     }
-    // }
 
     const jurisdiction = caseData.jurisdiction
     const caseType = caseData.case_type_id

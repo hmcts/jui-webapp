@@ -41,40 +41,10 @@ describe('PdfService', () => {
 
   describe('preRun', () => {
     it('should define pdf variables', inject([PdfService], (service: PdfService) => {
-      spyOn(mockPdfWrapper, 'workerSrc').and.stub();
-
       service.preRun();
-
       expect(service.getPageNumber()).toBeTruthy();
-      expect(mockPdfWrapper.workerSrc).toHaveBeenCalled();
     }));
   });
-
-  describe('render', () => {
-    it('render should set workerSrc', inject([PdfService], (service: PdfService) => {
-      spyOn(mockPdfWrapper, 'getDocument').and.returnValue(
-          new Promise((resolve) => {
-            resolve({pdfInfo: { numPages: 65}});
-          }
-        ));
-      service.setRenderOptions({
-          documentId: 'documentId',
-          pdfDocument: null,
-          scale: 1.33,
-          rotate: 0
-        });
-      const nativeElement = document.createElement('div');
-      spyOn(nativeElement, 'appendChild').and.callFake(() => {
-
-      const viewerElementRef = new ElementRef(nativeElement);
-      spyOn(mockPdfAnnotateWrapper, 'createPage').and.stub();
-
-      service['viewerElementRef'] = viewerElementRef;
-      service.render(viewerElementRef);
-      expect(mockPdfAnnotateWrapper.createPage).toHaveBeenCalled();
-    });
-  }));
-});
 
   describe('setPageNumber', () => {
     it('should set the pageNumber value', inject([PdfService], (service: PdfService) => {
@@ -83,14 +53,6 @@ describe('PdfService', () => {
         expect(pageNumber).toBe(1);
       });
       service.setPageNumber(1);
-    }));
-  });
-
-  describe('getRenderOptions', () => {
-    it('should return RENDER_OPTIONS', inject([PdfService], (service: PdfService) => {
-      const mockRenderOptions = {documentId: 'id', pdfDocument: null, scale: 1, rotate: 0};
-      service.setRenderOptions(mockRenderOptions);
-      expect(service.getRenderOptions().documentId).toBe(mockRenderOptions.documentId);
     }));
   });
 

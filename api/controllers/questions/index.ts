@@ -68,7 +68,8 @@ function countStates(questions, state) {
 
 function getExpirationDate(questions) {
     return (
-        questions.map(question => question.deadline_expiry_date).sort((a, b) => ((new Date(b) as any) - new Date(a)[0]) as any) || null
+        questions.map(question => question.deadline_expiry_date)
+        .sort((a, b) => (new Date(b) as any) - (new Date(a) as any))[0] || null
     )
 }
 
@@ -367,5 +368,6 @@ module.exports = app => {
             )
     })
 }
+
 
 module.exports.getAllQuestionsByCase = getAllQuestionsByCase

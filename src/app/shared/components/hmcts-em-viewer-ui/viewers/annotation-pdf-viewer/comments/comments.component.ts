@@ -6,6 +6,7 @@ import { AnnotationStoreService } from '../../../data/annotation-store.service';
 import { PdfService } from '../../../data/pdf.service';
 import { Utils } from '../../../data/utils';
 import { EmLoggerService } from '../../../logging/em-logger.service';
+import { PdfRenderService } from '../../../data/pdf-render.service';
 
 @Component({
     selector: 'app-comments',
@@ -24,12 +25,13 @@ export class CommentsComponent implements OnInit, OnDestroy {
     constructor(private annotationStoreService: AnnotationStoreService,
                 private pdfService: PdfService,
                 private utils: Utils,
+                private pdfRenderService: PdfRenderService,
                 private log: EmLoggerService) {
         this.log.setClass('CommentsComponent');
     }
 
     ngOnInit() {
-        this.dataLoadedSub = this.pdfService.getDataLoadedSub()
+        this.dataLoadedSub = this.pdfRenderService.getDataLoadedSub()
             .subscribe(isDataLoaded => {
                 if (isDataLoaded) {
                     this.showAllComments();
@@ -103,7 +105,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
     showAllComments() {
         // todo - refactor this out of component
         this.annotations = [];
-        for (let i = 0; i < this.pdfService.getPdfPages() + 1; i++) {
+        for (let i = 0; i < this.pdfRenderService.getPdfPages() + 1; i++) {
             this.annotationStoreService.getAnnotationsForPage(i)
                 .then((pageData: any) => {
                     this.annotations = this.annotations.concat(pageData.annotations.slice());

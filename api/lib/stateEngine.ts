@@ -120,6 +120,7 @@ export async function process(req, res, mapping, payload, templates, store) {
             return false
         })
     } else {
+        console.log('casetype', caseTypeId)
         meta = templates[caseTypeId][stateId]
         result = true
     }
