@@ -119,7 +119,7 @@ function generateAssignToJudgeBody(jurisdiction, caseType, eventId, email) {
 }
 
 function assignToJudge(userId, awaitingJuiRespCases, options) {
-    console.log(`cases found ${awaitingJuiRespCases.length}`)
+  
     const newCase = awaitingJuiRespCases[0]
     if (newCase) {
         const jurisdiction = newCase.jurisdiction
