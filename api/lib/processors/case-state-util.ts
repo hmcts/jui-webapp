@@ -67,7 +67,7 @@ export const stateToBeShown = [
     STATE.FR_CCD_REFER_TO_JUDGE_STATE,
     STATE.COH_STARTED_STATE,
     STATE.COH_Q_QUESTION_DRAFTED_STATE,
-    STATE.COH_Q_QUESTION_ISSUE_PENDING_STATE,
+    //STATE.COH_Q_QUESTION_ISSUE_PENDING_STATE, Don't think pending state should be shown
     STATE.COH_Q_DEADLINE_ELAPSED_STATE,
     STATE.COH_Q_DEADLINE_EXT_ELAPSED_STATE,
     STATE.COH_A_QUESTION_ANSWERED_STATE,
@@ -88,8 +88,8 @@ export function createCaseState(state, date, actionUrl, id = null) {
         stateName: state,
         stateDateTime: date,
         actionGoTo: actionUrl || GO_TO.SUMMARY_GO_TO,
-        ID: id
-    }
+        ID: id,
+        }
 }
 
 export function getDocId(consentOrder) {

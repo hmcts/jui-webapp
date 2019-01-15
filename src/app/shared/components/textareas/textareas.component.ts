@@ -30,6 +30,16 @@ export class TextareasComponent {
     constructor(private validationService: ValidationService) {
     }
 
+    isGroupInvalidAndShowValidation (formGroup: FormGroup, showValidation: boolean) {
+
+            if(formGroup.errors && formGroup.errors[this.control] && showValidation) {
+                return true;
+            }
+            
+            return false;
+
+    }
+
     /**
      * showValidationAndIsControlValid
      *
@@ -41,6 +51,7 @@ export class TextareasComponent {
      * @return {boolean}
      */
     isControlInvalidAndShowValidation(formGroup: FormGroup, control: string, showValidation: boolean) {
+
 
         return !this.isFormControlValid(formGroup, control) && showValidation;
     }

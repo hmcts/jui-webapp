@@ -11,15 +11,15 @@ import { DecisionService } from '../../../../domain/services/decision.service';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { JUIFormsModule } from '../../../../forms/forms.module';
-import { RedirectionService } from '../../../redirection.service';
 import { GovukModule } from '../../../../govuk/govuk.module';
 import { HmctsModule } from '../../../../hmcts/hmcts.module';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { ValidationService } from '../../../../shared/services/validation.service';
 
 describe('CheckDecisionComponent', () => {
     let component: CheckDecisionComponent;
     let fixture: ComponentFixture<CheckDecisionComponent>;
     let decisionServiceFetchSpy;
-    let decisionServiceIssueSpy;
     let decision;
 
     beforeEach(async(() => {
@@ -34,7 +34,9 @@ describe('CheckDecisionComponent', () => {
                 HttpClientTestingModule,
                 RouterTestingModule,
                 GovukModule,
-                HmctsModule
+                HmctsModule,
+                FormsModule,
+                ReactiveFormsModule
             ],
             providers: [
                 {
@@ -43,7 +45,7 @@ describe('CheckDecisionComponent', () => {
                         fetch: () => {
                             return of(decision);
                         },
-                        issueDecision: () => {
+                        submitDecisionDraft: () => {
                             return of({});
                         }
                     }
@@ -57,13 +59,20 @@ describe('CheckDecisionComponent', () => {
                     }
                 },
                 {
-                    provide: ActivatedRoute,
+                    provide: ValidationService,
                     useValue: {
+                        createFormGroupValidators: () => {}
+                    }
+                },
+                {
+                    provide: ActivatedRoute,
+                    useValue: ({ 
                         snapshot: {
-                            _lastPathIndex: 0
-                        },
-                        parent: {
-                            snapshot: {
+                            _lastPathIndex: 0,
+                            url: [{
+                                path: 'dummy'
+                            }],
+                            parent: {
                                 data: {
                                     caseData: {
                                         id: '1234',
@@ -75,8 +84,21 @@ describe('CheckDecisionComponent', () => {
                                     }
                                 }
                             }
+                        },
+                        parent: {
+                            data: of({
+                                caseData: {
+                                    id: '1234',
+                                    decision: {
+                                        options: [
+                                            { id: 'test', name: 'test' }
+                                        ]
+                                    }
+                                }
+                            })
                         }
-                    }
+                    } as any) as ActivatedRoute
+                    
                 }
             ]
         }).compileComponents();
@@ -86,40 +108,63 @@ describe('CheckDecisionComponent', () => {
         decisionServiceFetchSpy = spyOn(
             TestBed.get(DecisionService),
             'fetch'
-        ).and.returnValue(of({}));
-        decisionServiceIssueSpy = spyOn(
-            TestBed.get(DecisionService),
-            'issueDecision'
-        ).and.returnValue(of({}));
+        ).and.returnValue(of({
+            meta: {
+            },
+            formValues: {}
+        }));
         fixture = TestBed.createComponent(CheckDecisionComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
+
     });
 
     afterEach(() => {
         TestBed.resetTestingModule();
     });
 
-    xit('should create', () => {
+    it('should create', () => {
         expect(component).toBeTruthy();
     });
 
-    describe('on form submission', () => {
-        let redirectionServiceSpy;
+    describe('on form submission', () => {        
 
         describe('if form is valid', () => {
+            let decisionServiceSubmitDecisionDraftSpy;
+
             beforeEach(() => {
-                redirectionServiceSpy = spyOn(
-                    TestBed.get(RedirectionService),
-                    'redirect'
-                );
+                decisionServiceSubmitDecisionDraftSpy = spyOn(
+                    TestBed.get(DecisionService),
+                    'submitDecisionDraft'
+                ).and.returnValue(of({}));
             });
 
-            // it('should issue the decision', () => {
-            //     component.submitCallback({});
-            //     expect(decisionServiceIssueSpy).toHaveBeenCalledWith('1234', {});
-            //     expect(redirectionServiceSpy).toHaveBeenCalled();
-            // });
+            it('should submit the decision', () => {                
+                component.onSubmit({});
+                expect(decisionServiceSubmitDecisionDraftSpy).toHaveBeenCalled();
+            });
         });
+    });
+
+    it('should check whether section exists', () => {
+        component.pageValues = {
+            visitedPages: {
+                section: true
+            }
+        };
+
+        expect(component.isSectionExist('section')).toBeTruthy();
+    });
+
+    it('should check has actvities', () => {
+        const activities = [
+            { type: 'dummy' }
+        ];
+
+        component.pageValues = {
+            dummy: true
+        };
+
+        expect(component.hasActivities(activities)).toBeTruthy();
     });
 });

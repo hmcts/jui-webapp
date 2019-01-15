@@ -6,14 +6,14 @@ module.exports = {
         {
             validatorFunc: 'isAllFieldsRequired',
             validationErrorId: 'startDate',
-            checkboxes: [
+            controls: [
                 'awardStartDateDay', 'awardStartDateMonth', 'awardStartDateYear'
             ]
         },
         {
             validatorFunc: 'isAllFieldsRequired',
             validationErrorId: 'endDate',
-            checkboxes: [
+            controls: [
                 'awardEndDateDay', 'awardEndDateMonth', 'awardEndDateYear'
             ]
         }
