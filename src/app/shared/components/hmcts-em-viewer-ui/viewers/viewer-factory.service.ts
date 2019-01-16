@@ -17,13 +17,6 @@ export class ViewerFactoryService {
         this.log.setClass('ViewerFactoryService');
     }
 
-    private static determineComponent(mimeType: string) {
-        if (ViewerFactoryService.isImage(mimeType)) {
-            return ImageViewerComponent;
-        }
-        return UnsupportedViewerComponent;
-    }
-
     private static isImage(mimeType: String) {
         return mimeType.startsWith('image/');
     }
