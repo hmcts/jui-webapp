@@ -72,8 +72,8 @@ app.get(
         checks: {
             ccd_data_api: healthcheckConfig(config.services.ccd_data_api),
             ccd_def_api: healthcheckConfig(config.services.ccd_def_api),
-            // idam_web: healthcheckConfig(config.services.idam_web),
-            idam_api: healthcheckConfig(config.services.idam_api),
+            //idam_web: healthcheckConfig(config.services.idam_web),
+            //idam_api: healthcheckConfig(config.services.idam_api),
             s2s: healthcheckConfig(config.services.s2s),
             draft_store_api: healthcheckConfig(config.services.draft_store_api),
             dm_store_api: healthcheckConfig(config.services.dm_store_api),
