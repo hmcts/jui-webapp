@@ -78,7 +78,7 @@ app.get(
             draft_store_api: healthcheckConfig(config.services.draft_store_api),
             dm_store_api: healthcheckConfig(config.services.dm_store_api),
             //em_anno_api: healthcheckConfig(config.services.em_anno_api),
-            em_npa_api: healthcheckConfig(config.services.em_npa_api),
+            //em_npa_api: healthcheckConfig(config.services.em_npa_api),
             coh_cor_api: healthcheckConfig(config.services.coh_cor_api)
         },
         buildInfo: {}
