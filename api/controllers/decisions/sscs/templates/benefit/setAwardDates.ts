@@ -25,7 +25,7 @@ module.exports = {
             href: '#'
         },
         {
-            validationLevel: 'formControl',
+            validationLevel: 'formGroup',
             controlId: 'endDateRadio',
             text: 'Select the end date or Indefinite award',
             href: '#'
@@ -111,6 +111,12 @@ module.exports = {
                                 hiddenAccessibilityText: 'some hidden text',
                                 groups: [
                                     {
+                                        validationError: {
+                                            value: 'Enter end date',
+                                            identifier: 'endDate'
+                                        }
+                                    },
+                                    {
                                         legend: {
                                             text: 'End date',
                                             isPageHeading: true,
@@ -126,10 +132,6 @@ module.exports = {
                                     {
                                         date: {
                                             formName: 'endDate',
-                                            validationError: {
-                                                value: 'Select the end date',
-                                                identifier: 'endDate'
-                                            },
                                             day: {
                                                 input: {
                                                     label: {
@@ -137,8 +139,7 @@ module.exports = {
                                                         classes: 'govuk-date-input__label'
                                                     },
                                                     control: 'awardEndDateDay',
-                                                    classes: 'govuk-date-input__input govuk-input--width-2'
-
+                                                    classes: 'govuk-date-input__input govuk-input--width-2',
                                                 }
                                             },
                                             month: {
@@ -148,8 +149,7 @@ module.exports = {
                                                         classes: 'govuk-date-input__label'
                                                     },
                                                     control: 'awardEndDateMonth',
-                                                    classes: 'govuk-date-input__input govuk-input--width-2'
-
+                                                    classes: 'govuk-date-input__input govuk-input--width-2',
                                                 }
                                             },
                                             year: {
@@ -159,8 +159,7 @@ module.exports = {
                                                         classes: 'govuk-date-input__label'
                                                     },
                                                     control: 'awardEndDateYear',
-                                                    classes: 'govuk-date-input__input govuk-input--width-4'
-
+                                                    classes: 'govuk-date-input__input govuk-input--width-4',
                                                 }
                                             }
                                         }
