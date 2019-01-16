@@ -1,4 +1,5 @@
 const jp = require('jsonpath')
+const moment = require('moment')
 import documentProcessor from './document-processor'
 import { caseStatusProcessor } from './case-status-processor'
 
@@ -33,6 +34,10 @@ const dataLookup = (lookup, caseData) => {
 
         if (value && processor && processor === 'case_status_processor') {
             value = caseStatusProcessor(value, caseData)
+        }
+
+        if (value && processor && processor === 'date_processor') {
+            value = moment(value).format('D MMMM YYYY')
         }
 
         return value

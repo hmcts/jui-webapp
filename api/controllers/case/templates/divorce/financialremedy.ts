@@ -65,11 +65,11 @@ export const template = {
                                 },
                                 {
                                     label: 'Decree nisi granted',
-                                    value: '1 May 2018'
+                                    value: '$.case_data.divorceDecreeNisiDate|date_processor'
                                 },
                                 {
                                     label: 'Decree absolute granted',
-                                    value: '14 January 2019'
+                                    value: '$.case_data.divorceDecreeAbsoluteDate|date_processor'
                                 }
                             ]
                         },
