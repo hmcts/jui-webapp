@@ -169,7 +169,7 @@ export class AnnotationStoreService implements OnDestroy {
         });
 
         loadedData.annotations.splice(0, loadedData.annotations.length);
-        loadedData.annotations.concat(toKeepAnnotations);
+        loadedData.annotations.push(...toKeepAnnotations);
         this.pdfAdapter.annotationSet = loadedData;
     }
 

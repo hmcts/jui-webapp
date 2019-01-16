@@ -41,7 +41,7 @@ export class PdfAdapter {
         this.annotations.forEach((annotation: Annotation) => {
             annotation.comments
                 .filter(storeComment => storeComment.id === comment.id)
-                .map(storeComment => {
+                .forEach(storeComment => {
                     this.log.info('Editing comment:' + comment.id);
                     storeComment.content = comment.content;
                     this.annotationChangeSubject.next({'type': 'editComment', 'annotation': annotation});

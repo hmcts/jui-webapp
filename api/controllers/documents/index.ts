@@ -40,13 +40,17 @@ module.exports = app => {
     const route = express.Router({ mergeParams: true })
     app.use('/documents', route)
 
-    route.get('/:document_id', (req, res, next) => {
-        const response = getDocument(req.params.document_id, {})
-        res.send(response).status(200)
+    route.get('/:document_id', async (req, res, next) => {
+        const document = await getDocument(req.params.document_id, {})
+        if (document) {
+            res.send(document).status(200)
+        } else {
+            res.send(`Error getting document ${req.params.document_id}`).status(500)
+        }
     })
 
     route.get('/:document_id/binary', (req, res, next) => {
-        getDocumentBinary(req.params.document_id, {})
+        getDocumentBinary(req.params.document_id, {headers: {}})
             .on('response', response => {
                 response.headers['content-disposition'] = `attachment; ${response.headers['content-disposition']}`
             })
