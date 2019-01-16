@@ -302,11 +302,13 @@ export function processCaseState(caseData) {
     const consentOrder = caseData.case_data.consentOrder ? caseData.case_data.consentOrder : undefined
     // SSCS related only
     const hearingType = caseData.case_data.appeal ? caseData.case_data.appeal.hearingType : undefined
+    const decisionNotes = caseData.case_data.decisionNotes
 
     const caseState: any = processCaseStateEngine({
         jurisdiction,
         caseType,
         ccdState,
+        decisionNotes,
         hearingType,
         hearingData,
         latestQuestions,
@@ -314,6 +316,7 @@ export function processCaseState(caseData) {
     })
 
     caseData.state = caseState
+
     if (caseState.stateDateTime) {
         if (new Date(caseData.last_modified) < new Date(caseState.stateDateTime)) {
             caseData.last_modified = caseState.stateDateTime
