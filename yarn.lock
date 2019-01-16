@@ -7742,14 +7742,14 @@ proto-list@~1.2.1:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/proto-list/-/proto-list-1.2.4.tgz#212d5bfe1318306a420f6402b8e26ff39647a849"
 
-protractor-cucumber-framework@5.0.0:
-  version "5.0.0"
-  resolved "http://registry.npmjs.org/protractor-cucumber-framework/-/protractor-cucumber-framework-5.0.0.tgz#445c8963742e5b9e57a0da6990b3e6630ffefe26"
-  integrity sha512-MjAA+itiy5Z8D5MjtOqy2tpbltIYtZ2R7fOOHsiAnov5R4hfG0dS13ah0a9ls2OFm0e6LXtEQtWY+fhITref5w==
+protractor-cucumber-framework@6.1.1:
+  version "6.1.1"
+  resolved "https://registry.yarnpkg.com/protractor-cucumber-framework/-/protractor-cucumber-framework-6.1.1.tgz#19e56836702b014d3ec8fe4fa6a65075ee9ab056"
+  integrity sha512-zbV/JWCtpr3FrEP1tpFZeOnytuYjAVnTtE85LDOmSDFFM6fcso1X4VypwEpcvW4adSN+cBuYnCKcdm/kay1slg==
   dependencies:
     debug "^3.1.0"
-    glob "^7.0.3"
-    q "^1.4.1"
+    glob "^7.1.2"
+    q "^1.5.1"
     tmp "^0.0.33"
 
 protractor-multiple-cucumber-html-reporter-plugin@1.8.0:
@@ -7869,7 +7869,7 @@ punycode@^1.2.4, punycode@^1.4.1:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
   integrity sha1-wNWmOycYgArY4esPpSachN1BhF4=
 
-q@*, q@^1.4.1:
+q@*, q@^1.4.1, q@^1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
   integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
