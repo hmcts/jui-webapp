@@ -16,14 +16,16 @@ export class CacheInteceptor implements HttpInterceptor  {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-        const cacheReq = request.clone({
-            headers: new HttpHeaders({
-                'Cache-control': ['no-cache', 'no-store', 'must-revalidate'],
-                'Pragma': 'no-cache',
-                'Expires': '0'
-            })
-        });
+        if (request.url && request.url.includes('/api/')) {
+            request = request.clone({
+                headers: new HttpHeaders({
+                    'Cache-control': ['no-cache', 'no-store', 'must-revalidate'],
+                    'Pragma': 'no-cache',
+                    'Expires': '0'
+                })
+            });
+        }
 
-        return next.handle(cacheReq);
+        return next.handle(request);
     }
 }
