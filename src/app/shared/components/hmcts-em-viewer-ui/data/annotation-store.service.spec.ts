@@ -1,6 +1,6 @@
 import { TestBed, inject, async } from '@angular/core/testing';
-import { Subject, Observable, of } from 'rxjs';
-import { HttpResponse } from '@angular/common/http';
+import { Subject, Observable, of, throwError } from 'rxjs';
+import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
 import { AnnotationStoreService } from './annotation-store.service';
 import { ApiHttpService } from './api-http.service';
@@ -10,6 +10,7 @@ import { Annotation, AnnotationSet, Comment } from './annotation-set.model';
 import { PdfAnnotateWrapper } from './js-wrapper/pdf-annotate-wrapper';
 import { EmLoggerService } from '../logging/em-logger.service';
 import { PdfRenderService } from './pdf-render.service';
+import { catchError } from 'rxjs/operators';
 
 class MockPdfAnnotateWrapper {
   setStoreAdapter() {}
@@ -114,6 +115,7 @@ describe('AnnotationStoreService', () => {
   );
 
   mockPdfAdapter.annotationSet = dummyAnnotationSet;
+  mockPdfAdapter.annotations = annotations;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -268,6 +270,14 @@ describe('AnnotationStoreService', () => {
   }));
   });
 
+  describe('saveData', () => {
+    it('should call saveAnnotation', async(inject([AnnotationStoreService], (service: AnnotationStoreService) => {
+      spyOn(mockApiHttpService, 'saveAnnotation').and.returnValue(Observable.of({response: 'ok', error: 'not ok'}));
+      service.saveData();
+      expect(mockApiHttpService.saveAnnotation).toHaveBeenCalled();
+    })));
+  });
+
   describe('handleAnnotationEvent', () => {
     it('should call saveAnnotation for addAnnotation event', async(inject([AnnotationStoreService], (service: AnnotationStoreService) => {
       spyOn(mockApiHttpService, 'saveAnnotation').and.returnValue(Observable.of({response: 'ok', error: 'not ok'}));
@@ -319,13 +329,28 @@ describe('AnnotationStoreService', () => {
       });
     }));
 
-    it('should call httpService.createAnnotationSet if 404', inject([AnnotationStoreService], () => {
+    it('should call httpService.createAnnotationSet if 400', inject([AnnotationStoreService], (service: AnnotationStoreService) => {
+      const mockError = new HttpErrorResponse({status: 400, statusText: 'bad request', url: '', error: new Error()});
+      spyOn(mockApiHttpService, 'fetch').and.returnValue(throwError(mockError));
+      service.fetchData('http://localhost:3000', 'documentId').pipe(
+        catchError(err => of(dummyAnnotationSet))
+      ).subscribe();
     }));
 
-    it('should return error Observable if 400', inject([AnnotationStoreService], () => {
+    it('should call createAnnotationSet if 404', inject([AnnotationStoreService], (service: AnnotationStoreService) => {
+      const mockError = new HttpErrorResponse({status: 404, statusText: 'not found', url: '', error: new Error()});
+      spyOn(mockApiHttpService, 'fetch').and.returnValue(throwError(mockError));
+      spyOn(mockApiHttpService, 'createAnnotationSet').and.returnValue(of());
+      service.fetchData('http://localhost:3000', 'documentId').subscribe();
+      expect(mockApiHttpService.createAnnotationSet).toHaveBeenCalled();
     }));
 
-    it('should return error Observable if 500', inject([AnnotationStoreService], () => {
+    it('should return error Observable if 500', inject([AnnotationStoreService], (service: AnnotationStoreService) => {
+      const mockError = new HttpErrorResponse({status: 500, statusText: 'internal server error', url: '', error: new Error()});
+      spyOn(mockApiHttpService, 'fetch').and.returnValue(throwError(mockError));
+      service.fetchData('http://localhost:3000', 'documentId').pipe(
+        catchError(err => of(dummyAnnotationSet))
+      ).subscribe();
     }));
   });
 

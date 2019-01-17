@@ -42,7 +42,7 @@ describe('PdfService', () => {
 
 
   describe('render', () => {
-    it('render should call underlying pdfjs library and create pdf annotate library page.', inject([PdfRenderService], (service: PdfRenderService) => {
+    it('should call underlying pdfjs library and create pdf annotate library page.', inject([PdfRenderService], (service: PdfRenderService) => {
       spyOn(mockPdfWrapper, 'getDocument').and.returnValue(
           new Promise((resolve) => {
             resolve({pdfInfo: { numPages: 65}});
@@ -57,13 +57,16 @@ describe('PdfService', () => {
         ));
       const nativeElement = document.createElement('div');
       spyOn(nativeElement, 'appendChild').and.callFake(() => {
-        const viewerElementRef = new ElementRef(nativeElement);
         spyOn(mockPdfAnnotateWrapper, 'createPage').and.stub();
 
         service['viewerElementRef'] = viewerElementRef;
-        service.render(viewerElementRef);
-        expect(mockPdfAnnotateWrapper.createPage).toHaveBeenCalled();
+        
+        expect(mockPdfWrapper.getDocument).toHaveBeenCalled();
       });
+
+      service['pdfPages'] = 1;
+      const viewerElementRef = new ElementRef(nativeElement);
+      service.render(viewerElementRef);
     }));
   });
 
@@ -98,6 +101,23 @@ describe('PdfService', () => {
       service['pdfPages'] = 10;
       const pdfPages = service.getPdfPages();
       expect(pdfPages).toBe(10);
+    }));
+  });
+
+
+  describe('getPageRotation', () => {
+    it('should return a rotation value for a given page', inject([PdfRenderService], (service: PdfRenderService) => {
+      const mockRenderOptions = new RenderOptions('id', null, 1, 0, [{page: 1, rotate: 90}]);
+      const mockPageOptions = new RenderOptions('id', null, 1, 0, [{page: 1, rotate: 180}]);
+      const rotation = service.getPageRotation(mockRenderOptions, mockPageOptions, {pageNumber: 1});
+      expect(rotation).toBe(180);
+    }));
+
+    it('should return a default rotation value for a given page when none was set before', inject([PdfRenderService], (service: PdfRenderService) => {
+      const mockRenderOptions = new RenderOptions('id', null, 1, 0, [{page: 1, rotate: 90}]);
+      const mockPageOptions = new RenderOptions('id', null, 1, 0, []);
+      const rotation = service.getPageRotation(mockRenderOptions, mockPageOptions, {pageNumber: 1, rotate: 180});
+      expect(rotation).toBe(180);
     }));
   });
 });

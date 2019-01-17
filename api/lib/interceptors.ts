@@ -34,10 +34,16 @@ export function errorInterceptor(error) {
     const url = shorten(error.config.url, config.maxLogLine)
 
     const status = valueOrNull(error, 'response.status') ? error.response.status : Error(error).message
-    const data = valueOrNull(error, 'response.status') ? JSON.stringify(error.response.data, null, 2) : null
-
-    logger.error(`Error on ${error.config.method.toUpperCase()} to ${url} (${error}) \n 
-    ${exceptionFormatter(data, exceptionOptions)}`)
+    
+    let data = valueOrNull(error,'response.data.details')
+    if (!data) {
+        data = valueOrNull(error, 'response.status') ? JSON.stringify(error.response.data, null, 2) : null
+        logger.error(`Error on ${error.config.method.toUpperCase()} to ${url} (${error}) \n 
+        ${exceptionFormatter(data, exceptionOptions)}`)
+    } else {
+        logger.error(`Error on ${error.config.method.toUpperCase()} to ${url} (${error}) \n 
+        ${JSON.stringify(data)}`)
+    }
 
     return Promise.reject(error.response)
 }
