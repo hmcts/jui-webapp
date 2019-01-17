@@ -33,6 +33,7 @@ app.use(
         })
     })
 );
+console.log('change')
 
 // local logging improves on appInsights
 if (config.configEnv !== "local") {
