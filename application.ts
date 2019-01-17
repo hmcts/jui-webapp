@@ -22,12 +22,12 @@ const appInsightsInstrumentationKey =
 app.use(helmet());
 app.use(helmet.contentSecurityPolicy({
     directives: {
-        fontSrc: ['"self"', 'data:'],
-        scriptSrc: ['"self"', '"unsafe-inline"'],
-        connectSrc: ['"self"'],
-        mediaSrc: ['"self"'],
-        frameSrc: ['"none"'],
-        imgSrc: ['"self"']
+        fontSrc: [`'self'`, 'data:'],
+        scriptSrc: [`'self'`, `'unsafe-inline'`],
+        connectSrc: [`'self'`],
+        mediaSrc: [`'self'`],
+        frameSrc: [`'self'`],
+        imgSrc: [`'self'`]
     }
 }));
 app.use(helmet.referrerPolicy({ policy: 'origin' }));
