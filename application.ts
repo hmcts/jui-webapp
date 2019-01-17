@@ -36,6 +36,7 @@ app.use(
 
 // local logging improves on appInsights
 if (config.configEnv !== "local") {
+    console.log('using appInsights');
     appInsights
         .setup(appInsightsInstrumentationKey)
         .setAutoDependencyCorrelation(true)
