@@ -22,7 +22,7 @@ const columns = [
         case_field_id: 'parties'
     },
     {
-        label: 'Type',
+        likelabel: 'Type',
         case_field_id: 'type'
     },
     {
@@ -44,35 +44,35 @@ const columns = [
 function getJurisdictions(details) {
     return details
         ? [
-              {
-                  jur: 'SSCS',
-                  caseType: 'Benefit',
-                  filter: `&state=appealCreated&case.appeal.benefitType.code=PIP&case.assignedToJudge=${details.email}`
-                  // filter: `&state=appealCreated&case.appeal.benefitType.code=PIP`
-              },
-              {
-                  jur: 'DIVORCE',
-                  caseType: 'DIVORCE',
-                  filter: `&case.assignedToJudge=${details.email}`
-                  // filter: ``
-              },
-              {
-                  jur: 'DIVORCE',
-                  caseType: 'FinancialRemedyMVP2',
-                  filter: `&state=referredToJudge&case.assignedToJudge=${details.email}`
-                  // filter: `&state=referredToJudge`
-              }
-              // {
-              //     jur: 'CMC',
-              //     caseType: 'MoneyClaimCase',
-              //     filter: '&case.assignedToJudge=${details.email}'
-              // },
-              // {
-              //     jur: 'PROBATE',
-              //     caseType: 'GrantOfRepresentation',
-              //     filter: '&case.assignedToJudge=${details.email}'
-              // }
-          ]
+            {
+                jur: 'SSCS',
+                caseType: 'Benefit',
+                filter: `&state=appealCreated&case.appeal.benefitType.code=PIP&case.assignedToJudge=${details.email}`
+                // filter: `&state=appealCreated&case.appeal.benefitType.code=PIP`
+            },
+            {
+                jur: 'DIVORCE',
+                caseType: 'DIVORCE',
+                filter: `&case.assignedToJudge=${details.email}`
+                // filter: ``
+            },
+            {
+                jur: 'DIVORCE',
+                caseType: 'FinancialRemedyMVP2',
+                filter: `&state=referredToJudge&case.assignedToJudge=${details.email}`
+                // filter: `&state=referredToJudge`
+            }
+            // {
+            //     jur: 'CMC',
+            //     caseType: 'MoneyClaimCase',
+            //     filter: '&case.assignedToJudge=${details.email}'
+            // },
+            // {
+            //     jur: 'PROBATE',
+            //     caseType: 'GrantOfRepresentation',
+            //     filter: '&case.assignedToJudge=${details.email}'
+            // }
+        ]
         : []
 }
 
@@ -271,10 +271,10 @@ function getOptions(req) {
 
 // Get List of case and transform to correct format
 async function getMutiJudCaseTransformed(userId, details, options) {
-     return (
+    return (
         await getMutiJudCaseAssignedCases(userId, details)
             .then(caseLists => appendCOR(caseLists))
-            .then(caseLists => appendQuestionsRound(caseLists, userId, options ))
+            .then(caseLists => appendQuestionsRound(caseLists, userId, options))
             // .then(caseLists => appendLinkedCases(caseLists, userId, options))
             .then(processCaseListsState)
             .then(applyStateFilter)
