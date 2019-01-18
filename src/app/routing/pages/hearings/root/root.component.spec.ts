@@ -4,7 +4,7 @@ import {HearingRootComponent} from './root.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {DomainModule} from '../../../../domain/domain.module';
 import {SharedModule} from '../../../../shared/shared.module';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import {GovukModule} from '../../../../govuk/govuk.module';
 import {HmctsModule} from '../../../../hmcts/hmcts.module';
@@ -43,6 +43,11 @@ describe('HearingRootComponent', () => {
                                     }
                                 }
                             }
+                        },
+                        firstChild: {
+                            url: of([
+                                {path: 'dummy'}
+                            ])
                         }
                     }
                 }
