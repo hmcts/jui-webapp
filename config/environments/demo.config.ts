@@ -18,5 +18,6 @@ export default {
     },
     useProxy: false,
     secureCookie: true,
-    sessionSecret: 'secretSauce'
+    sessionSecret: 'secretSauce',
+    logging: 'debug'
 };
