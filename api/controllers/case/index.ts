@@ -7,7 +7,6 @@ const { getAllQuestionsByCase } = require('../questions/index')
 
 const { getHearingByCase } = require('../../services/coh-cor-api/coh-cor-api')
 
-import * as headerUtilities from '../../lib/utilities/headerUtilities'
 import { getCCDCase } from '../../services/ccd-store-api/ccd-store'
 import { getDocuments } from '../../services/DMStore'
 import { getEvents } from '../events'
@@ -27,9 +26,9 @@ function getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId) {
     return Promise.all(promiseArray)
 }
 
-function appendDocuments(caseData, schema, options) {
+function appendDocuments(caseData, schema) {
     return new Promise(resolve => {
-        getDocuments(getDocIdList(caseData.documents), options)
+        getDocuments(getDocIdList(caseData.documents))
             .then(appendDocIdToDocument)
             .then(documents => {
                 caseData.documents = documents
@@ -107,18 +106,14 @@ function getCaseTransformed(userId, jurisdiction, caseType, caseId, req) {
     return getCaseData(userId, jurisdiction, caseType, caseId)
         .then(processCaseState)
         .then(applySchema)
-        .then(({ caseData, schema }) => appendDocuments(caseData, schema, getOptionsDoc(req)))
+        .then(({ caseData, schema }) => appendDocuments(caseData, schema))
         .then(({ caseData, schema }) => schema)
 }
 
 function getCaseRaw(userId, jurisdiction, caseType, caseId, req) {
     return getCaseData(userId, jurisdiction, caseType, caseId)
-        .then(caseData => appendDocuments(caseData, {}, getOptionsDoc(req)))
+        .then(caseData => appendDocuments(caseData, {}))
         .then(({ caseData, schema }) => caseData)
-}
-
-function getOptionsDoc(req) {
-    return headerUtilities.getAuthHeadersWithUserRoles(req)
 }
 
 // GET case callback

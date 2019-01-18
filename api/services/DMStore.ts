@@ -16,7 +16,7 @@ logger.level = config.logging || 'off'
  */
 
 // Retrieves JSON representation of a Stored Document.const response =  await asyncReturnOrError(
-export async function getDocument(documentId) {
+export async function getDocument(documentId: string): Promise<JSON> {
     const response = await asyncReturnOrError(
         http.get(`${url}/documents/${documentId}`),
         `Error getting document ${documentId}`,
@@ -30,7 +30,7 @@ export async function getDocument(documentId) {
 
 // Retrieves JSON[] representation of a list of Stored Document.
 // TODO: could ask DM team to have a muti doc list in the future move a layer down.
-export async function getDocuments(documentIds = [], options) {
+export async function getDocuments(documentIds: string[] = []) {
     const documents = await map(documentIds, async (documentId: any) => {
         return await asyncReturnOrError(getDocument(documentId), `Error getting document ${documentId}`, null, logger, false)
     })
@@ -39,7 +39,7 @@ export async function getDocuments(documentIds = [], options) {
 }
 
 // Returns a specific version of the content of a Stored Document.
-export async function getDocumentVersion(documentId, versionId) {
+export async function getDocumentVersion(documentId: string, versionId: string): Promise<JSON> {
     const response = await asyncReturnOrError(
         http.get(`${url}/documents/${documentId}/versions/${versionId}`),
         `Error getting document ${documentId} version ${versionId}`,
@@ -56,7 +56,7 @@ export async function getDocumentVersion(documentId, versionId) {
  */
 
 // Streams contents of the most recent Document Content Version associated with the Stored Document.
-export async function getDocumentBinary(documentId) {
+export async function getDocumentBinary(documentId: string) {
     const response = await asyncReturnOrError(
         http.get(`${url}/documents/${documentId}/binary`, { responseType: 'stream' }),
         `Error getting Binary for document ${documentId}`,
@@ -69,7 +69,7 @@ export async function getDocumentBinary(documentId) {
 }
 
 // Streams a specific version of the content of a Stored Document.
-export async function getDocumentVersionBinary(documentId, versionId, options) {
+export async function getDocumentVersionBinary(documentId: string, versionId: string): Promise<JSON> {
     const response = await asyncReturnOrError(
         http.get(`${url}/documents/${documentId}/versions/${versionId}/binary`, { responseType: 'stream' }),
         `Error getting Binary for document ${documentId} version ${versionId}`,
@@ -86,7 +86,7 @@ export async function getDocumentVersionBinary(documentId, versionId, options) {
  */
 
 // Streams contents of the most recent Document Content Version associated with the Stored Document.
-export async function getDocumentThumbnail(documentId, options) {
+export async function getDocumentThumbnail(documentId: string): Promise<JSON> {
     const response = await asyncReturnOrError(
         http.get(`${url}/documents/${documentId}/thumbnail`, { responseType: 'stream' }),
         `Error getting document ${documentId} thumbnail`,
@@ -99,7 +99,7 @@ export async function getDocumentThumbnail(documentId, options) {
 }
 
 //     GET /documents/{documentId}/versions/{versionId}/thumbnail
-export async function getDocumentVersionThumbnail(documentId, versionId, options) {
+export async function getDocumentVersionThumbnail(documentId: string, versionId: string): Promise<JSON> {
     const response = await asyncReturnOrError(
         http.get(`${url}/documents/${documentId}/versions/${versionId}/thumbnail`, { responseType: 'stream' }),
         `Error getting document ${documentId} version ${versionId} thumbnail`,
@@ -156,7 +156,7 @@ export function getClassification(classification) {
 }
 
 // Adds a Document Content Version and associates it with a given Stored Document.
-export async function postDocumentVersion(documentId, file, body) {
+export async function postDocumentVersion(documentId: string, file, body): Promise<JSON> {
     const response = await asyncReturnOrError(
         http.post(`${url}/documents/${documentId}`, body),
         `Error posting document ${documentId} version `,
@@ -169,7 +169,7 @@ export async function postDocumentVersion(documentId, file, body) {
 }
 
 // Adds a Document Content Version and associates it with a given Stored Document.
-export async function postDocumentVersionVersion(documentId, file, body) {
+export async function postDocumentVersionVersion(documentId: string, file, body): Promise<JSON> {
     const response = await asyncReturnOrError(
         http.post(`${url}/documents/${documentId}`, body),
         `Error posting document ${documentId} version version`,
@@ -186,7 +186,7 @@ export async function postDocumentVersionVersion(documentId, file, body) {
  */
 
 // Updates document instance (ex. ttl)
-export async function patchDocument(documentId, updateDocumentCommand, body) {
+export async function patchDocument(documentId: string, updateDocumentCommand, body): Promise<JSON> {
     const response = await asyncReturnOrError(
         http.patch(`${url}/documents/${documentId}`, { ...body, updateDocumentCommand }),
         `Error updating document ${documentId}`,
@@ -203,7 +203,7 @@ export async function patchDocument(documentId, updateDocumentCommand, body) {
  */
 
 // Deletes a Stored Document.
-export async function deleteDocument(documentId) {
+export async function deleteDocument(documentId: string): Promise<JSON> {
     const response = await asyncReturnOrError(
         http.delete(`${url}/documents/${documentId}`),
         `Error deleting document ${documentId}`,
@@ -220,7 +220,7 @@ export async function deleteDocument(documentId) {
  */
 
 // Retrieves audits related to a Stored Document.
-export async function getDocumentAuditEntries(documentId) {
+export async function getDocumentAuditEntries(documentId: string): Promise<JSON> {
     const response = await asyncReturnOrError(
         http.get(`${url}/documents/${documentId}/auditEntries`),
         `Error deleting document ${documentId}`,
@@ -233,7 +233,7 @@ export async function getDocumentAuditEntries(documentId) {
 }
 
 // Search stored documents using metadata.
-export async function filterDocument(body) {
+export async function filterDocument(body): Promise<JSON> {
     const response = await asyncReturnOrError(
         http.post(`${url}/documents/filter`, body),
         `Error filtering document`,
@@ -246,7 +246,7 @@ export async function filterDocument(body) {
 }
 
 // Search stored documents by ownership.
-export async function ownedDocument(params, body) {
+export async function ownedDocument(params, body): Promise<JSON> {
     const queryStringParams = Object.keys(params)
         .map(key => key + '=' + params[key])
         .join('&')
@@ -263,7 +263,7 @@ export async function ownedDocument(params, body) {
 }
 
 // Starts migration for a specific version of the content of a Stored Document.
-export async function postDocumentVersionMigrate(documentId, versionId, body) {
+export async function postDocumentVersionMigrate(documentId: string, versionId: string, body): Promise<JSON> {
     const response = await asyncReturnOrError(
         http.post(`${url}/documents/${documentId}/versions/${versionId}/migrate`, body),
         `Error storing migration for document ${documentId} version ${versionId}`,
@@ -275,13 +275,13 @@ export async function postDocumentVersionMigrate(documentId, versionId, body) {
     return response.data
 }
 
-export async function getHealth() {
+export async function getHealth(): Promise<JSON> {
     const response = await asyncReturnOrError(http.get(`${url}/health`), `Error getting health`, null, logger, false)
 
     return response.data
 }
 
-export async function getInfo() {
+export async function getInfo(): Promise<JSON> {
     const response = await asyncReturnOrError(http.get(`${url}/info`), `Error getting info`, null, logger, false)
 
     return response.data
