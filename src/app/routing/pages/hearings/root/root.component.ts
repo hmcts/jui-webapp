@@ -9,10 +9,14 @@ import {CaseDataOther} from '../../modules/case';
 export class HearingRootComponent implements OnInit {
 
     case: CaseDataOther;
+    isConfirmationPage: boolean;
 
     constructor(private route: ActivatedRoute) { }
 
     ngOnInit() {
         this.case = this.route.snapshot.data['caseData'];
+        this.route.firstChild.url.subscribe(url => {
+            this.isConfirmationPage = url[0].path === 'confirm';
+        })
     }
 }
