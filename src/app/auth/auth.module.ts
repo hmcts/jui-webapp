@@ -22,6 +22,11 @@ import {AuthIntercepterServer} from './auth-intercepter.server';
             useClass: AuthIntercepterServer,
             multi: true
         },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: CacheInteceptor,
+            multi: true
+        },
         AuthService,
         AuthGuardService
     ]
