@@ -19,7 +19,7 @@ const appInsightsInstrumentationKey =
     process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "AAAAAAAAAAAAAAAA";
 
 // TODO: figure out why our helmet middleware isn't setting headers correctly
-app.use(helmet());
+/*app.use(helmet());
 app.use(
     helmet.contentSecurityPolicy({
         directives: {
@@ -32,7 +32,7 @@ app.use(
         }
     })
 );
-app.use(helmet.referrerPolicy({ policy: "origin" }));
+app.use(helmet.referrerPolicy({ policy: "origin" }));*/
 
 app.use(
     session({
