@@ -7,7 +7,7 @@ export default {
         idam_web:
             'https://idam-web-public-idam-prod.service.core-compute-prod.internal',
         idam_api:
-          'https://idam-api-idam-prod.service.core-compute-prod.internal',
+            'https://idam-api-idam-prod.service.core-compute-prod.internal',
         s2s:
             'https://rpe-service-auth-provider-prod.service.core-compute-prod.internal',
         draft_store_api:
