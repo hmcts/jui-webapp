@@ -3,24 +3,21 @@ const getCaseTemplate = require('./templates/index')
 const valueProcessor = require('../../lib/processors/value-processor')
 const { processCaseState } = require('../../lib/processors/case-state-model')
 
-const { getDocuments } = require('../../services/dm-store-api/dm-store-api')
 const { getAllQuestionsByCase } = require('../questions/index')
 
 const { getHearingByCase } = require('../../services/coh-cor-api/coh-cor-api')
 
-import { getEvents } from '../events/index'
 import * as headerUtilities from '../../lib/utilities/headerUtilities'
 import { getCCDCase } from '../../services/ccd-store-api/ccd-store'
+import { getDocuments } from '../../services/DMStore'
+import { getEvents } from '../events'
 
 function hasCOR(jurisdiction, caseType) {
     return jurisdiction === 'SSCS'
 }
 
 function getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId) {
-    const promiseArray = [
-        getCCDCase(userId, jurisdiction, caseType, caseId),
-        getEvents(userId, jurisdiction, caseType, caseId)
-    ]
+    const promiseArray = [getCCDCase(userId, jurisdiction, caseType, caseId), getEvents(userId, jurisdiction, caseType, caseId)]
 
     if (hasCOR(jurisdiction, caseType)) {
         promiseArray.push(getHearingByCase(caseId))
@@ -101,8 +98,8 @@ function applySchema(caseData) {
 }
 
 function getCaseData(userId, jurisdiction, caseType, caseId) {
-    return getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId).then(
-        ([caseData, events, hearings, questions]) => appendCollectedData([caseData, events, hearings, questions])
+    return getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId).then(([caseData, events, hearings, questions]) =>
+        appendCollectedData([caseData, events, hearings, questions])
     )
 }
 
@@ -130,7 +127,6 @@ module.exports = app => {
     app.use('/case', router)
 
     router.get('/:jur/:casetype/:case_id', (req, res, next) => {
-    
         const userId = req.auth.userId
         const jurisdiction = req.params.jur
         const caseType = req.params.casetype
