@@ -7,12 +7,12 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class DecisionConfirmationComponent implements OnInit {
 
-    case: any;
+    case: string;
 
     constructor(private route: ActivatedRoute) { }
 
     ngOnInit() {
-        this.case = this.route.parent.snapshot.data['caseData'];
+        this.case = this.route.parent.snapshot.data['caseData'].details.fields[0].value || null;
     }
 
 }
