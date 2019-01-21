@@ -19,6 +19,18 @@ const appInsightsInstrumentationKey =
     process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "AAAAAAAAAAAAAAAA";
 
 // TODO: figure out why our helmet middleware isn't setting headers correctly
+app.use(helmet({
+    contentSecurityPolicy: false,
+    dnsPrefetchControl: false,
+    frameguard: false,
+    hidePoweredBy: false,
+    hsts: false,
+    ieNoOpen: false,
+    noCache: false,
+    noSniff: false,
+    referrerPolicy: false,
+    xssFilter: false,
+}));
 /*app.use(helmet());
 app.use(
     helmet.contentSecurityPolicy({
