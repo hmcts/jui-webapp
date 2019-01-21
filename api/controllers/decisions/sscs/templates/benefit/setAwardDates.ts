@@ -5,7 +5,7 @@ module.exports = {
     formGroupValidators: [
         {
             validatorFunc: 'isRadioValidWhenSomeOptionSelected',
-            validationErrorId: 'awardEndDate',
+            validationErrorId: 'endDateRadio',
             controls: {
                 radioControl: 'endDateRadio',
                 selectedOptions: [
@@ -45,8 +45,8 @@ module.exports = {
         },
         {
             validationLevel: 'formGroup',
-            controlId: 'endDateRadio',
-            text: 'Select the end date or Indefinite award',
+            formGroupValidationErrorId: 'endDateRadio',
+            text: 'Select the end date r',
             href: '#'
         }
     ],
@@ -124,11 +124,10 @@ module.exports = {
                 {
                     radios: {
                         control: 'endDateRadio',
-                        // validationError: {
-                        //     value: 'Select the end date',
-                        //     controlId: 'endDateRadio'
-                        // },
-                        // validators: ['required'],
+                        validationError: {
+                            value: 'Select the end date r',
+                            identifier: 'endDateRadio'
+                        },
                         radioGroup: [
                             {
                                 value: 'endDate',
