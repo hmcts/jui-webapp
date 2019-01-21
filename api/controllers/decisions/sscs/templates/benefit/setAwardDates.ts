@@ -4,17 +4,29 @@ module.exports = {
     header: 'Set award dates',
     formGroupValidators: [
         {
+            validatorFunc: 'isRadioValidWhenSomeOptionSelected',
+            validationErrorId: 'awardEndDate',
+            controls: {
+                radioControl: 'endDateRadio',
+                selectedOptions: [
+                    {
+                        selectedOption: 'endDate',
+                        childValidator: {
+                            validatorFunc: 'isAllFieldsRequired',
+                            validationErrorId: 'awardEndDate',
+                            controls: [
+                                'awardEndDateDay', 'awardEndDateMonth', 'awardEndDateYear'
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
             validatorFunc: 'isAllFieldsRequired',
             validationErrorId: 'startDate',
             controls: [
                 'awardStartDateDay', 'awardStartDateMonth', 'awardStartDateYear'
-            ]
-        },
-        {
-            validatorFunc: 'isAllFieldsRequired',
-            validationErrorId: 'endDate',
-            controls: [
-                'awardEndDateDay', 'awardEndDateMonth', 'awardEndDateYear'
             ]
         }
     ],
@@ -27,7 +39,7 @@ module.exports = {
         },
         {
             validationLevel: 'formGroup',
-            formGroupValidationErrorId: 'endDate',
+            formGroupValidationErrorId: 'awardEndDate',
             text: 'Select the end date',
             href: '#'
         },
@@ -104,13 +116,19 @@ module.exports = {
         {
             fieldset: [
                 {
+                    validationError: {
+                        value: 'Set end date',
+                        identifier: 'awardEndDate'
+                    }
+                },
+                {
                     radios: {
                         control: 'endDateRadio',
-                        validationError: {
-                            value: 'Select the end date or indefinite award',
-                            controlId: 'endDateRadio'
-                        },
-                        validators: ['required'],
+                        // validationError: {
+                        //     value: 'Select the end date',
+                        //     controlId: 'endDateRadio'
+                        // },
+                        // validators: ['required'],
                         radioGroup: [
                             {
                                 value: 'endDate',
@@ -138,7 +156,11 @@ module.exports = {
                                     },
                                     {
                                         date: {
-                                            formName: 'endDate',
+                                            formName: 'awardEndDate',
+                                            validationError: {
+                                                value: 'Select the end date',
+                                                identifier: 'awardEndDate'
+                                            },
                                             day: {
                                                 input: {
                                                     label: {

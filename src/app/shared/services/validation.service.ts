@@ -226,6 +226,41 @@ export class ValidationService {
     }
 
     /**
+     * isRadioValidWhenSomeOptionSelected
+     *
+     * @param formGroup
+     * @param controls is object
+     * { checkboxControl : string, textareaControl : string }
+     * @param validationIdentifier
+     * @return {any}
+     */
+
+    isRadioValidWhenSomeOptionSelected(formGroup: FormGroup, controls: any, validationIdentifier: string){
+
+        console.log('Conditional Radio Validation =>>>', controls, validationIdentifier);
+
+        const isRadioValidWhenSomeOptionSelected: ValidatorFn = (formControls: FormGroup): ValidationErrors | null => {
+            console.log("Radio buttton form control" ,controls.radioControl);
+            console.log("Radio buttton value" ,formControls.get(controls.radioControl).value);
+
+            for (const option of controls.selectedOptions) {
+                if (formControls.get(controls.radioControl).value !== null && formControls.get(controls.radioControl).value !== option.selectedOption) {
+                    console.log('Valid', formControls.get(controls.radioControl).value);
+                    return null;
+                }
+            }
+
+            return {
+                [validationIdentifier]: true,
+            };
+            // console.log("Child element form control or Form group" ,formControls.get(controls.childControl).value);
+            // console.log("Selected option for valid form" ,formControls.get(controls.selectedOptions[0]).value);
+        };
+
+        return isRadioValidWhenSomeOptionSelected;
+    }
+
+    /**
      * createFormGroupValidators
      *
      * FormGroup Validators are used for validation that involves more than one FormControl. ie. When a control
