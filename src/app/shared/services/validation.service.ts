@@ -179,7 +179,7 @@ export class ValidationService {
 
 
     isAllFieldsRequired(formGroup: FormGroup, fields: Array<string>, validationIdentifier: string): ValidatorFn | null {
-
+console.log('Called',formGroup,fields,validationIdentifier);
         const isAllFieldsRequiredValidationFn: ValidatorFn = (controls: FormGroup): ValidationErrors | null => {
 
             for (const field of fields) {
@@ -247,6 +247,18 @@ export class ValidationService {
                 if (formControls.get(controls.radioControl).value !== null && formControls.get(controls.radioControl).value !== option.selectedOption) {
                     console.log('Valid', formControls.get(controls.radioControl).value);
                     return null;
+                } else {
+
+                    // console.log('Invalid', formControls.get(controls.radioControl).value);
+                    // console.log( option.childValidator );
+                    // console.log( option.childValidator.validatorFunc );
+
+                    if (option.childValidator.validatorFunc){
+                      const validChild = this[option.childValidator.validatorFunc](formGroup, option.childValidator.controls, option.childValidator.validationErrorId);
+                      console.log(validChild);
+
+                      return validChild;
+                    }
                 }
             }
 
