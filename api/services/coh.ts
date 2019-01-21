@@ -3,7 +3,7 @@ import * as moment from 'moment'
 import { config } from '../../config'
 import { http } from '../lib/http'
 
-import { ERROR_NO_HEARING_IDENTIFIER, ERROR_UNABLE_TO_RELIST_HEARING } from '../constants/cohConstants'
+import { ERROR_NO_HEARING_IDENTIFIER, ERROR_UNABLE_TO_RELIST_HEARING } from '../lib/config/cohConstants'
 import { valueOrNull } from '../lib/util'
 
 export const url = config.services.coh_cor_api

@@ -1,5 +1,7 @@
 import * as express from 'express'
 import {config} from '../../../config'
+import { http } from '../../lib/http'
+
 const generateRequest = require('../../lib/request/request')
 const headerUtilities = require('../../lib/utilities/headerUtilities')
 
@@ -11,6 +13,12 @@ const oauthCallbackUrl = config.oauth_callback_url
 
 export function getDetails(options) {
     return generateRequest('GET', `${url}/details`, options)
+}
+
+// this does same as above. need to depricate above
+async function getUser() {
+    const response = await http.get(`${url}/details`)
+    return response.data
 }
 
 export function postOauthToken(code, host) {
@@ -65,3 +73,5 @@ module.exports.getOptions = getOptions
 module.exports.getDetails = getDetails
 
 module.exports.postOauthToken = postOauthToken
+
+module.exports.getUser = getUser

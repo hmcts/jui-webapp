@@ -69,15 +69,12 @@ export async function getCCDEvents(userId: string, jurisdiction: string, caseTyp
 export async function getCCDCases(userId: string, jurisdiction: string, caseType: string, filter: string): Promise<any> {
     const response = await http.get(`${url}/caseworkers/${userId}/jurisdictions/${
         jurisdiction}/case-types/${caseType}/cases?sortDirection=DESC${filter}`)
-
     return response.data
 }
 
 export async function postCCDCase(userId: string, jurisdiction: string, caseType: string, body: any): Promise<any> {
     const response = await http.post(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${
         caseType}/cases`, body)
-
-    return response.data
 }
 
 export async function getMutiJudCCDCases(userId: string, jurisdictions: any[]): Promise<any[]> {
