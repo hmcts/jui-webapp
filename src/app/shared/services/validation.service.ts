@@ -178,10 +178,12 @@ export class ValidationService {
     }
 
 
-    isAllFieldsRequired(formGroup: FormGroup, fields: Array<string>, validationIdentifier: string): ValidatorFn | null {
+    // Common function for validator
+    // Returninng the validationIdentifier true if invalid and null if valid
 
-        const isAllFieldsRequiredValidationFn: ValidatorFn = (controls: FormGroup): ValidationErrors | null => {
+    isAllFieldsRequiredValidationFn(controls: FormGroup, fields: Array<string>, validationIdentifier){
 
+        if (controls !== null && fields !== null) {
             for (const field of fields) {
                 if (!controls.get(field).value) {
                     return {
@@ -189,9 +191,25 @@ export class ValidationService {
                     };
                 }
             }
-        };
+        }
 
-        return isAllFieldsRequiredValidationFn;
+        return null;
+    }
+
+    /**
+     * isAllFieldsRequired
+     *
+     * @param formGroup
+     * @param controls is object
+     * @param validationIdentifier
+     * @return {any}
+     */
+
+    isAllFieldsRequired(formGroup: FormGroup, fields: Array<string>, validationIdentifier: string): ValidatorFn | null {
+         const isAllFieldsRequiredValidationFn: ValidatorFn = (controls: FormGroup): ValidationErrors | null => {
+             return this.isAllFieldsRequiredValidationFn(controls, fields, validationIdentifier);
+          };
+         return isAllFieldsRequiredValidationFn;
     }
 
     /**
@@ -223,6 +241,49 @@ export class ValidationService {
         };
 
         return isTextAreaValidWhenCheckboxChecked;
+    }
+
+    /**
+     * isRadioValidWhenSomeOptionSelected
+     *
+     * @param formGroup
+     * @param controls is object
+     * { checkboxControl : string, textareaControl : string }
+     * @param validationIdentifier
+     * @return {any}
+     */
+
+    isRadioValidWhenSomeOptionSelected(formGroup: FormGroup, controls: any, validationIdentifier: string){
+
+        const isRadioValidWhenSomeOptionSelected: ValidatorFn = (formControls: FormGroup): ValidationErrors | null => {
+
+            for (const option of controls.selectedOptions) {
+                if (formControls.get(controls.radioControl).value !== null && formControls.get(controls.radioControl).value !== option.selectedOption) {
+
+                    // Do not validate child if parent is valid so
+                    // Reset child validation to valid state here
+                    // Add word "ValidationFn" to the name of validator when you extend child validation functions
+
+                    if (option.childValidator.validatorFunc) {
+                        return  this[option.childValidator.validatorFunc + "ValidationFn"](null, null, option.childValidator.validationErrorId);
+                    }
+
+                    return null;
+
+                } else {
+                    if (option.childValidator.validatorFunc){
+                        return this[option.childValidator.validatorFunc + "ValidationFn"](formGroup, option.childValidator.controls, option.childValidator.validationErrorId);
+                    }
+                }
+            }
+
+            return {
+                [validationIdentifier]: true,
+            };
+
+        };
+
+        return isRadioValidWhenSomeOptionSelected;
     }
 
     /**
