@@ -168,6 +168,7 @@ module.exports = {
                                                     },
                                                     control: 'awardEndDateDay',
                                                     classes: 'govuk-date-input__input govuk-input--width-2',
+//                                                    validators: ['required']
                                                 }
                                             },
                                             month: {
@@ -178,6 +179,7 @@ module.exports = {
                                                     },
                                                     control: 'awardEndDateMonth',
                                                     classes: 'govuk-date-input__input govuk-input--width-2',
+//                                                    validators: ['required']
                                                 }
                                             },
                                             year: {
@@ -188,6 +190,7 @@ module.exports = {
                                                     },
                                                     control: 'awardEndDateYear',
                                                     classes: 'govuk-date-input__input govuk-input--width-4',
+//                                                    validators: ['required']
                                                 }
                                             }
                                         }
