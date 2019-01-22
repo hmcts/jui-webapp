@@ -262,10 +262,10 @@ export class ValidationService {
 
                     if (option.childValidator.validatorFunc) {
 
-                        console.log('reset  the end date validation to valid state', this[option.childValidator.validatorFunc+"ValidationFn"](null, null, option.childValidator.validationErrorId));
-                        console.log('FormGRoup is now=>>>>>...',formGroup);
+                        // console.log('reset  the end date validation to valid state', this[option.childValidator.validatorFunc+"ValidationFn"](null, null, option.childValidator.validationErrorId));
+                        // console.log('FormGRoup is now=>>>>>...',formGroup);
 
-                        return this.isAllFieldsRequiredValidationFn(null, null, option.childValidator.validationErrorId);
+                        return  this[option.childValidator.validatorFunc+"ValidationFn"](null, null, option.childValidator.validationErrorId);
                     }
 
                     return null;

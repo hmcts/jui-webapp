@@ -42,12 +42,6 @@ module.exports = {
             formGroupValidationErrorId: 'awardEndDate',
             text: 'Select the end date',
             href: '#'
-        },
-        {
-            validationLevel: 'formGroup',
-            formGroupValidationErrorId: 'endDateRadio',
-            text: 'Select the end date r',
-            href: '#'
         }
     ],
     groups: [
@@ -124,10 +118,6 @@ module.exports = {
                 {
                     radios: {
                         control: 'endDateRadio',
-                        validationError: {
-                            value: 'Select the end date r',
-                            identifier: 'endDateRadio'
-                        },
                         radioGroup: [
                             {
                                 value: 'endDate',
