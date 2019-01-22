@@ -26,6 +26,10 @@ export class ValidationService {
             simpleName: 'email',
             ngValidatorFunction: Validators.email
         },
+        {
+            simpleName: 'day',
+            ngValidatorFunction: Validators.maxLength
+        }
     ];
 
     constructor() {
