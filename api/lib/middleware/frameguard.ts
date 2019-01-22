@@ -1,8 +1,8 @@
 import {Request, Response} from 'express'
 
-export function frameguard( directive: string ) {
+export function frameguard() {
     return (req: Request, res: Response, next: any) => {
-        res.setHeader('X-Frame-Options', directive)
+        res.setHeader('X-Frame-Options', 'SAMEORIGIN')
         next()
     }
 }
