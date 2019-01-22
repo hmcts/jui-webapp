@@ -21,7 +21,7 @@ const FileStore = sessionFileStore(session);
 const appInsightsInstrumentationKey =
     process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "AAAAAAAAAAAAAAAA";
 
-app.use(frameguard('SAMEORIGIN'));
+app.use(frameguard());
 app.use(nocache());
 app.use(hidePoweredBy());
 
