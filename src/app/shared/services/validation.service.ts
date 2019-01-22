@@ -196,6 +196,14 @@ export class ValidationService {
         return null;
     }
 
+    /**
+     * isAllFieldsRequired
+     *
+     * @param formGroup
+     * @param controls is object
+     * @param validationIdentifier
+     * @return {any}
+     */
 
     isAllFieldsRequired(formGroup: FormGroup, fields: Array<string>, validationIdentifier: string): ValidatorFn | null {
          const isAllFieldsRequiredValidationFn: ValidatorFn = (controls: FormGroup): ValidationErrors | null => {
@@ -247,39 +255,24 @@ export class ValidationService {
 
     isRadioValidWhenSomeOptionSelected(formGroup: FormGroup, controls: any, validationIdentifier: string){
 
-        console.log('Conditional Radio Validation =>>>', controls, validationIdentifier);
-
         const isRadioValidWhenSomeOptionSelected: ValidatorFn = (formControls: FormGroup): ValidationErrors | null => {
-            console.log("Radio buttton form control" ,controls.radioControl);
-            console.log("Radio buttton value" ,formControls.get(controls.radioControl).value);
 
             for (const option of controls.selectedOptions) {
                 if (formControls.get(controls.radioControl).value !== null && formControls.get(controls.radioControl).value !== option.selectedOption) {
-                    console.log('Valid', formControls.get(controls.radioControl).value);
 
                     // Do not validate child if parent is valid so
                     // Reset child validation to valid state here
+                    // Add word "ValidationFn" to the name of validator when you extend child validation functions
 
                     if (option.childValidator.validatorFunc) {
-
-                        // console.log('reset  the end date validation to valid state', this[option.childValidator.validatorFunc+"ValidationFn"](null, null, option.childValidator.validationErrorId));
-                        // console.log('FormGRoup is now=>>>>>...',formGroup);
-
-                        return  this[option.childValidator.validatorFunc+"ValidationFn"](null, null, option.childValidator.validationErrorId);
+                        return  this[option.childValidator.validatorFunc + "ValidationFn"](null, null, option.childValidator.validationErrorId);
                     }
 
                     return null;
 
                 } else {
-
-                    // console.log('Invalid', formControls.get(controls.radioControl).value);
-                    // console.log( option.childValidator );
-                    // console.log( option.childValidator.validatorFunc );
-
                     if (option.childValidator.validatorFunc){
-                     // console.log(this[option.childValidator.validatorFunc+"ValidationFn"](formGroup, option.childValidator.controls, option.childValidator.validationErrorId).isAllFieldsRequired);
-                        console.log(this[option.childValidator.validatorFunc+"ValidationFn"](formGroup, option.childValidator.controls, option.childValidator.validationErrorId));
-                        return this[option.childValidator.validatorFunc+"ValidationFn"](formGroup, option.childValidator.controls, option.childValidator.validationErrorId);
+                        return this[option.childValidator.validatorFunc + "ValidationFn"](formGroup, option.childValidator.controls, option.childValidator.validationErrorId);
                     }
                 }
             }
@@ -287,8 +280,7 @@ export class ValidationService {
             return {
                 [validationIdentifier]: true,
             };
-            // console.log("Child element form control or Form group" ,formControls.get(controls.childControl).value);
-            // console.log("Selected option for valid form" ,formControls.get(controls.selectedOptions[0]).value);
+
         };
 
         return isRadioValidWhenSomeOptionSelected;
