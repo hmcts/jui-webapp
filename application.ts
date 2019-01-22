@@ -1,7 +1,8 @@
 const healthcheck = require("@hmcts/nodejs-healthcheck");
 const { InfoContributor, infoRequestHandler } = require("@hmcts/info-provider");
 import * as express from "express";
-import {frameguard} from './api/lib/middleware/frameguard';
+import { frameguard } from './api/lib/middleware/frameguard';
+import { nocache } from './api/lib/middleware/nocache';
 const apiRoute = require("./api");
 import { config } from "./config";
 
@@ -19,6 +20,7 @@ const appInsightsInstrumentationKey =
     process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "AAAAAAAAAAAAAAAA";
 
 app.use(frameguard('SAMEORIGIN'));
+app.use(nocache());
 
 app.use(
     session({
