@@ -26,16 +26,12 @@ function getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId) {
     return Promise.all(promiseArray)
 }
 
-function appendDocuments(caseData, schema) {
-    return new Promise(resolve => {
-        getDocuments(getDocIdList(caseData.documents))
-            .then(appendDocIdToDocument)
-            .then(documents => {
-                caseData.documents = documents
-                schema.documents = documents
-                resolve({ caseData, schema })
-            })
-    })
+async function appendDocuments(caseData, schema) {
+    let documents = await getDocuments(getDocIdList(caseData.documents))
+    documents = appendDocIdToDocument(documents)
+    caseData.documents = documents
+    schema.documents = documents
+    return { caseData, schema }
 }
 
 function replaceSectionValues(section, caseData) {
