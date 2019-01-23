@@ -43,15 +43,8 @@ function replaceSectionValues(section, caseData) {
             replaceSectionValues(childSection, caseData)
         })
     } else {
-        section.fields.forEach((field, index) => {
-            console.log('looking at ', field.value)
-            const processedValue = valueProcessor(field.value, caseData)
-            if (processedValue !== undefined) {
-                field.value = processedValue
-            } else {
-                // remove field if value is undefined
-                section.fields.splice(index, 1)
-            }
+        section.fields.forEach(field => {
+            field.value = valueProcessor(field.value, caseData)
         })
     }
 }
