@@ -5,9 +5,9 @@ const { processCaseState } = require('../../lib/processors/case-state-model')
 
 const { getAllQuestionsByCase } = require('../questions/index')
 
-const { getHearingByCase } = require('../../services/coh-cor-api/coh-cor-api')
-
+import { CCDCaseWithSchema } from '../../lib/models'
 import { getCCDCase } from '../../services/ccd-store-api/ccd-store'
+import { getHearingByCase } from '../../services/coh-cor-api/coh-cor-api'
 import { getDocuments } from '../../services/DMStore'
 import { getEvents } from '../events'
 
@@ -15,15 +15,18 @@ function hasCOR(jurisdiction, caseType) {
     return jurisdiction === 'SSCS'
 }
 
-function getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId) {
-    const promiseArray = [getCCDCase(userId, jurisdiction, caseType, caseId), getEvents(userId, jurisdiction, caseType, caseId)]
+async function getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId): Promise<[any, any, any, any]> {
+    const caseData = await getCCDCase(userId, jurisdiction, caseType, caseId)
+    const events = await getEvents(userId, jurisdiction, caseType, caseId)
+    let hearing
+    let questions
 
     if (hasCOR(jurisdiction, caseType)) {
-        promiseArray.push(getHearingByCase(caseId))
-        promiseArray.push(getAllQuestionsByCase(caseId, userId, jurisdiction))
+        hearing = await getHearingByCase(caseId)
+        questions = await getAllQuestionsByCase(caseId, userId, jurisdiction)
     }
 
-    return Promise.all(promiseArray)
+    return [caseData, events, hearing, questions]
 }
 
 async function appendDocuments(caseData, schema) {
@@ -41,6 +44,7 @@ function replaceSectionValues(section, caseData) {
         })
     } else {
         section.fields.forEach((field, index) => {
+            console.log('looking at ', field.value)
             const processedValue = valueProcessor(field.value, caseData)
             if (processedValue !== undefined) {
                 field.value = processedValue
@@ -75,7 +79,7 @@ function appendCollectedData([caseData, events, hearings, questions]) {
     return caseData
 }
 
-function applySchema(caseData) {
+function applySchema(caseData): CCDCaseWithSchema {
     let schema = JSON.parse(JSON.stringify(getCaseTemplate(caseData.jurisdiction, caseData.case_type_id)))
     if (schema.details) {
         replaceSectionValues(schema.details, caseData)
@@ -92,18 +96,16 @@ function applySchema(caseData) {
     return { caseData, schema }
 }
 
-function getCaseData(userId, jurisdiction, caseType, caseId) {
-    return getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId).then(([caseData, events, hearings, questions]) =>
-        appendCollectedData([caseData, events, hearings, questions])
-    )
+async function getCaseData(userId, jurisdiction, caseType, caseId) {
+    const caseDataArray: [any, any, any, any] = await getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId)
+    return appendCollectedData(caseDataArray)
 }
 
-function getCaseTransformed(userId, jurisdiction, caseType, caseId, req) {
-    return getCaseData(userId, jurisdiction, caseType, caseId)
-        .then(processCaseState)
-        .then(applySchema)
-        .then(({ caseData, schema }) => appendDocuments(caseData, schema))
-        .then(({ caseData, schema }) => schema)
+async function getCaseTransformed(userId, jurisdiction, caseType, caseId, req) {
+    const caseData = await getCaseData(userId, jurisdiction, caseType, caseId)
+    let processedData: CCDCaseWithSchema = applySchema(processCaseState(caseData))
+    processedData = await appendDocuments(processedData.caseData, processedData.schema)
+    return processedData.schema
 }
 
 function getCaseRaw(userId, jurisdiction, caseType, caseId, req) {
@@ -113,7 +115,7 @@ function getCaseRaw(userId, jurisdiction, caseType, caseId, req) {
 }
 
 // GET case callback
-module.exports = app => {
+export default app => {
     const router = express.Router({ mergeParams: true })
     app.use('/case', router)
 
