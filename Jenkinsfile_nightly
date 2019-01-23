@@ -16,7 +16,7 @@ properties([
 def type = "nodejs"
 def product = "jui"
 def component = "webapp"
-def vault = "rpa-aat"
+def vault = "rpa"
 def channel = '#jui-pipeline'
 
 List<LinkedHashMap<String, Object>> secrets = [
@@ -79,7 +79,15 @@ withNightlyPipeline(type, product, component) {
     }
 
      after('crossBrowserTest') {
-       steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*'
-     }
+       steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*',
 
+           publishHTML([
+               allowMissing         : true,
+               alwaysLinkToLastBuild: true,
+               keepAll              : true,
+               reportDir            : "'./functional-output/crossbrowser/reports'",
+               reportFiles          : 'index.html',
+               reportName           : 'JUI Cross Browser Test Report'
+           ])
+     }
 }

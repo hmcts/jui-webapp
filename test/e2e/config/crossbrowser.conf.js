@@ -101,12 +101,11 @@ const config = {
 
     exclude: [],
 
-
     cucumberOpts: {
         strict: true,
         format: ['json:cb_reports/saucelab_results.json','node_modules/cucumber-pretty'],
         require: ['../support/world.js', '../support/*.js', '../features/step_definitions/**/*.steps.js'],
-        tags: ['@all']
+        tags: ['@smoke']
     },
 
 

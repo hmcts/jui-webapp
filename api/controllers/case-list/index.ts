@@ -1,4 +1,6 @@
 import * as express from 'express'
+import columns from '../../lib/config/refCaselistCols'
+import { filterByCaseTypeAndRole } from '../../lib/filters'
 import { getHearingByCase } from '../../services/coh-cor-api/coh-cor-api'
 
 const getListTemplate = require('./templates/index')
@@ -8,73 +10,11 @@ const { caseStateFilter } = require('../../lib/processors/case-state-util')
 const { getAllQuestionsByCase } = require('../questions/index')
 const { getMutiJudCCDCases } = require('../../services/ccd-store-api/ccd-store')
 
-const { getDetails } = require('../../services/idam-api/idam-api')
+const { getUser } = require('../../services/idam-api/idam-api')
 const { getNewCase, unassignAllCaseFromJudge } = require('./assignCase')
 const headerUtilities = require('../../lib/utilities/headerUtilities')
 
-const columns = [
-    {
-        label: 'Case Reference',
-        case_field_id: 'case_ref'
-    },
-    {
-        label: 'Parties',
-        case_field_id: 'parties'
-    },
-    {
-        label: 'Type',
-        case_field_id: 'type'
-    },
-    {
-        label: 'Decision needed on',
-        case_field_id: 'status'
-    },
-    {
-        label: 'Case received',
-        case_field_id: 'createdDate',
-        date_format: 'd MMM yyyy'
-    },
-    {
-        label: 'Date of last event',
-        case_field_id: 'lastModified',
-        date_format: 'd MMM yyyy'
-    }
-]
 
-function getJurisdictions(details) {
-    return details
-        ? [
-              {
-                  jur: 'SSCS',
-                  caseType: 'Benefit',
-                  filter: `&state=appealCreated&case.appeal.benefitType.code=PIP&case.assignedToJudge=${details.email}`
-                  // filter: `&state=appealCreated&case.appeal.benefitType.code=PIP`
-              },
-              {
-                  jur: 'DIVORCE',
-                  caseType: 'DIVORCE',
-                  filter: `&case.assignedToJudge=${details.email}`
-                  // filter: ``
-              },
-              {
-                  jur: 'DIVORCE',
-                  caseType: 'FinancialRemedyMVP2',
-                  filter: `&state=referredToJudge&case.assignedToJudge=${details.email}`
-                  // filter: `&state=referredToJudge`
-              }
-              // {
-              //     jur: 'CMC',
-              //     caseType: 'MoneyClaimCase',
-              //     filter: '&case.assignedToJudge=${details.email}'
-              // },
-              // {
-              //     jur: 'PROBATE',
-              //     caseType: 'GrantOfRepresentation',
-              //     filter: '&case.assignedToJudge=${details.email}'
-              // }
-          ]
-        : []
-}
 
 function hasCOR(caseData) {
     return caseData.jurisdiction === 'SSCS'
@@ -258,9 +198,8 @@ function aggregatedData(results) {
     return { columns, results }
 }
 
-async function getMutiJudCaseAssignedCases(userId, details) {
-    const userJurisdictions = getJurisdictions(details)
-    return await getMutiJudCCDCases(userId, userJurisdictions)
+async function getMutiJudCaseAssignedCases(userDetails) {
+    return await getMutiJudCCDCases(userDetails.id, filterByCaseTypeAndRole(userDetails))
 }
 
 function getOptions(req) {
@@ -270,11 +209,11 @@ function getOptions(req) {
 
 
 // Get List of case and transform to correct format
-async function getMutiJudCaseTransformed(userId, details, options) {
+async function getMutiJudCaseTransformed(userDetails, options) {
      return (
-        await getMutiJudCaseAssignedCases(userId, details)
+        await getMutiJudCaseAssignedCases(userDetails)
             .then(caseLists => appendCOR(caseLists))
-            .then(caseLists => appendQuestionsRound(caseLists, userId, options ))
+            .then(caseLists => appendQuestionsRound(caseLists, userDetails.id, options ))
             // .then(caseLists => appendLinkedCases(caseLists, userId, options))
             .then(processCaseListsState)
             .then(applyStateFilter)
@@ -286,18 +225,18 @@ async function getMutiJudCaseTransformed(userId, details, options) {
 }
 
 // Get List of case and return raw output
-function getMutiJudCaseRaw(userId, details) {
-    return getMutiJudCaseAssignedCases(userId, details)
+function getMutiJudCaseRaw(userDetails) {
+    return getMutiJudCaseAssignedCases(userDetails.id)
         .then(combineLists)
         .then(sortCases)
 }
 
 // Get List of case append coh and return raw output
-function getMutiJudCaseRawCoh(userId, details) {
+function getMutiJudCaseRawCoh(userDetails) {
     return (
-        getMutiJudCaseAssignedCases(userId, details)
+        getMutiJudCaseAssignedCases(userDetails)
             .then(caseLists => appendCOR(caseLists))
-            .then(caseLists => appendQuestionsRound(caseLists, userId, {}))
+            .then(caseLists => appendQuestionsRound(caseLists, userDetails.id, {}))
             // .then(caseLists => appendLinkedCases(caseLists, userId, options))
             .then(combineLists)
             .then(sortCases)
@@ -310,48 +249,42 @@ module.exports = app => {
     const router = express.Router({ mergeParams: true })
     app.use('/cases', router)
 
-    router.get('/', (req: any, res, next) => {
-        const userId = req.auth.userId
-
-        getDetails(getOptions(req)).then(details => {
-            getMutiJudCaseTransformed(userId, details, getOptions(req))
-                .then(results => {
-                    res.setHeader('Access-Control-Allow-Origin', '*')
-                    res.setHeader('content-type', 'application/json')
-                    res.status(200).send(JSON.stringify(results))
-                })
-                .catch(response => {
-                    console.log(response.error || response)
-                    res.status(response.statusCode || 500).send(response)
-                })
-        })
+    router.get('/', async (req: any, res, next) => {
+        const user = await getUser()
+  
+        getMutiJudCaseTransformed(user, getOptions(req))
+            .then(results => {
+                res.setHeader('Access-Control-Allow-Origin', '*')
+                res.setHeader('content-type', 'application/json')
+                res.status(200).send(JSON.stringify(results))
+            })
+            .catch(response => {
+              //  console.log(response.error || response)
+                res.status(response.statusCode || 500).send(response)
+            })
     })
 
     router.get('/unassign/all', (req: any, res, next) => {
-        const userId = req.auth.userId
+    
+        const filters = filterByCaseTypeAndRole(req.auth)
 
-        getDetails(getOptions(req)).then(details => {
-            const userJurisdictions = getJurisdictions(details)
-
-            getMutiJudCCDCases(userId, userJurisdictions)
-                .then(combineLists)
-                .then(caseList => unassignAllCaseFromJudge(userId, caseList))
-                .then(results => {
-                    res.setHeader('Access-Control-Allow-Origin', '*')
-                    res.setHeader('content-type', 'application/json')
-                    res.status(200).send(JSON.stringify(results))
-                })
-                .catch(response => {
-                    console.log(response.error || response)
-                    res.status(response.statusCode || 500).send(response)
-                })
-        })
+        getMutiJudCCDCases(req.auth.id, filters)
+            .then(combineLists)
+            .then(caseList => unassignAllCaseFromJudge(req.auth.id, caseList))
+            .then(results => {
+                res.setHeader('Access-Control-Allow-Origin', '*')
+                res.setHeader('content-type', 'application/json')
+                res.status(200).send(JSON.stringify(results))
+            })
+            .catch(response => {
+                console.log(response.error || response)
+                res.status(response.statusCode || 500).send(response)
+            })
+    
     })
 
     router.post('/assign/new', (req: any, res, next) => {
-        const userId = req.auth.userId
-
-        getNewCase(userId)
+        getNewCase(req.auth.id)
             .then(results => {
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.setHeader('content-type', 'application/json')
@@ -363,37 +296,32 @@ module.exports = app => {
             })
     })
 
-    router.get('/raw', (req: any, res, next) => {
-        const userId = req.auth.userId
-
-        getDetails().then(details => {
-            getMutiJudCaseRaw(userId, details)
-                .then(results => {
-                    res.setHeader('Access-Control-Allow-Origin', '*')
-                    res.setHeader('content-type', 'application/json')
-                    res.status(200).send(JSON.stringify(results))
-                })
-                .catch(response => {
-                    console.log(response.error || response)
-                    res.status(response.statusCode || 500).send(response)
-                })
-        })
+    router.get('/raw', async (req: any, res, next) => {
+        const user = await getUser()
+        getMutiJudCaseRaw(user)
+            .then(results => {
+                res.setHeader('Access-Control-Allow-Origin', '*')
+                res.setHeader('content-type', 'application/json')
+                res.status(200).send(JSON.stringify(results))
+            })
+            .catch(response => {
+                console.log(response.error || response)
+                res.status(response.statusCode || 500).send(response)
+            })
+  
     })
 
-    router.get('/raw/coh', (req: any, res, next) => {
-        const userId = req.auth.userId
-
-        getDetails().then(details => {
-            getMutiJudCaseRawCoh(userId, details)
-                .then(results => {
-                    res.setHeader('Access-Control-Allow-Origin', '*')
-                    res.setHeader('content-type', 'application/json')
-                    res.status(200).send(JSON.stringify(results))
-                })
-                .catch(response => {
-                    console.log(response.error || response)
-                    res.status(response.statusCode || 500).send(response)
-                })
-        })
+    router.get('/raw/coh', async (req: any, res, next) => {
+        const user = await getUser()
+        getMutiJudCaseRawCoh(user)
+            .then(results => {
+                res.setHeader('Access-Control-Allow-Origin', '*')
+                res.setHeader('content-type', 'application/json')
+                res.status(200).send(JSON.stringify(results))
+            })
+            .catch(response => {
+                console.log(response.error || response)
+                res.status(response.statusCode || 500).send(response)
+            })
     })
 }

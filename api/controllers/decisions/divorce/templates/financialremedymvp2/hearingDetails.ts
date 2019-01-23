@@ -19,7 +19,7 @@ module.exports={
             {
                 validationLevel: 'formControl',
                 controlId: 'whichCourt',
-                text: 'Choose a court',
+                text: 'Enter a court',
                 href: '#'
             }
         ],
@@ -67,7 +67,7 @@ module.exports={
                                 classes: 'govuk-label--m'
                             },
                             validationError: {
-                                value: 'Enter the directions that are required',
+                                value: 'Enter a court',
                                 controlId: 'Directions'
                             },
                             control: 'whichCourt',

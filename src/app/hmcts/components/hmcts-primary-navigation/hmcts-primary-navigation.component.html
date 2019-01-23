@@ -2,7 +2,9 @@
     <div class="hmcts-primary-navigation__container">
         <ul class="hmcts-primary-navigation__list" *ngFor="let item of items">
             <li class="hmcts-primary-navigation__item">
-                <a class="hmcts-primary-navigation__link" [attr.aria-current]="item.active" [routerLink]="item.href">{{item.text}}</a>
+                <!--using href rather then router link so that the list gets refreshed/updated-->
+                <!--TOTO fix this and update the state rather then making an http request-->
+                <a class="hmcts-primary-navigation__link" [attr.aria-current]="item.active" href="{{item.href}}">{{item.text}}</a>
             </li>
         </ul>
     </div>

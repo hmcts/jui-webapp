@@ -61,7 +61,7 @@ export class ValidationService {
 
         const ngValidators: Array<any> = [];
 
-        validators.map((validatorName) => {
+        validators.forEach((validatorName) => {
             for (const ngValidatorFunction of this.getNgValidationFunctionMap()) {
                 if (ngValidatorFunction.simpleName === validatorName) {
                     ngValidators.push(ngValidatorFunction.ngValidatorFunction);

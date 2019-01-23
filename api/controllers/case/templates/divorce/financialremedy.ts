@@ -62,6 +62,14 @@ export const template = {
                                 {
                                     label: 'Case number',
                                     value: '$.id'
+                                },
+                                {
+                                    label: 'Decree nisi granted',
+                                    value: '$.case_data.divorceDecreeNisiDate|date_processor'
+                                },
+                                {
+                                    label: 'Decree absolute granted',
+                                    value: '$.case_data.divorceDecreeAbsoluteDate|date_processor'
                                 }
                             ]
                         },

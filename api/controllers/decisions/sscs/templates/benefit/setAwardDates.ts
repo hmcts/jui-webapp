@@ -9,13 +9,6 @@ module.exports = {
             controls: [
                 'awardStartDateDay', 'awardStartDateMonth', 'awardStartDateYear'
             ]
-        },
-        {
-            validatorFunc: 'isAllFieldsRequired',
-            validationErrorId: 'endDate',
-            controls: [
-                'awardEndDateDay', 'awardEndDateMonth', 'awardEndDateYear'
-            ]
         }
     ],
     validationHeaderErrorMessages: [
@@ -32,9 +25,9 @@ module.exports = {
             href: '#'
         },
         {
-            validationLevel: 'formControl',
+            validationLevel: 'formGroup',
             controlId: 'endDateRadio',
-            text: 'Select the end date',
+            text: 'Select the end date or Indefinite award',
             href: '#'
         }
     ],
@@ -95,12 +88,19 @@ module.exports = {
             }
         },
         {
+            legend: {
+                text: 'What do you want to do about the end date?',
+                isPageHeading: true,
+                classes: 'govuk-fieldset__legend--m'
+            }
+        },
+        {
             fieldset: [
                 {
                     radios: {
                         control: 'endDateRadio',
                         validationError: {
-                            value: 'Select the end date',
+                            value: 'Select the end date or indefinite award',
                             controlId: 'endDateRadio'
                         },
                         validators: ['required'],
@@ -110,6 +110,12 @@ module.exports = {
                                 text: 'Set end date',
                                 hiddenAccessibilityText: 'some hidden text',
                                 groups: [
+                                    {
+                                        validationError: {
+                                            value: 'Enter end date',
+                                            identifier: 'endDate'
+                                        }
+                                    },
                                     {
                                         legend: {
                                             text: 'End date',
@@ -126,10 +132,6 @@ module.exports = {
                                     {
                                         date: {
                                             formName: 'endDate',
-                                            validationError: {
-                                                value: 'Select the end date',
-                                                identifier: 'endDate'
-                                            },
                                             day: {
                                                 input: {
                                                     label: {
@@ -138,7 +140,6 @@ module.exports = {
                                                     },
                                                     control: 'awardEndDateDay',
                                                     classes: 'govuk-date-input__input govuk-input--width-2',
-                                                    validators: ['required']
                                                 }
                                             },
                                             month: {
@@ -149,7 +150,6 @@ module.exports = {
                                                     },
                                                     control: 'awardEndDateMonth',
                                                     classes: 'govuk-date-input__input govuk-input--width-2',
-                                                    validators: ['required']
                                                 }
                                             },
                                             year: {
@@ -160,7 +160,6 @@ module.exports = {
                                                     },
                                                     control: 'awardEndDateYear',
                                                     classes: 'govuk-date-input__input govuk-input--width-4',
-                                                    validators: ['required']
                                                 }
                                             }
                                         }
@@ -170,7 +169,7 @@ module.exports = {
                             {
                                 value: 'indefinite',
                                 text: 'Indefinite award',
-                                hiddenAccessibilityText: 'some hidden text'
+                                hiddenAccessibilityText: 'some hidden text',
                             }
                         ]
                     }

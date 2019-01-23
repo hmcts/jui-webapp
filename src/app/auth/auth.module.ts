@@ -1,4 +1,4 @@
-import { Inject, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import {CookieModule} from 'ngx-cookie';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import {AuthInteceptor} from './auth-inteceptor';

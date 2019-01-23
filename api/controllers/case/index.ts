@@ -3,24 +3,20 @@ const getCaseTemplate = require('./templates/index')
 const valueProcessor = require('../../lib/processors/value-processor')
 const { processCaseState } = require('../../lib/processors/case-state-model')
 
-const { getDocuments } = require('../../services/dm-store-api/dm-store-api')
 const { getAllQuestionsByCase } = require('../questions/index')
 
 const { getHearingByCase } = require('../../services/coh-cor-api/coh-cor-api')
 
-import { getEvents } from '../events/index'
-import * as headerUtilities from '../../lib/utilities/headerUtilities'
 import { getCCDCase } from '../../services/ccd-store-api/ccd-store'
+import { getDocuments } from '../../services/DMStore'
+import { getEvents } from '../events'
 
 function hasCOR(jurisdiction, caseType) {
     return jurisdiction === 'SSCS'
 }
 
 function getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId) {
-    const promiseArray = [
-        getCCDCase(userId, jurisdiction, caseType, caseId),
-        getEvents(userId, jurisdiction, caseType, caseId)
-    ]
+    const promiseArray = [getCCDCase(userId, jurisdiction, caseType, caseId), getEvents(userId, jurisdiction, caseType, caseId)]
 
     if (hasCOR(jurisdiction, caseType)) {
         promiseArray.push(getHearingByCase(caseId))
@@ -30,9 +26,9 @@ function getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId) {
     return Promise.all(promiseArray)
 }
 
-function appendDocuments(caseData, schema, options) {
+function appendDocuments(caseData, schema) {
     return new Promise(resolve => {
-        getDocuments(getDocIdList(caseData.documents), options)
+        getDocuments(getDocIdList(caseData.documents))
             .then(appendDocIdToDocument)
             .then(documents => {
                 caseData.documents = documents
@@ -48,8 +44,14 @@ function replaceSectionValues(section, caseData) {
             replaceSectionValues(childSection, caseData)
         })
     } else {
-        section.fields.forEach(field => {
-            field.value = valueProcessor(field.value, caseData)
+        section.fields.forEach((field, index) => {
+            const processedValue = valueProcessor(field.value, caseData)
+            if (processedValue !== undefined) {
+                field.value = processedValue
+            } else {
+                // remove field if value is undefined
+                section.fields.splice(index, 1)
+            }
         })
     }
 }
@@ -95,8 +97,8 @@ function applySchema(caseData) {
 }
 
 function getCaseData(userId, jurisdiction, caseType, caseId) {
-    return getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId).then(
-        ([caseData, events, hearings, questions]) => appendCollectedData([caseData, events, hearings, questions])
+    return getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId).then(([caseData, events, hearings, questions]) =>
+        appendCollectedData([caseData, events, hearings, questions])
     )
 }
 
@@ -104,18 +106,14 @@ function getCaseTransformed(userId, jurisdiction, caseType, caseId, req) {
     return getCaseData(userId, jurisdiction, caseType, caseId)
         .then(processCaseState)
         .then(applySchema)
-        .then(({ caseData, schema }) => appendDocuments(caseData, schema, getOptionsDoc(req)))
+        .then(({ caseData, schema }) => appendDocuments(caseData, schema))
         .then(({ caseData, schema }) => schema)
 }
 
 function getCaseRaw(userId, jurisdiction, caseType, caseId, req) {
     return getCaseData(userId, jurisdiction, caseType, caseId)
-        .then(caseData => appendDocuments(caseData, {}, getOptionsDoc(req)))
+        .then(caseData => appendDocuments(caseData, {}))
         .then(({ caseData, schema }) => caseData)
-}
-
-function getOptionsDoc(req) {
-    return headerUtilities.getAuthHeadersWithUserRoles(req)
 }
 
 // GET case callback
@@ -124,7 +122,6 @@ module.exports = app => {
     app.use('/case', router)
 
     router.get('/:jur/:casetype/:case_id', (req, res, next) => {
-    
         const userId = req.auth.userId
         const jurisdiction = req.params.jur
         const caseType = req.params.casetype

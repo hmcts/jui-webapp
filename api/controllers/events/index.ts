@@ -116,7 +116,7 @@ function sortEvents(events) {
 }
 
 export async function getEvents(userId, jurisdiction, caseType, caseId) {
-    let cohEvents: Promise<any>
+    let cohEvents: Promise<any[]> | any = []
     const ccdEvents = await getCcdEvents(userId, jurisdiction, caseType, caseId)
 
     if (hasCOR(jurisdiction, caseType)) {
