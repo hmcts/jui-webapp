@@ -158,10 +158,6 @@ module.exports = {
                                                     },
                                                     control: 'awardEndDateDay',
                                                     classes: 'govuk-date-input__input govuk-input--width-2',
-                                                    valdators: [
-                                                        'required',
-                                                        'day'
-                                                    ]
                                                 }
                                             },
                                             month: {

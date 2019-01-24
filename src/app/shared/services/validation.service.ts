@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {Form, FormGroup} from '@angular/forms';
+import {AbstractControl, Form, FormGroup} from '@angular/forms';
 import {Validators, ValidationErrors, ValidatorFn} from '@angular/forms';
-import {controlsisTextAreaValidWhenCheckboxChecked, FormGroupValidator} from './validation.typescript';
+import {controlsisTextAreaValidWhenCheckboxChecked, controlsRadioConditionalModel, FormGroupValidator} from './validation.typescript';
 
 @Injectable({
     providedIn: 'root'
@@ -25,12 +25,9 @@ export class ValidationService {
         {
             simpleName: 'email',
             ngValidatorFunction: Validators.email
-        },
-        {
-            simpleName: 'day',
-            ngValidatorFunction: Validators.maxLength
         }
     ];
+
 
     constructor() {
     }
@@ -61,7 +58,7 @@ export class ValidationService {
      * @see state_meta
      * @param validators - ie. ['required', 'email']
      */
-    getNgValidators(validators: Array<string>) {
+    getNgValidators(validators: Array<string>): any[] {
 
         const ngValidators: Array<any> = [];
 
@@ -133,8 +130,7 @@ export class ValidationService {
      * need to pass this in once the Universal Form Builder is merged with Validation.
      * @return {boolean}
      */
-    isFormGroupInvalid(formGroup: FormGroup, validationErrorId: string): boolean {
-
+    isFormGroupInvalid(formGroup: any, validationErrorId: string): boolean {
         if (formGroup.errors && formGroup.errors.hasOwnProperty(validationErrorId)) {
             return formGroup.errors[validationErrorId];
         } else {
@@ -164,11 +160,10 @@ export class ValidationService {
      * @return {any}
      */
     isAnyCheckboxChecked(formGroup: FormGroup, checkboxes: Array<string>, validationIdentifier: string): ValidatorFn | null {
-
         const isAnyCheckboxCheckedValidationFn: ValidatorFn = (controls: FormGroup): ValidationErrors | null => {
 
             for (const checkbox of checkboxes) {
-                if (controls.get(checkbox).value) {
+                if (controls.get(checkbox).value === true) {
                     return null;
                 }
             }
@@ -186,7 +181,6 @@ export class ValidationService {
     // Returninng the validationIdentifier true if invalid and null if valid
 
     isAllFieldsRequiredValidationFn(controls: FormGroup, fields: Array<string>, validationIdentifier){
-
         if (controls !== null && fields !== null) {
             for (const field of fields) {
                 if (!controls.get(field).value) {
@@ -235,7 +229,7 @@ export class ValidationService {
                 return null;
             }
 
-            if (formControls.get(controls.textareaControl).value.length > 0) {
+            if (formControls.get(controls.textareaControl).value && formControls.get(controls.textareaControl).value.length > 0) {
                 return null;
             }
 
