@@ -173,6 +173,7 @@ export function postUploadedDocument(file, classification, options) {
         json: false,
     }
 
+    //TODO: Once working replace with asyncReturnOrError
     return generateRequest('POST', `${url}/documents`, reqOptions)
 }
 
@@ -391,5 +392,11 @@ export default app => {
         })
 
         form.parse(req)
+    })
+
+    // TODO: Required to show uploaded documents on the demo page.
+    router.post('/documents/owned', (req, res, next) => {
+        const response = ownedDocument(req.query, getOptions(req))
+        res.send(response)
     })
 }
