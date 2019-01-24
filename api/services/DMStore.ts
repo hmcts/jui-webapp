@@ -280,7 +280,10 @@ export async function filterDocument(body): Promise<JSON> {
 }
 
 // Search stored documents by ownership.
+// TODO: Investigate why this is not returning a response.
+// note that params and body are both valid.
 export async function ownedDocument(params, body): Promise<JSON> {
+
     const queryStringParams = Object.keys(params)
         .map(key => key + '=' + params[key])
         .join('&')
@@ -294,6 +297,12 @@ export async function ownedDocument(params, body): Promise<JSON> {
     )
 
     return response.data
+}
+
+// TODO : This Legacy version works, but the newer function above does not, investigate.
+function ownedDocumentLegacy(params, options) {
+    const queryStringParams = Object.keys(params).map(key => key + '=' + params[key]).join('&')
+    return generateRequest('POST', `${url}/documents/owned?${queryStringParams}`, options)
 }
 
 // Starts migration for a specific version of the content of a Stored Document.
@@ -394,9 +403,12 @@ export default app => {
         form.parse(req)
     })
 
-    // TODO: Required to show uploaded documents on the demo page.
+    /**
+     * /documents/owned
+     *
+     * Used to show documents on the /demo UI page.
+     */
     router.post('/documents/owned', (req, res, next) => {
-        const response = ownedDocument(req.query, getOptions(req))
-        res.send(response)
+        ownedDocumentLegacy(req.query, getOptions(req)).pipe(res)
     })
 }
