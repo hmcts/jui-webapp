@@ -5,11 +5,20 @@ const { processCaseState } = require('../../lib/processors/case-state-model')
 
 const { getAllQuestionsByCase } = require('../questions/index')
 
+import * as log4js from 'log4js'
+
+import { config } from '../../../config'
 import { CCDCaseWithSchema } from '../../lib/models'
+import { asyncReturnOrError } from '../../lib/util'
 import { getCCDCase } from '../../services/ccd-store-api/ccd-store'
 import { getHearingByCase } from '../../services/coh-cor-api/coh-cor-api'
 import { getDocuments } from '../../services/DMStore'
 import { getEvents } from '../events'
+
+
+
+const logger = log4js.getLogger('ccd-store')
+logger.level = config.logging || 'off'
 
 function hasCOR(jurisdiction, caseType) {
     return jurisdiction === 'SSCS'
@@ -20,7 +29,6 @@ async function getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, cas
     const events = await getEvents(userId, jurisdiction, caseType, caseId)
     let hearing
     let questions
-
     if (hasCOR(jurisdiction, caseType)) {
         hearing = await getHearingByCase(caseId)
         questions = await getAllQuestionsByCase(caseId, userId, jurisdiction)
@@ -112,39 +120,42 @@ export default app => {
     const router = express.Router({ mergeParams: true })
     app.use('/case', router)
 
-    router.get('/:jur/:casetype/:case_id', (req, res, next) => {
+    router.get('/:jur/:casetype/:case_id', async (req, res, next) => {
         const userId = req.auth.userId
         const jurisdiction = req.params.jur
         const caseType = req.params.casetype
         const caseId = req.params.case_id
 
-        getCaseTransformed(userId, jurisdiction, caseType, caseId, req)
-            .then(result => {
-                res.setHeader('Access-Control-Allow-Origin', '*')
-                res.setHeader('content-type', 'application/json')
-                res.status(200).send(JSON.stringify(result))
-            })
-            .catch(response => {
-                console.log(response.error || response)
-                res.status(response.error.status).send(response.error.message)
-            })
+        const CCDCase = await asyncReturnOrError(
+            getCaseTransformed(userId, jurisdiction, caseType, caseId, req),
+            'Error getting Case',
+            res,
+            logger)
+
+        if (CCDCase) {
+            res.setHeader('Access-Control-Allow-Origin', '*')
+            res.setHeader('content-type', 'application/json')
+            res.status(200).send(JSON.stringify(CCDCase))
+        }
+
     })
 
-    router.get('/:jur/:casetype/:case_id/raw', (req, res, next) => {
+    router.get('/:jur/:casetype/:case_id/raw', async (req, res, next) => {
         const userId = req.auth.userId
         const jurisdiction = req.params.jur
         const caseType = req.params.casetype
         const caseId = req.params.case_id
 
-        getCaseRaw(userId, jurisdiction, caseType, caseId, req)
-            .then(result => {
-                res.setHeader('Access-Control-Allow-Origin', '*')
-                res.setHeader('content-type', 'application/json')
-                res.status(200).send(JSON.stringify(result))
-            })
-            .catch(response => {
-                console.log(response.error || response)
-                res.status(response.error.status).send(response.error.message)
-            })
+        const CCDCase = await asyncReturnOrError(
+            getCaseRaw(userId, jurisdiction, caseType, caseId, req),
+            'Error getting Case',
+            res,
+            logger)
+
+        if (CCDCase) {
+            res.setHeader('Access-Control-Allow-Origin', '*')
+            res.setHeader('content-type', 'application/json')
+            res.status(200).send(JSON.stringify(CCDCase))
+        }
     })
 }
