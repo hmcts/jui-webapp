@@ -8,7 +8,7 @@ import {mockReq, mockRes} from 'sinon-express-mock'
 chai.use(sinonChai)
 import {Store} from './store/store'
 
-import {pushStack, stackEmpty} from './stack'
+import {forwardStack, pushStack, shiftStack, stackEmpty} from './stack'
 
 const req = {
     params: {
@@ -31,6 +31,41 @@ describe('stack', () => {
             spy.restore()
         })
     })
+    describe('shiftStack', () => {
+        //@todo - NEEDS WORK - check this with a real 'variables' object
+        it('Should return the current item', async () => {
+            const stub = sinon.stub(Store.prototype, 'get')
+            stub.returns([1, 2, 3])
+            const variables = ['decisions_stack_123_3_321']
+            const result = await shiftStack(req, variables)
+            expect(result).to.equal(3)
+            stub.restore()
+        })
+        it('Should return the last item of array if simple array is passed', async () => {
+            const stub = sinon.stub(Store.prototype, 'get')
+            stub.returns([1, 2, 3])
+            const variables = []
+            const result = await shiftStack(req, variables)
+            expect(result).to.equal(3)
+            stub.restore()
+        })
+        it('Should return the last item of array if simple array of objects is passed', async () => {
+            const stub = sinon.stub(Store.prototype, 'get')
+            stub.returns([{k: 1}, {k: 2}, {K: 3}])
+            const variables = []
+            const result = await shiftStack(req, variables)
+            expect(result).to.equal(3)
+            stub.restore()
+        })
+        it('Should return the first item of array if simple array of objects is passed with matching variable key', async () => {
+            const stub = sinon.stub(Store.prototype, 'get')
+            stub.returns([{k: 1}, {k: 2}, {k: 3}])
+            const variables = {1: 'k', k: 1}
+            const result = await shiftStack(req, variables)
+            expect(result).to.equal(1)
+            stub.restore()
+        })
+    })
     describe('stackEmpty', () => {
         it('Should return false if stack is not empty', async () => {
             const stub = sinon.stub(Store.prototype, 'get')
@@ -47,6 +82,37 @@ describe('stack', () => {
             expect(result).to.equal(true)
             stub.restore()
 
+        })
+    })
+    describe('forwardStack', () => {
+        it('Should return shallow portion of original register', () => {
+            //@todo - NEEDS WORK - look into what map function is doing
+            const register = [{
+                event: 'continue',
+                states: [
+                    {
+                        state: 'create',
+                        conditions: [
+                            {
+                                condition: [{makeDecision: 'yes'}],
+                                result: 'costs-order',
+                            },
+                            {
+                                condition: [{makeDecision: 'no'}],
+                                result: 'provide-reason',
+                            },
+                        ],
+                    },
+                    {
+                        state: 'cost-order',
+                        result: 'check-your-answers',
+                    },
+
+                ],
+            }]
+            const stateId = 'cost-order'
+            const result = forwardStack(register, stateId)
+            expect(result).to.be.an('array')
         })
     })
 })
