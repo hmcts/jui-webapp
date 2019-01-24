@@ -4,7 +4,13 @@ import { map } from 'p-iteration'
 import { config } from '../../config'
 import { http } from '../lib/http'
 import { asyncReturnOrError } from '../lib/util'
+
+const generateRequest = require('../../lib/request/request')
 const fs = require('fs')
+const formidable = require('formidable')
+
+import { Classification, DMDocument, DMDocuments } from '../lib/models'
+import { getTokenAndMakePayload } from '../lib/utilities/ccdStoreTokenUtilities'
 
 const url = config.services.dm_store_api
 
@@ -116,6 +122,7 @@ export async function getDocumentVersionThumbnail(documentId: string, versionId:
  */
 
 // Creates a list of Stored Documents by uploading a list of binary/text files.
+// TODO: Check if this is being used anywhere, if not deprecate
 export async function postDocument(file, classification) {
     const body: any = {}
     body.formData = {
@@ -141,6 +148,31 @@ export async function postDocument(file, classification) {
     )
 
     return response.data
+}
+
+export function postUploadedDocument(file, classification, options) {
+    console.log('postUploadedDocument');
+    const reqOptions = {
+        ...options, ...{
+            formData: {
+                classification: getClassification(classification),
+                files: [
+                    {
+                        options: { filename: file.name, contentType: file.type },
+                        value: fs.createReadStream(file.path),
+                    },
+                ],
+            },
+            headers: {
+                ...options.headers, ...{
+                    'Content-Type': 'multipart/form-data',
+                },
+            },
+        },
+        json: false,
+    }
+
+    return generateRequest('POST', `${url}/documents`, reqOptions)
 }
 
 /**
@@ -288,6 +320,35 @@ export async function getInfo(): Promise<JSON> {
 }
 
 /**
+ * postDocumentAndAssociateWithCase
+ *
+ * Note that you can navigate to: /demo and see the uploaded document in Document Store. As the component
+ * on demo is hooked into retrieve all documents uploaded by a user.
+ *
+ * @param req
+ * @param caseId
+ * @param file
+ * @param classification
+ * @param options
+ */
+async function postDocumentAndAssociateWithCase(req, caseId, file, classification, options) {
+
+    console.log('postDocumentAndAssociateWithCase')
+
+    const response = await asyncReturnOrError(
+        postUploadedDocument(file, classification, options),
+        `Error uploading document`,
+        null,
+        logger,
+        false)
+
+    const data: DMDocuments = JSON.parse(response)
+    const dmDocument: DMDocument = data._embedded.documents.pop()
+    return await getTokenAndMakePayload(req, caseId, dmDocument)
+
+}
+
+/**
  * Routing Logic
  *
  * TODO : We should move this out into a seperate routes file.
@@ -302,5 +363,27 @@ export default app => {
 
     router.get('/info', (req, res, next) => {
         res.send(getInfo()).status(200)
+    })
+
+    /**
+     * This route uploads the document and associates the document with a case. This is done in one request,
+     * as it makes sense that the UI doesn't have to do two calls, one to upload and one to associate.
+     *
+     * TODO: Perhaps place uploads in the route so that it's easy to see what this route does.
+     * TODO: Should this be here?
+     * TODO: Should we have two endpoints? should the front end know that it needs to be associated?
+     */
+    router.post('/documents/upload/:caseId', (req, res) => {
+
+        console.log('/documents/upload/:caseId')
+        const form = new formidable.IncomingForm()
+        const caseId = req.params.caseId
+
+        form.on('file', async (name, file) => {
+            const response = await postDocumentAndAssociateWithCase(req, caseId, file, 'PUBLIC', getOptions(req))
+            res.send(response).status(200)
+        })
+
+        form.parse(req)
     })
 }

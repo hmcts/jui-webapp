@@ -25,6 +25,8 @@ function getOptions(req) {
 }
 
 export async function getTokenAndMakePayload(req, caseId, dmDocument: DMDocument) {
+    console.log('getTokenAndMakePayload')
+
     const userId = req.auth.userId
     const comments = 'testing' // TODO: get from request once it's posted
 
@@ -48,6 +50,7 @@ export async function getTokenAndMakePayload(req, caseId, dmDocument: DMDocument
 
 export async function postCaseWithEventToken(userId, caseId, jurisdiction, caseType, payload) {
 
+    console.log('postCaseWithEventToken')
     const response = await asyncReturnOrError(
         ccdStore.postCaseWithEventToken(
             userId,
@@ -78,6 +81,7 @@ export async function postCaseWithEventToken(userId, caseId, jurisdiction, caseT
  * @return {Promise.<*>}
  */
 async function getEventTokenAndCase(userId, caseId, jurisdiction, caseType, eventId) {
+    console.log('getEventTokenAndCase')
     try {
         const eventTokenAndCase = await ccdStore.getEventTokenAndCase(
             userId,
