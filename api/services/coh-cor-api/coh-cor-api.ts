@@ -108,14 +108,14 @@ export async function getDecision(hearingId) {
 
 // Special ones (may not need to be here could be high up business logic)
 export async function createHearing(caseId, userId, jurisdictionId = 'SSCS') {
+    // changes to this body inline with COH changes
     const body = {
         case_id: caseId,
         jurisdiction: jurisdictionId,
-        panel: [{ identity_token: 'string', name: userId }],
-        start_date: (new Date()).toISOString(),
+        start_date: (new Date()).toISOString().split('.')[0] + 'Z',
     }
 
-    const response = await http.post(`${url}/continuous-online-hearings`)
+    const response = await http.post(`${url}/continuous-online-hearings`, body)
     return response.data.online_hearing_id
 }
 
