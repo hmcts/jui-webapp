@@ -5,7 +5,8 @@ import { config } from '../../config'
 import { http } from '../lib/http'
 import { asyncReturnOrError } from '../lib/util'
 
-const generateRequest = require('../../lib/request/request')
+const generateRequest = require('../lib/request/request')
+const headerUtilities = require('../lib/utilities/headerUtilities')
 const fs = require('fs')
 const formidable = require('formidable')
 
@@ -317,6 +318,11 @@ export async function getInfo(): Promise<JSON> {
     const response = await asyncReturnOrError(http.get(`${url}/info`), `Error getting info`, null, logger, false)
 
     return response.data
+}
+
+// TODO: Use import here.
+function getOptions(req) {
+    return headerUtilities.getAuthHeadersWithUserIdAndRoles(req)
 }
 
 /**
