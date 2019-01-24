@@ -1,17 +1,17 @@
 import * as express from 'express'
 import * as log4js from 'log4js'
-import { map } from 'p-iteration'
-import { config } from '../../config'
-import { http } from '../lib/http'
-import { asyncReturnOrError } from '../lib/util'
+import {map} from 'p-iteration'
+import {config} from '../../config'
+import {http} from '../lib/http'
+import {asyncReturnOrError} from '../lib/util'
 
 const generateRequest = require('../lib/request/request')
 const headerUtilities = require('../lib/utilities/headerUtilities')
 const fs = require('fs')
 const formidable = require('formidable')
 
-import { Classification, DMDocument, DMDocuments } from '../lib/models'
-import { getTokenAndMakePayload } from '../lib/utilities/ccdStoreTokenUtilities'
+import {Classification, DMDocument, DMDocuments} from '../lib/models'
+import {getTokenAndMakePayload} from '../lib/utilities/ccdStoreTokenUtilities'
 
 const url = config.services.dm_store_api
 
@@ -65,7 +65,7 @@ export async function getDocumentVersion(documentId: string, versionId: string):
 // Streams contents of the most recent Document Content Version associated with the Stored Document.
 export async function getDocumentBinary(documentId: string) {
     const response = await asyncReturnOrError(
-        http.get(`${url}/documents/${documentId}/binary`, { responseType: 'stream' }),
+        http.get(`${url}/documents/${documentId}/binary`, {responseType: 'stream'}),
         `Error getting Binary for document ${documentId}`,
         null,
         logger,
@@ -78,7 +78,7 @@ export async function getDocumentBinary(documentId: string) {
 // Streams a specific version of the content of a Stored Document.
 export async function getDocumentVersionBinary(documentId: string, versionId: string): Promise<JSON> {
     const response = await asyncReturnOrError(
-        http.get(`${url}/documents/${documentId}/versions/${versionId}/binary`, { responseType: 'stream' }),
+        http.get(`${url}/documents/${documentId}/versions/${versionId}/binary`, {responseType: 'stream'}),
         `Error getting Binary for document ${documentId} version ${versionId}`,
         null,
         logger,
@@ -95,7 +95,7 @@ export async function getDocumentVersionBinary(documentId: string, versionId: st
 // Streams contents of the most recent Document Content Version associated with the Stored Document.
 export async function getDocumentThumbnail(documentId: string): Promise<JSON> {
     const response = await asyncReturnOrError(
-        http.get(`${url}/documents/${documentId}/thumbnail`, { responseType: 'stream' }),
+        http.get(`${url}/documents/${documentId}/thumbnail`, {responseType: 'stream'}),
         `Error getting document ${documentId} thumbnail`,
         null,
         logger,
@@ -108,7 +108,7 @@ export async function getDocumentThumbnail(documentId: string): Promise<JSON> {
 //     GET /documents/{documentId}/versions/{versionId}/thumbnail
 export async function getDocumentVersionThumbnail(documentId: string, versionId: string): Promise<JSON> {
     const response = await asyncReturnOrError(
-        http.get(`${url}/documents/${documentId}/versions/${versionId}/thumbnail`, { responseType: 'stream' }),
+        http.get(`${url}/documents/${documentId}/versions/${versionId}/thumbnail`, {responseType: 'stream'}),
         `Error getting document ${documentId} version ${versionId} thumbnail`,
         null,
         logger,
@@ -130,7 +130,7 @@ export async function postDocument(file, classification) {
         classification: getClassification(classification),
         files: [
             {
-                options: { filename: file.name, contentType: file.type },
+                options: {filename: file.name, contentType: file.type},
                 value: fs.createReadStream(file.path),
             },
         ],
@@ -159,7 +159,7 @@ export function postUploadedDocument(file, classification, options) {
                 classification: getClassification(classification),
                 files: [
                     {
-                        options: { filename: file.name, contentType: file.type },
+                        options: {filename: file.name, contentType: file.type},
                         value: fs.createReadStream(file.path),
                     },
                 ],
@@ -222,7 +222,7 @@ export async function postDocumentVersionVersion(documentId: string, file, body)
 // Updates document instance (ex. ttl)
 export async function patchDocument(documentId: string, updateDocumentCommand, body): Promise<JSON> {
     const response = await asyncReturnOrError(
-        http.patch(`${url}/documents/${documentId}`, { ...body, updateDocumentCommand }),
+        http.patch(`${url}/documents/${documentId}`, {...body, updateDocumentCommand}),
         `Error updating document ${documentId}`,
         null,
         logger,
@@ -347,7 +347,7 @@ function getOptions(req) {
  * @param classification
  * @param options
  */
-async function postDocumentAndAssociateWithCase(req, caseId, file, classification, options) {
+async function postDocumentAndAssociateWithCase(req, caseId, file, fileNotes, classification, options) {
 
     console.log('postDocumentAndAssociateWithCase')
 
@@ -360,7 +360,7 @@ async function postDocumentAndAssociateWithCase(req, caseId, file, classificatio
 
     const data: DMDocuments = JSON.parse(response)
     const dmDocument: DMDocument = data._embedded.documents.pop()
-    return await getTokenAndMakePayload(req, caseId, dmDocument)
+    return await getTokenAndMakePayload(req, caseId, fileNotes, dmDocument)
 
 }
 
@@ -370,7 +370,7 @@ async function postDocumentAndAssociateWithCase(req, caseId, file, classificatio
  * TODO : We should move this out into a seperate routes file.
  */
 export default app => {
-    const router = express.Router({ mergeParams: true })
+    const router = express.Router({mergeParams: true})
     app.use('/dm-store', router)
 
     router.get('/health', (req, res, next) => {
@@ -394,9 +394,16 @@ export default app => {
         console.log('/documents/upload/:caseId')
         const form = new formidable.IncomingForm()
         const caseId = req.params.caseId
+        let fileNotes = ''
+
+        form.on('field', (name, value) => {
+            if (name === 'fileNotes') {
+                fileNotes = value
+            }
+        })
 
         form.on('file', async (name, file) => {
-            const response = await postDocumentAndAssociateWithCase(req, caseId, file, 'PUBLIC', getOptions(req))
+            const response = await postDocumentAndAssociateWithCase(req, caseId, file, fileNotes, 'PUBLIC', getOptions(req))
             res.send(response).status(200)
         })
 

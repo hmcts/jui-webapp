@@ -49,10 +49,10 @@ export class UploadComponent implements OnInit {
      *
      * @param file
      */
-    uploadDocument(file: File) {
+    uploadDocument(file: File, fileNotes: String) {
 
         if (file) {
-            this.postFile(file);
+            this.postFile(file, this.caseId, fileNotes);
         } else {
             this.userNotSelectedFileError = true;
         }
@@ -63,13 +63,13 @@ export class UploadComponent implements OnInit {
      *
      * We currently POST the file to the DM Store.
      *
-     * @param file
+     * @param {File} file
+     * @param {String} caseId
+     * @param {String} fileNotes
      */
-    postFile(file: File) {
+    postFile(file: File, caseId: String, fileNotes: String) {
 
-        const metadataObj: Map<string, string> = new Map<string, string>();
-
-        this.documentService.postFileAndAssociateWithCase('PRIVATE', metadataObj, file, this.caseId)
+        this.documentService.postFileAndAssociateWithCase('PRIVATE', caseId, file, fileNotes)
             .subscribe((response) => {
                     console.log(response);
                     //TODO: Where should we redirect to on success?

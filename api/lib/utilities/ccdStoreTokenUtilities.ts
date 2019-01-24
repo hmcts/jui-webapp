@@ -24,11 +24,11 @@ function getOptions(req) {
     return headerUtilities.getAuthHeaders(req)
 }
 
-export async function getTokenAndMakePayload(req, caseId, dmDocument: DMDocument) {
+// TODO: Think if fileNotes should be metadata to keep this generic.
+export async function getTokenAndMakePayload(req, caseId, fileNotes, dmDocument: DMDocument) {
     console.log('getTokenAndMakePayload')
 
     const userId = req.auth.userId
-    const comments = 'testing' // TODO: get from request once it's posted
 
     const jurisdiction = 'DIVORCE'
     const caseType = 'FinancialRemedyMVP2'
@@ -42,7 +42,7 @@ export async function getTokenAndMakePayload(req, caseId, dmDocument: DMDocument
         eventToken,
         eventId,
         dmDocument,
-        comments
+        fileNotes
     )
 
     return await postCaseWithEventToken(userId, caseId, jurisdiction, caseType, payload)
@@ -145,6 +145,10 @@ function prepareCaseForApproval(eventToken, eventId, user, directionComments) {
 }
 
 export function prepareCaseForUpload(eventToken, eventId, dmDocument: DMDocument, comments) {
+
+    console.log('comments')
+    console.log(comments)
+
     return {
         data: {
             uploadDocuments: [
