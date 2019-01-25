@@ -1,6 +1,6 @@
 export default [
     {
-        email: '',
-        name: '',
+        email: 'juitestjudgesscs@mailnesia.com',
+        name: 'SSCS Judge',
     },
 ]
