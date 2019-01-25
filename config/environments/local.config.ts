@@ -22,5 +22,6 @@ export default {
     protocol: 'http',
     secureCookie: false,
     sessionSecret: 'secretSauce',
-    logging: 'debug'
+    logging: 'debug',
+    maxLogLine: 280,
 };

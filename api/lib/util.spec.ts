@@ -7,7 +7,7 @@ import {mockReq, mockRes} from 'sinon-express-mock'
 
 chai.use(sinonChai)
 
-import {dotNotation, isObject, shorten, some, valueOrNull} from './util'
+import {asyncReturnOrError, dotNotation, exists, isObject, shorten, some, valueOrNull} from './util'
 
 describe('util', () => {
     describe('isObject', () => {
@@ -95,5 +95,37 @@ describe('util', () => {
             const result = some(array, predicate)
             expect(result).to.equal(null)
         })
+    })
+    describe('exists', () => {
+        // @todo take a look at this - what values are intended to be passed in?
+        it('Should return false if object is null', () => {
+            const result = exists(null, 'string')
+            expect(result).to.equal(false)
+        })
+        it('Should return false if object[current] does not exist', () => {
+            const object = {access_token: '123', bearer_token: '321'}
+            const result = exists(object, 'object[access_token]')
+            expect(result).to.equal(false)
+        })
+        it('Should return true if object does not match object', () => {
+            const object = {access_token: '123', bearer_token: '321'}
+            const result = exists(object, '[access_token]')
+            expect(result).to.equal(true)
+        })
+        it('Should be recursive if object[current] does exist and eventually return true', () => {
+            const object = {access_token: '123', bearer_token: '321'}
+            const result = exists(object, 'access_token')
+            expect(result).to.equal(true)
+        })
+    })
+    describe('asyncReturnOrError', () => {
+        // @todo - need help with this one
+        // it('Should return data if promise is returned', () => {
+        //     const server = sinon.fakeServer.create()
+        //     server.respondWith('GET', '/test', JSON.stringify({'test': 'this works'}))
+        //
+        //     const result = asyncReturnOrError('/test', 'string', null, null, true)
+        //     expect(result).to.equal(false)
+        // })
     })
 })
