@@ -1,5 +1,5 @@
 import * as express from 'express'
-import {config} from '../../../config'
+import { config } from '../../../config'
 import { http } from '../../lib/http'
 
 const generateRequest = require('../../lib/request/request')
@@ -15,9 +15,9 @@ export function getDetails(options) {
     return generateRequest('GET', `${url}/details`, options)
 }
 
-// this does same as above. need to depricate above
-async function getUser() {
-    const response = await http.get(`${url}/details`)
+// this does same as above + more. need to depricate above
+async function getUser(email = null) {
+    const response = email ? await http.get(`${url}/users?email=${email}`) : await http.get(`${url}/details`)
     return response.data
 }
 
@@ -28,8 +28,8 @@ export function postOauthToken(code, host) {
     const options = {
         headers: {
             Authorization: `Basic ${Buffer.from(`${idamClient}:${idamSecret}`).toString('base64')}`,
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
     }
 
     return generateRequest('POST', `${urlX}`, options)

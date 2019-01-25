@@ -1,9 +1,9 @@
 export default {
-    'caseworker-sscs-panelmember' : {
-        'case.assignedToDisabilityMember' : 'id',
-        'case.assignedToMedicalMember' : 'id',
+    'caseworker-sscs-panelmember': {
+        'case.assignedToDisabilityMember': 'id',
+        'case.assignedToMedicalMember': 'id',
     },
-    'default' : {
-        'case.assignedToJudge' : 'email',
+    default: {
+        'case.assignedToJudge': 'email',
     },
 }

@@ -8,14 +8,13 @@ const { getAllQuestionsByCase } = require('../questions/index')
 import * as log4js from 'log4js'
 
 import { config } from '../../../config'
+import refJudgeLookUp from '../../lib/config/refJudgeLookUp'
 import { CCDCaseWithSchema } from '../../lib/models'
 import { asyncReturnOrError } from '../../lib/util'
 import { getCCDCase } from '../../services/ccd-store-api/ccd-store'
 import { getHearingByCase } from '../../services/coh-cor-api/coh-cor-api'
 import { getDocuments } from '../../services/DMStore'
 import { getEvents } from '../events'
-
-
 
 const logger = log4js.getLogger('ccd-store')
 logger.level = config.logging || 'off'
@@ -34,6 +33,7 @@ async function getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, cas
         questions = await getAllQuestionsByCase(caseId, userId, jurisdiction)
     }
 
+    await normaliseForPanel(caseData.case_data)
     return [caseData, events, hearing, questions]
 }
 
@@ -97,6 +97,31 @@ function applySchema(caseData): CCDCaseWithSchema {
     return { caseData, schema }
 }
 
+function judgeLookUp(judgeEmail) {
+    const judge = refJudgeLookUp.filter(judge => judge.email === judgeEmail)
+    return judge.length ? judge[0].name : judgeEmail
+}
+
+function normaliseForPanel(caseData) {
+    if (caseData.assignedToJudge) {
+        caseData.assignedToJudgeName = judgeLookUp(caseData.assignedToJudge)
+    }
+
+    if (caseData.assignedToDisabilityMember) {
+        const disabilityArray = caseData.assignedToDisabilityMember.split('|')
+        if (disabilityArray.length > 1) {
+            caseData.assignedToDisabilityMember = disabilityArray[1]
+        }
+    }
+
+    if (caseData.assignedToMedicalMember) {
+        const medicalArray = caseData.assignedToMedicalMember.split('|')
+        if (medicalArray.length > 1) {
+            caseData.assignedToMedicalMember = medicalArray[1]
+        }
+    }
+}
+
 async function getCaseData(userId, jurisdiction, caseType, caseId) {
     const caseDataArray: [any, any, any, any] = await getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId)
     return appendCollectedData(caseDataArray)
@@ -130,14 +155,14 @@ export default app => {
             getCaseTransformed(userId, jurisdiction, caseType, caseId, req),
             'Error getting Case',
             res,
-            logger)
+            logger
+        )
 
         if (CCDCase) {
             res.setHeader('Access-Control-Allow-Origin', '*')
             res.setHeader('content-type', 'application/json')
             res.status(200).send(JSON.stringify(CCDCase))
         }
-
     })
 
     router.get('/:jur/:casetype/:case_id/raw', async (req, res, next) => {
@@ -150,7 +175,8 @@ export default app => {
             getCaseRaw(userId, jurisdiction, caseType, caseId, req),
             'Error getting Case',
             res,
-            logger)
+            logger
+        )
 
         if (CCDCase) {
             res.setHeader('Access-Control-Allow-Origin', '*')
