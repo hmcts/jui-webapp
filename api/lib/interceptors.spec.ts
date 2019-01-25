@@ -62,6 +62,7 @@ describe('interceptors', () => {
         })
     })
     describe('errorInterceptor', () => {
+        // @todo - finish Error interceptor - what is being passed through?
         // it('Should log returned error', () => {
         //     const spy = sinon.spy()
         //     const getLoggerStub = sinon.stub(log4js, 'getLogger')
