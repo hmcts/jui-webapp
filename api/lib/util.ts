@@ -36,6 +36,7 @@ export function some(array, predicate) {
 }
 
 export function dotNotation(nestled: string) {
+    //@todo - does this need work? Should it return better dot notation
     return nestled.replace(/[\[\]]/g, '.')
 }
 
