@@ -23,8 +23,8 @@ defineSupportCode(function({ Given, When, Then }) {
 
     When(/^I select a case(.*)$/, async function(type) {
        // browser.sleep(LONG_DELAY);
-        browser.sleep(LONG_DELAY);
-        await browser.wait(EC.elementToBeClickable(dashBoardPage.case_number_links.first().click()), LONG_DELAY);
+        browser.sleep(12000);
+        await browser.wait(EC.elementToBeClickable(dashBoardPage.case_number_links.first().click()), 12000);
         //await dashBoardPage.case_number_links.click();
         browser.sleep(12000);
     });
