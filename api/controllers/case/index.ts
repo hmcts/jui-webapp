@@ -103,7 +103,7 @@ function judgeLookUp(judgeEmail) {
 
     if (!refJudgeLookUp) {
         logger.info('Decrypting judge data ...')
-        const data = decrypt(path.join(__dirname, '../../lib/config/refJudgeLookUp.crypt'))
+        const data = decrypt(path.join(__dirname, '../../lib/config/refJudgeLookUp.crypt.ts'))
 
         try {
         refJudgeLookUp = JSON.parse(data)
