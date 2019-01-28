@@ -6,7 +6,14 @@ import * as sinonChai from 'sinon-chai'
 
 chai.use(sinonChai)
 
-import {getAuthHeaders, getAuthHeadersWithBody, getAuthHeadersWithS2SBearer, getAuthHeadersWithUserRoles, getAuthHeadersWithUserIdAndRoles, shouldReturn} from './headerUtilities'
+import {
+    getAuthHeaders,
+    getAuthHeadersWithBody,
+    getAuthHeadersWithS2SBearer,
+    getAuthHeadersWithUserIdAndRoles,
+    getAuthHeadersWithUserRoles,
+    shouldReturn
+} from './headerUtilities'
 
 describe('headerUtilities', () => {
     const req = {
