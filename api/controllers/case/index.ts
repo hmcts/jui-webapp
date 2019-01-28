@@ -6,6 +6,7 @@ const { processCaseState } = require('../../lib/processors/case-state-model')
 const { getAllQuestionsByCase } = require('../questions/index')
 
 let refJudgeLookUp = null
+let error
 
 import * as log4js from 'log4js'
 import * as path from 'path'
@@ -103,12 +104,12 @@ function judgeLookUp(judgeEmail) {
 
     if (!refJudgeLookUp) {
         logger.info('Decrypting judge data ...')
-        const data = decrypt(path.join(__dirname, '../../lib/config/refJudgeLookUp.crypt'))
-
         try {
+        const data = decrypt(path.join(__dirname, '../../lib/config/refJudgeLookUp.crypt'))
         refJudgeLookUp = JSON.parse(data)
         } catch (e){
-            logger.error(e)
+            logger.error(e.message)
+            error = e.message
         }
     }
 
@@ -167,10 +168,15 @@ export default app => {
 
         const CCDCase = await asyncReturnOrError(
             getCaseTransformed(userId, jurisdiction, caseType, caseId, req),
-            'Error getting Case',
+            `Error getting Case`,
             res,
-            logger
+            logger,
+            false
         )
+
+        if (!CCDCase) {
+            res.status(500).send(error)
+        }
 
         if (CCDCase) {
             res.setHeader('Access-Control-Allow-Origin', '*')
@@ -187,7 +193,7 @@ export default app => {
 
         const CCDCase = await asyncReturnOrError(
             getCaseRaw(userId, jurisdiction, caseType, caseId, req),
-            'Error getting Case',
+            `Error getting Case - ${error}`,
             res,
             logger
         )

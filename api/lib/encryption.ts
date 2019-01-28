@@ -24,12 +24,7 @@ function encrypt(fileName: string): void {
 
 export function decrypt(fileName: string): string {
     let contents
-
-    try {
-        contents = fs.readFileSync(fileName)
-    } catch(e) {
-        logger.error(e)
-    }
+    contents = fs.readFileSync(fileName)
 
     const decipher = crypto.createDecipher(algorithm, password)
     
