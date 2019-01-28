@@ -38,6 +38,9 @@ export async function getTokenAndMakePayload(req, caseId, fileNotes, dmDocument:
 
     const eventToken = eventTokenAndCase.token
 
+    console.log('eventToken')
+    console.log(eventToken)
+
     const payload = prepareCaseForUpload(
         eventToken,
         eventId,
@@ -48,9 +51,12 @@ export async function getTokenAndMakePayload(req, caseId, fileNotes, dmDocument:
     return await postCaseWithEventToken(userId, caseId, jurisdiction, caseType, payload)
 }
 
+//userId fine.
+//caseId fine
+//jurisdiction fine.
 export async function postCaseWithEventToken(userId, caseId, jurisdiction, caseType, payload) {
 
-    console.log('postCaseWithEventToken')
+    // Gets to here with all the correct values.
     const response = await asyncReturnOrError(
         ccdStore.postCaseWithEventToken(
             userId,
@@ -148,6 +154,8 @@ export function prepareCaseForUpload(eventToken, eventId, dmDocument: DMDocument
 
     console.log('comments')
     console.log(comments)
+    console.log(dmDocument.originalDocumentName)
+    console.log(dmDocument._links.self.href)
 
     return {
         data: {
@@ -155,8 +163,9 @@ export function prepareCaseForUpload(eventToken, eventId, dmDocument: DMDocument
                 {
                     value: {
                         documentComment: comments,
+                        documentDateAdded: '2019-01-28T12:07:05+0000',
                         // documentDateAdded: dmDocument.createdOn,
-                        documentEmailContent: '',
+                        documentEmailContent: 'juitestuser2@gmail.com',
                         documentFileName: dmDocument.originalDocumentName, // TODO: need this from form upload field if set
                         documentLink: {
                             document_url: dmDocument._links.self.href,

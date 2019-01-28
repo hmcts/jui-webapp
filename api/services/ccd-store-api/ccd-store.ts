@@ -36,8 +36,12 @@ export async function getCCDEventTokenWithoutCase(
 
 }
 
+// Gets here but returns 404
+// Check if url is correct.
 export async function postCaseWithEventToken(
     userId: string, jurisdiction: string, caseTypeId: string, caseId: string, body: any): Promise<any> {
+    console.log('postCaseWithEventToken')
+    console.log(body)
     const response = await http.post(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${
         caseTypeId}/cases/${caseId}/events`, body)
 

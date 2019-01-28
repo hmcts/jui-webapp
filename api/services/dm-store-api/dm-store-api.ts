@@ -129,7 +129,7 @@ async function postDocumentAndAssociateWithCase(req, caseId, file, classificatio
 
     const data: DMDocuments = JSON.parse(response)
     const dmDocument: DMDocument = data._embedded.documents.pop()
-    return await getTokenAndMakePayload(req, caseId, dmDocument)
+    return await getTokenAndMakePayload(req, caseId, 'fileNotes', dmDocument)
 
 }
 
