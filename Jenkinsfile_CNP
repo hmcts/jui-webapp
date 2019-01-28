@@ -227,10 +227,4 @@ withPipeline(type, product, component) {
         // error 'This project for JUI only to AAT therefore the prod environment will not be built'
         return
     }
-
-    before('smoketest:prod') {
-        currentBuild.description = "Success!"
-        currentBuild.result = 'SUCCESS'
-        // error 'This project for JUI only to AAT therefore the prod environment will not be built'
-    }
 }
