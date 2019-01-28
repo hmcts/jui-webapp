@@ -143,7 +143,9 @@ fdescribe('ValidationService', () => {
     it('should check conditional validator radio should be valid if one option selected', inject([ValidationService], (service: ValidationService) => {
         const formGroup = new FormGroup({
             testRadioControl: new FormControl('testOption'),
-            testTextarea: new FormControl()
+            test1: new FormControl('test1'),
+            test2: new FormControl('test2'),
+            test3: new FormControl('test3'),
         });
         const validationIdentifier = 'isRadioValidWhenSomeOptionSelected';
         const controls = {
@@ -163,11 +165,32 @@ fdescribe('ValidationService', () => {
         }
         let isRadioValidWhenSomeOptionSelected = service.isRadioValidWhenSomeOptionSelected(formGroup, controls, validationIdentifier);
         expect(isRadioValidWhenSomeOptionSelected).toEqual(jasmine.any(Function));
-        // formGroup.get('testCheckbox').setValue(true);
-        // isTextAreaValidWhenCheckboxChecked = service.isTextAreaValidWhenCheckboxChecked(formGroup, controls, validationIdentifier);
-        // expect(isTextAreaValidWhenCheckboxChecked(formGroup)[validationIdentifier]).toBe(true);
-        // formGroup.get('testTextarea').setValue('Some test text');
-        // isTextAreaValidWhenCheckboxChecked = service.isTextAreaValidWhenCheckboxChecked(formGroup, controls, validationIdentifier);
-        // expect(isTextAreaValidWhenCheckboxChecked(formGroup)).toBe(null);
+        formGroup.get('testRadioControl').setValue(true);
+        expect(isRadioValidWhenSomeOptionSelected(formGroup)).toBe(null);
+        formGroup.get('testRadioControl').setValue('testOption');
+        expect(isRadioValidWhenSomeOptionSelected(formGroup)).toBe(null);
+        formGroup.get('test1').setValue('');
+        formGroup.get('test2').setValue('');
+        formGroup.get('test3').setValue('');
+        expect(isRadioValidWhenSomeOptionSelected(formGroup)['testChildValidationErrorId']).toBe(true);
+    }));
+    it('should check create form group validators', inject([ValidationService], (service: ValidationService) => {
+        const formGroup = new FormGroup({
+            testRadioControl: new FormControl('testOption'),
+            test1: new FormControl('test1'),
+            test2: new FormControl('test2'),
+            test3: new FormControl('test3'),
+        });
+        const formGroupValidators = [{
+            validatorFunc: 'isAnyCheckboxChecked',
+            validationErrorId: 'reasonsConstentOrderNotApproved',
+            checkboxes: [
+                'test1', 'test2', 'test3'
+            ]
+        }];
+
+        const createFormGroupValidators = service.createFormGroupValidators(formGroup, formGroupValidators);
+        console.log(createFormGroupValidators);
+        expect(createFormGroupValidators[0]).toEqual(jasmine.any(Function));
     }));
 });
