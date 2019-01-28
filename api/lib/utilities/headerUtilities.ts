@@ -31,6 +31,7 @@ export function getAuthHeadersWithUserRoles(req) {
 }
 
 export function getAuthHeadersWithUserIdAndRoles(req) {
+    // @todo - user-roles and user-id return same value
     return {
         headers: {
             // Authorization: `Bearer ${req.auth.token}`,
