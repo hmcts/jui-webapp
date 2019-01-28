@@ -19,7 +19,7 @@ import { getHearingByCase } from '../../services/coh-cor-api/coh-cor-api'
 import { getDocuments } from '../../services/DMStore'
 import { getEvents } from '../events'
 
-const logger = log4js.getLogger('ccd-store')
+const logger = log4js.getLogger('cases')
 logger.level = config.logging || 'off'
 
 function hasCOR(jurisdiction, caseType) {
@@ -101,15 +101,14 @@ function applySchema(caseData): CCDCaseWithSchema {
 }
 
 function judgeLookUp(judgeEmail) {
-
     if (!refJudgeLookUp) {
         logger.info('Decrypting judge data ...')
         try {
             logger.info('Running from', __dirname)
-        const data = decrypt(path.join(__dirname, '../../lib/config/refJudgeLookUp.crypt'))
-        refJudgeLookUp = JSON.parse(data)
-        } catch (e){
-            logger.error(e.message)
+            const data = decrypt(path.join(__dirname, '../../lib/config/refJudgeLookUp.crypt'))
+            refJudgeLookUp = JSON.parse(data)
+        } catch (e) {
+            logger.error(e)
             error = e.message
         }
     }
