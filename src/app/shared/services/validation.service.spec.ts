@@ -3,7 +3,7 @@ import {TestBed, inject} from '@angular/core/testing';
 import {ValidationService} from './validation.service';
 import {FormGroup, FormControl, ValidatorFn, Validators} from '@angular/forms';
 
-fdescribe('ValidationService', () => {
+describe('ValidationService', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [ValidationService]
