@@ -1,37 +1,38 @@
-import { config } from '../../../config'
-const proxy = require('./proxy')
-const request = require('request-promise')
+import * as axios from 'axios'
+import {config} from '../../../config'
 
 /**
  * TODO: Requires Unit tests as this is used everywhere to make requests to 3rd party
  * services.
  */
 
-//** actually - replace with axios - AJ
-
-module.exports = (method, url, params) => {
+export async function request(method: string, url: string, params: any) {
     const headers = params.headers && config.configEnv !== 'mock' ? Object.assign(params.headers) : {}
 
-    let options = {
+    const options = {
         body: '',
         formData: '',
-        method,
-        url,
         headers: {
             ...headers,
             'Content-Type': params.headers['Content-Type'] || 'application/json'
 
         },
-        json: true
+        json: true,
+        method,
+        url,
     }
 
-    if (params.body) options.body = params.body
-    if (params.formData) options.formData = params.formData
+    if (params.body) {
+        options.body = params.body
+    }
+    if (params.formData) {
+        options.formData = params.formData
+    }
 
     // if (config.configEnv !== 'mock') {
     //     if (config.useProxy) options = proxy(options)
     // }
     // N.B. Not needed - AJ
 
-    return request(options)
+    return await axios.default(options)
 }
