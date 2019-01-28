@@ -5,10 +5,12 @@ const { processCaseState } = require('../../lib/processors/case-state-model')
 
 const { getAllQuestionsByCase } = require('../questions/index')
 
-import * as log4js from 'log4js'
+let refJudgeLookUp = null
 
+import * as log4js from 'log4js'
+import * as path from 'path'
 import { config } from '../../../config'
-import refJudgeLookUp from '../../lib/config/refJudgeLookUp'
+import { decrypt } from '../../lib/encryption'
 import { CCDCaseWithSchema } from '../../lib/models'
 import { asyncReturnOrError } from '../../lib/util'
 import { getCCDCase } from '../../services/ccd-store-api/ccd-store'
@@ -98,6 +100,18 @@ function applySchema(caseData): CCDCaseWithSchema {
 }
 
 function judgeLookUp(judgeEmail) {
+
+    if (!refJudgeLookUp) {
+        logger.info('Decrypting judge data ...')
+        const data = decrypt(path.join(__dirname, '../../lib/config/refJudgeLookUp.crypt'))
+
+        try {
+        refJudgeLookUp = JSON.parse(data)
+        } catch (e){
+            logger.error(e)
+        }
+    }
+
     const judge = refJudgeLookUp.filter(judge => judge.email === judgeEmail)
     return judge.length ? judge[0].name : judgeEmail
 }

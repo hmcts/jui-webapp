@@ -7,6 +7,8 @@
     "nuke": "rm -rf dist",
     "build": "npm run build:node && ng build --prod && ng run jui:server",
     "build:node": "cd api && npm run build",
+    "encrypt": "node ./dist/jui-backend/api/lib/encryption.js encrypt",
+    "decrypt": "node ./dist/jui-backend/api/lib/encryption.js decrypt",
     "start": "node ./dist/jui-backend/server.js",
     "start-dev-proxy": "ng serve --proxy-config proxy.config.json",
     "start-dev-node": "node ./dist/jui-backend/dev-server.js",

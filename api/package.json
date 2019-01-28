@@ -35,5 +35,6 @@
     "cache": true,
     "all": true,
     "report-dir": "../reports/tests/coverage/node"
-  }
+  },
+  "dependencies": {}
 }
