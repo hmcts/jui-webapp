@@ -124,27 +124,27 @@ withPipeline(type, product, component) {
 
     }
 
-//    after('smoketest:demo') {
-//        publishHTML([
-//            allowMissing         : true,
-//            alwaysLinkToLastBuild: true,
-//            keepAll              : true,
-//            reportDir            : "reports/tests/smoke/",
-//            reportFiles          : 'index.html',
-//            reportName           : 'DEMO Smoke Test'
-//        ])
-//    }
-
-    after('functionalTest:demo') {
+    after('smoketest:demo') {
         publishHTML([
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/tests/functional/",
+            reportDir            : "reports/tests/smoke/",
             reportFiles          : 'index.html',
-            reportName           : 'DEMO Functional Test'
+            reportName           : 'DEMO Smoke Test'
         ])
     }
+
+//    after('functionalTest:demo') {
+//        publishHTML([
+//            allowMissing         : true,
+//            alwaysLinkToLastBuild: true,
+//            keepAll              : true,
+//            reportDir            : "reports/tests/functional/",
+//            reportFiles          : 'index.html',
+//            reportName           : 'DEMO Functional Test'
+//        ])
+//    }
 
     after('smoketest:preview') {
         publishHTML([
@@ -232,5 +232,5 @@ withPipeline(type, product, component) {
         currentBuild.description = "Success!"
         currentBuild.result = 'SUCCESS'
         // error 'This project for JUI only to AAT therefore the prod environment will not be built'
-    } 
+    }
 }
