@@ -214,7 +214,8 @@ withPipeline(type, product, component) {
 //        ])
 //    }
 
-    before('smoketest:prod') {
+    //before('smoketest:prod') {
+    before("Smoke Test - prod (production slot)") {
         currentBuild.description = "Success!"
         // error 'This project for JUI only to AAT therefore the prod environment will not be built'
     }
