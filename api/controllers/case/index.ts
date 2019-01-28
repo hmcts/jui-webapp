@@ -5,37 +5,44 @@ const { processCaseState } = require('../../lib/processors/case-state-model')
 
 const { getAllQuestionsByCase } = require('../questions/index')
 
-const { getHearingByCase } = require('../../services/coh-cor-api/coh-cor-api')
+import * as log4js from 'log4js'
 
+import { config } from '../../../config'
+import refJudgeLookUp from '../../lib/config/refJudgeLookUp'
+import { CCDCaseWithSchema } from '../../lib/models'
+import { asyncReturnOrError } from '../../lib/util'
 import { getCCDCase } from '../../services/ccd-store-api/ccd-store'
+import { getHearingByCase } from '../../services/coh-cor-api/coh-cor-api'
 import { getDocuments } from '../../services/DMStore'
 import { getEvents } from '../events'
+
+const logger = log4js.getLogger('ccd-store')
+logger.level = config.logging || 'off'
 
 function hasCOR(jurisdiction, caseType) {
     return jurisdiction === 'SSCS'
 }
 
-function getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId) {
-    const promiseArray = [getCCDCase(userId, jurisdiction, caseType, caseId), getEvents(userId, jurisdiction, caseType, caseId)]
-
+async function getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId): Promise<[any, any, any, any]> {
+    const caseData = await getCCDCase(userId, jurisdiction, caseType, caseId)
+    const events = await getEvents(userId, jurisdiction, caseType, caseId)
+    let hearing
+    let questions
     if (hasCOR(jurisdiction, caseType)) {
-        promiseArray.push(getHearingByCase(caseId))
-        promiseArray.push(getAllQuestionsByCase(caseId, userId, jurisdiction))
+        hearing = await getHearingByCase(caseId)
+        questions = await getAllQuestionsByCase(caseId, userId, jurisdiction)
     }
 
-    return Promise.all(promiseArray)
+    await normaliseForPanel(caseData.case_data)
+    return [caseData, events, hearing, questions]
 }
 
-function appendDocuments(caseData, schema) {
-    return new Promise(resolve => {
-        getDocuments(getDocIdList(caseData.documents))
-            .then(appendDocIdToDocument)
-            .then(documents => {
-                caseData.documents = documents
-                schema.documents = documents
-                resolve({ caseData, schema })
-            })
-    })
+async function appendDocuments(caseData, schema) {
+    let documents = await getDocuments(getDocIdList(caseData.documents))
+    documents = appendDocIdToDocument(documents)
+    caseData.documents = documents
+    schema.documents = documents
+    return { caseData, schema }
 }
 
 function replaceSectionValues(section, caseData) {
@@ -44,14 +51,8 @@ function replaceSectionValues(section, caseData) {
             replaceSectionValues(childSection, caseData)
         })
     } else {
-        section.fields.forEach((field, index) => {
-            const processedValue = valueProcessor(field.value, caseData)
-            if (processedValue !== undefined) {
-                field.value = processedValue
-            } else {
-                // remove field if value is undefined
-                section.fields.splice(index, 1)
-            }
+        section.fields.forEach(field => {
+            field.value = valueProcessor(field.value, caseData)
         })
     }
 }
@@ -79,7 +80,7 @@ function appendCollectedData([caseData, events, hearings, questions]) {
     return caseData
 }
 
-function applySchema(caseData) {
+function applySchema(caseData): CCDCaseWithSchema {
     let schema = JSON.parse(JSON.stringify(getCaseTemplate(caseData.jurisdiction, caseData.case_type_id)))
     if (schema.details) {
         replaceSectionValues(schema.details, caseData)
@@ -96,18 +97,41 @@ function applySchema(caseData) {
     return { caseData, schema }
 }
 
-function getCaseData(userId, jurisdiction, caseType, caseId) {
-    return getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId).then(([caseData, events, hearings, questions]) =>
-        appendCollectedData([caseData, events, hearings, questions])
-    )
+function judgeLookUp(judgeEmail) {
+    const judge = refJudgeLookUp.filter(judge => judge.email === judgeEmail)
+    return judge.length ? judge[0].name : judgeEmail
 }
 
-function getCaseTransformed(userId, jurisdiction, caseType, caseId, req) {
-    return getCaseData(userId, jurisdiction, caseType, caseId)
-        .then(processCaseState)
-        .then(applySchema)
-        .then(({ caseData, schema }) => appendDocuments(caseData, schema))
-        .then(({ caseData, schema }) => schema)
+function normaliseForPanel(caseData) {
+    if (caseData.assignedToJudge) {
+        caseData.assignedToJudgeName = judgeLookUp(caseData.assignedToJudge)
+    }
+
+    if (caseData.assignedToDisabilityMember) {
+        const disabilityArray = caseData.assignedToDisabilityMember.split('|')
+        if (disabilityArray.length > 1) {
+            caseData.assignedToDisabilityMember = disabilityArray[1]
+        }
+    }
+
+    if (caseData.assignedToMedicalMember) {
+        const medicalArray = caseData.assignedToMedicalMember.split('|')
+        if (medicalArray.length > 1) {
+            caseData.assignedToMedicalMember = medicalArray[1]
+        }
+    }
+}
+
+async function getCaseData(userId, jurisdiction, caseType, caseId) {
+    const caseDataArray: [any, any, any, any] = await getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId)
+    return appendCollectedData(caseDataArray)
+}
+
+async function getCaseTransformed(userId, jurisdiction, caseType, caseId, req) {
+    const caseData = await getCaseData(userId, jurisdiction, caseType, caseId)
+    let processedData: CCDCaseWithSchema = applySchema(processCaseState(caseData))
+    processedData = await appendDocuments(processedData.caseData, processedData.schema)
+    return processedData.schema
 }
 
 function getCaseRaw(userId, jurisdiction, caseType, caseId, req) {
@@ -117,43 +141,47 @@ function getCaseRaw(userId, jurisdiction, caseType, caseId, req) {
 }
 
 // GET case callback
-module.exports = app => {
+export default app => {
     const router = express.Router({ mergeParams: true })
     app.use('/case', router)
 
-    router.get('/:jur/:casetype/:case_id', (req, res, next) => {
+    router.get('/:jur/:casetype/:case_id', async (req, res, next) => {
         const userId = req.auth.userId
         const jurisdiction = req.params.jur
         const caseType = req.params.casetype
         const caseId = req.params.case_id
 
-        getCaseTransformed(userId, jurisdiction, caseType, caseId, req)
-            .then(result => {
-                res.setHeader('Access-Control-Allow-Origin', '*')
-                res.setHeader('content-type', 'application/json')
-                res.status(200).send(JSON.stringify(result))
-            })
-            .catch(response => {
-                console.log(response.error || response)
-                res.status(response.error.status).send(response.error.message)
-            })
+        const CCDCase = await asyncReturnOrError(
+            getCaseTransformed(userId, jurisdiction, caseType, caseId, req),
+            'Error getting Case',
+            res,
+            logger
+        )
+
+        if (CCDCase) {
+            res.setHeader('Access-Control-Allow-Origin', '*')
+            res.setHeader('content-type', 'application/json')
+            res.status(200).send(JSON.stringify(CCDCase))
+        }
     })
 
-    router.get('/:jur/:casetype/:case_id/raw', (req, res, next) => {
+    router.get('/:jur/:casetype/:case_id/raw', async (req, res, next) => {
         const userId = req.auth.userId
         const jurisdiction = req.params.jur
         const caseType = req.params.casetype
         const caseId = req.params.case_id
 
-        getCaseRaw(userId, jurisdiction, caseType, caseId, req)
-            .then(result => {
-                res.setHeader('Access-Control-Allow-Origin', '*')
-                res.setHeader('content-type', 'application/json')
-                res.status(200).send(JSON.stringify(result))
-            })
-            .catch(response => {
-                console.log(response.error || response)
-                res.status(response.error.status).send(response.error.message)
-            })
+        const CCDCase = await asyncReturnOrError(
+            getCaseRaw(userId, jurisdiction, caseType, caseId, req),
+            'Error getting Case',
+            res,
+            logger
+        )
+
+        if (CCDCase) {
+            res.setHeader('Access-Control-Allow-Origin', '*')
+            res.setHeader('content-type', 'application/json')
+            res.status(200).send(JSON.stringify(CCDCase))
+        }
     })
 }

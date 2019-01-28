@@ -4,7 +4,7 @@ Feature: Login
     Background:
         When I navigate to JUI Url
 
-    @RIUI_288 @login @all @smoke @test
+    @RIUI_288 @login @all @smoke @test @crossbrowser
     Scenario: un-authenticated user login
         Then I am on Idam login page
         When I enter an Invalid email-address and password to login
@@ -12,7 +12,7 @@ Feature: Login
         Then I should see failure error summary
 
 
-    @RIUI_288 @login @all @smoke
+    @RIUI_288 @login @all @smoke @crossbrowser
     Scenario: authenticated user login
         Given I am on Idam login page
         When I enter an valid email-address and password to login

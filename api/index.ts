@@ -1,6 +1,7 @@
 import * as express from 'express'
 import * as config from '../config'
 import { auth } from './controllers/auth'
+import caseRoutes from './controllers/case'
 import ccdStoreApiRoutes from './services/ccd-store-api/ccd-store'
 import cohCorApiRoutes from './services/coh-cor-api/coh-cor-api'
 import dmStoreApiRoutes from './services/DMStore'
@@ -14,7 +15,6 @@ const idamApiRoutes = require('./services/idam-api/idam-api')
 
 const authInterceptor = require('./lib/middleware/auth')
 const serviceTokenMiddleware = require('./lib/middleware/service-token')
-const caseRoutes = require('./controllers/case')
 const caseListRoute = require('./controllers/case-list')
 
 const questionsRoutes = require('./controllers/questions')
