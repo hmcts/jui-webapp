@@ -50,6 +50,7 @@ export function handleInstruction(instruction, stateId, variables) {
         logger.info(`Instruction result without state: ${instruction.result} `)
         return instruction.result
     }
+    // @todo - This appears redundant?
     return null
 }
 
