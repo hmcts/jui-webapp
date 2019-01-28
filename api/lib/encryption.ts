@@ -11,8 +11,7 @@ const logger = log4js.getLogger('scss engine')
 logger.level = config.logging ? config.logging : 'OFF'
 
 function encrypt(fileName: string): void {
-
-    const filenamePart= fileName.split('.')[0]
+    const filenamePart = fileName.split('.')[0]
     const outName = filenamePart + '.crypt'
 
     logger.info(`Reading contents from ${fileName}`)
@@ -25,9 +24,9 @@ function encrypt(fileName: string): void {
 export function decrypt(fileName: string): string {
     let contents
     contents = fs.readFileSync(fileName)
-
+    logger.info(`using key ${password}`)
     const decipher = crypto.createDecipher(algorithm, password)
-    
+
     const decrypted = Buffer.concat([decipher.update(contents), decipher.final()])
     return decrypted.toString()
 }
@@ -44,6 +43,4 @@ if (process.argv) {
             encrypt(filename)
             break
     }
-
 }
-
