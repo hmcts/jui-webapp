@@ -14,8 +14,6 @@ const { getUser } = require('../../services/idam-api/idam-api')
 const { getNewCase, unassignAllCaseFromJudge } = require('./assignCase')
 const headerUtilities = require('../../lib/utilities/headerUtilities')
 
-
-
 function hasCOR(caseData) {
     return caseData.jurisdiction === 'SSCS'
 }
@@ -162,7 +160,7 @@ function rawCasesReducer(cases, columns) {
                 return row
             }, {}),
             assignedToJudge: caseRow.case_data.assignedToJudge ? caseRow.case_data.assignedToJudge : undefined, // Don't think this is needed but keep as might useful
-            assignedToJudgeReason: caseRow.case_data.assignedToJudgeReason ? caseRow.case_data.assignedToJudgeReason : undefined
+            assignedToJudgeReason: caseRow.case_data.assignedToJudgeReason ? caseRow.case_data.assignedToJudgeReason : undefined,
         }
     })
 }
@@ -199,36 +197,35 @@ function aggregatedData(results) {
 }
 
 async function getMutiJudCaseAssignedCases(userDetails) {
-    return await getMutiJudCCDCases(userDetails.id, filterByCaseTypeAndRole(userDetails))
+    const cases = await getMutiJudCCDCases(userDetails.id, filterByCaseTypeAndRole(userDetails))
+
+    return cases
 }
 
 function getOptions(req) {
     return headerUtilities.getAuthHeadersWithUserRoles(req)
 }
 
-
-
 // Get List of case and transform to correct format
 async function getMutiJudCaseTransformed(userDetails, options) {
-     return (
-        await getMutiJudCaseAssignedCases(userDetails)
-            .then(caseLists => appendCOR(caseLists))
-            .then(caseLists => appendQuestionsRound(caseLists, userDetails.id, options ))
-            // .then(caseLists => appendLinkedCases(caseLists, userId, options))
-            .then(processCaseListsState)
-            .then(applyStateFilter)
-            .then(convertCaselistToTemplate)
-            .then(combineLists)
-            .then(sortTransformedCases)
-            .then(aggregatedData)
-    )
+    let cases = await getMutiJudCaseAssignedCases(userDetails)
+        .then(caseLists => appendCOR(caseLists))
+        .then(caseLists => appendQuestionsRound(caseLists, userDetails.id, options))
+        // .then(caseLists => appendLinkedCases(caseLists, userId, options))
+        .then(processCaseListsState)
+        .then(applyStateFilter)
+        .then(convertCaselistToTemplate)
+        .then(combineLists)
+        .then(sortTransformedCases)
+        .then(aggregatedData)
+
+    return cases
 }
 
 // Get List of case and return raw output
 function getMutiJudCaseRaw(userDetails) {
-    return getMutiJudCaseAssignedCases(userDetails.id)
-        .then(combineLists)
-        .then(sortCases)
+    return getMutiJudCaseAssignedCases(userDetails).then(combineLists)
+    //  .then(sortCases)
 }
 
 // Get List of case append coh and return raw output
@@ -243,15 +240,13 @@ function getMutiJudCaseRawCoh(userDetails) {
     )
 }
 
-
-
 module.exports = app => {
     const router = express.Router({ mergeParams: true })
     app.use('/cases', router)
 
     router.get('/', async (req: any, res, next) => {
         const user = await getUser()
-  
+
         getMutiJudCaseTransformed(user, getOptions(req))
             .then(results => {
                 res.setHeader('Access-Control-Allow-Origin', '*')
@@ -259,13 +254,12 @@ module.exports = app => {
                 res.status(200).send(JSON.stringify(results))
             })
             .catch(response => {
-              //  console.log(response.error || response)
+                //  console.log(response.error || response)
                 res.status(response.statusCode || 500).send(response)
             })
     })
 
     router.get('/unassign/all', (req: any, res, next) => {
-    
         const filters = filterByCaseTypeAndRole(req.auth)
 
         getMutiJudCCDCases(req.auth.id, filters)
@@ -280,7 +274,6 @@ module.exports = app => {
                 console.log(response.error || response)
                 res.status(response.statusCode || 500).send(response)
             })
-    
     })
 
     router.post('/assign/new', (req: any, res, next) => {
@@ -308,7 +301,6 @@ module.exports = app => {
                 console.log(response.error || response)
                 res.status(response.statusCode || 500).send(response)
             })
-  
     })
 
     router.get('/raw/coh', async (req: any, res, next) => {

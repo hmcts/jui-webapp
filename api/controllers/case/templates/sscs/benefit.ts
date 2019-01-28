@@ -10,10 +10,10 @@ export const template = {
                     ' ',
                     'v',
                     ' ',
-                    'DWP'
-                ]
-            }
-        ]
+                    'DWP',
+                ],
+            },
+        ],
     },
     sections: [
         {
@@ -28,12 +28,12 @@ export const template = {
                         {
                             name: 'Recent events',
                             type: 'timeline',
-                            fields: [{ value: '$.events' }]
+                            fields: [{ value: '$.events' }],
                         },
                         {
                             name: 'Action on',
                             type: 'case-action-alert',
-                            fields: [{ value: '$.state|case_status_processor' }]
+                            fields: [{ value: '$.state|case_status_processor' }],
                         },
                         {
                             name: 'Case details',
@@ -48,26 +48,26 @@ export const template = {
                                         ' ',
                                         'v',
                                         ' ',
-                                        'DWP'
-                                    ]
+                                        'DWP',
+                                    ],
                                 },
                                 {
                                     label: 'Case number',
-                                    value: '$.case_data.caseReference'
+                                    value: '$.case_data.caseReference',
                                 },
                                 {
                                     label: 'Case type',
-                                    value: '$.case_data.appeal.benefitType.code'
+                                    value: '$.case_data.appeal.benefitType.code',
                                 },
                                 {
                                     label: 'Tribunal centre',
-                                    value: '$.case_data.region'
+                                    value: '$.case_data.region',
                                 },
                                 {
                                     label: 'Additional requirements',
-                                    value: 'A$.case_data.appeal.hearingOptions.arrangements[*]|newline_processor'
-                                }
-                            ]
+                                    value: 'A$.case_data.appeal.hearingOptions.arrangements[*]|newline_processor',
+                                },
+                            ],
                         },
                         {
                             name: 'Panel members',
@@ -75,21 +75,21 @@ export const template = {
                             fields: [
                                 {
                                     label: 'Judge',
-                                    value: '$.case_data.panel.assignedTo'
+                                    value: '$.case_data.assignedToJudgeName',
                                 },
                                 {
                                     label: 'Medical member',
-                                    value: '$.case_data.panel.medicalMember'
+                                    value: '$.case_data.assignedToDisabilityMember',
                                 },
                                 {
                                     label: 'Disability qualified member',
-                                    value: '$.case_data.panel.disabilityQualifiedMember'
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
+                                    value: '$.case_data.assignedToMedicalMember',
+                                },
+                            ],
+                        },
+                    ],
+                },
+            ],
         },
         {
             id: 'parties',
@@ -115,8 +115,8 @@ export const template = {
                                         ' ',
                                         '$.case_data.appeal.appellant.name.middlename',
                                         ' ',
-                                        '$.case_data.appeal.appellant.name.lastName'
-                                    ]
+                                        '$.case_data.appeal.appellant.name.lastName',
+                                    ],
                                 },
                                 { label: 'Date of birth', value: '$.case_data.appeal.appellant.identity.dob' },
                                 { label: 'National insurances number', value: '$.case_data.appeal.appellant.identity.nino' },
@@ -129,14 +129,14 @@ export const template = {
                                         '$.case_data.appeal.appellant.address.town|newline_processor',
                                         '$.case_data.appeal.appellant.address.county|newline_processor',
                                         '$.case_data.appeal.appellant.address.postcode|newline_processor',
-                                        '$.case_data.appeal.appellant.address.country|newline_processor'
-                                    ]
+                                        '$.case_data.appeal.appellant.address.country|newline_processor',
+                                    ],
                                 },
                                 { label: 'Phone', value: '$.case_data.appeal.appellant.contact.phone' },
                                 { label: 'Mobile', value: '$.case_data.appeal.appellant.contact.mobile' },
                                 { label: 'Email', value: '$.case_data.appeal.appellant.contact.email' },
-                                { label: 'Appointee', value: '$.case_data.appeal.appellant.isAppointee' }
-                            ]
+                                { label: 'Appointee', value: '$.case_data.appeal.appellant.isAppointee' },
+                            ],
                         },
                         // {
                         //     id: 'representative',
@@ -155,9 +155,9 @@ export const template = {
                         //         }
                         //     ]
                         // }
-                    ]
-                }
-            ]
+                    ],
+                },
+            ],
         },
         {
             id: 'casefile',
@@ -168,9 +168,9 @@ export const template = {
                     id: 'documents',
                     name: 'Case file',
                     type: 'document-panel',
-                    fields: [{ value: 'A$.case_data.sscsDocument[*].value.documentLink|document_processor' }]
-                }
-            ]
+                    fields: [{ value: 'A$.case_data.sscsDocument[*].value.documentLink|document_processor' }],
+                },
+            ],
         },
         {
             id: 'timeline',
@@ -181,9 +181,9 @@ export const template = {
                     id: 'events',
                     name: 'Timeline',
                     type: 'timeline-panel',
-                    fields: [{ value: '$.events' }]
-                }
-            ]
+                    fields: [{ value: '$.events' }],
+                },
+            ],
         },
         {
             id: 'questions',
@@ -193,10 +193,10 @@ export const template = {
                 {
                     name: 'Questions to appellant',
                     type: 'questions-panel',
-                    fields: [{ value: '$.question_data' }]
-                }
-            ]
-        }
+                    fields: [{ value: '$.question_data' }],
+                },
+            ],
+        },
     ],
     decision: {
         id: 'decision',
@@ -205,12 +205,12 @@ export const template = {
         options: [
             {
                 id: 'appeal-upheld',
-                name: 'Appeal upheld'
+                name: 'Appeal upheld',
             },
             {
                 id: 'appeal-denied',
-                name: 'Appeal denied'
-            }
-        ]
-    }
+                name: 'Appeal denied',
+            },
+        ],
+    },
 }

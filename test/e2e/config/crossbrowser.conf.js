@@ -43,7 +43,7 @@ const config = {
             'tunnel-identifier': 'reformtunnel',
             extendedDebugging: true,
             shardTestFiles: true,
-            maxInstances: 2
+            maxInstances: 1
 
         }
 
@@ -101,12 +101,11 @@ const config = {
 
     exclude: [],
 
-
     cucumberOpts: {
         strict: true,
         format: ['json:cb_reports/saucelab_results.json','node_modules/cucumber-pretty'],
         require: ['../support/world.js', '../support/*.js', '../features/step_definitions/**/*.steps.js'],
-        tags: ['@all']
+        tags: ['@crossbrowser']
     },
 
 
@@ -127,7 +126,7 @@ const config = {
                 automaticallyGenerateReport: true,
                 removeExistingJsonReportFile: true,
                 reportName: 'JUI CrossBrowser Tests',
-                jsonDir: './functional-output/crossbrowser/reports',
+                jsonDir: '/reports/crossbrowser/reports',
                 reportPath: './functional-output/crossbrowser/reports'
 
 

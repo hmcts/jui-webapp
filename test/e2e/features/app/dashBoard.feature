@@ -25,7 +25,7 @@ Feature: Dashboard
 
 
 
-    @RIUI_417 @all @smoke
+    @RIUI_417 @all @smoke @crossbrowser
     Scenario: Verify date details for all type of cases
         When I am logged into JUI web app
         Then I will be redirected to the JUI dashboard page
