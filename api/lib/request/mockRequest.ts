@@ -1,6 +1,6 @@
 const request = require('request-promise')
 const extend = require('util')._extend
-
+// @todo - is this redundant? Does not appear to be used
 module.exports = (method, url, params) => {
     const options: any = {
         method,
