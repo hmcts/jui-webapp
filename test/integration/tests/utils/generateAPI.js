@@ -5,16 +5,22 @@ const mainURL = process.env.TEST_URL || 'https://localhost:3000';
 const LOG_REQUEST_ERROR_DETAILS = false;
 const getCookie = require('./getToken');
 let cookie ;
-
+// let browser_cookie= ''
 async function generateAPIRequest(method, subURL, params) {
 
     await getCookie.getOauth2Token().then(function (token) {
         cookie= token ;
     });
 
+
     const options = {
         method,
         url: mainURL + subURL,
+
+        // headers: {
+        //     Cookie: '__auth__=' + browser_cookie,
+        //     'Content-Type': 'application/json'
+        // },
 
         headers: {
             Cookie: '__auth__=' + cookie,

@@ -27,3 +27,17 @@ export interface controlsisTextAreaValidWhenCheckboxChecked {
     checkboxControl: string,
     textareaControl: string
 }
+
+export interface controlsRadioConditionalModel {
+    radioControl: string,
+    selectedOptions: [
+        {
+            selectedOption: string,
+            childValidator: {
+                validatorFunc: string,
+                validationErrorId: string,
+                controls?: [string]
+            }
+        }
+    ]
+}

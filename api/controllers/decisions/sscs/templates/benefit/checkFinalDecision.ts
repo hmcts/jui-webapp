@@ -9,7 +9,7 @@ module.exports = {
             page: 'create',
             contents: [
                 {
-                    title: 'What do you want to send to the parties?',
+                    titleYes: 'What do you want to send to the parties?',
                     details: [
                         {
                             control: 'preliminaryView',
@@ -30,7 +30,7 @@ module.exports = {
             page: 'notes-for-court-administrator',
             contents: [
                 {
-                    title: 'Decision notes',
+                    titleYes: 'Decision notes',
                     details: [
                         {
                             control: 'decisionNotes',
