@@ -7,84 +7,11 @@ const logger = log4js.getLogger('dm-store')
 logger.level = config.logging || 'off'
 
 const moment = require('moment')
-
 const ccdStore = require('../../services/ccd-store-api/ccd-store')
-const headerUtilities = require('./headerUtilities')
-
-// TODO: PARKING WORK 4th December 2018, as it's been de-scoped, and is no longer a priority, for December 17th release.
 
 const ERROR_UNABLE_TO_GET_EVENT_TOKEN = 'Unable to retrieve Event Token. Required to start event creation as a case worker.'
 const ERROR_UNABLE_TO_POST_CASE = 'Unable to POST case data using the Event Token. Required to submit event creation as ' +
     'case worker.'
-
-/**
- * getOptions
- *
- * TODO: This shouldn't need to be here.
- * @param req
- * @return {*|{headers}}
- */
-function getOptions(req) {
-    return headerUtilities.getAuthHeaders(req)
-}
-
-// TODO: Think if fileNotes should be metadata to keep this generic.
-export async function getTokenAndMakePayload(userId, caseId, jurisdiction, caseType, eventId, fileNotes,
-                                             dmDocument: DMDocument) {
-    console.log('getTokenAndMakePayload')
-
-    // let eventToken = ''
-    //
-    // try {
-    //     const eventTokenAndCase = await getEventTokenAndCase(userId, caseId, jurisdiction, caseType, eventId)
-    //     eventToken = eventTokenAndCase.token
-    // } catch (error) {
-    //     return Promise.reject({
-    //         message: ERROR_UNABLE_TO_GET_TOKEN,
-    //         status: 500,
-    //     })
-    // }
-
-    // console.log('eventToken')
-    // console.log(eventToken)
-    //
-    // // TODO: This should be in the file
-    // const payload = prepareCaseForUploadFR(
-    //     eventToken,
-    //     eventId,
-    //     dmDocument,
-    //     fileNotes
-    // )
-    //
-    // return await postCaseWithEventToken(userId, caseId, jurisdiction, caseType, payload)
-}
-
-/**
- * postCaseWithEventToken
- *
- * @param userId
- * @param caseId
- * @param jurisdiction
- * @param caseType
- * @param payload
- * @return {Promise<any>}
- */
-// export async function postCaseWithEventToken(userId, caseId, jurisdiction, caseType, payload) {
-//
-//     const response = await asyncReturnOrError(
-//         ccdStore.postCaseWithEventToken(
-//             userId,
-//             jurisdiction,
-//             caseType,
-//             caseId,
-//             payload
-//         ),
-//         `Error sending event`,
-//         null,
-//         logger,
-//         false)
-//     return response
-// }
 
 /**
  * getEventToken
@@ -123,6 +50,20 @@ export async function getEventToken(userId, caseId, jurisdiction, caseType, even
     }
 }
 
+/**
+ * postCase
+ *
+ * TODO: Currently there is a bug, where the Data Store Api returns a 'Request failed with status code 404', this
+ * does not happen initially when you create an FR case. Therefore I think when a service line implements the
+ * new uploadDocument within their case definitions file, this should work.
+ *
+ * @param userId
+ * @param caseId - '1548761902417900'
+ * @param {String} jurisdiction ie. 'DIVORCE'
+ * @param caseType
+ * @param payload
+ * @return {Promise}
+ */
 export async function postCase(userId, caseId, jurisdiction, caseType, payload) {
 
     const response = await asyncReturnOrError(
@@ -146,25 +87,6 @@ export async function postCase(userId, caseId, jurisdiction, caseType, payload) 
     }
     return response
 }
-
-/**
- * getEventTokenAndCase
- */
-// async function getEventTokenAndCase(userId, caseId, jurisdiction, caseType, eventId) {
-//     console.log('getEventTokenAndCase')
-//     try {
-//         const eventTokenAndCase = await ccdStore.getEventTokenAndCase(
-//             userId,
-//             jurisdiction,
-//             caseType,
-//             caseId,
-//             eventId
-//         )
-//         return eventTokenAndCase
-//     } catch (error) {
-//         return error
-//     }
-// }
 
 /**
  * perpareCaseForApproval
@@ -302,11 +224,7 @@ export function prepareCaseForUploadFR(eventToken, eventId, dmDocument: DMDocume
     }
 }
 
-module.exports.getTokenAndMakePayload = getTokenAndMakePayload
-// module.exports.getEventTokenAndCase = getEventTokenAndCase
-module.exports.prepareCaseForApproval = prepareCaseForApproval
-
-module.exports.postCase = postCase
-// module.exports.postCaseWithEventToken = postCaseWithEventToken
-module.exports.prepareCaseForUploadFR = prepareCaseForUploadFR
 module.exports.getEventToken = getEventToken
+module.exports.postCase = postCase
+module.exports.prepareCaseForApproval = prepareCaseForApproval
+module.exports.prepareCaseForUploadFR = prepareCaseForUploadFR

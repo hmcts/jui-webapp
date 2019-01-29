@@ -12,7 +12,7 @@ const fs = require('fs')
 const formidable = require('formidable')
 
 import {Classification, DMDocument, DMDocuments} from '../lib/models'
-import {getEventToken, prepareCaseForUploadFR, postCaseWithEventToken, postCase} from '../lib/utilities/ccdStoreTokenUtilities'
+import {getEventToken, prepareCaseForUploadFR, postCase} from '../lib/utilities/ccdStoreTokenUtilities'
 
 const url = config.services.dm_store_api
 
@@ -375,9 +375,7 @@ function getOptions(req) {
 //     return await getTokenAndMakePayload(userId, caseId, jurisdiction, caseType, eventId, fileNotes, dmDocument)
 // }
 
-async function postDocumentAndAssociateWithCaseNew(req, caseId, file, fileNotes, classification, options) {
-
-    const userId = req.auth.userId
+async function postDocumentAndAssociateWithCaseNew(userId, caseId, file, fileNotes, classification, options) {
 
     const jurisdiction = 'DIVORCE'
     const caseType = 'FinancialRemedyMVP2'
@@ -418,8 +416,6 @@ async function postDocumentAndAssociateWithCaseNew(req, caseId, file, fileNotes,
         fileNotes
     )
 
-    // return await getTokenAndMakePayload(userId, caseId, jurisdiction, caseType, eventId, fileNotes, dmDocument)
-    // return await postCaseWithEventToken(userId, caseId, jurisdiction, caseType, payload)
     return await postCase(userId, caseId, jurisdiction, caseType, payload)
 }
 
@@ -453,6 +449,8 @@ export default app => {
         console.log('/documents/upload/:caseId')
         const form = new formidable.IncomingForm()
         const caseId = req.params.caseId
+        const userId = req.auth.userId
+
         let fileNotes = ''
 
         form.on('field', (name, value) => {
@@ -463,7 +461,7 @@ export default app => {
 
         form.on('file', async (name, file) => {
             try {
-                const response = await postDocumentAndAssociateWithCaseNew(req, caseId, file, fileNotes, 'PUBLIC', getOptions(req))
+                const response = await postDocumentAndAssociateWithCaseNew(userId, caseId, file, fileNotes, 'PUBLIC', getOptions(req))
                 res.send(response).status(200)
             } catch (error) {
                 res.status(error.status)
