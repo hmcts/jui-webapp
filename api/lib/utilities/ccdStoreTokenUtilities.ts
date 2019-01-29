@@ -13,7 +13,9 @@ const headerUtilities = require('./headerUtilities')
 
 // TODO: PARKING WORK 4th December 2018, as it's been de-scoped, and is no longer a priority, for December 17th release.
 
-const ERROR_UNABLE_TO_GET_EVENT_TOKEN = 'Unable to retrieve Event Token required to start event creation as a case worker.'
+const ERROR_UNABLE_TO_GET_EVENT_TOKEN = 'Unable to retrieve Event Token. Required to start event creation as a case worker.'
+const ERROR_UNABLE_TO_POST_CASE = 'Unable to POST case data using the Event Token. Required to submit event creation as ' +
+    'case worker.'
 
 /**
  * getOptions
@@ -67,22 +69,22 @@ export async function getTokenAndMakePayload(userId, caseId, jurisdiction, caseT
  * @param payload
  * @return {Promise<any>}
  */
-export async function postCaseWithEventToken(userId, caseId, jurisdiction, caseType, payload) {
-
-    const response = await asyncReturnOrError(
-        ccdStore.postCaseWithEventToken(
-            userId,
-            jurisdiction,
-            caseType,
-            caseId,
-            payload
-        ),
-        `Error sending event`,
-        null,
-        logger,
-        false)
-    return response
-}
+// export async function postCaseWithEventToken(userId, caseId, jurisdiction, caseType, payload) {
+//
+//     const response = await asyncReturnOrError(
+//         ccdStore.postCaseWithEventToken(
+//             userId,
+//             jurisdiction,
+//             caseType,
+//             caseId,
+//             payload
+//         ),
+//         `Error sending event`,
+//         null,
+//         logger,
+//         false)
+//     return response
+// }
 
 /**
  * getEventToken
@@ -119,6 +121,30 @@ export async function getEventToken(userId, caseId, jurisdiction, caseType, even
             status: 500,
         })
     }
+}
+
+export async function postCase(userId, caseId, jurisdiction, caseType, payload) {
+
+    const response = await asyncReturnOrError(
+        ccdStore.postCaseWithEventToken(
+            userId,
+            jurisdiction,
+            caseType,
+            caseId,
+            payload
+        ),
+        `Error sending event`,
+        null,
+        logger,
+        false)
+
+    if (!response) {
+        return Promise.reject({
+            message: ERROR_UNABLE_TO_POST_CASE,
+            status: 500,
+        })
+    }
+    return response
 }
 
 /**
@@ -280,6 +306,7 @@ module.exports.getTokenAndMakePayload = getTokenAndMakePayload
 // module.exports.getEventTokenAndCase = getEventTokenAndCase
 module.exports.prepareCaseForApproval = prepareCaseForApproval
 
-module.exports.postCaseWithEventToken = postCaseWithEventToken
+module.exports.postCase = postCase
+// module.exports.postCaseWithEventToken = postCaseWithEventToken
 module.exports.prepareCaseForUploadFR = prepareCaseForUploadFR
 module.exports.getEventToken = getEventToken

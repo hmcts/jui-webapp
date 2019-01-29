@@ -12,7 +12,7 @@ const fs = require('fs')
 const formidable = require('formidable')
 
 import {Classification, DMDocument, DMDocuments} from '../lib/models'
-import {getEventToken, prepareCaseForUploadFR, postCaseWithEventToken} from '../lib/utilities/ccdStoreTokenUtilities'
+import {getEventToken, prepareCaseForUploadFR, postCaseWithEventToken, postCase} from '../lib/utilities/ccdStoreTokenUtilities'
 
 const url = config.services.dm_store_api
 
@@ -419,7 +419,8 @@ async function postDocumentAndAssociateWithCaseNew(req, caseId, file, fileNotes,
     )
 
     // return await getTokenAndMakePayload(userId, caseId, jurisdiction, caseType, eventId, fileNotes, dmDocument)
-    return await postCaseWithEventToken(userId, caseId, jurisdiction, caseType, payload)
+    // return await postCaseWithEventToken(userId, caseId, jurisdiction, caseType, payload)
+    return await postCase(userId, caseId, jurisdiction, caseType, payload)
 }
 
 /**
