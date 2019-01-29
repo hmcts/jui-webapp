@@ -46,12 +46,18 @@ module "app" {
 
         S2S_SECRET = "${data.azurerm_key_vault_secret.s2s_secret.value}"
         IDAM_SECRET = "${data.azurerm_key_vault_secret.oauth2_secret.value}"
+        DECRYPTKEY = "${data.azurerm_key_vault_secret.decryptKey.value}"
     }
 }
 
 data "azurerm_key_vault" "key_vault" {
     name = "${local.shared_vault_name}"
     resource_group_name = "${local.shared_vault_name}"
+}
+
+data "azurerm_key_vault_secret" "decryptKey" {
+    name = "decryptKey"
+    vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
 }
 
 data "azurerm_key_vault_secret" "s2s_secret" {
