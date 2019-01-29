@@ -20,6 +20,8 @@ const appInsightsInstrumentationKey =
 
 securityHeaders(app);
 
+app.set('trust proxy', 1)
+
 app.use(
     session({
         cookie: {
