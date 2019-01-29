@@ -13,7 +13,7 @@ const headerUtilities = require('./headerUtilities')
 
 // TODO: PARKING WORK 4th December 2018, as it's been de-scoped, and is no longer a priority, for December 17th release.
 
-const ERROR_UNABLE_TO_GET_TOKEN = 'Unable to retrieve token required to start event creation as a case worker'
+const ERROR_UNABLE_TO_GET_EVENT_TOKEN = 'Unable to retrieve Event Token required to start event creation as a case worker.'
 
 /**
  * getOptions
@@ -24,38 +24,6 @@ const ERROR_UNABLE_TO_GET_TOKEN = 'Unable to retrieve token required to start ev
  */
 function getOptions(req) {
     return headerUtilities.getAuthHeaders(req)
-}
-
-/**
- * getEventToken
- *
- * An Event Token is required to update a case. This token needs to be sent through in the payload to update a case.
- *
- * The following is a generic function to get the Event Token.
- *
- * @see /caseworkers/{uid}/jurisdictions/{jid}/case-types/{ctid}/cases/{cid}/event-triggers/{etid}/token
- * Which is used in the payload for:
- * @see /caseworkers/{uid}/jurisdictions/{jid}/case-types/{ctid}/cases/{cid}/events
- *
- * @param userId
- * @param caseId - '1548761902417900'
- * @param {String} jurisdiction ie. 'DIVORCE'
- * @param {String} caseType ie. 'FinancialRemedyMVP2'
- * @param {String} eventId ie. 'FR_uploadDocument'
- * @return {Promise}
- */
-export async function getEventToken(userId, caseId, jurisdiction, caseType, eventId) {
-
-    try {
-        // TODO: rename to getEventToken
-        const eventToken = await getEventTokenAndCase(userId, caseId, jurisdiction, caseType, eventId)
-        return eventToken.token
-    } catch (error) {
-        return Promise.reject({
-            message: ERROR_UNABLE_TO_GET_TOKEN,
-            status: 500,
-        })
-    }
 }
 
 // TODO: Think if fileNotes should be metadata to keep this generic.
@@ -117,34 +85,60 @@ export async function postCaseWithEventToken(userId, caseId, jurisdiction, caseT
 }
 
 /**
- * getEventTokenAndCase
+ * getEventToken
  *
- * TODO: Not sure if we need both Authorization and ServiceAuthorization on this request.
- * TODO: Error handling passing back meaningful error.
- * TODO: Unit Test
+ * An Event Token is required to update a case. This token needs to be sent through in the payload to update a case.
  *
- * @param {String} userId - '96842'
- * @param {String} caseId - '1540909451019845'
- * @param {String} jurisdiction - 'DIVORCE'
- * @param {String} caseType - 'FinancialRemedyMVP2'
- * @param {String} eventId - 'FR_approveApplication'
- * @return {Promise.<*>}
+ * The following is a generic function to get the Event Token.
+ *
+ * @see /caseworkers/{uid}/jurisdictions/{jid}/case-types/{ctid}/cases/{cid}/event-triggers/{etid}/token
+ * Which is used in the payload for:
+ * @see /caseworkers/{uid}/jurisdictions/{jid}/case-types/{ctid}/cases/{cid}/events
+ *
+ * @param userId
+ * @param caseId - '1548761902417900'
+ * @param {String} jurisdiction ie. 'DIVORCE'
+ * @param {String} caseType ie. 'FinancialRemedyMVP2'
+ * @param {String} eventId ie. 'FR_uploadDocument'
+ * @return {Promise}
  */
-async function getEventTokenAndCase(userId, caseId, jurisdiction, caseType, eventId) {
-    console.log('getEventTokenAndCase')
+export async function getEventToken(userId, caseId, jurisdiction, caseType, eventId) {
+
     try {
-        const eventTokenAndCase = await ccdStore.getEventTokenAndCase(
+        const eventToken = await ccdStore.getEventTokenAndCase(
             userId,
             jurisdiction,
             caseType,
             caseId,
             eventId
         )
-        return eventTokenAndCase
+        return eventToken.token
     } catch (error) {
-        return error
+        return Promise.reject({
+            message: ERROR_UNABLE_TO_GET_EVENT_TOKEN,
+            status: 500,
+        })
     }
 }
+
+/**
+ * getEventTokenAndCase
+ */
+// async function getEventTokenAndCase(userId, caseId, jurisdiction, caseType, eventId) {
+//     console.log('getEventTokenAndCase')
+//     try {
+//         const eventTokenAndCase = await ccdStore.getEventTokenAndCase(
+//             userId,
+//             jurisdiction,
+//             caseType,
+//             caseId,
+//             eventId
+//         )
+//         return eventTokenAndCase
+//     } catch (error) {
+//         return error
+//     }
+// }
 
 /**
  * perpareCaseForApproval
@@ -283,7 +277,7 @@ export function prepareCaseForUploadFR(eventToken, eventId, dmDocument: DMDocume
 }
 
 module.exports.getTokenAndMakePayload = getTokenAndMakePayload
-module.exports.getEventTokenAndCase = getEventTokenAndCase
+// module.exports.getEventTokenAndCase = getEventTokenAndCase
 module.exports.prepareCaseForApproval = prepareCaseForApproval
 
 module.exports.postCaseWithEventToken = postCaseWithEventToken
