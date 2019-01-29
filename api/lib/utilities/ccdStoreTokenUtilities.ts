@@ -26,42 +26,81 @@ function getOptions(req) {
     return headerUtilities.getAuthHeaders(req)
 }
 
-// TODO: Think if fileNotes should be metadata to keep this generic.
-export async function getTokenAndMakePayload(userId, caseId, jurisdiction, caseType, eventId, fileNotes,
-                                             dmDocument: DMDocument) {
-    console.log('getTokenAndMakePayload')
-
-    let eventToken = ''
+/**
+ * getEventToken
+ *
+ * An Event Token is required to update a case. This token needs to be sent through in the payload to update a case.
+ *
+ * The following is a generic function to get the Event Token.
+ *
+ * @see /caseworkers/{uid}/jurisdictions/{jid}/case-types/{ctid}/cases/{cid}/event-triggers/{etid}/token
+ * Which is used in the payload for:
+ * @see /caseworkers/{uid}/jurisdictions/{jid}/case-types/{ctid}/cases/{cid}/events
+ *
+ * @param userId
+ * @param caseId - '1548761902417900'
+ * @param {String} jurisdiction ie. 'DIVORCE'
+ * @param {String} caseType ie. 'FinancialRemedyMVP2'
+ * @param {String} eventId ie. 'FR_uploadDocument'
+ * @return {Promise}
+ */
+export async function getEventToken(userId, caseId, jurisdiction, caseType, eventId) {
 
     try {
-        const eventTokenAndCase = await getEventTokenAndCase(userId, caseId, jurisdiction, caseType, eventId)
-        eventToken = eventTokenAndCase.token
+        // TODO: rename to getEventToken
+        const eventToken = await getEventTokenAndCase(userId, caseId, jurisdiction, caseType, eventId)
+        return eventToken.token
     } catch (error) {
         return Promise.reject({
             message: ERROR_UNABLE_TO_GET_TOKEN,
             status: 500,
         })
     }
-
-    console.log('eventToken')
-    console.log(eventToken)
-
-    const payload = prepareCaseForUploadFR(
-        eventToken,
-        eventId,
-        dmDocument,
-        fileNotes
-    )
-
-    return await postCaseWithEventToken(userId, caseId, jurisdiction, caseType, payload)
 }
 
-//userId fine.
-//caseId fine
-//jurisdiction fine.
+// TODO: Think if fileNotes should be metadata to keep this generic.
+export async function getTokenAndMakePayload(userId, caseId, jurisdiction, caseType, eventId, fileNotes,
+                                             dmDocument: DMDocument) {
+    console.log('getTokenAndMakePayload')
+
+    // let eventToken = ''
+    //
+    // try {
+    //     const eventTokenAndCase = await getEventTokenAndCase(userId, caseId, jurisdiction, caseType, eventId)
+    //     eventToken = eventTokenAndCase.token
+    // } catch (error) {
+    //     return Promise.reject({
+    //         message: ERROR_UNABLE_TO_GET_TOKEN,
+    //         status: 500,
+    //     })
+    // }
+
+    // console.log('eventToken')
+    // console.log(eventToken)
+    //
+    // // TODO: This should be in the file
+    // const payload = prepareCaseForUploadFR(
+    //     eventToken,
+    //     eventId,
+    //     dmDocument,
+    //     fileNotes
+    // )
+    //
+    // return await postCaseWithEventToken(userId, caseId, jurisdiction, caseType, payload)
+}
+
+/**
+ * postCaseWithEventToken
+ *
+ * @param userId
+ * @param caseId
+ * @param jurisdiction
+ * @param caseType
+ * @param payload
+ * @return {Promise<any>}
+ */
 export async function postCaseWithEventToken(userId, caseId, jurisdiction, caseType, payload) {
 
-    // Gets to here with all the correct values.
     const response = await asyncReturnOrError(
         ccdStore.postCaseWithEventToken(
             userId,
@@ -246,3 +285,7 @@ export function prepareCaseForUploadFR(eventToken, eventId, dmDocument: DMDocume
 module.exports.getTokenAndMakePayload = getTokenAndMakePayload
 module.exports.getEventTokenAndCase = getEventTokenAndCase
 module.exports.prepareCaseForApproval = prepareCaseForApproval
+
+module.exports.postCaseWithEventToken = postCaseWithEventToken
+module.exports.prepareCaseForUploadFR = prepareCaseForUploadFR
+module.exports.getEventToken = getEventToken

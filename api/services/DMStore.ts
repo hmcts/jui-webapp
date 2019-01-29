@@ -12,7 +12,7 @@ const fs = require('fs')
 const formidable = require('formidable')
 
 import {Classification, DMDocument, DMDocuments} from '../lib/models'
-import {getTokenAndMakePayload} from '../lib/utilities/ccdStoreTokenUtilities'
+import {getEventToken, prepareCaseForUploadFR, postCaseWithEventToken} from '../lib/utilities/ccdStoreTokenUtilities'
 
 const url = config.services.dm_store_api
 
@@ -348,7 +348,34 @@ function getOptions(req) {
  * @param classification
  * @param options
  */
-async function postDocumentAndAssociateWithCase(req, caseId, file, fileNotes, classification, options) {
+// async function postDocumentAndAssociateWithCase(req, caseId, file, fileNotes, classification, options) {
+//
+//     const userId = req.auth.userId
+//
+//     const jurisdiction = 'DIVORCE'
+//     const caseType = 'FinancialRemedyMVP2'
+//     const eventId = 'FR_uploadDocument'
+//
+//     const response = await asyncReturnOrError(
+//         postUploadedDocument(file, classification, options),
+//         `Error uploading document`,
+//         null,
+//         logger,
+//         false)
+//
+//     if (!response) {
+//         return Promise.reject({
+//             message: ERROR_UNABLE_TO_UPLOAD_DOCUMENT,
+//             status: 500,
+//         })
+//     }
+//
+//     const data: DMDocuments = JSON.parse(response)
+//     const dmDocument: DMDocument = data._embedded.documents.pop()
+//     return await getTokenAndMakePayload(userId, caseId, jurisdiction, caseType, eventId, fileNotes, dmDocument)
+// }
+
+async function postDocumentAndAssociateWithCaseNew(req, caseId, file, fileNotes, classification, options) {
 
     const userId = req.auth.userId
 
@@ -372,7 +399,27 @@ async function postDocumentAndAssociateWithCase(req, caseId, file, fileNotes, cl
 
     const data: DMDocuments = JSON.parse(response)
     const dmDocument: DMDocument = data._embedded.documents.pop()
-    return await getTokenAndMakePayload(userId, caseId, jurisdiction, caseType, eventId, fileNotes, dmDocument)
+
+    let eventToken = ''
+
+    // Get Event Token
+    try {
+        eventToken = await getEventToken(userId, caseId, jurisdiction, caseType, eventId)
+        console.log(eventToken)
+    } catch (error) {
+        return error
+    }
+
+    //Prepare the case for upload in here, as it's heavily related to the service line
+    const payload = prepareCaseForUploadFR(
+        eventToken,
+        eventId,
+        dmDocument,
+        fileNotes
+    )
+
+    // return await getTokenAndMakePayload(userId, caseId, jurisdiction, caseType, eventId, fileNotes, dmDocument)
+    return await postCaseWithEventToken(userId, caseId, jurisdiction, caseType, payload)
 }
 
 /**
@@ -415,7 +462,7 @@ export default app => {
 
         form.on('file', async (name, file) => {
             try {
-                const response = await postDocumentAndAssociateWithCase(req, caseId, file, fileNotes, 'PUBLIC', getOptions(req))
+                const response = await postDocumentAndAssociateWithCaseNew(req, caseId, file, fileNotes, 'PUBLIC', getOptions(req))
                 res.send(response).status(200)
             } catch (error) {
                 res.status(error.status)
