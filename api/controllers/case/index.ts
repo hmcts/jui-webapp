@@ -5,8 +5,7 @@ const { processCaseState } = require('../../lib/processors/case-state-model')
 
 const { getAllQuestionsByCase } = require('../questions/index')
 
-let refJudgeLookUp = null
-let error
+let refJudgeLookUp = []
 
 import * as log4js from 'log4js'
 import * as path from 'path'
@@ -101,7 +100,7 @@ function applySchema(caseData): CCDCaseWithSchema {
 }
 
 function judgeLookUp(judgeEmail) {
-    if (!refJudgeLookUp) {
+    if (!refJudgeLookUp.length) {
         logger.info('Decrypting judge data ...')
         try {
             logger.info('Running from', __dirname)
@@ -109,7 +108,6 @@ function judgeLookUp(judgeEmail) {
             refJudgeLookUp = JSON.parse(data)
         } catch (e) {
             logger.error(e)
-            error = e.message
         }
     }
 
@@ -170,13 +168,8 @@ export default app => {
             getCaseTransformed(userId, jurisdiction, caseType, caseId, req),
             `Error getting Case`,
             res,
-            logger,
-            false
+            logger
         )
-
-        if (!CCDCase) {
-            res.status(500).send(error)
-        }
 
         if (CCDCase) {
             res.setHeader('Access-Control-Allow-Origin', '*')
@@ -193,7 +186,7 @@ export default app => {
 
         const CCDCase = await asyncReturnOrError(
             getCaseRaw(userId, jurisdiction, caseType, caseId, req),
-            `Error getting Case - ${error}`,
+            `Error getting Case`,
             res,
             logger
         )
