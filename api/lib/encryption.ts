@@ -7,6 +7,7 @@ import { config } from '../../config'
 const algorithm = 'aes-256-ctr'
 const password = process.env.DECRYPT_KEY
 
+
 const logger = log4js.getLogger('encryption')
 logger.level = config.logging || 'off'
 
