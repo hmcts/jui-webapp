@@ -4,6 +4,7 @@ import {map} from 'p-iteration'
 import {config} from '../../config'
 import {http} from '../lib/http'
 import {asyncReturnOrError} from '../lib/util'
+import {ERROR_UNABLE_TO_UPLOAD_DOCUMENT} from './dmStoreConstants'
 
 const generateRequest = require('../lib/request/request')
 const headerUtilities = require('../lib/utilities/headerUtilities')
@@ -349,8 +350,6 @@ function getOptions(req) {
  */
 async function postDocumentAndAssociateWithCase(req, caseId, file, fileNotes, classification, options) {
 
-    console.log('postDocumentAndAssociateWithCase')
-
     const response = await asyncReturnOrError(
         postUploadedDocument(file, classification, options),
         `Error uploading document`,
@@ -358,10 +357,16 @@ async function postDocumentAndAssociateWithCase(req, caseId, file, fileNotes, cl
         logger,
         false)
 
+    if (!response) {
+        return Promise.reject({
+            message: ERROR_UNABLE_TO_UPLOAD_DOCUMENT,
+            status: 500,
+        })
+    }
+
     const data: DMDocuments = JSON.parse(response)
     const dmDocument: DMDocument = data._embedded.documents.pop()
     return await getTokenAndMakePayload(req, caseId, fileNotes, dmDocument)
-
 }
 
 /**
@@ -403,8 +408,13 @@ export default app => {
         })
 
         form.on('file', async (name, file) => {
-            const response = await postDocumentAndAssociateWithCase(req, caseId, file, fileNotes, 'PUBLIC', getOptions(req))
-            res.send(response).status(200)
+            try {
+                const response = await postDocumentAndAssociateWithCase(req, caseId, file, fileNotes, 'PUBLIC', getOptions(req))
+                res.send(response).status(200)
+            } catch (error) {
+                res.status(error.status)
+                res.send(error.message)
+            }
         })
 
         form.parse(req)
