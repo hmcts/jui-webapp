@@ -8,14 +8,12 @@ import {config} from '../../../config'
 
 export async function request(method: string, url: string, params: any) {
     const headers = params.headers && config.configEnv !== 'mock' ? Object.assign(params.headers) : {}
-
     const options = {
         body: '',
         formData: '',
         headers: {
             ...headers,
-            'Content-Type': params.headers['Content-Type'] || 'application/json'
-
+            'Content-Type': (params.headers !== undefined && params.headers['Content-Type'] !== undefined && params.headers['Content-Type'].length) ? params.headers['Content-Type'] : 'application/json',
         },
         json: true,
         method,

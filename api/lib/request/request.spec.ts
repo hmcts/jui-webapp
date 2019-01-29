@@ -52,7 +52,7 @@ describe('request', () => {
     it('Should default to JSON content type if none provided', async () => {
         const method = 'GET'
         const url = 'https://test.com'
-        const params = {headers: {}}
+        const params = {}
         const expectedObject = {
             body: '',
             formData: '',
@@ -65,7 +65,8 @@ describe('request', () => {
         }
         const stub = sinon.stub(axios, 'default')
         await request(method, url, params)
-        expect(stub).to.be.calledWith(expectedObject)
+        // @ts-ignore
+        expect(stub).to.have.been.calledWith(expectedObject)
         stub.restore()
     })
     it('Should replace options.body if in params', async () => {
@@ -84,6 +85,7 @@ describe('request', () => {
             url,
         }
         await request(method, url, params)
+        // @ts-ignore
         expect(stub).to.be.calledWith(expectedObject)
         stub.restore()
     })
@@ -103,6 +105,7 @@ describe('request', () => {
             url,
         }
         await request(method, url, params)
+        // @ts-ignore
         expect(stub).to.be.calledWith(expectedObject)
         stub.restore()
     })
