@@ -1,7 +1,7 @@
 import * as log4js from 'log4js'
-import { config } from '../../../config'
-import { DMDocument } from '../models'
-import { asyncReturnOrError } from '../util'
+import {config} from '../../../config'
+import {DMDocument} from '../models'
+import {asyncReturnOrError} from '../util'
 
 const logger = log4js.getLogger('dm-store')
 logger.level = config.logging || 'off'
@@ -12,6 +12,8 @@ const ccdStore = require('../../services/ccd-store-api/ccd-store')
 const headerUtilities = require('./headerUtilities')
 
 // TODO: PARKING WORK 4th December 2018, as it's been de-scoped, and is no longer a priority, for December 17th release.
+
+const ERROR_UNABLE_TO_GET_TOKEN = 'Unable to retrieve token required to start event creation as a case worker'
 
 /**
  * getOptions
@@ -25,23 +27,26 @@ function getOptions(req) {
 }
 
 // TODO: Think if fileNotes should be metadata to keep this generic.
-export async function getTokenAndMakePayload(req, caseId, fileNotes, dmDocument: DMDocument) {
+export async function getTokenAndMakePayload(userId, caseId, jurisdiction, caseType, eventId, fileNotes,
+                                             dmDocument: DMDocument) {
     console.log('getTokenAndMakePayload')
 
-    const userId = req.auth.userId
+    let eventToken = ''
 
-    const jurisdiction = 'DIVORCE'
-    const caseType = 'FinancialRemedyMVP2'
-    const eventId = 'FR_uploadDocument'
-
-    const eventTokenAndCase = await getEventTokenAndCase(userId, caseId, jurisdiction, caseType, eventId)
-
-    const eventToken = eventTokenAndCase.token
+    try {
+        const eventTokenAndCase = await getEventTokenAndCase(userId, caseId, jurisdiction, caseType, eventId)
+        eventToken = eventTokenAndCase.token
+    } catch (error) {
+        return Promise.reject({
+            message: ERROR_UNABLE_TO_GET_TOKEN,
+            status: 500,
+        })
+    }
 
     console.log('eventToken')
     console.log(eventToken)
 
-    const payload = prepareCaseForUpload(
+    const payload = prepareCaseForUploadFR(
         eventToken,
         eventId,
         dmDocument,
@@ -98,11 +103,7 @@ async function getEventTokenAndCase(userId, caseId, jurisdiction, caseType, even
         )
         return eventTokenAndCase
     } catch (error) {
-        console.log('error')
-        console.log(error.error)
-        // TODO: Handle StatusCodeError: 422 - {"exception":"uk.gov.hmcts.ccd.endpoint.exceptions.ValidationException","timestamp":"2018-12-03T12:41:46.138","status":422,"error":"Unprocessable Entity","message":"The case status did not qualify for the event",
-
-        // console.log('Error getting event token', exceptionFormatter(exception, exceptionOptions))
+        return error
     }
 }
 
@@ -150,12 +151,71 @@ function prepareCaseForApproval(eventToken, eventId, user, directionComments) {
     }
 }
 
+/**
+ * prepareCaseForUpload
+ *
+ * @param eventToken
+ * @param eventId
+ * @param dmDocument
+ * @param comments
+ * @return
+ */
 export function prepareCaseForUpload(eventToken, eventId, dmDocument: DMDocument, comments) {
 
-    console.log('comments')
-    console.log(comments)
-    console.log(dmDocument.originalDocumentName)
-    console.log(dmDocument._links.self.href)
+    return {
+        data: {
+            uploadDocuments: [
+                {
+                    value: {
+                        documentName: dmDocument.originalDocumentName,
+                        documentType: 'Letter',
+                        createdBy: dmDocument.createdBy,
+                        createdDate: '2019-01-29',
+                        createdTime: '12:32:14+0000',
+                        authoredDate: dmDocument.modifiedOn,
+                        //TBC
+                        documentComment: comments,
+                        documentEmailContent: 'juitestuser2@gmail.com',
+                        documentLink: {
+                            document_url: dmDocument._links.self.href,
+                        },
+                    },
+                },
+            ],
+        },
+        event: {
+            id: eventId,
+        },
+        event_token: eventToken,
+
+        ignore_warning: true,
+    }
+}
+
+/**
+ * prepareCaseForUploadFR
+ *
+ * This works and returns a Success 200 when hitting jurisdiction: 'DIVORCE', caseType: 'FinancialRemedyMVP2',
+ * eventId: 'FR_uploadDocument'.
+ *
+ * Bug: If you successfully POST to /caseworkers/{uid}/jurisdictions/{jid}/case-types/{ctid}/cases/{cid}/events,
+ * all subsequent events return a 404. I'm hoping that when FR implement uploadDocument with the new complexTypes,
+ * this issue is resolved.
+ *
+ * TODO: Deprecate this function once all service lines are using the new Upload document feature within their case
+ * definitions file.
+ *
+ * @param eventToken - Token returned from the call to 'Start event creation as Case worker' as per Core Case Data
+ * - Data store API docs.
+ * @param eventId - 'FR_uploadDocument'
+ * @param dmDocument
+ * @param comments
+ * @return {}
+ */
+export function prepareCaseForUploadFR(eventToken, eventId, dmDocument: DMDocument, comments) {
+
+    console.log('dmDocument')
+    console.log(dmDocument)
 
     return {
         data: {
@@ -163,10 +223,9 @@ export function prepareCaseForUpload(eventToken, eventId, dmDocument: DMDocument
                 {
                     value: {
                         documentComment: comments,
-                        documentDateAdded: '2019-01-28T12:07:05+0000',
-                        // documentDateAdded: dmDocument.createdOn,
+                        documentDateAdded: '2019-01-29',
                         documentEmailContent: 'juitestuser2@gmail.com',
-                        documentFileName: dmDocument.originalDocumentName, // TODO: need this from form upload field if set
+                        documentFileName: dmDocument.originalDocumentName,
                         documentLink: {
                             document_url: dmDocument._links.self.href,
                         },

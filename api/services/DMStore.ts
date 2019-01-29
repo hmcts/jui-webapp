@@ -350,6 +350,12 @@ function getOptions(req) {
  */
 async function postDocumentAndAssociateWithCase(req, caseId, file, fileNotes, classification, options) {
 
+    const userId = req.auth.userId
+
+    const jurisdiction = 'DIVORCE'
+    const caseType = 'FinancialRemedyMVP2'
+    const eventId = 'FR_uploadDocument'
+
     const response = await asyncReturnOrError(
         postUploadedDocument(file, classification, options),
         `Error uploading document`,
@@ -366,7 +372,7 @@ async function postDocumentAndAssociateWithCase(req, caseId, file, fileNotes, cl
 
     const data: DMDocuments = JSON.parse(response)
     const dmDocument: DMDocument = data._embedded.documents.pop()
-    return await getTokenAndMakePayload(req, caseId, fileNotes, dmDocument)
+    return await getTokenAndMakePayload(userId, caseId, jurisdiction, caseType, eventId, fileNotes, dmDocument)
 }
 
 /**
