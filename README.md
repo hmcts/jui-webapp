@@ -184,7 +184,5 @@ yarn build;
 yarn start
 ```
 
-
-
 Note : Here is the git repo for json-server : https://github.com/typicode/json-server
 

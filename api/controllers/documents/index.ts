@@ -8,7 +8,7 @@ function getUploadDocumentEventId(jurisdiction, caseType) {
     return 'someEventId'
 }
 
-// In Preperation for Upload document ticket
+// TODO: Not using deprecate.
 function uploadDocument(userId = null, jurisdiction = null, caseType = null, caseId = null, file = null, options = null) {
     const eventId = getUploadDocumentEventId(jurisdiction, caseType)
 
