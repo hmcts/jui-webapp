@@ -7,7 +7,6 @@ import {LinkItem} from '../../../domain/models/section_fields';
 })
 export class CaseActionsComponent {
 
-    // TODO: This should be an array
     @Input() header = '';
     @Input() actionPrimaryButton: LinkItem;
     @Input() actionSecondaryButton: LinkItem;

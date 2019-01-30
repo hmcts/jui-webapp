@@ -1,4 +1,4 @@
-<div [ngStyle]="{'border':'1px solid red'}" [ngClass]="{'jui-cf': true, 'jui-cf jui-cf--show-comments': allowAnnotations}" *ngIf="documents && documents.length; else noDocuments">
+<div [ngClass]="{'jui-cf': true, 'jui-cf jui-cf--show-comments': allowAnnotations}" *ngIf="documents && documents.length; else noDocuments">
 
     <app-case-file-tool-bar
     [commentViewRedirect]="{command: [], extra: { queryParams: { type: 'comment'}}}"
