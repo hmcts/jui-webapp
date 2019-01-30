@@ -1,5 +1,5 @@
 let _agent
-// @todo - is this redundant? Does not appear to be used
+
 module.exports = configuration => {
     if (!_agent) {
         const SocksProxyAgent = require('socks-proxy-agent')
