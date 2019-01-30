@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "build": "tsc",
+    "build": "tsc &&  npm run copy",
+    "copy": "cp lib/config/refJudgeLookUp.crypt ../dist/jui-backend/api/lib/config",
     "coverage": "npx nyc mocha",
     "watch": "nodemon --watch '**/*.ts' --exec 'ts-node' ../dev-server.ts",
     "test": "mocha",
@@ -35,5 +36,6 @@
     "cache": true,
     "all": true,
     "report-dir": "../reports/tests/coverage/node"
-  }
+  },
+  "dependencies": {}
 }

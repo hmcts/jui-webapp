@@ -79,11 +79,11 @@ export const template = {
                                 },
                                 {
                                     label: 'Medical member',
-                                    value: '$.case_data.assignedToDisabilityMember',
+                                    value: '$.case_data.assignedToMedicalMember',
                                 },
                                 {
                                     label: 'Disability qualified member',
-                                    value: '$.case_data.assignedToMedicalMember',
+                                    value: '$.case_data.assignedToDisabilityMember',
                                 },
                             ],
                         },
