@@ -23,12 +23,25 @@ const req = {
 
 describe('stack', () => {
     describe('pushStack', () => {
+        // @todo should this accept null? Cannot concat null - also, converts stack to string?! - L21
         it('Should construct value to push to store', async () => {
             const stack = [1, 2, 3]
             const spy = sinon.spy(Store.prototype, 'set')
             await pushStack(req, stack)
+            // @ts-ignore
             expect(spy).to.be.calledWith('decisions_stack_123_3_321', [1, 2, 3])
             spy.restore()
+        })
+        it('Should construct newStack to push to store if nothing to get in store', async () => {
+            const stack = [1, 2, 3]
+            const stub = sinon.stub(Store.prototype, 'get')
+            stub.returns('')
+            const spy = sinon.spy(Store.prototype, 'set')
+            await pushStack(req, stack)
+            // @ts-ignore
+            expect(spy).to.be.calledWith('decisions_stack_123_3_321', '1,2,3')
+            spy.restore()
+            stub.restore()
         })
     })
     describe('shiftStack', () => {
@@ -91,7 +104,6 @@ describe('stack', () => {
                 event: 'continue',
                 states: [
                     {
-                        state: 'create',
                         conditions: [
                             {
                                 condition: [{makeDecision: 'yes'}],
@@ -102,10 +114,11 @@ describe('stack', () => {
                                 result: 'provide-reason',
                             },
                         ],
+                        state: 'create',
                     },
                     {
-                        state: 'cost-order',
                         result: 'check-your-answers',
+                        state: 'cost-order',
                     },
 
                 ],
