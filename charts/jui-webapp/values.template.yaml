@@ -1,5 +1,5 @@
 nodejs:
-  applicationPort: 8080
+  applicationPort: 8800
   environment:
     REFORM_TEAM: rpa
     REFORM_SERVICE_NAME: jui-webapp
