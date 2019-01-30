@@ -11,7 +11,7 @@ const fs = require('fs')
 const formidable = require('formidable')
 
 import { Classification, DMDocument, DMDocuments } from '../../lib/models'
-import { getTokenAndMakePayload } from '../../lib/utilities/ccdStoreTokenUtilities'
+import { getTokenAndMakePayload } from '../../lib/utilities/ccdDataStoreApiUtilities'
 
 const url = config.services.dm_store_api
 

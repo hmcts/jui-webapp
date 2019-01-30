@@ -12,7 +12,8 @@ const fs = require('fs')
 const formidable = require('formidable')
 
 import {Classification, DMDocument, DMDocuments} from '../lib/models'
-import {getEventToken, prepareCaseForUploadFR, postCase} from '../lib/utilities/ccdStoreTokenUtilities'
+import {getEventToken, postCase} from '../lib/utilities/ccdDataStoreApiUtilities'
+import {prepareCaseForUploadFR} from '../lib/utilities/ccdDataStoreApiPayloads'
 
 const url = config.services.dm_store_api
 
@@ -337,50 +338,18 @@ function getOptions(req) {
 }
 
 /**
- * postDocumentAndAssociateWithCase
+ * uploadDocumentAndAssociateWithCase
  *
- * Note that you can navigate to: /demo and see the uploaded document in Document Store. As the component
- * on demo is hooked into retrieve all documents uploaded by a user.
+ * Upload the document to Document Management Store.
  *
- * @param req
- * @param caseId
- * @param file
- * @param classification
- * @param options
+ * Once the document has been uploaded, get the Event Token to update a Case, create the payload with that
+ * Event Token, and update the Case with a link to the document.
+ *
+ * TODO: Once a service line has implemented upload into their Case Definitions file, use prepareCaseForUpload
+ * within ccdDataStoreApiPayloads.ts and check that it works correctly with a service line.
  */
-// async function postDocumentAndAssociateWithCase(req, caseId, file, fileNotes, classification, options) {
-//
-//     const userId = req.auth.userId
-//
-//     const jurisdiction = 'DIVORCE'
-//     const caseType = 'FinancialRemedyMVP2'
-//     const eventId = 'FR_uploadDocument'
-//
-//     const response = await asyncReturnOrError(
-//         postUploadedDocument(file, classification, options),
-//         `Error uploading document`,
-//         null,
-//         logger,
-//         false)
-//
-//     if (!response) {
-//         return Promise.reject({
-//             message: ERROR_UNABLE_TO_UPLOAD_DOCUMENT,
-//             status: 500,
-//         })
-//     }
-//
-//     const data: DMDocuments = JSON.parse(response)
-//     const dmDocument: DMDocument = data._embedded.documents.pop()
-//     return await getTokenAndMakePayload(userId, caseId, jurisdiction, caseType, eventId, fileNotes, dmDocument)
-// }
-
-async function postDocumentAndAssociateWithCaseNew(userId, caseId, file, fileNotes, classification, options) {
-
-    const jurisdiction = 'DIVORCE'
-    const caseType = 'FinancialRemedyMVP2'
-    const eventId = 'FR_uploadDocument'
-
+async function uploadDocumentAndAssociateWithCase(userId, caseId, jurisdiction, eventId, caseType, file, fileNotes,
+                                                  classification, options) {
     const response = await asyncReturnOrError(
         postUploadedDocument(file, classification, options),
         `Error uploading document`,
@@ -400,15 +369,12 @@ async function postDocumentAndAssociateWithCaseNew(userId, caseId, file, fileNot
 
     let eventToken = ''
 
-    // Get Event Token
     try {
         eventToken = await getEventToken(userId, caseId, jurisdiction, caseType, eventId)
-        console.log(eventToken)
     } catch (error) {
         return error
     }
 
-    //Prepare the case for upload in here, as it's heavily related to the service line
     const payload = prepareCaseForUploadFR(
         eventToken,
         eventId,
@@ -437,19 +403,22 @@ export default app => {
     })
 
     /**
+     *
      * This route uploads the document and associates the document with a case. This is done in one request,
      * as it makes sense that the UI doesn't have to do two calls, one to upload and one to associate.
      *
-     * TODO: Perhaps place uploads in the route so that it's easy to see what this route does.
-     * TODO: Should this be here?
-     * TODO: Should we have two endpoints? should the front end know that it needs to be associated?
+     * TODO: Once a service line implements the the event trigger in it's case definition file, we should test
+     * against this, and pass in the jurisdiction, caseType and eventId from the UI.
      */
     router.post('/documents/upload/:caseId', (req, res) => {
 
-        console.log('/documents/upload/:caseId')
         const form = new formidable.IncomingForm()
         const caseId = req.params.caseId
         const userId = req.auth.userId
+
+        const jurisdiction = 'DIVORCE'
+        const caseType = 'FinancialRemedyMVP2'
+        const eventId = 'FR_uploadDocument'
 
         let fileNotes = ''
 
@@ -461,7 +430,8 @@ export default app => {
 
         form.on('file', async (name, file) => {
             try {
-                const response = await postDocumentAndAssociateWithCaseNew(userId, caseId, file, fileNotes, 'PUBLIC', getOptions(req))
+                const response = await uploadDocumentAndAssociateWithCase(userId, caseId, jurisdiction, eventId, caseType, file,
+                    fileNotes, 'PUBLIC', getOptions(req))
                 res.send(response).status(200)
             } catch (error) {
                 res.status(error.status)

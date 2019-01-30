@@ -1,4 +1,4 @@
-const ccdStoreTokenUtilities = require('./ccdStoreTokenUtilities')
+const ccdDataStoreApiUtilities = require('./ccdDataStoreApiUtilities')
 
 describe('eventTokenUtilities', () => {
 
