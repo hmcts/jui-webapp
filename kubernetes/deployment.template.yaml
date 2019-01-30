@@ -57,6 +57,8 @@ spec:
                 value: ${S2S_SECRET}
               - name: IDAM_SECRET
                 value: ${IDAM_SECRET}
+              - name: DECRYPT_KEY
+                value: ${DECRYPT_KEY}
               envFrom:
               - configMapRef:
                     name: ${SERVICE_NAME}-config

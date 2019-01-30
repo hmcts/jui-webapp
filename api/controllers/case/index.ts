@@ -5,10 +5,12 @@ const { processCaseState } = require('../../lib/processors/case-state-model')
 
 const { getAllQuestionsByCase } = require('../questions/index')
 
-import * as log4js from 'log4js'
+let refJudgeLookUp = []
 
+import * as log4js from 'log4js'
+import * as path from 'path'
 import { config } from '../../../config'
-import refJudgeLookUp from '../../lib/config/refJudgeLookUp'
+import { decrypt } from '../../lib/encryption'
 import { CCDCaseWithSchema } from '../../lib/models'
 import { asyncReturnOrError } from '../../lib/util'
 import { getCCDCase } from '../../services/ccd-store-api/ccd-store'
@@ -16,7 +18,7 @@ import { getHearingByCase } from '../../services/coh-cor-api/coh-cor-api'
 import { getDocuments } from '../../services/DMStore'
 import { getEvents } from '../events'
 
-const logger = log4js.getLogger('ccd-store')
+const logger = log4js.getLogger('cases')
 logger.level = config.logging || 'off'
 
 function hasCOR(jurisdiction, caseType) {
@@ -98,6 +100,17 @@ function applySchema(caseData): CCDCaseWithSchema {
 }
 
 function judgeLookUp(judgeEmail) {
+    if (!refJudgeLookUp.length) {
+        logger.info('Decrypting judge data ...')
+        try {
+            logger.info('Running from', __dirname)
+            const data = decrypt(path.join(__dirname, '../../lib/config/refJudgeLookUp.crypt'))
+            refJudgeLookUp = JSON.parse(data)
+        } catch (e) {
+            logger.error(e)
+        }
+    }
+
     const judge = refJudgeLookUp.filter(judge => judge.email === judgeEmail)
     return judge.length ? judge[0].name : judgeEmail
 }
@@ -153,7 +166,7 @@ export default app => {
 
         const CCDCase = await asyncReturnOrError(
             getCaseTransformed(userId, jurisdiction, caseType, caseId, req),
-            'Error getting Case',
+            `Error getting Case`,
             res,
             logger
         )
@@ -173,7 +186,7 @@ export default app => {
 
         const CCDCase = await asyncReturnOrError(
             getCaseRaw(userId, jurisdiction, caseType, caseId, req),
-            'Error getting Case',
+            `Error getting Case`,
             res,
             logger
         )
