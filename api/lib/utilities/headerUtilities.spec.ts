@@ -55,6 +55,7 @@ describe('headerUtilities', () => {
             })
         })
         describe('getAuthHeadersWithUserIdAndRoles', () => {
+            // @todo - user-roles and user-id return same value
             it('Should return headers', () => {
                 const result = getAuthHeadersWithUserIdAndRoles(req)
                 expect(result.headers.ServiceAuthorization).to.equal(5)
