@@ -51,10 +51,9 @@ describe('util', () => {
     })
     describe('dotNotation', () => {
         it('Should replace straight brackets for object key with dot notation', () => {
-            const theObject = {key1: {key2: 'hello'}}
             const object = 'theObject\[key1\]\[key2\]'
             const result = dotNotation(object)
-            // @todo - verifiy this is desired
+            // @todo - does this need work? Should it return better dot notation - verifiy this is desired
             expect(result).to.equal('theObject.key1..key2.')
         })
     })
