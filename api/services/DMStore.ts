@@ -121,7 +121,6 @@ export async function getDocumentVersionThumbnail(documentId: string, versionId:
 }
 
 export function postUploadedDocument(file, classification, options) {
-    console.log('postUploadedDocument');
     const reqOptions = {
         ...options, ...{
             formData: {
@@ -142,7 +141,6 @@ export function postUploadedDocument(file, classification, options) {
         json: false,
     }
 
-    //TODO: Once working replace with asyncReturnOrError
     return generateRequest('POST', `${url}/documents`, reqOptions)
 }
 
