@@ -9,6 +9,7 @@ nodejs:
     S2S_SECRET: ${S2S_SECRET}
     IDAM_SECRET: ${IDAM_SECRET}
     JUI_ENV: preview
+    DECRYPT_KEY: ${DECRYPT_KEY}
 
   # Don't modify below here
   image: ${IMAGE_NAME}
