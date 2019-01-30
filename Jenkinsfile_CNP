@@ -23,6 +23,7 @@ List<LinkedHashMap<String, Object>> secrets = [
     secret('test-email', 'TEST_EMAIL'),
     secret('test-password', 'TEST_PASSWORD'),
     secret('jui-s2s-token', 'S2S_SECRET'),
+    secret('decrypt-key', 'DECRYPT_KEY'),
     secret('jui-oauth2-token', 'IDAM_SECRET'),
     secret('fr-email', 'FR_EMAIL'),
     secret('fr-password', 'FR_PASSWORD'),

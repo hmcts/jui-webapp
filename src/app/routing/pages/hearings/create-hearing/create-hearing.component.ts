@@ -86,12 +86,10 @@ export class CreateHearingComponent implements OnInit {
     }
 
     submitCallback(values) {
-        if (this.form.valid) {
-            this.saveDraftedHearingReason(this.case.id, values.notes);
-            this.hearingService.changeMessage(values.notes);
-            this.router.navigate(['../check'], {relativeTo: this.route});
-        } else {
-            this.error.notes = !this.form.controls.notes.valid;
-        }
+
+        this.saveDraftedHearingReason(this.case.id, values.notes);
+        this.hearingService.changeMessage(values.notes);
+        this.router.navigate(['../check'], {relativeTo: this.route});
+
     }
 }
