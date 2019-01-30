@@ -120,39 +120,6 @@ export async function getDocumentVersionThumbnail(documentId: string, versionId:
     return response.data
 }
 
-/**
- * DOCUMENT CREATION
- */
-
-// Creates a list of Stored Documents by uploading a list of binary/text files.
-// TODO: Check if this is being used anywhere, if not deprecate
-export async function postDocument(file, classification) {
-    const body: any = {}
-    body.formData = {
-        classification: getClassification(classification),
-        files: [
-            {
-                options: {filename: file.name, contentType: file.type},
-                value: fs.createReadStream(file.path),
-            },
-        ],
-    }
-
-    const response = await asyncReturnOrError(
-        http.post(`${url}/documents`, body, {
-            headers: {
-                contentType: file.type,
-            },
-        }),
-        `Error posting document`,
-        null,
-        logger,
-        false
-    )
-
-    return response.data
-}
-
 export function postUploadedDocument(file, classification, options) {
     console.log('postUploadedDocument');
     const reqOptions = {
@@ -282,8 +249,6 @@ export async function filterDocument(body): Promise<JSON> {
 }
 
 // Search stored documents by ownership.
-// TODO: Investigate why this is not returning a response.
-// note that params and body are both valid.
 export async function ownedDocument(params, body): Promise<JSON> {
 
     const queryStringParams = Object.keys(params)
@@ -301,7 +266,8 @@ export async function ownedDocument(params, body): Promise<JSON> {
     return response.data
 }
 
-// TODO : This Legacy version works, but the newer function above does not, investigate.
+// TODO : This Legacy version works, but the newer function above does not, investigate,
+// when there is time.
 function ownedDocumentLegacy(params, options) {
     const queryStringParams = Object.keys(params).map(key => key + '=' + params[key]).join('&')
     return generateRequest('POST', `${url}/documents/owned?${queryStringParams}`, options)
@@ -332,7 +298,6 @@ export async function getInfo(): Promise<JSON> {
     return response.data
 }
 
-// TODO: Use import here.
 function getOptions(req) {
     return headerUtilities.getAuthHeadersWithUserIdAndRoles(req)
 }

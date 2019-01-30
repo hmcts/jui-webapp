@@ -19,7 +19,6 @@ const caseListRoute = require('./controllers/case-list')
 
 const questionsRoutes = require('./controllers/questions')
 const eventsRoutes = require('./controllers/events')
-const documentsRoutes = require('./controllers/documents')
 
 const caseCreationRoute = require('./controllers/case-creation')
 
@@ -43,7 +42,6 @@ caseListRoute(router)
 decisionRoutes(router)
 caseRoutes(router)
 eventsRoutes(router)
-documentsRoutes(router)
 questionsRoutes(router)
 
 if (config.configEnv !== 'prod') {
