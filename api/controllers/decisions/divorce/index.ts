@@ -174,7 +174,7 @@ function perpareCaseForRefusal(caseData, eventToken, eventId, user, store) {
     }
 }
 
-async function makeDecision(decision, req, state, store) {
+async function  makeDecision(decision, req, state, store) {
     let payloadData = {}
     let eventToken = {}
     let caseDetails = {}

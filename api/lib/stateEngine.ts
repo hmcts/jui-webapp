@@ -104,7 +104,7 @@ export async function process(req, res, mapping, payload, templates, store) {
                     result = await shiftStack(req, variables)
                 } else if (result === '[state]') {
                     result = req.params.stateId
-                } else if (result === '.') {
+                }  else if (result === '.') {
                     result = await payload(req, res, variables)
                     if (!result) {
                         return
@@ -120,7 +120,14 @@ export async function process(req, res, mapping, payload, templates, store) {
             return false
         })
     } else {
-        console.log('casetype', caseTypeId)
+        // reset for testing
+         if (stateId === 'reset') {
+            logger.warn(`reseting decisions_${jurisdiction}_${caseTypeId}_${caseId}`)
+            await store.set(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`, {})
+
+            return
+        }
+
         meta = templates[caseTypeId][stateId]
         result = true
     }

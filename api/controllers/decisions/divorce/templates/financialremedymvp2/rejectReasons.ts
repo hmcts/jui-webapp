@@ -78,7 +78,7 @@ module.exports = {
                     },
                     {
                         hint: {
-                            text: 'Select all that applys.',
+                            text: 'Select all that apply',
                             classes: 'govuk-hint'
                         }
                     },

@@ -1,6 +1,6 @@
 const { generateAPIRequestForFR } = require('./utils/generateAPI');
 
-suite('API/CASES -> FR cases -> simple GET-s', function() {
+suite('API/CASES -> JUI cases -> simple GET-s', function() {
     this.timeout(10000);
 
     // test('GET demo test - error handling ', () => {

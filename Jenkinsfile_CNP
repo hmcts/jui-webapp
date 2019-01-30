@@ -23,6 +23,7 @@ List<LinkedHashMap<String, Object>> secrets = [
     secret('test-email', 'TEST_EMAIL'),
     secret('test-password', 'TEST_PASSWORD'),
     secret('jui-s2s-token', 'S2S_SECRET'),
+    secret('decrypt-key', 'DECRYPT_KEY'),
     secret('jui-oauth2-token', 'IDAM_SECRET'),
     secret('fr-email', 'FR_EMAIL'),
     secret('fr-password', 'FR_PASSWORD'),
@@ -124,27 +125,27 @@ withPipeline(type, product, component) {
 
     }
 
-//    after('smoketest:demo') {
-//        publishHTML([
-//            allowMissing         : true,
-//            alwaysLinkToLastBuild: true,
-//            keepAll              : true,
-//            reportDir            : "reports/tests/smoke/",
-//            reportFiles          : 'index.html',
-//            reportName           : 'DEMO Smoke Test'
-//        ])
-//    }
-
-    after('functionalTest:demo') {
+    after('smoketest:demo') {
         publishHTML([
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/tests/functional/",
+            reportDir            : "reports/tests/smoke/",
             reportFiles          : 'index.html',
-            reportName           : 'DEMO Functional Test'
+            reportName           : 'DEMO Smoke Test'
         ])
     }
+
+//    after('functionalTest:demo') {
+//        publishHTML([
+//            allowMissing         : true,
+//            alwaysLinkToLastBuild: true,
+//            keepAll              : true,
+//            reportDir            : "reports/tests/functional/",
+//            reportFiles          : 'index.html',
+//            reportName           : 'DEMO Functional Test'
+//        ])
+//    }
 
     after('smoketest:preview') {
         publishHTML([
@@ -214,9 +215,17 @@ withPipeline(type, product, component) {
 //        ])
 //    }
 
-    //before('smoketest:prod') {
     before("Smoke Test - prod (production slot)") {
         currentBuild.description = "Success!"
+        currentBuild.result = 'SUCCESS'
         // error 'This project for JUI only to AAT therefore the prod environment will not be built'
+        return
+    }
+
+    before('smoketest:prod') {
+        currentBuild.description = "Success!"
+        currentBuild.result = 'SUCCESS'
+        // error 'This project for JUI only to AAT therefore the prod environment will not be built'
+        return
     }
 }

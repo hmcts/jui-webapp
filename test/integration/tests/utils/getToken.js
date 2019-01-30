@@ -1,4 +1,5 @@
-const config = require('../../../../config')
+//const config = require('../../../../config')
+const config = require('../../../../dist/jui-backend/config')
 const base64 = require('base-64')
 const idam_api= 'https://preprod-idamapi.reform.hmcts.net:3511'
 

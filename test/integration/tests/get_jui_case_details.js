@@ -1,6 +1,6 @@
 const { generateAPIRequestForFR } = require('./utils/generateAPI');
 
-suite('API/CASES -> FR case columns dashboard', function() {
+suite('API/CASES -> JUI dashboard columns', function() {
     this.timeout(10000);
     test('GET JUI case column details: (/cases)', () => generateAPIRequestForFR('GET', '/api/cases', {})
         .then(response => {
