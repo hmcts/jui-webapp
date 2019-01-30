@@ -119,7 +119,7 @@ export const template = {
                                     ],
                                 },
                                 { label: 'Date of birth', value: '$.case_data.appeal.appellant.identity.dob' },
-                                { label: 'National insurances number', value: '$.case_data.appeal.appellant.identity.nino' },
+                                { label: 'National insurance number', value: '$.case_data.appeal.appellant.identity.nino' },
                                 {
                                     label: 'Address',
                                     value: [
