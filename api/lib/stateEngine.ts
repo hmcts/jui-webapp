@@ -50,7 +50,6 @@ export function handleInstruction(instruction, stateId, variables) {
         logger.info(`Instruction result without state: ${instruction.result} `)
         return instruction.result
     }
-    // @todo - This appears redundant?
     return null
 }
 
@@ -74,7 +73,7 @@ export async function process(req, res, mapping, payload, templates, store) {
     if (variables) {
         // get current store
         let stored = await store.get(`decisions_${jurisdiction}_${caseTypeId}_${caseId}`)
-        
+
         if (!(stored + '').length) {
             stored = {}
         }
@@ -134,7 +133,7 @@ export async function process(req, res, mapping, payload, templates, store) {
             meta,
             newRoute,
         }
-        
+
         req.session.save(() => res.send(JSON.stringify(response)))
     }
 }

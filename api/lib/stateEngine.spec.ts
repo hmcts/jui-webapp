@@ -1,17 +1,16 @@
 import * as chai from 'chai'
 import {expect} from 'chai'
-import * as log4js from 'log4js'
 import 'mocha'
 import * as sinon from 'sinon'
 import * as sinonChai from 'sinon-chai'
 
 chai.use(sinonChai)
 
-import * as store from './store/store'
-import {getRegister, handleCondition, handleInstruction, handleState, process} from './stateEngine'
-import * as util from './util'
-import {Store} from './store/store'
 import * as stack from '../lib/stack'
+import {getRegister, handleCondition, handleInstruction, handleState, process} from './stateEngine'
+import * as store from './store/store'
+import {Store} from './store/store'
+import * as util from './util'
 
 describe('stateEngine', () => {
     describe('handleCondition', () => {
@@ -73,6 +72,7 @@ describe('stateEngine', () => {
             const variables = []
             const result = handleState(stateNode, variables)
             expect(result).to.equal(null)
+            // @ts-ignore
             expect(spySome).to.be.called
         })
         it('Should return with stateNode.result if stateNode.result is passed', () => {
@@ -86,6 +86,7 @@ describe('stateEngine', () => {
         })
     })
     describe('handleInstruction', () => {
+        // @todo - The function returns null but code can't be reached - line 53
         it('Should return instruction.result if other conditions aren\'t satisfied', () => {
             const instruction = {result: 1}
             const stateId = {}
@@ -161,6 +162,7 @@ describe('stateEngine', () => {
             const templates = {'divorce': {1: 123, 2: 321}}
             const theStore = new store.Store(req)
             await process(req, res, mapping, payload, templates, theStore)
+            // @ts-ignore
             expect(stub).to.be.called
             stub.restore()
         })
@@ -194,6 +196,7 @@ describe('stateEngine', () => {
             const templates = {'divorce': {1: 123, 2: 321}}
             const theStore = new store.Store(req)
             await process(req, res, mapping, payload, templates, theStore)
+            // @ts-ignore
             expect(stub).to.be.called
             stub.restore()
         })
@@ -233,7 +236,9 @@ describe('stateEngine', () => {
             const templates = {'divorce': {1: 123, 2: 321}}
             const theStore = new store.Store(req)
             await process(req, res, mapping, payload, templates, theStore)
+            // @ts-ignore
             expect(stubSet).to.be.called
+            // @ts-ignore
             expect(stubSet).to.be.calledWith('decisions_321_divorce_123', {1: 1, 2: 2, 3: 3, 4: 4})
             stubGet.restore()
             stubSet.restore()
@@ -270,6 +275,7 @@ describe('stateEngine', () => {
             const templates = {'divorce': {1: 123, 2: 321}}
             const theStore = new store.Store(req)
             await process(req, res, mapping, payload, templates, theStore)
+            // @ts-ignore
             expect(s2).to.be.called
             stub.restore()
         })
@@ -305,6 +311,7 @@ describe('stateEngine', () => {
             const templates = {'divorce': {1: 123, 2: 321}}
             const theStore = new store.Store(req)
             await process(req, res, mapping, payload, templates, theStore)
+            // @ts-ignore
             expect(s2).to.be.called
             stub.restore()
         })
@@ -340,6 +347,7 @@ describe('stateEngine', () => {
             const templates = {'divorce': {1: 123, 2: 321}}
             const theStore = new store.Store(req)
             await process(req, res, mapping, payload, templates, theStore)
+            // @ts-ignore
             expect(s2).to.not.be.called
             stub.restore()
         })
@@ -377,7 +385,9 @@ describe('stateEngine', () => {
             const templates = {'divorce': {1: 123, 2: 321}}
             const theStore = new store.Store(req)
             await process(req, res, mapping, payload, templates, theStore)
+            // @ts-ignore
             expect(pushStub).to.be.called
+            // @ts-ignore
             expect(shiftStub).to.be.called
             pushStub.restore()
             shiftStub.restore()
@@ -417,10 +427,13 @@ describe('stateEngine', () => {
             const templates = {'divorce': {1: 123, 2: 321}}
             const theStore = new store.Store(req)
             await process(req, res, mapping, payload, templates, theStore)
+            // @ts-ignore
             expect(emptyStub).to.be.called
+            // @ts-ignore
             expect(shiftStub).to.be.called
             emptyStub.restore()
             shiftStub.restore()
-            stub.restore()        })
+            stub.restore()
+        })
     })
 })
