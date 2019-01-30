@@ -20,7 +20,7 @@
     "lint:fix": "npm run lint:fix:node || npm run lint:fix:ng || true",
     "lint:fix:node": "eslint . --fix",
     "lint:fix:ng": "ng lint jui --fix",
-    "test": "cd api && npm run coverage && cd .. && npm run test:ng",
+    "test": "cd api && npm run coverage && cd .. && npm run test:ng && npm run test:coverage:merge",
     "test:node": "cd api && npm run test",
     "test:node:watch": "cd api && npm run test:watch",
     "test:ng": "ng test",
