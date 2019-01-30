@@ -17,7 +17,9 @@ describe('index', () => {
         const stubCohDecisionRoutes = sinon.stub(cohDecisions, 'default')
         const stubStates = sinon.stub(states, 'default')
         index.default(app)
+        // @ts-ignore
         expect(stubStates).to.be.called
+        // @ts-ignore
         expect(stubCohDecisionRoutes).to.be.called
     })
 })

@@ -7,9 +7,7 @@ import {mockReq, mockRes} from 'sinon-express-mock'
 
 chai.use(sinonChai)
 
-const ccdStore = require('../../../services/ccd-store-api/ccd-store')
 import * as coh from '../../../services/coh'
-// import * as headerUtilities from '../../../lib/utilities/headerUtilities'
 import {init, payload} from './index'
 
 describe('SSCS index', () => {
