@@ -13,7 +13,7 @@ const headerUtilities = require('../lib/utilities/headerUtilities')
 const fs = require('fs')
 const formidable = require('formidable')
 
-import {Classification, DMDocument, DMDocuments} from '../lib/models'
+import {DMDocument, DMDocuments} from '../lib/models/documents'
 import {prepareCaseForUploadFR} from './ccd-store-api/ccd-store-payloads'
 
 const url = config.services.dm_store_api
