@@ -36,13 +36,13 @@ export IDAM_SECRET=
 ## Run Local with quick reload for angular
 To Run the Angular code
 ```bash
-yarn install
-yarn start-dev-proxy
+npm install
+npm run start:ng
 ```
 To Run the Node Code
 ```bash
-yarn install
-npm run watch-dev-node
+npm install
+npm run start:node
 # or if you have nodemon
 nodemon dev-server.js
 ```
