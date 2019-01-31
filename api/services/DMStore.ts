@@ -14,7 +14,7 @@ const fs = require('fs')
 const formidable = require('formidable')
 
 import {Classification, DMDocument, DMDocuments} from '../lib/models'
-import {prepareCaseForUploadFR} from '../lib/utilities/ccdDataStoreApiPayloads'
+import {prepareCaseForUploadFR} from './ccd-store-api/ccd-store-payloads'
 
 const url = config.services.dm_store_api
 
@@ -302,6 +302,10 @@ function getOptions(req) {
  *
  * Once the document has been uploaded, get the Event Token to update a Case, create the payload with that
  * Event Token, and update the Case with a link to the document.
+ *
+ * TODO: Currently there is a bug, where the CCD Data Store Api returns a 'Request failed with status code 404', this
+ * is for an FR Divorce case. It does not occur initially when you create a new FR case, but hopefully this should not
+ * occur when the service lines implements the upload correctly to the case defintions file.
  *
  * TODO: Once a service line has implemented upload into their Case Definitions file, use prepareCaseForUpload
  * within ccdDataStoreApiPayloads.ts and check that it works correctly with a service line.

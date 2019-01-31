@@ -1,49 +1,4 @@
-import {DMDocument} from '../models'
-
-/**
- * prepareCaseForUpload
- *
- * Generic Upload Payload that will be used across all service lines.
- *
- * TODO: The TBC's we as a team have asked our service lines to implement.
- *
- * @param eventToken
- * @param eventId
- * @param dmDocument
- * @param comments
- * @return
- */
-export function prepareCaseForUpload(eventToken, eventId, dmDocument: DMDocument, comments) {
-
-    return {
-        data: {
-            uploadDocuments: [
-                {
-                    value: {
-                        documentName: dmDocument.originalDocumentName,
-                        documentType: 'Letter',
-                        createdBy: dmDocument.createdBy,
-                        createdDate: '2019-01-29',
-                        createdTime: '12:32:14+0000',
-                        authoredDate: dmDocument.modifiedOn,
-                        //TBC
-                        documentComment: comments,
-                        documentEmailContent: 'juitestuser2@gmail.com',
-                        documentLink: {
-                            document_url: dmDocument._links.self.href,
-                        },
-                    },
-                },
-            ],
-        },
-        event: {
-            id: eventId,
-        },
-        event_token: eventToken,
-
-        ignore_warning: true,
-    }
-}
+import {DMDocument} from '../../lib/models'
 
 /**
  * prepareCaseForUploadFR
@@ -57,6 +12,7 @@ export function prepareCaseForUpload(eventToken, eventId, dmDocument: DMDocument
  * TODO: Deprecate this function once all service lines are using the new Upload document feature within their case
  * definitions file, and use the one above.
  *
+ * @see support folder for interface for payload, that has been circulated to service lines to implement.
  * @param eventToken - Token returned from the call to 'Start event creation as Case worker' as per Core Case Data
  * - Data store API docs.
  * @param eventId - 'FR_uploadDocument'

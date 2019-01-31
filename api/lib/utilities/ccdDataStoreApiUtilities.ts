@@ -67,32 +67,32 @@ const ERROR_UNABLE_TO_POST_CASE = 'Unable to POST case data using the Event Toke
  * @param payload
  * @return {Promise}
  */
-export async function postCase(userId, caseId, jurisdiction, caseType, payload) {
-
-    console.log('payload')
-    console.log(payload)
-
-    const response = await asyncReturnOrError(
-        postCaseWithEventToken(
-            userId,
-            jurisdiction,
-            caseType,
-            caseId,
-            payload
-        ),
-        `Error sending event`,
-        null,
-        logger,
-        false)
-
-    if (!response) {
-        return Promise.reject({
-            message: ERROR_UNABLE_TO_POST_CASE,
-            status: 500,
-        })
-    }
-    return response
-}
+// export async function postCase(userId, caseId, jurisdiction, caseType, payload) {
+//
+//     console.log('payload')
+//     console.log(payload)
+//
+//     const response = await asyncReturnOrError(
+//         postCaseWithEventToken(
+//             userId,
+//             jurisdiction,
+//             caseType,
+//             caseId,
+//             payload
+//         ),
+//         `Error sending event`,
+//         null,
+//         logger,
+//         false)
+//
+//     if (!response) {
+//         return Promise.reject({
+//             message: ERROR_UNABLE_TO_POST_CASE,
+//             status: 500,
+//         })
+//     }
+//     return response
+// }
 
 // module.exports.getEventToken = getEventToken
-module.exports.postCase = postCase
+// module.exports.postCase = postCase
