@@ -121,27 +121,6 @@ export async function getDocumentVersionThumbnail(documentId: string, versionId:
     return response.data
 }
 
-export function postUploadedDocument(file, classification, options) {
-
-    const formData = {
-        classification: getClassification(classification),
-        files: [
-            {
-                options: {filename: file.name, contentType: file.type},
-                value: fs.createReadStream(file.path),
-            },
-        ],
-    }
-
-    const headers = {
-        ...options.headers, ...{
-            'Content-Type': 'multipart/form-data',
-        },
-    }
-
-    return uploadFileFormData(`${url}/documents`, formData, headers)
-}
-
 /**
  * getClassification
  *
@@ -312,7 +291,7 @@ function getOptions(req) {
 async function uploadDocumentAndAssociateWithCase(userId, caseId, jurisdiction, eventId, caseType, file, fileNotes,
                                                   classification, options) {
     const response = await asyncReturnOrError(
-        postUploadedDocument(file, classification, options),
+        uploadFileFormData(`${url}/documents`, file, classification, options.headers),
         `Error uploading document`,
         null,
         logger,
