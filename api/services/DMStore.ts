@@ -7,6 +7,7 @@ import {asyncReturnOrError} from '../lib/util'
 import {ERROR_UNABLE_TO_UPLOAD_DOCUMENT} from './dmStoreConstants'
 
 const generateRequest = require('../lib/request/request')
+const uploadFileFormData = require('../lib/request/uploadFileFormData')
 const headerUtilities = require('../lib/utilities/headerUtilities')
 const fs = require('fs')
 const formidable = require('formidable')
@@ -121,27 +122,24 @@ export async function getDocumentVersionThumbnail(documentId: string, versionId:
 }
 
 export function postUploadedDocument(file, classification, options) {
-    const reqOptions = {
-        ...options, ...{
-            formData: {
-                classification: getClassification(classification),
-                files: [
-                    {
-                        options: {filename: file.name, contentType: file.type},
-                        value: fs.createReadStream(file.path),
-                    },
-                ],
+
+    const formData = {
+        classification: getClassification(classification),
+        files: [
+            {
+                options: {filename: file.name, contentType: file.type},
+                value: fs.createReadStream(file.path),
             },
-            headers: {
-                ...options.headers, ...{
-                    'Content-Type': 'multipart/form-data',
-                },
-            },
-        },
-        json: false,
+        ],
     }
 
-    return generateRequest('POST', `${url}/documents`, reqOptions)
+    const headers = {
+        ...options.headers, ...{
+            'Content-Type': 'multipart/form-data',
+        },
+    }
+
+    return uploadFileFormData(`${url}/documents`, formData, headers)
 }
 
 /**
