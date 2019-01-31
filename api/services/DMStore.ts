@@ -5,7 +5,7 @@ import {config} from '../../config'
 import {http} from '../lib/http'
 import {asyncReturnOrError} from '../lib/util'
 import {ERROR_UNABLE_TO_UPLOAD_DOCUMENT} from './dmStoreConstants'
-import {getEventTokenAndCase} from './ccd-store-api/ccd-store'
+import {getEventTokenAndCase, postCaseWithEventToken} from './ccd-store-api/ccd-store'
 
 const generateRequest = require('../lib/request/request')
 const uploadFileFormData = require('../lib/request/uploadFileFormData')
@@ -14,7 +14,6 @@ const fs = require('fs')
 const formidable = require('formidable')
 
 import {Classification, DMDocument, DMDocuments} from '../lib/models'
-import {postCase} from '../lib/utilities/ccdDataStoreApiUtilities'
 import {prepareCaseForUploadFR} from '../lib/utilities/ccdDataStoreApiPayloads'
 
 const url = config.services.dm_store_api
@@ -24,6 +23,8 @@ logger.level = config.logging || 'off'
 
 // TODO: Move out
 const ERROR_UNABLE_TO_GET_EVENT_TOKEN = 'Unable to retrieve Event Token. Required to start event creation as a case worker.'
+const ERROR_UNABLE_TO_POST_CASE = 'Unable to POST case data using the Event Token. Required to submit event creation as ' +
+    'case worker.'
 
 /**
  * DOCUMENT DATA
@@ -337,7 +338,20 @@ async function uploadDocumentAndAssociateWithCase(userId, caseId, jurisdiction, 
         fileNotes
     )
 
-    return await postCase(userId, caseId, jurisdiction, caseType, payload)
+    const postCaseResponse = await asyncReturnOrError(
+        postCaseWithEventToken(
+            userId,
+            jurisdiction,
+            caseType,
+            caseId,
+            payload
+        ),
+        ERROR_UNABLE_TO_POST_CASE,
+        res,
+        logger,
+        true)
+
+    return postCaseResponse
 }
 
 /**
