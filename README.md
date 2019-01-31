@@ -26,6 +26,7 @@ git clone https://github.com/hmcts/rpa-jui-webapp.git
 cd rpa-jui-webapp/
 ```
 
+
 ## Set Environmental Variables
 ```bash
 export S2S_SECRET=
