@@ -28,29 +28,29 @@ const ERROR_UNABLE_TO_POST_CASE = 'Unable to POST case data using the Event Toke
  * @param {String} eventId ie. 'FR_uploadDocument'
  * @return {Promise}
  */
-export async function getEventToken(userId, caseId, jurisdiction, caseType, eventId) {
-
-    const response = await asyncReturnOrError(
-        getEventTokenAndCase(
-            userId,
-            jurisdiction,
-            caseType,
-            caseId,
-            eventId
-        ),
-        `Error sending event`,
-        null,
-        logger,
-        false)
-
-    if (!response) {
-        return Promise.reject({
-            message: ERROR_UNABLE_TO_GET_EVENT_TOKEN,
-            status: 500,
-        })
-    }
-    return response.token
-}
+// export async function getEventToken(userId, caseId, jurisdiction, caseType, eventId) {
+//
+//     const response = await asyncReturnOrError(
+//         getEventTokenAndCase(
+//             userId,
+//             jurisdiction,
+//             caseType,
+//             caseId,
+//             eventId
+//         ),
+//         `Error sending event`,
+//         null,
+//         logger,
+//         false)
+//
+//     if (!response) {
+//         return Promise.reject({
+//             message: ERROR_UNABLE_TO_GET_EVENT_TOKEN,
+//             status: 500,
+//         })
+//     }
+//     return response.token
+// }
 
 /**
  * postCase
@@ -94,5 +94,5 @@ export async function postCase(userId, caseId, jurisdiction, caseType, payload) 
     return response
 }
 
-module.exports.getEventToken = getEventToken
+// module.exports.getEventToken = getEventToken
 module.exports.postCase = postCase

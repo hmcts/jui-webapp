@@ -5,6 +5,7 @@ import {config} from '../../config'
 import {http} from '../lib/http'
 import {asyncReturnOrError} from '../lib/util'
 import {ERROR_UNABLE_TO_UPLOAD_DOCUMENT} from './dmStoreConstants'
+import {getEventTokenAndCase} from './ccd-store-api/ccd-store'
 
 const generateRequest = require('../lib/request/request')
 const uploadFileFormData = require('../lib/request/uploadFileFormData')
@@ -13,13 +14,16 @@ const fs = require('fs')
 const formidable = require('formidable')
 
 import {Classification, DMDocument, DMDocuments} from '../lib/models'
-import {getEventToken, postCase} from '../lib/utilities/ccdDataStoreApiUtilities'
+import {postCase} from '../lib/utilities/ccdDataStoreApiUtilities'
 import {prepareCaseForUploadFR} from '../lib/utilities/ccdDataStoreApiPayloads'
 
 const url = config.services.dm_store_api
 
 const logger = log4js.getLogger('dm-store')
 logger.level = config.logging || 'off'
+
+// TODO: Move out
+const ERROR_UNABLE_TO_GET_EVENT_TOKEN = 'Unable to retrieve Event Token. Required to start event creation as a case worker.'
 
 /**
  * DOCUMENT DATA
@@ -280,7 +284,20 @@ function getOptions(req) {
 /**
  * uploadDocumentAndAssociateWithCase
  *
- * Upload the document to Document Management Store.
+ * Steps to upload a document and associate that document with a case.
+ *
+ * 1. Upload the document to Document Management Store.
+ *
+ * 2. Get Event Token
+ *
+ * An Event Token is required to update a case. This token needs to be sent through in the payload to update a case.
+ *
+ * @see /caseworkers/{uid}/jurisdictions/{jid}/case-types/{ctid}/cases/{cid}/event-triggers/{etid}/token
+ *
+ * 3. Post Case update (with Event Token)
+ *
+ * Which is used in the payload for:
+ * @see /caseworkers/{uid}/jurisdictions/{jid}/case-types/{ctid}/cases/{cid}/events
  *
  * Once the document has been uploaded, get the Event Token to update a Case, create the payload with that
  * Event Token, and update the Case with a link to the document.
@@ -300,16 +317,21 @@ async function uploadDocumentAndAssociateWithCase(userId, caseId, jurisdiction, 
     const data: DMDocuments = JSON.parse(response)
     const dmDocument: DMDocument = data._embedded.documents.pop()
 
-    let eventToken = ''
-
-    try {
-        eventToken = await getEventToken(userId, caseId, jurisdiction, caseType, eventId)
-    } catch (error) {
-        return error
-    }
+    const eventTokenResponse = await asyncReturnOrError(
+        getEventTokenAndCase(
+            userId,
+            jurisdiction,
+            caseType,
+            caseId,
+            eventId
+        ),
+        ERROR_UNABLE_TO_GET_EVENT_TOKEN,
+        res,
+        logger,
+        true)
 
     const payload = prepareCaseForUploadFR(
-        eventToken,
+        eventTokenResponse.token,
         eventId,
         dmDocument,
         fileNotes
