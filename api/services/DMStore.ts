@@ -1,9 +1,11 @@
 import * as express from 'express'
-import * as log4js from 'log4js'
-import {map} from 'p-iteration'
-import {config} from '../../config'
-import {http} from '../lib/http'
-import {asyncReturnOrError} from '../lib/util'
+
+import { map } from 'p-iteration'
+import { config } from '../../config'
+import { http } from '../lib/http'
+import * as log4jui from '../lib/log4jui'
+import { asyncReturnOrError } from '../lib/util'
+
 import {ERROR_UNABLE_TO_GET_EVENT_TOKEN, ERROR_UNABLE_TO_POST_CASE, ERROR_UNABLE_TO_UPLOAD_DOCUMENT} from '../lib/config/errorConstants'
 import {getEventTokenAndCase, postCaseWithEventToken} from './ccd-store-api/ccd-store'
 
@@ -18,8 +20,7 @@ import {prepareCaseForUploadFR} from './ccd-store-api/ccd-store-payloads'
 
 const url = config.services.dm_store_api
 
-const logger = log4js.getLogger('dm-store')
-logger.level = config.logging || 'off'
+const logger = log4jui.getLogger('dm-store')
 
 /**
  * DOCUMENT DATA

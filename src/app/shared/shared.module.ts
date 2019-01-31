@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { TableComponent } from './components/table/table.component';
 import { DataListComponent } from './components/data-list/data-list.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -125,6 +126,9 @@ import { CustombuttonsComponent } from './components/custombuttons/custombuttons
         DocumentListComponent,
         DocumentUploadComponent,
         DateComponent
+    ],
+    providers: [
+        DatePipe
     ]
 })
 

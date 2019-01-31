@@ -1,101 +1,116 @@
 import * as express from 'express'
-import * as log4js from 'log4js'
-import { map } from 'p-iteration'
-import { config } from '../../../config'
-import { http } from '../../lib/http'
-import { CCDEventResponse } from '../../lib/models'
-import { asyncReturnOrError } from '../../lib/util'
+import {map} from 'p-iteration'
+import {config} from '../../../config'
+import {http} from '../../lib/http'
+import * as log4jui from '../../lib/log4jui'
+import {CCDEventResponse} from '../../lib/models'
+import {asyncReturnOrError} from '../../lib/util'
 
-const logger = log4js.getLogger('ccd-store')
-logger.level = config.logging || 'off'
+const logger = log4jui.getLogger('ccd-store')
 
 const url = config.services.ccd_data_api
 
-export async function getCCDEventToken(
-    userId: string, jurisdiction: string, caseType: string, caseId: string, eventId: string): Promise<any> {
-    const response = await http.get(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${
-        caseType}/cases/${caseId}/event-triggers/${eventId}/token`)
+export async function getCCDEventToken(userId: string,
+                                       jurisdiction: string,
+                                       caseType: string,
+                                       caseId: string,
+                                       eventId: string): Promise<any> {
+    const response = await http.get(
+        `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/event-triggers/${eventId}/token`
+    )
 
     return response.data
 }
 
-export async function getEventTokenAndCase(
-    userId: string, jurisdiction: string,caseType: string, caseId: string, eventId: string): Promise<CCDEventResponse> {
-    const response = await http.get(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${
-        caseType}/cases/${caseId}/event-triggers/${eventId}/token`)
+export async function getEventTokenAndCase(userId: string,
+                                           jurisdiction: string,
+                                           caseType: string,
+                                           caseId: string,
+                                           eventId: string): Promise<CCDEventResponse> {
+    const response = await http.get(
+        `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/event-triggers/${eventId}/token`
+    )
 
-    return { token: response.data.token, caseDetails: response.data.case_details }
+    return {token: response.data.token, caseDetails: response.data.case_details}
 }
 
-export async function getCCDEventTokenWithoutCase(
-    userId: string, jurisdiction: string, caseType: string, eventId: string): Promise<any> {
-    const response = await http.get(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${
-        caseType}/event-triggers/${eventId}/token`)
-
-    return response.data
-
-}
-
-export async function postCaseWithEventToken(
-    userId: string, jurisdiction: string, caseTypeId: string, caseId: string, body: any): Promise<any> {
-
-    const response = await http.post(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${
-        caseTypeId}/cases/${caseId}/events`, body)
+export async function getCCDEventTokenWithoutCase(userId: string,
+                                                  jurisdiction: string,
+                                                  caseType: string,
+                                                  eventId: string): Promise<any> {
+    const response = await http.get(
+        `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/event-triggers/${eventId}/token`
+    )
 
     return response.data
 }
 
-export async function postCCDEvent(
-    userId: string, jurisdiction: string, caseType: string, caseId: string, body: any): Promise<any> {
-    const response = await http.get(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${
-        caseType}/cases/${caseId}/events`)
+export async function postCaseWithEventToken(userId: string, jurisdiction: string, caseTypeId: string, caseId: string, body: any): Promise<any> {
+
+    const response = await http.post(
+        `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseTypeId}/cases/${caseId}/events`,
+        body
+    )
+
+    return response.data
+}
+
+export async function postCCDEvent(userId: string, jurisdiction: string, caseType: string, caseId: string, body: any): Promise<any> {
+    const response = await http.get(
+        `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`
+    )
 
     return response.data
 }
 
 export async function getCCDCase(userId: string, jurisdiction: string, caseType: string, caseId: string): Promise<any> {
-    const response = await http.get(`${url}/caseworkers/${userId}/jurisdictions/${
-        jurisdiction}/case-types/${caseType}/cases/${caseId}`)
+    const response = await http.get(
+        `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}`
+    )
 
     return response.data
 }
 
 export async function getCCDEvents(userId: string, jurisdiction: string, caseType: string, caseId: string): Promise<any> {
-    const response = await http.get(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${
-        caseType}/cases/${caseId}/events`)
+    const response = await http.get(
+        `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`
+    )
 
     return response.data
 }
 
 export async function getCCDCases(userId: string, jurisdiction: string, caseType: string, filter: string): Promise<any> {
-    const response = await http.get(`${url}/caseworkers/${userId}/jurisdictions/${
-        jurisdiction}/case-types/${caseType}/cases?sortDirection=DESC${filter}`)
+    const response = await http.get(
+        `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases?sortDirection=DESC${filter}`
+    )
     return response.data
 }
 
 export async function postCCDCase(userId: string, jurisdiction: string, caseType: string, body: any): Promise<any> {
-    const response = await http.post(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${
-        caseType}/cases`, body)
+    const response = await http.post(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases`, body)
 }
 
 export async function getMutiJudCCDCases(userId: string, jurisdictions: any[]): Promise<any[]> {
-
     const cases = await map(jurisdictions, async (jurisdiction: any) => {
         return await asyncReturnOrError(
             getCCDCases(userId, jurisdiction.jur, jurisdiction.caseType, jurisdiction.filter),
             `Error getting cases for ${jurisdiction.jur}`,
             null,
             logger,
-            false)
+            false
+        )
     })
 
     return cases
-
 }
 
-export async function createCase(
-    userId: string, jurisdiction: string, caseType: string, eventId: string,
-    description: string, summary: string, data: any): Promise<any> {
+export async function createCase(userId: string,
+                                 jurisdiction: string,
+                                 caseType: string,
+                                 eventId: string,
+                                 description: string,
+                                 summary: string,
+                                 data: any): Promise<any> {
     return getCCDEventTokenWithoutCase(userId, jurisdiction, caseType, eventId)
         .then(eventToken => {
             return {
@@ -115,9 +130,14 @@ export async function createCase(
         .then(body => postCCDCase(userId, jurisdiction, caseType, body))
 }
 
-export async function updateCase(
-    userId: string, jurisdiction: string, caseType: string,
-    caseId: string, eventId: string, description: string, summary: string, data: any): Promise<any> {
+export async function updateCase(userId: string,
+                                 jurisdiction: string,
+                                 caseType: string,
+                                 caseId: string,
+                                 eventId: string,
+                                 description: string,
+                                 summary: string,
+                                 data: any): Promise<any> {
     return getCCDEventToken(userId, jurisdiction, caseType, caseId, eventId)
         .then(eventToken => {
             return {
@@ -138,17 +158,17 @@ export async function updateCase(
 }
 
 export async function getHealth(): Promise<any> {
-    const response = await http.get( `${url}/health`)
+    const response = await http.get(`${url}/health`)
     return response.data
 }
 
 export async function getInfo(): Promise<any> {
-    const response = await http.get( `${url}/info`)
+    const response = await http.get(`${url}/info`)
     return response.data
 }
 
 export default app => {
-    const router = express.Router({ mergeParams: true })
+    const router = express.Router({mergeParams: true})
     app.use('/ccd-store', router)
 
     router.get('/health', (req, res, next) => {

@@ -1,4 +1,4 @@
-import {DMDocument} from '../../lib/models'
+import {DMDocument} from '../../lib/models/documents'
 
 /**
  * prepareCaseForUploadFR

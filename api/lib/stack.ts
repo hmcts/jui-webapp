@@ -1,11 +1,10 @@
 import * as camelcase from 'camelcase'
-import * as log4js from 'log4js'
 import { config } from '../../config'
+import * as log4jui from './log4jui'
 import { Store } from './store/store'
 import { isObject } from './util'
 
-const logger = log4js.getLogger('scss engine')
-logger.level = config.logging ? config.logging : 'OFF'
+const logger = log4jui.getLogger('scss engine')
 
 export async function pushStack(req, stack) {
     logger.info('Pushing stack')
@@ -23,7 +22,6 @@ export async function pushStack(req, stack) {
 }
 
 export async function shiftStack(req, variables) {
-
     const jurisdiction = req.params.jurId
     const caseId = req.params.caseId
     const caseTypeId = req.params.caseTypeId.toLowerCase()
@@ -36,7 +34,6 @@ export async function shiftStack(req, variables) {
     const currentStack = await store.get(`decisions_stack_${jurisdiction}_${caseTypeId}_${caseId}`)
 
     while (!matching && currentStack.length) {
-
         logger.info(`popped stack ${currentStack}`)
         currentItem = currentStack.shift()
         logger.info(`Got item ${currentItem}`)
@@ -45,14 +42,14 @@ export async function shiftStack(req, variables) {
 
         if (isObject(currentItem)) {
             const key = Object.keys(currentItem)[0]
-            if (Object.keys(currentItem).length) { // item is an object with variable to evaluate
-                matching = (variables[key]) ? currentItem[key] : null
+            if (Object.keys(currentItem).length) {
+                // item is an object with variable to evaluate
+                matching = variables[key] ? currentItem[key] : null
                 currentItem = currentItem[key]
             }
         } else {
             logger.warn('no object')
         }
-
     }
 
     return currentItem
@@ -69,8 +66,7 @@ export async function stackEmpty(req) {
 }
 
 export function forwardStack(register, stateId) {
-
-    const index = register.map(x => (Object.values(x)[0] as any)).indexOf(stateId)
+    const index = register.map(x => Object.values(x)[0] as any).indexOf(stateId)
     logger.info(`Forwarding stack at ${index} for ${stateId}`)
     console.log(register.slice(index + 1))
     return register.slice(index + 1)

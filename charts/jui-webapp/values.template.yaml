@@ -1,0 +1,16 @@
+
+nodejs:
+  applicationPort: 3000
+  environment:
+    REFORM_TEAM: rpa
+    REFORM_SERVICE_NAME: jui-webapp
+    NODE_ENV: production
+    UV_THREADPOOL_SIZE: 64
+    APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
+    S2S_SECRET: ${S2S_SECRET}
+    IDAM_SECRET: ${IDAM_SECRET}
+    JUI_ENV: preview
+    DECRYPT_KEY: ${DECRYPT_KEY}
+  # Don't modify below here
+  image: ${IMAGE_NAME}
+  ingressHost: ${SERVICE_FQDN}

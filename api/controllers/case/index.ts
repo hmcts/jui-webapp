@@ -7,10 +7,9 @@ const { getAllQuestionsByCase } = require('../questions/index')
 
 let refJudgeLookUp = []
 
-import * as log4js from 'log4js'
 import * as path from 'path'
-import { config } from '../../../config'
 import { decrypt } from '../../lib/encryption'
+import * as log4jui from '../../lib/log4jui'
 import { CCDCaseWithSchema } from '../../lib/models'
 import { asyncReturnOrError } from '../../lib/util'
 import { getCCDCase } from '../../services/ccd-store-api/ccd-store'
@@ -18,8 +17,7 @@ import { getHearingByCase } from '../../services/coh-cor-api/coh-cor-api'
 import { getDocuments } from '../../services/DMStore'
 import { getEvents } from '../events'
 
-const logger = log4js.getLogger('cases')
-logger.level = config.logging || 'off'
+const logger = log4jui.getLogger('cases')
 
 function hasCOR(jurisdiction, caseType) {
     return jurisdiction === 'SSCS'
@@ -103,7 +101,7 @@ function judgeLookUp(judgeEmail) {
     if (!refJudgeLookUp.length) {
         logger.info('Decrypting judge data ...')
         try {
-            logger.info('Running from', __dirname)
+            logger.info(`Running from__dirname ${__dirname}`)
             const data = decrypt(path.join(__dirname, '../../lib/config/refJudgeLookUp.crypt'))
             refJudgeLookUp = JSON.parse(data)
         } catch (e) {
