@@ -289,20 +289,13 @@ function getOptions(req) {
  * within ccdDataStoreApiPayloads.ts and check that it works correctly with a service line.
  */
 async function uploadDocumentAndAssociateWithCase(userId, caseId, jurisdiction, eventId, caseType, file, fileNotes,
-                                                  classification, options) {
+                                                  classification, options, res) {
     const response = await asyncReturnOrError(
         uploadFileFormData(`${url}/documents`, file, classification, options.headers),
-        `Error uploading document`,
-        null,
+        ERROR_UNABLE_TO_UPLOAD_DOCUMENT,
+        res,
         logger,
-        false)
-
-    if (!response) {
-        return Promise.reject({
-            message: ERROR_UNABLE_TO_UPLOAD_DOCUMENT,
-            status: 500,
-        })
-    }
+        true)
 
     const data: DMDocuments = JSON.parse(response)
     const dmDocument: DMDocument = data._embedded.documents.pop()
@@ -371,7 +364,7 @@ export default app => {
         form.on('file', async (name, file) => {
             try {
                 const response = await uploadDocumentAndAssociateWithCase(userId, caseId, jurisdiction, eventId, caseType, file,
-                    fileNotes, 'PUBLIC', getOptions(req))
+                    fileNotes, 'PUBLIC', getOptions(req), res)
                 res.send(response).status(200)
             } catch (error) {
                 res.status(error.status)

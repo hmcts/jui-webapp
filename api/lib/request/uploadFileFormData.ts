@@ -14,10 +14,14 @@ export function getClassification(classification) {
     return classification || 'PUBLIC'
 }
 
-// TODO: Hook this into logging
 /**
+ * uploadFormDataUsingRequest
+ *
  * We are using promise-request over Axios here, as it's hard to upload file data within a form
- * via Axios. In addition Upload feature may be dropped.
+ * via Axios. In addition Upload feature is highly likely to be dropped after v1.0, therefore
+ * we can deprecate the use of promise-request after this.
+ *
+ * TODO: Hook this into logging
  *
  * @param url
  * @param file
