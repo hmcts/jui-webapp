@@ -4,7 +4,7 @@ import {map} from 'p-iteration'
 import {config} from '../../config'
 import {http} from '../lib/http'
 import {asyncReturnOrError} from '../lib/util'
-import {ERROR_UNABLE_TO_UPLOAD_DOCUMENT} from './dmStoreConstants'
+import {ERROR_UNABLE_TO_GET_EVENT_TOKEN, ERROR_UNABLE_TO_POST_CASE, ERROR_UNABLE_TO_UPLOAD_DOCUMENT} from '../lib/config/errorConstants'
 import {getEventTokenAndCase, postCaseWithEventToken} from './ccd-store-api/ccd-store'
 
 const generateRequest = require('../lib/request/request')
@@ -20,11 +20,6 @@ const url = config.services.dm_store_api
 
 const logger = log4js.getLogger('dm-store')
 logger.level = config.logging || 'off'
-
-// TODO: Move out
-const ERROR_UNABLE_TO_GET_EVENT_TOKEN = 'Unable to retrieve Event Token. Required to start event creation as a case worker.'
-const ERROR_UNABLE_TO_POST_CASE = 'Unable to POST case data using the Event Token. Required to submit event creation as ' +
-    'case worker.'
 
 /**
  * DOCUMENT DATA
