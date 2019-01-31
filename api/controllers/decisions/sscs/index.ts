@@ -1,6 +1,6 @@
 import * as exceptionFormatter from 'exception-formatter'
-import * as log4js from 'log4js'
 import { config } from '../../../../config'
+import * as log4jui from '../../../lib/log4jui'
 import * as headerUtilities from '../../../lib/utilities/headerUtilities'
 import * as coh from '../../../services/coh'
 import * as Mapping from './mapping'
@@ -12,8 +12,7 @@ export const templates = Templates.templates
 
 const ccdStore = require('../../../services/ccd-store-api/ccd-store')
 
-const logger = log4js.getLogger('scss engine')
-logger.level = config.logging ? config.logging : 'OFF'
+const logger = log4jui.getLogger('scss engine')
 
 const exceptionOptions = {
     maxLines: 1,

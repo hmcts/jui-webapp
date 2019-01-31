@@ -1,4 +1,5 @@
 export const application = {
+   
     cookies: {
         token: '__auth__',
         userId: '__userid__'

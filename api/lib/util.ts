@@ -1,12 +1,13 @@
 import * as express from 'express'
-import { Logger } from 'log4js'
+import { JUILogger } from '../lib/models'
 
 export function asyncReturnOrError(
     promise: any,
     message: string,
     res: express.Response | null,
-    logger: Logger,
-    setResponse: boolean  = true): any {
+    logger: JUILogger,
+    setResponse: boolean = true
+): any {
     return promise
         .then(data => {
             return data
