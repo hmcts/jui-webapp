@@ -1,9 +1,6 @@
-# Don't modify below here
-image: ${IMAGE_NAME}
-ingressHost: ${SERVICE_FQDN}
 
 nodejs:
-  applicationPort: 8080
+  applicationPort: 3000
   environment:
     REFORM_TEAM: rpa
     REFORM_SERVICE_NAME: jui-webapp
@@ -14,3 +11,6 @@ nodejs:
     IDAM_SECRET: ${IDAM_SECRET}
     JUI_ENV: preview
     DECRYPT_KEY: ${DECRYPT_KEY}
+  # Don't modify below here
+  image: ${IMAGE_NAME}
+  ingressHost: ${SERVICE_FQDN}
