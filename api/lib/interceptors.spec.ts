@@ -14,7 +14,7 @@ describe('interceptors', () => {
     const response = {
         config: {
             metadata: {
-                startTime: 0,
+                startTime: new Date(),
             },
             method: 'POST',
             url: 'http://test2.com',
