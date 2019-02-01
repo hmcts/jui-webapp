@@ -33,7 +33,7 @@ describe('interceptors', () => {
             },
             url: 'http://test.com',
         },
-        metaData: {},
+
     }
     describe('requestInterceptor', () => {
         it('Should log outbound request', () => {
