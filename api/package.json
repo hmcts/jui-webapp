@@ -6,7 +6,7 @@
     "ng": "ng",
     "build": "tsc &&  npm run copy",
     "copy": "cp lib/config/refJudgeLookUp.crypt ../dist/jui-backend/api/lib/config",
-    "coverage": "not implemented try coveragex",
+    "coverage": "echo not implemented try coveragex",
     "coveragex": "npx nyc mocha",
     "watch": "nodemon --watch '**/*.ts' --exec 'ts-node' ../dev-server.ts",
     "test": "mocha",
