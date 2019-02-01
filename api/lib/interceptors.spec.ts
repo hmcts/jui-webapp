@@ -1,14 +1,14 @@
 import * as chai from 'chai'
-import {expect} from 'chai'
+import { expect } from 'chai'
 import * as log4js from 'log4js'
 import 'mocha'
 import * as sinon from 'sinon'
 import * as sinonChai from 'sinon-chai'
-import {mockReq, mockRes} from 'sinon-express-mock'
+import { mockReq, mockRes } from 'sinon-express-mock'
 
 chai.use(sinonChai)
 
-import {errorInterceptor, requestInterceptor, successInterceptor} from './interceptors'
+import { errorInterceptor, requestInterceptor, successInterceptor } from './interceptors'
 
 describe('interceptors', () => {
     const response = {
@@ -16,6 +16,7 @@ describe('interceptors', () => {
             method: 'POST',
             url: 'http://test2.com',
         },
+        metaData: {},
     }
     const request = {
         method: 'GET',
@@ -32,12 +33,13 @@ describe('interceptors', () => {
             },
             url: 'http://test.com',
         },
+        metaData: {},
     }
     describe('requestInterceptor', () => {
         it('Should log outbound request', () => {
             const spy = sinon.spy()
             const getLoggerStub = sinon.stub(log4js, 'getLogger')
-            getLoggerStub.returns({info: spy})
+            getLoggerStub.returns({ info: spy })
             requestInterceptor(request)
             expect(spy).to.be.calledWith('GET to http://test.com')
             getLoggerStub.restore()
@@ -51,7 +53,7 @@ describe('interceptors', () => {
         it('Should log returned response', () => {
             const spy = sinon.spy()
             const getLoggerStub = sinon.stub(log4js, 'getLogger')
-            getLoggerStub.returns({info: spy})
+            getLoggerStub.returns({ info: spy })
             successInterceptor(response)
             expect(spy).to.be.calledWith('Success on POST to http://test2.com')
             getLoggerStub.restore()
