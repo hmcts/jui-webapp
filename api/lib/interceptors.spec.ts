@@ -13,27 +13,27 @@ import { errorInterceptor, requestInterceptor, successInterceptor } from './inte
 describe('interceptors', () => {
     const response = {
         config: {
+            metadata: {},
             method: 'POST',
             url: 'http://test2.com',
         },
-        metadata: {},
     }
     const request = {
         method: 'GET',
         url: 'http://test.com',
-        metadata: {},
+
     }
     const error = {
         config: {
             data: {
                 authenticated: false,
             },
+            metadata: {},
             method: 'GET',
             response: {
                 status: 500,
             },
             url: 'http://test.com',
-            metadata: {},
         },
 
     }
