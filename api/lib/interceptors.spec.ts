@@ -59,7 +59,7 @@ describe('interceptors', () => {
             const getLoggerStub = sinon.stub(log4js, 'getLogger')
             getLoggerStub.returns({ info: spy })
             successInterceptor(response)
-            expect(spy).to.be.calledOnce()
+            expect(spy).to.be.calledOnce
             getLoggerStub.restore()
         })
         it('Should return response unmutilated', () => {
