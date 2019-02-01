@@ -16,6 +16,7 @@ describe('interceptors', () => {
             method: 'POST',
             url: 'http://test2.com',
         },
+        metadata: {},
     }
     const request = {
         method: 'GET',
@@ -32,6 +33,7 @@ describe('interceptors', () => {
                 status: 500,
             },
             url: 'http://test.com',
+            metadata: {},
         },
 
     }
