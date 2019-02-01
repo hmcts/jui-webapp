@@ -54,7 +54,7 @@ describe('UploadComponent', () => {
 
         spyOn(mockDocumentStoreService, 'postFile').and.returnValue(Observable.of(true));
 
-        component.postFile(fakeFile);
+        component.postFile(fakeFile,'1', '');
 
         expect(mockDocumentStoreService.postFile).toHaveBeenCalledTimes(1);
     });
