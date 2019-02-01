@@ -1,2 +1,0 @@
-describe('service-token', () => {
-})
