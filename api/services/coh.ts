@@ -1,15 +1,14 @@
-import * as log4js from 'log4js'
 import * as moment from 'moment'
 import { config } from '../../config'
 import { http } from '../lib/http'
 
 import { ERROR_NO_HEARING_IDENTIFIER, ERROR_UNABLE_TO_RELIST_HEARING } from '../lib/config/cohConstants'
+import * as log4jui from '../lib/log4jui'
 import { valueOrNull } from '../lib/util'
 
 export const url = config.services.coh_cor_api
 
-const logger = log4js.getLogger('cases')
-logger.level = config.logging || 'off'
+const logger = log4jui.getLogger('cases')
 
 interface DateTimeObject {
     date: string

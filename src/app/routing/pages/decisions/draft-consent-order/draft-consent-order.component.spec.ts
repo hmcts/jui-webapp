@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { DatePipe } from '@angular/common';
 import { DraftConsentOrderComponent } from './draft-consent-order.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -27,7 +28,7 @@ describe('DraftConsentOrderComponent', () => {
         ReactiveFormsModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [ 
+      providers: [ DatePipe,
         {
           provide: DecisionService,
           useValue: {
@@ -41,7 +42,7 @@ describe('DraftConsentOrderComponent', () => {
         },
         {
           provide: ActivatedRoute,
-          useValue: ({ 
+          useValue: ({
             snapshot: {
                 _lastPathIndex: 0,
                 url: [{
@@ -73,7 +74,7 @@ describe('DraftConsentOrderComponent', () => {
                 })
             }
           } as any) as ActivatedRoute
-          
+
         }
       ]
     })
@@ -93,7 +94,7 @@ describe('DraftConsentOrderComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-  
+
   afterEach(() => {
     TestBed.resetTestingModule();
   });

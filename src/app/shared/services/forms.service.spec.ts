@@ -1,12 +1,12 @@
 import { TestBed, inject } from '@angular/core/testing';
-
+import { DatePipe } from '@angular/common';
 import { FormsService } from './forms.service';
 import { ValidationService } from './validation.service';
 
 describe('FormsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [FormsService, ValidationService]
+      providers: [DatePipe, FormsService, ValidationService]
     });
   });
 
@@ -15,7 +15,7 @@ describe('FormsService', () => {
   }));
 
   describe('on form creation', () => {
-    
+
     describe('when creating radio buttons', () => {
 
       it('should create radio buttons where data does not exist', inject([FormsService], (service: FormsService) => {
@@ -28,7 +28,7 @@ describe('FormsService', () => {
           }
         ];
         const someData = {};
-    
+
         service.create(someJson, someData);
         expect(service.FormControls.hasOwnProperty('radio')).toBeTruthy();
       }));
@@ -46,7 +46,7 @@ describe('FormsService', () => {
         const someData = {
           text: 'test'
         };
-        
+
         service.create(someJson, someData);
         expect(createFormControlSpy).toHaveBeenCalled();
       }));
@@ -63,13 +63,13 @@ describe('FormsService', () => {
         const someData = {
           radio: 'dummy'
         };
-    
+
         service.create(someJson, someData);
         expect(service.FormControls.hasOwnProperty('radio')).toBeTruthy();
       }));
 
     });
-    
+
     describe('when creating non radio buttons controls', () => {
 
       it('should create control where data does not match', inject([FormsService], (service: FormsService) => {
@@ -82,7 +82,7 @@ describe('FormsService', () => {
         const someData = {
           radio: 'test'
         };
-        
+
         service.create(someJson, someData);
         expect(createFormControlSpy).toHaveBeenCalled();
       }));
@@ -96,12 +96,12 @@ describe('FormsService', () => {
         const someData = {
           text: 'dummy'
         };
-    
+
         service.create(someJson, someData);
         expect(service.FormControls.hasOwnProperty('text')).toBeTruthy();
       }));
     });
 
   });
-  
+
 });

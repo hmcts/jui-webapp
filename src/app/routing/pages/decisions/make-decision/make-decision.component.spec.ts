@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { DatePipe } from '@angular/common';
 import { MakeDecisionComponent } from './make-decision.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -27,7 +28,7 @@ describe('MakeDecisionComponent', () => {
         ReactiveFormsModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [ 
+      providers: [ DatePipe,
         {
           provide: DecisionService,
           useValue: {
@@ -41,7 +42,7 @@ describe('MakeDecisionComponent', () => {
         },
         {
           provide: ActivatedRoute,
-          useValue: ({ 
+          useValue: ({
             snapshot: {
                 _lastPathIndex: 0,
                 url: [{
@@ -73,7 +74,7 @@ describe('MakeDecisionComponent', () => {
                 })
             }
           } as any) as ActivatedRoute
-          
+
         }
       ]
     })
@@ -93,7 +94,7 @@ describe('MakeDecisionComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-  
+
   afterEach(() => {
     TestBed.resetTestingModule();
   });
