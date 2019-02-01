@@ -13,7 +13,9 @@ import { errorInterceptor, requestInterceptor, successInterceptor } from './inte
 describe('interceptors', () => {
     const response = {
         config: {
-            metadata: {},
+            metadata: {
+                startTime: 0,
+            },
             method: 'POST',
             url: 'http://test2.com',
         },
@@ -57,7 +59,7 @@ describe('interceptors', () => {
             const getLoggerStub = sinon.stub(log4js, 'getLogger')
             getLoggerStub.returns({ info: spy })
             successInterceptor(response)
-            expect(spy).to.be.calledWith('Success on POST to http://test2.com')
+            expect(spy).to.be.calledWith(`Success on POST to http://test2.com (${new Date()})`)
             getLoggerStub.restore()
         })
         it('Should return response unmutilated', () => {
