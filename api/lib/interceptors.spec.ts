@@ -16,11 +16,11 @@ describe('interceptors', () => {
             method: 'POST',
             url: 'http://test2.com',
         },
-        metaData: {},
     }
     const request = {
         method: 'GET',
         url: 'http://test.com',
+        metaData: {},
     }
     const error = {
         config: {
