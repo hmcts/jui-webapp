@@ -20,7 +20,7 @@ describe('interceptors', () => {
     const request = {
         method: 'GET',
         url: 'http://test.com',
-        metaData: {},
+        metadata: {},
     }
     const error = {
         config: {
