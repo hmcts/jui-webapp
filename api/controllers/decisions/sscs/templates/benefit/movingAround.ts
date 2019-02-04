@@ -12,7 +12,7 @@ module.exports = {
             validationLevel: 'formControl',
             controlId: 'MobilityMovingAround',
             text: 'Select at least one activity',
-            href: '#'
+            href: 'MobilityMovingAround'
         }
     ],
     groups: [

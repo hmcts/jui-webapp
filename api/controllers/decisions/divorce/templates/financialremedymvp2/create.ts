@@ -8,7 +8,7 @@ module.exports = {
             validationLevel: 'formControl',
             controlId: 'approveDraftConsent',
             text: 'Select yes if you want to approve the draft consent order',
-            href: '#'
+            href: 'approveDraftConsent'
         }
     ],
     groups: [

@@ -25,13 +25,13 @@ module.exports = {
             validationLevel: 'formGroup',
             formGroupValidationErrorId: 'provideReasons',
             text: 'Select at least one reason',
-            href: '#'
+            href: 'provideReasons'
         },
         {
             validationLevel: 'formGroup',
             formGroupValidationErrorId: 'additionalInformationText',
             text: 'Enter additional information',
-            href: '#'
+            href: 'additionalInformationText'
         }
     ],
     groups: [

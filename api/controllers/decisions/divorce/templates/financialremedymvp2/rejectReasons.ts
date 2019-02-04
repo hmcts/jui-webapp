@@ -32,37 +32,37 @@ module.exports = {
                 validationLevel: 'formControl',
                 controlId: 'informationNeeded',
                 text: 'Enter what information is needed',
-                href: '#'
+                href: 'informationNeeded'
             },
             {
                 validationLevel: 'formControl',
                 controlId: 'includeAnnotatedVersionDraftConsOrder',
                 text: 'Select yes if you want to include an annotated version of the draft consent order',
-                href: '#'
+                href: 'includeAnnotatedVersionDraftConsOrder'
             },
             {
                 validationLevel: 'formControl',
                 controlId: 'Directions',
                 text: 'Enter the directions',
-                href: '#'
+                href: 'Directions'
             },
             {
                 validationLevel: 'formGroup',
                 formGroupValidationErrorId: 'reasonsConstentOrderNotApproved',
                 text: 'Select reasons the consent order was not approved',
-                href: '#'
+                href: 'reasonsConstentOrderNotApproved'
             },
             {
                 validationLevel: 'formGroup',
                 formGroupValidationErrorId: 'informationNeeded',
                 text: 'Enter additional information',
-                href: '#'
+                href: 'informationNeeded'
             },
             {
                 validationLevel: 'formGroup',
                 formGroupValidationErrorId: 'Reason',
                 text: 'Enter the reason',
-                href: '#'
+                href: 'Reason'
             }
         ],
         header: 'What should appear in the directions order?',

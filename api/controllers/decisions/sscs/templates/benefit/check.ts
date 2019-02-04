@@ -8,7 +8,7 @@ module.exports = {
             validationLevel: 'formControl',
             controlId: 'reasonsTribunalView',
             text: 'Enter the Reasons for the tribunal’s view',
-            href: '#'
+            href: 'reasonsTribunalView'
         }
     ],
     groups: [

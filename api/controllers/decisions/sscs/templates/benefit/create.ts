@@ -8,7 +8,7 @@ module.exports = {
             validationLevel: 'formControl',
             controlId: 'preliminaryView',
             text: 'Select if you want to send a preliminary view or a final decision',
-            href: '#'
+            href: 'preliminaryView'
         }
     ],
     groups: [
