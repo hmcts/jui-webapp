@@ -58,7 +58,7 @@ export class FormsService {
             }
         }
         if (someJson !== undefined && someJson.isArray) {
-        
+
             for (const item  of someJson) {
                 this.create(someJson[item], someData);
             }
@@ -83,6 +83,7 @@ export class FormsService {
     }
 
     defineformControls(someJson: any, someData: any): any {
+        this.FormControls = [];
         this.create(someJson, someData);
         return this.FormControls;
     }
