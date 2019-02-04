@@ -48,8 +48,9 @@ export class UploadComponent implements OnInit {
      * uploadDocument
      *
      * @param file
+     * @param fileNotes
      */
-    uploadDocument(file: File, fileNotes: String) {
+    uploadDocument(file: File, fileNotes: string) {
 
         if (file) {
             this.postFile(file, this.caseId, fileNotes);
@@ -67,7 +68,7 @@ export class UploadComponent implements OnInit {
      * @param {String} caseId
      * @param {String} fileNotes
      */
-    postFile(file: File, caseId: String, fileNotes: String) {
+    postFile(file: File, caseId: string, fileNotes: string) {
 
         this.documentService.postFileAndAssociateWithCase('PRIVATE', caseId, file, fileNotes)
             .subscribe((response) => {

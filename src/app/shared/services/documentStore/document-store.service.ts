@@ -38,11 +38,12 @@ export class DocumentStoreService {
      * find the document later, associated on that case.
      *
      * @param classification
-     * @param metaData
+     * @param caseId
      * @param file
+     * @param fileNotes
      * @return {Observable<Object>}
      */
-    postFileAndAssociateWithCase(classification: string, caseId: String, file: File, fileNotes: String ) {
+    postFileAndAssociateWithCase(classification: string, caseId: string, file: File, fileNotes: string ) {
         const formData: FormData = new FormData();
         formData.append('classification', classification);
         formData.append('fileNotes', String(fileNotes));
