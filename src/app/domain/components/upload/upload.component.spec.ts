@@ -62,6 +62,22 @@ describe('UploadComponent', () => {
     //     expect(mockDocumentStoreService.postFile).toHaveBeenCalledTimes(1);
     // });
 
+    it('should set and get an input file.', () => {
+
+        component.inputFileHandler(fakeFile);
+
+        expect(component.inputFile).toBe(fakeFile);
+    });
+
+    it('should send file to document service.', () => {
+
+        spyOn(mockDocumentStoreService, 'postFile').and.returnValue(Observable.of(true));
+
+        component.postFile(fakeFile, '1', '');
+
+        expect(mockDocumentStoreService.postFile).toHaveBeenCalledTimes(1);
+    });
+
 
     // Works
     // it('should hook into component class function', () => {
