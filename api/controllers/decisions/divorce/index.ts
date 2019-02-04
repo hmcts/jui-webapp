@@ -1,7 +1,6 @@
 import * as exceptionFormatter from 'exception-formatter'
-import * as log4js from 'log4js'
 import { config } from '../../../../config'
-import { Store } from '../../../lib/store/store'
+import * as log4jui from '../../../lib/log4jui'
 
 import * as moment from 'moment'
 import * as translateJson from './translate'
@@ -9,7 +8,7 @@ import * as translateJson from './translate'
 import * as headerUtilities from '../../../lib/utilities/headerUtilities'
 
 import * as Mapping from './mapping'
-import * as  Templates from './templates'
+import * as Templates from './templates'
 
 export const mapping = Mapping.mapping
 export const templates = Templates.templates
@@ -18,8 +17,7 @@ export const templates = Templates.templates
 
 const ccdStore = require('../../../services/ccd-store-api/ccd-store')
 
-const logger = log4js.getLogger('State')
-logger.level = config.logging ? config.logging : 'OFF'
+const logger = log4jui.getLogger('State')
 
 const ERROR400 = 400
 const exceptionOptions = {
@@ -148,7 +146,7 @@ function perpareCaseForRefusal(caseData, eventToken, eventId, user, store) {
     }
 
     Object.entries(checkList).forEach(keyValue => {
-        logger.info('checking ', keyValue[0], ' with', keyValue[1])
+        logger.info(`checking ${keyValue[0]} with ${keyValue[1]}`)
         if (keyValue[1]) {
             orderRefusalCollection[keyValue[0]] = keyValue[1]
         }
@@ -174,7 +172,7 @@ function perpareCaseForRefusal(caseData, eventToken, eventId, user, store) {
     }
 }
 
-async function  makeDecision(decision, req, state, store) {
+async function makeDecision(decision, req, state, store) {
     let payloadData = {}
     let eventToken = {}
     let caseDetails = {}
@@ -203,23 +201,11 @@ async function  makeDecision(decision, req, state, store) {
     }
 
     if (decision === 'yes') {
-        payloadData = perpareCaseForApproval(
-            caseDetails,
-            eventToken,
-            'FR_approveApplication',
-            req.session.user,
-            store
-        )
+        payloadData = perpareCaseForApproval(caseDetails, eventToken, 'FR_approveApplication', req.session.user, store)
     }
 
     if (decision === 'no') {
-        payloadData = perpareCaseForRefusal(
-            caseDetails,
-            eventToken,
-            'FR_orderRefusal',
-            req.session.user,
-            store
-        )
+        payloadData = perpareCaseForRefusal(caseDetails, eventToken, 'FR_orderRefusal', req.session.user, store)
     }
 
     try {

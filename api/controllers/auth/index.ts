@@ -1,14 +1,13 @@
 import * as express from 'express'
-import * as log4js from 'log4js'
+import * as log4jui from '../../lib/log4jui'
 import { config } from '../../../config'
 import { asyncReturnOrError, exists } from '../../lib/util'
-import { getDetails, postOauthToken} from '../../services/idam-api/idam-api'
+import { getDetails, postOauthToken } from '../../services/idam-api/idam-api'
 
 const cookieToken = config.cookies.token
 const cookieUserId = config.cookies.userId
 
-const logger = log4js.getLogger('auth')
-logger.level = config.logging || 'off'
+const logger = log4jui.getLogger('auth')
 
 export function logout(req, res) {
     res.clearCookie(cookieToken)
@@ -17,26 +16,18 @@ export function logout(req, res) {
 }
 
 export async function authenticateUser(req: any, res) {
-
     const data = await asyncReturnOrError(
         postOauthToken(req.query.code, req.get('host')),
         'Error getting token for code',
         res,
         logger,
         false
-        )
+    )
 
     if (exists(data, 'access_token')) {
-
         const options = { headers: { Authorization: `Bearer ${data.access_token}` } }
 
-        const details = await asyncReturnOrError(
-            getDetails(options),
-            'Cannot get user details',
-            res,
-            logger,
-            false
-        )
+        const details = await asyncReturnOrError(getDetails(options), 'Cannot get user details', res, logger, false)
 
         if (details) {
             req.session.user = details
@@ -46,7 +37,7 @@ export async function authenticateUser(req: any, res) {
     }
 
     res.redirect('/')
- }
+}
 
 export function auth(app) {
     const router = express.Router()

@@ -1,15 +1,12 @@
 // Nodejs encryption of buffers
 import * as crypto from 'crypto'
 import * as fs from 'fs'
-import * as log4js from 'log4js'
-import { config } from '../../config'
+import * as log4jui from './log4jui'
 
 const algorithm = 'aes-256-ctr'
 const password = process.env.DECRYPT_KEY
 
-
-const logger = log4js.getLogger('encryption')
-logger.level = config.logging || 'off'
+const logger = log4jui.getLogger('encryption')
 
 function encrypt(fileName: string): void {
     const filenamePart = fileName.split('.')[0]

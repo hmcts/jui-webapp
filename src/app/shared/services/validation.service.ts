@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {AbstractControl, Form, FormGroup} from '@angular/forms';
 import {Validators, ValidationErrors, ValidatorFn} from '@angular/forms';
+import {DatePipe} from '@angular/common';
 import {controlsisTextAreaValidWhenCheckboxChecked, controlsRadioConditionalModel, FormGroupValidator} from './validation.typescript';
 
 @Injectable({
@@ -29,7 +30,7 @@ export class ValidationService {
     ];
 
 
-    constructor() {
+    constructor(private datePipe: DatePipe) {
     }
 
     /**
@@ -208,6 +209,108 @@ export class ValidationService {
              return this.isAllFieldsRequiredValidationFn(controls, fields, validationIdentifier);
           };
          return isAllFieldsRequiredValidationFn;
+    }
+
+    /** Common function for date validator
+     * Returninng the validationIdentifier true if invalid and null if valid
+     *
+     * yyyy/mm/dd
+     *
+     */
+
+
+    isValidDateValidationFn(controls: FormGroup, fields: Array<string>, validationIdentifier){
+
+        if (controls !== null && fields !== null) {
+            const dateValueArray = [];
+
+            for (const field of fields) {
+
+                if (!controls.get(field).value) {
+                    return {
+                        [validationIdentifier]: true
+                    };
+                } else {
+
+                    // Form have valid values and we can create date
+                    // Check is form controls matching the right lengh and then create array contained date
+
+                    if (controls.get(field).value.length <= 2) {
+                        dateValueArray.push(controls.get(field).value);
+                    } else if  (controls.get(field).value.length === 4) {
+                        dateValueArray.push(controls.get(field).value);
+                    } else {
+                        return {
+                            [validationIdentifier]: true
+                        };
+                    }
+
+                    // Check if array is ready and convert to string
+
+                    if (dateValueArray.length === 3){
+
+                        //Return error if not numbers
+                        for (const element of dateValueArray) {
+                            if (element != Number(element)) {
+                                return {
+                                    [validationIdentifier]: true
+                                };
+                            }
+                        }
+
+                        // Convert user entered day and month to numbers
+                        dateValueArray[1] = Number(dateValueArray[1]);
+                        dateValueArray[2] = Number(dateValueArray[2]);
+
+                        // Return error if user entered months less than 0 and more than 12
+                        if (dateValueArray[1] <= 0 || dateValueArray[1] >= 12) {
+                            return {
+                                [validationIdentifier]: true
+                            };
+                        }
+                        // Return error if user entered months less than 0 and more than 31
+                        if (dateValueArray[2] <= 0 || dateValueArray[2] >= 31) {
+                            return {
+                                [validationIdentifier]: true
+                            };
+                        }
+
+                        // Here value might me invalid
+
+                        // Adding zeros in front if less than 10
+                        if (dateValueArray[1] < 10) { dateValueArray[1] = ("0" + (dateValueArray[1]).toString().slice(-2)); }
+                        if (dateValueArray[2] < 10) { dateValueArray[2] = ("0" + (dateValueArray[2]).toString().slice(-2)); }
+
+                        // Get proper date format by create Date object and convert it back to string for comparison with what the user entered
+
+                        const dateStr = dateValueArray.toString();
+
+                        const dateObj = new Date(dateStr);
+                        const checkDateStr = dateObj.toISOString().slice(0, 10).replace(/-/g, ",").replace("T", " ");
+
+                        // Return null if valid date
+                        if (checkDateStr === dateStr) {
+                            return null;
+                        }
+
+                        return {
+                            [validationIdentifier]: true
+                        };
+
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    isValidDate(formGroup: FormGroup, fields: Array<string>, validationIdentifier: string): ValidatorFn | null {
+        const isValidDateValidationFn: ValidatorFn = (controls: FormGroup): ValidationErrors | null => {
+            return this.isValidDateValidationFn(controls, fields, validationIdentifier);
+        };
+
+        return isValidDateValidationFn;
     }
 
     /**

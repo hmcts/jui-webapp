@@ -1,6 +1,5 @@
 import * as express from 'express'
-import * as log4js from 'log4js'
-import { config } from '../../../config'
+import * as log4jui from '../../lib/log4jui'
 import { process } from '../../lib/stateEngine'
 import { Store } from '../../lib/store/store'
 import * as headerUtilities from '../../lib/utilities/headerUtilities'
@@ -12,7 +11,6 @@ const divorceType = 'DIVORCE'
 const sscsType = 'SSCS'
 
 async function handleStateRoute(req, res) {
-
     const jurisdiction = req.params.jurId
     const caseTypeId = req.params.caseTypeId.toLowerCase()
 

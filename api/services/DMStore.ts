@@ -1,15 +1,15 @@
 import * as express from 'express'
-import * as log4js from 'log4js'
 import { map } from 'p-iteration'
 import { config } from '../../config'
 import { http } from '../lib/http'
+import * as log4jui from '../lib/log4jui'
 import { asyncReturnOrError } from '../lib/util'
+
 const fs = require('fs')
 
 const url = config.services.dm_store_api
 
-const logger = log4js.getLogger('dm-store')
-logger.level = config.logging || 'off'
+const logger = log4jui.getLogger('dm-store')
 
 /**
  * DOCUMENT DATA

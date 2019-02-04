@@ -32,6 +32,9 @@ const configs = {
 export const configEnv = process ? process.env.JUI_ENV || 'local' : 'local';
 export const config = { ...configs[configEnv].default, ...application };
 
+if (process) {
+    config.appInsightsInstrumentationKey = process.env.APPINSIGHTS_INSTRUMENTATIONKEY || 'AAAAAAAAAAAAAAAA'
+}
 if (configEnv === 'local') {
     config.protocol = 'http';
 }
