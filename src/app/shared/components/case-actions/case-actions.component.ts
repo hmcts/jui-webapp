@@ -7,7 +7,7 @@ import {LinkItem} from '../../../domain/models/section_fields';
 })
 export class CaseActionsComponent {
 
-    @Input() header = '';
+    @Input() header;
     @Input() actionPrimaryButton: LinkItem;
     @Input() actionSecondaryButton: LinkItem;
     @Input() actionThirdButton: LinkItem;

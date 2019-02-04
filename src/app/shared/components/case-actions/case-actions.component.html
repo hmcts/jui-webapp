@@ -18,7 +18,11 @@
            class="govuk-button hmcts-page-heading__button hmcts-button--secondary">
             {{actionSecondaryButton.text}}
         </a>
-        <a *ngIf="actionThirdButton"  [routerLink]="actionThirdButton.href" role="button" class="govuk-button hmcts-page-heading__button hmcts-button--secondary">
+        <a *ngIf="actionThirdButton"
+           data-selector="third-button"
+           [routerLink]="actionThirdButton.href"
+           role="button"
+           class="govuk-button hmcts-page-heading__button hmcts-button--secondary">
             {{actionThirdButton.text}}
         </a>
     </div>
