@@ -2,14 +2,16 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {HttpClientModule} from '@angular/common/http';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import {DocumentStoreService} from '../../../shared/services/documentStore/document-store.service';
 
 import {UploadComponent} from './upload.component';
 import {Observable} from "rxjs/Rx";
+import {mockActivateRoute} from '../../mock/activateRoute.mock';
 
 class MockDocumentStoreService {
-    postFile() {
+    postFileAndAssociateWithCase() {
     }
 }
 
@@ -25,7 +27,7 @@ describe('UploadComponent', () => {
     blob['name'] = 'filename';
 
     const fakeFile = <File>blob;
-    const caseId = '424242';
+    const caseId = '42';
     const fileNotes = 'comments on the file contents';
 
     beforeEach(async(() => {
@@ -34,6 +36,10 @@ describe('UploadComponent', () => {
             schemas: [CUSTOM_ELEMENTS_SCHEMA],
             providers: [
                 UploadComponent,
+                {
+                    provide: ActivatedRoute,
+                    useValue: mockActivateRoute
+                },
                 {provide: DocumentStoreService, useFactory: () => mockDocumentStoreService}
             ],
         })
@@ -45,23 +51,6 @@ describe('UploadComponent', () => {
         component = fixture.componentInstance;
     });
 
-    // it('should set and get an input file.', () => {
-    //
-    //     component.inputFileHandler(fakeFile);
-    //
-    //     expect(component.inputFile).toBe(fakeFile);
-    // });
-    //
-    // it('should send file to document service.', () => {
-    //
-    //
-    //     spyOn(mockDocumentStoreService, 'postFile').and.returnValue(Observable.of(true));
-    //
-    //     component.postFile(fakeFile, caseId, fileNotes);
-    //
-    //     expect(mockDocumentStoreService.postFile).toHaveBeenCalledTimes(1);
-    // });
-
     it('should set and get an input file.', () => {
 
         component.inputFileHandler(fakeFile);
@@ -71,23 +60,10 @@ describe('UploadComponent', () => {
 
     it('should send file to document service.', () => {
 
-        spyOn(mockDocumentStoreService, 'postFile').and.returnValue(Observable.of(true));
+        spyOn(mockDocumentStoreService, 'postFileAndAssociateWithCase').and.returnValue(Observable.of(true));
 
-        component.postFile(fakeFile, '1', '');
+        component.postFile(fakeFile, caseId, fileNotes);
 
-        expect(mockDocumentStoreService.postFile).toHaveBeenCalledTimes(1);
+        expect(mockDocumentStoreService.postFileAndAssociateWithCase).toHaveBeenCalledTimes(1);
     });
-
-
-    // Works
-    // it('should hook into component class function', () => {
-    //
-    //     expect(component.testFunction()).toBeFalsy();
-    // });
-
-    // Works
-    // it('should contain upload new item', () => {
-    //     const inputElement: HTMLElement = fixture.nativeElement;
-    //     expect(inputElement.textContent).toContain('Upload new item');
-    // });
 });

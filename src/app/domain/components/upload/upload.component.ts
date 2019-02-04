@@ -80,17 +80,4 @@ export class UploadComponent implements OnInit {
                 }
             );
     }
-
-    // testFunction() {
-    //     return false;
-    // }
-
-    // gotoRedirect() {
-    //     console.log('Uploaded?');
-    //     // this.redirectionService.redirect(this.redirect);
-    // }
-
-    // cancelUpload() {
-    //     this.gotoRedirect();
-    // }
 }
