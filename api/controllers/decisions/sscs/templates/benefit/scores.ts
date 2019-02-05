@@ -27,7 +27,7 @@ module.exports = {
             validationLevel: 'formGroup',
             formGroupValidationErrorId: 'selectActivities',
             text: 'Select reasons the consent order was not approved',
-            href: '#'
+            href: 'selectActivities'
         }
     ],
     groups: [

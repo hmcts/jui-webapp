@@ -8,19 +8,19 @@ module.exports={
                 validationLevel: 'formControl',
                 controlId: 'estimateLengthOfHearing',
                 text: 'Enter the length of hearing in minutes, for example "20"',
-                href: '#'
+                href: 'estimateLengthOfHearing'
             },
             {
                 validationLevel: 'formControl',
                 controlId: 'whenHearingPlaced',
                 text: 'Enter when you’d like the hearing to take place',
-                href: '#'
+                href: 'whenHearingPlaced'
             },
             {
                 validationLevel: 'formControl',
                 controlId: 'whichCourt',
                 text: 'Enter a court',
-                href: '#'
+                href: 'whichCourt'
             }
         ],
         groups: [

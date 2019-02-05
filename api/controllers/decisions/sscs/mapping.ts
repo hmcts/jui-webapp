@@ -30,14 +30,14 @@ export const mapping = [
             { readingAndUnderstanding: 'reading-signs' },
             { engagingWithOtherPeople: 'engaging-face' },
             { makingBudgetingDecisions: 'budgeting-decisions' },
-            { planningFollowingJourneys: 'planning-journeys' }, 
+            { planningFollowingJourneys: 'planning-journeys' },
             { movingAround: 'moving-around' },
-            'check'
-        ]
+            'check',
+        ],
     },
     {
         event: 'change',
-        result: '[state]'
+        result: '[state]',
     },
     {
         event: 'continue',
@@ -47,91 +47,91 @@ export const mapping = [
                 conditions: [
                     {
                         condition: [{ preliminaryView: 'yes' }],
-                        result: 'preliminary-advanced'
+                        result: 'preliminary-advanced',
                     },
                     {
                         condition: [{ preliminaryView: 'no' }],
-                        result: 'final-decision'
-                    }
-                ]
+                        result: 'final-decision',
+                    },
+                ],
             },
             {
                 state: 'final-decision',
-                result: 'check-final-decision'
+                result: 'check-final-decision',
             },
             {
                 state: 'check-final-decision',
-                result: '.'
+                result: '.',
             },
             {
                 state: 'preliminary-advanced',
-                result: 'set-award-dates'
+                result: 'set-award-dates',
             },
             {
                 state: 'set-award-dates',
-                result: 'scores'
+                result: 'scores',
             },
             {
                 state: 'scores',
-                result: '<register>'
+                result: '<register>',
             },
             {
                 state: 'check',
-                result: 'check-tribunal'
+                result: 'check-tribunal',
             },
             {
                 state: 'check-tribunal',
-                result: '.'
+                result: '.',
             },
             {
                 state: 'communicating-verbally',
-                result: '...'
+                result: '...',
             },
             {
                 state: 'dressing-undressing',
-                result: '...'
+                result: '...',
             },
             {
                 state: 'engaging-face',
-                result: '...'
+                result: '...',
             },
             {
                 state: 'budgeting-decisions',
-                result: '...'
+                result: '...',
             },
             {
                 state: 'managing-therapy',
-                result: '...'
+                result: '...',
             },
             {
                 state: 'managing-toilet',
-                result: '...'
+                result: '...',
             },
             {
                 state: 'moving-around',
-                result: '...'
+                result: '...',
             },
             {
                 state: 'planning-journeys',
-                result: '...'
+                result: '...',
             },
             {
                 state: 'preparing-food',
-                result: '...'
+                result: '...',
             },
             {
                 state: 'reading-signs',
-                result: '...'
+                result: '...',
             },
             {
                 state: 'taking-nutrition',
-                result: '...'
+                result: '...',
             },
             {
                 state: 'washing-bathing',
-                result: '...'
-            }
-        ]
-    }
+                result: '...',
+            },
+        ],
+    },
 ]
 /*tslint:enable */

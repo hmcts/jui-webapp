@@ -8,7 +8,7 @@ module.exports = {
             validationLevel: 'formControl',
             controlId: 'decisionNotes',
             text: 'Enter your decision notes',
-            href: '#'
+            href: 'decisionNotes'
         }
     ],
     groups: [

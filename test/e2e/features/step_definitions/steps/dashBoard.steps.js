@@ -23,10 +23,10 @@ defineSupportCode(function({ Given, When, Then }) {
 
     When(/^I select a case(.*)$/, async function(type) {
        // browser.sleep(LONG_DELAY);
-        browser.sleep(12000);
-        await browser.wait(EC.elementToBeClickable(dashBoardPage.case_number_links.first().click()), 12000);
+        browser.sleep(15000);
+        await browser.wait(EC.elementToBeClickable(dashBoardPage.case_number_links.first().click()), 15000);
         //await dashBoardPage.case_number_links.click();
-        browser.sleep(12000);
+        browser.sleep(15000);
     });
 
 
@@ -55,7 +55,8 @@ defineSupportCode(function({ Given, When, Then }) {
 
 
     Then(/^I will be redirected to the Case Summary page for that case (.*)$/, async function(type) {
-        browser.sleep(LONG_DELAY);
+        //browser.sleep(LONG_DELAY);
+        browser.sleep(15000);
         await expect(caseSummaryPage.case_header_text.getText()).to.eventually.equal('Summary');
         if (type === 'Financial Remedy'){
             await expect(caseSummaryPage.caseDetails_header_text.getText())

@@ -6,13 +6,14 @@ import { SharedModule } from '../shared/shared.module';
 import { CaseViewerModule } from './case-viewer/case-viewer.module';
 import { HeaderComponent } from './components/header/header.component';
 import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { CreateQuestionsComponent } from './components/questions/create/create.component';
 import { CheckQuestionsComponent } from './components/questions/check/check.component';
 import { ViewQuestionComponent } from './components/questions/view/view.component';
 import { DeleteQuestionComponent } from './components/questions/delete/delete.component';
 import { EditQuestionComponent } from './components/questions/edit/edit.component';
 import { CaseBarComponent } from './components/casebar/casebar.component';
+import { UploadComponent } from './components/upload/upload.component';
 import {CaseService} from './services/case.service';
 import {QuestionService} from './services/question.service';
 
@@ -29,7 +30,8 @@ import {HmctsModule} from '../hmcts/hmcts.module';
         ReactiveFormsModule,
         BrowserTransferStateModule,
         GovukModule,
-        HmctsModule
+        HmctsModule,
+        FormsModule
     ],
     exports: [
         CaseBarComponent,
@@ -40,7 +42,8 @@ import {HmctsModule} from '../hmcts/hmcts.module';
         CheckQuestionsComponent,
         ViewQuestionComponent,
         DeleteQuestionComponent,
-        EditQuestionComponent
+        EditQuestionComponent,
+        UploadComponent
     ],
     declarations: [
         CaseBarComponent,
@@ -50,7 +53,8 @@ import {HmctsModule} from '../hmcts/hmcts.module';
         CheckQuestionsComponent,
         ViewQuestionComponent,
         DeleteQuestionComponent,
-        EditQuestionComponent
+        EditQuestionComponent,
+        UploadComponent
     ],
     providers: [
         CaseService,
