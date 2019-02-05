@@ -42,19 +42,19 @@ module.exports = {
             validationLevel: 'formGroup',
             formGroupValidationErrorId: 'startDate',
             text: 'Enter start date',
-            href: '#'
+            href: 'startDate'
         },
         {
             validationLevel: 'formGroup',
             formGroupValidationErrorId: 'startDateValid',
             text: 'Start date must be valid',
-            href: '#'
+            href: 'startDateValid'
         },
         {
             validationLevel: 'formGroup',
             formGroupValidationErrorId: 'awardEndDate',
             text: 'Select the end date',
-            href: '#'
+            href: 'awardEndDate'
         }
     ],
     groups: [

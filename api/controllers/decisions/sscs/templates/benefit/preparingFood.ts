@@ -12,7 +12,7 @@ module.exports = {
             validationLevel: 'formControl',
             controlId: 'dailyLivingPreparingFood',
             text: 'Select at least one activity',
-            href: '#'
+            href: 'dailyLivingPreparingFood'
         }
     ],
     groups: [

@@ -8,19 +8,19 @@ module.exports = {
           validationLevel: 'formControl',
           controlId: 'forDailyLiving',
           text: 'What are you considering awarding for daily living?',
-          href: '#'
+          href: 'forDailyLiving'
       },
       {
           validationLevel: 'formControl',
           controlId: 'forMobility',
           text: 'What are you considering awarding for mobility?',
-          href: '#'
+          href: 'forMobility'
       },
       {
           validationLevel: 'formControl',
           controlId: 'compareToDWPAward',
           text: 'How would this new award compare to the original DWP award?',
-          href: '#'
+          href: 'compareToDWPAward'
       }
   ],
   groups: [

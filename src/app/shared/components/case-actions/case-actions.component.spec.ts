@@ -14,12 +14,14 @@ describe('CaseActionsComponent', () => {
             [header]="header" 
             [actionPrimaryButton]="actionPrimaryButton"
             [actionSecondaryButton]="actionSecondaryButton"
+            [actionThirdButton]="actionThirdButton"
         ></app-case-actions>`
     })
     class TestDummyHostComponent {
         header =  'Questions';
         actionPrimaryButton: LinkItem = {href: '../decision/create', text: 'Make decision'};
         actionSecondaryButton: LinkItem = {href: '../hearing/list', text: 'List for hearing'};
+        actionThirdButton: LinkItem = {href: '../../upload', text: 'Upload'};
         @ViewChild(CaseActionsComponent)
         public caseActionsComponent: CaseActionsComponent;
     }
@@ -64,6 +66,7 @@ describe('CaseActionsComponent', () => {
         expect(testHostComponent.caseActionsComponent.header).toBeUndefined();
         expect(testHostComponent.caseActionsComponent.actionPrimaryButton).toBeUndefined();
         expect(testHostComponent.caseActionsComponent.actionSecondaryButton).toBeUndefined();
+        expect(testHostComponent.caseActionsComponent.actionThirdButton).toBeUndefined();
         });
     it('should load data', () => {
         testHostFixture.detectChanges();
@@ -82,10 +85,15 @@ describe('CaseActionsComponent', () => {
         testHostFixture.detectChanges();
         expect(testHostFixture.debugElement.nativeElement.querySelector(Selector.selector('secondary-button')).textContent).toContain(testHostComponent.caseActionsComponent.actionSecondaryButton.text);
     });
+    it('should display the actionThirdButton', () => {
+        testHostFixture.detectChanges();
+        expect(testHostFixture.debugElement.nativeElement.querySelector(Selector.selector('third-button')).textContent).toContain(testHostComponent.caseActionsComponent.actionThirdButton.text);
+    });
     it('should display the actionSecondaryButton', () => {
         testHostFixture.detectChanges();
         expect(typeof testHostComponent.caseActionsComponent.header === 'string').toBeTruthy();
         expect(typeof testHostComponent.caseActionsComponent.actionPrimaryButton === 'object').toBeTruthy();
         expect(typeof testHostComponent.caseActionsComponent.actionSecondaryButton === 'object').toBeTruthy();
+        expect(typeof testHostComponent.caseActionsComponent.actionThirdButton === 'object').toBeTruthy();
     });
 });
