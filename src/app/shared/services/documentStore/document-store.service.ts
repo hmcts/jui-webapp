@@ -24,11 +24,32 @@ export class DocumentStoreService {
 
         if (metaDate) {
             metaDate.forEach( (v, k) => {
-                formData.append('metadata[' + k + ']', v);
+                formData.append(`metadata[${k}]`, v);
 
             });
         }
         return this.http.post<any>(`${this.configService.config.api_base_url}/api/dm-store/documents`, formData);
+    }
+
+    /**
+     * postFileAndAssociateWithCase
+     *
+     * We send through the caseId so that we can associate the uploaded document with the case, so that we can
+     * find the document later, associated on that case.
+     *
+     * @param classification
+     * @param caseId
+     * @param file
+     * @param fileNotes
+     * @return {Observable<Object>}
+     */
+    postFileAndAssociateWithCase(classification: string, caseId: string, file: File, fileNotes: string ) {
+        const formData: FormData = new FormData();
+        formData.append('classification', classification);
+        formData.append('fileNotes', String(fileNotes));
+        formData.append('files', file, file.name);
+
+        return this.http.post<any>(`${this.configService.config.api_base_url}/api/dm-store/documents/upload/${caseId}`, formData);
     }
 
     deleteDocument(url: string) {

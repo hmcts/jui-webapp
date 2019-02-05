@@ -50,3 +50,7 @@ variable "common_tags" {
 variable "capacity" {
   default = "1"
 }
+
+variable "additional_host_name" {
+    default = "null"
+}

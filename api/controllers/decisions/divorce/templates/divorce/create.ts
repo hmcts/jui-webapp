@@ -8,7 +8,7 @@ module.exports = {
             validationLevel: 'formControl',
             controlId: 'makeDecision',
             text: 'Select yes if you want to make a decision',
-            href: '#'
+            href: 'makeDecision'
         }
     ],
     groups: [
