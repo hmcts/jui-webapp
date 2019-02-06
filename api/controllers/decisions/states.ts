@@ -10,7 +10,7 @@ import * as sscs from './sscs'
 const divorceType = 'DIVORCE'
 const sscsType = 'SSCS'
 
-export async function handleStateRoute(req, res) {
+async function handleStateRoute(req, res) {
     const jurisdiction = req.params.jurId
     const caseTypeId = req.params.caseTypeId.toLowerCase()
 
