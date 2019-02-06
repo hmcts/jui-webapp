@@ -122,6 +122,35 @@ export async function getDocumentVersionThumbnail(documentId: string, versionId:
     return response.data
 }
 
+
+// Creates a list of Stored Documents by uploading a list of binary/text files.
+export async function postDocument(file, classification) {
+    const body: any = {}
+    body.formData = {
+        classification: getClassification(classification),
+        files: [
+            {
+                options: { filename: file.name, contentType: file.type },
+                value: fs.createReadStream(file.path),
+            },
+        ],
+    }
+
+    const response = await asyncReturnOrError(
+        http.post(`${url}/documents`, body, {
+            headers: {
+                contentType: file.type,
+            },
+        }),
+        `Error posting document`,
+        null,
+        logger,
+        false
+    )
+
+    return response.data
+}
+
 /**
  * getClassification
  *
