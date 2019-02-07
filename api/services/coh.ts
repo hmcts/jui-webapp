@@ -125,7 +125,7 @@ export async function storeData(hearingId, data, state = 'decision_drafted') {
     // while things are being sorted out this is safest
 
     const decision = await getDecision(hearingId)
-    console.log(decision)
+
     if (
         valueOrNull(decision, 'decision_state.state_name') !== 'decision_issued' &&
         valueOrNull(decision, 'decision_state.state_name') !== 'decision_issue_pending'
