@@ -11,6 +11,7 @@ export function getLogger(category: string) {
     logger.level = config.logging || 'off'
 
     return {
+        _logger: logger,
         debug,
         error,
         info,
@@ -25,8 +26,10 @@ function info(...messages: any[]) {
         fullMessage += message
     }
 
-    client.trackTrace({message: `INFO ${fullMessage}`});
-    logger.info(fullMessage)
+    const category = this._logger.category
+
+    client.trackTrace({message: `[INFO] ${category} - ${fullMessage}`})
+    this._logger.info(fullMessage)
 }
 
 function warn(...messages: any[]) {
@@ -35,7 +38,8 @@ function warn(...messages: any[]) {
     for (const message of messages) {
         fullMessage += message
     }
-    logger.warn(fullMessage)
+
+    this._logger.warn(fullMessage)
 }
 
 function debug(...messages: any[]) {
@@ -44,7 +48,7 @@ function debug(...messages: any[]) {
     for (const message of messages) {
         fullMessage += message
     }
-    logger.debug(fullMessage)
+    this._logger.debug(fullMessage)
 }
 
 function error(...messages: any[]) {
@@ -54,6 +58,8 @@ function error(...messages: any[]) {
         fullMessage += message
     }
 
-    client.trackException({exception: new Error(fullMessage)})
-    logger.error(fullMessage)
+    const category = this._logger.category
+
+    client.trackException({exception: new Error(`[ERROR] ${category} - ${fullMessage}`)})
+    this._logger.error(fullMessage)
 }
