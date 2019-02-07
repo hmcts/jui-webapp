@@ -2,6 +2,5 @@
 --require source-map-support/register
 --full-trace
 --bail
---timeout 5s
 --exit
 **/*.spec.ts
