@@ -302,18 +302,22 @@ export function processCaseState(caseData) {
     const consentOrder = caseData.case_data.consentOrder ? caseData.case_data.consentOrder : undefined
     // SSCS related only
     const hearingType = caseData.case_data.appeal ? caseData.case_data.appeal.hearingType : undefined
-    const decisionNotes = caseData.case_data.decisionNotes
-
-    const caseState: any = processCaseStateEngine({
+    
+    const params: any = {
         jurisdiction,
         caseType,
         ccdState,
-        decisionNotes,
         hearingType,
         hearingData,
         latestQuestions,
         consentOrder
-    })
+    }
+
+    if (Object.keys(caseData.case_data).includes('decisionNotes')) {
+        params.decisionNotes = caseData.case_data.decisionNotes
+    }
+    
+    const caseState: any = processCaseStateEngine(params)
 
     caseData.state = caseState
 
