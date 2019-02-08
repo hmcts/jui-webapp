@@ -1,14 +1,16 @@
 const healthcheck = require('@hmcts/nodejs-healthcheck');
 const { InfoContributor, infoRequestHandler } = require('@hmcts/info-provider');
+
 import * as express from 'express';
+import { config } from './config';
+import { appInsights } from './api/lib/appInsights';
 import { securityHeaders } from './api/lib/middleware';
-const apiRoute = require('./api');
 import * as log4jui from './api/lib/log4jui';
 
-import { config } from './config';
+const apiRoute = require('./api');
 config.environment = process.env.JUI_ENV || 'local';
 
-import { client } from './api/lib/appInsights';
+
 
 const app = express();
 const bodyParser = require('body-parser');
@@ -40,14 +42,7 @@ app.use(
     })
 );
 
-client.trackTrace({
-    message: 'App Insight Activated'
-});
-
-app.use((req, res, next) => {
-    client.trackNodeHttpRequest({ request: req, response: res });
-    next();
-});
+app.use(appInsights);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

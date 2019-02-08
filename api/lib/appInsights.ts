@@ -1,4 +1,5 @@
 import * as applicationinsights from 'applicationinsights'
+import * as express from 'express'
 import { config } from '../../config'
 
 export let client
@@ -19,7 +20,16 @@ if (environment !== 'local ') {
         .start()
 
     client = applicationinsights.defaultClient
+    client.trackTrace({message: 'App Insight Activated'})
 
 } else {
-    client = {}
+    client = null
+}
+
+export function appInsights(req: express.Request, res: express.Response, next: express.next)  {
+    if (client) {
+        client.trackNodeHttpRequest({ request: req, response: res })
+    }
+
+    next()
 }
