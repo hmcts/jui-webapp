@@ -54,7 +54,7 @@ export class PdfRenderService {
             this.viewerElementRef = viewerElementRef;
         }
 
-        this.pdfWrapper.workerSrc('/public/javascripts/pdf.worker.js');
+        this.pdfWrapper.workerSrc('public/javascripts/pdf.worker.js');
         
         const renderOptions = this.getRenderOptions();
         this.pdfWrapper.getDocument(renderOptions.documentId)

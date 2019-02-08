@@ -6,8 +6,8 @@ import { http } from '../lib/http'
 import * as log4jui from '../lib/log4jui'
 import { asyncReturnOrError } from '../lib/util'
 
-import {ERROR_UNABLE_TO_GET_EVENT_TOKEN, ERROR_UNABLE_TO_POST_CASE, ERROR_UNABLE_TO_UPLOAD_DOCUMENT} from '../lib/config/errorConstants'
-import {getEventTokenAndCase, postCaseWithEventToken} from './ccd-store-api/ccd-store'
+import { ERROR_UNABLE_TO_GET_EVENT_TOKEN, ERROR_UNABLE_TO_POST_CASE, ERROR_UNABLE_TO_UPLOAD_DOCUMENT } from '../lib/config/errorConstants'
+import { getEventTokenAndCase, postCaseWithEventToken } from './ccd-store-api/ccd-store'
 
 const generateRequest = require('../lib/request/request')
 const uploadFileFormData = require('../lib/request/uploadFileFormData')
@@ -15,8 +15,8 @@ const headerUtilities = require('../lib/utilities/headerUtilities')
 const fs = require('fs')
 const formidable = require('formidable')
 
-import {DMDocument, DMDocuments} from '../lib/models/documents'
-import {prepareCaseForUploadFR} from './ccd-store-api/ccd-store-payloads'
+import { DMDocument, DMDocuments } from '../lib/models/documents'
+import { prepareCaseForUploadFR } from './ccd-store-api/ccd-store-payloads'
 
 const url = config.services.dm_store_api
 
@@ -69,7 +69,7 @@ export async function getDocumentVersion(documentId: string, versionId: string):
 // Streams contents of the most recent Document Content Version associated with the Stored Document.
 export async function getDocumentBinary(documentId: string) {
     const response = await asyncReturnOrError(
-        http.get(`${url}/documents/${documentId}/binary`, {responseType: 'stream'}),
+        http.get(`${url}/documents/${documentId}/binary`, { responseType: 'stream' }),
         `Error getting Binary for document ${documentId}`,
         null,
         logger,
@@ -82,7 +82,7 @@ export async function getDocumentBinary(documentId: string) {
 // Streams a specific version of the content of a Stored Document.
 export async function getDocumentVersionBinary(documentId: string, versionId: string): Promise<JSON> {
     const response = await asyncReturnOrError(
-        http.get(`${url}/documents/${documentId}/versions/${versionId}/binary`, {responseType: 'stream'}),
+        http.get(`${url}/documents/${documentId}/versions/${versionId}/binary`, { responseType: 'stream' }),
         `Error getting Binary for document ${documentId} version ${versionId}`,
         null,
         logger,
@@ -99,7 +99,7 @@ export async function getDocumentVersionBinary(documentId: string, versionId: st
 // Streams contents of the most recent Document Content Version associated with the Stored Document.
 export async function getDocumentThumbnail(documentId: string): Promise<JSON> {
     const response = await asyncReturnOrError(
-        http.get(`${url}/documents/${documentId}/thumbnail`, {responseType: 'stream'}),
+        http.get(`${url}/documents/${documentId}/thumbnail`, { responseType: 'stream' }),
         `Error getting document ${documentId} thumbnail`,
         null,
         logger,
@@ -112,7 +112,7 @@ export async function getDocumentThumbnail(documentId: string): Promise<JSON> {
 //     GET /documents/{documentId}/versions/{versionId}/thumbnail
 export async function getDocumentVersionThumbnail(documentId: string, versionId: string): Promise<JSON> {
     const response = await asyncReturnOrError(
-        http.get(`${url}/documents/${documentId}/versions/${versionId}/thumbnail`, {responseType: 'stream'}),
+        http.get(`${url}/documents/${documentId}/versions/${versionId}/thumbnail`, { responseType: 'stream' }),
         `Error getting document ${documentId} version ${versionId} thumbnail`,
         null,
         logger,
@@ -196,7 +196,7 @@ export async function postDocumentVersionVersion(documentId: string, file, body)
 // Updates document instance (ex. ttl)
 export async function patchDocument(documentId: string, updateDocumentCommand, body): Promise<JSON> {
     const response = await asyncReturnOrError(
-        http.patch(`${url}/documents/${documentId}`, {...body, updateDocumentCommand}),
+        http.patch(`${url}/documents/${documentId}`, { ...body, updateDocumentCommand }),
         `Error updating document ${documentId}`,
         null,
         logger,
@@ -336,7 +336,7 @@ function getOptions(req) {
  * within ccdDataStoreApiPayloads.ts and check that it works correctly with a service line.
  */
 async function uploadDocumentAndAssociateWithCase(userId, caseId, jurisdiction, eventId, caseType, file, fileNotes,
-                                                  classification, options, res) {
+    classification, options, res) {
     const response = await asyncReturnOrError(
         uploadFileFormData(`${url}/documents`, file, classification, options.headers),
         ERROR_UNABLE_TO_UPLOAD_DOCUMENT,
@@ -389,7 +389,7 @@ async function uploadDocumentAndAssociateWithCase(userId, caseId, jurisdiction, 
  * TODO : We should move this out into a seperate routes file.
  */
 export default app => {
-    const router = express.Router({mergeParams: true})
+    const router = express.Router({ mergeParams: true })
     app.use('/dm-store', router)
 
     router.get('/health', (req, res, next) => {

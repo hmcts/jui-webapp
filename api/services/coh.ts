@@ -8,7 +8,7 @@ import { valueOrNull } from '../lib/util'
 
 export const url = config.services.coh_cor_api
 
-const logger = log4jui.getLogger('cases')
+const logger = log4jui.getLogger('COH')
 
 interface DateTimeObject {
     date: string
