@@ -2,14 +2,14 @@ import * as express from 'express'
 import * as config from '../config'
 import { auth } from './controllers/auth'
 import caseRoutes from './controllers/case'
+import decisionRoutes from './controllers/decisions'
+import { errorStack } from './lib/errorStack'
 import ccdStoreApiRoutes from './services/ccd-store-api/ccd-store'
 import cohCorApiRoutes from './services/coh-cor-api/coh-cor-api'
 import dmStoreApiRoutes from './services/DMStore'
 //import idamApiRoutes from './services/idam-api/idam-api'
 
 const router = express.Router()
-
-import decisionRoutes from './controllers/decisions'
 
 const idamApiRoutes = require('./services/idam-api/idam-api')
 
@@ -39,6 +39,9 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 router.use(serviceTokenMiddleware)
 auth(router)
 router.use(authInterceptor)
+
+router.use(errorStack)
+
 caseListRoute(router)
 decisionRoutes(router)
 documentsRoutes(router)
