@@ -64,5 +64,9 @@ function error(...messages: any[]) {
 
     client.trackException({exception: new Error(`[ERROR] ${category} - ${fullMessage}`)})
     this._logger.error(fullMessage)
-    errorStack.push(` ${category} = ${fullMessage}`)
+
+    if (config.logging === 'debug' || config.logging === 'error'  ) {
+    errorStack.push([category, fullMessage])
+    }
 }
+

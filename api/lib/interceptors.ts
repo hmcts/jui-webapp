@@ -1,5 +1,7 @@
 import * as exceptionFormatter from 'exception-formatter'
+import * as stringify from 'json-stringify-safe'
 import { config } from '../../config'
+import * as errorStack from '../lib/errorStack'
 import { shorten, valueOrNull } from '../lib/util'
 import { client } from './appInsights'
 import * as log4jui from './log4jui'
@@ -45,7 +47,7 @@ export function errorInterceptor(error) {
     error.duration = error.config.metadata.endTime - error.config.metadata.startTime
 
     const logger = log4jui.getLogger('return')
-
+    
     const url = shorten(error.config.url, config.maxLogLine)
 
     // application insights logging
@@ -56,7 +58,7 @@ export function errorInterceptor(error) {
         success: true,
         url: error.config.url,
     })
-
+    
     const status = valueOrNull(error, 'response.status') ? error.response.status : Error(error).message
 
     let data = valueOrNull(error, 'response.data.details')
@@ -68,6 +70,9 @@ export function errorInterceptor(error) {
         logger.error(`Error on ${error.config.method.toUpperCase()} to ${url} in (${error.duration}) - ${error} \n
         ${JSON.stringify(data)}`)
     }
+
+    errorStack.push(['request', JSON.parse(stringify(error.request))])
+    errorStack.push(['response', JSON.parse(stringify(error.response))])
 
     return Promise.reject(error.response)
 }
