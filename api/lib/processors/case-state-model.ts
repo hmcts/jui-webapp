@@ -23,7 +23,7 @@ const DEFAULT_CCD_STATE = {
 }
 
 /// //////////////////////////////////////////////////////////////////////////////////////
-// SSCS States
+// SSCS Statesreturn !!context.caseData.decisionNotes
 /// //////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -31,8 +31,8 @@ const DEFAULT_CCD_STATE = {
 // this seems pretty hacky through
 
 const ccdFinalDecisionState = {
-    when(context) { //rare issue when decisionNotes is null when no notes are set
-        return Object.keys(context.caseData).includes('decisionNotes')
+    when(context) {
+        return !!context.caseData.decisionNotes
     },
     then(context) {
         context.outcome = createCaseState(

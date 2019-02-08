@@ -151,7 +151,6 @@ async function getMutiJudCaseTransformed(userDetails) {
     caseLists = await convertCaselistToTemplate(caseLists)
     caseLists = await combineLists(caseLists)
     caseLists = await sortTransformedCases(caseLists)
-
     caseLists = await aggregatedData(caseLists)
 
     return caseLists

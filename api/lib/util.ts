@@ -1,5 +1,6 @@
 import * as express from 'express'
 import { JUILogger } from '../lib/models'
+import * as  errorStack from './errorStack'
 
 export function asyncReturnOrError(
     promise: any,
@@ -17,7 +18,7 @@ export function asyncReturnOrError(
             logger.error(msg)
 
             if (setResponse) {
-                res.status(err.statusCode || 500).send(msg)
+                res.status(err.statusCode || 500).send(JSON.stringify(errorStack.get()))
             }
 
             return null

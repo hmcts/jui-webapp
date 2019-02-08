@@ -25,6 +25,6 @@ export class ConfigService {
     }
 
     getBaseUrl(configData) {
-        return `https://${this.document.location.host}`;
+        return `${configData.protocol}://${this.document.location.host}`;
     }
 }

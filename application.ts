@@ -1,11 +1,16 @@
 const healthcheck = require('@hmcts/nodejs-healthcheck');
 const { InfoContributor, infoRequestHandler } = require('@hmcts/info-provider');
+
 import * as express from 'express';
-import { securityHeaders } from './api/lib/middleware';
-const apiRoute = require('./api');
-import * as log4jui from './api/lib/log4jui'
 import { config } from './config';
-import { client } from './api/lib/appInsights';
+import { appInsights } from './api/lib/appInsights';
+import { securityHeaders } from './api/lib/middleware';
+import * as log4jui from './api/lib/log4jui';
+
+const apiRoute = require('./api');
+config.environment = process.env.JUI_ENV || 'local';
+
+
 
 const app = express();
 const bodyParser = require('body-parser');
@@ -37,14 +42,7 @@ app.use(
     })
 );
 
-client.trackTrace({
-    message: 'App Insight Activated'
-});
-
-app.use((req, res, next) => {
-    client.trackNodeHttpRequest({ request: req, response: res });
-    next();
-});
+app.use(appInsights);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -109,6 +107,6 @@ app.use('/api', apiRoute);
 
 
 const logger = log4jui.getLogger('Application')
-logger.info(`Started up on ${process.env.JUI_ENV || 'local'} using ${config.protocol}`)
+logger.info(`Started up on ${config.enviroment} using ${config.protocol}`)
 
 module.exports = app;

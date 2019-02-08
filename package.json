@@ -85,6 +85,7 @@
     "govuk-frontend": "2.5.0",
     "http-proxy-middleware": "0.19.1",
     "https-proxy-agent": "^2.2.1",
+    "json-stringify-safe": "^5.0.1",
     "jsonpath": "1.0.0",
     "jwt-decode": "2.2.0",
     "lcov-result-merger": "3.1.0",
