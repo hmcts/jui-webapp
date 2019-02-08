@@ -3,8 +3,11 @@ const { InfoContributor, infoRequestHandler } = require('@hmcts/info-provider');
 import * as express from 'express';
 import { securityHeaders } from './api/lib/middleware';
 const apiRoute = require('./api');
-import * as log4jui from './api/lib/log4jui'
+import * as log4jui from './api/lib/log4jui';
+
 import { config } from './config';
+config.environment = process.env.JUI_ENV || 'local';
+
 import { client } from './api/lib/appInsights';
 
 const app = express();
@@ -109,6 +112,6 @@ app.use('/api', apiRoute);
 
 
 const logger = log4jui.getLogger('Application')
-logger.info(`Started up on ${process.env.JUI_ENV || 'local'} using ${config.protocol}`)
+logger.info(`Started up on ${config.enviroment} using ${config.protocol}`)
 
 module.exports = app;
