@@ -83,9 +83,6 @@ export const stateToBeShown = [
 ]
 
 export function caseStateFilter(caseData) {
-    if (caseData.id === 1549277219423704) {
-        console.log(caseData)
-    }
     return stateToBeShown.find(toBeFiltered => caseData.state.stateName === toBeFiltered)
 }
 
