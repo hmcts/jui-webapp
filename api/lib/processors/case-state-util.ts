@@ -12,6 +12,7 @@ export const STATE = {
     COH_PRELIMINARY_VIEW_ISSUED_STATE: 'decision_issued',
     COH_PRELIMINARY_VIEW_PENDING_STATE: 'decision_issue_pending',
     COH_RELISTED_STATE: 'continuous_online_hearing_relisted',
+    COH_RELISTED_PENDING: 'ISSUE_PENDING',
     COH_Q_QUESTION_DRAFTED_STATE: 'question_drafted',
     COH_Q_QUESTION_ISSUE_PENDING_STATE: 'question_issue_pending',
     COH_Q_QUESTION_ISSUED_STATE: 'question_issued',
@@ -82,6 +83,9 @@ export const stateToBeShown = [
 ]
 
 export function caseStateFilter(caseData) {
+    if (caseData.id === 1549277219423704) {
+        console.log(caseData)
+    }
     return stateToBeShown.find(toBeFiltered => caseData.state.stateName === toBeFiltered)
 }
 

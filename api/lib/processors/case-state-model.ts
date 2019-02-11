@@ -177,7 +177,9 @@ const cohRelistState = {
     when(context) {
         const hearingData = context.caseData.hearingData
         // TODO add check for ccd-state as well
-        return hearingData && hearingData.current_state && hearingData.current_state.state_name === STATE.COH_RELISTED_STATE
+        return valueOrNull(hearingData, 'current_state.state_name') === STATE.COH_RELISTED_STATE ||
+            valueOrNull(hearingData, 'relisting.state') === STATE.COH_RELISTED_PENDING
+
     },
     then(context) {
         const hearingData = context.caseData.hearingData
