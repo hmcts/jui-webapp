@@ -1,4 +1,4 @@
-module.exports = {
+/*module.exports = {
     services: {
         ccd_data_api: 'https://ccd-data-store-api-prod.service.core-compute-prod.internal',
         ccd_def_api: 'https://ccd-definition-store-api-prod.service.core-compute-prod.internal',
