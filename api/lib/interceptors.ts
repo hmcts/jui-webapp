@@ -29,8 +29,7 @@ export function successInterceptor(response) {
 
     const url = shorten(response.config.url, config.maxLogLine)
 
-    // application insights logging
-    client.trackRequest({
+    logger.trackRequest({
         duration: response.duration,
         name: `Service ${response.config.method.toUpperCase()} call`,
         resultCode: response.status,
@@ -47,18 +46,18 @@ export function errorInterceptor(error) {
     error.duration = error.config.metadata.endTime - error.config.metadata.startTime
 
     const logger = log4jui.getLogger('return')
-    
+
     const url = shorten(error.config.url, config.maxLogLine)
 
     // application insights logging
-    client.trackRequest({
+    logger.trackRequest({
         duration: error.duration,
         name: `Service ${error.config.method.toUpperCase()} call`,
         resultCode: error.status,
         success: true,
         url: error.config.url,
     })
-    
+
     const status = valueOrNull(error, 'response.status') ? error.response.status : Error(error).message
 
     let data = valueOrNull(error, 'response.data.details')

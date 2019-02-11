@@ -6,7 +6,9 @@ import { filterByCaseTypeAndRole } from '../../lib/filters'
 import * as log4jui from '../../lib/log4jui'
 import { asyncReturnOrError } from '../../lib/util'
 import { getMutiJudCCDCases } from '../../services/ccd-store-api/ccd-store'
+import { getDecision } from '../../services/coh'
 import { getHearingByCase } from '../../services/coh-cor-api/coh-cor-api'
+
 
 const getListTemplate = require('./templates/index')
 const { processCaseState } = require('../../lib/processors/case-state-model')
@@ -20,14 +22,22 @@ const { getNewCase, unassignAllCaseFromJudge } = require('./assignCase')
 const logger = log4jui.getLogger('case list')
 
 async function getCOR(casesData, options) {
-    const caseIds = casesData.map(caseRow => `case_id=${caseRow.id}`).join('&')
+    const caseIds = casesData.map(caseRow => `${caseRow.id}`).join('&case_id=')
 
     const hearings: any = await getHearingByCase(caseIds)
-
     if (hearings.online_hearings) {
         const caseStateMap = new Map(hearings.online_hearings.map(hearing => [Number(hearing.case_id), hearing]))
-        casesData.forEach(caseRow => {
+        await map(casesData, async (caseRow: any) => {
             caseRow.hearing_data = caseStateMap.get(Number(caseRow.id))
+            // add in getting the PV Decision here so as not to  have to loop through data again
+            if (caseRow.hearing_data) {
+                try {
+                    caseRow.hearing_data.preliminaryView = await getDecision(caseRow.hearing_data.online_hearing_id)
+                } catch (e) {
+                    // cases don't have to have a decision
+                }
+            }
+
         })
     }
 

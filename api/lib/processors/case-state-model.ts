@@ -1,4 +1,6 @@
+import { valueOrNull } from '../../lib/util'
 import { GO_TO, STATE, createCaseState, getDocId } from './case-state-util'
+
 
 /// //////////////////////////////////////////////////////////////////////////////////////
 // Default States
@@ -127,6 +129,24 @@ const deadlineExtensionExpired = {
     }
 }
 
+const cohPreliminaryViewState = {
+    when(context) {
+        const preliminaryView = valueOrNull(context, 'caseData.hearingData.preliminaryView.decision_state.state_name')
+        return preliminaryView === STATE.COH_PRELIMINARY_VIEW_ISSUED_STATE ||
+            preliminaryView === STATE.COH_PRELIMINARY_VIEW_PENDING_STATE
+    },
+    then(context) {
+        const hearingData = context.caseData.hearingData
+        context.outcome = createCaseState(
+            STATE.COH_DECISION_ISSUED_STATE,
+            hearingData.current_state.state_datetime,
+            GO_TO.SUMMARY_GO_TO
+        )
+
+        context.stop = true
+    }
+}
+
 // if we have coh and Decision has been issued
 // then
 // set state to COH_DECISION_ISSUED_STATE
@@ -226,11 +246,12 @@ const processEngineMap = {
                 DEFAULT_CCD_STATE,
                 ccdFinalDecisionState,
                 cohDecisionState,
+                cohPreliminaryViewState,
                 cohRelistState,
                 cohState,
                 deadlineExtensionExpired,
                 deadlineElapsed,
-                questionState
+                questionState,
             ]
         }
     },
@@ -302,7 +323,7 @@ export function processCaseState(caseData) {
     const consentOrder = caseData.case_data.consentOrder ? caseData.case_data.consentOrder : undefined
     // SSCS related only
     const hearingType = caseData.case_data.appeal ? caseData.case_data.appeal.hearingType : undefined
-    
+
     const params: any = {
         jurisdiction,
         caseType,
@@ -316,7 +337,7 @@ export function processCaseState(caseData) {
     if (Object.keys(caseData.case_data).includes('decisionNotes')) {
         params.decisionNotes = caseData.case_data.decisionNotes
     }
-    
+
     const caseState: any = processCaseStateEngine(params)
 
     caseData.state = caseState

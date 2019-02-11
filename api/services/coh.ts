@@ -168,7 +168,7 @@ export async function getOrCreateDecision(caseId, userId) {
         logger.info(`Got hearding for case ${caseId}`)
         try {
             decision = await getDecision(hearingId)
-            logger.info(decision)
+            logger.info('decision:', JSON.stringify(decision))
         } catch (error) {
             logger.info(`Can't find decision`)
         }
