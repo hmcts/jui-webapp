@@ -7,7 +7,7 @@ export let client
 // shouldnt do this check here but this is a high level dep
 const environment = process.env.JUI_ENV || 'local'
 
-if (environment !== 'local' && environment !== 'aat') {
+if (environment !== 'local') {
     applicationinsights
         .setup(config.appInsightsInstrumentationKey)
         .setAutoDependencyCorrelation(true)
