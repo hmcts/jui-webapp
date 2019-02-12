@@ -1,5 +1,6 @@
 
 import * as express from 'express'
+import { judgeLookUp } from '../../lib/util'
 import * as cohCor from '../../services/coh-cor-api/coh-cor-api'
 
 const moment = require('moment')
@@ -100,9 +101,9 @@ function formatQuestionRes(question, answers) {
     }
 }
 
-function formatQuestion(body, userId) {
+function formatQuestion(body: any, user: string) {
     return {
-        owner_reference: userId,
+        owner_reference: user,
         question_body_text: body.question,
         question_header_text: body.subject,
         question_ordinal: '1',
@@ -138,6 +139,11 @@ function getAllQuestionsByCase(caseId, userId, jurisdiction) {
 
 function getOptions(req) {
     return headerUtilities.getAuthHeaders(req)
+}
+
+function getJudgeName(req: express.Request) {
+    const judgeEmail = req.session.user.email
+    return judgeLookUp(judgeEmail)
 }
 
 module.exports = app => {
@@ -188,16 +194,15 @@ module.exports = app => {
     // CREATE Question
     route.post('/:case_id/questions', (req: any, res, next) => {
         const caseId = req.params.case_id
-        const userId = req.auth.userId
-        
+
         return cohCor
             .getHearingByCase(caseId)
             .then(hearing =>
                 hearing.online_hearings[0]
                     ? hearing.online_hearings[0].online_hearing_id
-                    : cohCor.createHearing(caseId, userId)
+                    : cohCor.createHearing(caseId)
             )
-            .then(hearingId => cohCor.postQuestion(hearingId, formatQuestion(req.body, userId)))
+            .then(hearingId => cohCor.postQuestion(hearingId, formatQuestion(req.body, getJudgeName(req))))
             .then(response => {
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.setHeader('content-type', 'application/json')
@@ -213,12 +218,11 @@ module.exports = app => {
     route.put('/:case_id/questions/:question_id', (req: any, res, next) => {
         const caseId = req.params.case_id
         const questionId = req.params.question_id
-        const userId = req.auth.userId
 
         return cohCor
             .getHearingByCase(caseId)
             .then(hearing => hearing.online_hearings[0].online_hearing_id)
-            .then(hearingId => cohCor.putQuestion(hearingId, questionId, formatQuestion(req.body, userId)))
+            .then(hearingId => cohCor.putQuestion(hearingId, questionId, formatQuestion(req.body, getJudgeName(req))))
             .then(response => {
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.status(200).send(JSON.stringify(response))
@@ -312,7 +316,7 @@ module.exports = app => {
     route.get('/:case_id/rounds/:round_id/answer', (req, res, next) => {
         const caseId = req.params.case_id
         const roundId = req.params.round_id
-       
+
         return cohCor
             .getHearingByCase(caseId)
             .then(hearing => hearing.online_hearings[0].online_hearing_id)

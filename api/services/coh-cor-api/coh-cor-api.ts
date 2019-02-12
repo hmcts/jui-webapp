@@ -107,7 +107,7 @@ export async function getDecision(hearingId) {
 }
 
 // Special ones (may not need to be here could be high up business logic)
-export async function createHearing(caseId, userId, jurisdictionId = 'SSCS') {
+export async function createHearing(caseId, jurisdictionId = 'SSCS') {
     // changes to this body inline with COH changes
     const body = {
         case_id: caseId,
@@ -119,9 +119,9 @@ export async function createHearing(caseId, userId, jurisdictionId = 'SSCS') {
     return response.data.online_hearing_id
 }
 
-export async function getHearingIdOrCreateHearing(caseId, userId) {
+export async function getHearingIdOrCreateHearing(caseId) {
     const hearing: any = await getHearingByCase(caseId)
-    return  hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : await createHearing(caseId, userId)
+    return  hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : await createHearing(caseId)
 }
 
 export async function postHearing(body) {

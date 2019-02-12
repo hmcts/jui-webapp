@@ -4,7 +4,6 @@ const getEventTemplate = require('./templates/index')
 const valueProcessor = require('../../lib/processors/value-processor')
 const { getCCDEvents } = require('../../services/ccd-store-api/ccd-store')
 const { getHearingIdOrCreateHearing, getOnlineHearingConversation } = require('../../services/coh-cor-api/coh-cor-api')
-const headerUtilities = require('../../lib/utilities/headerUtilities')
 
 function hasCOR(jurisdiction, caseType) {
     return jurisdiction === 'SSCS'
@@ -95,7 +94,7 @@ function reduceCohEvents(events) {
 }
 
 export async function getCohEvents(userId, caseId) {
-    const hearingId =  await getHearingIdOrCreateHearing(caseId, userId)
+    const hearingId =  await getHearingIdOrCreateHearing(caseId)
     const conversation = await getOnlineHearingConversation(hearingId)
     const mergedEvents = mergeCohEvents(conversation)
     return reduceCohEvents(mergedEvents)
@@ -110,7 +109,7 @@ function combineLists(lists) {
 }
 
 function sortEvents(events) {
-    return events.sort((result1, result2) => 
+    return events.sort((result1, result2) =>
     moment.duration(moment(result2.dateUtc).diff(moment(result1.dateUtc))).asMilliseconds())
 }
 

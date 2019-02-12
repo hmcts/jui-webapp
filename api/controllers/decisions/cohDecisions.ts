@@ -13,11 +13,10 @@ export default app => {
     app.use('/decisions', router)
 
     router.get('/:case_id', (req: any, res, next) => {
-        const userId = req.auth.userId
         const caseId = req.params.case_id
         const options = getOptions(req)
 
-        getHearingIdOrCreateHearing(caseId, userId, options)
+        getHearingIdOrCreateHearing(caseId)
             .then(hearingId => getDecision(hearingId, options))
             .then(response => {
                 res.setHeader('Access-Control-Allow-Origin', '*')
@@ -30,11 +29,10 @@ export default app => {
     })
 
     router.post('/:case_id', (req: any, res, next) => {
-        const userId = req.auth.userId
         const caseId = req.params.case_id
         const options = getOptions(req)
 
-        getHearingIdOrCreateHearing(caseId, userId, options)
+        getHearingIdOrCreateHearing(caseId)
             .then(hearingId => postDecision(hearingId, options, req.body))
             .then(response => {
                 res.setHeader('Access-Control-Allow-Origin', '*')
@@ -48,11 +46,10 @@ export default app => {
     })
 
     router.put('/:case_id', (req: any, res, next) => {
-        const userId = req.auth.userId
         const caseId = req.params.case_id
         const options = getOptions(req)
 
-        getHearingIdOrCreateHearing(caseId, userId, options)
+        getHearingIdOrCreateHearing(caseId)
             .then(hearingId => putDecision(hearingId, options, req.body))
             .then(response => {
                 res.setHeader('Access-Control-Allow-Origin', '*')
