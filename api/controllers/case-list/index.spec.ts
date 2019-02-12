@@ -6,15 +6,19 @@ import * as sinonChai from 'sinon-chai'
 
 chai.use(sinonChai)
 
+import * as assignCase from './assignCase'
 import * as ccdStore from '../../services/ccd-store-api/ccd-store'
 import * as cohCorApi from '../../services/coh-cor-api/coh-cor-api'
+import * as filters from '../../lib/filters'
 import * as getAllQuestionsByCase from '../questions/index'
 import * as idamApi from '../../services/idam-api/idam-api'
+import * as utils from '../../lib/util'
 import {
     aggregatedData,
     appendCOR,
     appendQuestionsRound,
     combineLists,
+    getCases,
     getCOR,
     getHearingWithQuestionData,
     getMutiJudCaseAssignedCases,
@@ -23,7 +27,8 @@ import {
     getQuestionData,
     rawCOH,
     sortCases,
-    sortTransformedCases
+    sortTransformedCases,
+    unassignAll
 } from './index'
 
 describe('index', () => {
@@ -204,6 +209,53 @@ describe('index', () => {
             expect(stub).to.be.called
             expect(result).to.equal(123)
             stub.restore()
+        })
+    })
+    describe('getCases', () => {
+        it('Should call getUser', async () => {
+            const res = {
+                send: () => false,
+                setHeader: () => false,
+                status: function () {
+                    return this
+                },
+            }
+
+            const stub = sinon.stub(idamApi, 'getUser')
+            const stub2 = sinon.stub(filters, 'filterByCaseTypeAndRole')
+            const stub3 = sinon.stub(utils, 'asyncReturnOrError')
+            stub.resolves({id: 1, roles: [1, 2, 3]})
+            stub2.resolves([1, 2, 3])
+            stub3.resolves([1, 2, 3])
+            const result = await getCases(res)
+            expect(stub).to.be.called
+            // expect(result).to.be.an('array')
+            stub.restore()
+            stub2.restore()
+            stub3.restore()
+        })
+    })
+    describe('unassignAll', () => {
+        it('Should call \'unassignAllCaseFromJudge\'', async () => {
+            const req = {
+                auth: {
+                    id: 1,
+                },
+            }
+            const res = {}
+            const caseLists = []
+            const stub = sinon.stub(assignCase, 'unassignAllCaseFromJudge')
+            const stub2 = sinon.stub(ccdStore, 'getMutiJudCCDCases')
+            const stub3 = sinon.stub(filters, 'filterByCaseTypeAndRole')
+            stub.returns(1)
+            stub2.resolves({id: 2})
+            stub3.resolves(3)
+            const result = await unassignAll(req, res)
+            expect(stub).to.be.called
+            expect(result).to.equal(1)
+            stub.restore()
+            stub2.restore()
+            stub3.restore()
         })
     })
     describe('appendQuestionsRound', () => {
