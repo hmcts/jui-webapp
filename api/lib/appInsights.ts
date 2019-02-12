@@ -7,7 +7,7 @@ export let client
 // shouldnt do this check here but this is a high level dep
 const environment = process.env.JUI_ENV || 'local'
 
-if (environment !== 'local ') {
+if (environment !== 'local') {
     applicationinsights
         .setup(config.appInsightsInstrumentationKey)
         .setAutoDependencyCorrelation(true)
@@ -20,13 +20,13 @@ if (environment !== 'local ') {
         .start()
 
     client = applicationinsights.defaultClient
-    client.trackTrace({message: 'App Insight Activated'})
+    client.trackTrace({ message: 'App Insight Activated' })
 
 } else {
     client = null
 }
 
-export function appInsights(req: express.Request, res: express.Response, next: express.next)  {
+export function appInsights(req: express.Request, res: express.Response, next: express.next) {
     if (client) {
         client.trackNodeHttpRequest({ request: req, response: res })
     }

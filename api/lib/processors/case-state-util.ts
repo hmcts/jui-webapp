@@ -9,7 +9,10 @@ export const STATE = {
     SSCS_CCD_APPEAL_CREATED: 'appealCreated',
     COH_STARTED_STATE: 'continuous_online_hearing_started',
     COH_DECISION_ISSUED_STATE: 'continuous_online_hearing_decision_issued',
+    COH_PRELIMINARY_VIEW_ISSUED_STATE: 'decision_issued',
+    COH_PRELIMINARY_VIEW_PENDING_STATE: 'decision_issue_pending',
     COH_RELISTED_STATE: 'continuous_online_hearing_relisted',
+    COH_RELISTED_PENDING: 'ISSUE_PENDING',
     COH_Q_QUESTION_DRAFTED_STATE: 'question_drafted',
     COH_Q_QUESTION_ISSUE_PENDING_STATE: 'question_issue_pending',
     COH_Q_QUESTION_ISSUED_STATE: 'question_issued',
@@ -27,7 +30,7 @@ export const STATE = {
         'question_answered',
         'question_deadline_elapsed',
         'question_deadline_extension_elapsed',
-        'question_deadline_extension_granted'
+        'question_deadline_extension_granted',
     ],
     FR: [
         'consentOrderMade',
@@ -89,7 +92,7 @@ export function createCaseState(state, date, actionUrl, id = null) {
         stateDateTime: date,
         actionGoTo: actionUrl || GO_TO.SUMMARY_GO_TO,
         ID: id,
-        }
+    }
 }
 
 export function getDocId(consentOrder) {
