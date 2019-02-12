@@ -13,9 +13,11 @@ import * as idamApi from '../../services/idam-api/idam-api'
 import {
     aggregatedData,
     appendCOR,
+    appendQuestionsRound,
     combineLists,
     getCOR,
     getHearingWithQuestionData,
+    getMutiJudCaseAssignedCases,
     getMutiJudCaseRaw,
     getMutiJudCaseRawCoh,
     getQuestionData,
@@ -183,7 +185,7 @@ describe('index', () => {
                 hearing_data: true,
                 id: 1,
             }]
-            const expectedResult = [{ id: 1, questions: 2 }]
+            const expectedResult = [{id: 1, questions: 2}]
             const userId = 2
             const stub = sinon.stub(getAllQuestionsByCase, 'getAllQuestionsByCase').resolves({questions: 2})
             await getQuestionData(caseLists, userId).then(result => {
@@ -193,14 +195,36 @@ describe('index', () => {
             stub.restore()
         })
     })
-    describe('rawCOH', () => {
-        // it('Should call getUser()', async () => {
-        //     const res = {}
-        //     const stub = sinon.stub(idamApi, 'getUser')
-        //     stub.returns([1, 2, 3])
-        //     const result = await rawCOH(res)
-        //     expect(stub).to.be.called
-        //     stub.restore()
-        // })
+    describe('getMutiJudCaseAssignedCases', () => {
+        it('Should return getMutiJudCCDCases', async () => {
+            const userDetails = {id: 1, roles: [1, 2, 3]}
+            const stub = sinon.stub(ccdStore, 'getMutiJudCCDCases')
+            stub.resolves(123)
+            const result = await getMutiJudCaseAssignedCases(userDetails)
+            expect(stub).to.be.called
+            expect(result).to.equal(123)
+            stub.restore()
+        })
+    })
+    describe('appendQuestionsRound', () => {
+        it('Should return empty array if poorly formed \'caseLists\' provided', async () => {
+            const caseLists = [{id: 1}, {id: 2}]
+            const userId = 1
+            const stub = sinon.stub(getAllQuestionsByCase, 'getAllQuestionsByCase')
+            stub.resolves(123)
+            const result = await appendQuestionsRound(caseLists, userId)
+            expect(stub).to.not.be.called
+            expect(result).to.eql([[], []])
+            stub.restore()
+        })
+        it('Should return data if correctly formed \'caseLists\' provided', async () => {
+            const caseLists = [
+                [{id: 1, question_data: 1}, {id: 2, question_data: 2}],
+                [{id: 3, question_data: 3}, {id: 4, question_data: 4}]]
+            const userId = 1
+            const result = await appendQuestionsRound(caseLists, userId)
+            expect(result).to.be.an('array')
+            expect(result[1]).to.not.be.null
+        })
     })
 })

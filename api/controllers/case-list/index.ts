@@ -14,7 +14,7 @@ const valueProcessor = require('../../lib/processors/value-processor')
 const {caseStateFilter} = require('../../lib/processors/case-state-util')
 import {getAllQuestionsByCase} from '../questions/index'
 
-const {getUser} = require('../../services/idam-api/idam-api')
+import {getUser} from '../../services/idam-api/idam-api'
 const {getNewCase, unassignAllCaseFromJudge} = require('./assignCase')
 
 const logger = log4jui.getLogger('case list')
@@ -134,9 +134,7 @@ export function aggregatedData(results) {
 }
 
 export async function getMutiJudCaseAssignedCases(userDetails) {
-    const cases = await getMutiJudCCDCases(userDetails.id, filterByCaseTypeAndRole(userDetails))
-
-    return cases
+    return await getMutiJudCCDCases(userDetails.id, filterByCaseTypeAndRole(userDetails))
 }
 
 // Get List of case and transform to correct format
@@ -264,9 +262,11 @@ module.exports = app => {
 
 module.exports.aggregatedData = aggregatedData
 module.exports.appendCOR = appendCOR
+module.exports.appendQuestionsRound = appendQuestionsRound
 module.exports.combineLists = combineLists
 module.exports.getCOR = getCOR
 module.exports.getHearingWithQuestionData = getHearingWithQuestionData
+module.exports.getMutiJudCaseAssignedCases = getMutiJudCaseAssignedCases
 module.exports.getMutiJudCaseRaw = getMutiJudCaseRaw
 module.exports.getMutiJudCaseRawCoh = getMutiJudCaseRawCoh
 module.exports.getQuestionData = getQuestionData
