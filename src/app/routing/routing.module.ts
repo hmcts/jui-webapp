@@ -38,6 +38,7 @@ import { CookiesComponent } from './pages/generic-page/cookies/cookies.component
 import { PrivacyPolicyComponent } from './pages/generic-page/privacy-policy/privacy-policy.component';
 import { DemoComponent } from './pages/generic-page/demo/demo.component';
 import { CaseDataService } from './pages/view-case/view-case.services';
+import {HmctsFormBuilderModule} from 'example-npm-module';
 
 const routes: Routes = [
     {
@@ -171,7 +172,8 @@ const routes: Routes = [
         ReactiveFormsModule,
         JUIFormsModule,
         GovukModule,
-        HmctsModule
+        HmctsModule,
+        HmctsFormBuilderModule
     ],
     declarations: [
         DashboardComponent,
