@@ -27,6 +27,7 @@ function convertDateTime(dateObj: string): DateTimeObject {
 
 function mergeCohEvents(eventsJson: any): any[] {
     const history = eventsJson.online_hearing.history
+
     const questionHistory = eventsJson.online_hearing.questions
         ? eventsJson.online_hearing.questions.map(arr => arr.history).reduce((historyArray, item) => historyArray.concat(item), [])
         : []
@@ -168,7 +169,7 @@ export async function getOrCreateDecision(caseId, userId) {
         logger.info(`Got hearding for case ${caseId}`)
         try {
             decision = await getDecision(hearingId)
-            logger.info(decision)
+            logger.info('decision:', JSON.stringify(decision))
         } catch (error) {
             logger.info(`Can't find decision`)
         }
