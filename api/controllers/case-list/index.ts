@@ -1,21 +1,21 @@
 import * as express from 'express'
-import { map } from 'p-iteration'
+import {map} from 'p-iteration'
 
 import columns from '../../lib/config/refCaselistCols'
-import { filterByCaseTypeAndRole } from '../../lib/filters'
+import {filterByCaseTypeAndRole} from '../../lib/filters'
 import * as log4jui from '../../lib/log4jui'
-import { asyncReturnOrError } from '../../lib/util'
-import { getMutiJudCCDCases } from '../../services/ccd-store-api/ccd-store'
-import { getHearingByCase } from '../../services/coh-cor-api/coh-cor-api'
+import {asyncReturnOrError} from '../../lib/util'
+import {getMutiJudCCDCases} from '../../services/ccd-store-api/ccd-store'
+import {getHearingByCase} from '../../services/coh-cor-api/coh-cor-api'
 
 const getListTemplate = require('./templates/index')
-const { processCaseState } = require('../../lib/processors/case-state-model')
+const {processCaseState} = require('../../lib/processors/case-state-model')
 const valueProcessor = require('../../lib/processors/value-processor')
-const { caseStateFilter } = require('../../lib/processors/case-state-util')
-const { getAllQuestionsByCase } = require('../questions/index')
+const {caseStateFilter} = require('../../lib/processors/case-state-util')
+import {getAllQuestionsByCase} from '../questions/index'
 
-const { getUser } = require('../../services/idam-api/idam-api')
-const { getNewCase, unassignAllCaseFromJudge } = require('./assignCase')
+const {getUser} = require('../../services/idam-api/idam-api')
+const {getNewCase, unassignAllCaseFromJudge} = require('./assignCase')
 
 const logger = log4jui.getLogger('case list')
 
@@ -40,13 +40,13 @@ export async function appendCOR(caseLists) {
     })
 }
 
-export function getHearingWithQuestionData(caseData, userId) {
-    return getAllQuestionsByCase(caseData.id, userId).then(questions => {
-        return {
-            id: caseData.id,
-            questions,
-        }
-    })
+export async function getHearingWithQuestionData(caseData, userId) {
+    const jurisdiction = null
+    const questions = await getAllQuestionsByCase(caseData.id, userId, jurisdiction)
+    return {
+        id: caseData.id,
+        ...questions,
+    }
 }
 
 export async function getQuestionData(caseLists, userId) {
@@ -130,7 +130,7 @@ export function sortCases(results) {
 }
 
 export function aggregatedData(results) {
-    return { columns, results }
+    return {columns, results}
 }
 
 export async function getMutiJudCaseAssignedCases(userDetails) {
@@ -252,7 +252,7 @@ export async function rawCOH(res) {
 }
 
 module.exports = app => {
-    const router = express.Router({ mergeParams: true })
+    const router = express.Router({mergeParams: true})
     app.use('/cases', router)
 
     router.get('/', async (req: any, res, next) => getCases(res))
@@ -261,3 +261,15 @@ module.exports = app => {
     router.get('/raw', async (req: any, res, next) => raw(res))
     router.get('/raw/coh', async (req: any, res, next) => rawCOH(res))
 }
+
+module.exports.aggregatedData = aggregatedData
+module.exports.appendCOR = appendCOR
+module.exports.combineLists = combineLists
+module.exports.getCOR = getCOR
+module.exports.getHearingWithQuestionData = getHearingWithQuestionData
+module.exports.getMutiJudCaseRaw = getMutiJudCaseRaw
+module.exports.getMutiJudCaseRawCoh = getMutiJudCaseRawCoh
+module.exports.getQuestionData = getQuestionData
+module.exports.rawCOH = rawCOH
+module.exports.sortCases = sortCases
+module.exports.sortTransformedCases = sortTransformedCases
