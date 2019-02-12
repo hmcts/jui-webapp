@@ -4,7 +4,6 @@ let  request = null
 
 export function errorStack(req: express.Request , res: express.Response , next: express.next){
     request = req
-    console.log('okay')
     request.session.errorStack = []
     next()
 
