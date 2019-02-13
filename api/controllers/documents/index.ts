@@ -39,7 +39,6 @@ module.exports = app => {
     app.use('/documents', route)
 
     route.get('/:document_id', async (req, res, next) => {
-        console.log('okay')
         const document = await getDocument(req.params.document_id)
         if (document) {
             res.send(document).status(200)
