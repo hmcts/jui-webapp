@@ -213,7 +213,6 @@ export async function unassign(res) {
     }
 }
 
-
 export async function assign(req, res) {
     {
         const options = null
@@ -265,6 +264,7 @@ module.exports = app => {
 module.exports.aggregatedData = aggregatedData
 module.exports.appendCOR = appendCOR
 module.exports.appendQuestionsRound = appendQuestionsRound
+module.exports.assign = assign
 module.exports.combineLists = combineLists
 module.exports.getCases = getCases
 module.exports.getCOR = getCOR
@@ -273,7 +273,9 @@ module.exports.getMutiJudCaseAssignedCases = getMutiJudCaseAssignedCases
 module.exports.getMutiJudCaseRaw = getMutiJudCaseRaw
 module.exports.getMutiJudCaseRawCoh = getMutiJudCaseRawCoh
 module.exports.getQuestionData = getQuestionData
+module.exports.raw = raw
 module.exports.rawCOH = rawCOH
 module.exports.sortCases = sortCases
 module.exports.sortTransformedCases = sortTransformedCases
+module.exports.unassign = unassign
 module.exports.unassignAll = unassignAll

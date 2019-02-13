@@ -17,6 +17,7 @@ import {
     aggregatedData,
     appendCOR,
     appendQuestionsRound,
+    assign,
     combineLists,
     getCases,
     getCOR,
@@ -25,9 +26,11 @@ import {
     getMutiJudCaseRaw,
     getMutiJudCaseRawCoh,
     getQuestionData,
+    raw,
     rawCOH,
     sortCases,
     sortTransformedCases,
+    unassign,
     unassignAll
 } from './index'
 
@@ -220,7 +223,6 @@ describe('index', () => {
                     return this
                 },
             }
-
             const stub = sinon.stub(idamApi, 'getUser')
             const stub2 = sinon.stub(filters, 'filterByCaseTypeAndRole')
             const stub3 = sinon.stub(utils, 'asyncReturnOrError')
@@ -228,6 +230,108 @@ describe('index', () => {
             stub2.resolves([1, 2, 3])
             stub3.resolves([1, 2, 3])
             const result = await getCases(res)
+            expect(stub).to.be.called
+            // expect(result).to.be.an('array')
+            stub.restore()
+            stub2.restore()
+            stub3.restore()
+        })
+    })
+    describe('unassign', () => {
+        it('Should call getUser', async () => {
+            const res = {
+                send: () => false,
+                setHeader: () => false,
+                status: function () {
+                    return this
+                },
+            }
+            const stub = sinon.stub(idamApi, 'getUser')
+            const stub2 = sinon.stub(filters, 'filterByCaseTypeAndRole')
+            const stub3 = sinon.stub(utils, 'asyncReturnOrError')
+            stub.resolves({id: 1, roles: [1, 2, 3]})
+            stub2.resolves([1, 2, 3])
+            stub3.resolves([1, 2, 3])
+            const result = await unassign(res)
+            expect(stub).to.be.called
+            // expect(result).to.be.an('array')
+            stub.restore()
+            stub2.restore()
+            stub3.restore()
+        })
+    })
+    describe('assign', () => {
+        it('Should call getUser', async () => {
+            const req = {
+                auth: {
+                    id: 1,
+                },
+            }
+            const res = {
+                send: () => false,
+                setHeader: () => false,
+                status: function () {
+                    return this
+                },
+            }
+            const stub = sinon.stub(assignCase, 'getNewCase')
+            const stub2 = sinon.stub(filters, 'filterByCaseTypeAndRole')
+            const stub3 = sinon.stub(utils, 'asyncReturnOrError')
+            stub.returns({id: 1, roles: [1, 2, 3]})
+            stub2.resolves([1, 2, 3])
+            stub3.resolves([1, 2, 3])
+            const result = await assign(req, res)
+            expect(stub).to.be.called
+            // expect(result).to.be.an('array')
+            stub.restore()
+            stub2.restore()
+            stub3.restore()
+        })
+    })
+    describe('raw', () => {
+        it('Should call getUser', async () => {
+            const res = {
+                send: () => false,
+                setHeader: () => false,
+                status: function () {
+                    return this
+                },
+            }
+            const stub = sinon.stub(idamApi, 'getUser')
+            const stub2 = sinon.stub(filters, 'filterByCaseTypeAndRole')
+            const stub3 = sinon.stub(utils, 'asyncReturnOrError')
+            stub.returns({id: 1, roles: [1, 2, 3]})
+            stub2.resolves([1, 2, 3])
+            stub3.resolves([1, 2, 3])
+            const result = await raw(res)
+            expect(stub).to.be.called
+            // expect(result).to.be.an('array')
+            stub.restore()
+            stub2.restore()
+            stub3.restore()
+        })
+    })
+    describe('rawCOH', () => {
+        it('Should call getUser', async () => {
+            // the non arrow-function below is required by Sinon
+            const res = {
+                send: () => false,
+                setHeader: () => false,
+                status: function () {
+                    return this
+                },
+            }
+            const stub = sinon.stub(idamApi, 'getUser')
+            const stub2 = sinon.stub(filters, 'filterByCaseTypeAndRole')
+            const stub3 = sinon.stub(utils, 'asyncReturnOrError')
+            stub.returns({id: 1, roles: [1, 2, 3]})
+            stub2.resolves([1, 2, 3])
+            stub3.resolves([
+                {id: 1, last_modified: 1549899256},
+                {id: 2, last_modified: 1549899156},
+                {id: 3, last_modified: 1549899216},
+            ])
+            const result = await rawCOH(res)
             expect(stub).to.be.called
             // expect(result).to.be.an('array')
             stub.restore()
