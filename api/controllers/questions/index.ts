@@ -81,7 +81,7 @@ function formatQuestions(questions) {
             rounds: question.question_round,
             header: question.question_header_text,
             body: question.question_body_text,
-            owner_reference: question.owner_reference,
+            owner_reference: judgeLookUp(question.owner_reference),
             state_datetime: question.current_question_state.state_datetime,
             state: question.current_question_state.state_name
         }
@@ -94,16 +94,16 @@ function formatQuestionRes(question, answers) {
         round: question.question_round,
         header: question.question_header_text,
         body: question.question_body_text,
-        owner_reference: question.owner_reference,
+        owner_reference: judgeLookUp(question.owner_reference),
         state_name: question.current_question_state.state_name,
         state_datetime: question.current_question_state.state_datetime,
         answer: answers !== undefined && answers.length > 0 ? answers[0] : null,
     }
 }
 
-function formatQuestion(body: any, user: string) {
+function formatQuestion(body: any, email: string) {
     return {
-        owner_reference: user,
+        owner_reference: email,
         question_body_text: body.question,
         question_header_text: body.subject,
         question_ordinal: '1',
@@ -139,11 +139,6 @@ function getAllQuestionsByCase(caseId, userId, jurisdiction) {
 
 function getOptions(req) {
     return headerUtilities.getAuthHeaders(req)
-}
-
-function getJudgeName(req: express.Request) {
-    const judgeEmail = req.session.user.email
-    return judgeLookUp(judgeEmail)
 }
 
 module.exports = app => {
@@ -202,7 +197,7 @@ module.exports = app => {
                     ? hearing.online_hearings[0].online_hearing_id
                     : cohCor.createHearing(caseId)
             )
-            .then(hearingId => cohCor.postQuestion(hearingId, formatQuestion(req.body, getJudgeName(req))))
+            .then(hearingId => cohCor.postQuestion(hearingId, formatQuestion(req.body, req.session.user.email)))
             .then(response => {
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.setHeader('content-type', 'application/json')
@@ -222,7 +217,7 @@ module.exports = app => {
         return cohCor
             .getHearingByCase(caseId)
             .then(hearing => hearing.online_hearings[0].online_hearing_id)
-            .then(hearingId => cohCor.putQuestion(hearingId, questionId, formatQuestion(req.body, getJudgeName(req))))
+            .then(hearingId => cohCor.putQuestion(hearingId, questionId, formatQuestion(req.body, req.session.user.email)))
             .then(response => {
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.status(200).send(JSON.stringify(response))
@@ -372,6 +367,5 @@ module.exports = app => {
             )
     })
 }
-
 
 module.exports.getAllQuestionsByCase = getAllQuestionsByCase
