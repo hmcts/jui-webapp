@@ -3579,15 +3579,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	function handleDocumentMouseup(e) {
 	  var rects = void 0;
-	  if (_type !== 'area' && e.srcElement.hasAttribute('data-canvas-width') && (rects = getSelectionRects())) {
-	    var svg = (0, _utils.findSVGAtPoint)(rects[0].left, rects[0].top);
-	    saveRect(_type, [].concat(_toConsumableArray(rects)).map(function (r) {
-	      return {
-	        top: r.top,
-	        left: r.left,
-	        width: r.width,
-	        height: r.height
-	      };
+	  if (_type !== 'area' && (e.srcElement.getAttribute('prevent-default-highlighting-behaviour') === 'true')
+          && (rects = getSelectionRects())) {
+            var svg = (0, _utils.findSVGAtPoint)(rects[0].left, rects[0].top);
+            saveRect(_type, [].concat(_toConsumableArray(rects)).map(function (r) {
+              return {
+                top: r.top,
+                left: r.left,
+                width: r.width,
+                height: r.height
+              };
 	    }));
 	  } else if (_type === 'area' && overlay) {
 	    var _svg = overlay.parentNode.querySelector('svg.annotationLayer');
