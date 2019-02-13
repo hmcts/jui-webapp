@@ -3579,7 +3579,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	function handleDocumentMouseup(e) {
 	  var rects = void 0;
-	  if (_type !== 'area' && (e.srcElement.getAttribute('prevent-default-pdf-highlighting-behaviour') === 'true')
+	  if (_type !== 'area' && (e.srcElement.getAttribute('prevent-default-highlighting-behaviour') === 'true')
           && (rects = getSelectionRects())) {
             var svg = (0, _utils.findSVGAtPoint)(rects[0].left, rects[0].top);
             saveRect(_type, [].concat(_toConsumableArray(rects)).map(function (r) {
