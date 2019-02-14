@@ -147,7 +147,7 @@ function assignToJudge(userId, awaitingJuiRespCases, options) {
     }
 }
 
-function unassignFromJudge(userId, caseData, options) {
+export function unassignFromJudge(userId, caseData, options) {
     if (caseData) {
         const jurisdiction = caseData.jurisdiction
         const caseType = caseData.case_type_id
@@ -163,11 +163,11 @@ function unassignFromJudge(userId, caseData, options) {
     }
 }
 
-function unassignAllCaseFromJudge(userId, caseList, options) {
+export function unassignAllCaseFromJudge(userId, caseList, options) {
     return caseList.map(caseData => unassignFromJudge(userId, caseData, options))
 }
 
-function getNewCase(userId, options) {
+export function getNewCase(userId, options) {
     return getMutiJudCCDCases(userId, jurisdictions, options)
         .then(combineLists) // TODO: One day will not need this with muti judristion
         .then(filterAssignedCases) // TODO: We should filter on the request not here (FUTURE CHANGE)

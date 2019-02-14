@@ -1,4 +1,3 @@
-
 import * as express from 'express'
 import * as cohCor from '../../services/coh-cor-api/coh-cor-api'
 
@@ -11,7 +10,7 @@ function createHearing(caseId, userId, options, jurisdiction = 'SSCS') {
     options.body = {
         case_id: caseId,
         jurisdiction,
-        panel: [{ identity_token: 'string', name: userId }],
+        panel: [{identity_token: 'string', name: userId}],
         start_date: new Date().toISOString()
     }
 
@@ -29,7 +28,7 @@ function answerAllQuestions(hearingId, questionIds) {
 }
 
 function updateRoundToIssued(hearingId, roundId, options) {
-    return cohCor.putRound(hearingId, roundId, { state_name: 'question_issue_pending' } )
+    return cohCor.putRound(hearingId, roundId, {state_name: 'question_issue_pending'})
 }
 
 // Format Rounds, Questions and Answers
@@ -41,7 +40,7 @@ function formatRounds(rounds) {
             const dateUtc = expireDate.utc().format()
             const date = expireDate.format('D MMM YYYY')
             const time = expireDate.format('HH:mma')
-            expires = { dateUtc, date, time }
+            expires = {dateUtc, date, time}
         }
 
         const numberQuestion = round.question_references ? round.question_references.length : 0
@@ -69,7 +68,7 @@ function countStates(questions, state) {
 function getExpirationDate(questions) {
     return (
         questions.map(question => question.deadline_expiry_date)
-        .sort((a, b) => (new Date(b) as any) - (new Date(a) as any))[0] || null
+            .sort((a, b) => (new Date(b) as any) - (new Date(a) as any))[0] || null
     )
 }
 
@@ -124,16 +123,11 @@ function formatAnswer(body = null) {
     }
 }
 
-function getAllQuestionsByCase(caseId, userId, jurisdiction) {
-    return cohCor
-        .getHearingByCase(caseId)
-        .then(hearing =>
-            hearing.online_hearings[0]
-                ? hearing.online_hearings[0].online_hearing_id
-                : createHearing(caseId, userId, jurisdiction)
-        )
-        .then(hearingId => cohCor.getAllRounds(hearingId))
-        .then(rounds => rounds && formatRounds(rounds.question_rounds))
+export async function getAllQuestionsByCase(caseId, userId, jurisdiction) {
+    const r1 = await cohCor.getHearingByCase(caseId)
+    const r2 = r1.online_hearings[0] ? r1.online_hearings[0].online_hearing_id : createHearing(caseId, userId, jurisdiction)
+    const r3 = await cohCor.getAllRounds(r2)
+    return r3 && formatRounds(r3.question_rounds)
 }
 
 function getOptions(req) {
@@ -141,7 +135,7 @@ function getOptions(req) {
 }
 
 module.exports = app => {
-    const route = express.Router({ mergeParams: true })
+    const route = express.Router({mergeParams: true})
     // TODO: we need to put this back to '/case' in the future (rather than '/caseQ') when it doesn't clash with case/index.js
     app.use('/caseQ', route)
 
@@ -189,7 +183,7 @@ module.exports = app => {
     route.post('/:case_id/questions', (req: any, res, next) => {
         const caseId = req.params.case_id
         const userId = req.auth.userId
-        
+
         return cohCor
             .getHearingByCase(caseId)
             .then(hearing =>
@@ -312,7 +306,7 @@ module.exports = app => {
     route.get('/:case_id/rounds/:round_id/answer', (req, res, next) => {
         const caseId = req.params.case_id
         const roundId = req.params.round_id
-       
+
         return cohCor
             .getHearingByCase(caseId)
             .then(hearing => hearing.online_hearings[0].online_hearing_id)
@@ -368,6 +362,5 @@ module.exports = app => {
             )
     })
 }
-
 
 module.exports.getAllQuestionsByCase = getAllQuestionsByCase

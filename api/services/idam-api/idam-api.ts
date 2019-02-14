@@ -16,7 +16,7 @@ export function getDetails(options) {
 }
 
 // this does same as above + more. need to depricate above
-async function getUser(email = null) {
+export async function getUser(email = null) {
     const response = email ? await http.get(`${url}/users?email=${email}`) : await http.get(`${url}/details`)
     return response.data
 }
