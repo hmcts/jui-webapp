@@ -406,7 +406,7 @@
     "@schematics/angular" "^7.0.0"
     bugsnag "^2.3.1"
 
-"@ng-toolkit/universal@^1.1.45":
+"@ng-toolkit/universal@^1.1.51":
   version "1.1.51"
   resolved "https://registry.yarnpkg.com/@ng-toolkit/universal/-/universal-1.1.51.tgz#5eff836de9417486606bf56bc37a532cc92322d7"
   integrity sha512-7J4VyOY6bUpkFVYuAZQLlz6GFNavZw1udAyRLdjQkXYaEb5PDXBkHfvKavb+3KwtDQyrGiWPyGWwK5q8rk6NOA==
