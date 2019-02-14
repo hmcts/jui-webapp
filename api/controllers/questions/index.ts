@@ -1,6 +1,6 @@
 import * as express from 'express'
 import { judgeLookUp } from '../../lib/util'
-import * as cohCor from '../../services/coh-cor-api/coh-cor-api'
+import * as cohCor from '../../services/cohQA'
 
 const moment = require('moment')
 
@@ -11,7 +11,7 @@ function createHearing(caseId, userId, options, jurisdiction = 'SSCS') {
     options.body = {
         case_id: caseId,
         jurisdiction,
-        panel: [{identity_token: 'string', name: userId}],
+        panel: [{ identity_token: 'string', name: userId }],
         start_date: new Date().toISOString()
     }
 
@@ -29,7 +29,7 @@ function answerAllQuestions(hearingId, questionIds) {
 }
 
 function updateRoundToIssued(hearingId, roundId, options) {
-    return cohCor.putRound(hearingId, roundId, {state_name: 'question_issue_pending'})
+    return cohCor.putRound(hearingId, roundId, { state_name: 'question_issue_pending' })
 }
 
 // Format Rounds, Questions and Answers
@@ -41,7 +41,7 @@ function formatRounds(rounds) {
             const dateUtc = expireDate.utc().format()
             const date = expireDate.format('D MMM YYYY')
             const time = expireDate.format('HH:mma')
-            expires = {dateUtc, date, time}
+            expires = { dateUtc, date, time }
         }
 
         const numberQuestion = round.question_references ? round.question_references.length : 0
@@ -136,7 +136,7 @@ function getOptions(req) {
 }
 
 module.exports = app => {
-    const route = express.Router({mergeParams: true})
+    const route = express.Router({ mergeParams: true })
     // TODO: we need to put this back to '/case' in the future (rather than '/caseQ') when it doesn't clash with case/index.js
     app.use('/caseQ', route)
 

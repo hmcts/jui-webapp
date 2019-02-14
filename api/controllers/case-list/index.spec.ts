@@ -8,7 +8,7 @@ chai.use(sinonChai)
 
 import * as assignCase from './assignCase'
 import * as ccdStore from '../../services/ccd-store-api/ccd-store'
-import * as cohCorApi from '../../services/coh-cor-api/coh-cor-api'
+import * as cohCorApi from '../../services/cohQA'
 import * as filters from '../../lib/filters'
 import * as getAllQuestionsByCase from '../questions/index'
 import * as idamApi from '../../services/idam'

@@ -1,6 +1,6 @@
 import * as express from 'express'
-import {config} from '../../../config'
-import { http } from '../../lib/http'
+import { config } from '../../config'
+import { http } from '../lib/http'
 
 const url = config.services.coh_cor_api
 
@@ -32,7 +32,7 @@ export async function postQuestion(hearingId, body) {
 }
 
 export async function getQuestion(hearingId, questionId, options) {
-    const response = await http.get( `${url}/continuous-online-hearings/${hearingId}/questions/${questionId}`, options)
+    const response = await http.get(`${url}/continuous-online-hearings/${hearingId}/questions/${questionId}`, options)
 
     return response.data
 }
@@ -48,7 +48,7 @@ export async function deleteQuestion(hearingId, questionId) {
 
 // Answer
 export async function getAnswers(hearingId, questionId) {
-    const response = await http.get( `${url}/continuous-online-hearings/${hearingId}/questions/${questionId}/answers`)
+    const response = await http.get(`${url}/continuous-online-hearings/${hearingId}/questions/${questionId}/answers`)
     return response.data
 }
 
@@ -75,7 +75,7 @@ export async function getAllRounds(hearingId) {
 }
 
 export async function getRound(hearingId, roundId) {
-    const response = await  http.get( `${url}/continuous-online-hearings/${hearingId}/questionrounds/${roundId}`)
+    const response = await http.get(`${url}/continuous-online-hearings/${hearingId}/questionrounds/${roundId}`)
     return response.data
 }
 
@@ -92,17 +92,17 @@ export async function getOnlineHearingConversation(onlineHearingId) {
 
 // Decision
 export async function postDecision(hearingId, body) {
-    const response = await http.post(`${url}/continuous-online-hearings/${hearingId}/decisions`,  body )
+    const response = await http.post(`${url}/continuous-online-hearings/${hearingId}/decisions`, body)
     return response.data
 }
 
 export async function putDecision(hearingId, body) {
-    const response = await http.put(`${config.services.coh_cor_api}/continuous-online-hearings/${hearingId}/decisions`,  body )
+    const response = await http.put(`${config.services.coh_cor_api}/continuous-online-hearings/${hearingId}/decisions`, body)
     return response.data
 }
 
 export async function getDecision(hearingId) {
-    const response = await http.get( `${url}/continuous-online-hearings/${hearingId}/decisions`)
+    const response = await http.get(`${url}/continuous-online-hearings/${hearingId}/decisions`)
     return response.data
 }
 
@@ -121,7 +121,7 @@ export async function createHearing(caseId, jurisdictionId = 'SSCS') {
 
 export async function getHearingIdOrCreateHearing(caseId) {
     const hearing: any = await getHearingByCase(caseId)
-    return  hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : await createHearing(caseId)
+    return hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : await createHearing(caseId)
 }
 
 export async function postHearing(body) {

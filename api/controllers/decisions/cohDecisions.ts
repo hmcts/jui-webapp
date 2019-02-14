@@ -1,8 +1,7 @@
 import * as express from 'express'
 import * as headerUtilities from '../../lib/utilities/headerUtilities'
-import {getHearing, relistHearing} from '../../services/coh'
-
-const {getHearingIdOrCreateHearing, getDecision, postDecision, putDecision} = require('../../services/coh-cor-api/coh-cor-api')
+import { getHearing, relistHearing } from '../../services/coh'
+import { getHearingIdOrCreateHearing, getDecision, postDecision, putDecision } from '../../services/cohQA'
 
 function getOptions(req) {
     return headerUtilities.getAuthHeaders(req)
@@ -17,7 +16,7 @@ export default app => {
         const options = getOptions(req)
 
         getHearingIdOrCreateHearing(caseId)
-            .then(hearingId => getDecision(hearingId, options))
+            .then(hearingId => getDecision(hearingId))
             .then(response => {
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.setHeader('content-type', 'application/json')
@@ -33,7 +32,7 @@ export default app => {
         const options = getOptions(req)
 
         getHearingIdOrCreateHearing(caseId)
-            .then(hearingId => postDecision(hearingId, options, req.body))
+            .then(hearingId => postDecision(hearingId, req.body))
             .then(response => {
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.setHeader('content-type', 'application/json')
@@ -50,7 +49,7 @@ export default app => {
         const options = getOptions(req)
 
         getHearingIdOrCreateHearing(caseId)
-            .then(hearingId => putDecision(hearingId, options, req.body))
+            .then(hearingId => putDecision(hearingId, req.body))
             .then(response => {
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.setHeader('content-type', 'application/json')

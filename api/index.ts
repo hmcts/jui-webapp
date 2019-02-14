@@ -4,11 +4,14 @@ import { auth } from './controllers/auth'
 import caseRoutes from './controllers/case'
 import decisionRoutes from './controllers/decisions'
 import { errorStack } from './lib/errorStack'
+import barApiRoutes from './services/bar'
 import ccdStoreApiRoutes from './services/ccd-store-api/ccd-store'
-import cohCorApiRoutes from './services/coh-cor-api/coh-cor-api'
+import ccdDefApiRoutes from './services/ccdDef'
+import cohCorApiRoutes from './services/cohQA'
 import dmStoreApiRoutes from './services/DMStore'
 import idamApiRoutes from './services/idam'
 import s2sApiRoutes from './services/serviceAuth'
+
 
 const router = express.Router()
 
@@ -22,15 +25,8 @@ const eventsRoutes = require('./controllers/events')
 const documentsRoutes = require('./controllers/documents')
 const caseCreationRoute = require('./controllers/case-creation')
 
-const barApiRoutes = require('./services/bar-api/bar-api')
-const ccdDefApiRoutes = require('./services/ccd-def-api/ccd-def-api')
-
-const draftStoreApiRoutes = require('./services/draft-store-api/draft-store-api')
 const emAnnoApiRoutes = require('./services/em-anno-api/em-anno-api')
 const emNpaApiRoutes = require('./services/em-npa-api/em-npa-api')
-const feeApiRoutes = require('./services/fee-api/fee-api')
-
-const payApiRoutes = require('./services/pay-api/pay-api')
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
@@ -57,11 +53,7 @@ if (config.configEnv !== 'prod') {
     ccdStoreApiRoutes(router)
     cohCorApiRoutes(router)
     dmStoreApiRoutes(router)
-    draftStoreApiRoutes(router)
-
-    feeApiRoutes(router)
     idamApiRoutes(router)
-    payApiRoutes(router)
     s2sApiRoutes(router)
 }
 

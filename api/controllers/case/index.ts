@@ -9,7 +9,7 @@ import * as log4jui from '../../lib/log4jui'
 import { CCDCaseWithSchema } from '../../lib/models'
 import { asyncReturnOrError, judgeLookUp } from '../../lib/util'
 import { getCCDCase } from '../../services/ccd-store-api/ccd-store'
-import { getHearingByCase } from '../../services/coh-cor-api/coh-cor-api'
+import { getHearingByCase } from '../../services/cohQA'
 import { getDocuments } from '../../services/DMStore'
 import { getEvents } from '../events'
 
