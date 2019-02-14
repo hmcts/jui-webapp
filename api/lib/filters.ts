@@ -1,6 +1,6 @@
 import refCaselistFilters from '../lib/config/refCaselistFilters'
 import refCaselistRoleFilters from '../lib/config/refCaselistRoleFilters'
-import { getDetails } from '../services/idam-api/idam-api'
+
 
 export function filterByCaseTypeAndRole(userDetails) {
     const filters = []
@@ -22,7 +22,7 @@ export function filterByCaseTypeAndRole(userDetails) {
                         const prefilter = JSON.parse(JSON.stringify(filter))
                         prefilter.filter = `${filter.filter}&${filterKey}=${
                             userDetails[refCaselistRoleFilters[roleFilter][filterKey]]
-                        }`
+                            }`
 
                         // need to add the name to the filter
                         prefilter.filter += '|' + userDetails.forename + ' ' + userDetails.surname
