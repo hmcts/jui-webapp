@@ -2,8 +2,10 @@ import * as express from 'express'
 import * as path from "path"
 import { decrypt } from './encryption'
 import * as  errorStack from './errorStack'
+import { http } from './http'
 import * as log4jui from './log4jui'
 import { JUILogger } from './models'
+
 
 const utilLogger: JUILogger = log4jui.getLogger('util')
 
@@ -94,4 +96,16 @@ export function judgeLookUp(judgeEmail) {
 
     const judge = refJudgeLookUp.filter(judgeLookup => judgeLookup.email === judgeEmail)
     return judge.length ? judge[0].name : judgeEmail
+}
+
+export async function getHealth(url: string) {
+    const response = await http.get(`${url}/health`)
+
+    return response.data
+}
+
+export async function getInfo(url: string) {
+    const response = await http.get(`${url}/info`)
+
+    return response.data
 }

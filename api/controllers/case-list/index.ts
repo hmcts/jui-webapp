@@ -1,6 +1,5 @@
 import * as express from 'express'
 import { map } from 'p-iteration'
-
 import columns from '../../lib/config/refCaselistCols'
 import { filterByCaseTypeAndRole } from '../../lib/filters'
 import * as log4jui from '../../lib/log4jui'

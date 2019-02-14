@@ -1,6 +1,7 @@
 import * as express from 'express'
 import { config } from '../../config'
 import { http } from '../lib/http'
+import { getHealth, getInfo } from '../lib/util'
 
 const url = config.services.idam_api
 const idamSecret = process.env.IDAM_SECRET || 'AAAAAAAAAAAAAAAA'
@@ -38,26 +39,16 @@ export async function postOauthToken(code, host) {
     return response.data
 }
 
-export async function getHealth() {
-    const response = await http.get(`${url}/health`)
-
-    return response.data
-}
-
-export async function getInfo() {
-    const response = await http.get(`${url}/info`)
-}
-
 export default app => {
     const router = express.Router({ mergeParams: true })
     app.use('/idam', router)
 
     router.get('/health', (req, res, next) => {
-        res.status(200).send(getHealth())
+        res.status(200).send(getHealth(url))
     })
 
     router.get('/info', (req, res, next) => {
-        res.status(200).send(getInfo())
+        res.status(200).send(getInfo(url))
     })
 
     router.get('/details', (req, res, next) => {
