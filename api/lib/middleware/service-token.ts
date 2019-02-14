@@ -1,6 +1,6 @@
-const { postS2SLease } = require('../../services/service-auth-provider-api/service-auth-provider-api')
-const jwtDecode = require('jwt-decode')
+import * as jwtDecode from 'jwt-decode'
 import { config } from '../../../config'
+import { postS2SLease } from '../../services/serviceAuth'
 
 const _cache = {}
 const microservice = config.microservice

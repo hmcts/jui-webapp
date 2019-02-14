@@ -8,6 +8,7 @@ import ccdStoreApiRoutes from './services/ccd-store-api/ccd-store'
 import cohCorApiRoutes from './services/coh-cor-api/coh-cor-api'
 import dmStoreApiRoutes from './services/DMStore'
 import idamApiRoutes from './services/idam'
+import s2sApiRoutes from './services/serviceAuth'
 
 const router = express.Router()
 
@@ -30,7 +31,6 @@ const emNpaApiRoutes = require('./services/em-npa-api/em-npa-api')
 const feeApiRoutes = require('./services/fee-api/fee-api')
 
 const payApiRoutes = require('./services/pay-api/pay-api')
-const s2sApiRoutes = require('./services/service-auth-provider-api/service-auth-provider-api')
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
