@@ -9,35 +9,26 @@ import { getMutiJudCCDCases } from '../../services/ccd-store-api/ccd-store'
 import { getDecision } from '../../services/coh'
 import { getHearingByCase } from '../../services/coh-cor-api/coh-cor-api'
 
-
 const getListTemplate = require('./templates/index')
 const { processCaseState } = require('../../lib/processors/case-state-model')
 const valueProcessor = require('../../lib/processors/value-processor')
 const { caseStateFilter } = require('../../lib/processors/case-state-util')
-const { getAllQuestionsByCase } = require('../questions/index')
+import { getAllQuestionsByCase } from '../questions/index'
 
-const { getUser } = require('../../services/idam-api/idam-api')
-const { getNewCase, unassignAllCaseFromJudge } = require('./assignCase')
+import { getUser } from '../../services/idam'
+import { getNewCase, unassignAllCaseFromJudge } from './assignCase'
 
 const logger = log4jui.getLogger('case list')
 
-async function getCOR(casesData, options) {
-    const caseIds = casesData.map(caseRow => `${caseRow.id}`).join('&case_id=')
+export async function getCOR(casesData, options) {
+    const caseIds = casesData.map(caseRow => `case_id=${caseRow.id}`).join('&')
 
     const hearings: any = await getHearingByCase(caseIds)
+
     if (hearings.online_hearings) {
         const caseStateMap = new Map(hearings.online_hearings.map(hearing => [Number(hearing.case_id), hearing]))
-        await map(casesData, async (caseRow: any) => {
+        casesData.forEach(caseRow => {
             caseRow.hearing_data = caseStateMap.get(Number(caseRow.id))
-            // add in getting the PV Decision here so as not to  have to loop through data again
-            if (caseRow.hearing_data) {
-                try {
-                    caseRow.hearing_data.preliminaryView = await getDecision(caseRow.hearing_data.online_hearing_id)
-                } catch (e) {
-                    // cases don't have to have a decision
-                }
-            }
-
         })
     }
 
@@ -50,13 +41,13 @@ export async function appendCOR(caseLists) {
     })
 }
 
-export function getHearingWithQuestionData(caseData, userId) {
-    return getAllQuestionsByCase(caseData.id, userId).then(questions => {
-        return {
-            id: caseData.id,
-            questions,
-        }
-    })
+export async function getHearingWithQuestionData(caseData, userId) {
+    const jurisdiction = null
+    const questions = await getAllQuestionsByCase(caseData.id, userId, jurisdiction)
+    return {
+        id: caseData.id,
+        ...questions,
+    }
 }
 
 export async function getQuestionData(caseLists, userId) {
@@ -144,9 +135,7 @@ export function aggregatedData(results) {
 }
 
 export async function getMutiJudCaseAssignedCases(userDetails) {
-    const cases = await getMutiJudCCDCases(userDetails.id, filterByCaseTypeAndRole(userDetails))
-
-    return cases
+    return await getMutiJudCCDCases(userDetails.id, filterByCaseTypeAndRole(userDetails))
 }
 
 // Get List of case and transform to correct format
@@ -188,10 +177,10 @@ export async function getMutiJudCaseRawCoh(userDetails) {
 
 export async function unassignAll(req, res) {
     const filters = filterByCaseTypeAndRole(req.auth)
-
+    const options = null
     let caseLists = await getMutiJudCCDCases(req.auth.id, filters)
     caseLists = combineLists(caseLists)
-    caseLists = unassignAllCaseFromJudge(req.auth.id, caseLists)
+    caseLists = unassignAllCaseFromJudge(req.auth.id, caseLists, options)
 
     return caseLists
 }
@@ -224,10 +213,10 @@ export async function unassign(res) {
     }
 }
 
-
 export async function assign(req, res) {
     {
-        const results = await asyncReturnOrError(getNewCase(req.auth.id), ' Error assigning new', res, logger)
+        const options = null
+        const results = await asyncReturnOrError(getNewCase(req.auth.id, options), ' Error assigning new', res, logger)
 
         if (results) {
             res.setHeader('Access-Control-Allow-Origin', '*')
@@ -271,3 +260,22 @@ module.exports = app => {
     router.get('/raw', async (req: any, res, next) => raw(res))
     router.get('/raw/coh', async (req: any, res, next) => rawCOH(res))
 }
+
+module.exports.aggregatedData = aggregatedData
+module.exports.appendCOR = appendCOR
+module.exports.appendQuestionsRound = appendQuestionsRound
+module.exports.assign = assign
+module.exports.combineLists = combineLists
+module.exports.getCases = getCases
+module.exports.getCOR = getCOR
+module.exports.getHearingWithQuestionData = getHearingWithQuestionData
+module.exports.getMutiJudCaseAssignedCases = getMutiJudCaseAssignedCases
+module.exports.getMutiJudCaseRaw = getMutiJudCaseRaw
+module.exports.getMutiJudCaseRawCoh = getMutiJudCaseRawCoh
+module.exports.getQuestionData = getQuestionData
+module.exports.raw = raw
+module.exports.rawCOH = rawCOH
+module.exports.sortCases = sortCases
+module.exports.sortTransformedCases = sortTransformedCases
+module.exports.unassign = unassign
+module.exports.unassignAll = unassignAll

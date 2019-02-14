@@ -3516,7 +3516,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var range = selection.getRangeAt(0);
 	    var rects = range.getClientRects();
 
-			if (rects.length < 2 && rects [0].width < 8) {
+			if (rects.length < 1 && rects [0].width < 8) {
 				return null;
 			}
 	    if (rects.length > 0 && rects[0].width > 0 && rects[0].height > 0) {
@@ -3579,15 +3579,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	function handleDocumentMouseup(e) {
 	  var rects = void 0;
-	  if (_type !== 'area' && (rects = getSelectionRects())) {
-	    var svg = (0, _utils.findSVGAtPoint)(rects[0].left, rects[0].top);
-	    saveRect(_type, [].concat(_toConsumableArray(rects)).map(function (r) {
-	      return {
-	        top: r.top,
-	        left: r.left,
-	        width: r.width,
-	        height: r.height
-	      };
+	  if (_type !== 'area' && (e.srcElement.getAttribute('prevent-default-pdf-highlighting-behaviour') === 'true')
+          && (rects = getSelectionRects())) {
+            var svg = (0, _utils.findSVGAtPoint)(rects[0].left, rects[0].top);
+            saveRect(_type, [].concat(_toConsumableArray(rects)).map(function (r) {
+              return {
+                top: r.top,
+                left: r.left,
+                width: r.width,
+                height: r.height
+              };
 	    }));
 	  } else if (_type === 'area' && overlay) {
 	    var _svg = overlay.parentNode.querySelector('svg.annotationLayer');
@@ -3605,6 +3606,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    document.removeEventListener('mousemove', handleDocumentMousemove);
 	    (0, _utils.enableUserSelect)();
 	  }
+	  window.getSelection().empty();
 	}
 
 	/**

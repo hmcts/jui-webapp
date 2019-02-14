@@ -1,4 +1,4 @@
-const healthcheck = require('@hmcts/nodejs-healthcheck');
+/*const healthcheck = require('@hmcts/nodejs-healthcheck');*/
 const { InfoContributor, infoRequestHandler } = require('@hmcts/info-provider');
 
 import * as express from 'express';

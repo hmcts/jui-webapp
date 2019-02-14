@@ -1,5 +1,5 @@
-const { getMutiJudCCDCases, updateCase } = require('../../services/ccd-store-api/ccd-store')
-const { getDetails } = require('../../services/idam-api/idam-api')
+import { getMutiJudCCDCases, updateCase } from '../../services/ccd-store-api/ccd-store'
+import { getDetails } from '../../services/idam'
 
 const JUI_AUTO_ASSIGN = 'Auto assigned by JUI'
 
@@ -119,7 +119,7 @@ function generateAssignToJudgeBody(jurisdiction, caseType, eventId, email) {
 }
 
 function assignToJudge(userId, awaitingJuiRespCases, options) {
-  
+
     const newCase = awaitingJuiRespCases[0]
     if (newCase) {
         const jurisdiction = newCase.jurisdiction
@@ -129,7 +129,7 @@ function assignToJudge(userId, awaitingJuiRespCases, options) {
 
         getDetails(options).then(details => {
             const body = generateAssignToJudgeBody(jurisdiction, caseType, eventId, details.email)
-            updateCase(userId, jurisdiction, caseType, caseId, eventId, JUI_AUTO_ASSIGN, JUI_AUTO_ASSIGN, body, options).catch(
+            updateCase(userId, jurisdiction, caseType, caseId, eventId, JUI_AUTO_ASSIGN, JUI_AUTO_ASSIGN, body).catch(
                 error => {
                     if (awaitingJuiRespCases.length > 0) {
                         console.error('failed to assign any case')
@@ -147,14 +147,14 @@ function assignToJudge(userId, awaitingJuiRespCases, options) {
     }
 }
 
-function unassignFromJudge(userId, caseData, options) {
+export function unassignFromJudge(userId, caseData, options) {
     if (caseData) {
         const jurisdiction = caseData.jurisdiction
         const caseType = caseData.case_type_id
         const caseId = caseData.id
         const eventId = getUnassignEventId(jurisdiction, caseType)
         const body = {}
-        updateCase(userId, jurisdiction, caseType, caseId, eventId, JUI_AUTO_ASSIGN, JUI_AUTO_ASSIGN, body, options).catch(error => {
+        updateCase(userId, jurisdiction, caseType, caseId, eventId, JUI_AUTO_ASSIGN, JUI_AUTO_ASSIGN, body).catch(error => {
             console.error(`Couldn't update case`, error)
         })
     } else {
@@ -163,12 +163,12 @@ function unassignFromJudge(userId, caseData, options) {
     }
 }
 
-function unassignAllCaseFromJudge(userId, caseList, options) {
+export function unassignAllCaseFromJudge(userId, caseList, options) {
     return caseList.map(caseData => unassignFromJudge(userId, caseData, options))
 }
 
-function getNewCase(userId, options) {
-    return getMutiJudCCDCases(userId, jurisdictions, options)
+export function getNewCase(userId, options) {
+    return getMutiJudCCDCases(userId, jurisdictions)
         .then(combineLists) // TODO: One day will not need this with muti judristion
         .then(filterAssignedCases) // TODO: We should filter on the request not here (FUTURE CHANGE)
         .then(sortCasesByLastModifiedDate) // TODO: hopefully remove in the future

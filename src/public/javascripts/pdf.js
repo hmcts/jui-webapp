@@ -6083,6 +6083,7 @@ var renderTextLayer = (function renderTextLayerClosure() {
   function appendText(textDivs, viewport, geom, styles) {
     var style = styles[geom.fontName];
     var textDiv = document.createElement('div');
+    textDiv.setAttribute('prevent-default-pdf-highlighting-behaviour', true);
     textDivs.push(textDiv);
     if (isAllWhitespace(geom.str)) {
       textDiv.dataset.isWhitespace = true;

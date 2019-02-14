@@ -7,11 +7,9 @@ import { errorStack } from './lib/errorStack'
 import ccdStoreApiRoutes from './services/ccd-store-api/ccd-store'
 import cohCorApiRoutes from './services/coh-cor-api/coh-cor-api'
 import dmStoreApiRoutes from './services/DMStore'
-//import idamApiRoutes from './services/idam-api/idam-api'
+import idamApiRoutes from './services/idam'
 
 const router = express.Router()
-
-const idamApiRoutes = require('./services/idam-api/idam-api')
 
 const authInterceptor = require('./lib/middleware/auth')
 const serviceTokenMiddleware = require('./lib/middleware/service-token')
