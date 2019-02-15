@@ -1,6 +1,10 @@
 import * as jwtDecode from 'jwt-decode'
 import { config } from '../../../config'
+import * as log4jui from '../../lib/log4jui'
 import { postS2SLease } from '../../services/serviceAuth'
+import { asyncReturnOrError } from '../util'
+
+const logger = log4jui.getLogger('service-token')
 
 const _cache = {}
 const microservice = config.microservice
@@ -15,45 +19,29 @@ function getToken() {
     return _cache[microservice]
 }
 
-function generateToken() {
-    return new Promise((resolve, reject) => {
-        postS2SLease()
-            .then(body => {
-                const tokenData = jwtDecode(body)
-                _cache[microservice] = {
-                    expiresAt: tokenData.exp,
-                    token: body
-                }
-                resolve()
-            })
-            .catch(e => {
-                reject()
-            })
-    })
-}
+async function generateToken() {
+    const response = await postS2SLease()
+    const tokenData = jwtDecode(response.data)
 
-function serviceTokenGenerator() {
-    return new Promise((resolve, reject) => {
-        if (validateCache()) {
-            resolve(getToken())
-        } else {
-            generateToken()
-                .then(() => {
-                    resolve(getToken())
-                })
-                .catch(e => {
-                    reject()
-                })
-        }
-    })
-}
-
-module.exports = async (req, res, next) => {
-    try {
-        const token: any = await serviceTokenGenerator()
-        req.headers.ServiceAuthorization = token.token
-    } catch (e) {
+    _cache[microservice] = {
+        expiresAt: tokenData.exp,
+        token: response.data,
     }
+}
 
-    next()
+async function serviceTokenGenerator() {
+    if (validateCache()) {
+        return getToken()
+    } else {
+        await generateToken()
+    }
+}
+
+export default async (req, res, next) => {
+    //const token = await asyncReturnOrError(serviceTokenGenerator(), 'Error getting s2s token', res, logger)
+    const token = await serviceTokenGenerator()
+    if (token) {
+        req.headers.ServiceAuthorization = token.token
+        next()
+    }
 }

@@ -17,10 +17,7 @@ export async function postS2SLease() {
     })
 
     return request.data
-
 }
-
-
 
 export default app => {
     const router = express.Router({ mergeParams: true })
@@ -34,4 +31,3 @@ export default app => {
         res.status(200).send(getInfo(url))
     })
 }
-
