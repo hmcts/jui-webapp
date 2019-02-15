@@ -91,7 +91,7 @@
     "lodash": "4.17.11",
     "lodash.mapvalues": "4.6.0",
     "log4js": "^3.0.6",
-    "moment": "2.23.0",
+    "moment": "2.24.0",
     "ngx-cookie": "4.1.2",
     "node-fetch": "^2.2.0",
     "otp": "0.1.3",
