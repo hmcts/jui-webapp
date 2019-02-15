@@ -1,6 +1,15 @@
 import * as express from 'express'
-import { JUILogger } from '../lib/models'
+import * as path from "path"
+import { decrypt } from './encryption'
 import * as  errorStack from './errorStack'
+import { http } from './http'
+import * as log4jui from './log4jui'
+import { JUILogger } from './models'
+
+
+const utilLogger: JUILogger = log4jui.getLogger('util')
+
+let refJudgeLookUp = []
 
 export function asyncReturnOrError(
     promise: any,
@@ -71,4 +80,32 @@ export function shorten(str: string, maxLen: number): string {
 
 export function isObject(o) {
     return o !== null && typeof o === 'object' && Array.isArray(o) === false
+}
+
+export function judgeLookUp(judgeEmail) {
+    if (!refJudgeLookUp.length) {
+        utilLogger.info('Decrypting judge data ...')
+        try {
+            utilLogger.info(`Running from__dirname ${__dirname}`)
+            const data = decrypt(path.join(__dirname, '../lib/config/refJudgeLookUp.crypt'))
+            refJudgeLookUp = JSON.parse(data)
+        } catch (e) {
+            utilLogger.error(e)
+        }
+    }
+
+    const judge = refJudgeLookUp.filter(judgeLookup => judgeLookup.email === judgeEmail)
+    return judge.length ? judge[0].name : judgeEmail
+}
+
+export async function getHealth(url: string) {
+    const response = await http.get(`${url}/health`)
+
+    return response.data
+}
+
+export async function getInfo(url: string) {
+    const response = await http.get(`${url}/info`)
+
+    return response.data
 }

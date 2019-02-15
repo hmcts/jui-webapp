@@ -1,4 +1,4 @@
-const healthcheck = require('@hmcts/nodejs-healthcheck');
+/*const healthcheck = require('@hmcts/nodejs-healthcheck');*/
 const { InfoContributor, infoRequestHandler } = require('@hmcts/info-provider');
 
 import * as express from 'express';
@@ -48,11 +48,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-function healthcheckConfig(msUrl) {
+/*function healthcheckConfig(msUrl) {
     return healthcheck.web(`${msUrl}/health`, {
         timeout: 6000,
         deadline: 6000
-    });
+    })
 }
 
 app.get(
@@ -72,7 +72,7 @@ app.get(
         },
         buildInfo: {}
     })
-);
+);*/
 
 function infocheckConfig(msUrl) {
     return new InfoContributor(`${msUrl}/info`);

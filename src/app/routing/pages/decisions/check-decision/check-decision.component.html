@@ -51,7 +51,7 @@
                                             </ng-container>
                                         </dd>
                                         <dd class="app-check-your-answers__change">
-                                            <a style="cursor:pointer"  (click) = onSubmit(content.link.event) title="Edit {{content.link.event}} page">{{content.link.text}}<span class="govuk-visually-hidden">{{content.link.hiddenAccessibilityText}}</span></a>
+                                            <a [routerLink]="" (click) = onSubmit(content.link.event) title="Edit {{content.link.event}} page">{{content.link.text}}<span class="govuk-visually-hidden">{{content.link.hiddenAccessibilityText}}</span></a>
                                         </dd>
                                     </ng-container>
                                 </div>
@@ -92,7 +92,7 @@
                                             <th class="govuk-table__header" scope="row">Daily living</th>
                                             <td class="govuk-table__cell">{{group.information[pageValues['forDailyLiving']]}}</td>
                                             <td class="govuk-table__cell govuk-table__cell--numeric">
-                                                <a style="cursor:pointer; color: #005ea5; text-decoration: underline"
+                                                <a [routerLink]="" style="text-decoration: underline"
                                                    (click) = "onSubmit('preliminary-advanced')"
                                                    title="Edit preliminary-advanced page">Change
                                                     <span class="govuk-visually-hidden">daily living award for appellant</span>
@@ -103,7 +103,7 @@
                                             <th class="govuk-table__header" scope="row">Mobility</th>
                                             <td class="govuk-table__cell">{{group.information[pageValues['forMobility']]}}</td>
                                             <td class="govuk-table__cell govuk-table__cell--numeric">
-                                                <a style="cursor:pointer; color: #005ea5; text-decoration: underline"
+                                                <a [routerLink]="" style="text-decoration: underline"
                                                    (click) = "onSubmit('preliminary-advanced')"
                                                    title="Edit preliminary-advanced page">Change
                                                     <span class="govuk-visually-hidden">mobility award for appellant</span>
@@ -130,7 +130,7 @@
                             <ng-container *ngIf="group.reasons">
                                 <p>{{ pageValues.reasonsTribunalView }}</p>
                                 <p>
-                                    <a style="cursor:pointer; color: #005ea5; text-decoration: underline"
+                                    <a [routerLink]="" style="text-decoration: underline"
                                        (click) = "onSubmit('check')"
                                        title="Edit preliminary-advanced page">Change
                                         <span class="govuk-visually-hidden"> the reasons for the tribunal’s view</span>
@@ -165,7 +165,7 @@
                                                 </td>
                                                 <td class="govuk-table__cell">{{score.score}}</td>
                                                 <td class="govuk-table__cell govuk-table__cell--numeric">
-                                                    <a style="cursor:pointer"
+                                                    <a [routerLink]=""
                                                        (click) = onSubmit(activity.link)
                                                        title="Edit {{activity.link}} page">Change
                                                         <span class="govuk-visually-hidden">{{activity.hiddenAccessibilityText}}</span>

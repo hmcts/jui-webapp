@@ -1,9 +1,7 @@
 import * as express from 'express'
-import { config } from '../../../config'
-import { http } from '../../lib/http'
-
-const generateRequest = require('../../lib/request/request')
-const headerUtilities = require('../../lib/utilities/headerUtilities')
+import { config } from '../../config'
+import { http } from '../lib/http'
+import { getHealth, getInfo } from '../lib/util'
 
 const url = config.services.idam_api
 const idamSecret = process.env.IDAM_SECRET || 'AAAAAAAAAAAAAAAA'
@@ -11,17 +9,21 @@ const idamClient = config.idam_client
 const idamProtocol = config.protocol
 const oauthCallbackUrl = config.oauth_callback_url
 
-export function getDetails(options) {
-    return generateRequest('GET', `${url}/details`, options)
-}
+export async function getDetails(options = {}) {
+    // have to pass options in at first login as headers are yet to be attached.
+    const response = await http.get(`${url}/details`, options)
 
-// this does same as above + more. need to depricate above
-async function getUser(email = null) {
-    const response = email ? await http.get(`${url}/users?email=${email}`) : await http.get(`${url}/details`)
     return response.data
 }
 
-export function postOauthToken(code, host) {
+// this does same as above + more. need to depricate above
+export async function getUser(email = null) {
+    const response = email ? await http.get(`${url}/users?email=${email}`) : await http.get(`${url}/details`)
+
+    return response.data
+}
+
+export async function postOauthToken(code, host) {
     const redirectUri = `${idamProtocol}://${host}/${oauthCallbackUrl}`
     const urlX = `${url}/oauth2/token?grant_type=authorization_code&code=${code}&redirect_uri=${redirectUri}`
 
@@ -32,46 +34,25 @@ export function postOauthToken(code, host) {
         },
     }
 
-    return generateRequest('POST', `${urlX}`, options)
+    const response = await http.post(urlX, {}, options)
+
+    return response.data
 }
 
-function getHealth(options) {
-    return generateRequest('GET', `${url}/health`, options)
-}
-
-function getInfo(options) {
-    return generateRequest('GET', `${url}/info`, options)
-}
-
-function getOptions(req) {
-    return headerUtilities.getAuthHeaders(req)
-}
-
-module.exports = app => {
+export default app => {
     const router = express.Router({ mergeParams: true })
     app.use('/idam', router)
 
     router.get('/health', (req, res, next) => {
-        getHealth(getOptions(req)).pipe(res)
+        res.status(200).send(getHealth(url))
     })
 
     router.get('/info', (req, res, next) => {
-        getInfo(getOptions(req)).pipe(res)
+        res.status(200).send(getInfo(url))
     })
 
     router.get('/details', (req, res, next) => {
-        getDetails(getOptions(req)).pipe(res)
+        res.status(200).send(getDetails())
     })
 }
 
-module.exports.getInfo = getInfo
-
-module.exports.getHealth = getHealth
-
-module.exports.getOptions = getOptions
-
-module.exports.getDetails = getDetails
-
-module.exports.postOauthToken = postOauthToken
-
-module.exports.getUser = getUser

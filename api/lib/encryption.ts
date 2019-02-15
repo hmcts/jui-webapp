@@ -27,6 +27,7 @@ export function decrypt(fileName: string): string {
     const decipher = crypto.createDecipher(algorithm, password)
 
     const decrypted = Buffer.concat([decipher.update(contents), decipher.final()])
+    logger.info(decrypted.toString())
     return decrypted.toString()
 }
 

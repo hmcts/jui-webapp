@@ -27,6 +27,7 @@ function convertDateTime(dateObj: string): DateTimeObject {
 
 function mergeCohEvents(eventsJson: any): any[] {
     const history = eventsJson.online_hearing.history
+
     const questionHistory = eventsJson.online_hearing.questions
         ? eventsJson.online_hearing.questions.map(arr => arr.history).reduce((historyArray, item) => historyArray.concat(item), [])
         : []

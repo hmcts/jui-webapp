@@ -5,15 +5,11 @@ const { processCaseState } = require('../../lib/processors/case-state-model')
 
 const { getAllQuestionsByCase } = require('../questions/index')
 
-let refJudgeLookUp = []
-
-import * as path from 'path'
-import { decrypt } from '../../lib/encryption'
 import * as log4jui from '../../lib/log4jui'
 import { CCDCaseWithSchema } from '../../lib/models'
-import { asyncReturnOrError } from '../../lib/util'
+import { asyncReturnOrError, judgeLookUp } from '../../lib/util'
 import { getCCDCase } from '../../services/ccd-store-api/ccd-store'
-import { getHearingByCase } from '../../services/coh-cor-api/coh-cor-api'
+import { getHearingByCase } from '../../services/cohQA'
 import { getDocuments } from '../../services/DMStore'
 import { getEvents } from '../events'
 
@@ -95,22 +91,6 @@ function applySchema(caseData): CCDCaseWithSchema {
     }
 
     return { caseData, schema }
-}
-
-function judgeLookUp(judgeEmail) {
-    if (!refJudgeLookUp.length) {
-        logger.info('Decrypting judge data ...')
-        try {
-            logger.info(`Running from__dirname ${__dirname}`)
-            const data = decrypt(path.join(__dirname, '../../lib/config/refJudgeLookUp.crypt'))
-            refJudgeLookUp = JSON.parse(data)
-        } catch (e) {
-            logger.error(e)
-        }
-    }
-
-    const judge = refJudgeLookUp.filter(judge => judge.email === judgeEmail)
-    return judge.length ? judge[0].name : judgeEmail
 }
 
 function normaliseForPanel(caseData) {

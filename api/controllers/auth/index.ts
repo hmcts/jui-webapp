@@ -2,7 +2,7 @@ import * as express from 'express'
 import * as log4jui from '../../lib/log4jui'
 import { config } from '../../../config'
 import { asyncReturnOrError, exists } from '../../lib/util'
-import { getDetails, postOauthToken } from '../../services/idam-api/idam-api'
+import { getDetails, postOauthToken } from '../../services/idam'
 
 const cookieToken = config.cookies.token
 const cookieUserId = config.cookies.userId
@@ -28,7 +28,6 @@ export async function authenticateUser(req: any, res) {
         const options = { headers: { Authorization: `Bearer ${data.access_token}` } }
 
         const details = await asyncReturnOrError(getDetails(options), 'Cannot get user details', res, logger, false)
-
         if (details) {
             req.session.user = details
             res.cookie(cookieToken, data.access_token)

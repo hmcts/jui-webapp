@@ -1,6 +1,6 @@
-
 import * as express from 'express'
-import * as cohCor from '../../services/coh-cor-api/coh-cor-api'
+import { judgeLookUp } from '../../lib/util'
+import * as cohCor from '../../services/cohQA'
 
 const moment = require('moment')
 
@@ -29,7 +29,7 @@ function answerAllQuestions(hearingId, questionIds) {
 }
 
 function updateRoundToIssued(hearingId, roundId, options) {
-    return cohCor.putRound(hearingId, roundId, { state_name: 'question_issue_pending' } )
+    return cohCor.putRound(hearingId, roundId, { state_name: 'question_issue_pending' })
 }
 
 // Format Rounds, Questions and Answers
@@ -69,7 +69,7 @@ function countStates(questions, state) {
 function getExpirationDate(questions) {
     return (
         questions.map(question => question.deadline_expiry_date)
-        .sort((a, b) => (new Date(b) as any) - (new Date(a) as any))[0] || null
+            .sort((a, b) => (new Date(b) as any) - (new Date(a) as any))[0] || null
     )
 }
 
@@ -80,7 +80,7 @@ function formatQuestions(questions) {
             rounds: question.question_round,
             header: question.question_header_text,
             body: question.question_body_text,
-            owner_reference: question.owner_reference,
+            owner_reference: judgeLookUp(question.owner_reference),
             state_datetime: question.current_question_state.state_datetime,
             state: question.current_question_state.state_name
         }
@@ -93,16 +93,16 @@ function formatQuestionRes(question, answers) {
         round: question.question_round,
         header: question.question_header_text,
         body: question.question_body_text,
-        owner_reference: question.owner_reference,
+        owner_reference: judgeLookUp(question.owner_reference),
         state_name: question.current_question_state.state_name,
         state_datetime: question.current_question_state.state_datetime,
         answer: answers !== undefined && answers.length > 0 ? answers[0] : null,
     }
 }
 
-function formatQuestion(body, userId) {
+function formatQuestion(body: any, email: string) {
     return {
-        owner_reference: userId,
+        owner_reference: email,
         question_body_text: body.question,
         question_header_text: body.subject,
         question_ordinal: '1',
@@ -124,16 +124,11 @@ function formatAnswer(body = null) {
     }
 }
 
-function getAllQuestionsByCase(caseId, userId, jurisdiction) {
-    return cohCor
-        .getHearingByCase(caseId)
-        .then(hearing =>
-            hearing.online_hearings[0]
-                ? hearing.online_hearings[0].online_hearing_id
-                : createHearing(caseId, userId, jurisdiction)
-        )
-        .then(hearingId => cohCor.getAllRounds(hearingId))
-        .then(rounds => rounds && formatRounds(rounds.question_rounds))
+export async function getAllQuestionsByCase(caseId, userId, jurisdiction) {
+    const r1 = await cohCor.getHearingByCase(caseId)
+    const r2 = r1.online_hearings[0] ? r1.online_hearings[0].online_hearing_id : createHearing(caseId, userId, jurisdiction)
+    const r3 = await cohCor.getAllRounds(r2)
+    return r3 && formatRounds(r3.question_rounds)
 }
 
 function getOptions(req) {
@@ -188,16 +183,15 @@ module.exports = app => {
     // CREATE Question
     route.post('/:case_id/questions', (req: any, res, next) => {
         const caseId = req.params.case_id
-        const userId = req.auth.userId
-        
+
         return cohCor
             .getHearingByCase(caseId)
             .then(hearing =>
                 hearing.online_hearings[0]
                     ? hearing.online_hearings[0].online_hearing_id
-                    : cohCor.createHearing(caseId, userId)
+                    : cohCor.createHearing(caseId)
             )
-            .then(hearingId => cohCor.postQuestion(hearingId, formatQuestion(req.body, userId)))
+            .then(hearingId => cohCor.postQuestion(hearingId, formatQuestion(req.body, req.session.user.email)))
             .then(response => {
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.setHeader('content-type', 'application/json')
@@ -213,12 +207,11 @@ module.exports = app => {
     route.put('/:case_id/questions/:question_id', (req: any, res, next) => {
         const caseId = req.params.case_id
         const questionId = req.params.question_id
-        const userId = req.auth.userId
 
         return cohCor
             .getHearingByCase(caseId)
             .then(hearing => hearing.online_hearings[0].online_hearing_id)
-            .then(hearingId => cohCor.putQuestion(hearingId, questionId, formatQuestion(req.body, userId)))
+            .then(hearingId => cohCor.putQuestion(hearingId, questionId, formatQuestion(req.body, req.session.user.email)))
             .then(response => {
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.status(200).send(JSON.stringify(response))
@@ -312,7 +305,7 @@ module.exports = app => {
     route.get('/:case_id/rounds/:round_id/answer', (req, res, next) => {
         const caseId = req.params.case_id
         const roundId = req.params.round_id
-       
+
         return cohCor
             .getHearingByCase(caseId)
             .then(hearing => hearing.online_hearings[0].online_hearing_id)
@@ -368,6 +361,5 @@ module.exports = app => {
             )
     })
 }
-
 
 module.exports.getAllQuestionsByCase = getAllQuestionsByCase
