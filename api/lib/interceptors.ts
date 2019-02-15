@@ -67,7 +67,7 @@ export function errorInterceptor(error) {
             logger.error(`Error on ${error.config.method.toUpperCase()} to ${url} in (${error.duration}) - ${error} \n
         ${exceptionFormatter(data, exceptionOptions)}`)
         } else {
-            logger.error(error)
+            logger.error(error, exceptionFormatter(data, exceptionOptions))
         }
     } else {
         logger.error(`Error on ${error.config.method.toUpperCase()} to ${url} in (${error.duration}) - ${error} \n

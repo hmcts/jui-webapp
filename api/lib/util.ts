@@ -22,7 +22,6 @@ export function asyncReturnOrError(
             return data
         })
         .catch(err => {
-            console.log(err)
             const msg = `${message}`
             logger.error(msg)
 
