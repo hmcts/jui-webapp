@@ -118,7 +118,7 @@ describe('index', () => {
             const stub = sinon.stub(cohCorApi, 'getHearingByCase')
             stub.returns(123)
             const result = await getCOR(casesData)
-            expect(stub).to.be.calledWith('case_id=1&case_id=2&case_id=3')
+            expect(stub).to.be.calledWith('1&case_id=2&case_id=3')
             stub.restore()
         })
         it('Should return casesData', async () => {
