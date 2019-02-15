@@ -3,8 +3,6 @@ const getCaseTemplate = require('./templates/index')
 const valueProcessor = require('../../lib/processors/value-processor')
 const { processCaseState } = require('../../lib/processors/case-state-model')
 
-const { getAllQuestionsByCase } = require('../questions/index')
-
 import * as log4jui from '../../lib/log4jui'
 import { CCDCaseWithSchema } from '../../lib/models'
 import { asyncReturnOrError, judgeLookUp } from '../../lib/util'
@@ -12,6 +10,7 @@ import { getCCDCase } from '../../services/ccd-store-api/ccd-store'
 import { getHearingByCase } from '../../services/coh-cor-api/coh-cor-api'
 import { getDocuments } from '../../services/DMStore'
 import { getEvents } from '../events'
+import { getAllQuestionsByCase } from '../questions/index'
 
 const logger = log4jui.getLogger('cases')
 
@@ -19,7 +18,7 @@ function hasCOR(jurisdiction, caseType) {
     return jurisdiction === 'SSCS'
 }
 
-async function getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId): Promise<[any, any, any, any]> {
+export async function getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId): Promise<[any, any, any, any]> {
     const caseData = await getCCDCase(userId, jurisdiction, caseType, caseId)
     const events = await getEvents(userId, jurisdiction, caseType, caseId)
     let hearing
