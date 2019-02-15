@@ -4,6 +4,7 @@ import { auth } from './controllers/auth'
 import caseRoutes from './controllers/case'
 import decisionRoutes from './controllers/decisions'
 import { errorStack } from './lib/errorStack'
+import serviceTokenMiddleware from './lib/middleware/service-token'
 import barApiRoutes from './services/bar'
 import ccdStoreApiRoutes from './services/ccd-store-api/ccd-store'
 import ccdDefApiRoutes from './services/ccdDef'
@@ -12,11 +13,10 @@ import dmStoreApiRoutes from './services/DMStore'
 import idamApiRoutes from './services/idam'
 import s2sApiRoutes from './services/serviceAuth'
 
-
 const router = express.Router()
 
 const authInterceptor = require('./lib/middleware/auth')
-const serviceTokenMiddleware = require('./lib/middleware/service-token')
+
 const caseListRoute = require('./controllers/case-list')
 
 const questionsRoutes = require('./controllers/questions')

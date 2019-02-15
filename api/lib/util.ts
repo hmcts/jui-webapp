@@ -1,11 +1,10 @@
 import * as express from 'express'
-import * as path from "path"
+import * as path from 'path'
 import { decrypt } from './encryption'
-import * as  errorStack from './errorStack'
+import * as errorStack from './errorStack'
 import { http } from './http'
 import * as log4jui from './log4jui'
 import { JUILogger } from './models'
-
 
 const utilLogger: JUILogger = log4jui.getLogger('util')
 

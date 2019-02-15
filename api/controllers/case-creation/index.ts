@@ -77,7 +77,6 @@ module.exports = app => {
                 res.status(200).send(JSON.stringify(results))
             })
             .catch(response => {
-                console.log(response.error || response)
                 res.status(response.statusCode || 500).send(response)
             })
     })

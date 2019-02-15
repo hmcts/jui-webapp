@@ -63,15 +63,19 @@ export function errorInterceptor(error) {
     let data = valueOrNull(error, 'response.data.details')
     if (!data) {
         data = valueOrNull(error, 'response.status') ? JSON.stringify(error.response.data, null, 2) : null
-        logger.error(`Error on ${error.config.method.toUpperCase()} to ${url} in (${error.duration}) - ${error} \n
+        if (data) {
+            logger.error(`Error on ${error.config.method.toUpperCase()} to ${url} in (${error.duration}) - ${error} \n
         ${exceptionFormatter(data, exceptionOptions)}`)
+        } else {
+            logger.error(error, exceptionFormatter(data, exceptionOptions))
+        }
     } else {
         logger.error(`Error on ${error.config.method.toUpperCase()} to ${url} in (${error.duration}) - ${error} \n
         ${JSON.stringify(data)}`)
     }
-
     errorStack.push(['request', JSON.parse(stringify(error.request))])
-    errorStack.push(['response', JSON.parse(stringify(error.response))])
-
-    return Promise.reject(error.response)
+    if (error.response) {
+        errorStack.push(['response', JSON.parse(stringify(error.response))])
+    }
+    return Promise.reject(error)
 }
