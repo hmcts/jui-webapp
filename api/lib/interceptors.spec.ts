@@ -22,7 +22,6 @@ describe('interceptors', () => {
     const request = {
         method: 'GET',
         url: 'http://test.com',
-
     }
     const error = {
         config: {
@@ -36,7 +35,14 @@ describe('interceptors', () => {
             },
             url: 'http://test.com',
         },
-
+        request: {},
+        response: {
+            data: {
+                details: {
+                    error: true,
+                },
+            },
+        },
     }
     describe('requestInterceptor', () => {
         it('Should log outbound request', () => {
@@ -67,15 +73,17 @@ describe('interceptors', () => {
         })
     })
     describe('errorInterceptor', () => {
-        // @todo - finish Error interceptor - what is being passed through?
-        // it('Should log returned error', () => {
-        //     const spy = sinon.spy()
-        //     const getLoggerStub = sinon.stub(log4js, 'getLogger')
-        //     // stub.returns('ABC')
-        //     getLoggerStub.returns({info: spy})
-        //     errorInterceptor(error)
-        //     expect(spy).to.be.calledWith('Success on POST to http://test2.com')
-        //     getLoggerStub.restore()
-        // })
+        it('Should log returned response', () => {
+            const spy = sinon.spy()
+            const getLoggerStub = sinon.stub(log4js, 'getLogger')
+            getLoggerStub.returns({ error: spy })
+            errorInterceptor(error)
+            expect(spy).to.be.called
+            getLoggerStub.restore()
+        })
+        it('Should return response unmutilated', () => {
+            const result = errorInterceptor(error)
+            expect(result).to.be.equal(error)
+        })
     })
 })

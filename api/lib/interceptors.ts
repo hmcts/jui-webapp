@@ -61,6 +61,7 @@ export function errorInterceptor(error) {
     const status = valueOrNull(error, 'response.status') ? error.response.status : Error(error).message
 
     let data = valueOrNull(error, 'response.data.details')
+
     if (!data) {
         data = valueOrNull(error, 'response.status') ? JSON.stringify(error.response.data, null, 2) : null
         if (data) {
@@ -77,5 +78,5 @@ export function errorInterceptor(error) {
     if (error.response) {
         errorStack.push(['response', JSON.parse(stringify(error.response))])
     }
-    return Promise.reject(error)
+    return error
 }
