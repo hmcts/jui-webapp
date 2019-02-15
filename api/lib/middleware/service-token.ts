@@ -20,28 +20,32 @@ function getToken() {
 }
 
 async function generateToken() {
-    const response = await postS2SLease()
-    const tokenData = jwtDecode(response.data)
+    const token = await postS2SLease()
+
+    const tokenData = jwtDecode(token)
 
     _cache[microservice] = {
         expiresAt: tokenData.exp,
-        token: response.data,
+        token: token,
     }
+
+    return token
 }
 
 async function serviceTokenGenerator() {
     if (validateCache()) {
         return getToken()
     } else {
-        await generateToken()
+        return await generateToken()
     }
 }
 
 export default async (req, res, next) => {
     //const token = await asyncReturnOrError(serviceTokenGenerator(), 'Error getting s2s token', res, logger)
-    const token = await serviceTokenGenerator()
+    const token: any = await serviceTokenGenerator()
+
     if (token) {
-        req.headers.ServiceAuthorization = token.token
+        req.headers.ServiceAuthorization = token
         next()
     }
 }
