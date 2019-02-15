@@ -3,16 +3,14 @@ import { expect } from 'chai'
 import 'mocha'
 import * as sinon from 'sinon'
 import * as sinonChai from 'sinon-chai'
-
-chai.use(sinonChai)
-
-import * as assignCase from './assignCase'
-import * as ccdStore from '../../services/ccd-store-api/ccd-store'
-import * as cohCorApi from '../../services/cohQA'
 import * as filters from '../../lib/filters'
-import * as getAllQuestionsByCase from '../questions/index'
-import * as idamApi from '../../services/idam'
 import * as utils from '../../lib/util'
+import * as ccdStore from '../../services/ccd-store-api/ccd-store'
+import * as coh from '../../services/coh'
+import * as cohCorApi from '../../services/cohQA'
+import * as idamApi from '../../services/idam'
+import * as getAllQuestionsByCase from '../questions/index'
+import * as assignCase from './assignCase'
 import {
     aggregatedData,
     appendCOR,
@@ -31,9 +29,10 @@ import {
     sortCases,
     sortTransformedCases,
     unassign,
-    unassignAll
+    unassignAll,
 } from './index'
 
+chai.use(sinonChai)
 describe('index', () => {
     describe('getMutiJudCaseRaw', () => {
         it('Should return caseLists array', async () => {
@@ -84,11 +83,7 @@ describe('index', () => {
     })
     describe('aggregatedData', () => {
         it('Should return object', () => {
-            const results = [
-                { id: 1 },
-                { id: 2 },
-                { id: 3 },
-            ]
+            const results = [{ id: 1 }, { id: 2 }, { id: 3 }]
             const result = aggregatedData(results)
             expect(result).to.be.an('object')
             expect(result.columns).to.not.be.null
@@ -96,15 +91,14 @@ describe('index', () => {
         })
     })
     describe('appendCOR', () => {
-        it('Should return array when provided \'caseLists\'', async () => {
-            const caseLists = [
-                { id: 1 }, { id: 2 },
-            ]
+        it("Should return array when provided 'caseLists'", async () => {
+            const caseLists = [{ id: 1 }, { id: 2 }]
             const stubReturns = {
                 online_hearings: [
                     {
                         case_id: 1,
-                    }, {
+                    },
+                    {
                         case_id: 2,
                     },
                 ],
@@ -120,29 +114,22 @@ describe('index', () => {
     describe('getCOR', () => {
         // @todo - contains unused parameter
         it('Should call getHearingByCase', async () => {
-            const casesData = [
-                { id: 1 },
-                { id: 2 },
-                { id: 3 },
-            ]
+            const casesData = [{ id: 1 }, { id: 2 }, { id: 3 }]
             const options = {}
             const stub = sinon.stub(cohCorApi, 'getHearingByCase')
             stub.returns(123)
-            const result = await getCOR(casesData, options)
-            expect(stub).to.be.calledWith('case_id=1&case_id=2&case_id=3')
+            const result = await getCOR(casesData)
+            expect(stub).to.be.calledWith('1&case_id=2&case_id=3')
             stub.restore()
         })
         it('Should return casesData', async () => {
-            const casesData = [
-                { id: 1 },
-                { id: 2 },
-                { id: 3 },
-            ]
+            const casesData = [{ id: 1 }, { id: 2 }, { id: 3 }]
             const stubReturns = {
                 online_hearings: [
                     {
                         case_id: 1,
-                    }, {
+                    },
+                    {
                         case_id: 2,
                     },
                 ],
@@ -150,15 +137,40 @@ describe('index', () => {
             const options = {}
             const stub = sinon.stub(cohCorApi, 'getHearingByCase')
             stub.returns(stubReturns)
-            const result = await getCOR(casesData, options)
+            const result = await getCOR(casesData)
             expect(result).to.be.an('array')
             expect(result[0]).to.eql({
-                'id': 1,
-                'hearing_data': {
-                    'case_id': 1
-                }
+                id: 1,
+                hearing_data: {
+                    case_id: 1,
+                },
             })
             stub.restore()
+        })
+
+        it('Should return get decisions for cases with hearing data', async () => {
+            const casesData = [{ id: 1 }, { id: 2 }, { id: 3 }]
+            const stubReturns = {
+                online_hearings: [
+                    {
+                        case_id: 1,
+                        online_hearing_id: '1a',
+                    },
+                    {
+                        case_id: 2,
+                        online_hearing_id: '2a',
+                    },
+                ],
+            }
+            const options = {}
+            const stub = sinon.stub(cohCorApi, 'getHearingByCase')
+            const stub2 = sinon.stub(coh, 'getDecision')
+            stub.returns(stubReturns)
+            stub2.returns({})
+            const result = await getCOR(casesData)
+            expect(stub2).to.be.calledWith('2a')
+            stub.restore()
+            stub2.restore()
         })
     })
     describe('getHearingWithQuestionData', () => {
@@ -180,19 +192,23 @@ describe('index', () => {
         })
     })
     describe('getQuestionData', () => {
-        it('Should return filtered mapped property if no \'hearing_data\'', async () => {
-            const caseLists = [{
-                id: 1,
-            }]
+        it("Should return filtered mapped property if no 'hearing_data'", async () => {
+            const caseLists = [
+                {
+                    id: 1,
+                },
+            ]
             const userId = 2
             const result = await getQuestionData(caseLists, userId)
             expect(result).to.be.an('array')
         })
-        it('Should return \'getHearingWithQuestionData\' if \'hearing_data\'', async () => {
-            const caseLists = [{
-                hearing_data: true,
-                id: 1,
-            }]
+        it("Should return 'getHearingWithQuestionData' if 'hearing_data'", async () => {
+            const caseLists = [
+                {
+                    hearing_data: true,
+                    id: 1,
+                },
+            ]
             const expectedResult = [{ id: 1, questions: 2 }]
             const userId = 2
             const stub = sinon.stub(getAllQuestionsByCase, 'getAllQuestionsByCase').resolves({ questions: 2 })
@@ -219,7 +235,7 @@ describe('index', () => {
             const res = {
                 send: () => false,
                 setHeader: () => false,
-                status: function () {
+                status: function() {
                     return this
                 },
             }
@@ -242,7 +258,7 @@ describe('index', () => {
             const res = {
                 send: () => false,
                 setHeader: () => false,
-                status: function () {
+                status: function() {
                     return this
                 },
             }
@@ -270,7 +286,7 @@ describe('index', () => {
             const res = {
                 send: () => false,
                 setHeader: () => false,
-                status: function () {
+                status: function() {
                     return this
                 },
             }
@@ -293,7 +309,7 @@ describe('index', () => {
             const res = {
                 send: () => false,
                 setHeader: () => false,
-                status: function () {
+                status: function() {
                     return this
                 },
             }
@@ -317,7 +333,7 @@ describe('index', () => {
             const res = {
                 send: () => false,
                 setHeader: () => false,
-                status: function () {
+                status: function() {
                     return this
                 },
             }
@@ -340,7 +356,7 @@ describe('index', () => {
         })
     })
     describe('unassignAll', () => {
-        it('Should call \'unassignAllCaseFromJudge\'', async () => {
+        it("Should call 'unassignAllCaseFromJudge'", async () => {
             const req = {
                 auth: {
                     id: 1,
@@ -363,7 +379,7 @@ describe('index', () => {
         })
     })
     describe('appendQuestionsRound', () => {
-        it('Should return empty array if poorly formed \'caseLists\' provided', async () => {
+        it("Should return empty array if poorly formed 'caseLists' provided", async () => {
             const caseLists = [{ id: 1 }, { id: 2 }]
             const userId = 1
             const stub = sinon.stub(getAllQuestionsByCase, 'getAllQuestionsByCase')
@@ -373,10 +389,11 @@ describe('index', () => {
             expect(result).to.eql([[], []])
             stub.restore()
         })
-        it('Should return data if correctly formed \'caseLists\' provided', async () => {
+        it("Should return data if correctly formed 'caseLists' provided", async () => {
             const caseLists = [
                 [{ id: 1, question_data: 1 }, { id: 2, question_data: 2 }],
-                [{ id: 3, question_data: 3 }, { id: 4, question_data: 4 }]]
+                [{ id: 3, question_data: 3 }, { id: 4, question_data: 4 }],
+            ]
             const userId = 1
             const result = await appendQuestionsRound(caseLists, userId)
             expect(result).to.be.an('array')

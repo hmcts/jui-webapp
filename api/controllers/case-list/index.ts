@@ -19,15 +19,24 @@ import { getNewCase, unassignAllCaseFromJudge } from './assignCase'
 
 const logger = log4jui.getLogger('case list')
 
-export async function getCOR(casesData, options) {
-    const caseIds = casesData.map(caseRow => `case_id=${caseRow.id}`).join('&')
+export async function getCOR(casesData) {
+    const caseIds = casesData.map(caseRow => `${caseRow.id}`).join('&case_id=')
 
     const hearings: any = await getHearingByCase(caseIds)
 
     if (hearings.online_hearings) {
         const caseStateMap = new Map(hearings.online_hearings.map(hearing => [Number(hearing.case_id), hearing]))
-        casesData.forEach(caseRow => {
+
+        await map(casesData, async (caseRow: any) => {
             caseRow.hearing_data = caseStateMap.get(Number(caseRow.id))
+            // add in getting the PV Decision here so as not to  have to loop through data again
+            if (caseRow.hearing_data) {
+                try {
+                    caseRow.hearing_data.preliminaryView = await getDecision(caseRow.hearing_data.online_hearing_id)
+                } catch (e) {
+                    // cases don't have to have a decision
+                }
+            }
         })
     }
 
@@ -36,7 +45,7 @@ export async function getCOR(casesData, options) {
 
 export async function appendCOR(caseLists) {
     return await map(caseLists, async (caseList: any) => {
-        return caseList && caseList.length ? await getCOR(caseList, {}) : []
+        return caseList && caseList.length ? await getCOR(caseList) : []
     })
 }
 
@@ -176,10 +185,10 @@ export async function getMutiJudCaseRawCoh(userDetails) {
 
 export async function unassignAll(req, res) {
     const filters = filterByCaseTypeAndRole(req.auth)
-    const options = null
+
     let caseLists = await getMutiJudCCDCases(req.auth.id, filters)
     caseLists = combineLists(caseLists)
-    caseLists = unassignAllCaseFromJudge(req.auth.id, caseLists, options)
+    caseLists = unassignAllCaseFromJudge(req.auth.id, caseLists)
 
     return caseLists
 }
@@ -214,8 +223,7 @@ export async function unassign(res) {
 
 export async function assign(req, res) {
     {
-        const options = null
-        const results = await asyncReturnOrError(getNewCase(req.auth.id, options), ' Error assigning new', res, logger)
+        const results = await asyncReturnOrError(getNewCase(req.auth.id), ' Error assigning new', res, logger)
 
         if (results) {
             res.setHeader('Access-Control-Allow-Origin', '*')
@@ -249,7 +257,7 @@ export async function rawCOH(res) {
     }
 }
 
-module.exports = app => {
+export default app => {
     const router = express.Router({ mergeParams: true })
     app.use('/cases', router)
 
@@ -259,22 +267,3 @@ module.exports = app => {
     router.get('/raw', async (req: any, res, next) => raw(res))
     router.get('/raw/coh', async (req: any, res, next) => rawCOH(res))
 }
-
-module.exports.aggregatedData = aggregatedData
-module.exports.appendCOR = appendCOR
-module.exports.appendQuestionsRound = appendQuestionsRound
-module.exports.assign = assign
-module.exports.combineLists = combineLists
-module.exports.getCases = getCases
-module.exports.getCOR = getCOR
-module.exports.getHearingWithQuestionData = getHearingWithQuestionData
-module.exports.getMutiJudCaseAssignedCases = getMutiJudCaseAssignedCases
-module.exports.getMutiJudCaseRaw = getMutiJudCaseRaw
-module.exports.getMutiJudCaseRawCoh = getMutiJudCaseRawCoh
-module.exports.getQuestionData = getQuestionData
-module.exports.raw = raw
-module.exports.rawCOH = rawCOH
-module.exports.sortCases = sortCases
-module.exports.sortTransformedCases = sortTransformedCases
-module.exports.unassign = unassign
-module.exports.unassignAll = unassignAll

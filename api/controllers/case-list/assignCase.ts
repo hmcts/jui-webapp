@@ -7,19 +7,19 @@ const jurisdictions = [
     {
         jur: 'SSCS',
         caseType: 'Benefit',
-        filter: '&state=appealCreated&case.appeal.benefitType.code=PIP'
+        filter: '&state=appealCreated&case.appeal.benefitType.code=PIP',
     },
     {
         jur: 'DIVORCE',
         caseType: 'DIVORCE',
-        filter: ''
+        filter: '',
     },
     {
         jur: 'DIVORCE',
         caseType: 'FinancialRemedyMVP2',
-        filter: '&state=applicationIssued'
+        filter: '&state=applicationIssued',
         // filter: ''
-    }
+    },
     // {
     //     jur: 'CMC',
     //     caseType: 'MoneyClaimCase',
@@ -49,18 +49,18 @@ function getAssignEventId(jurisdiction, caseType, stateType = null) {
     const defaultAssignToJudgeEventId = 'assignToJudge'
     const assignToJudgeEventIds = {
         sscs: {
-            benefit: defaultAssignToJudgeEventId
+            benefit: defaultAssignToJudgeEventId,
         },
         cmc: {
-            moneyclaimcase: defaultAssignToJudgeEventId
+            moneyclaimcase: defaultAssignToJudgeEventId,
         },
         probate: {
-            grantofrepresentation: defaultAssignToJudgeEventId
+            grantofrepresentation: defaultAssignToJudgeEventId,
         },
         divorce: {
             divorce: defaultAssignToJudgeEventId,
-            financialremedymvp2: 'FR_referToJudge'
-        }
+            financialremedymvp2: 'FR_referToJudge',
+        },
     }
     const jud = assignToJudgeEventIds[jurisdiction.toLowerCase()]
     const template = jud ? jud[caseType.toLowerCase()] : defaultAssignToJudgeEventId
@@ -72,18 +72,18 @@ function getUnassignEventId(jurisdiction, caseType, stateType = null) {
     const defaultAssignToJudgeEventId = 'unassignToJudge'
     const assignToJudgeEventIds = {
         sscs: {
-            benefit: defaultAssignToJudgeEventId
+            benefit: defaultAssignToJudgeEventId,
         },
         cmc: {
-            moneyclaimcase: defaultAssignToJudgeEventId
+            moneyclaimcase: defaultAssignToJudgeEventId,
         },
         probate: {
-            grantofrepresentation: defaultAssignToJudgeEventId
+            grantofrepresentation: defaultAssignToJudgeEventId,
         },
         divorce: {
             divorce: defaultAssignToJudgeEventId,
-            financialremedymvp2: defaultAssignToJudgeEventId
-        }
+            financialremedymvp2: defaultAssignToJudgeEventId,
+        },
     }
     const jud = assignToJudgeEventIds[jurisdiction.toLowerCase()]
     const template = jud ? jud[caseType.toLowerCase()] : defaultAssignToJudgeEventId
@@ -92,34 +92,33 @@ function getUnassignEventId(jurisdiction, caseType, stateType = null) {
 
 function generateAssignToJudgeBody(jurisdiction, caseType, eventId, email) {
     const defaultAssignToJudgeBody = {
-        assignedToJudge: email
+        assignedToJudge: email,
     }
     const assignToJudgeEventIds = {
         sscs: {
-            benefit: defaultAssignToJudgeBody
+            benefit: defaultAssignToJudgeBody,
         },
         cmc: {
-            moneyclaimcase: defaultAssignToJudgeBody
+            moneyclaimcase: defaultAssignToJudgeBody,
         },
         probate: {
-            grantofrepresentation: defaultAssignToJudgeBody
+            grantofrepresentation: defaultAssignToJudgeBody,
         },
         divorce: {
             divorce: defaultAssignToJudgeBody,
             financialremedymvp2: {
                 assignedToJudge: email,
                 referToJudgeText: JUI_AUTO_ASSIGN,
-                assignedToJudgeReason: 'Draft consent order' // 'Resubmitted draft consent order'
-            }
-        }
+                assignedToJudgeReason: 'Draft consent order', // 'Resubmitted draft consent order'
+            },
+        },
     }
     const jud = assignToJudgeEventIds[jurisdiction.toLowerCase()]
     const template = jud ? jud[caseType.toLowerCase()] : defaultAssignToJudgeBody
     return template || defaultAssignToJudgeBody
 }
 
-function assignToJudge(userId, awaitingJuiRespCases, options) {
-
+function assignToJudge(userId, awaitingJuiRespCases) {
     const newCase = awaitingJuiRespCases[0]
     if (newCase) {
         const jurisdiction = newCase.jurisdiction
@@ -127,19 +126,17 @@ function assignToJudge(userId, awaitingJuiRespCases, options) {
         const caseId = newCase.id
         const eventId = getAssignEventId(jurisdiction, caseType)
 
-        getDetails(options).then(details => {
+        getDetails().then(details => {
             const body = generateAssignToJudgeBody(jurisdiction, caseType, eventId, details.email)
-            updateCase(userId, jurisdiction, caseType, caseId, eventId, JUI_AUTO_ASSIGN, JUI_AUTO_ASSIGN, body).catch(
-                error => {
-                    if (awaitingJuiRespCases.length > 0) {
-                        console.error('failed to assign any case')
-                        assignToJudge(userId, awaitingJuiRespCases.splice(1, awaitingJuiRespCases.length), options)
-                    } else {
-                        //    throw error no new cases found
-                        console.error(`No cases found`)
-                    }
+            updateCase(userId, jurisdiction, caseType, caseId, eventId, JUI_AUTO_ASSIGN, JUI_AUTO_ASSIGN, body).catch(error => {
+                if (awaitingJuiRespCases.length > 0) {
+                    console.error('failed to assign any case')
+                    assignToJudge(userId, awaitingJuiRespCases.splice(1, awaitingJuiRespCases.length))
+                } else {
+                    //    throw error no new cases found
+                    console.error(`No cases found`)
                 }
-            )
+            })
         })
     } else {
         //    throw error no new cases found
@@ -147,7 +144,7 @@ function assignToJudge(userId, awaitingJuiRespCases, options) {
     }
 }
 
-export function unassignFromJudge(userId, caseData, options) {
+export function unassignFromJudge(userId, caseData) {
     if (caseData) {
         const jurisdiction = caseData.jurisdiction
         const caseType = caseData.case_type_id
@@ -163,16 +160,16 @@ export function unassignFromJudge(userId, caseData, options) {
     }
 }
 
-export function unassignAllCaseFromJudge(userId, caseList, options) {
-    return caseList.map(caseData => unassignFromJudge(userId, caseData, options))
+export function unassignAllCaseFromJudge(userId, caseList) {
+    return caseList.map(caseData => unassignFromJudge(userId, caseData))
 }
 
-export function getNewCase(userId, options) {
+export function getNewCase(userId) {
     return getMutiJudCCDCases(userId, jurisdictions)
         .then(combineLists) // TODO: One day will not need this with muti judristion
         .then(filterAssignedCases) // TODO: We should filter on the request not here (FUTURE CHANGE)
         .then(sortCasesByLastModifiedDate) // TODO: hopefully remove in the future
-        .then(awaitingJuiRespCases => assignToJudge(userId, awaitingJuiRespCases, options))
+        .then(awaitingJuiRespCases => assignToJudge(userId, awaitingJuiRespCases))
 }
 
 module.exports.getNewCase = getNewCase
