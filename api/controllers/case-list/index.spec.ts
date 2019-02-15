@@ -6,6 +6,7 @@ import * as sinonChai from 'sinon-chai'
 import * as filters from '../../lib/filters'
 import * as utils from '../../lib/util'
 import * as ccdStore from '../../services/ccd-store-api/ccd-store'
+import * as coh from '../../services/coh'
 import * as cohCorApi from '../../services/cohQA'
 import * as idamApi from '../../services/idam'
 import * as getAllQuestionsByCase from '../questions/index'
@@ -145,6 +146,31 @@ describe('index', () => {
                 },
             })
             stub.restore()
+        })
+
+        it('Should return get decisions for cases with hearing data', async () => {
+            const casesData = [{ id: 1 }, { id: 2 }, { id: 3 }]
+            const stubReturns = {
+                online_hearings: [
+                    {
+                        case_id: 1,
+                        online_hearing_id: '1a',
+                    },
+                    {
+                        case_id: 2,
+                        online_hearing_id: '2a',
+                    },
+                ],
+            }
+            const options = {}
+            const stub = sinon.stub(cohCorApi, 'getHearingByCase')
+            const stub2 = sinon.stub(coh, 'getDecision')
+            stub.returns(stubReturns)
+            stub2.returns({})
+            const result = await getCOR(casesData)
+            expect(stub2).to.be.calledWith('2a')
+            stub.restore()
+            stub2.restore()
         })
     })
     describe('getHearingWithQuestionData', () => {
