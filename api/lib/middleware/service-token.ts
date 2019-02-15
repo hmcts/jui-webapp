@@ -26,7 +26,7 @@ async function generateToken() {
 
     _cache[microservice] = {
         expiresAt: tokenData.exp,
-        token: token,
+        token,
     }
 
     return token
@@ -34,16 +34,15 @@ async function generateToken() {
 
 async function serviceTokenGenerator() {
     if (validateCache()) {
-        return getToken()
+        const tokenData = getToken()
+        return tokenData.token
     } else {
         return await generateToken()
     }
 }
 
 export default async (req, res, next) => {
-    //const token = await asyncReturnOrError(serviceTokenGenerator(), 'Error getting s2s token', res, logger)
-    const token: any = await serviceTokenGenerator()
-
+    const token = await asyncReturnOrError(serviceTokenGenerator(), 'Error getting s2s token', res, logger)
     if (token) {
         req.headers.ServiceAuthorization = token
         next()
