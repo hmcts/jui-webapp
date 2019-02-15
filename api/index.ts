@@ -2,6 +2,7 @@ import * as express from 'express'
 import * as config from '../config'
 import { auth } from './controllers/auth'
 import caseRoutes from './controllers/case'
+import caseListRoute from './controllers/case-list'
 import decisionRoutes from './controllers/decisions'
 import { errorStack } from './lib/errorStack'
 import serviceTokenMiddleware from './lib/middleware/service-token'
@@ -16,8 +17,6 @@ import s2sApiRoutes from './services/serviceAuth'
 const router = express.Router()
 
 const authInterceptor = require('./lib/middleware/auth')
-
-const caseListRoute = require('./controllers/case-list')
 
 const questionsRoutes = require('./controllers/questions')
 const eventsRoutes = require('./controllers/events')

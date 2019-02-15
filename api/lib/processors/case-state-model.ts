@@ -1,7 +1,6 @@
 import { valueOrNull } from '../../lib/util'
 import { GO_TO, STATE, createCaseState, getDocId } from './case-state-util'
 
-
 /// //////////////////////////////////////////////////////////////////////////////////////
 // Default States
 /// //////////////////////////////////////////////////////////////////////////////////////
@@ -15,19 +14,14 @@ const DEFAULT_CCD_STATE = {
         return true
     },
     then(context) {
-        context.outcome = createCaseState(
-            context.caseData.ccdState,
-            null,
-            GO_TO.SUMMARY_GO_TO
-        )
+        context.outcome = createCaseState(context.caseData.ccdState, null, GO_TO.SUMMARY_GO_TO)
         context.ccdCohStateCheck = true
-    }
+    },
 }
 
 /// //////////////////////////////////////////////////////////////////////////////////////
 // SSCS Statesreturn !!context.caseData.decisionNotes
 /// //////////////////////////////////////////////////////////////////////////////////////
-
 
 // if a final decision is made in the absence of any real state change look at property of case
 // this seems pretty hacky through
@@ -37,13 +31,9 @@ const ccdFinalDecisionState = {
         return !!context.caseData.decisionNotes
     },
     then(context) {
-        context.outcome = createCaseState(
-            STATE.COH_DECISION_ISSUED_STATE,
-            null,
-            GO_TO.SUMMARY_GO_TO
-        )
+        context.outcome = createCaseState(STATE.COH_DECISION_ISSUED_STATE, null, GO_TO.SUMMARY_GO_TO)
         context.stop = true
-    }
+    },
 }
 
 // if we have coh and nothing else has happen
@@ -53,18 +43,14 @@ const ccdFinalDecisionState = {
 const cohState = {
     when(context) {
         const hearingData = context.caseData.hearingData
-        const hearingState = (hearingData) ? hearingData.current_state.state_name : undefined
+        const hearingState = hearingData ? hearingData.current_state.state_name : undefined
         return context.ccdCohStateCheck && hearingState && hearingState === STATE.COH_STARTED_STATE
     },
     then(context) {
         context.cohStateCheck = true
         const hearingData = context.caseData.hearingData
-        context.outcome = createCaseState(
-            STATE.COH_STARTED_STATE,
-            hearingData.current_state.state_datetime,
-            GO_TO.CASE_FILE_GO_TO
-        )
-    }
+        context.outcome = createCaseState(STATE.COH_STARTED_STATE, hearingData.current_state.state_datetime, GO_TO.CASE_FILE_GO_TO)
+    },
 }
 
 // if we have coh and has valid questions
@@ -85,7 +71,7 @@ const questionState = {
             questionRound.questions[0].state_datetime,
             GO_TO.QUESTIONS_GO_TO
         )
-    }
+    },
 }
 
 // if we have coh and latest questions deadline elapsed
@@ -105,7 +91,7 @@ const deadlineElapsed = {
             GO_TO.QUESTIONS_GO_TO
         )
         context.stop = true
-    }
+    },
 }
 
 // if we have coh and latest questions deadline elapsed and has happen more than once
@@ -115,7 +101,8 @@ const deadlineElapsed = {
 const deadlineExtensionExpired = {
     when(context) {
         const questionRound = context.caseData.latestQuestions
-        const questionDeadlineElapsed = context.cohStateCheck && questionRound && questionRound.state === STATE.COH_Q_DEADLINE_ELAPSED_STATE
+        const questionDeadlineElapsed =
+            context.cohStateCheck && questionRound && questionRound.state === STATE.COH_Q_DEADLINE_ELAPSED_STATE
         return questionDeadlineElapsed && questionRound.deadline_extension_count > 0
     },
     then(context) {
@@ -126,14 +113,15 @@ const deadlineExtensionExpired = {
             GO_TO.QUESTIONS_GO_TO
         )
         context.stop = true
-    }
+    },
 }
 
 const cohPreliminaryViewState = {
     when(context) {
         const preliminaryView = valueOrNull(context, 'caseData.hearingData.preliminaryView.decision_state.state_name')
-        return preliminaryView === STATE.COH_PRELIMINARY_VIEW_ISSUED_STATE ||
-            preliminaryView === STATE.COH_PRELIMINARY_VIEW_PENDING_STATE
+        return (
+            preliminaryView === STATE.COH_PRELIMINARY_VIEW_ISSUED_STATE || preliminaryView === STATE.COH_PRELIMINARY_VIEW_PENDING_STATE
+        )
     },
     then(context) {
         const hearingData = context.caseData.hearingData
@@ -144,7 +132,7 @@ const cohPreliminaryViewState = {
         )
 
         context.stop = true
-    }
+    },
 }
 
 // if we have coh and Decision has been issued
@@ -166,7 +154,7 @@ const cohDecisionState = {
         )
 
         context.stop = true
-    }
+    },
 }
 
 // if we have coh and Decision has been issued
@@ -177,20 +165,17 @@ const cohRelistState = {
     when(context) {
         const hearingData = context.caseData.hearingData
         // TODO add check for ccd-state as well
-        return valueOrNull(hearingData, 'current_state.state_name') === STATE.COH_RELISTED_STATE ||
+        return (
+            valueOrNull(hearingData, 'current_state.state_name') === STATE.COH_RELISTED_STATE ||
             valueOrNull(hearingData, 'relisting.state') === STATE.COH_RELISTED_PENDING
-
+        )
     },
     then(context) {
         const hearingData = context.caseData.hearingData
-        context.outcome = createCaseState(
-            STATE.COH_RELISTED_STATE,
-            hearingData.current_state.state_datetime,
-            GO_TO.SUMMARY_GO_TO
-        )
+        context.outcome = createCaseState(STATE.COH_RELISTED_STATE, hearingData.current_state.state_datetime, GO_TO.SUMMARY_GO_TO)
 
         context.stop = true
-    }
+    },
 }
 
 /// //////////////////////////////////////////////////////////////////////////////////////
@@ -207,13 +192,8 @@ const referredToJudge = {
     },
     then(context) {
         const consentOrder = context.caseData.consentOrder ? getDocId(context.caseData.consentOrder) : undefined
-        context.outcome = createCaseState(
-            context.caseData.ccdState,
-            null,
-            GO_TO.CASE_FILE_GO_TO,
-            consentOrder
-        )
-    }
+        context.outcome = createCaseState(context.caseData.ccdState, null, GO_TO.CASE_FILE_GO_TO, consentOrder)
+    },
 }
 
 /// //////////////////////////////////////////////////////////////////////////////////////
@@ -236,9 +216,9 @@ const conditionProcessor = {
     init: context => {
         return {
             evaluate: when => when(context),
-            consequence: then => then(context)
+            consequence: then => then(context),
         }
-    }
+    },
 }
 
 const processEngineMap = {
@@ -254,30 +234,27 @@ const processEngineMap = {
                 deadlineExtensionExpired,
                 deadlineElapsed,
                 questionState,
-            ]
-        }
+            ],
+        },
     },
     cmc: {
         moneyclaimcase: {
-            stateConditions: [DEFAULT_CCD_STATE]
-        }
+            stateConditions: [DEFAULT_CCD_STATE],
+        },
     },
     probate: {
         grantofrepresentation: {
-            stateConditions: [DEFAULT_CCD_STATE]
-        }
+            stateConditions: [DEFAULT_CCD_STATE],
+        },
     },
     divorce: {
         divorce: {
-            stateConditions: [DEFAULT_CCD_STATE]
+            stateConditions: [DEFAULT_CCD_STATE],
         },
         financialremedymvp2: {
-            stateConditions: [
-                DEFAULT_CCD_STATE,
-                referredToJudge
-            ]
-        }
-    }
+            stateConditions: [DEFAULT_CCD_STATE, referredToJudge],
+        },
+    },
 }
 
 // given a Jurisdiction
@@ -285,7 +262,7 @@ function getProcessEngine(jurisdiction, caseType) {
     const jud = processEngineMap[jurisdiction.toLowerCase()]
     const conditionsList = jud ? jud[caseType.toLowerCase()] : null
 
-    return (conditionsList) || [DEFAULT_CCD_STATE]
+    return conditionsList || [DEFAULT_CCD_STATE]
 }
 
 function processCaseStateEngine(param) {
@@ -293,7 +270,7 @@ function processCaseStateEngine(param) {
     const context = {
         caseData: param,
         stop: false,
-        outcome: {}
+        outcome: {},
     }
 
     const processor = conditionProcessor.init(context)
@@ -310,7 +287,6 @@ function processCaseStateEngine(param) {
 }
 
 export function processCaseState(caseData) {
-
     const jurisdiction = caseData.jurisdiction
     const caseType = caseData.case_type_id
     const ccdState = caseData.state
@@ -319,7 +295,9 @@ export function processCaseState(caseData) {
     const hearingData = caseData.hearing_data ? caseData.hearing_data : undefined
     const questionRoundData = caseData.question_data
 
-    const latestQuestions = (questionRoundData) ? questionRoundData.sort((a, b) => a.question_round_number < b.question_round_number)[0] : undefined
+    const latestQuestions = questionRoundData
+        ? questionRoundData.sort((a, b) => a.question_round_number < b.question_round_number)[0]
+        : undefined
 
     // FR related only
     const consentOrder = caseData.case_data.consentOrder ? caseData.case_data.consentOrder : undefined
@@ -333,7 +311,7 @@ export function processCaseState(caseData) {
         hearingType,
         hearingData,
         latestQuestions,
-        consentOrder
+        consentOrder,
     }
 
     if (Object.keys(caseData.case_data).includes('decisionNotes')) {
