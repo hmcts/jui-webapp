@@ -12,7 +12,7 @@ import * as processCaseState from '../../lib/processors/case-state-model'
 import * as valueProcessor from '../../lib/processors/value-processor'
 import * as utils from '../../lib/util'
 import * as ccdStore from '../../services/ccd-store-api/ccd-store'
-import * as cohCorApi from '../../services/coh-cor-api/coh-cor-api'
+import * as cohCorApi from '../../services/cohQA'
 import * as dmStore from '../../services/DMStore'
 import * as events from '../events'
 
