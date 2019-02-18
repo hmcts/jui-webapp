@@ -1,5 +1,5 @@
-/*const healthcheck = require('@hmcts/nodejs-healthcheck');*/
-const { InfoContributor, infoRequestHandler } = require('@hmcts/info-provider');
+/*const healthcheck = require('@hmcts/nodejs-healthcheck');
+const { InfoContributor, infoRequestHandler } = require('@hmcts/info-provider');*/
 
 import * as express from 'express';
 import { config } from './config';
@@ -72,9 +72,9 @@ app.get(
     })
 );*/
 
-function infocheckConfig(msUrl) {
+/*function infocheckConfig(msUrl) {
     return new InfoContributor(`${msUrl}/info`);
-}
+}/*
 
 app.get(
     '/info',
@@ -107,4 +107,4 @@ app.use('/api', apiRoute);
 const logger = log4jui.getLogger('Application')
 logger.info(`Started up on ${config.enviroment || 'local'} using ${config.protocol}`)
 
-module.exports = app;
+module.exports = app;*/
