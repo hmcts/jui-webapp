@@ -21,7 +21,7 @@ const templates = {
     }
 }
 
-module.exports = (jurisdiction, caseType) => {
+export default function(jurisdiction, caseType) {
     const jud = templates[jurisdiction.toLowerCase()]
     const template = jud ? jud[caseType.toLowerCase()] : defaultTemplate
     return template || defaultTemplate
