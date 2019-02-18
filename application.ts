@@ -10,8 +10,6 @@ import * as log4jui from './api/lib/log4jui';
 const apiRoute = require('./api');
 config.environment = process.env.JUI_ENV || 'local';
 
-
-
 const app = express();
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');

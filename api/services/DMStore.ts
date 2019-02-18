@@ -4,7 +4,7 @@ import { map } from 'p-iteration'
 import { config } from '../../config'
 import { http } from '../lib/http'
 import * as log4jui from '../lib/log4jui'
-import { asyncReturnOrError } from '../lib/util'
+import { asyncReturnOrError, getHealth, getInfo } from '../lib/util'
 
 import { ERROR_UNABLE_TO_GET_EVENT_TOKEN, ERROR_UNABLE_TO_POST_CASE, ERROR_UNABLE_TO_UPLOAD_DOCUMENT } from '../lib/config/errorConstants'
 import { getEventTokenAndCase, postCaseWithEventToken } from './ccd-store-api/ccd-store'
@@ -291,17 +291,6 @@ export async function postDocumentVersionMigrate(documentId: string, versionId: 
     return response.data
 }
 
-export async function getHealth(): Promise<JSON> {
-    const response = await asyncReturnOrError(http.get(`${url}/health`), `Error getting health`, null, logger, false)
-
-    return response.data
-}
-
-export async function getInfo(): Promise<JSON> {
-    const response = await asyncReturnOrError(http.get(`${url}/info`), `Error getting info`, null, logger, false)
-
-    return response.data
-}
 
 function getOptions(req) {
     return headerUtilities.getAuthHeadersWithUserIdAndRoles(req)
@@ -393,11 +382,11 @@ export default app => {
     app.use('/dm-store', router)
 
     router.get('/health', (req, res, next) => {
-        res.send(getHealth()).status(200)
+        res.send(getHealth(url)).status(200)
     })
 
     router.get('/info', (req, res, next) => {
-        res.send(getInfo()).status(200)
+        res.send(getInfo(url)).status(200)
     })
 
     /**

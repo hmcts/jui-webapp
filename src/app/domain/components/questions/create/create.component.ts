@@ -65,6 +65,9 @@ export class CreateQuestionsComponent implements OnInit {
             this.form.controls.subject.setValue(values.subject.trim());
         }
         if (values.question) {
+          if(values.question.match(/[<>]/g) === null) {
+            values.question = "<p>"+values.question+"</p>"
+          }
             this.form.controls.question.setValue(values.question.trim());
         }
         values.rounds = this.roundNumber;

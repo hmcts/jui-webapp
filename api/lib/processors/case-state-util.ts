@@ -39,7 +39,7 @@ export const STATE = {
         'caseAdded',
         'consentOrderApproved',
         'referredToJudge',
-        'applicationIssued'
+        'applicationIssued',
     ],
     DIV: [
         'AwaitingPayment',
@@ -48,10 +48,10 @@ export const STATE = {
         'AosCompletedAwaitingAnswer',
         'AosCompleted',
         'AwaitingHWFDecision',
-        'AwaitingDecreeNisi'
+        'AwaitingDecreeNisi',
     ],
     PRO: ['BOExamining', 'PAAppCreated', 'CasePrinted', 'CaseCreated', 'CasePaymentFailed'],
-    CMC: ['open']
+    CMC: ['open'],
 }
 
 // at the moment these are all the main place you can go.
@@ -62,7 +62,7 @@ export const GO_TO = {
     CASE_FILE_GO_TO: 'casefile',
     TIMELINE_GO_TO: 'timeline',
     QUESTIONS_GO_TO: 'questions',
-    DECISION_GO_TO: 'decision'
+    DECISION_GO_TO: 'decision',
 }
 
 // these are state a judge should be able to see.
@@ -79,7 +79,7 @@ export const stateToBeShown = [
     ...[...STATE.FR],
     ...[...STATE.DIV],
     ...[...STATE.CMC],
-    ...[...STATE.PRO]
+    ...[...STATE.PRO],
 ]
 
 export function caseStateFilter(caseData) {

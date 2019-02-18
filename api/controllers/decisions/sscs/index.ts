@@ -39,6 +39,7 @@ function perpareCaseForFinalDecision(eventToken, eventId, data) {
         /* eslint-disable-next-line id-blacklist */
         data: {
             decisionNotes: data.decisionNotes,
+            isCorDecision: 'Yes',
         },
         event: {
             id: eventId,
