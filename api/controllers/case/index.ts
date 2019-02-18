@@ -1,7 +1,7 @@
 const express = require('express')
-const getCaseTemplate = require('./templates/index')
-const valueProcessor = require('../../lib/processors/value-processor')
-const { processCaseState } = require('../../lib/processors/case-state-model')
+import * as processCaseState from '../../lib/processors/case-state-model'
+import * as valueProcessor from '../../lib/processors/value-processor'
+import * as getCaseTemplate from './templates/index'
 
 import * as log4jui from '../../lib/log4jui'
 import { CCDCaseWithSchema } from '../../lib/models'
@@ -32,7 +32,7 @@ export async function getCaseWithEventsAndQuestions(userId, jurisdiction, caseTy
     return [caseData, events, hearing, questions]
 }
 
-async function appendDocuments(caseData, schema) {
+export async function appendDocuments(caseData, schema) {
     let documents = await getDocuments(getDocIdList(caseData.documents))
     documents = appendDocIdToDocument(documents)
     caseData.documents = documents
@@ -40,14 +40,14 @@ async function appendDocuments(caseData, schema) {
     return { caseData, schema }
 }
 
-function replaceSectionValues(section, caseData) {
+export function replaceSectionValues(section, caseData) {
     if (section.sections && section.sections.length) {
         section.sections.forEach(childSection => {
             replaceSectionValues(childSection, caseData)
         })
     } else {
         section.fields.forEach(field => {
-            field.value = valueProcessor(field.value, caseData)
+            field.value = valueProcessor.dataLookup(field.value, caseData)
         })
     }
 }
@@ -76,7 +76,7 @@ function appendCollectedData([caseData, events, hearings, questions]) {
 }
 
 function applySchema(caseData): CCDCaseWithSchema {
-    let schema = JSON.parse(JSON.stringify(getCaseTemplate(caseData.jurisdiction, caseData.case_type_id)))
+    let schema = JSON.parse(JSON.stringify(getCaseTemplate.default(caseData.jurisdiction, caseData.case_type_id)))
     if (schema.details) {
         replaceSectionValues(schema.details, caseData)
     }
@@ -112,14 +112,14 @@ function normaliseForPanel(caseData) {
     }
 }
 
-async function getCaseData(userId, jurisdiction, caseType, caseId) {
+export async function getCaseData(userId, jurisdiction, caseType, caseId) {
     const caseDataArray: [any, any, any, any] = await getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId)
     return appendCollectedData(caseDataArray)
 }
 
-async function getCaseTransformed(userId, jurisdiction, caseType, caseId, req) {
+export async function getCaseTransformed(userId, jurisdiction, caseType, caseId, req) {
     const caseData = await getCaseData(userId, jurisdiction, caseType, caseId)
-    let processedData: CCDCaseWithSchema = applySchema(processCaseState(caseData))
+    let processedData: CCDCaseWithSchema = applySchema(processCaseState.processCaseState(caseData))
     processedData = await appendDocuments(processedData.caseData, processedData.schema)
     return processedData.schema
 }
