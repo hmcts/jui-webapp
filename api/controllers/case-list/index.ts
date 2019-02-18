@@ -53,7 +53,7 @@ export async function getHearingWithQuestionData(caseData, userId) {
     const questions = await getAllQuestionsByCase(caseData.id, userId, jurisdiction)
     return {
         id: caseData.id,
-        ...questions,
+        questions,
     }
 }
 
