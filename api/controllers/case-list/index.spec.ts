@@ -178,10 +178,7 @@ describe('index', () => {
             const caseData = {
                 id: 1,
             }
-            const expectedResult = {
-                id: 1,
-                questions: 2,
-            }
+            const expectedResult = { id: 1, questions: { questions: 2 } }
             const userId = 2
             const stub = sinon.stub(getAllQuestionsByCase, 'getAllQuestionsByCase')
             stub.returns({ questions: 2 })
@@ -209,7 +206,7 @@ describe('index', () => {
                     id: 1,
                 },
             ]
-            const expectedResult = [{ id: 1, questions: 2 }]
+            const expectedResult = [{ id: 1, questions: { questions: 2 } }]
             const userId = 2
             const stub = sinon.stub(getAllQuestionsByCase, 'getAllQuestionsByCase').resolves({ questions: 2 })
             await getQuestionData(caseLists, userId).then(result => {
