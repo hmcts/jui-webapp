@@ -1,7 +1,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://travis-ci.org/hmcts/rpa-jui-webapp.svg?branch=master)](https://travis-ci.org/hmcts/rpa-jui-webapp)
 [![codecov](https://codecov.io/gh/hmcts/rpa-jui-webapp/branch/master/graph/badge.svg)](https://codecov.io/gh/hmcts/rpa-jui-webapp)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/fbdfcfc51d514d7f8f405d5cb509cb5a)](https://www.codacy.com/app/HMCTS/rpa-jui-webapp)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/fbdfcfc51d514d7f8f405d5cb509cb5a)](https://www.codacy.com/app/HMCTS/rpa-jui-webapp )
 [![Codacy Badge](https://api.codacy.com/project/badge/Coverage/fbdfcfc51d514d7f8f405d5cb509cb5a)](https://www.codacy.com/app/HMCTS/rpa-jui-webapp)
 [![Known Vulnerabilities](https://snyk.io/test/github/hmcts/rpa-jui-webapp/badge.svg)](https://snyk.io/test/github/hmcts/rpa-jui-webapp)
 
