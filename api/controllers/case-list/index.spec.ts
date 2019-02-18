@@ -128,24 +128,24 @@ describe('index', () => {
                 online_hearings: [
                     {
                         case_id: 1,
+                        online_hearing_id: '1a',
                     },
                     {
                         case_id: 2,
+                        online_hearing_id: '2a',
                     },
                 ],
             }
             const options = {}
             const stub = sinon.stub(cohCorApi, 'getHearingByCase')
+            const stub2 = sinon.stub(coh, 'getDecision')
             stub.returns(stubReturns)
             const result = await getCOR(casesData)
             expect(result).to.be.an('array')
-            expect(result[0]).to.eql({
-                id: 1,
-                hearing_data: {
-                    case_id: 1,
-                },
-            })
+            expect(result[0].id).to.eql(1)
+
             stub.restore()
+            stub2.restore()
         })
 
         it('Should return get decisions for cases with hearing data', async () => {
@@ -235,7 +235,7 @@ describe('index', () => {
             const res = {
                 send: () => false,
                 setHeader: () => false,
-                status: function() {
+                status: function () {
                     return this
                 },
             }
@@ -258,7 +258,7 @@ describe('index', () => {
             const res = {
                 send: () => false,
                 setHeader: () => false,
-                status: function() {
+                status: function () {
                     return this
                 },
             }
@@ -286,7 +286,7 @@ describe('index', () => {
             const res = {
                 send: () => false,
                 setHeader: () => false,
-                status: function() {
+                status: function () {
                     return this
                 },
             }
@@ -309,7 +309,7 @@ describe('index', () => {
             const res = {
                 send: () => false,
                 setHeader: () => false,
-                status: function() {
+                status: function () {
                     return this
                 },
             }
@@ -333,7 +333,7 @@ describe('index', () => {
             const res = {
                 send: () => false,
                 setHeader: () => false,
-                status: function() {
+                status: function () {
                     return this
                 },
             }

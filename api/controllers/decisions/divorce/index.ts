@@ -229,7 +229,7 @@ async function makeDecision(decision, req, state, store) {
 
 export const payload: any = []
 
-payload.divorce = async (req, res, store) => {console.log(req.session)
+payload.divorce = async (req, res, store) => {
     //no payload
 }
 
