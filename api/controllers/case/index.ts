@@ -1,16 +1,15 @@
-const express = require('express')
-import * as processCaseState from '../../lib/processors/case-state-model'
-import * as valueProcessor from '../../lib/processors/value-processor'
-import * as getCaseTemplate from './templates/index'
-
+import * as express from 'express'
 import * as log4jui from '../../lib/log4jui'
 import { CCDCaseWithSchema } from '../../lib/models'
+import { processCaseState } from '../../lib/processors/case-state-model'
+import { dataLookup } from '../../lib/processors/value-processor'
 import { asyncReturnOrError, judgeLookUp } from '../../lib/util'
 import { getCCDCase } from '../../services/ccd-store-api/ccd-store'
 import { getHearingByCase } from '../../services/cohQA'
 import { getDocuments } from '../../services/DMStore'
 import { getEvents } from '../events'
 import { getAllQuestionsByCase } from '../questions/index'
+import * as getCaseTemplate from './templates/index'
 
 const logger = log4jui.getLogger('cases')
 
@@ -47,7 +46,7 @@ export function replaceSectionValues(section, caseData) {
         })
     } else {
         section.fields.forEach(field => {
-            field.value = valueProcessor.dataLookup(field.value, caseData)
+            field.value = dataLookup(field.value, caseData)
         })
     }
 }
@@ -119,7 +118,7 @@ export async function getCaseData(userId, jurisdiction, caseType, caseId) {
 
 export async function getCaseTransformed(userId, jurisdiction, caseType, caseId, req) {
     const caseData = await getCaseData(userId, jurisdiction, caseType, caseId)
-    let processedData: CCDCaseWithSchema = applySchema(processCaseState.processCaseState(caseData))
+    let processedData: CCDCaseWithSchema = applySchema(processCaseState(caseData))
     processedData = await appendDocuments(processedData.caseData, processedData.schema)
     return processedData.schema
 }
