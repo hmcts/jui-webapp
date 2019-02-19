@@ -3,6 +3,7 @@ import { map } from 'p-iteration'
 
 import { config } from '../../../config';
 import columns from '../../lib/config/refCaselistCols'
+import * as errorStack from '../../lib/errorStack'
 import { filterByCaseTypeAndRole } from '../../lib/filters'
 import * as log4jui from '../../lib/log4jui'
 import { processCaseState } from '../../lib/processors/case-state-model'
@@ -201,7 +202,8 @@ export async function getCases(res) {
         let tryCCD = 0
 
         while (tryCCD < config.maxCCDRetries && !results) {
-            results = await asyncReturnOrError(getMutiJudCaseTransformed(user), ' Error getting case list', res, logger)
+            // need to disable error sending here and catch it later if retrying
+            results = await asyncReturnOrError(getMutiJudCaseTransformed(user), ' Error getting case list', res, logger, false)
             tryCCD++
             if (!results) {
                 logger.warn('Having to retry CCD')
@@ -212,9 +214,13 @@ export async function getCases(res) {
             res.setHeader('Access-Control-Allow-Origin', '*')
             res.setHeader('content-type', 'application/json')
             res.status(200).send(JSON.stringify(results))
+        } else {
+            res.status(500).send(JSON.stringify(errorStack.get()))
         }
+
     }
 }
+
 
 export async function unassign(res) {
     {
