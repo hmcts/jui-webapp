@@ -25,10 +25,10 @@ export class AppInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(tap(event => {
             if (event instanceof HttpResponse) {
-                console.log('success event');
+                // handle generic success
             }
         }, error => {
-
+            // handle generic error
         }));
     }
 }
