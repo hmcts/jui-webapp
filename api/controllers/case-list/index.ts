@@ -1,23 +1,23 @@
 import * as express from 'express'
 import { map } from 'p-iteration'
+
+import { config } from '../../../config';
 import columns from '../../lib/config/refCaselistCols'
 import { filterByCaseTypeAndRole } from '../../lib/filters'
 import * as log4jui from '../../lib/log4jui'
+import { processCaseState } from '../../lib/processors/case-state-model'
+import { dataLookup as valueProcessor } from '../../lib/processors/value-processor'
 import { asyncReturnOrError } from '../../lib/util'
 import { getMutiJudCCDCases } from '../../services/ccd-store-api/ccd-store'
 import { getDecision } from '../../services/coh'
 import { getHearingByCase } from '../../services/cohQA'
+import { getUser } from '../../services/idam'
+import { getAllQuestionsByCase } from '../questions/index'
+import { getNewCase, unassignAllCaseFromJudge } from './assignCase'
+
 
 const getListTemplate = require('./templates/index')
-const { processCaseState } = require('../../lib/processors/case-state-model')
-const valueProcessor = require('../../lib/processors/value-processor')
 const { caseStateFilter } = require('../../lib/processors/case-state-util')
-import { getAllQuestionsByCase } from '../questions/index'
-
-import { getUser } from '../../services/idam'
-import { getNewCase, unassignAllCaseFromJudge } from './assignCase'
-import { config } from '../../../config';
-
 const logger = log4jui.getLogger('case list')
 
 export async function getCOR(casesData) {
@@ -200,9 +200,13 @@ export async function getCases(res) {
 
         let tryCCD = 0
 
-        while (tryCCD < config.maxCCDRetries && !results) {
+        while (tryCCD < 1 && !results) {
             results = await asyncReturnOrError(getMutiJudCaseTransformed(user), ' Error getting case list', res, logger)
+            results = await getMutiJudCaseTransformed(user)
             tryCCD++
+            if (!results) {
+                logger.warn('Having to retry CCD')
+            }
         }
 
         if (results) {
