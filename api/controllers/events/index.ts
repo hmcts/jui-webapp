@@ -1,8 +1,9 @@
 import * as express from 'express'
 const moment = require('moment')
 const getEventTemplate = require('./templates/index')
-const valueProcessor = require('../../lib/processors/value-processor')
+
 const { getCCDEvents } = require('../../services/ccd-store-api/ccd-store')
+import { dataLookup as valueProcessor } from '../../lib/processors/value-processor'
 import { getHearingIdOrCreateHearing, getOnlineHearingConversation } from '../../services/cohQA'
 
 function hasCOR(jurisdiction, caseType) {
