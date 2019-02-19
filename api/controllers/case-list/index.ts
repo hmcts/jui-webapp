@@ -202,7 +202,6 @@ export async function getCases(res) {
 
         while (tryCCD < config.maxCCDRetries && !results) {
             results = await asyncReturnOrError(getMutiJudCaseTransformed(user), ' Error getting case list', res, logger)
-            results = await getMutiJudCaseTransformed(user)
             tryCCD++
             if (!results) {
                 logger.warn('Having to retry CCD')
