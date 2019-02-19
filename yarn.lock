@@ -419,10 +419,10 @@
   resolved "https://registry.yarnpkg.com/@nguniversal/express-engine/-/express-engine-6.0.0.tgz#f8bc7b5e940afb1ffdbdcb1bb22665d440ea0b0b"
   integrity sha512-BFedPnFZcTDXGY2TedWyY29SVuHq/E6cpFDPN5bw4gn+lAd6m0aVySebQX7s2YPvX9scU/ZuKiOT3PRAKlgv5Q==
 
-"@nguniversal/module-map-ngfactory-loader@6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@nguniversal/module-map-ngfactory-loader/-/module-map-ngfactory-loader-6.0.0.tgz#0dd26c3f1c26d17bb21b8dfc0da53d82b7f11028"
-  integrity sha512-XWKUAC2y8FE+Fgzy+gqw/F0M1uy31q4ebyJ9R1KWSCgJYwZ/WafMtZQx0dkVY6ATRtBw42E+94c8FpwpD8v8qA==
+"@nguniversal/module-map-ngfactory-loader@7.1.0":
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/@nguniversal/module-map-ngfactory-loader/-/module-map-ngfactory-loader-7.1.0.tgz#70ea905c1b32c2edc484cb77aa7a3f3208069966"
+  integrity sha512-GYfb24OLJKBY58CgUsIsGgci5ceZAt4+GrVKh7RZRIHtZ/bjdGsvpIbfE9udqsnSowxIxHA5KzYHbC1x6AAB0A==
 
 "@schematics/angular@0.7.0":
   version "0.7.0"
