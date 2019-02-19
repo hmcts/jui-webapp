@@ -1,8 +1,9 @@
 import axios from 'axios'
-import jwtDecode from 'jwt-decode'
 import { config } from '../../../config'
 import * as auth from '../../controllers/auth'
 import * as log4jui from '../../lib/log4jui'
+
+const jwtDecode = require('jwt-decode')
 
 const logger = log4jui.getLogger('auth')
 
