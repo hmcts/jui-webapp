@@ -200,7 +200,7 @@ export async function getCases(res) {
 
         let tryCCD = 0
 
-        while (tryCCD < 1 && !results) {
+        while (tryCCD < config.maxCCDRetries && !results) {
             results = await asyncReturnOrError(getMutiJudCaseTransformed(user), ' Error getting case list', res, logger)
             results = await getMutiJudCaseTransformed(user)
             tryCCD++
