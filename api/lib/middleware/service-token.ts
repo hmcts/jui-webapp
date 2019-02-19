@@ -22,7 +22,7 @@ function getToken() {
 async function generateToken() {
     const token = await postS2SLease()
 
-    const tokenData = jwtDecode(token)
+    const tokenData: any = jwtDecode(token)
 
     _cache[microservice] = {
         expiresAt: tokenData.exp,

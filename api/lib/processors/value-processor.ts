@@ -3,7 +3,7 @@ const moment = require('moment')
 import documentProcessor from './document-processor'
 import { caseStatusProcessor } from './case-status-processor'
 
-const dataLookup = (lookup, caseData) => {
+export const dataLookup = (lookup, caseData) => {
     if (typeof lookup === 'string') {
         const splitLookup = lookup.split('|')
         let value = splitLookup[0]
@@ -49,4 +49,4 @@ const dataLookup = (lookup, caseData) => {
     throw new Error('lookup is neither a string or an array.')
 }
 
-module.exports = dataLookup
+// module.exports = dataLookup
