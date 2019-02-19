@@ -56,7 +56,7 @@ export class AuthService {
         if (!jwt) {
             return false;
         }
-        const jwtData = this.decodeJwt(jwt);
+        const jwtData: any = this.decodeJwt(jwt);
         const expired = jwtData.exp > new Date().getTime();
         // do stuff!!
         return !expired;
