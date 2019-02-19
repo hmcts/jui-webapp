@@ -23,7 +23,6 @@ export async function getCOR(casesData) {
     const caseIds = casesData.map(caseRow => `${caseRow.id}`).join('&case_id=')
 
     const hearings: any = await getHearingByCase(caseIds)
-
     if (hearings.online_hearings) {
         const caseStateMap = new Map(hearings.online_hearings.map(hearing => [Number(hearing.case_id), hearing]))
 
@@ -54,7 +53,7 @@ export async function getHearingWithQuestionData(caseData, userId) {
     const questions = await getAllQuestionsByCase(caseData.id, userId, jurisdiction)
     return {
         id: caseData.id,
-        ...questions,
+        questions,
     }
 }
 

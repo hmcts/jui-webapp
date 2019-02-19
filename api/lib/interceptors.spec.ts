@@ -81,9 +81,5 @@ describe('interceptors', () => {
             expect(spy).to.be.called
             getLoggerStub.restore()
         })
-        it('Should return response unmutilated', () => {
-            const result = errorInterceptor(error)
-            expect(result).to.be.equal(error)
-        })
     })
 })
