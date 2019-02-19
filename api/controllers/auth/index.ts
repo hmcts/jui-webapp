@@ -12,7 +12,7 @@ const logger = log4jui.getLogger('auth')
 export function logout(req, res) {
     res.clearCookie(cookieToken)
     res.clearCookie(cookieUserId)
-    res.redirect(req.query.redirect || '/')
+    res.redirect(401, req.query.redirect || '/')
 }
 
 export async function authenticateUser(req: any, res) {
