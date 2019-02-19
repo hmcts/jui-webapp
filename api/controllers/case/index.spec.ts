@@ -160,7 +160,7 @@ describe('index', () => {
         })
     })
     describe('getCaseTransformed', () => {
-        it('should return', async () => {
+        it('should return object', async () => {
             const sandbox = sinon.createSandbox()
             const stub = []
             stub[0] = sandbox.stub(ccdStore, 'getCCDCase')
@@ -170,7 +170,7 @@ describe('index', () => {
             stub[4] = sandbox.stub(utils, 'judgeLookUp')
             stub[5] = sandbox.stub(processCaseState, 'processCaseState')
             stub[6] = sandbox.stub(getCaseTemplate, 'default')
-            stub[7] = sinon.stub(valueProcessor, 'dataLookup')
+            stub[7] = sandbox.stub(valueProcessor, 'dataLookup')
             stub[0].resolves({case_data: {assignedToMedicalMember: '1 | 2'}})
             stub[1].resolves(2)
             stub[2].resolves(3)
@@ -192,6 +192,43 @@ describe('index', () => {
             const result = await index.getCaseTransformed(userId, jurisdiction, caseType, caseId, req)
             expect(result).to.not.be.null
             expect(result).to.be.an('object')
+            sandbox.restore()
+        })
+    })
+    describe('getCaseRaw', () => {
+        it('should return an object with 5 properties',  async () => {
+            const sandbox = sinon.createSandbox()
+            const stub = []
+            stub[0] = sandbox.stub(ccdStore, 'getCCDCase')
+            stub[1] = sandbox.stub(events, 'getEvents')
+            stub[2] = sandbox.stub(cohCorApi, 'getHearingByCase')
+            stub[3] = sandbox.stub(questions, 'getAllQuestionsByCase')
+            stub[4] = sandbox.stub(utils, 'judgeLookUp')
+            stub[5] = sandbox.stub(processCaseState, 'processCaseState')
+            stub[6] = sandbox.stub(getCaseTemplate, 'default')
+            stub[7] = sandbox.stub(valueProcessor, 'dataLookup')
+            stub[0].resolves({case_data: {assignedToMedicalMember: '1 | 2'}})
+            stub[1].resolves(2)
+            stub[2].resolves(3)
+            stub[3].resolves([1, 2, 3])
+            stub[4].returns(5)
+            stub[5].returns({})
+            stub[6].returns({
+                sections: [
+                    {fields: [{value: 1}]},
+                    {fields: [{value: 2}]},
+                ],
+            })
+            stub[7].returns(1)
+            const userId = 1
+            const jurisdiction = 'SSCS'
+            const caseType = 'SSCS'
+            const caseId = 123
+            const req = {}
+            const result = await index.getCaseRaw(userId, jurisdiction, caseType, caseId, req)
+            expect(result).to.not.be.null
+            expect(result).to.be.an('object')
+            expect(Object.keys(result).length).to.equal(5)
             sandbox.restore()
         })
     })

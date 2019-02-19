@@ -124,7 +124,7 @@ export async function getCaseTransformed(userId, jurisdiction, caseType, caseId,
     return processedData.schema
 }
 
-function getCaseRaw(userId, jurisdiction, caseType, caseId, req) {
+export async function getCaseRaw(userId, jurisdiction, caseType, caseId, req) {
     return getCaseData(userId, jurisdiction, caseType, caseId)
         .then(caseData => appendDocuments(caseData, {}))
         .then(({ caseData, schema }) => caseData)
