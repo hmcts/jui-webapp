@@ -16,6 +16,7 @@ import { getAllQuestionsByCase } from '../questions/index'
 
 import { getUser } from '../../services/idam'
 import { getNewCase, unassignAllCaseFromJudge } from './assignCase'
+import { config } from '../../../config';
 
 const logger = log4jui.getLogger('case list')
 
@@ -194,9 +195,13 @@ export async function unassignAll(req, res) {
 
 export async function getCases(res) {
     {
+        let results = null
         const user = await getUser()
+        const tryCCD = 0
 
-        const results = await asyncReturnOrError(getMutiJudCaseTransformed(user), ' Error getting case list', res, logger)
+        while (tryCCD < config.maxCCDRetries && !results) {
+            results = await asyncReturnOrError(getMutiJudCaseTransformed(user), ' Error getting case list', res, logger)
+        }
 
         if (results) {
             res.setHeader('Access-Control-Allow-Origin', '*')
