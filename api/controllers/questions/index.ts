@@ -7,7 +7,7 @@ const moment = require('moment')
 const headerUtilities = require('../../lib/utilities/headerUtilities')
 
 // Create a new hearing
-function createHearing(caseId, userId, options, jurisdiction = 'SSCS') {
+export async function createHearing(caseId, userId, options, jurisdiction = 'SSCS') {
     options.body = {
         case_id: caseId,
         jurisdiction,
@@ -15,25 +15,26 @@ function createHearing(caseId, userId, options, jurisdiction = 'SSCS') {
         start_date: new Date().toISOString()
     }
 
-    return cohCor.postHearing(options).then(hearing => hearing.online_hearing_id)
+    const r1 = await cohCor.postHearing(options)
+    return r1.online_hearing_id
 }
 
-function getQuestion(hearingId, questionId, options) {
-    return Promise.all([cohCor.getQuestion(hearingId, questionId, options), cohCor.getAnswers(hearingId, questionId)])
+export function getQuestion(hearingId, questionId, options) {
+    return [cohCor.getQuestion(hearingId, questionId, options), cohCor.getAnswers(hearingId, questionId)]
 }
 
-function answerAllQuestions(hearingId, questionIds) {
+export function answerAllQuestions(hearingId, questionIds) {
     const arr = []
     questionIds.forEach(id => arr.push(cohCor.postAnswer(hearingId, id, formatAnswer())))
-    return Promise.all(arr)
+    return arr
 }
 
-function updateRoundToIssued(hearingId, roundId, options) {
+export function updateRoundToIssued(hearingId, roundId, options) {
     return cohCor.putRound(hearingId, roundId, { state_name: 'question_issue_pending' })
 }
 
 // Format Rounds, Questions and Answers
-function formatRounds(rounds) {
+export function formatRounds(rounds) {
     return rounds.map(round => {
         const expireDate = round.question_references ? moment(getExpirationDate(round.question_references)) : null
         let expires = null
@@ -62,18 +63,18 @@ function formatRounds(rounds) {
     })
 }
 
-function countStates(questions, state) {
+export function countStates(questions, state) {
     return questions.map(question => question.current_question_state.state_name).filter(s => s === state).length
 }
 
-function getExpirationDate(questions) {
+export function getExpirationDate(questions) {
     return (
         questions.map(question => question.deadline_expiry_date)
             .sort((a, b) => (new Date(b) as any) - (new Date(a) as any))[0] || null
     )
 }
 
-function formatQuestions(questions) {
+export function formatQuestions(questions) {
     return questions.map(question => {
         return {
             id: question.question_id,
@@ -87,7 +88,7 @@ function formatQuestions(questions) {
     })
 }
 
-function formatQuestionRes(question, answers) {
+export function formatQuestionRes(question, answers) {
     return {
         id: question.question_id,
         round: question.question_round,
@@ -100,7 +101,7 @@ function formatQuestionRes(question, answers) {
     }
 }
 
-function formatQuestion(body: any, email: string) {
+export function formatQuestion(body: any, email: string) {
     return {
         owner_reference: email,
         question_body_text: body.question,
@@ -111,7 +112,7 @@ function formatQuestion(body: any, email: string) {
     }
 }
 
-function formatAnswer(body = null) {
+export function formatAnswer(body = null) {
     if (body) {
         return {
             answer_state: body.state || 'answer_submitted',
@@ -135,7 +136,8 @@ function getOptions(req) {
     return headerUtilities.getAuthHeaders(req)
 }
 
-module.exports = app => {
+// module.exports = app => {
+export default function(app) {
     const route = express.Router({ mergeParams: true })
     // TODO: we need to put this back to '/case' in the future (rather than '/caseQ') when it doesn't clash with case/index.js
     app.use('/caseQ', route)
@@ -362,4 +364,4 @@ module.exports = app => {
     })
 }
 
-module.exports.getAllQuestionsByCase = getAllQuestionsByCase
+// module.exports.getAllQuestionsByCase = getAllQuestionsByCase
