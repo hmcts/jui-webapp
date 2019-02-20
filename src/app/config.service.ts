@@ -20,7 +20,7 @@ export class ConfigService {
         this.config = this.state.get(this.CONFIG_KEY, null as any);
         if (!this.config) {
             const environment = this.cookieService.get('platform') || 'local';
-            config.protocol = configs[environment].default.protocol || config.protocol;
+            config.protocol = this.document.location.host === config.local ? 'http' : 'https';
             config.services = configs[environment].default.services;
             config.api_base_url = this.getBaseUrl(config);
             this.state.set(this.CONFIG_KEY, config);

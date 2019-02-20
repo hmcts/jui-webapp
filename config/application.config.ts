@@ -6,6 +6,7 @@ export const application = {
     maxCCDRetries: 3,
     microservice: 'jui_webapp',
     idam_client: 'juiwebapp',
+    local: 'localhost',
     oauth_callback_url: 'oauth2/callback',
     protocol: 'https'
 };
