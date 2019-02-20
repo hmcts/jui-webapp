@@ -6,6 +6,7 @@ import { config } from './config';
 import { appInsights } from './api/lib/appInsights';
 import { securityHeaders } from './api/lib/middleware';
 import * as log4jui from './api/lib/log4jui';
+import * as globalTunnel from 'global-tunnel-ng';
 
 const apiRoute = require('./api');
 config.environment = process.env.JUI_ENV || 'local';
@@ -45,6 +46,14 @@ app.use(appInsights);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+
+if (config.proxy) {
+    globalTunnel.initialize({
+        host: config.proxy.host,
+        port: config.proxy.port,
+    })
+}
 
 /*function healthcheckConfig(msUrl) {
     return healthcheck.web(`${msUrl}/health`, {
