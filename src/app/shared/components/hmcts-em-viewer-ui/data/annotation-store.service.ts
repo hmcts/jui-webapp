@@ -261,8 +261,10 @@ export class AnnotationStoreService implements OnDestroy {
 
     deleteAnnotationById(annotationId: string, pageNumber: number) {
         this.pdfAnnotateWrapper.getStoreAdapter()
-        .deleteAnnotation(this.pdfRenderService.getRenderOptions().documentId, annotationId);
-        this.pdfAnnotateWrapper.renderPage(pageNumber, this.pdfRenderService.getRenderOptions());
+            .deleteAnnotation(this.pdfRenderService.getRenderOptions().documentId, annotationId)
+            .then(() => {
+                this.pdfAnnotateWrapper.renderPage(pageNumber, this.pdfRenderService.getRenderOptions());
+            });
     }
 
     ngOnDestroy() {
