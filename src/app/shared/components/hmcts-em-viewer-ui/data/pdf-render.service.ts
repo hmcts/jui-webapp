@@ -60,6 +60,8 @@ export class PdfRenderService {
         this.pdfWrapper.getDocument(renderOptions.documentId)
             .then(pdf => {
                 renderOptions.pdfDocument = pdf;
+                this.setRenderOptions(renderOptions);
+                
                 const viewer = this.viewerElementRef.nativeElement;
                 viewer.innerHTML = '';
                 this.pdfPages = pdf.pdfInfo.numPages;
