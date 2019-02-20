@@ -1,7 +1,8 @@
 import { Inject, Injectable } from "@angular/core";
+import { CookieService } from 'ngx-cookie';
 import { makeStateKey, TransferState } from "@angular/platform-browser";
 declare function require(name: string);
-import { config } from "../../config";
+import { configs, config } from "../../config";
 import { DOCUMENT } from "@angular/common";
 
 @Injectable({
@@ -14,10 +15,14 @@ export class ConfigService {
 
     constructor(
         private state: TransferState,
+        private cookieService: CookieService,
         @Inject(DOCUMENT) private document: any
     ) {
         this.config = this.state.get(this.CONFIG_KEY, null as any);
         if (!this.config) {
+            const environment = this.cookieService.get('platform');
+            config.protocol = configs[environment].default.protocol || config.protocol;
+            config.services = configs[environment].default.services;
             config.api_base_url = this.getBaseUrl(config);
             this.state.set(this.CONFIG_KEY, config);
             this.config = config;

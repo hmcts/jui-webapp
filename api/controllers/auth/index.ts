@@ -33,6 +33,8 @@ export async function authenticateUser(req: any, res) {
             req.session.user = details
             res.cookie(cookieToken, data.access_token)
             res.cookie(cookieUserId, details.id)
+            // need this so angular knows which enviroment config to use ...
+            res.cookie('platform', config.environment)
         }
     }
     logger.info('Auth finished, redirecting')

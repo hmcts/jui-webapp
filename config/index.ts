@@ -12,7 +12,7 @@ import * as prod from "./environments/prod.config";
 import * as mock from "./environments/mock.config";
 import * as process from "process";
 
-const configs = {
+export const configs = {
     local,
     docker,
     spreview,
