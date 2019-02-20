@@ -27,7 +27,6 @@ export const configs = {
 
 export const configEnv = process ? process.env.JUI_ENV || "local" : "local";
 //this needs to be a console.log
-console.log(`Using config from ${configEnv}`);
 export const config = { ...application, ...configs[configEnv].default };
 
 if (process) {

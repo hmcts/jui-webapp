@@ -19,6 +19,7 @@ export default {
         host: '172.16.0.7',
         port: 8080,
     },
+    protocol: 'http',
     secureCookie: false,
     sessionSecret: 'secretSauce',
     logging: 'debug'
