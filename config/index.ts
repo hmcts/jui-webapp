@@ -23,13 +23,11 @@ const configs = {
     aat,
     prod,
     mock,
-    microservice: "jui_webapp",
-    idam_client: "juiwebapp",
-    oauth_callback_url: "oauth2/callback",
-    protocol: "https"
 };
 
 export const configEnv = process ? process.env.JUI_ENV || "local" : "local";
+//this needs to be a console.log
+console.log(`Using config from ${configEnv}`);
 export const config = { ...application, ...configs[configEnv].default };
 
 if (process) {
@@ -37,7 +35,5 @@ if (process) {
         process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "AAAAAAAAAAAAAAAA";
 }
 
-if (configEnv === 'local') {
-    config.protocol = 'http';
-}
+
 
