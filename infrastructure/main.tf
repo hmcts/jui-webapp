@@ -21,7 +21,8 @@ module "app" {
     https_only="false"
     common_tags  = "${var.common_tags}"
     asp_rg = "${var.shared_product_name}-${var.env}"
-    asp_name = "${var.shared_product_name}-${var.env}"
+    #asp_name = "${var.shared_product_name}-${var.env}"
+    asp_name = "${var.env == "prod" ? "rpa-rd-prod" : "${var.shared_product_name}-${var.env}"}"
 
     app_settings = {
         # REDIS_HOST = "${module.redis-cache.host_name}"
