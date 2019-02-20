@@ -46,7 +46,7 @@ module.exports = {
                                 value: '4',
                                 text: 'Can stand and then move more than 50 metres but no more than 200 metres, either aided or unaided',
                                 hint: {
-                                    text: '4 point',
+                                    text: '4 points',
                                     classes: 'govuk-hint govuk-radios__hint'
                                 }
                             },
