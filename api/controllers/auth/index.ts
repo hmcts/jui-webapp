@@ -29,12 +29,13 @@ export async function authenticateUser(req: any, res) {
 
         const details = await asyncReturnOrError(getDetails(options), 'Cannot get user details', res, logger, false)
         if (details) {
+            logger.info('Setting session and cookies')
             req.session.user = details
             res.cookie(cookieToken, data.access_token)
             res.cookie(cookieUserId, details.id)
         }
     }
-
+    logger.info('Auth finished, redirecting')
     res.redirect('/')
 }
 
