@@ -363,5 +363,3 @@ export default function(app) {
             )
     })
 }
-
-// module.exports.getAllQuestionsByCase = getAllQuestionsByCase
