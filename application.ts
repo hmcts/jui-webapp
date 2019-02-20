@@ -48,8 +48,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use((req, res, next) => {
-    // Set cookie
-    res.cookie('platform', process.env.JUI_ENV);
+    // Set cookie for angular to know which config to use
+    const platform = process.env.JUI_ENV || 'local';
+    res.cookie('platform', platform);
     next();
 }
 );
