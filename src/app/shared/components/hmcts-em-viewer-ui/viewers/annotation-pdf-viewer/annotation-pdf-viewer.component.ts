@@ -129,7 +129,6 @@ export class AnnotationPdfViewerComponent implements OnInit, AfterViewInit, OnDe
 
     renderComments() {
         this.unfocusAnnotation();
-        this.annotationStoreService.setToolBarUpdate(null, null);
         this.commentsComponent.showAllComments();
     }
 
