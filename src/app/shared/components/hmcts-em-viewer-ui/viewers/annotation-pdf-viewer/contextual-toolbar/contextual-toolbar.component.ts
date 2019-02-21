@@ -1,4 +1,4 @@
-import {Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import {Component, OnInit, ChangeDetectorRef, OnDestroy, Output, EventEmitter} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Annotation, Comment } from '../../../data/annotation-set.model';
 import { AnnotationStoreService } from '../../../data/annotation-store.service';
@@ -18,6 +18,8 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
   showDelete: boolean;
   annotation: Annotation;
   private contextualToolBarOptions: Subscription;
+
+  @Output() deletedAnnotation = new EventEmitter<string>();
 
   constructor(private annotationStoreService: AnnotationStoreService,
               private ref: ChangeDetectorRef,
@@ -108,6 +110,9 @@ export class ContextualToolbarComponent implements OnInit, OnDestroy {
 
   handleDeleteBtnClick() {
     this.annotationStoreService.deleteAnnotationById(this.annotation.id, this.annotation.page);
-    setTimeout(() => {this.hideToolBar(); }, 10);
+    setTimeout(() => {
+        this.hideToolBar();
+        this.deletedAnnotation.emit('deleted annotation');
+        }, 10);
   }
 }
