@@ -8,28 +8,33 @@ const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../../
 
 const EC = protractor.ExpectedConditions;
 
+async function waitForElement(el) {
+    await browser.wait(result => {
+        return element(by.className(el)).isPresent();
+    }, 60000);
+}
+
 defineSupportCode(function ({ Given, When, Then }) {
 
     When(/^I will be redirected to the JUI dashboard page$/, async function () {
-        browser.sleep(AMAZING_DELAY);
+        await waitForElement('govuk-heading-xl');
         await expect(dashBoardPage.dashboard_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.dashboard_header.getText())
             .to
             .eventually
             .equal('Your cases');
-        browser.sleep(AMAZING_DELAY);
     });
 
     When(/^I select a case(.*)$/, async function (type) {
-        browser.sleep(AMAZING_DELAY);
+        await waitForElement('govuk-table__cell');
         await browser.wait(EC.elementToBeClickable(dashBoardPage.case_number_links.first().click()), 15000);
         //await dashBoardPage.case_number_links.click();
-        browser.sleep(AMAZING_DELAY);
+
     });
 
 
     When(/^one or more cases (.*) are displayed$/, async function (type) {
-
+        await waitForElement('govuk-table__cell');
         var no_of_types = dashBoardPage.type_links.count()
             .then(function (count) {
                 if (count > 0) {
@@ -53,7 +58,8 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
     Then(/^I will be redirected to the Case Summary page for that case (.*)$/, async function (type) {
-        browser.sleep(AMAZING_DELAY);
+        await waitForElement('jui-casebar');
+
         await expect(caseSummaryPage.case_header_text.getText()).to.eventually.equal('Summary');
         if (type === 'Financial Remedy') {
             await expect(caseSummaryPage.caseDetails_header_text.getText())
@@ -83,7 +89,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
     Then(/^I will see date details for the list of cases displayed$/, async function () {
-        browser.sleep(AMAZING_DELAY);
+        await waitForElement('govuk-table__cell');
         await expect(dashBoardPage.case_start_date_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.date_of_last_action_header.isDisplayed()).to.eventually.be.true;
     });
@@ -113,7 +119,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
     Then(/^I should see table header columns$/, async function () {
-        browser.sleep(AMAZING_DELAY);
+        await waitForElement('govuk-table__cell');
         await dashBoardPage.table.isDisplayed();
         await expect(dashBoardPage.table_column_header.isDisplayed()).to.eventually.be.true;
 

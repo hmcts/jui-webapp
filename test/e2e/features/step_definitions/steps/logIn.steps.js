@@ -8,11 +8,17 @@ const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../../
 const config = require('../../../config/conf.js');
 const EC = protractor.ExpectedConditions;
 
+async function waitForElement(el) {
+    await browser.wait(result => {
+        return element(by.className(el)).isPresent();
+    }, 60000);
+}
+
 defineSupportCode(function ({ Given, When, Then }) {
 
 
     Given(/^I login$/, async function () {
-        browser.sleep(AMAZING_DELAY);
+        await waitForElement('heading-large');
         const username = $(this.getSelector('idam-username'));
         const password = $(this.getSelector('idam-password'));
         const submit = $(this.getSelector('idam-submit'));
@@ -27,12 +33,12 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
     Given(/^I am logged into JUI web app$/, async function () {
-        browser.sleep(AMAZING_DELAY);
+        await waitForElement('heading-large');
         await loginPage.emailAddress.sendKeys(this.config.username);
         await loginPage.password.sendKeys(this.config.password);
         browser.sleep(LONG_DELAY);
         await loginPage.signinBtn.click();
-        browser.sleep(AMAZING_DELAY);
+        //  browser.sleep(AMAZING_DELAY);
 
     });
 
