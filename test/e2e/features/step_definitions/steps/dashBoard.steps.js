@@ -86,6 +86,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
     Then(/^I will see date details for the list of cases displayed$/, async function () {
+        browser.sleep(15000);
         await expect(dashBoardPage.case_start_date_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.date_of_last_action_header.isDisplayed()).to.eventually.be.true;
     });
@@ -115,6 +116,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
     Then(/^I should see table header columns$/, async function () {
+        browser.sleep(30000);
         await dashBoardPage.table.isDisplayed();
         await expect(dashBoardPage.table_column_header.isDisplayed()).to.eventually.be.true;
 
