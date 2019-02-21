@@ -17,7 +17,7 @@ defineSupportCode(function ({ Given, When, Then }) {
             .to
             .eventually
             .equal('Your cases');
-
+        browser.sleep(AMAZING_DELAY);
     });
 
     When(/^I select a case(.*)$/, async function (type) {
