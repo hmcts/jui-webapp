@@ -10,7 +10,6 @@ const EC = protractor.ExpectedConditions;
 
 defineSupportCode(function ({ Given, When, Then }) {
 
-
     When(/^I will be redirected to the JUI dashboard page$/, async function () {
         browser.sleep(AMAZING_DELAY);
         await expect(dashBoardPage.dashboard_header.isDisplayed()).to.eventually.be.true;
