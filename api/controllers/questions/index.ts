@@ -136,8 +136,8 @@ function getOptions(req) {
     return headerUtilities.getAuthHeaders(req)
 }
 
-// module.exports = app => {
-export default function(app) {
+module.exports = app => {
+// export defaults function(app) {
     const route = express.Router({ mergeParams: true })
     // TODO: we need to put this back to '/case' in the future (rather than '/caseQ') when it doesn't clash with case/index.js
     app.use('/caseQ', route)
@@ -363,3 +363,16 @@ export default function(app) {
             )
     })
 }
+
+module.exports.answerAllQuestions = answerAllQuestions
+module.exports.countStates = countStates
+module.exports.createHearing = createHearing
+module.exports.formatAnswer = formatAnswer
+module.exports.formatRounds = formatRounds
+module.exports.formatQuestion = formatQuestion
+module.exports.formatQuestionRes = formatQuestionRes
+module.exports.formatQuestions = formatQuestions
+module.exports.getAllQuestionsByCase = getAllQuestionsByCase
+module.exports.getExpirationDate = getExpirationDate
+module.exports.getQuestion = getQuestion
+module.exports.updateRoundToIssued = updateRoundToIssued
