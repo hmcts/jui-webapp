@@ -12,6 +12,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
     Given(/^I login$/, async function () {
+        browser.sleep(AMAZING_DELAY);
         const username = $(this.getSelector('idam-username'));
         const password = $(this.getSelector('idam-password'));
         const submit = $(this.getSelector('idam-submit'));
