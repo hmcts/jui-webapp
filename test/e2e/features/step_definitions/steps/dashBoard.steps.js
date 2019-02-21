@@ -4,7 +4,7 @@ const dashBoardPage = require('../../pages/dashBoardPage');
 const caseSummaryPage = require('../../pages/caseSummaryPage');
 const caseFilePage = require('../../pages/caseFilePage');
 const { defineSupportCode } = require('cucumber');
-const { SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../../support/constants');
+const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../../support/constants');
 
 const EC = protractor.ExpectedConditions;
 
@@ -22,11 +22,10 @@ defineSupportCode(function ({ Given, When, Then }) {
     });
 
     When(/^I select a case(.*)$/, async function (type) {
-        // browser.sleep(LONG_DELAY);
-        browser.sleep(30000);
+        browser.sleep(AMAZING_DELAY);
         await browser.wait(EC.elementToBeClickable(dashBoardPage.case_number_links.first().click()), 15000);
         //await dashBoardPage.case_number_links.click();
-        browser.sleep(15000);
+        browser.sleep(AMAZING_DELAY);
     });
 
 
@@ -55,8 +54,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
     Then(/^I will be redirected to the Case Summary page for that case (.*)$/, async function (type) {
-        //browser.sleep(LONG_DELAY);
-        browser.sleep(15000);
+        browser.sleep(AMAZING_DELAY);
         await expect(caseSummaryPage.case_header_text.getText()).to.eventually.equal('Summary');
         if (type === 'Financial Remedy') {
             await expect(caseSummaryPage.caseDetails_header_text.getText())
@@ -86,7 +84,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
     Then(/^I will see date details for the list of cases displayed$/, async function () {
-        browser.sleep(15000);
+        browser.sleep(AMAZING_DELAY);
         await expect(dashBoardPage.case_start_date_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.date_of_last_action_header.isDisplayed()).to.eventually.be.true;
     });
@@ -116,7 +114,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
     Then(/^I should see table header columns$/, async function () {
-        browser.sleep(30000);
+        browser.sleep(AMAZING_DELAY);
         await dashBoardPage.table.isDisplayed();
         await expect(dashBoardPage.table_column_header.isDisplayed()).to.eventually.be.true;
 
