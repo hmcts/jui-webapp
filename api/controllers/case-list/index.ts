@@ -176,7 +176,7 @@ export function getMutiJudCaseRaw(userDetails) {
 // Get List of case append coh and return raw output
 export async function getMutiJudCaseRawCoh(userDetails) {
     let caseLists = await getMutiJudCaseAssignedCases(userDetails)
-    caseLists = await appendCOR(caseLists)
+    //   caseLists = await appendCOR(caseLists)
     caseLists = await appendQuestionsRound(caseLists, userDetails.id)
     caseLists = await combineLists(combineLists)
     caseLists = await sortCases(combineLists)
