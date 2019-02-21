@@ -3605,8 +3605,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    document.removeEventListener('mousemove', handleDocumentMousemove);
 	    (0, _utils.enableUserSelect)();
+	  } else if (window.getSelection().baseNode !== null
+          && window.getSelection().baseNode.parentNode.getAttribute('prevent-default-highlighting-behaviour') === 'true') {
+          window.getSelection().empty();
 	  }
-	  window.getSelection().empty();
 	}
 
 	/**
