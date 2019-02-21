@@ -26,11 +26,12 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
     Given(/^I am logged into JUI web app$/, async function () {
+        browser.sleep(AMAZING_DELAY);
         await loginPage.emailAddress.sendKeys(this.config.username);
         await loginPage.password.sendKeys(this.config.password);
         browser.sleep(LONG_DELAY);
         await loginPage.signinBtn.click();
-        browser.sleep(AMAZING_DELAY);
+        browser.sleep(SHORT_DELAY);
 
     });
 
