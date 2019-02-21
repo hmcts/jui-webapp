@@ -181,11 +181,6 @@
 }
 
 
-.jui-cf__document {
-  position: relative;
-}
-
-
 .jui-cf__document-page {
   @include aspect-ratio(1,1.414); // True A4 aspect ratio
   background: govuk-colour(white);
@@ -228,15 +223,11 @@
 .jui-cf__files {
 
   @include mq($from: desktop) {
-    position: sticky;
-    position: -webkit-sticky;
-    top: 75px; left: 0;
     float: left;
     margin-right: -417px;
     padding-right: 30px;
     box-sizing: border-box;
     max-width: 417px;
-    z-index: 2;
   }
 
 }
