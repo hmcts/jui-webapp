@@ -9,8 +9,7 @@ const { SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../../support/constan
 const EC = protractor.ExpectedConditions;
 
 defineSupportCode(function ({ Given, When, Then }) {
-    browser.sleep(25000)
-    browser.sleep(25000)
+
 
     When(/^I will be redirected to the JUI dashboard page$/, async function () {
         browser.sleep(LONG_DELAY);
@@ -19,13 +18,15 @@ defineSupportCode(function ({ Given, When, Then }) {
             .to
             .eventually
             .equal('Your cases');
+
     });
 
     When(/^I select a case(.*)$/, async function (type) {
         // browser.sleep(LONG_DELAY);
-        browser.sleep(25000);
+        browser.sleep(30000);
         await browser.wait(EC.elementToBeClickable(dashBoardPage.case_number_links.first().click()), 15000);
         //await dashBoardPage.case_number_links.click();
+        browser.sleep(15000);
     });
 
 
@@ -85,14 +86,12 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
     Then(/^I will see date details for the list of cases displayed$/, async function () {
-        browser.sleep(20000);
         await expect(dashBoardPage.case_start_date_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.date_of_last_action_header.isDisplayed()).to.eventually.be.true;
     });
 
 
     When(/^I see Date of latest action by date ascending order$/, async function () {
-        browser.sleep(20000);
         await dashBoardPage.last_action_dates.count()
             .then(function (text) {
                 console.log('Number of Cases: ' + text);
@@ -116,7 +115,6 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
     Then(/^I should see table header columns$/, async function () {
-        browser.sleep(25000)
         await dashBoardPage.table.isDisplayed();
         await expect(dashBoardPage.table_column_header.isDisplayed()).to.eventually.be.true;
 
