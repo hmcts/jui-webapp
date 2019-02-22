@@ -8,16 +8,16 @@ const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../../
 
 const EC = protractor.ExpectedConditions;
 
-async function waitForElement(el) {
-    await browser.wait(result => {
-        return element(by.className(el)).isPresent();
-    }, 60000);
-}
+// async function waitForElement(el) {
+//     await browser.wait(result => {
+//         return element(by.className(el)).isPresent();
+//     }, 60000);
+// }
 
 defineSupportCode(function ({ Given, When, Then }) {
 
     When(/^I will be redirected to the JUI dashboard page$/, async function () {
-        await waitForElement('govuk-heading-xl');
+        //  await waitForElement('govuk-heading-xl');
         await expect(dashBoardPage.dashboard_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.dashboard_header.getText())
             .to
@@ -26,7 +26,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     });
 
     When(/^I select a case(.*)$/, async function (type) {
-        await waitForElement('govuk-table__cell');
+        //      await waitForElement('govuk-table__cell');
         await browser.wait(EC.elementToBeClickable(dashBoardPage.case_number_links.first().click()), 15000);
         //await dashBoardPage.case_number_links.click();
 
@@ -34,7 +34,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
     When(/^one or more cases (.*) are displayed$/, async function (type) {
-        await waitForElement('govuk-table__cell');
+        // await waitForElement('govuk-table__cell');
         var no_of_types = dashBoardPage.type_links.count()
             .then(function (count) {
                 if (count > 0) {
@@ -58,7 +58,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
     Then(/^I will be redirected to the Case Summary page for that case (.*)$/, async function (type) {
-        await waitForElement('jui-casebar');
+        //   await waitForElement('jui-casebar');
 
         await expect(caseSummaryPage.case_header_text.getText()).to.eventually.equal('Summary');
         if (type === 'Financial Remedy') {
@@ -89,37 +89,37 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
     Then(/^I will see date details for the list of cases displayed$/, async function () {
-        await waitForElement('govuk-table__cell');
+        //  await waitForElement('govuk-table__cell');
         await expect(dashBoardPage.case_start_date_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.date_of_last_action_header.isDisplayed()).to.eventually.be.true;
     });
 
 
     When(/^I see Date of latest action by date ascending order$/, async function () {
-        await dashBoardPage.last_action_dates.count()
+     //   await dashBoardPage.last_action_dates.count()
             .then(function (text) {
-                console.log('Number of Cases: ' + text);
-                if (text > 1) {
-                    dashBoardPage.last_action_dates.map(function (elm) {
-                        return elm.getText()
-                            .then(function (text) {
-                                return (text);
-                            });
-                    })
-                        .then(function (lastActionDates) {
-                            var sortedLastActionDates = lastActionDates.sort(function (date1, date2) {
-                                return date1 - date2;
-                            });
-                            expect(lastActionDates)
-                                .equals(sortedLastActionDates);
-                        });
-                }
-            });
+        console.log('Number of Cases: ' + text);
+        if (text > 1) {
+            dashBoardPage.last_action_dates.map(function (elm) {
+                return elm.getText()
+                    .then(function (text) {
+                        return (text);
+                    });
+            })
+                .then(function (lastActionDates) {
+                    var sortedLastActionDates = lastActionDates.sort(function (date1, date2) {
+                        return date1 - date2;
+                    });
+                    expect(lastActionDates)
+                        .equals(sortedLastActionDates);
+                });
+        }
+    });
     });
 
 
     Then(/^I should see table header columns$/, async function () {
-        await waitForElement('govuk-table__cell');
+        //   await waitForElement('govuk-table__cell');
         await dashBoardPage.table.isDisplayed();
         await expect(dashBoardPage.table_column_header.isDisplayed()).to.eventually.be.true;
 

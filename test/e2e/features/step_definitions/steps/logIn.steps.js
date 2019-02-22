@@ -8,11 +8,11 @@ const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../../
 const config = require('../../../config/conf.js');
 const EC = protractor.ExpectedConditions;
 
-async function waitForElement(el) {
-    await browser.wait(result => {
-        return element(by.className(el)).isPresent();
-    }, 60000);
-}
+// async function waitForElement(el) {
+//     await browser.wait(result => {
+//         return element(by.className(el)).isPresent();
+//     }, 60000);
+// }
 
 defineSupportCode(function ({ Given, When, Then }) {
 
