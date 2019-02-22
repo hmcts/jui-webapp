@@ -3,23 +3,22 @@
 const loginPage = require('../../pages/loginPage');
 const dashBoardPage = require('../../pages/dashBoardPage');
 const { defineSupportCode } = require('cucumber');
-const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../../support/constants');
+const { SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../../support/constants');
 
 const config = require('../../../config/conf.js');
 const EC = protractor.ExpectedConditions;
 
-// async function waitForElement(el) {
-//     await browser.wait(result => {
-//         return element(by.className(el)).isPresent();
-//     }, 60000);
-// }
+async function waitForElement(el) {
+    await browser.wait(result => {
+        return element(by.className(el)).isPresent();
+    }, 60000);
+}
 
 defineSupportCode(function ({ Given, When, Then }) {
 
 
     Given(/^I login$/, async function () {
-        browser.sleep(AMAZING_DELAY);
-        // await waitForElement('heading-large');
+        await waitForElement('heading-large');
         const username = $(this.getSelector('idam-username'));
         const password = $(this.getSelector('idam-password'));
         const submit = $(this.getSelector('idam-submit'));
@@ -30,13 +29,12 @@ defineSupportCode(function ({ Given, When, Then }) {
             return $(this.getSelector('jui-header'))
                 .isPresent();
         }, LONG_DELAY);
-        browser.sleep(AMAZING_DELAY);
+
     });
 
 
     Given(/^I am logged into JUI web app$/, async function () {
-        browser.sleep(AMAZING_DELAY);
-        //await waitForElement('heading-large');
+        await waitForElement('heading-large');
         await loginPage.emailAddress.sendKeys(this.config.username);
         await loginPage.password.sendKeys(this.config.password);
         browser.sleep(LONG_DELAY);
@@ -65,6 +63,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
     Then(/^I am on Idam login page$/, async function () {
+        await waitForElement('heading-large');
         await expect(loginPage.signinTitle.isDisplayed()).to.eventually.be.true;
         await expect(loginPage.signinTitle.getText())
             .to
@@ -94,7 +93,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
     Given(/^I should be redirected to the Idam login page$/, async function () {
-        browser.sleep(MID_DELAY);
+        await waitForElement('heading-large');
         await expect(loginPage.signinTitle.getText())
             .to
             .eventually
