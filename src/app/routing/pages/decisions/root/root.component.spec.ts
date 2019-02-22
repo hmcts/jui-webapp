@@ -1,13 +1,13 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { CookieModule } from 'ngx-cookie';
-import { DecisionRootComponent } from './root.component';
-import { RouterTestingModule } from '@angular/router/testing';
-import { DomainModule } from '../../../../domain/domain.module';
-import { SharedModule } from '../../../../shared/shared.module';
-import { Observable } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-import { GovukModule } from '../../../../govuk/govuk.module';
-import { HmctsModule } from '../../../../hmcts/hmcts.module';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+
+import {DecisionRootComponent} from './root.component';
+import {RouterTestingModule} from '@angular/router/testing';
+import {DomainModule} from '../../../../domain/domain.module';
+import {SharedModule} from '../../../../shared/shared.module';
+import {Observable} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
+import {GovukModule} from '../../../../govuk/govuk.module';
+import {HmctsModule} from '../../../../hmcts/hmcts.module';
 
 describe('DecisionRootComponent', () => {
     let component: DecisionRootComponent;
@@ -19,7 +19,6 @@ describe('DecisionRootComponent', () => {
                 DecisionRootComponent
             ],
             imports: [
-                CookieModule.forRoot(),
                 DomainModule,
                 SharedModule,
                 RouterTestingModule,
@@ -29,15 +28,15 @@ describe('DecisionRootComponent', () => {
             providers: [
                 {
                     provide: ActivatedRoute, useValue: {
-                        params: Observable.of({ caseid: '1234' }),
+                        params: Observable.of({caseid: '1234'}),
                         snapshot: {
                             data: {
                                 caseData: {
                                     sections: [],
                                     details: {
                                         fields: [
-                                            { value: '123' },
-                                            { value: 'bob v bob' }
+                                            {value: '123'},
+                                            {value: 'bob v bob'}
                                         ]
                                     }
                                 }

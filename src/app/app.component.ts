@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { ConfigService } from './config.service';
-import { NavigationEnd, Router, Event } from '@angular/router';
+import {NavigationEnd, Router, Event} from '@angular/router';
 import { environment } from '../environments/environment';
 
 @Component({
@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
     title = 'JUI Web App';
     config; // TODO add type
 
-    constructor(private configService: ConfigService, private router: Router) { }
+    constructor(private configService: ConfigService, private router: Router) {}
 
     ngOnInit() {
         this.router.events.subscribe((event: Event) => {
@@ -69,16 +69,16 @@ export class AppComponent implements OnInit {
     }
 
     private getTitle(key): string {
-        const titleMapping: { [id: string]: string } = {
-            '/': 'Your cases - Judicial case manager',
-            'summary': 'Summary - Judicial case manager',
-            'parties': 'Parties - Judicial case manager',
-            'caseFile': 'Case File - Judicial case manager',
-            'timeline': 'Timeline - Judicial case manager',
-            'decision': 'Make decision - Judicial case manager',
-            'listOfHearing': 'List of hearing - Judicial case manager',
-        };
+       const titleMapping: {[id: string]: string} = {
+           '/' : 'Your cases - Judicial case manager',
+           'summary': 'Summary - Judicial case manager',
+           'parties': 'Parties - Judicial case manager',
+           'caseFile': 'Case File - Judicial case manager',
+           'timeline': 'Timeline - Judicial case manager',
+           'decision' : 'Make decision - Judicial case manager',
+           'listOfHearing': 'List of hearing - Judicial case manager',
+       };
 
-        return titleMapping[key];
+       return titleMapping[key];
     }
 }

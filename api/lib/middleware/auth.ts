@@ -27,7 +27,6 @@ export default (req, res, next) => {
         if (req.headers.ServiceAuthorization) {
             axios.defaults.headers.common.ServiceAuthorization = req.headers.ServiceAuthorization
         }
-        logger.info('Attached auth headers to request')
         next()
     }
 }
