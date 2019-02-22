@@ -760,7 +760,6 @@ describe('index', () => {
                         online_hearing_id: 1,
                     },
                 ],
-                status: 200,
             })
             stub2.resolves({questions: [{question_round: 1, current_question_state: {state_name: 'question_issued'}}]})
             await index.getRoundAndHalfAnswer(req, res)
