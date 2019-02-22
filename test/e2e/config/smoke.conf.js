@@ -52,7 +52,10 @@ const cap = (argv.local) ? localConfig : jenkinsConfig;
 const config = {
     framework: 'custom',
     frameworkPath: require.resolve('protractor-cucumber-framework'),
-    specs: ['../features/**/*.feature'],
+    //specs: ['../features/**/*.feature'],
+    specs: [
+        '../features/**/caseFile.feature'
+    ],
 
     baseUrl: process.env.TEST_URL || 'http://localhost:3000/',
     params: {
