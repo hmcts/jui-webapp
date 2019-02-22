@@ -56,7 +56,7 @@ const config = {
     specs: [
         '../features/**/caseFile.feature',
         '../features/**/login.feature',
-        '../features/**/dashboard.min.feature',
+        '../features/**/dashBoard.min.feature',
         '../features/**/makeDecision.feature',
         '../features/**/parties.feature',
         '../features/**/questions.feature',
