@@ -16,7 +16,7 @@ async function waitForElement(el) {
 
 defineSupportCode(function ({ Given, When, Then }) {
 
-    When(/^I will be redirected to the JUI dashboard page$/, async function () {
+    When(/^I will be redirected to the JUI dashboard page$/, { timeout: 600 * 1000 }, async function () {
         await waitForElement('govuk-heading-xl');
         await expect(dashBoardPage.dashboard_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.dashboard_header.getText())
@@ -57,7 +57,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     });
 
 
-    Then(/^I will be redirected to the Case Summary page for that case (.*)$/, async function (type) {
+    Then(/^I will be redirected to the Case Summary page for that case (.*)$/, { timeout: 600 * 1000 }, async function (type) {
         await waitForElement('jui-casebar');
 
         await expect(caseSummaryPage.case_header_text.getText()).to.eventually.equal('Summary');
