@@ -32,7 +32,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     });
 
 
-    Given(/^I am logged into JUI web app$/, async function () {
+    Given(/^I am logged into JUI web app$/, { timeout: 600 * 1000 }, async function () {
         await waitForElement('heading-large');
         await loginPage.emailAddress.sendKeys(this.config.username);
         await loginPage.password.sendKeys(this.config.password);
@@ -43,7 +43,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     });
 
 
-    When(/^I navigate to JUI Url$/, async function () {
+    When(/^I navigate to JUI Url$/, { timeout: 600 * 1000 }, async function () {
         await browser.get(config.config.baseUrl);
         await browser.driver.manage()
             .deleteAllCookies();
@@ -62,7 +62,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     });
 
 
-    Then(/^I am on Idam login page$/, async function () {
+    Then(/^I am on Idam login page$/, { timeout: 600 * 1000 }, async function () {
         await waitForElement('heading-large');
         await expect(loginPage.signinTitle.isDisplayed()).to.eventually.be.true;
         await expect(loginPage.signinTitle.getText())
