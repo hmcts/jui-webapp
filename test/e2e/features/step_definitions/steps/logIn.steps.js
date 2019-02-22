@@ -52,6 +52,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     });
 
     Then(/^I should see failure error summary$/, async function () {
+        await waitForElement('heading-large');
         await expect(loginPage.failure_error_heading.isDisplayed()).to.eventually.be.true;
         await expect(loginPage.failure_error_heading.getText())
             .to

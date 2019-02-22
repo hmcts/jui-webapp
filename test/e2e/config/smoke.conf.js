@@ -88,6 +88,7 @@ const config = {
         format: ['node_modules/cucumber-pretty', 'json:reports_json/results.json'],
         tags: ['@smoke'],
         require: [
+            '../support/timeout.js',
             '../support/world.js',
             '../support/*.js',
             '../features/step_definitions/**/*.steps.js'
