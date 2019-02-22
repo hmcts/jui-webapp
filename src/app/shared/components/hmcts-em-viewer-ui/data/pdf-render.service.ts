@@ -60,8 +60,6 @@ export class PdfRenderService {
         this.pdfWrapper.getDocument(renderOptions.documentId)
             .then(pdf => {
                 renderOptions.pdfDocument = pdf;
-                this.setRenderOptions(renderOptions);
-                
                 const viewer = this.viewerElementRef.nativeElement;
                 viewer.innerHTML = '';
                 this.pdfPages = pdf.pdfInfo.numPages;
@@ -77,7 +75,7 @@ export class PdfRenderService {
                         pageOptions.rotate = this.getPageRotation(renderOptions, pageOptions, pdfPage);
                         setTimeout(() => {
                             this.pdfAnnotateWrapper.renderPage(i, pageOptions).then(() => {
-                                if (i === this.pdfPages - 1) {
+                                if (i === this.pdfPages) {
                                     this.setRenderOptions(renderOptions);
                                     this.dataLoadedUpdate(true);
                                     this.listPagesSubject.next(this.listPages);
