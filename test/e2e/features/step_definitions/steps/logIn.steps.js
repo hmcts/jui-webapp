@@ -63,6 +63,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
     Then(/^I am on Idam login page$/, async function () {
+        await waitForElement('heading-large');
         await expect(loginPage.signinTitle.isDisplayed()).to.eventually.be.true;
         await expect(loginPage.signinTitle.getText())
             .to
