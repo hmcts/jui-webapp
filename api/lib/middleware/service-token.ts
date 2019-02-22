@@ -10,11 +10,8 @@ const _cache = {}
 const microservice = config.microservice
 
 function validateCache() {
-    logger.info('validaing s2s cache')
     const currentTime = Math.floor(Date.now() / 1000)
-    if (!_cache[microservice]) {
-        return false
-    }
+    if (!_cache[microservice]) return false
     return currentTime < _cache[microservice].expiresAt
 }
 
@@ -23,7 +20,6 @@ function getToken() {
 }
 
 async function generateToken() {
-    logger.info('Getting new s2s token')
     const token = await postS2SLease()
 
     const tokenData: any = jwtDecode(token)
@@ -38,7 +34,6 @@ async function generateToken() {
 
 async function serviceTokenGenerator() {
     if (validateCache()) {
-        logger.info('Getting cached s2s token')
         const tokenData = getToken()
         return tokenData.token
     } else {
@@ -49,7 +44,6 @@ async function serviceTokenGenerator() {
 export default async (req, res, next) => {
     const token = await asyncReturnOrError(serviceTokenGenerator(), 'Error getting s2s token', res, logger)
     if (token) {
-        logger.info('Attaching s2s token')
         req.headers.ServiceAuthorization = token
         next()
     }
