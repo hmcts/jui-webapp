@@ -7,6 +7,7 @@ import * as sinonChai from 'sinon-chai'
 chai.use(sinonChai)
 
 import * as util from '../../lib/util'
+import * as headerUtilities from '../../lib/utilities/headerUtilities'
 import * as cohCor from '../../services/cohQA'
 import * as index from './index'
 
@@ -150,7 +151,8 @@ describe('index', () => {
                             deadline_extension_count: 0,
                             id: 1,
                             question_round_number: 2,
-                            question_round_state: 1,                        },
+                            question_round_state: 1,
+                        },
                         {
                             current_question_state: {
                                 state_name: 'question_answered',
@@ -226,6 +228,140 @@ describe('index', () => {
             expect(result).to.eql(666)
             expect(stub).to.be.called
             stub.restore()
+        })
+    })
+    describe('questionHandler', () => {
+        it('should call stubbed functions', async () => {
+            const req = {
+                auth: {
+                    token: 0,
+                },
+                headers: {
+                    ServiceAuthorization: 1,
+                },
+                params: {
+                    case_id: 1,
+                    question_id: 2,
+                }
+            }
+
+            const res = {
+                end: function () {
+                },
+                status: function (s) {
+                    return this
+                },
+                send: x => x,
+                setHeader: () => false,
+            }
+            const stub = sinon.stub(headerUtilities, 'getAuthHeaders')
+            const stub2 = sinon.stub(cohCor, 'getHearingByCase')
+            const stub3 = sinon.stub(cohCor, 'getQuestion')
+            stub.returns({1: 1})
+            stub2.resolves({
+                online_hearings: [
+                    {
+                        online_hearing_id: 1,
+                    },
+                ],
+                status: 200,
+            })
+            stub3.returns(
+                {
+                    current_question_state: {
+                        state_datetime: 123,
+                        state_name: 1,
+                    },
+                    owner_reference: 0,
+                    question_body_text: 3,
+                    question_header_text: 2,
+                    question_id: 1,
+                    question_round: 1,
+                })
+            const stub4 = sinon.stub(cohCor, 'getAnswers')
+            const stub5 = sinon.stub(util, 'judgeLookUp')
+            stub4.returns(4)
+            stub5.returns(5)
+            await index.questionHandler(req, res)
+            expect(stub).to.be.called
+            expect(stub2).to.be.called
+            expect(stub3).to.be.called
+            expect(stub4).to.be.called
+            stub.restore()
+            stub2.restore()
+            stub3.restore()
+            stub4.restore()
+            stub5.restore()
+        })
+    })
+    describe('questionsHandler', () => {
+        it('should call stubbed functions', async () => {
+            const req = {
+                auth: {
+                    token: 0,
+                },
+                headers: {
+                    ServiceAuthorization: 1,
+                },
+                params: {
+                    case_id: 1,
+                    question_id: 2,
+                },
+            }
+            const res = {
+                end: function () {
+                },
+                status: function (s) {
+                    return this
+                },
+                send: x => x,
+                setHeader: () => false,
+            }
+            const stub1 = sinon.stub(cohCor, 'getHearingByCase')
+            const stub2 = sinon.stub(cohCor, 'getAllRounds')
+            stub1.resolves({
+                online_hearings: [
+                    {
+                        online_hearing_id: 1,
+                    },
+                ],
+                status: 200,
+            })
+            stub2.returns(
+                {
+                    current_question_state: {
+                        state_datetime: 123,
+                        state_name: 1,
+                    },
+                    owner_reference: 0,
+                    question_body_text: 3,
+                    question_header_text: 2,
+                    question_id: 1,
+                    question_round: 1,
+                    question_rounds: [
+                        {
+                            deadline_extension_count: 0,
+                            question_references: [{
+                                current_question_state: {
+                                    state_name: 'question_answered'
+                                },
+                                deadline_expiry_date: 1550830278,
+                            }],
+                            question_round_number: 1,
+                            question_round_state: {
+                                state_name: 'question_answered',
+                            },
+                        },
+                    ],
+                })
+            const stub3 = sinon.stub(util, 'judgeLookUp')
+            stub3.returns(5)
+            await index.questionsHandler(req, res)
+            expect(stub1).to.be.called
+            expect(stub2).to.be.called
+            stub1.restore()
+            stub2.restore()
+            stub3.restore()
         })
     })
 })
