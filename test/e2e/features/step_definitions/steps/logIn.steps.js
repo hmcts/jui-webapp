@@ -3,7 +3,7 @@
 const loginPage = require('../../pages/loginPage');
 const dashBoardPage = require('../../pages/dashBoardPage');
 const { defineSupportCode } = require('cucumber');
-const { SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../../support/constants');
+const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../../support/constants');
 
 const config = require('../../../config/conf.js');
 const EC = protractor.ExpectedConditions;
@@ -29,7 +29,6 @@ defineSupportCode(function ({ Given, When, Then }) {
             return $(this.getSelector('jui-header'))
                 .isPresent();
         }, LONG_DELAY);
-
     });
 
 
@@ -39,7 +38,7 @@ defineSupportCode(function ({ Given, When, Then }) {
         await loginPage.password.sendKeys(this.config.password);
         browser.sleep(LONG_DELAY);
         await loginPage.signinBtn.click();
-        browser.sleep(AMAZING_DELAY);
+        //  browser.sleep(AMAZING_DELAY);
 
     });
 
@@ -63,7 +62,6 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
     Then(/^I am on Idam login page$/, async function () {
-        await waitForElement('heading-large');
         await expect(loginPage.signinTitle.isDisplayed()).to.eventually.be.true;
         await expect(loginPage.signinTitle.getText())
             .to
@@ -93,7 +91,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
     Given(/^I should be redirected to the Idam login page$/, async function () {
-        await waitForElement('heading-large');
+        browser.sleep(MID_DELAY);
         await expect(loginPage.signinTitle.getText())
             .to
             .eventually

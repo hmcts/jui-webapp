@@ -7,7 +7,7 @@
     "build": "tsc &&  npm run copy",
     "copy": "cp lib/config/refJudgeLookUp.crypt ../dist/jui-backend/api/lib/config",
     "coverage": "npx nyc mocha",
-    "watch": "nodemon --watch '**/*.ts' --exec 'ts-node' ../dev-server.ts",
+    "watch": "nodemon --watch '**/*.ts' --exec 'ts-node' ../local.ts",
     "test": "mocha",
     "test:watch": "mocha --watch --recursive --watch-extensions ts",
     "start": "cd ../dist/jui-backend && node server.js"

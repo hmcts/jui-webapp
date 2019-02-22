@@ -4,7 +4,7 @@ const dashBoardPage = require('../../pages/dashBoardPage');
 const caseSummaryPage = require('../../pages/caseSummaryPage');
 const caseFilePage = require('../../pages/caseFilePage');
 const { defineSupportCode } = require('cucumber');
-const { SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../../support/constants');
+const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../../support/constants');
 
 const EC = protractor.ExpectedConditions;
 
@@ -119,6 +119,7 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
     Then(/^I should see table header columns$/, async function () {
+        await waitForElement('govuk-table__cell');
         await dashBoardPage.table.isDisplayed();
         await expect(dashBoardPage.table_column_header.isDisplayed()).to.eventually.be.true;
 
