@@ -174,6 +174,179 @@ export function questionsHandler(req, res) {
         })
 }
 
+export function postQuestionsHandler(req, res) {
+    const caseId = req.params.case_id
+
+    return cohCor
+        .getHearingByCase(caseId)
+        .then(hearing =>
+            hearing.online_hearings[0]
+                ? hearing.online_hearings[0].online_hearing_id
+                : cohCor.createHearing(caseId)
+        )
+        .then(hearingId => cohCor.postQuestion(hearingId, formatQuestion(req.body, req.session.user.email)))
+        .then(response => {
+            res.setHeader('Access-Control-Allow-Origin', '*')
+            res.setHeader('content-type', 'application/json')
+            res.status(201).send(JSON.stringify(response))
+        })
+        .catch(response => {
+            console.log(response.error || response)
+            res.status(response.error.status).send(response.error.message)
+        })
+}
+
+export function putQuestionsHandler(req, res) {
+    const caseId = req.params.case_id
+    const questionId = req.params.question_id
+
+    return cohCor
+        .getHearingByCase(caseId)
+        .then(hearing => hearing.online_hearings[0].online_hearing_id)
+        .then(hearingId => cohCor.putQuestion(hearingId, questionId, formatQuestion(req.body, req.session.user.email)))
+        .then(response => {
+            res.setHeader('Access-Control-Allow-Origin', '*')
+            res.status(200).send(JSON.stringify(response))
+        })
+        .catch(response => {
+            console.log(response.error || response)
+            res.status(response.error.status).send(response.error.message)
+        })
+}
+
+export function deleteQuestionsHandler(req, res) {
+    const caseId = req.params.case_id
+    const questionId = req.params.question_id
+
+    return cohCor
+        .getHearingByCase(caseId)
+        .then(hearing => hearing.online_hearings[0].online_hearing_id)
+        .then(hearingId => cohCor.deleteQuestion(hearingId, questionId))
+        .then(response => {
+            res.setHeader('Access-Control-Allow-Origin', '*')
+            res.status(200).send(JSON.stringify(response))
+        })
+        .catch(response => {
+            console.log(response.error || response)
+            res.status(response.error.status).send(response.error.message)
+        })
+}
+
+export function putRounds(req, res) {
+    const caseId = req.params.case_id
+    const roundId = req.params.round_id
+    const options = getOptions(req)
+
+    return cohCor
+        .getHearingByCase(caseId)
+        .then(hearing => hearing.online_hearings[0].online_hearing_id)
+        .then(hearingId => updateRoundToIssued(hearingId, roundId, options))
+        .then(response => {
+            res.setHeader('Access-Control-Allow-Origin', '*')
+            res.status(200).send(JSON.stringify(response))
+        })
+        .catch(response => {
+            console.log(response.error || response)
+            res.status(response.error.status).send(response.error.message)
+        })
+}
+
+export function getRounds(req, res) {
+    const caseId = req.params.case_id
+    const options = getOptions(req)
+
+    return cohCor
+        .getHearingByCase(caseId)
+        .then(hearing => hearing.online_hearings[0].online_hearing_id)
+        .then(hearingId => cohCor.getAllRounds(hearingId))
+        .then(response => {
+            res.setHeader('Access-Control-Allow-Origin', '*')
+            res.setHeader('content-type', 'application/json')
+            res.status(200).send(JSON.stringify(response))
+        })
+        .catch(response => {
+            console.log(response.error || response)
+            res.status(response.error.status).send(response.error.message)
+        })
+}
+
+export function getRoundById(req, res) {
+    const caseId = req.params.case_id
+    const roundId = req.params.round_id
+
+    return cohCor
+        .getHearingByCase(caseId)
+        .then(hearing => hearing.online_hearings[0].online_hearing_id)
+        .then(hearingId => cohCor.getRound(hearingId, roundId))
+        .then(response => {
+            res.setHeader('Access-Control-Allow-Origin', '*')
+            res.setHeader('content-type', 'application/json')
+            res.status(200).send(JSON.stringify(response))
+        })
+        .catch(response => {
+            console.log(response.error || response)
+            res.status(response.error.status).send(response.error.message)
+        })
+}
+
+export function getRoundAndAnswer(req, res) {
+    const caseId = req.params.case_id
+    const roundId = req.params.round_id
+
+    return cohCor
+        .getHearingByCase(caseId)
+        .then(hearing => hearing.online_hearings[0].online_hearing_id)
+        .then(hearingId =>
+            cohCor
+                .getQuestions(hearingId)
+                .then(questions =>
+                    questions.questions
+                        .filter(q => q.question_round === roundId)
+                        .filter(q => q.current_question_state.state_name === 'question_issued')
+                        .map(q => q.question_id)
+                )
+                .then(questionIds => answerAllQuestions(hearingId, questionIds))
+                .then(response => {
+                    res.setHeader('Access-Control-Allow-Origin', '*')
+                    res.setHeader('content-type', 'application/json')
+                    res.status(200).send(JSON.stringify(response))
+                })
+                .catch(response => {
+                    console.log(response.error || response)
+                    res.status(response.error.status).send(response.error.message)
+                })
+        )
+}
+
+export function getRoundAndHalfAnswer(req, res) {
+    const caseId = req.params.case_id
+    const roundId = req.params.round_id
+
+    return cohCor
+        .getHearingByCase(caseId)
+        .then(hearing => hearing.online_hearings[0].online_hearing_id)
+        .then(hearingId =>
+            cohCor
+                .getQuestions(hearingId)
+                .then(questions =>
+                    questions.questions
+                        .filter(q => q.question_round === roundId)
+                        .filter(q => q.current_question_state.state_name === 'question_issued')
+                        .map(q => q.question_id)
+                )
+                .then(questionIds => answerAllQuestions(hearingId, questionIds))
+                .then(response => {
+                    res.setHeader('Access-Control-Allow-Origin', '*')
+                    res.setHeader('content-type', 'application/json')
+                    res.status(200).send(JSON.stringify(response))
+                })
+                .catch(response => {
+                    console.log(response.error || response)
+                    res.status(response.error.status).send(response.error.message)
+                })
+        )
+}
+
 module.exports = app => {
 // export defaults function(app) {
     const route = express.Router({mergeParams: true})
@@ -186,189 +359,48 @@ module.exports = app => {
     })
 
     // GET ALL Questions
-    route.get('/:case_id/questions', (req: any, res, next) => {
-        questionsHandler(req, res)
+    route.get('/:case_id/questions', async (req: any, res, next) => {
+        await questionsHandler(req, res)
     })
 
     // CREATE Question
-    route.post('/:case_id/questions', (req: any, res, next) => {
-        const caseId = req.params.case_id
-
-        return cohCor
-            .getHearingByCase(caseId)
-            .then(hearing =>
-                hearing.online_hearings[0]
-                    ? hearing.online_hearings[0].online_hearing_id
-                    : cohCor.createHearing(caseId)
-            )
-            .then(hearingId => cohCor.postQuestion(hearingId, formatQuestion(req.body, req.session.user.email)))
-            .then(response => {
-                res.setHeader('Access-Control-Allow-Origin', '*')
-                res.setHeader('content-type', 'application/json')
-                res.status(201).send(JSON.stringify(response))
-            })
-            .catch(response => {
-                console.log(response.error || response)
-                res.status(response.error.status).send(response.error.message)
-            })
+    route.post('/:case_id/questions', async (req: any, res, next) => {
+        await postQuestionsHandler(req, res)
     })
 
     // UPDATE Question
-    route.put('/:case_id/questions/:question_id', (req: any, res, next) => {
-        const caseId = req.params.case_id
-        const questionId = req.params.question_id
-
-        return cohCor
-            .getHearingByCase(caseId)
-            .then(hearing => hearing.online_hearings[0].online_hearing_id)
-            .then(hearingId => cohCor.putQuestion(hearingId, questionId, formatQuestion(req.body, req.session.user.email)))
-            .then(response => {
-                res.setHeader('Access-Control-Allow-Origin', '*')
-                res.status(200).send(JSON.stringify(response))
-            })
-            .catch(response => {
-                console.log(response.error || response)
-                res.status(response.error.status).send(response.error.message)
-            })
+    route.put('/:case_id/questions/:question_id', async (req: any, res, next) => {
+        await putQuestionsHandler(req, res)
     })
 
     // DELETE A Question
-    route.delete('/:case_id/questions/:question_id', (req, res, next) => {
-        const caseId = req.params.case_id
-        const questionId = req.params.question_id
-
-        return cohCor
-            .getHearingByCase(caseId)
-            .then(hearing => hearing.online_hearings[0].online_hearing_id)
-            .then(hearingId => cohCor.deleteQuestion(hearingId, questionId))
-            .then(response => {
-                res.setHeader('Access-Control-Allow-Origin', '*')
-                res.status(200).send(JSON.stringify(response))
-            })
-            .catch(response => {
-                console.log(response.error || response)
-                res.status(response.error.status).send(response.error.message)
-            })
+    route.delete('/:case_id/questions/:question_id', async (req, res, next) => {
+        await deleteQuestionsHandler(req, res)
     })
 
     // Submit Round
-    route.put('/:case_id/rounds/:round_id', (req, res, next) => {
-        const caseId = req.params.case_id
-        const roundId = req.params.round_id
-        const options = getOptions(req)
-
-        return cohCor
-            .getHearingByCase(caseId)
-            .then(hearing => hearing.online_hearings[0].online_hearing_id)
-            .then(hearingId => updateRoundToIssued(hearingId, roundId, options))
-            .then(response => {
-                res.setHeader('Access-Control-Allow-Origin', '*')
-                res.status(200).send(JSON.stringify(response))
-            })
-            .catch(response => {
-                console.log(response.error || response)
-                res.status(response.error.status).send(response.error.message)
-            })
+    route.put('/:case_id/rounds/:round_id', async (req, res, next) => {
+        await putRounds(req, res)
     })
 
     // Get a question round
 
-    route.get('/:case_id/rounds', (req, res, next) => {
-        const caseId = req.params.case_id
-        const options = getOptions(req)
-
-        return cohCor
-            .getHearingByCase(caseId)
-            .then(hearing => hearing.online_hearings[0].online_hearing_id)
-            .then(hearingId => cohCor.getAllRounds(hearingId))
-            .then(response => {
-                res.setHeader('Access-Control-Allow-Origin', '*')
-                res.setHeader('content-type', 'application/json')
-                res.status(200).send(JSON.stringify(response))
-            })
-            .catch(response => {
-                console.log(response.error || response)
-                res.status(response.error.status).send(response.error.message)
-            })
+    route.get('/:case_id/rounds', async (req, res, next) => {
+        await getRounds(req, res)
     })
 
-    route.get('/:case_id/rounds/:round_id', (req, res, next) => {
-        const caseId = req.params.case_id
-        const roundId = req.params.round_id
-
-        return cohCor
-            .getHearingByCase(caseId)
-            .then(hearing => hearing.online_hearings[0].online_hearing_id)
-            .then(hearingId => cohCor.getRound(hearingId, roundId))
-            .then(response => {
-                res.setHeader('Access-Control-Allow-Origin', '*')
-                res.setHeader('content-type', 'application/json')
-                res.status(200).send(JSON.stringify(response))
-            })
-            .catch(response => {
-                console.log(response.error || response)
-                res.status(response.error.status).send(response.error.message)
-            })
+    route.get('/:case_id/rounds/:round_id', async (req, res, next) => {
+        await getRoundById(req, res)
     })
 
     // Get a question round and answer
-    route.get('/:case_id/rounds/:round_id/answer', (req, res, next) => {
-        const caseId = req.params.case_id
-        const roundId = req.params.round_id
-
-        return cohCor
-            .getHearingByCase(caseId)
-            .then(hearing => hearing.online_hearings[0].online_hearing_id)
-            .then(hearingId =>
-                cohCor
-                    .getQuestions(hearingId)
-                    .then(questions =>
-                        questions.questions
-                            .filter(q => q.question_round === roundId)
-                            .filter(q => q.current_question_state.state_name === 'question_issued')
-                            .map(q => q.question_id)
-                    )
-                    .then(questionIds => answerAllQuestions(hearingId, questionIds))
-                    .then(response => {
-                        res.setHeader('Access-Control-Allow-Origin', '*')
-                        res.setHeader('content-type', 'application/json')
-                        res.status(200).send(JSON.stringify(response))
-                    })
-                    .catch(response => {
-                        console.log(response.error || response)
-                        res.status(response.error.status).send(response.error.message)
-                    })
-            )
+    route.get('/:case_id/rounds/:round_id/answer', async (req, res, next) => {
+        await getRoundAndAnswer(req, res)
     })
 
     // Get a question round and answer half
-    route.get('/:case_id/rounds/:round_id/answerhalf', (req, res, next) => {
-        const caseId = req.params.case_id
-        const roundId = req.params.round_id
-
-        return cohCor
-            .getHearingByCase(caseId)
-            .then(hearing => hearing.online_hearings[0].online_hearing_id)
-            .then(hearingId =>
-                cohCor
-                    .getQuestions(hearingId)
-                    .then(questions =>
-                        questions.questions
-                            .filter(q => q.question_round === roundId)
-                            .filter(q => q.current_question_state.state_name === 'question_issued')
-                            .map(q => q.question_id)
-                    )
-                    .then(questionIds => answerAllQuestions(hearingId, questionIds))
-                    .then(response => {
-                        res.setHeader('Access-Control-Allow-Origin', '*')
-                        res.setHeader('content-type', 'application/json')
-                        res.status(200).send(JSON.stringify(response))
-                    })
-                    .catch(response => {
-                        console.log(response.error || response)
-                        res.status(response.error.status).send(response.error.message)
-                    })
-            )
+    route.get('/:case_id/rounds/:round_id/answerhalf', async (req, res, next) => {
+        await getRoundAndHalfAnswer(req, res)
     })
 }
 
@@ -388,3 +420,11 @@ module.exports.updateRoundToIssued = updateRoundToIssued
 //Route handlers
 module.exports.questionHandler = questionHandler
 module.exports.questionsHandler = questionsHandler
+module.exports.postQuestionsHandler = postQuestionsHandler
+module.exports.putQuestionsHandler = putQuestionsHandler
+module.exports.deleteQuestionsHandler = deleteQuestionsHandler
+module.exports.putRounds = putRounds
+module.exports.getRounds = getRounds
+module.exports.getRoundById = getRoundById
+module.exports.getRoundAndAnswer = getRoundAndAnswer
+module.exports.getRoundAndHalfAnswer = getRoundAndHalfAnswer

@@ -10,6 +10,8 @@ import * as util from '../../lib/util'
 import * as headerUtilities from '../../lib/utilities/headerUtilities'
 import * as cohCor from '../../services/cohQA'
 import * as index from './index'
+import {getRoundAndAnswer} from './index'
+import {getRoundAndHalfAnswer} from './index'
 
 describe('index', () => {
     describe('formatQuestion', () => {
@@ -362,6 +364,410 @@ describe('index', () => {
             stub1.restore()
             stub2.restore()
             stub3.restore()
+        })
+    })
+    describe('postQuestionsHandler', () => {
+        it('should call stubbed functions', async () => {
+            const req = {
+                auth: {
+                    token: 0,
+                },
+                body: {}
+                ,
+                headers: {
+                    ServiceAuthorization: 1,
+                },
+                params: {
+                    case_id: 1,
+                    question_id: 2,
+                },
+                session: {
+                    user: {
+                        email: 'a@a.com',
+                    },
+                },
+            }
+            const res = {
+                end: function () {
+                },
+                status: function (s) {
+                    return this
+                },
+                send: x => x,
+                setHeader: () => false,
+            }
+            const stub1 = sinon.stub(cohCor, 'getHearingByCase')
+            const stub2 = sinon.stub(cohCor, 'createHearing')
+            stub1.resolves({
+                online_hearings: [
+                    {
+                        online_hearing_id: 1,
+                    },
+                ],
+                status: 200,
+            })
+            stub2.returns({})
+            const stub3 = sinon.stub(cohCor, 'postQuestion')
+            stub3.returns({})
+            stub3.returns(5)
+            await index.postQuestionsHandler(req, res)
+            expect(stub1).to.be.called
+            expect(stub3).to.be.called
+            stub1.restore()
+            stub2.restore()
+            stub3.restore()
+        })
+    })
+    describe('putQuestionsHandler', () => {
+        it('should call stubbed functions', async () => {
+            const req = {
+                auth: {
+                    token: 0,
+                },
+                body: {}
+                ,
+                headers: {
+                    ServiceAuthorization: 1,
+                },
+                params: {
+                    case_id: 1,
+                    question_id: 2,
+                },
+                session: {
+                    user: {
+                        email: 'a@a.com',
+                    },
+                },
+            }
+            const res = {
+                end: function () {
+                },
+                status: function (s) {
+                    return this
+                },
+                send: x => x,
+                setHeader: () => false,
+            }
+            const stub1 = sinon.stub(cohCor, 'getHearingByCase')
+            const stub2 = sinon.stub(cohCor, 'createHearing')
+            stub1.resolves({
+                online_hearings: [
+                    {
+                        online_hearing_id: 1,
+                    },
+                ],
+                status: 200,
+            })
+            stub2.returns({})
+            const stub3 = sinon.stub(cohCor, 'putQuestion')
+            stub3.returns({})
+            stub3.returns(5)
+            await index.putQuestionsHandler(req, res)
+            expect(stub1).to.be.called
+            expect(stub3).to.be.called
+            stub1.restore()
+            stub2.restore()
+            stub3.restore()
+        })
+    })
+    describe('deleteQuestionsHandler', () => {
+        it('should call stubbed functions', async () => {
+            const req = {
+                auth: {
+                    token: 0,
+                },
+                body: {}
+                ,
+                headers: {
+                    ServiceAuthorization: 1,
+                },
+                params: {
+                    case_id: 1,
+                    question_id: 2,
+                },
+                session: {
+                    user: {
+                        email: 'a@a.com',
+                    },
+                },
+            }
+            const res = {
+                end: function () {
+                },
+                status: function (s) {
+                    return this
+                },
+                send: x => x,
+                setHeader: () => false,
+            }
+            const stub1 = sinon.stub(cohCor, 'getHearingByCase')
+            const stub2 = sinon.stub(cohCor, 'createHearing')
+            stub1.resolves({
+                online_hearings: [
+                    {
+                        online_hearing_id: 1,
+                    },
+                ],
+                status: 200,
+            })
+            stub2.returns({})
+            const stub3 = sinon.stub(cohCor, 'deleteQuestion')
+            stub3.returns({})
+            stub3.returns(5)
+            await index.deleteQuestionsHandler(req, res)
+            expect(stub1).to.be.called
+            expect(stub3).to.be.called
+            stub1.restore()
+            stub2.restore()
+            stub3.restore()
+        })
+    })
+    describe('putRounds', () => {
+        it('should call stubbed functions', async () => {
+            const req = {
+                auth: {
+                    token: 0,
+                },
+                body: {}
+                ,
+                headers: {
+                    ServiceAuthorization: 1,
+                },
+                params: {
+                    case_id: 1,
+                    question_id: 2,
+                },
+                session: {
+                    user: {
+                        email: 'a@a.com',
+                    },
+                },
+            }
+            const res = {
+                end: function () {
+                },
+                status: function (s) {
+                    return this
+                },
+                send: x => x,
+                setHeader: () => false,
+            }
+            const stub1 = sinon.stub(cohCor, 'getHearingByCase')
+            const stub2 = sinon.stub(cohCor, 'createHearing')
+            stub1.resolves({
+                online_hearings: [
+                    {
+                        online_hearing_id: 1,
+                    },
+                ],
+                status: 200,
+            })
+            stub2.returns({})
+            const stub3 = sinon.stub(cohCor, 'putRound')
+            stub3.returns({})
+            stub3.returns(5)
+            await index.putRounds(req, res)
+            expect(stub1).to.be.called
+            expect(stub3).to.be.called
+            stub1.restore()
+            stub2.restore()
+            stub3.restore()
+        })
+    })
+    describe('getRounds', () => {
+        it('should call stubbed functions', async () => {
+            const req = {
+                auth: {
+                    token: 0,
+                },
+                body: {}
+                ,
+                headers: {
+                    ServiceAuthorization: 1,
+                },
+                params: {
+                    case_id: 1,
+                    question_id: 2,
+                },
+                session: {
+                    user: {
+                        email: 'a@a.com',
+                    },
+                },
+            }
+            const res = {
+                end: function () {
+                },
+                status: function (s) {
+                    return this
+                },
+                send: x => x,
+                setHeader: () => false,
+            }
+            const stub1 = sinon.stub(cohCor, 'getHearingByCase')
+            const stub2 = sinon.stub(cohCor, 'putRound')
+            stub1.resolves({
+                online_hearings: [
+                    {
+                        online_hearing_id: 1,
+                    },
+                ],
+                status: 200,
+            })
+            stub2.returns({})
+            const stub3 = sinon.stub(cohCor, 'getAllRounds')
+            stub3.returns({})
+            stub3.returns(5)
+            await index.getRounds(req, res)
+            expect(stub1).to.be.called
+            expect(stub3).to.be.called
+            stub1.restore()
+            stub2.restore()
+            stub3.restore()
+        })
+    })
+    describe('getRoundById', () => {
+        it('should call stubbed functions', async () => {
+            const req = {
+                auth: {
+                    token: 0,
+                },
+                body: {}
+                ,
+                headers: {
+                    ServiceAuthorization: 1,
+                },
+                params: {
+                    case_id: 1,
+                    question_id: 2,
+                },
+                session: {
+                    user: {
+                        email: 'a@a.com',
+                    },
+                },
+            }
+            const res = {
+                end: function () {
+                },
+                status: function (s) {
+                    return this
+                },
+                send: x => x,
+                setHeader: () => false,
+            }
+            const stub1 = sinon.stub(cohCor, 'getHearingByCase')
+            const stub2 = sinon.stub(cohCor, 'getRound')
+            stub1.resolves({
+                online_hearings: [
+                    {
+                        online_hearing_id: 1,
+                    },
+                ],
+                status: 200,
+            })
+            stub2.returns({})
+            await index.getRoundById(req, res)
+            expect(stub1).to.be.called
+            expect(stub2).to.be.called
+            stub1.restore()
+            stub2.restore()
+        })
+    })
+    describe('getRoundAndAnswer', () => {
+        it('should call stubbed functions', async () => {
+            const req = {
+                auth: {
+                    token: 0,
+                },
+                body: {}
+                ,
+                headers: {
+                    ServiceAuthorization: 1,
+                },
+                params: {
+                    case_id: 1,
+                    question_id: 2,
+                },
+                session: {
+                    user: {
+                        email: 'a@a.com',
+                    },
+                },
+            }
+            const res = {
+                end: function () {
+                },
+                status: function (s) {
+                    return this
+                },
+                send: x => x,
+                setHeader: () => false,
+            }
+            const stub1 = sinon.stub(cohCor, 'getHearingByCase')
+            const stub2 = sinon.stub(cohCor, 'getQuestions')
+            stub1.resolves({
+                online_hearings: [
+                    {
+                        online_hearing_id: 1,
+                    },
+                ],
+                status: 200,
+            })
+            stub2.resolves({questions: [{question_round: 1, current_question_state: {state_name: 'question_issued'}}]})
+            await index.getRoundAndAnswer(req, res)
+            expect(stub1).to.be.called
+            expect(stub2).to.be.called
+            stub1.restore()
+            stub2.restore()
+        })
+    })
+    describe('getRoundAndHalfAnswer', () => {
+        it('should call stubbed functions', async () => {
+            const req = {
+                auth: {
+                    token: 0,
+                },
+                body: {}
+                ,
+                headers: {
+                    ServiceAuthorization: 1,
+                },
+                params: {
+                    case_id: 1,
+                    question_id: 2,
+                },
+                session: {
+                    user: {
+                        email: 'a@a.com',
+                    },
+                },
+            }
+            const res = {
+                end: function () {
+                },
+                status: function (s) {
+                    return this
+                },
+                send: x => x,
+                setHeader: () => false,
+            }
+            const stub1 = sinon.stub(cohCor, 'getHearingByCase')
+            const stub2 = sinon.stub(cohCor, 'getQuestions')
+            stub1.resolves({
+                online_hearings: [
+                    {
+                        online_hearing_id: 1,
+                    },
+                ],
+                status: 200,
+            })
+            stub2.resolves({questions: [{question_round: 1, current_question_state: {state_name: 'question_issued'}}]})
+            await index.getRoundAndHalfAnswer(req, res)
+            expect(stub1).to.be.called
+            expect(stub2).to.be.called
+            stub1.restore()
+            stub2.restore()
         })
     })
 })
