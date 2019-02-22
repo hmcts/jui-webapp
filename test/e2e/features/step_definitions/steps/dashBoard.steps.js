@@ -14,9 +14,11 @@ async function waitForElement(el) {
     }, 600000);
 }
 
+const timeout = { timeout: 600 * 1000 };
+
 defineSupportCode(function ({ Given, When, Then }) {
 
-    When(/^I will be redirected to the JUI dashboard page$/, { timeout: 600 * 1000 }, async function () {
+    When(/^I will be redirected to the JUI dashboard page$/, timeout, async function () {
         await waitForElement('govuk-heading-xl');
         await expect(dashBoardPage.dashboard_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.dashboard_header.getText())
@@ -25,7 +27,7 @@ defineSupportCode(function ({ Given, When, Then }) {
             .equal('Your cases');
     });
 
-    When(/^I select a case(.*)$/, async function (type) {
+    When(/^I select a case(.*)$/, timeout, async function (type) {
         await waitForElement('govuk-table__cell');
         await browser.wait(EC.elementToBeClickable(dashBoardPage.case_number_links.first().click()), 15000);
         //await dashBoardPage.case_number_links.click();
@@ -56,7 +58,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     });
 
 
-    Then(/^I will be redirected to the Case Summary page for that case (.*)$/, { timeout: 600 * 1000 }, async function (type) {
+    Then(/^I will be redirected to the Case Summary page for that case (.*)$/, timeout, async function (type) {
         await waitForElement('jui-casebar');
 
         await expect(caseSummaryPage.case_header_text.getText()).to.eventually.equal('Summary');

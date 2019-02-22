@@ -38,7 +38,7 @@ defineSupportCode(function ({ Given, When, Then }) {
         await loginPage.password.sendKeys(this.config.password);
         browser.sleep(LONG_DELAY);
         await loginPage.signinBtn.click();
-        //  browser.sleep(AMAZING_DELAY);
+        browser.sleep(LONG_DELAY);
 
     });
 
