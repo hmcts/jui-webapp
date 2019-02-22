@@ -11,7 +11,7 @@ const EC = protractor.ExpectedConditions;
 async function waitForElement(el) {
     await browser.wait(result => {
         return element(by.className(el)).isPresent();
-    }, 60000);
+    }, 100000);
 }
 
 defineSupportCode(function ({ Given, When, Then }) {
