@@ -32,7 +32,6 @@ defineSupportCode(function ({ Given, When, Then }) {
 
     });
 
-
     When(/^one or more cases (.*) are displayed$/, async function (type) {
         await waitForElement('govuk-table__cell');
         var no_of_types = dashBoardPage.type_links.count()
