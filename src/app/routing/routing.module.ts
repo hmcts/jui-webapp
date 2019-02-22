@@ -36,7 +36,6 @@ import { TaskListComponent } from './pages/generic-page/task-list/task-list.comp
 import { TermsAndConditionsComponent } from './pages/generic-page/terms-and-conditions/terms-and-conditions.component';
 import { CookiesComponent } from './pages/generic-page/cookies/cookies.component';
 import { PrivacyPolicyComponent } from './pages/generic-page/privacy-policy/privacy-policy.component';
-import { DemoComponent } from './pages/generic-page/demo/demo.component';
 import { CaseDataService } from './pages/view-case/view-case.services';
 
 const routes: Routes = [
@@ -48,10 +47,6 @@ const routes: Routes = [
                 path: '',
                 component: DashboardComponent,
                 canActivate: [AuthGuardService],
-            },
-            {
-                path: 'demo',
-                component: DemoComponent,
             },
             {
                 path: 'terms-and-conditions',
@@ -186,7 +181,6 @@ const routes: Routes = [
         CreateHearingComponent,
         CheckHearingComponent,
         HearingConfirmationComponent,
-        DemoComponent,
         MakeDecisionComponent,
         DraftConsentOrderComponent,
         GenericPageComponent,
