@@ -1,17 +1,22 @@
 import axios from 'axios'
-const jwtDecode = require('jwt-decode')
+import * as jwtDecode from 'jwt-decode'
 import { config } from '../../../config'
+import * as auth from '../../controllers/auth'
+import * as log4jui from '../../lib/log4jui'
 
-module.exports = (req, res, next) => {
+const logger = log4jui.getLogger('auth')
+
+export default (req, res, next) => {
     const userId = req.headers[config.cookies.userId] || req.cookies[config.cookies.userId]
     const jwt = req.headers.authorization || req.cookies[config.cookies.token]
-    const jwtData = jwtDecode(jwt)
+    const jwtData: any = jwtDecode(jwt)
     const expires = new Date(jwtData.exp).getTime()
     const now = new Date().getTime() / 1000
     const expired = expires < now
-
     if (expired) {
-        res.status(401).send('Token expired!')
+        logger.warn('Auth token or user expired need to log in again')
+        auth.logout(req, res)
+
     } else {
         req.auth = jwtData
         req.auth.token = jwt

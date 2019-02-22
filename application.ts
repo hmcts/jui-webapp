@@ -1,5 +1,5 @@
 /*const healthcheck = require('@hmcts/nodejs-healthcheck');*/
-const { InfoContributor, infoRequestHandler } = require('@hmcts/info-provider');
+/*const { InfoContributor, infoRequestHandler } = require('@hmcts/info-provider');*/
 
 import * as express from 'express';
 import { config } from './config';
@@ -72,7 +72,7 @@ app.get(
     })
 );*/
 
-function infocheckConfig(msUrl) {
+/*function infocheckConfig(msUrl) {
     return new InfoContributor(`${msUrl}/info`);
 }
 
@@ -97,7 +97,7 @@ app.get(
             // hostname: hostname()
         }
     })
-);
+);*/
 
 app.get('/oauth2/callback', apiRoute);
 app.get('/logout', apiRoute);

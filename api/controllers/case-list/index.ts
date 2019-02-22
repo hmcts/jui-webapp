@@ -1,22 +1,24 @@
 import * as express from 'express'
 import { map } from 'p-iteration'
+
+import { config } from '../../../config';
 import columns from '../../lib/config/refCaselistCols'
+import * as errorStack from '../../lib/errorStack'
 import { filterByCaseTypeAndRole } from '../../lib/filters'
 import * as log4jui from '../../lib/log4jui'
+import { processCaseState } from '../../lib/processors/case-state-model'
+import { dataLookup as valueProcessor } from '../../lib/processors/value-processor'
 import { asyncReturnOrError } from '../../lib/util'
 import { getMutiJudCCDCases } from '../../services/ccd-store-api/ccd-store'
 import { getDecision } from '../../services/coh'
 import { getHearingByCase } from '../../services/cohQA'
-
-const getListTemplate = require('./templates/index')
-const { processCaseState } = require('../../lib/processors/case-state-model')
-const valueProcessor = require('../../lib/processors/value-processor')
-const { caseStateFilter } = require('../../lib/processors/case-state-util')
-import { getAllQuestionsByCase } from '../questions/index'
-
 import { getUser } from '../../services/idam'
+import { getAllQuestionsByCase } from '../questions/index'
 import { getNewCase, unassignAllCaseFromJudge } from './assignCase'
 
+
+const getListTemplate = require('./templates/index')
+const { caseStateFilter } = require('../../lib/processors/case-state-util')
 const logger = log4jui.getLogger('case list')
 
 export async function getCOR(casesData) {
@@ -194,15 +196,28 @@ export async function unassignAll(req, res) {
 
 export async function getCases(res) {
     {
+        let results = null
         const user = await getUser()
 
-        const results = await asyncReturnOrError(getMutiJudCaseTransformed(user), ' Error getting case list', res, logger)
+        let tryCCD = 0
+
+        while (tryCCD < config.maxCCDRetries && !results) {
+            // need to disable error sending here and catch it later if retrying
+            results = await asyncReturnOrError(getMutiJudCaseTransformed(user), ' Error getting case list', res, logger, false)
+            tryCCD++
+            if (!results) {
+                logger.warn('Having to retry CCD')
+            }
+        }
 
         if (results) {
             res.setHeader('Access-Control-Allow-Origin', '*')
             res.setHeader('content-type', 'application/json')
             res.status(200).send(JSON.stringify(results))
+        } else {
+            res.status(500).send(JSON.stringify(errorStack.get()))
         }
+
     }
 }
 

@@ -423,7 +423,7 @@ module.exports = {
                                 score: 0
                             },
                             {
-                                selector: '2.0',
+                                selector: '2',
                                 text: 'Needs prompting or assistance to be able to make complex budgeting decisions',
                                 score: 2
                             },
