@@ -51,7 +51,15 @@ const config = {
     framework: 'custom',
     frameworkPath: require.resolve('protractor-cucumber-framework'),
     //specs: ['../features/**/*.feature'],
-    specs: ['../features/**/caseFile.feature'],
+    specs: [
+        '../features/**/caseFile.feature',
+        '../features/**/login.feature',
+        '../features/**/makeDecision.feature',
+        '../features/**/parties.feature',
+        '../features/**/questions.feature',
+        '../features/**/recentEvents.feature',
+        '../features/**/summary.feature'
+    ],
     baseUrl: process.env.TEST_URL || 'http://localhost:3000/',
     params: {
         serverUrls: process.env.TEST_URL || 'http://localhost:3000/',
