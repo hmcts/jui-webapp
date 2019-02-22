@@ -58,7 +58,6 @@ const config = {
         '../features/**/parties.feature',
         '../features/**/questions.feature',
         '../features/**/recentEvents.feature',
-        '../features/**/summary.feature'
     ],
     baseUrl: process.env.TEST_URL || 'http://localhost:3000/',
     params: {
