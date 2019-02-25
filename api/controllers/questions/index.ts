@@ -1,5 +1,5 @@
 import * as express from 'express'
-import {judgeLookUp} from '../../lib/util'
+import { judgeLookUp } from '../../lib/util'
 import * as cohCor from '../../services/cohQA'
 
 const moment = require('moment')
@@ -347,8 +347,7 @@ export function getRoundAndHalfAnswer(req, res) {
         )
 }
 
-module.exports = app => {
-// export defaults function(app) {
+export default app => {
     const route = express.Router({mergeParams: true})
     // TODO: we need to put this back to '/case' in the future (rather than '/caseQ') when it doesn't clash with case/index.js
     app.use('/caseQ', route)
@@ -403,28 +402,3 @@ module.exports = app => {
         await getRoundAndHalfAnswer(req, res)
     })
 }
-
-module.exports.answerAllQuestions = answerAllQuestions
-module.exports.countStates = countStates
-module.exports.createHearing = createHearing
-module.exports.formatAnswer = formatAnswer
-module.exports.formatRounds = formatRounds
-module.exports.formatQuestion = formatQuestion
-module.exports.formatQuestionRes = formatQuestionRes
-module.exports.formatQuestions = formatQuestions
-module.exports.getAllQuestionsByCase = getAllQuestionsByCase
-module.exports.getExpirationDate = getExpirationDate
-module.exports.getQuestion = getQuestion
-module.exports.updateRoundToIssued = updateRoundToIssued
-
-//Route handlers
-module.exports.questionHandler = questionHandler
-module.exports.questionsHandler = questionsHandler
-module.exports.postQuestionsHandler = postQuestionsHandler
-module.exports.putQuestionsHandler = putQuestionsHandler
-module.exports.deleteQuestionsHandler = deleteQuestionsHandler
-module.exports.putRounds = putRounds
-module.exports.getRounds = getRounds
-module.exports.getRoundById = getRoundById
-module.exports.getRoundAndAnswer = getRoundAndAnswer
-module.exports.getRoundAndHalfAnswer = getRoundAndHalfAnswer
