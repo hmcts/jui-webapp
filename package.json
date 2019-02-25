@@ -122,7 +122,7 @@
     "@types/jasminewd2": "2.0.2",
     "@types/mocha": "^5.2.6",
     "argv": "0.0.2",
-    "autoprefixer": "9.4.3",
+    "autoprefixer": "9.4.9",
     "chai": "^4.2.0",
     "chai-as-promised": "7.1.1",
     "circular-dependency-plugin": "5.0.2",
