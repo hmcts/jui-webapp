@@ -46,7 +46,7 @@ module.exports = {
                                 value: '2',
                                 text: 'Needs prompting to be able to engage with other people',
                                 hint: {
-                                    text: '2 point',
+                                    text: '2 points',
                                     classes: 'govuk-hint govuk-radios__hint'
                                 }
                             },

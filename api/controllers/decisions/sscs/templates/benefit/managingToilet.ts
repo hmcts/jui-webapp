@@ -46,7 +46,7 @@ module.exports = {
                                 value: '2.0',
                                 text: 'Needs to use an aid or appliance to be able to manage toilet needs or incontinence',
                                 hint: {
-                                    text: '2 point',
+                                    text: '2 points',
                                     classes: 'govuk-hint govuk-radios__hint'
                                 }
                             },

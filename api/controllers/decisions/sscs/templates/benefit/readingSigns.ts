@@ -46,7 +46,7 @@ module.exports = {
                                 value: '2.0',
                                 text: 'Needs to use an aid or appliance, other than spectacles or contact lenses, to be able to read or understand either basic or complex written information',
                                 hint: {
-                                    text: '2 point',
+                                    text: '2 points',
                                     classes: 'govuk-hint govuk-radios__hint'
                                 }
                             },
