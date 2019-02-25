@@ -3579,6 +3579,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	function handleDocumentMouseup(e) {
 	  var rects = void 0;
+	  var selection = window.getSelection();
+
 	  if (_type !== 'area' && (e.srcElement.getAttribute('prevent-default-highlighting-behaviour') === 'true')
           && (rects = getSelectionRects())) {
             var svg = (0, _utils.findSVGAtPoint)(rects[0].left, rects[0].top);
@@ -3605,8 +3607,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    document.removeEventListener('mousemove', handleDocumentMousemove);
 	    (0, _utils.enableUserSelect)();
+	  } else if ((selection.baseNode !== null && selection.baseNode.parentNode.getAttribute('prevent-default-highlighting-behaviour') === 'true')
+          || (selection.baseNode instanceof HTMLElement && selection.baseNode.getAttribute('prevent-default-highlighting-behaviour') === 'true')) {
+          window.getSelection().empty();
 	  }
-	  window.getSelection().empty();
 	}
 
 	/**

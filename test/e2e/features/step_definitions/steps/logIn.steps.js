@@ -3,15 +3,22 @@
 const loginPage = require('../../pages/loginPage');
 const dashBoardPage = require('../../pages/dashBoardPage');
 const { defineSupportCode } = require('cucumber');
-const { SHORT_DELAY, MID_DELAY , LONG_DELAY } = require('../../../support/constants');
+const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../../support/constants');
 
 const config = require('../../../config/conf.js');
 const EC = protractor.ExpectedConditions;
 
-defineSupportCode(function({ Given, When, Then }) {
+async function waitForElement(el) {
+    await browser.wait(result => {
+        return element(by.className(el)).isPresent();
+    }, 600000);
+}
+
+defineSupportCode(function ({ Given, When, Then }) {
 
 
-    Given(/^I login$/, async function() {
+    Given(/^I login$/, async function () {
+        await waitForElement('heading-large');
         const username = $(this.getSelector('idam-username'));
         const password = $(this.getSelector('idam-password'));
         const submit = $(this.getSelector('idam-submit'));
@@ -25,17 +32,18 @@ defineSupportCode(function({ Given, When, Then }) {
     });
 
 
-    Given(/^I am logged into JUI web app$/, async function() {
+    Given(/^I am logged into JUI web app$/, { timeout: 600 * 1000 }, async function () {
+        await waitForElement('heading-large');
         await loginPage.emailAddress.sendKeys(this.config.username);
         await loginPage.password.sendKeys(this.config.password);
         browser.sleep(LONG_DELAY);
         await loginPage.signinBtn.click();
-        browser.sleep(SHORT_DELAY);
+        browser.sleep(LONG_DELAY);
 
     });
 
 
-    When(/^I navigate to JUI Url$/, async function() {
+    When(/^I navigate to JUI Url$/, { timeout: 600 * 1000 }, async function () {
         await browser.get(config.config.baseUrl);
         await browser.driver.manage()
             .deleteAllCookies();
@@ -43,7 +51,8 @@ defineSupportCode(function({ Given, When, Then }) {
         browser.sleep(SHORT_DELAY);
     });
 
-    Then(/^I should see failure error summary$/, async function() {
+    Then(/^I should see failure error summary$/, async function () {
+        await waitForElement('heading-large');
         await expect(loginPage.failure_error_heading.isDisplayed()).to.eventually.be.true;
         await expect(loginPage.failure_error_heading.getText())
             .to
@@ -53,7 +62,8 @@ defineSupportCode(function({ Given, When, Then }) {
     });
 
 
-    Then(/^I am on Idam login page$/, async function() {
+    Then(/^I am on Idam login page$/, { timeout: 600 * 1000 }, async function () {
+        await waitForElement('heading-large');
         await expect(loginPage.signinTitle.isDisplayed()).to.eventually.be.true;
         await expect(loginPage.signinTitle.getText())
             .to
@@ -66,23 +76,23 @@ defineSupportCode(function({ Given, When, Then }) {
     });
 
 
-    When(/^I enter an valid email-address and password to login$/, async function() {
+    When(/^I enter an valid email-address and password to login$/, async function () {
         await loginPage.emailAddress.sendKeys(this.config.username);          //replace username and password
         await loginPage.password.sendKeys(this.config.password);
-         // browser.sleep(SHORT_DELAY);
-         await loginPage.signinBtn.click();
-         browser.sleep(SHORT_DELAY);
+        // browser.sleep(SHORT_DELAY);
+        await loginPage.signinBtn.click();
+        browser.sleep(SHORT_DELAY);
 
     });
 
 
-    When(/^I enter an Invalid email-address and password to login$/, async function() {
+    When(/^I enter an Invalid email-address and password to login$/, async function () {
         await loginPage.givenIAmUnauthenticatedUser();
 
     });
 
 
-    Given(/^I should be redirected to the Idam login page$/, async function() {
+    Given(/^I should be redirected to the Idam login page$/, async function () {
         browser.sleep(MID_DELAY);
         await expect(loginPage.signinTitle.getText())
             .to
@@ -92,7 +102,7 @@ defineSupportCode(function({ Given, When, Then }) {
     });
 
 
-    Then(/^I select the sign out link$/, async function() {
+    Then(/^I select the sign out link$/, async function () {
         browser.sleep(SHORT_DELAY);
         await expect(dashBoardPage.sign_out_link.isDisplayed()).to.eventually.be.true;
         browser.sleep(SHORT_DELAY);
@@ -101,7 +111,7 @@ defineSupportCode(function({ Given, When, Then }) {
     });
 
 
-    Then(/^I should be redirected to JUI dashboard page$/, async function() {
+    Then(/^I should be redirected to JUI dashboard page$/, async function () {
         browser.sleep(MID_DELAY);
         await expect(dashBoardPage.dashboard_header.isDisplayed()).to.eventually.be.true;
         await dashBoardPage.table.isDisplayed();
@@ -120,7 +130,7 @@ defineSupportCode(function({ Given, When, Then }) {
         browser.sleep(SHORT_DELAY);
     });
 
-    When(/^I am logged into JUI web app with SSCS judge details$/, async function(){
+    When(/^I am logged into JUI web app with SSCS judge details$/, async function () {
         await loginPage.emailAddress.sendKeys(this.config.sscs_username);
         await loginPage.password.sendKeys(this.config.sscs_password);
         await loginPage.clickSignIn();

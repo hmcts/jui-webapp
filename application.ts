@@ -6,6 +6,7 @@ import { config } from './config';
 import { appInsights } from './api/lib/appInsights';
 import { securityHeaders } from './api/lib/middleware';
 import * as log4jui from './api/lib/log4jui';
+import * as globalTunnel from 'global-tunnel-ng';
 
 const apiRoute = require('./api');
 config.environment = process.env.JUI_ENV || 'local';
@@ -46,58 +47,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-/*function healthcheckConfig(msUrl) {
-    return healthcheck.web(`${msUrl}/health`, {
-        timeout: 6000,
-        deadline: 6000
+app.use((req, res, next) => {
+    // Set cookie for angular to know which config to use
+    const platform = process.env.JUI_ENV || 'local';
+    res.cookie('platform', platform);
+    next();
+}
+);
+
+
+if (config.proxy) {
+    globalTunnel.initialize({
+        host: config.proxy.host,
+        port: config.proxy.port,
     })
 }
 
-app.get(
-    '/health',
-    healthcheck.configure({
-        checks: {
-            //ccd_data_api: healthcheckConfig(config.services.ccd_data_api),
-            // ccd_def_api: healthcheckConfig(config.services.ccd_def_api),
-            // idam_web: healthcheckConfig(config.services.idam_web),
-            //idam_api: healthcheckConfig(config.services.idam_api),
-            //s2s: healthcheckConfig(config.services.s2s),
-            //draft_store_api: healthcheckConfig(config.services.draft_store_api),
-            //dm_store_api: healthcheckConfig(config.services.dm_store_api),
-            //em_anno_api: healthcheckConfig(config.services.em_anno_api),
-            //em_npa_api: healthcheckConfig(config.services.em_npa_api),
-            //coh_cor_api: healthcheckConfig(config.services.coh_cor_api)
-        },
-        buildInfo: {}
-    })
-);*/
-
-/*function infocheckConfig(msUrl) {
-    return new InfoContributor(`${msUrl}/info`);
-}
-
-app.get(
-    '/info',
-    infoRequestHandler({
-        info: {
-            ccd_data_api: infocheckConfig(config.services.dm_store_api),
-            ccd_def_api: infocheckConfig(config.services.ccd_def_api),
-            idam_web: infocheckConfig(config.services.idam_web),
-            idam_api: infocheckConfig(config.services.idam_api),
-            s2s: infocheckConfig(config.services.s2s),
-            draft_store_api: infocheckConfig(config.services.draft_store_api),
-            dm_store_api: infocheckConfig(config.services.dm_store_api),
-            em_anno_api: infocheckConfig(config.services.em_anno_api),
-            em_npa_api: infocheckConfig(config.services.em_npa_api),
-            coh_cor_api: infocheckConfig(config.services.coh_cor_api)
-        },
-        extraBuildInfo: {
-            empty: {}
-            // featureToggles: config.get('featureToggles'),
-            // hostname: hostname()
-        }
-    })
-);*/
 
 app.get('/oauth2/callback', apiRoute);
 app.get('/logout', apiRoute);
@@ -105,6 +70,6 @@ app.use('/api', apiRoute);
 
 
 const logger = log4jui.getLogger('Application')
-logger.info(`Started up on ${config.enviroment || 'local'} using ${config.protocol}`)
+logger.info(`Started up on ${config.environment || 'local'} using ${config.protocol}`)
 
 module.exports = app;
