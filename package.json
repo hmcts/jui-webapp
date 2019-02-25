@@ -74,7 +74,6 @@
     "@types/jwt-decode": "^2.2.1",
     "applicationinsights": "1.0.8",
     "axios": "^0.18.0",
-    "axios-https-proxy": "^0.1.1",
     "base-64": "^0.1.0",
     "body-parser": "1.18.3",
     "camelcase": "^5.0.0",
