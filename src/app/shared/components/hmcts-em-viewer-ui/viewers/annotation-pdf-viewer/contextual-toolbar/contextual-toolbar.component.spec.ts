@@ -182,12 +182,10 @@ describe('ContextualToolbarComponent', () => {
         expect(arg).toBe('2ff3514f-1b0d-499a-991a-fb17881ead7c');
       });
 
-      spyOn(mockAnnotationStoreService, 'setAnnotationFocusSubject').and.stub();
       component.annotation = new Annotation('2ff3514f-1b0d-499a-991a-fb17881ead7c',
               null, null, null, null, null, null, null, null, null, null, null);
       component.handleDeleteBtnClick();
 
-      expect(mockAnnotationStoreService.setAnnotationFocusSubject).toHaveBeenCalled();
       expect(mockAnnotationStoreService.deleteAnnotationById).toHaveBeenCalled();
       expect(component.isShowToolbar).toBeFalsy();
     });

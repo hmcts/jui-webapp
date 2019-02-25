@@ -4,41 +4,45 @@ const dashBoardPage = require('../../pages/dashBoardPage');
 const caseSummaryPage = require('../../pages/caseSummaryPage');
 const caseFilePage = require('../../pages/caseFilePage');
 const { defineSupportCode } = require('cucumber');
-const { SHORT_DELAY, MID_DELAY , LONG_DELAY } = require('../../../support/constants');
+const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../../support/constants');
 
 const EC = protractor.ExpectedConditions;
 
-defineSupportCode(function({ Given, When, Then }) {
+async function waitForElement(el) {
+    await browser.wait(result => {
+        return element(by.className(el)).isPresent();
+    }, 600000);
+}
 
+const timeout = { timeout: 600 * 1000 };
 
-    When(/^I will be redirected to the JUI dashboard page$/, async function() {
-        browser.sleep(LONG_DELAY);
+defineSupportCode(function ({ Given, When, Then }) {
+
+    When(/^I will be redirected to the JUI dashboard page$/, timeout, async function () {
+        await waitForElement('govuk-heading-xl');
         await expect(dashBoardPage.dashboard_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.dashboard_header.getText())
             .to
             .eventually
             .equal('Your cases');
-
     });
 
-    When(/^I select a case(.*)$/, async function(type) {
-       // browser.sleep(LONG_DELAY);
-        browser.sleep(15000);
+    When(/^I select a case(.*)$/, timeout, async function (type) {
+        await waitForElement('govuk-table__cell');
         await browser.wait(EC.elementToBeClickable(dashBoardPage.case_number_links.first().click()), 15000);
         //await dashBoardPage.case_number_links.click();
-        browser.sleep(15000);
+
     });
 
-
-    When(/^one or more cases (.*) are displayed$/, async function(type) {
-
+    When(/^one or more cases (.*) are displayed$/, async function (type) {
+        await waitForElement('govuk-table__cell');
         var no_of_types = dashBoardPage.type_links.count()
-            .then(function(count) {
+            .then(function (count) {
                 if (count > 0) {
 
                     dashBoardPage.case_links.first()
                         .getAttribute('href')
-                        .then(function(attr) {
+                        .then(function (attr) {
                             console.log('test', attr);
                             var re = new RegExp('(.+)/(.+)/summary').compile();
                             expect(attr)
@@ -54,11 +58,11 @@ defineSupportCode(function({ Given, When, Then }) {
     });
 
 
-    Then(/^I will be redirected to the Case Summary page for that case (.*)$/, async function(type) {
-        //browser.sleep(LONG_DELAY);
-        browser.sleep(15000);
+    Then(/^I will be redirected to the Case Summary page for that case (.*)$/, timeout, async function (type) {
+        await waitForElement('jui-casebar');
+
         await expect(caseSummaryPage.case_header_text.getText()).to.eventually.equal('Summary');
-        if (type === 'Financial Remedy'){
+        if (type === 'Financial Remedy') {
             await expect(caseSummaryPage.caseDetails_header_text.getText())
                 .to
                 .eventually
@@ -75,7 +79,7 @@ defineSupportCode(function({ Given, When, Then }) {
             await expect(caseSummaryPage.panel_members_text.getText()).to.eventually.equal('Panel members');
 
         }
-        else if (type === 'Divorce'){
+        else if (type === 'Divorce') {
             await expect(caseSummaryPage.caseDetails_header_text.getText()).to.eventually.equal('Case details');
             await expect(caseSummaryPage.representatives_text.isDisplayed()).to.eventually.be.true;
             await expect(caseSummaryPage.representatives_text.getText()).to.eventually.equal('Related cases');
@@ -85,25 +89,26 @@ defineSupportCode(function({ Given, When, Then }) {
     });
 
 
-    Then(/^I will see date details for the list of cases displayed$/, async function() {
+    Then(/^I will see date details for the list of cases displayed$/, async function () {
+        await waitForElement('govuk-table__cell');
         await expect(dashBoardPage.case_start_date_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.date_of_last_action_header.isDisplayed()).to.eventually.be.true;
     });
 
 
-    When(/^I see Date of latest action by date ascending order$/, async function() {
+    When(/^I see Date of latest action by date ascending order$/, async function () {
         await dashBoardPage.last_action_dates.count()
-            .then(function(text) {
+            .then(function (text) {
                 console.log('Number of Cases: ' + text);
                 if (text > 1) {
-                    dashBoardPage.last_action_dates.map(function(elm) {
+                    dashBoardPage.last_action_dates.map(function (elm) {
                         return elm.getText()
-                            .then(function(text) {
+                            .then(function (text) {
                                 return (text);
                             });
                     })
-                        .then(function(lastActionDates) {
-                            var sortedLastActionDates = lastActionDates.sort(function(date1, date2) {
+                        .then(function (lastActionDates) {
+                            var sortedLastActionDates = lastActionDates.sort(function (date1, date2) {
                                 return date1 - date2;
                             });
                             expect(lastActionDates)
@@ -114,14 +119,15 @@ defineSupportCode(function({ Given, When, Then }) {
     });
 
 
-    Then(/^I should see table header columns$/, async function() {
+    Then(/^I should see table header columns$/, async function () {
+        await waitForElement('govuk-table__cell');
         await dashBoardPage.table.isDisplayed();
         await expect(dashBoardPage.table_column_header.isDisplayed()).to.eventually.be.true;
 
     });
 
 
-    Then(/^I should see table each column header text as (.*), (.*), (.*), (.*), (.*), (.*)$/, async function(case_num, parties, type, decision, case_received, date_of_last) {
+    Then(/^I should see table each column header text as (.*), (.*), (.*), (.*), (.*), (.*)$/, async function (case_num, parties, type, decision, case_received, date_of_last) {
         await expect(dashBoardPage.case_number_header.isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.case_number_header.getText())
             .to
@@ -162,7 +168,7 @@ defineSupportCode(function({ Given, When, Then }) {
     });
 
 
-    When(/^I see (.*) on dashboard$/, async function(draft_consent_order) {
+    When(/^I see (.*) on dashboard$/, async function (draft_consent_order) {
         await expect(dashBoardPage.draft_consent_order_link.first()
             .isDisplayed()).to.eventually.be.true;
         await expect(dashBoardPage.draft_consent_order_link.first()
@@ -176,14 +182,14 @@ defineSupportCode(function({ Given, When, Then }) {
     When(/^I select a Draft consent order from decision needed on column$/, async function () {
         browser.sleep(SHORT_DELAY);
 
-      await dashBoardPage.draft_consent_order_link.first()
+        await dashBoardPage.draft_consent_order_link.first()
             .click();
         browser.sleep(SHORT_DELAY);
 
 
     });
 
-    Then(/^I will be redirected to the Case file page for that Financial remedy case$/, async function() {
+    Then(/^I will be redirected to the Case file page for that Financial remedy case$/, async function () {
         browser.sleep(SHORT_DELAY);
         await expect(caseFilePage.case_file_header.isDisplayed()).to.eventually.be.true;
         browser.sleep(SHORT_DELAY);
@@ -195,7 +201,7 @@ defineSupportCode(function({ Given, When, Then }) {
 
     });
 
-    Then(/^I see FR specific cases on JUI dashboard$/, async function() {
+    Then(/^I see FR specific cases on JUI dashboard$/, async function () {
         browser.sleep(SHORT_DELAY);
         await dashBoardPage.type_links.isDisplayed();
         await expect(dashBoardPage.type_links.first().getText()).to.eventually.equal("Financial remedy");

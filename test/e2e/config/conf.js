@@ -17,7 +17,7 @@ const jenkinsConfig = [
         browserName: 'chrome',
         acceptInsecureCerts: true,
         nogui: true,
-        chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote ', '--disableChecks' ] }
+        chromeOptions: { args: ['--headless', '--no-sandbox', '--disable-dev-shm-usage', '--disable-setuid-sandbox', '--no-zygote ', '--disableChecks'] }
     }
 ];
 
@@ -50,7 +50,15 @@ const cap = (argv.local) ? localConfig : jenkinsConfig;
 const config = {
     framework: 'custom',
     frameworkPath: require.resolve('protractor-cucumber-framework'),
-    specs: ['../features/**/*.feature'],
+    //specs: ['../features/**/*.feature'],
+    specs: [
+        '../features/**/caseFile.feature',
+        '../features/**/login.feature',
+        '../features/**/makeDecision.feature',
+        '../features/**/parties.feature',
+        '../features/**/questions.feature',
+        '../features/**/recentEvents.feature',
+    ],
     baseUrl: process.env.TEST_URL || 'http://localhost:3000/',
     params: {
         serverUrls: process.env.TEST_URL || 'http://localhost:3000/',
@@ -83,9 +91,10 @@ const config = {
     cucumberOpts: {
         strict: true,
         // format: ['node_modules/cucumber-pretty'],
-        format: ['node_modules/cucumber-pretty','json:reports_json/results.json'],
+        format: ['node_modules/cucumber-pretty', 'json:reports_json/results.json'],
         tags: ['@all'],
         require: [
+            '../support/timeout.js',
             '../support/world.js',
             '../support/*.js',
             '../features/step_definitions/**/*.steps.js'
