@@ -76,46 +76,46 @@ const routes: Routes = [
             {
                 path: 'decision', component: DecisionRootComponent,
                 children: [
-//Common routes
-                    {path: 'create', component: MakeDecisionComponent},
-                    {path: 'check', component: CheckDecisionComponent},
-                    {path: 'check-tribunal', component: CheckDecisionComponent},
-                    {path: 'check-final-decision', component: CheckDecisionComponent},
-                    {path: 'check-your-answers', component: CheckDecisionComponent},
-                    {path: 'decision-confirmation', component: DecisionConfirmationComponent},
-//Preliminary view routes
-                    {path: 'preliminary-advanced', component: MakeDecisionComponent},
-                    {path: 'final-decision', component: MakeDecisionComponent},
-                    {path: 'set-award-dates', component: MakeDecisionComponent},
-                    {path: 'scores', component: MakeDecisionComponent},
-                    {path: 'communicating-verbally', component: MakeDecisionComponent},
-                    {path: 'dressing-undressing', component: MakeDecisionComponent},
-                    {path: 'engaging-face', component: MakeDecisionComponent},
-                    {path: 'budgeting-decisions', component: MakeDecisionComponent},
-                    {path: 'managing-therapy', component: MakeDecisionComponent},
-                    {path: 'managing-toilet', component: MakeDecisionComponent},
-                    {path: 'moving-around', component: MakeDecisionComponent},
-                    {path: 'planning-journeys', component: MakeDecisionComponent},
-                    {path: 'preparing-food', component: MakeDecisionComponent},
-                    {path: 'reading-signs', component: MakeDecisionComponent},
-                    {path: 'taking-nutrition', component: MakeDecisionComponent},
-                    {path: 'washing-bathing', component: MakeDecisionComponent},
-//Financial Ramedy routes
-                    {path: 'reject-reasons', component: MakeDecisionComponent},
-                    {path: 'notes-for-court-administrator', component: MakeDecisionComponent},
-                    {path: 'draft-consent-order', component: DraftConsentOrderComponent},
-                    {path: 'hearing-details', component: MakeDecisionComponent},
-//Divorce routes
-                    {path: 'provide-reason', component: MakeDecisionComponent},
-                    {path: 'costs-order', component: MakeDecisionComponent}
+                    //Common routes
+                    { path: 'create', component: MakeDecisionComponent },
+                    { path: 'check', component: CheckDecisionComponent },
+                    { path: 'check-tribunal', component: CheckDecisionComponent },
+                    { path: 'check-final-decision', component: CheckDecisionComponent },
+                    { path: 'check-your-answers', component: CheckDecisionComponent },
+                    { path: 'decision-confirmation', component: DecisionConfirmationComponent },
+                    //Preliminary view routes
+                    { path: 'preliminary-advanced', component: MakeDecisionComponent },
+                    { path: 'final-decision', component: MakeDecisionComponent },
+                    { path: 'set-award-dates', component: MakeDecisionComponent },
+                    { path: 'scores', component: MakeDecisionComponent },
+                    { path: 'communicating-verbally', component: MakeDecisionComponent },
+                    { path: 'dressing-undressing', component: MakeDecisionComponent },
+                    { path: 'engaging-face', component: MakeDecisionComponent },
+                    { path: 'budgeting-decisions', component: MakeDecisionComponent },
+                    { path: 'managing-therapy', component: MakeDecisionComponent },
+                    { path: 'managing-toilet', component: MakeDecisionComponent },
+                    { path: 'moving-around', component: MakeDecisionComponent },
+                    { path: 'planning-journeys', component: MakeDecisionComponent },
+                    { path: 'preparing-food', component: MakeDecisionComponent },
+                    { path: 'reading-signs', component: MakeDecisionComponent },
+                    { path: 'taking-nutrition', component: MakeDecisionComponent },
+                    { path: 'washing-bathing', component: MakeDecisionComponent },
+                    //Financial Ramedy routes
+                    { path: 'reject-reasons', component: MakeDecisionComponent },
+                    { path: 'notes-for-court-administrator', component: MakeDecisionComponent },
+                    { path: 'draft-consent-order', component: DraftConsentOrderComponent },
+                    { path: 'hearing-details', component: MakeDecisionComponent },
+                    //Divorce routes
+                    { path: 'provide-reason', component: MakeDecisionComponent },
+                    { path: 'costs-order', component: MakeDecisionComponent }
                 ]
             },
             {
                 path: 'hearing', component: HearingRootComponent,
                 children: [
-                    {path: 'list', component: CreateHearingComponent},
-                    {path: 'check', component: CheckHearingComponent},
-                    {path: 'confirm', component: HearingConfirmationComponent}
+                    { path: 'list', component: CreateHearingComponent },
+                    { path: 'check', component: CheckHearingComponent },
+                    { path: 'confirm', component: HearingConfirmationComponent }
                 ]
             },
             {
