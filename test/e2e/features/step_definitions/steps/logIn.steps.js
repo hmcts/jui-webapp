@@ -8,10 +8,17 @@ const { AMAZING_DELAY, SHORT_DELAY, MID_DELAY, LONG_DELAY } = require('../../../
 const config = require('../../../config/conf.js');
 const EC = protractor.ExpectedConditions;
 
+async function waitForElement(el) {
+    await browser.wait(result => {
+        return element(by.className(el)).isPresent();
+    }, 600000);
+}
+
 defineSupportCode(function ({ Given, When, Then }) {
 
 
     Given(/^I login$/, async function () {
+        await waitForElement('heading-large');
         const username = $(this.getSelector('idam-username'));
         const password = $(this.getSelector('idam-password'));
         const submit = $(this.getSelector('idam-submit'));
@@ -25,18 +32,18 @@ defineSupportCode(function ({ Given, When, Then }) {
     });
 
 
-    Given(/^I am logged into JUI web app$/, async function () {
-        browser.sleep(AMAZING_DELAY);
+    Given(/^I am logged into JUI web app$/, { timeout: 600 * 1000 }, async function () {
+        await waitForElement('heading-large');
         await loginPage.emailAddress.sendKeys(this.config.username);
         await loginPage.password.sendKeys(this.config.password);
         browser.sleep(LONG_DELAY);
         await loginPage.signinBtn.click();
-        browser.sleep(SHORT_DELAY);
+        browser.sleep(LONG_DELAY);
 
     });
 
 
-    When(/^I navigate to JUI Url$/, async function () {
+    When(/^I navigate to JUI Url$/, { timeout: 600 * 1000 }, async function () {
         await browser.get(config.config.baseUrl);
         await browser.driver.manage()
             .deleteAllCookies();
@@ -45,6 +52,7 @@ defineSupportCode(function ({ Given, When, Then }) {
     });
 
     Then(/^I should see failure error summary$/, async function () {
+        await waitForElement('heading-large');
         await expect(loginPage.failure_error_heading.isDisplayed()).to.eventually.be.true;
         await expect(loginPage.failure_error_heading.getText())
             .to
@@ -54,7 +62,8 @@ defineSupportCode(function ({ Given, When, Then }) {
     });
 
 
-    Then(/^I am on Idam login page$/, async function () {
+    Then(/^I am on Idam login page$/, { timeout: 600 * 1000 }, async function () {
+        await waitForElement('heading-large');
         await expect(loginPage.signinTitle.isDisplayed()).to.eventually.be.true;
         await expect(loginPage.signinTitle.getText())
             .to
