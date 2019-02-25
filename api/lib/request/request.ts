@@ -1,5 +1,6 @@
 import { config } from '../../../config'
-const proxy = require('./proxy')
+import proxy from './proxy'
+
 const request = require('request-promise')
 
 /**
@@ -12,7 +13,7 @@ const request = require('request-promise')
 module.exports = (method, url, params) => {
     const headers = params.headers && config.configEnv !== 'mock' ? Object.assign(params.headers) : {}
 
-    const options = {
+    let options = {
         body: '',
         formData: '',
         headers: {
@@ -31,9 +32,11 @@ module.exports = (method, url, params) => {
         options.formData = params.formData
     }
 
-    // if (config.configEnv !== 'mock') {
-    //     if (config.useProxy) options = proxy(options)
-    // }
+    if (config.configEnv !== 'mock') {
+        if (config.useProxy) {
+            options = proxy(options)
+        }
+    }
     // N.B. Not needed - AJ
 
     return request(options)
