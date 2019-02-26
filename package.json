@@ -134,7 +134,7 @@
     "copy-webpack-plugin": "4.6.0",
     "cucumber": "5.1.0",
     "cucumber-html-report": "0.6.5",
-    "cucumber-html-reporter": "^4.0.4",
+    "cucumber-html-reporter": "^4.0.5",
     "cucumber-pretty": "1.5.0",
     "cucumberjs-allure-reporter": "1.0.3",
     "eslint": "5.12.0",

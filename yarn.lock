@@ -2440,7 +2440,7 @@ cucumber-html-report@0.6.5:
     object-assign "^4.1.0"
     ramda "^0.23.0"
 
-cucumber-html-reporter@^4.0.4:
+cucumber-html-reporter@^4.0.5:
   version "4.0.5"
   resolved "https://registry.yarnpkg.com/cucumber-html-reporter/-/cucumber-html-reporter-4.0.5.tgz#8d6b376fa1d11e31467d482fd32a25a4671ce047"
   integrity sha512-fhIIvna2KwxEq9XxAkbfPodY1ZBvtIos8fD5ZwaK9mrmpBBVcEfmE9CwERyWcaDpIXvJfo1nQTZanMjG9/xc8Q==
