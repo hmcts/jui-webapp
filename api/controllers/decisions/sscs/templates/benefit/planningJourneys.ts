@@ -46,7 +46,7 @@ module.exports = {
                                 value: '4',
                                 text: 'Needs prompting to be able to undertake any journey to avoid overwhelming psychological distress to the claimant',
                                 hint: {
-                                    text: '4 point',
+                                    text: '4 points',
                                     classes: 'govuk-hint govuk-radios__hint'
                                 }
                             },

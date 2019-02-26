@@ -29,12 +29,15 @@ export async function authenticateUser(req: any, res) {
 
         const details = await asyncReturnOrError(getDetails(options), 'Cannot get user details', res, logger, false)
         if (details) {
+            logger.info('Setting session and cookies')
             req.session.user = details
             res.cookie(cookieToken, data.access_token)
             res.cookie(cookieUserId, details.id)
+            // need this so angular knows which enviroment config to use ...
+            res.cookie('platform', config.environment)
         }
     }
-
+    logger.info('Auth finished, redirecting')
     res.redirect('/')
 }
 

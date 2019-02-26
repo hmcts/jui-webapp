@@ -52,7 +52,17 @@ const cap = (argv.local) ? localConfig : jenkinsConfig;
 const config = {
     framework: 'custom',
     frameworkPath: require.resolve('protractor-cucumber-framework'),
-    specs: ['../features/**/*.feature'],
+    //specs: ['../features/**/*.feature'],
+    specs: [
+        '../features/**/caseFile.feature',
+        '../features/**/login.feature',
+        '../features/**/dashBoard.min.feature',
+        '../features/**/makeDecision.feature',
+        '../features/**/parties.feature',
+        '../features/**/questions.feature',
+        '../features/**/recentEvents.feature',
+        '../features/**/summary.feature'
+    ],
 
     baseUrl: process.env.TEST_URL || 'http://localhost:3000/',
     params: {
@@ -85,9 +95,10 @@ const config = {
     cucumberOpts: {
         strict: true,
         // format: ['node_modules/cucumber-pretty'],
-        format: ['node_modules/cucumber-pretty','json:reports_json/results.json'],
-        tags: ['@ignore'],
+        format: ['node_modules/cucumber-pretty', 'json:reports_json/results.json'],
+        tags: ['@smoke'],
         require: [
+            '../support/timeout.js',
             '../support/world.js',
             '../support/*.js',
             '../features/step_definitions/**/*.steps.js'

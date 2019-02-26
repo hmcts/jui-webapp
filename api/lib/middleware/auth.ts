@@ -30,6 +30,8 @@ export default (req, res, next) => {
 
         logger.info('Auth token: ' + `Bearer ${req.auth.token}`)
         logger.info('S2S token: ' + req.headers.ServiceAuthorization)
+        logger.info('Attached auth headers to request')
+
         next()
     }
 }

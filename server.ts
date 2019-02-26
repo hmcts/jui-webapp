@@ -1,29 +1,14 @@
 const app = require('./application');
-// require( 'zone.js/dist/zone-node');
+
 import * as express from 'express';
 import * as path from 'path';
+import * as ejs from 'ejs';
 
-const ngExpressEngine = require('@nguniversal/express-engine').ngExpressEngine;
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-const {
-    AppServerModuleNgFactory,
-    LAZY_MODULE_MAP
-} = require('../jui-frontend/server/main');
-
-const {
-    provideModuleMap
-} = require('@nguniversal/module-map-ngfactory-loader');
-
-const provider = provideModuleMap(LAZY_MODULE_MAP);
-
-app.engine(
-    'html',
-    ngExpressEngine({
-        bootstrap: AppServerModuleNgFactory,
-        providers: [provider]
-    })
-);
+app.engine('html', ejs.renderFile);
+app.set('view engine', 'html');
+app.set('views', __dirname);
 
 
 app.set('view engine', 'html');
