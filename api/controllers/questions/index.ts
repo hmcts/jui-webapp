@@ -11,7 +11,7 @@ export async function createHearing(caseId, userId, options, jurisdiction = 'SSC
     options.body = {
         case_id: caseId,
         jurisdiction,
-        panel: [{identity_token: 'string', name: userId}],
+        panel: [{ identity_token: 'string', name: userId }],
         start_date: new Date().toISOString()
     }
 
@@ -19,8 +19,10 @@ export async function createHearing(caseId, userId, options, jurisdiction = 'SSC
     return r1.online_hearing_id
 }
 
-export function getQuestion(hearingId, questionId, options) {
-    return [cohCor.getQuestion(hearingId, questionId, options), cohCor.getAnswers(hearingId, questionId)]
+export async function getQuestion(hearingId, questionId, options) {
+    const question = await cohCor.getQuestion(hearingId, questionId, options)
+    const answers = await cohCor.getAnswers(hearingId, questionId)
+    return [question, answers]
 }
 
 export function answerAllQuestions(hearingId, questionIds) {
@@ -30,7 +32,7 @@ export function answerAllQuestions(hearingId, questionIds) {
 }
 
 export function updateRoundToIssued(hearingId, roundId, options) {
-    return cohCor.putRound(hearingId, roundId, {state_name: 'question_issue_pending'})
+    return cohCor.putRound(hearingId, roundId, { state_name: 'question_issue_pending' })
 }
 
 // Format Rounds, Questions and Answers
@@ -42,7 +44,7 @@ export function formatRounds(rounds) {
             const dateUtc = expireDate.utc().format()
             const date = expireDate.format('D MMM YYYY')
             const time = expireDate.format('HH:mma')
-            expires = {dateUtc, date, time}
+            expires = { dateUtc, date, time }
         }
 
         const numberQuestion = round.question_references ? round.question_references.length : 0
@@ -348,7 +350,7 @@ export function getRoundAndHalfAnswer(req, res) {
 }
 
 export default app => {
-    const route = express.Router({mergeParams: true})
+    const route = express.Router({ mergeParams: true })
     // TODO: we need to put this back to '/case' in the future (rather than '/caseQ') when it doesn't clash with case/index.js
     app.use('/caseQ', route)
 
