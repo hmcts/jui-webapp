@@ -6,6 +6,7 @@ import { config } from './config';
 import { appInsights } from './api/lib/appInsights';
 import { securityHeaders } from './api/lib/middleware';
 import * as log4jui from './api/lib/log4jui';
+import * as globalTunnel from 'global-tunnel-ng';
 
 const apiRoute = require('./api');
 config.environment = process.env.JUI_ENV || 'local';
@@ -53,6 +54,15 @@ app.use((req, res, next) => {
     next();
 }
 );
+
+
+if (config.proxy) {
+    globalTunnel.initialize({
+        host: config.proxy.host,
+        port: config.proxy.port,
+    })
+}
+
 
 app.get('/oauth2/callback', apiRoute);
 app.get('/logout', apiRoute);
