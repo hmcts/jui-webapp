@@ -61,9 +61,12 @@ withPipeline(type, product, component) {
     enableDockerBuild()
     installCharts()
 
-    after('checkout') {sh 'yarn cache clean'}
+//    after('checkout') {sh 'yarn cache clean'}
 
     after('build') {
+        sh 'yarn cache clean'
+        sh 'rm -rf node_modules'
+        sh 'yarn install --verbose'
         sh 'npm run build'
 
         publishHTML([
