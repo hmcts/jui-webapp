@@ -15,7 +15,7 @@ export default (req, res, next) => {
     const expired = expires < now
     if (expired || !req.session.user) {
         logger.warn('Auth token or user expired need to log in again')
-        auth.logout(req, res)
+        auth.doLogout(req, res, 401)
 
     } else {
         req.auth = jwtData
