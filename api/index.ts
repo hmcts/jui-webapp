@@ -17,7 +17,7 @@ import s2sApiRoutes from './services/serviceAuth'
 
 const router = express.Router()
 
-const questionsRoutes = require('./controllers/questions')
+import questionsRoutes from './controllers/questions'
 const eventsRoutes = require('./controllers/events')
 
 const documentsRoutes = require('./controllers/documents')
