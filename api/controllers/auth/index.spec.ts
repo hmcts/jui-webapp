@@ -24,7 +24,7 @@ describe('Auth', () => {
             const req = mockReq({})
             const res = mockRes()
             logout(req, res)
-            expect(res.redirect).to.be.calledWith('/')
+            expect(res.redirect).to.be.calledWith(302, '/')
         })
     })
 
@@ -50,7 +50,7 @@ describe('Auth', () => {
             res = mockRes()
         })
 
-        afterEach( () => {
+        afterEach(() => {
             sandbox.restore()
         })
 
