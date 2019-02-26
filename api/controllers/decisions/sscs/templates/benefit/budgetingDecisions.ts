@@ -46,7 +46,7 @@ module.exports = {
                                 value: '2',
                                 text: 'Needs prompting or assistance to be able to make complex budgeting decisions',
                                 hint: {
-                                    text: '2 point',
+                                    text: '2 points',
                                     classes: 'govuk-hint govuk-radios__hint'
                                 }
                             },

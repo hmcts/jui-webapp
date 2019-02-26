@@ -46,7 +46,7 @@ module.exports = {
                                 value: '2',
                                 text: 'Needs to use an aid or appliance to be able to speak or hear',
                                 hint: {
-                                    text: '2 point',
+                                    text: '2 points',
                                     classes: 'govuk-hint govuk-radios__hint'
                                 }
                             },

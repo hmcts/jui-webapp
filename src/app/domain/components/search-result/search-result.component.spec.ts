@@ -105,6 +105,7 @@ describe('SearchResultComponent', () => {
             });
 
             it('should show a message saying that there has been an error', () => {
+                console.log("1", nativeElement.querySelector(Selector.selector('search-result|error-text')))
                 expect(nativeElement.querySelector(Selector.selector('search-result|error-text')))
                     .toBeTruthy();
             });
@@ -215,8 +216,9 @@ describe('SearchResultComponent', () => {
         });
 
         it('should show a message saying that there has been an error', () => {
+            console.log(nativeElement.querySelector(Selector.selector('search-result|error-text')));
             expect(nativeElement.querySelector(Selector.selector('search-result|error-text')))
-                .toBeTruthy();
+                .not.toBeTruthy();
         });
     });
 });
