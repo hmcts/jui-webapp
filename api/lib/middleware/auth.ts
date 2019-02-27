@@ -13,9 +13,9 @@ export default (req, res, next) => {
     const expires = new Date(jwtData.exp).getTime()
     const now = new Date().getTime() / 1000
     const expired = expires < now
-    if (expired) {
+    if (expired || !req.session.user) {
         logger.warn('Auth token or user expired need to log in again')
-        auth.logout(req, res)
+        auth.doLogout(req, res, 401)
 
     } else {
         req.auth = jwtData
@@ -27,7 +27,11 @@ export default (req, res, next) => {
         if (req.headers.ServiceAuthorization) {
             axios.defaults.headers.common.ServiceAuthorization = req.headers.ServiceAuthorization
         }
+
+        logger.info('Auth token: ' + `Bearer ${req.auth.token}`)
+        logger.info('S2S token: ' + req.headers.ServiceAuthorization)
         logger.info('Attached auth headers to request')
+
         next()
     }
 }

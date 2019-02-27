@@ -61,10 +61,10 @@ withPipeline(type, product, component) {
     enableDockerBuild()
     installCharts()
 
-//    after('checkout') {sh 'yarn cache clean'}
+    after('checkout') {sh 'yarn cache clean'}
 
     after('build') {
-        sh 'echo "RUNNING TEST COMMAND:" && yarn cache clean && rm -rf node_modules && echo "REMOVED NODE MODULES" && yarn --mutex network install --frozen-lockfile --verbose && echo "FINISHED"'
+        sh 'npm run build'
 
         publishHTML([
             allowMissing         : true,
