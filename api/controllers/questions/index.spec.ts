@@ -1,5 +1,5 @@
 import * as chai from 'chai'
-import {expect} from 'chai'
+import { expect } from 'chai'
 import 'mocha'
 import * as sinon from 'sinon'
 import * as sinonChai from 'sinon-chai'
@@ -10,8 +10,8 @@ import * as util from '../../lib/util'
 import * as headerUtilities from '../../lib/utilities/headerUtilities'
 import * as cohCor from '../../services/cohQA'
 import * as index from './index'
-import {getRoundAndAnswer} from './index'
-import {getRoundAndHalfAnswer} from './index'
+import { getRoundAndAnswer } from './index'
+import { getRoundAndHalfAnswer } from './index'
 
 describe('index', () => {
     describe('formatQuestion', () => {
@@ -211,7 +211,7 @@ describe('index', () => {
             const stub2 = sinon.stub(cohCor, 'getAnswers')
             stub.returns(1)
             stub2.returns(2)
-            const result = index.getQuestion(hearingId, questionId, options)
+            const result = await index.getQuestion(hearingId, questionId, options)
             expect(result).to.be.an('array')
             expect(result).to.eql([1, 2])
             expect(stub).to.be.called
@@ -225,7 +225,7 @@ describe('index', () => {
             const questionId = 2
             const options = {}
             const stub = sinon.stub(cohCor, 'postHearing')
-            stub.resolves({online_hearing_id: 666})
+            stub.resolves({ online_hearing_id: 666 })
             const result = await index.createHearing(hearingId, questionId, options)
             expect(result).to.eql(666)
             expect(stub).to.be.called
@@ -259,7 +259,7 @@ describe('index', () => {
             const stub = sinon.stub(headerUtilities, 'getAuthHeaders')
             const stub2 = sinon.stub(cohCor, 'getHearingByCase')
             const stub3 = sinon.stub(cohCor, 'getQuestion')
-            stub.returns({1: 1})
+            stub.returns({ 1: 1 })
             stub2.resolves({
                 online_hearings: [
                     {
@@ -714,7 +714,7 @@ describe('index', () => {
                 ],
                 status: 200,
             })
-            stub2.resolves({questions: [{question_round: 1, current_question_state: {state_name: 'question_issued'}}]})
+            stub2.resolves({ questions: [{ question_round: 1, current_question_state: { state_name: 'question_issued' } }] })
             await index.getRoundAndAnswer(req, res)
             expect(stub1).to.be.called
             expect(stub2).to.be.called
@@ -761,7 +761,7 @@ describe('index', () => {
                     },
                 ],
             })
-            stub2.resolves({questions: [{question_round: 1, current_question_state: {state_name: 'question_issued'}}]})
+            stub2.resolves({ questions: [{ question_round: 1, current_question_state: { state_name: 'question_issued' } }] })
             await index.getRoundAndHalfAnswer(req, res)
             expect(stub1).to.be.called
             expect(stub2).to.be.called
