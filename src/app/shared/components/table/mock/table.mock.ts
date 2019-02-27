@@ -18,9 +18,9 @@ export interface JuiColumn {
 
 export const mockColumData: Array<JuiColumn> = [
     {
-        'label': 'Ignore this column',
+        'label': 'Case number',
         'order': 2,
-        'case_field_id': 'ignoreignore',
+        'case_field_id': 'case_ref',
         'case_field_type': {
             'id': 'Text',
             'type': 'Text',
@@ -63,7 +63,7 @@ export const mockColumData: Array<JuiColumn> = [
         }
     },
     {
-        'label': 'Status',
+        'label': 'Decision needed on',
         'order': 4,
         'case_field_id': 'status',
         'case_field_type': {
@@ -78,7 +78,7 @@ export const mockColumData: Array<JuiColumn> = [
         }
     },
     {
-        'label': 'Date',
+        'label': 'Case received',
         'order': 5,
         'case_field_id': 'caseCreated',
         'case_field_type': {
@@ -93,9 +93,9 @@ export const mockColumData: Array<JuiColumn> = [
         }
     },
     {
-        'label': 'Last Action',
+        'label': 'Date of last event',
         'order': 7,
-        'case_field_id': 'caseLastActioned',
+        'case_field_id': 'lastModified',
         'case_field_type': {
             'id': 'Date',
             'type': 'Date',
@@ -110,36 +110,41 @@ export const mockColumData: Array<JuiColumn> = [
 ];
 export const mockResultData = {
     'case_id': 1528476356357908,
-    'case_reference': '123-123-123',
     'case_jurisdiction': 'SSCS',
     'case_type_id': 'Benefit',
-    'case_fields': {
-        'caseRef': null,
-        'parties': 'A v May_146863',
-        'type': 'SSCS',
+    'assignedToJudge': 'juitestuser2@gmail.com',
+    'assignedToJudgeReason': 'Draft consent order',
+    'case_fields':{
+        'case_ref': 1528476356357908,
+        'createdDate': '2019-02-18T15:12:12.269',
+        'lastModified': '2019-02-18T15:15:41.141',
+        'parties': 'Feb 18th 3.05pm First Middle Names Feb 18th 3.05pm Last Name v Respondent First and Middle Last Name 2',
         'status': {
-            'name': 'Draft Consent Order',
-            'action_goto': 'casefile'
+            'name': 'Draft consent order',
+            'actionGoTo': 'casefile',
+            'ID': ''
         },
-        'caseCreated': '2018-06-08T16:45:56.301',
-        'caseLastActioned': '2018-06-11T10:36:58.652'
+    'type': "PIP"
     }
 };
+
 export const mockResultData2 = {
-    'case_id': 1528476358303157,
-    'case_reference': '321-321-321',
-    'case_jurisdiction': 'SSCS',
-    'case_type_id': 'Benefit',
-    'case_fields': {
-        'caseRef': null,
-        'parties': 'B v May_417228',
-        'type': 'SSCS',
-        'status': {
-            'name': 'Draft Consent Order',
-            'action_goto': 'casefile'
-        },
-        'caseCreated': '2018-06-08T16:45:58.349',
-        'caseLastActioned': '2018-06-08T16:45:58.349'
+        'case_id': 1528476358303157,
+        'case_jurisdiction': 'SSCS',
+        'case_type_id': 'Benefit',
+        'assignedToJudge': 'juitestuser2@gmail.com',
+        'assignedToJudgeReason': 'Draft consent order',
+        'case_fields': {
+            'caseRef': 1528476358303157,
+            'createdDate': '2019-02-18T15:12:12.269',
+            'lastModified': '2019-02-18T15:15:41.141',
+            'parties': 'B v May_417228',
+            'status': {
+                'name': 'Draft Consent Order',
+                'actionGoTo': 'casefile',
+                'ID': ''
+            },
+        'type': 'PIP'
     }
 };
 export const mockDataWithTwoRows = {
