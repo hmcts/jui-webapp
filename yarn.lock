@@ -686,6 +686,11 @@ argparse@^1.0.7:
   dependencies:
     sprintf-js "~1.0.2"
 
+argv-options@^0.1.0-alpha.1:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/argv-options/-/argv-options-0.1.0.tgz#6356c6b5d888ee94aedbcb877e385c8abf8f9d7d"
+  integrity sha1-Y1bGtdiI7pSu28uHfjhcir+PnX0=
+
 argv@0.0.2, argv@^0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/argv/-/argv-0.0.2.tgz#ecbd16f8949b157183711b1bda334f37840185ab"
@@ -4024,6 +4029,13 @@ http-signature@~1.2.0:
     jsprim "^1.2.2"
     sshpk "^1.7.0"
 
+http-tunneling-proxy@^0.3.4:
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/http-tunneling-proxy/-/http-tunneling-proxy-0.3.4.tgz#61938fb30099e1f47de826330da3d3e9f31ef7c7"
+  integrity sha1-YZOPswCZ4fR96CYzDaPT6fMe98c=
+  dependencies:
+    argv-options "^0.1.0-alpha.1"
+
 https-browserify@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/https-browserify/-/https-browserify-1.0.0.tgz#ec06c10e0a34c0f2faf199f7fd7fc78fffd03c73"
@@ -5872,6 +5884,14 @@ node-sass@^4.8.3:
     sass-graph "^2.2.4"
     stdout-stream "^1.4.0"
     "true-case-path" "^1.0.2"
+
+node-tunnel@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/node-tunnel/-/node-tunnel-2.1.0.tgz#384865b6644a8a424907a0a29f97880bcc077297"
+  integrity sha512-FQylF+afijD9HvWM6D1458sBe8yblDzIP0qHGcO9ywBiWd47LMi+7s00/8IiYInIRJ2BLZmYocelllFHyj4jGA==
+  dependencies:
+    basic-auth-parser "0.0.2"
+    bluebird "^3.5.3"
 
 node-uuid@^1.4.3:
   version "1.4.8"
