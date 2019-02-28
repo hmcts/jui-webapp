@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {ConfigService} from '../../../config.service';
-import {TransferState} from '@angular/platform-browser';
+import { HttpClient } from '@angular/common/http';
+import { ConfigService } from '../../../config.service';
+import { TransferState } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root'
