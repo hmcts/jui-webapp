@@ -11,7 +11,7 @@ properties([
     ]),
     ,
     parameters([
-        choice(name: 'ENVIRONMENT', choices: 'sprod\nsandbox\nsaat', description: 'Environment where code should be build and deployed')
+        choice(name: 'ENVIRONMENT', choices: 'saat\nsandbox\nsprod', description: 'Environment where code should be build and deployed')
     ])
 ])
 

@@ -9,10 +9,13 @@ const cookieUserId = config.cookies.userId
 
 const logger = log4jui.getLogger('auth')
 
-export function logout(req, res) {
+export function doLogout(req, res, status = 302) {
     res.clearCookie(cookieToken)
     res.clearCookie(cookieUserId)
-    res.redirect(req.query.redirect || '/')
+    res.redirect(status, req.query.redirect || '/')
+}
+export function logout(req, res) {
+    doLogout(req, res)
 }
 
 export async function authenticateUser(req: any, res) {
