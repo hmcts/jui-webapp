@@ -42,7 +42,8 @@
     "test:codecov-upload": "codecov -f ./reports/tests/coverage/lcov.info",
     "snyk": "snyk test",
     "snyk-protect": "snyk protect",
-    "doc:ng": "compodoc -p src/tsconfig.app.json -s"
+    "doc:ng": "compodoc -p src/tsconfig.app.json -s",
+    "prepare": "npm run snyk-protect"
   },
   "husky": {
     "hooks": {
@@ -115,7 +116,8 @@
     "url": "0.11.0",
     "util": "0.11.1",
     "yarn": "1.13.0",
-    "zone.js": "0.8.28"
+    "zone.js": "0.8.28",
+    "snyk": "^1.135.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.6.0",
