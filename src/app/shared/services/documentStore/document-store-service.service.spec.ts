@@ -1,5 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientModule } from '@angular/common/http';
 import { ConfigService } from '../../../config.service';
 import { TransferState } from '@angular/platform-browser';
 import { DocumentStoreService } from './document-store.service';
@@ -10,8 +10,8 @@ import {Observable} from 'rxjs/Observable';
 describe('DocumentStoreService', () => {
     beforeEach(() => {
     TestBed.configureTestingModule({
-        imports: [HttpClientTestingModule, RouterTestingModule, CookieModule.forRoot()],
-        providers: [DocumentStoreService, TransferState, ConfigService, HttpTestingController, CookieService, CookieOptionsProvider]
+        imports: [ HttpClientModule, RouterTestingModule, CookieModule.forRoot()],
+        providers: [DocumentStoreService, TransferState, ConfigService, CookieService, CookieOptionsProvider]
     });
     });
 
@@ -33,6 +33,6 @@ describe('DocumentStoreService', () => {
         metaDate.set('key2', 'value3');
         metaDate.set('key3', 'value3');
         const postFile = service.postFile(classification, metaDate, mockFile);
-        expect(postFile).not.toEqual(jasmine.any(Observable));
+        expect(postFile).toEqual(jasmine.any(Observable));
     }));
 });
