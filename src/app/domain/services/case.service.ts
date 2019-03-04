@@ -9,7 +9,7 @@ import { Subject } from 'rxjs/Subject';
 @Injectable()
 export class CaseService {
 
-    private _subject = new Subject<any>();
+    private subject = new Subject<any>();
 
     constructor(private httpClient: HttpClient,
         private configService: ConfigService,
@@ -17,11 +17,11 @@ export class CaseService {
     }
 
     newEvent(event) {
-        this._subject.next(event);
+        this.subject.next(event);
     }
 
-    get events$ () {
-        return this._subject.asObservable();
+    get events () {
+        return this.subject.asObservable();
     }
 
     fetch(caseId, jurisdiction, casetype): Observable<Object> {
