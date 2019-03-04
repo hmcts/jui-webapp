@@ -59,6 +59,7 @@ describe('TableComponent', () => {
                 fixture.detectChanges();
             });
         }));
+        
 
         it('should have no rows', () => {
             expect(element.nativeElement.querySelectorAll(Selector.selector('table-row')).length).toBe(0);
