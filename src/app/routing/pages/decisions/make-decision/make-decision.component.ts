@@ -56,6 +56,9 @@ export class MakeDecisionComponent implements OnInit {
                 this.decision.formValues.visitedPages = {};
                 this.decision.formValues.visitedPages['create'] =  true ;
             } else {
+                if (this.decision.formValues.visitedPages['final-decision'] === true && this.decision.formValues.visitedPages['preliminary-advanced'] === true) {
+                    this.decision.formValues.visitedPages = {};
+                }
                 this.decision.formValues.visitedPages[pageId] = true;
             }
             this.createForm(this.pageitems, this.pageValues) ;

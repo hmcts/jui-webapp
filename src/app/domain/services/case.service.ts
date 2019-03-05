@@ -38,12 +38,10 @@ export class CaseService {
     }
 
     search(): Observable<Object> {
-        console.log("Search");
         const url = `${this.configService.config.api_base_url}/api/cases`;
         return this.httpClient
             .get(url)
             .pipe(map(data => {
-                console.log(data)
                 return data;
             }))
             .pipe(catchError((error: any) => {
