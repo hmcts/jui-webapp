@@ -1,6 +1,8 @@
 
 nodejs:
   applicationPort: 3000
+  memoryLimits: 1024Mi
+  cpuLimits: 1000m
   environment:
     REFORM_TEAM: rpa
     REFORM_SERVICE_NAME: jui-webapp
