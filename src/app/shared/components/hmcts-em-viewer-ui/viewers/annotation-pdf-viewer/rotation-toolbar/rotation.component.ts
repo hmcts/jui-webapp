@@ -1,8 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { PdfRenderService } from '../../../data/pdf-render.service';
 import { EmLoggerService } from '../../../logging/em-logger.service';
-import {RotationService} from './rotation.service';
-import {BehaviorSubject} from 'rxjs';
 
 
 @Component({
@@ -11,28 +9,12 @@ import {BehaviorSubject} from 'rxjs';
     styleUrls: ['./rotation.component.scss'],
     providers: []
 })
-export class RotationComponent implements OnInit {
-    rotationButtonStatusSub: BehaviorSubject<boolean>;
-    rotationStyle = {};
-    viewerStyle = {};
-
+export class RotationComponent {
     @Input() pageNumber: number;
 
     constructor(private pdfRenderService: PdfRenderService,
-                private log: EmLoggerService,
-                private rotationService: RotationService) {
+                private log: EmLoggerService) {
         this.log.setClass('RotationComponent');
-    }
-
-    ngOnInit() {
-        this.rotationButtonStatusSub = this.rotationService.getShowRotationSub();
-        const height = `${(<HTMLElement>document.getElementById('pageContainer' + this.pageNumber).querySelector('.textLayer')).style.height}`;
-        this.rotationStyle = {
-            'margin-top': `-${height}`
-        };
-        this.viewerStyle = {
-            'top': `${height}`
-        };
     }
 
     calculateRotation(rotateVal): number {
@@ -46,6 +28,16 @@ export class RotationComponent implements OnInit {
             .find(rotatePage => rotatePage.page === this.pageNumber).rotate;
         RENDER_OPTIONS.rotationPages
             .find(rotatePage => rotatePage.page === this.pageNumber).rotate = this.calculateRotation(rotation + 90);
+        this.pdfRenderService.setRenderOptions(RENDER_OPTIONS);
+        this.pdfRenderService.render();
+    }
+    
+     onRotateAntiClockwise() {
+        const RENDER_OPTIONS = this.pdfRenderService.getRenderOptions();
+        const rotation = RENDER_OPTIONS.rotationPages
+            .find(rotatePage => rotatePage.page === this.pageNumber).rotate;
+        RENDER_OPTIONS.rotationPages
+            .find(rotatePage => rotatePage.page === this.pageNumber).rotate = this.calculateRotation(rotation - 90);
         this.pdfRenderService.setRenderOptions(RENDER_OPTIONS);
         this.pdfRenderService.render();
     }

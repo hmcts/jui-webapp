@@ -63,7 +63,6 @@ export class PdfRenderService {
                 const viewer = this.viewerElementRef.nativeElement;
                 viewer.innerHTML = '';
                 this.pdfPages = pdf.pdfInfo.numPages;
-                this.listPages = [];
 
                 for (let i = 1; i < this.pdfPages + 1; i++) {
                     const pageDom = this.pdfAnnotateWrapper.createPage(i);
