@@ -53,11 +53,13 @@ const config = {
     //specs: ['../features/**/*.feature'],
     specs: [
         '../features/**/caseFile.feature',
-        '../features/**/login.feature',
+        //  '../features/**/login.feature',
+        '../features/**/dashBoard.min.feature',
         '../features/**/makeDecision.feature',
-        '../features/**/parties.feature',
-        '../features/**/questions.feature',
-        '../features/**/recentEvents.feature',
+        //  '../features/**/parties.feature',
+        //'../features/**/questions.feature',
+        //'../features/**/recentEvents.feature',
+        '../features/**/summary.feature'
     ],
     baseUrl: process.env.TEST_URL || 'http://localhost:3000/',
     params: {
