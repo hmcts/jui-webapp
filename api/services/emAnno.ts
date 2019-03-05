@@ -24,7 +24,7 @@ export async function deleteAnnotation(uuid: string) {
     return request.data
 }
 
-module.exports = app => {
+export default app => {
     const router = express.Router({ mergeParams: true })
     app.use('/em-anno', router)
 
