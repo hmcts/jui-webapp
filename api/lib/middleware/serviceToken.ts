@@ -1,7 +1,7 @@
 import * as jwtDecode from 'jwt-decode'
 import { config } from '../../../config'
-import * as log4jui from '../../lib/log4jui'
 import { postS2SLease } from '../../services/serviceAuth'
+import * as log4jui from '../log4jui'
 import { asyncReturnOrError } from '../util'
 
 const logger = log4jui.getLogger('service-token')

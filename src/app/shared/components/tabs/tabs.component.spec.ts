@@ -155,15 +155,6 @@ describe('Component: TabsComponent', () => {
             });
         });
 
-        xit('should render tab\'s data', () => {
-            const labelElements = document.querySelectorAll(Selector.selector('tabs-component|table-header'));
-            const valueElements = document.querySelectorAll(Selector.selector('tabs-component|table-cell'));
-            for (let i=0; i < component.tabContent.fields.length; i++) {
-                 expect(component.tabContent.fields[i].label.toString()).toContain(labelElements[i].innerHTML);
-                 expect(component.tabContent.fields[i].value.toString()).toContain(valueElements[i].innerHTML);
-            }
-        });
-
         it('should switch tabs', () => {
             const titleElementBeforeSwitch = document.querySelector(Selector.selector('tabs-component|title')).innerHTML;
             activeRouteMock.params = Observable.of({
@@ -185,6 +176,15 @@ describe('Component: TabsComponent', () => {
 
             const titleElementAfterSwitch = document.querySelector(Selector.selector('tabs-component|title')).innerHTML;
             expect(titleElementBeforeSwitch).not.toEqual(titleElementAfterSwitch);
+        });
+
+        it('should render tab\'s data', () => {
+            const labelElements = document.querySelectorAll(Selector.selector('tabs-component|table-header'));
+            const valueElements = document.querySelectorAll(Selector.selector('tabs-component|table-cell'));
+            for (let i=0; i < component.tabContent.fields.length; i++) {
+                expect(component.tabContent.fields[i].label.toString()).toContain(labelElements[i].innerHTML);
+                expect(component.tabContent.fields[i].value.toString()).toContain(valueElements[i].innerHTML);
+            }
         });
     });
 

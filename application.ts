@@ -4,7 +4,7 @@
 import * as express from 'express';
 import { config } from './config';
 import { appInsights } from './api/lib/appInsights';
-import { securityHeaders } from './api/lib/middleware';
+import { securityHeaders } from './api/lib/middleware/securityHeaders';
 import * as log4jui from './api/lib/log4jui';
 import * as globalTunnel from 'global-tunnel-ng';
 
@@ -20,7 +20,7 @@ const sessionFileStore = require('session-file-store');
 
 const FileStore = sessionFileStore(session);
 
-securityHeaders(app);
+app.use(securityHeaders);
 
 app.set('trust proxy', 1);
 

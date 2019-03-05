@@ -20,5 +20,13 @@
                 role="button" (click)="commentView()">
             Comments
         </button>
+        <button class="jui-cf__toolbar-button jui-cf__toolbar-button--rotation"
+                type="button"
+                aria-controls="rotation-button"
+                data-selector="button-rotation"
+                [attr.aria-pressed]="isCommentView"
+                role="button" (click)="toggleViewRotation()">
+            View Rotation Button
+        </button>
     </div>
 </div>

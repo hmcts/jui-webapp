@@ -62,18 +62,5 @@ describe('ImageViewerComponent', () => {
       expect(component.rotateImage).toHaveBeenCalled();
     });
   });
-
-  describe('onRotateAntiClockwise', () => {
-    it('should remove 90 degrees from rotation', () => {
-      component.onRotateAntiClockwise();
-      expect(component['rotation']).toBe(-90);
-    });
-
-    it('should call rotateImage', () => {
-      spyOn(component, 'rotateImage').and.stub();
-      component.onRotateAntiClockwise();
-      expect(component.rotateImage).toHaveBeenCalled();
-    });
-  });
 });
 
