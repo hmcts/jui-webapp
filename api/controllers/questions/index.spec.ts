@@ -1,5 +1,5 @@
 import * as chai from 'chai'
-import { expect } from 'chai'
+import {expect} from 'chai'
 import 'mocha'
 import * as sinon from 'sinon'
 import * as sinonChai from 'sinon-chai'
@@ -10,8 +10,8 @@ import * as util from '../../lib/util'
 import * as headerUtilities from '../../lib/utilities/headerUtilities'
 import * as cohCor from '../../services/cohQA'
 import * as index from './index'
-import { getRoundAndAnswer } from './index'
-import { getRoundAndHalfAnswer } from './index'
+import {getHighestOrdinalNumber, getRoundAndAnswer} from './index'
+import {getRoundAndHalfAnswer} from './index'
 
 describe('index', () => {
     describe('formatQuestion', () => {
@@ -225,7 +225,7 @@ describe('index', () => {
             const questionId = 2
             const options = {}
             const stub = sinon.stub(cohCor, 'postHearing')
-            stub.resolves({ online_hearing_id: 666 })
+            stub.resolves({online_hearing_id: 666})
             const result = await index.createHearing(hearingId, questionId, options)
             expect(result).to.eql(666)
             expect(stub).to.be.called
@@ -259,7 +259,7 @@ describe('index', () => {
             const stub = sinon.stub(headerUtilities, 'getAuthHeaders')
             const stub2 = sinon.stub(cohCor, 'getHearingByCase')
             const stub3 = sinon.stub(cohCor, 'getQuestion')
-            stub.returns({ 1: 1 })
+            stub.returns({1: 1})
             stub2.resolves({
                 online_hearings: [
                     {
@@ -416,6 +416,47 @@ describe('index', () => {
             stub1.restore()
             stub2.restore()
             stub3.restore()
+        })
+    })
+    const highestOrdinalNumber = questions => {
+        const allQuestionOrdinals = questions.questions.map(question => Number(question.question_ordinal))
+
+        return Math.max(...allQuestionOrdinals)
+    }
+
+    describe('getHighestOrdinalNumber', () => {
+
+        /**
+         * Response from CoH /continuous-online-hearings/${hearingId}/questions
+         * @see cohQA.ts getQuestions
+         */
+        const questions = {
+            questions:
+                [
+                    {
+                        question_round: '1',
+                        question_ordinal: '3',
+                    },
+                    {
+                        question_round: '1',
+                        question_ordinal: '2',
+                        question_id: 'df064739-1c63-41ee-9cd7-2ba269afcfdd',
+                    },
+                    {
+                        question_round: '2',
+                        question_ordinal: '6',
+                        question_id: '0c719657-4650-42c0-a5af-f1037d53a74e',
+                    },
+                    {
+                        question_round: '2',
+                        question_ordinal: '4',
+                        question_id: 'c969f4ae-8a58-4d90-9ba5-f59a898de214',
+                    },
+                ],
+        }
+
+        it('should find the highest question ordinal number', () => {
+            expect(getHighestOrdinalNumber(questions)).to.equal(highestOrdinalNumber(questions))
         })
     })
     describe('putQuestionsHandler', () => {
@@ -714,7 +755,7 @@ describe('index', () => {
                 ],
                 status: 200,
             })
-            stub2.resolves({ questions: [{ question_round: 1, current_question_state: { state_name: 'question_issued' } }] })
+            stub2.resolves({questions: [{question_round: 1, current_question_state: {state_name: 'question_issued'}}]})
             await index.getRoundAndAnswer(req, res)
             expect(stub1).to.be.called
             expect(stub2).to.be.called
@@ -761,7 +802,7 @@ describe('index', () => {
                     },
                 ],
             })
-            stub2.resolves({ questions: [{ question_round: 1, current_question_state: { state_name: 'question_issued' } }] })
+            stub2.resolves({questions: [{question_round: 1, current_question_state: {state_name: 'question_issued'}}]})
             await index.getRoundAndHalfAnswer(req, res)
             expect(stub1).to.be.called
             expect(stub2).to.be.called
