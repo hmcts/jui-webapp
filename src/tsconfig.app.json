@@ -6,6 +6,6 @@
         "module": "es2015",
         "types": []
     },
-    "exclude": ["test.ts", "**/*.spec.ts"],
-    "include": ["../config/*.ts", "./*.ts"]
+    "exclude": ["test.ts", "**/*.spec.ts", "../api/*"],
+    "include": ["../config/*.ts", "./*.ts", "./app/**/*.ts" ]
 }
