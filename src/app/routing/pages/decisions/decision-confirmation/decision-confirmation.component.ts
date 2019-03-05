@@ -1,4 +1,4 @@
-import {Component, OnInit, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {CaseService} from '../../../../domain/services/case.service';
 import {DecisionService} from '../../../../domain/services/decision.service';
