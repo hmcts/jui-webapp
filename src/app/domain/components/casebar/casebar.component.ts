@@ -16,7 +16,7 @@ export class CaseBarComponent implements OnInit {
     constructor(private caseservice: CaseService) {}
 
     ngOnInit() {
-        console.log(typeof this.caseservice.events$);
+        console.log(typeof this.caseservice.events);
         this.caseservice.events.forEach(event => {
             if (event === 'hideCasebar') {
                 this.isHidden = true;
