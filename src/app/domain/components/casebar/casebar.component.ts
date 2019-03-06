@@ -13,14 +13,16 @@ export class CaseBarComponent implements OnInit {
     @Input() case: PageDateCaseBar;
     isHidden = false;
 
-    constructor(private caseservice: CaseService) {}
+    constructor(
+       // private caseservice: CaseService
+    ) {}
 
     ngOnInit() {
-        this.caseservice.events.forEach(event => {
-            if (event === 'hideCasebar') {
-                this.isHidden = true;
-            }
-        });
+        // this.caseservice.events.forEach(event => {
+        //     if (event === 'hideCasebar') {
+        //         this.isHidden = true;
+        //     }
+        // });
     }
 
 }
