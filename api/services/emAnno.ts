@@ -1,7 +1,6 @@
 import * as express from 'express'
 import { config } from '../../config'
 import { http } from '../lib/http'
-import { getHealth, getInfo } from '../lib/util'
 
 const url = config.services.em_anno_api
 
@@ -24,7 +23,7 @@ export async function deleteAnnotation(uuid: string) {
     return request.data
 }
 
-module.exports = app => {
+export default app => {
     const router = express.Router({ mergeParams: true })
     app.use('/em-anno', router)
 
