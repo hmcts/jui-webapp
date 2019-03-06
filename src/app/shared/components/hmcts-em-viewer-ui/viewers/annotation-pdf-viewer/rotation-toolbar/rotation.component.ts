@@ -15,7 +15,6 @@ export class RotationComponent implements OnInit {
     rotationButtonStatusSub: BehaviorSubject<boolean>;
     rotationStyle = {};
     viewerStyle = {};
-
     @Input() pageNumber: number;
 
     constructor(private pdfRenderService: PdfRenderService,
@@ -27,12 +26,8 @@ export class RotationComponent implements OnInit {
     ngOnInit() {
         this.rotationButtonStatusSub = this.rotationService.getShowRotationSub();
         const height = `${(<HTMLElement>document.getElementById('pageContainer' + this.pageNumber).querySelector('.textLayer')).style.height}`;
-        this.rotationStyle = {
-            'margin-top': `-${height}`
-        };
-        this.viewerStyle = {
-            'top': `${height}`
-        };
+        this.rotationStyle = {'margin-top': `-${height}`};
+        this.viewerStyle = {'top': `${height}`};
     }
 
     calculateRotation(rotateVal): number {
