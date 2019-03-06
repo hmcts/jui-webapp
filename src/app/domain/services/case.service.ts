@@ -23,9 +23,6 @@ export class CaseService {
         return this.httpClient.get(url).pipe(map(data => {
             this.state.set(key, data);
 
-            console.log('data');
-            console.log(data);
-
             return data;
         }));
     }

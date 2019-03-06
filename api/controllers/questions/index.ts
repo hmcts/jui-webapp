@@ -1,5 +1,5 @@
 import * as express from 'express'
-import {judgeLookUp} from '../../lib/util'
+import { judgeLookUp } from '../../lib/util'
 import * as cohCor from '../../services/cohQA'
 
 const moment = require('moment')
@@ -11,7 +11,7 @@ export async function createHearing(caseId, userId, options, jurisdiction = 'SSC
     options.body = {
         case_id: caseId,
         jurisdiction,
-        panel: [{identity_token: 'string', name: userId}],
+        panel: [{ identity_token: 'string', name: userId }],
         start_date: new Date().toISOString()
     }
 
@@ -32,7 +32,7 @@ export function answerAllQuestions(hearingId, questionIds) {
 }
 
 export function updateRoundToIssued(hearingId, roundId, options) {
-    return cohCor.putRound(hearingId, roundId, {state_name: 'question_issue_pending'})
+    return cohCor.putRound(hearingId, roundId, { state_name: 'question_issue_pending' })
 }
 
 // Format Rounds, Questions and Answers
@@ -44,7 +44,7 @@ export function formatRounds(rounds) {
             const dateUtc = expireDate.utc().format()
             const date = expireDate.format('D MMM YYYY')
             const time = expireDate.format('HH:mma')
-            expires = {dateUtc, date, time}
+            expires = { dateUtc, date, time }
         }
 
         const numberQuestion = round.question_references ? round.question_references.length : 0
@@ -104,13 +104,6 @@ export function formatQuestionRes(question, answers) {
 }
 
 export function formatQuestion(body: any, email: string, ordinalNumber = 0) {
-
-    console.log('formatQuestion')
-    console.log(email)
-    console.log(body.question)
-    console.log(body.subject)
-    console.log(body.rounds)
-    console.log(ordinalNumber)
 
     return {
         owner_reference: email,
@@ -245,11 +238,7 @@ export function putQuestionsHandler(req, res) {
 
     return cohCor
         .getHearingByCase(caseId)
-        .then(hearing => {
-            console.log('hearing')
-            console.log(hearing)
-            return hearing.online_hearings[0].online_hearing_id
-        })
+        .then(hearing => hearing.online_hearings[0].online_hearing_id)
         .then(hearingId => cohCor.putQuestion(hearingId, questionId, formatQuestion(req.body, req.session.user.email)))
         .then(response => {
             res.setHeader('Access-Control-Allow-Origin', '*')
@@ -411,13 +400,11 @@ export default app => {
 
     // CREATE Question
     route.post('/:case_id/questions', async (req: any, res, next) => {
-        console.log('POST to questions')
         await postQuestionsHandler(req, res)
     })
 
     // UPDATE Question
     route.put('/:case_id/questions/:question_id', async (req: any, res, next) => {
-        console.log('UPDATE to questions')
         await putQuestionsHandler(req, res)
     })
 

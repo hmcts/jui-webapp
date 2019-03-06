@@ -14,9 +14,6 @@ export async function getHearing(hearingId) {
 export async function getHearingByCase(caseId) {
     const response = await http.get(`${url}/continuous-online-hearings?case_id=${caseId}`)
 
-    console.log('getHearingByCase')
-    console.log(response.data)
-
     return response.data
 
 }
@@ -24,9 +21,6 @@ export async function getHearingByCase(caseId) {
 // Questions
 export async function getQuestions(hearingId) {
     const response = await http.get(`${url}/continuous-online-hearings/${hearingId}/questions`)
-
-    console.log('getQuestions')
-    console.log(response.data)
 
     return response.data
 }
