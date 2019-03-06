@@ -30,7 +30,7 @@ export class DecisionConfirmationComponent implements OnInit {
     };
 
     constructor(
-        private exchangeervice: ExchangeService,
+        private exchangeService: ExchangeService,
         public decisionService: DecisionService,
         private activatedRoute: ActivatedRoute
     ) {}
@@ -43,19 +43,23 @@ export class DecisionConfirmationComponent implements OnInit {
         });
         const jurId = this.case.case_jurisdiction;
         const typeId = this.case.case_type_id;
+
         this.decisionService.fetch(jurId, this.caseId, this.pageId, typeId).subscribe(decision => {
             if (decision.formValues.visitedPages) {
-                const visitedPages = decision.formValues.visitedPages;
-                if (visitedPages['final-decision'] === true) {
-                    this.display = this.pages.finaldesision;
-                }
-                if (visitedPages['preliminary-advanced'] === true) {
-                    this.display = this.pages.tribunal;
-                }
+                this.setPageData(decision.formValues.visitedPages)
             }
         });
         this.casenumber = this.activatedRoute.parent.snapshot.data['caseData'].details.fields[0].value || null;
-        this.exchangeervice.newEvent('hideCasebar');
+        this.exchangeService.newEvent('hideCasebar');
+    }
+
+    setPageData(visitedPages){
+        if (visitedPages['final-decision'] === true) {
+            this.display = this.pages.finaldesision;
+        }
+        if (visitedPages['preliminary-advanced'] === true) {
+            this.display = this.pages.tribunal;
+        }
     }
 
 }
