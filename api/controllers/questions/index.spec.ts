@@ -496,11 +496,12 @@ describe('index', () => {
 
     describe('getOrdinalNumber', () => {
 
-        it('should find the highest question ordinal number', () => {
+        it('should find the highest question ordinal number, so that we can increment the ordinal number.', () => {
             expect(getOrdinalNumber(questions)).to.equal(testGetOrdinalNumber(questions))
         })
 
-        it('should return a 0 if there are no questions currently asked', () => {
+        it('should return a 0 if there are no questions currently asked, so that the first question asked has an' +
+            'ordinal number of 0.', () => {
             expect(getOrdinalNumber(emptyQuestions)).to.equal(testGetOrdinalNumber(emptyQuestions))
         })
     })
@@ -848,7 +849,7 @@ describe('index', () => {
                     },
                 ],
             })
-            stub2.resolves({ questions: [{ question_round: 1, current_question_state: { state_name: 'question_issued'} }] })
+            stub2.resolves({ questions: [{ question_round: 1, current_question_state: { state_name: 'question_issued' } }] })
             await index.getRoundAndHalfAnswer(req, res)
             expect(stub1).to.be.called
             expect(stub2).to.be.called

@@ -181,14 +181,13 @@ export function questionsHandler(req, res) {
  * getOrdinalNumber
  *
  * We calculate the ordinal number, using the previous highest ordinal number, instead of using array length.
- *
  * As if we used array length we would be assigning an incorrect ordinal number, if the user were to of previously
  * deleted an item.
  *
  * We take the highest ordinal number and increase it by 1. Therefore the question that the user is about to post now
  * has the highest ordinal number, therefore our list of questions can be ordered.
  *
- * If there are no previous questions, this is the first question, hence return 0.
+ * If there are no previous questions, the user will be submitting the first question hence return an ordinal number of 0.
  *
  * @param questions @see unit test
  */
@@ -384,7 +383,7 @@ export function getRoundAndHalfAnswer(req, res) {
 }
 
 export default app => {
-    const route = express.Router({mergeParams: true})
+    const route = express.Router({ mergeParams: true })
     // TODO: we need to put this back to '/case' in the future (rather than '/caseQ') when it doesn't clash with case/index.js
     app.use('/caseQ', route)
 
