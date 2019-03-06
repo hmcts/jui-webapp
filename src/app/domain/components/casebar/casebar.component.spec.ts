@@ -2,6 +2,7 @@ import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild} from '@angular/core';
 import {PageDateCaseBar} from '../../models/section_fields';
 import {CaseBarComponent} from './casebar.component';
+import {CaseService} from '../../services/case.service';
 import {mockCaseBarData} from './mock/case.mock';
 
 describe('CaseBarComponent Component: Testing Input & Output', () => {
@@ -24,6 +25,7 @@ describe('CaseBarComponent Component: Testing Input & Output', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
+            providers: [CaseService],
             declarations: [ CaseBarComponent, TestDummyHostComponent ],
             schemas: [CUSTOM_ELEMENTS_SCHEMA]
         })

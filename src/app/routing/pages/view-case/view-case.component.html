@@ -4,9 +4,9 @@
         <div class="jui-width-container">
             <div id="content" class="govuk-main-wrapper">
                 <app-hmcts-sub-navigation [items]="sections"></app-hmcts-sub-navigation>
-                <app-case-viewer [case]="case" [sectionId]="sectionTabName"></app-case-viewer>
             </div>
         </div>
+        <app-case-viewer [case]="case" [sectionId]="sectionTabName"></app-case-viewer>
     </div>
 </main>
 

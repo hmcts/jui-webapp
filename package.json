@@ -42,7 +42,8 @@
     "test:codecov-upload": "codecov -f ./reports/tests/coverage/lcov.info",
     "snyk": "snyk test",
     "snyk-protect": "snyk protect",
-    "doc:ng": "compodoc -p src/tsconfig.app.json -s"
+    "doc:ng": "compodoc -p src/tsconfig.app.json -s",
+    "prepare": "npm run snyk-protect"
   },
   "husky": {
     "hooks": {
@@ -76,7 +77,7 @@
     "axios": "^0.18.0",
     "base-64": "^0.1.0",
     "body-parser": "1.18.3",
-    "camelcase": "^5.0.0",
+    "camelcase": "^5.2.0",
     "chalk": "^2.4.2",
     "cookie-parser": "1.4.3",
     "core-js": "2.6.1",
@@ -115,7 +116,8 @@
     "url": "0.11.0",
     "util": "0.11.1",
     "yarn": "1.13.0",
-    "zone.js": "0.8.28"
+    "zone.js": "0.8.28",
+    "snyk": "^1.135.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.6.0",
@@ -185,12 +187,12 @@
     "sinon-chai": "^3.3.0",
     "sinon-express-mock": "^2.1.0",
     "socks-proxy-agent": "4.0.1",
-    "sonar-scanner": "3.1.0",
+    "sonar-scanner": "^3.1.0",
     "style-loader": "0.23.1",
     "stylus-loader": "3.0.1",
     "supertest": "3.4.2",
     "ts-node": "^7.0.1",
-    "tslint": "5.10.0",
+    "tslint": "5.13.0",
     "typescript": "^2.8.0",
     "uglifyjs-webpack-plugin": "2.1.1",
     "url-loader": "0.6.2"

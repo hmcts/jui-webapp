@@ -1,20 +1,16 @@
 
 .viewer-menu {
-    z-index: 1;
-    position: absolute;
-    top: 0;
+    width: 100%;
+    position: sticky;
     left: 0;
 }
 
 .rotate {
-    position: relative;
-    background-repeat: no-repeat; 
-    background-size: 14px 14px; 
+    background-repeat: no-repeat;
+    background-size: 14px 14px;
     background-position: 3px 50%;
-    background-image: url(/public/images/em-viewer-rotate.svg); 
-}
-.anti{
+    background-image: url(/public/images/em-viewer-rotate.svg);
+    padding-left: 25px;
+    float: right;
     position: relative;
-    -webkit-transform: scaleX(-1);
-    transform: scaleX(-1);
 }

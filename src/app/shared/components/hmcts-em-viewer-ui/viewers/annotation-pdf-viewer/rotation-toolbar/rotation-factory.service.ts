@@ -5,7 +5,7 @@ import { RotationModel } from '../../../model/rotation-factory.model';
 
 @Injectable()
 export class RotationFactoryService {
-    
+
     constructor(private componentFactoryResolver: ComponentFactoryResolver,
                 private log: EmLoggerService,
                 private injector: Injector,

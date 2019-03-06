@@ -14,11 +14,6 @@
     padding-bottom: govuk-spacing(6);
   }
 
-  .jui-casefile-document-wrapper {
-    overflow-x: scroll;
-  }
-
-
   .jui-casefile-document-iframe {
     border: 0;
   }
@@ -27,7 +22,6 @@
   .jui-casefile-page {
     background-color: govuk-colour("grey-4");
     box-sizing: border-box;
-    padding: govuk-spacing(4);
     //width: 938px;
   }
 
