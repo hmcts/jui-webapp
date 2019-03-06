@@ -5,7 +5,7 @@ import {CaseBarComponent} from './casebar.component';
 import {CaseService} from '../../services/case.service';
 import {mockCaseBarData} from './mock/case.mock';
 
-fdescribe('CaseBarComponent Component: Testing Input & Output', () => {
+describe('CaseBarComponent Component: Testing Input & Output', () => {
     @Component({
         selector: `app-host-dummy-component`,
         template: `<app-casebar [case]="data"></app-casebar>`

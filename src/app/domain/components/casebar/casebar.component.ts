@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import 'rxjs/add/operator/filter';
 import {PageDateCaseBar} from '../../models/section_fields';
-import {CaseService} from '../../services/case.service';
+import {ExchangeService} from '../../services/exchange.service';
 
 @Component({
     selector: 'app-casebar',
@@ -14,15 +14,15 @@ export class CaseBarComponent implements OnInit {
     isHidden = false;
 
     constructor(
-       // private caseservice: CaseService
+        private service: ExchangeService
     ) {}
 
     ngOnInit() {
-        // this.caseservice.events.forEach(event => {
-        //     if (event === 'hideCasebar') {
-        //         this.isHidden = true;
-        //     }
-        // });
+        this.service.events.forEach(event => {
+            if (event === 'hideCasebar') {
+                this.isHidden = true;
+            }
+        });
     }
 
 }

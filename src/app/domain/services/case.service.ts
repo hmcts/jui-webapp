@@ -4,24 +4,13 @@ import { HttpClient } from '@angular/common/http';
 import { ConfigService } from '../../config.service';
 import { makeStateKey, TransferState } from '@angular/platform-browser';
 import { map, catchError } from 'rxjs/operators';
-import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class CaseService {
 
-    private subject = new Subject<any>();
-
     constructor(private httpClient: HttpClient,
         private configService: ConfigService,
         private state: TransferState) {
-    }
-
-    newEvent(event) {
-        this.subject.next(event);
-    }
-
-    get events () {
-        return this.subject.asObservable();
     }
 
     fetch(caseId, jurisdiction, casetype): Observable<Object> {

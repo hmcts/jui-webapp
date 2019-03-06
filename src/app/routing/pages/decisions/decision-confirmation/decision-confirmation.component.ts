@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {CaseService} from '../../../../domain/services/case.service';
 import {DecisionService} from '../../../../domain/services/decision.service';
 import {pages} from './decision-confirmation.model';
+import {ExchangeService} from '../../../../domain/services/exchange.service';
 
 @Component({
     selector: 'app-decision-confirmation',
@@ -30,7 +30,7 @@ export class DecisionConfirmationComponent implements OnInit {
     };
 
     constructor(
-        private caseservice: CaseService,
+        private exchangeervice: ExchangeService,
         public decisionService: DecisionService,
         private activatedRoute: ActivatedRoute
     ) {}
@@ -55,7 +55,7 @@ export class DecisionConfirmationComponent implements OnInit {
             }
         });
         this.casenumber = this.activatedRoute.parent.snapshot.data['caseData'].details.fields[0].value || null;
-        this.caseservice.newEvent('hideCasebar');
+        this.exchangeervice.newEvent('hideCasebar');
     }
 
 }
