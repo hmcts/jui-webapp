@@ -83,7 +83,6 @@
     "core-js": "2.6.1",
     "eslint-html-reporter": "0.5.2",
     "exception-formatter": "1.0.7",
-    "express": "^4.16.4",
     "express-session": "^1.15.6",
     "global-tunnel-ng": "^2.7.1",
     "govuk-frontend": "2.5.0",

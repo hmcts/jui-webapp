@@ -29,7 +29,7 @@ module "app" {
         # REDIS_PORT = "${module.redis-cache.redis_port}"
         # REDIS_PASSWORD = "${module.redis-cache.access_key}"
         # RECIPE_BACKEND_URL = "http://rhubarb-recipe-backend-${var.env}.service.${data.terraform_remote_state.core_apps_compute.ase_name[0]}.internal"
-        WEBSITE_NODE_DEFAULT_VERSION = "8.10.0"
+        WEBSITE_NODE_DEFAULT_VERSION = "8.8.0"
 
         # NODE_ENV = "${var.env}"
         # PORT = "8080"
