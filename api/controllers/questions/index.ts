@@ -185,32 +185,30 @@ export function questionsHandler(req, res) {
 }
 
 /**
- * getHighestOrdinalNumber
+ * getOrdinalNumber
  *
  * We calculate the ordinal number, using the previous highest ordinal number, instead of using array length.
  *
  * As if we used array length we would be assigning an incorrect ordinal number, if the user were to of previously
  * deleted an item.
  *
- * @param questions @see unit test
- */
-export function getHighestOrdinalNumber(questions) {
-    const allQuestionOrdinals = questions.questions.map(question => Number(question.question_ordinal))
-
-    return Math.max(...allQuestionOrdinals)
-}
-
-/**
- * getOrdinalNumber
- *
  * We take the highest ordinal number and increase it by 1. Therefore the question that the user is about to post now
  * has the highest ordinal number, therefore our list of questions can be ordered.
  *
- * @param questions
+ * If there are no previous questions, this is the first question, hence return 0.
+ *
+ * @param questions @see unit test
  */
 export function getOrdinalNumber(questions) {
 
-    return getHighestOrdinalNumber(questions) + 1
+    if (!questions.questions.length) {
+        return 0
+    }
+
+    const allQuestionOrdinals = questions.questions.map(question => question.question_ordinal as number)
+    let highestOrdinal = Math.max(...allQuestionOrdinals)
+
+    return ++highestOrdinal
 }
 
 export function postQuestionsHandler(req, res) {
