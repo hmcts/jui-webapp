@@ -21,7 +21,7 @@ describe('DecisionConfirmationComponent', () => {
     let decision;
 
     beforeEach(async(() => {
-        decision{};
+        decision = {};
         TestBed.configureTestingModule({
             declarations: [
                 DecisionConfirmationComponent
