@@ -117,7 +117,7 @@
     "util": "0.11.1",
     "yarn": "1.13.0",
     "zone.js": "0.8.28",
-    "snyk": "^1.135.1"
+    "snyk": "^1.136.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.6.0",
