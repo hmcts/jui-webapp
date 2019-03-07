@@ -28,8 +28,8 @@ const emNpaApiRoutes = require('./services/em-npa-api/em-npa-api')
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
-router.use(serviceTokenMiddleware)
 auth(router)
+router.use(serviceTokenMiddleware)
 router.use(authInterceptor)
 
 router.use(errorStack)
