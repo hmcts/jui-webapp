@@ -1,7 +1,6 @@
 import * as express from 'express'
 import { config } from '../../config'
 import { http } from '../lib/http'
-import { getHealth, getInfo } from '../lib/util'
 
 const url = config.services.em_anno_api
 

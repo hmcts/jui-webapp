@@ -19,6 +19,7 @@ import idamApiRoutes from './services/idam'
 import s2sApiRoutes from './services/serviceAuth'
 
 const router = express.Router()
+
 const eventsRoutes = require('./controllers/events')
 const documentsRoutes = require('./controllers/documents')
 const caseCreationRoute = require('./controllers/case-creation')
