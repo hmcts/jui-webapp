@@ -21,15 +21,10 @@ const getListTemplate = require('./templates/index')
 const { caseStateFilter } = require('../../lib/processors/case-state-util')
 const logger = log4jui.getLogger('case list')
 
-export async function getCOR(casesData) {
+export async function getCOR(res, casesData) {
     const caseIds = casesData.map(caseRow => `${caseRow.id}`).join('&case_id=')
 
-    let hearings: any
-    try {
-        hearings = await getHearingByCase(caseIds)
-    } catch (e) {
-        // do nothing as if not sscs may fail
-    }
+    const hearings = await asyncReturnOrError(getHearingByCase(caseIds), ' Error getting COR', res, logger, false)
     if (hearings && hearings.online_hearings) {
         const caseStateMap = new Map(hearings.online_hearings.map(hearing => [Number(hearing.case_id), hearing]))
 
@@ -49,9 +44,9 @@ export async function getCOR(casesData) {
     return casesData
 }
 
-export async function appendCOR(caseLists) {
+export async function appendCOR(res, caseLists) {
     return await map(caseLists, async (caseList: any) => {
-        return caseList && caseList.length ? await getCOR(caseList) : []
+        return caseList && caseList.length ? await getCOR(res, caseList) : []
     })
 }
 
@@ -153,11 +148,11 @@ export async function getMutiJudCaseAssignedCases(userDetails) {
 }
 
 // Get List of case and transform to correct format
-export async function getMutiJudCaseTransformed(userDetails) {
+export async function getMutiJudCaseTransformed(res, userDetails) {
     let caseLists
 
     caseLists = await getMutiJudCaseAssignedCases(userDetails)
-    caseLists = await appendCOR(caseLists)
+    caseLists = await appendCOR(res, caseLists)
     caseLists = await appendQuestionsRound(caseLists, userDetails.id)
     caseLists = await processCaseListsState(caseLists)
     caseLists = await applyStateFilter(caseLists)
@@ -179,9 +174,9 @@ export function getMutiJudCaseRaw(userDetails) {
 }
 
 // Get List of case append coh and return raw output
-export async function getMutiJudCaseRawCoh(userDetails) {
+export async function getMutiJudCaseRawCoh(res, userDetails) {
     let caseLists = await getMutiJudCaseAssignedCases(userDetails)
-    caseLists = await appendCOR(caseLists)
+    caseLists = await appendCOR(res, caseLists)
     caseLists = await appendQuestionsRound(caseLists, userDetails.id)
     caseLists = await combineLists(combineLists)
     caseLists = await sortCases(combineLists)
@@ -208,7 +203,8 @@ export async function getCases(res) {
 
         while (tryCCD < config.maxCCDRetries && !results) {
             // need to disable error sending here and catch it later if retrying
-            results = await asyncReturnOrError(getMutiJudCaseTransformed(user), ' Error getting case list', res, logger, false)
+            results = await asyncReturnOrError(getMutiJudCaseTransformed(res, user),
+                ' Error getting case list', res, logger, false)
             tryCCD++
             if (!results) {
                 logger.warn('Having to retry CCD')
@@ -230,7 +226,8 @@ export async function unassign(res) {
     {
         const user = await getUser()
 
-        const results = await asyncReturnOrError(getMutiJudCaseTransformed(user), ' Error unassigning all', res, logger)
+        const results = await asyncReturnOrError(getMutiJudCaseTransformed(res, user),
+            ' Error unassigning all', res, logger)
 
         if (results) {
             res.setHeader('Access-Control-Allow-Origin', '*')
@@ -267,7 +264,7 @@ export async function raw(res) {
 export async function rawCOH(res) {
     const user = await getUser()
 
-    const results = await asyncReturnOrError(getMutiJudCaseRawCoh(user), ' Error getting raw', res, logger)
+    const results = await asyncReturnOrError(getMutiJudCaseRawCoh(res, user), ' Error getting raw', res, logger)
 
     if (results) {
         res.setHeader('Access-Control-Allow-Origin', '*')
