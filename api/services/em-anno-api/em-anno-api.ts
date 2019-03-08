@@ -1,35 +1,55 @@
 import * as express from 'express'
-import { config } from '../../config'
-import { http } from '../lib/http'
+import {config} from '../../../config'
+const generateRequest = require('../../lib/request/request')
+const headerUtilities = require('../../lib/utilities/headerUtilities')
 
 const url = config.services.em_anno_api
 
-export async function getAnnotionSet(uuid: string) {
-    const request = await http.get(`${url}/api/annotation-sets/filter?documentId=${uuid}`)
-    return request.data
+function getAnnotionSet(uuid, options) {
+    return generateRequest('GET', `${url}/api/annotation-sets/filter?documentId=${uuid}`, options)
 }
 
-export async function createAnnotationSet(body: string) {
-    const request = await http.post(`${url}/api/annotation-sets/`, body)
-    return request.data
-}
-export async function addAnnotation(body: string) {
-    const request = await http.post(`${url}/api/annotations`, body)
-    return request.data
+function createAnnotationSet(options) {
+    return generateRequest('POST', `${url}/api/annotation-sets/`, options)
 }
 
-export async function deleteAnnotation(uuid: string) {
-    const request = await http.post(`${url}/api/annotations/${uuid}`)
-    return request.data
+function addAnnotation(options) {
+    return generateRequest('POST', `${url}/api/annotations`, options)
 }
 
-export default app => {
+function deleteAnnotation(uuid, options) {
+    return generateRequest('DELETE', `${url}/api/annotations/${uuid}`, options)
+}
+
+function getHealth(options) {
+    return generateRequest('GET', `${url}/health`, options)
+}
+
+function getInfo(options) {
+    return generateRequest('GET', `${url}/info`, options)
+}
+
+function getOptions(req) {
+    return headerUtilities.getAuthHeadersWithBody(req)
+}
+
+module.exports = app => {
     const router = express.Router({ mergeParams: true })
     app.use('/em-anno', router)
 
+    router.get('/health', (req, res, next) => {
+        getHealth(getOptions(req)).pipe(res)
+    })
+
+    router.get('/info', (req, res, next) => {
+        getInfo(getOptions(req)).pipe(res)
+    })
+
     router.post('/annotation-sets', (req, res, next) => {
         // Called when get annotation-sets returns 404
-        createAnnotationSet(req.body)
+        const options = getOptions(req)
+
+        createAnnotationSet(options)
             .then(response => {
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.setHeader('content-type', 'application/json')
@@ -41,9 +61,10 @@ export default app => {
     })
 
     router.get('/annotation-sets/:uuid', (req, res, next) => {
+        const options = getOptions(req)
         const uuid = req.params.uuid
 
-        getAnnotionSet(uuid)
+        getAnnotionSet(uuid, options)
             .then(response => {
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.setHeader('content-type', 'application/json')
@@ -56,9 +77,10 @@ export default app => {
     })
 
     router.delete('/annotations/:uuid', (req, res, next) => {
+        const options = getOptions(req)
         const uuid = req.params.uuid
 
-        deleteAnnotation(uuid)
+        deleteAnnotation(uuid, options)
             .then(response => {
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.setHeader('content-type', 'application/json')
@@ -70,8 +92,9 @@ export default app => {
     })
 
     router.post('/annotations', (req, res, next) => {
+        const options = getOptions(req)
 
-        addAnnotation(req.body)
+        addAnnotation(options)
             .then(response => {
                 res.setHeader('Access-Control-Allow-Origin', '*')
                 res.setHeader('content-type', 'application/json')
@@ -83,4 +106,14 @@ export default app => {
     })
 }
 
+module.exports.getInfo = getInfo
 
+module.exports.getHealth = getHealth
+
+module.exports.getAnnotionSet = getAnnotionSet
+
+module.exports.createAnnotationSet = createAnnotationSet
+
+module.exports.addAnnotation = addAnnotation
+
+module.exports.deleteAnnotation = deleteAnnotation

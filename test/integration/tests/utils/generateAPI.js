@@ -1,20 +1,27 @@
+const request = require('request-promise');
 const should = require('should');
-const http = require('axios');
-const getCookie = require('./getToken');
 
-let cookie;
 const mainURL = process.env.TEST_URL || 'https://localhost:3000';
 const LOG_REQUEST_ERROR_DETAILS = false;
-
+const getCookie = require('./getToken');
+let cookie ;
 // let browser_cookie= ''
 async function generateAPIRequest(method, subURL, params) {
 
     await getCookie.getOauth2Token().then(function (token) {
-        cookie = token;
+        cookie= token ;
     });
 
 
     const options = {
+        method,
+        url: mainURL + subURL,
+
+        // headers: {
+        //     Cookie: '__auth__=' + browser_cookie,
+        //     'Content-Type': 'application/json'
+        // },
+
         headers: {
             Cookie: '__auth__=' + cookie,
             'Content-Type': 'application/json'
@@ -25,19 +32,11 @@ async function generateAPIRequest(method, subURL, params) {
 
     if (params.body) options.body = params.body;
 
-    let response
-
-    try {
-        response = await http(method, mainURL + subURL, options)
-    } catch (e) {
-        if (LOG_REQUEST_ERROR_DETAILS) {
-            console.log(error.response.body, 'ERROR !');
-        }
-    }
+    const requestPromise = request(options);
     if (LOG_REQUEST_ERROR_DETAILS) {
         requestPromise.catch(error => console.log(error.response.body, 'ERROR !'));
     }
-    return response;
+    return requestPromise;
 }
 
 function generateAPIRequestForFR(method, subURL, params) {
