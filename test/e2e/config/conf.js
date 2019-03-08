@@ -53,7 +53,6 @@ const config = {
     //specs: ['../features/**/*.feature'],
     specs: [
         '../features/**/caseFile.feature',
-        //  '../features/**/login.feature',
         '../features/**/makeDecision.feature',
         '../features/**/parties.feature',
         '../features/**/questions.feature',
