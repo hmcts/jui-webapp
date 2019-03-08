@@ -21,7 +21,6 @@ import { CheckQuestionsComponent } from '../domain/components/questions/check/ch
 import { ViewQuestionComponent } from '../domain/components/questions/view/view.component';
 import { DeleteQuestionComponent } from '../domain/components/questions/delete/delete.component';
 import { EditQuestionComponent } from '../domain/components/questions/edit/edit.component';
-import { UploadComponent } from '../domain/components/upload/upload.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { JUIFormsModule } from '../forms/forms.module';
 import { GovukModule } from '../govuk/govuk.module';
@@ -112,10 +111,6 @@ const routes: Routes = [
                     { path: 'check', component: CheckHearingComponent },
                     { path: 'confirm', component: HearingConfirmationComponent }
                 ]
-            },
-            {
-                path: 'upload',
-                component: UploadComponent
             },
             {
                 path: 'questions/new/:round',

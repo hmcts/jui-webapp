@@ -1,6 +1,7 @@
 locals {
     app_full_name = "${var.product}-${var.component}"
-    ase_name = "${data.terraform_remote_state.core_apps_compute.ase_name[0]}"
+    //ase_name = "${data.terraform_remote_state.core_apps_compute.ase_name[0]}"
+    ase_name = "core-compute-${var.env}"
     local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
     shared_vault_name = "${var.shared_product_name}-${local.local_env}"
 }
@@ -72,5 +73,5 @@ data "azurerm_key_vault_secret" "oauth2_secret" {
 }
 
 provider "azurerm" {
-  version = "1.19.0"
+    version = "1.22.1"
 }

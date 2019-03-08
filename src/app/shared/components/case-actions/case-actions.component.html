@@ -1,29 +1,31 @@
-<div class="hmcts-page-heading">
-    <div class="hmcts-page-heading__title-wrapper">
-        <h1 data-selector="heading" role="heading" aria-level="1" class="hmcts-page-heading__title govuk-heading-xl">{{header}}</h1>
-    </div>
-    <!-- TODO: Should use HMCTS Menu Component here, instead of this. -->
-    <div *ngIf="actionPrimaryButton || actionSecondaryButton" class="hmcts-page-heading__actions-wrapper">
-        <a *ngIf="actionPrimaryButton"
-           data-selector="primary-button"
-           [routerLink]="actionPrimaryButton.href"
-           role="button"
-           class="govuk-button hmcts-page-heading__button">
-            {{actionPrimaryButton.text}}
-        </a>
-        <a *ngIf="actionSecondaryButton"
-           data-selector="secondary-button"
-           [routerLink]="actionSecondaryButton.href"
-           role="button"
-           class="govuk-button hmcts-page-heading__button hmcts-button--secondary">
-            {{actionSecondaryButton.text}}
-        </a>
-        <a *ngIf="actionThirdButton"
-           data-selector="third-button"
-           [routerLink]="actionThirdButton.href"
-           role="button"
-           class="govuk-button hmcts-page-heading__button hmcts-button--secondary">
-            {{actionThirdButton.text}}
-        </a>
+<div class="jui-width-container">
+    <div class="hmcts-page-heading">
+        <div class="hmcts-page-heading__title-wrapper">
+            <h1 data-selector="heading" role="heading" aria-level="1" class="hmcts-page-heading__title govuk-heading-xl">{{header}}</h1>
+        </div>
+        <!-- TODO: Should use HMCTS Menu Component here, instead of this. -->
+        <div *ngIf="actionPrimaryButton || actionSecondaryButton" class="hmcts-page-heading__actions-wrapper">
+            <a *ngIf="actionPrimaryButton"
+               data-selector="primary-button"
+               [routerLink]="actionPrimaryButton.href"
+               role="button"
+               class="govuk-button hmcts-page-heading__button">
+                {{actionPrimaryButton.text}}
+            </a>
+            <a *ngIf="actionSecondaryButton"
+               data-selector="secondary-button"
+               [routerLink]="actionSecondaryButton.href"
+               role="button"
+               class="govuk-button hmcts-page-heading__button hmcts-button--secondary">
+                {{actionSecondaryButton.text}}
+            </a>
+            <a *ngIf="actionThirdButton"
+               data-selector="third-button"
+               [routerLink]="actionThirdButton.href"
+               role="button"
+               class="govuk-button hmcts-page-heading__button hmcts-button--secondary">
+                {{actionThirdButton.text}}
+            </a>
+        </div>
     </div>
 </div>

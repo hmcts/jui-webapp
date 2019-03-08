@@ -4,32 +4,30 @@ import { auth } from './controllers/auth'
 import caseRoutes from './controllers/case'
 import caseListRoute from './controllers/case-list'
 import decisionRoutes from './controllers/decisions'
+import questionsRoutes from './controllers/questions'
 import { errorStack } from './lib/errorStack'
 import authInterceptor from './lib/middleware/auth'
-import serviceTokenMiddleware from './lib/middleware/service-token'
+import serviceTokenMiddleware from './lib/middleware/serviceToken'
 import barApiRoutes from './services/bar'
 import ccdStoreApiRoutes from './services/ccd-store-api/ccd-store'
 import ccdDefApiRoutes from './services/ccdDef'
 import cohCorApiRoutes from './services/cohQA'
 import dmStoreApiRoutes from './services/DMStore'
+import emAnnoApiRoutes from './services/emAnno'
+import emNpaApiRoutes from './services/emNpa'
 import idamApiRoutes from './services/idam'
 import s2sApiRoutes from './services/serviceAuth'
 
 const router = express.Router()
 
-import questionsRoutes from './controllers/questions'
 const eventsRoutes = require('./controllers/events')
-
 const documentsRoutes = require('./controllers/documents')
 const caseCreationRoute = require('./controllers/case-creation')
 
-const emAnnoApiRoutes = require('./services/em-anno-api/em-anno-api')
-const emNpaApiRoutes = require('./services/em-npa-api/em-npa-api')
-
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
-router.use(serviceTokenMiddleware)
 auth(router)
+router.use(serviceTokenMiddleware)
 router.use(authInterceptor)
 
 router.use(errorStack)

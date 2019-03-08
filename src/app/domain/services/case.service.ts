@@ -3,8 +3,7 @@ import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { ConfigService } from '../../config.service';
 import { makeStateKey, TransferState } from '@angular/platform-browser';
-import { map } from 'rxjs/operators';
-import { catchError } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 
 @Injectable()
 export class CaseService {
@@ -15,7 +14,6 @@ export class CaseService {
     }
 
     fetch(caseId, jurisdiction, casetype): Observable<Object> {
-        console.log("Fetch");
         const url = `${this.configService.config.api_base_url}/api/case/${jurisdiction}/${casetype}/${caseId}`;
         const key = makeStateKey(url);
         const cache = this.state.get(key, null as any);
@@ -29,12 +27,10 @@ export class CaseService {
     }
 
     search(): Observable<Object> {
-        console.log("Search");
         const url = `${this.configService.config.api_base_url}/api/cases`;
         return this.httpClient
             .get(url)
             .pipe(map(data => {
-                console.log(data)
                 return data;
             }))
             .pipe(catchError((error: any) => {

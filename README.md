@@ -187,3 +187,18 @@ yarn start
 
 Note : Here is the git repo for json-server : https://github.com/typicode/json-server
 
+##Toggling Rotation Button Visibility
+
+Import the rotation button service
+```
+import {RotationService} from 'hmcts-em-viewer-ui/viewers/annotation-pdf-viewer/rotation-toolbar/rotation.service';
+```
+declare it in the constructor
+```
+private rotationService: RotationService
+```
+and call the toggleRotation() function
+```
+this.rotationService.toggleRotation();
+``` 
+

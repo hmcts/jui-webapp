@@ -1,4 +1,8 @@
-<div class="viewer-menu">
-    <!-- <button class="govuk-button hmcts hmcts-button--secondary rotate anti" title="Anticlockwise" role="button" (click)="onRotateAntiClockwise()"></button>
-    <button class="govuk-button hmcts hmcts-button--secondary rotate" title="Clockwise" role="button" (click)="onRotateClockwise()"></button> -->
+<div class="viewer-menu" [ngStyle]="viewerStyle" *ngIf="rotationButtonStatusSub | async">
+    <button
+        [ngStyle]="rotationStyle"
+        class="govuk-button hmcts hmcts-button--secondary rotate"
+        title="Clockwise"
+        role="button"
+        (click)="onRotateClockwise()">Rotate</button>
 </div>

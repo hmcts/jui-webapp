@@ -10,7 +10,7 @@ import * as util from '../../lib/util'
 import * as headerUtilities from '../../lib/utilities/headerUtilities'
 import * as cohCor from '../../services/cohQA'
 import * as index from './index'
-import { getRoundAndAnswer } from './index'
+import { getOrdinalNumber, getRoundAndAnswer } from './index'
 import { getRoundAndHalfAnswer } from './index'
 
 describe('index', () => {
@@ -398,6 +398,8 @@ describe('index', () => {
             }
             const stub1 = sinon.stub(cohCor, 'getHearingByCase')
             const stub2 = sinon.stub(cohCor, 'createHearing')
+            const stub4 = sinon.stub(cohCor, 'getQuestions')
+
             stub1.resolves({
                 online_hearings: [
                     {
@@ -407,17 +409,103 @@ describe('index', () => {
                 status: 200,
             })
             stub2.returns({})
+            stub4.resolves({
+                    questions:
+                        [
+                            {
+                                question_round: '1',
+                                question_ordinal: '3',
+                            },
+                            {
+                                question_round: '1',
+                                question_ordinal: '2',
+                                question_id: 'df064739-1c63-41ee-9cd7-2ba269afcfdd',
+                            },
+                            {
+                                question_round: '2',
+                                question_ordinal: '6',
+                                question_id: '0c719657-4650-42c0-a5af-f1037d53a74e',
+                            },
+                            {
+                                question_round: '2',
+                                question_ordinal: '4',
+                                question_id: 'c969f4ae-8a58-4d90-9ba5-f59a898de214',
+                            },
+                        ],
+                    }
+                )
+
             const stub3 = sinon.stub(cohCor, 'postQuestion')
+
             stub3.returns({})
             stub3.returns(5)
             await index.postQuestionsHandler(req, res)
             expect(stub1).to.be.called
             expect(stub3).to.be.called
+            expect(stub4).to.be.called
             stub1.restore()
             stub2.restore()
             stub3.restore()
+            stub4.restore()
         })
     })
+    const testGetOrdinalNumber = questions => {
+
+        if (!questions.questions.length) {
+            return 0
+        }
+
+        const allQuestionOrdinals = questions.questions.map(question => question.question_ordinal as number)
+        let highestOrdinal = Math.max(...allQuestionOrdinals)
+
+        return ++highestOrdinal
+    }
+
+    /**
+     * Response from CoH /continuous-online-hearings/${hearingId}/questions
+     * @see cohQA.ts getQuestions
+     */
+    const questions = {
+        questions:
+            [
+                {
+                    question_round: '1',
+                    question_ordinal: '3',
+                },
+                {
+                    question_round: '1',
+                    question_ordinal: '2',
+                    question_id: 'df064739-1c63-41ee-9cd7-2ba269afcfdd',
+                },
+                {
+                    question_round: '2',
+                    question_ordinal: '6',
+                    question_id: '0c719657-4650-42c0-a5af-f1037d53a74e',
+                },
+                {
+                    question_round: '2',
+                    question_ordinal: '4',
+                    question_id: 'c969f4ae-8a58-4d90-9ba5-f59a898de214',
+                },
+            ],
+    }
+
+    const emptyQuestions = {
+        questions: [],
+    }
+
+    describe('getOrdinalNumber', () => {
+
+        it('should find the highest question ordinal number, so that we can increment the ordinal number.', () => {
+            expect(getOrdinalNumber(questions)).to.equal(testGetOrdinalNumber(questions))
+        })
+
+        it('should return a 0 if there are no questions currently asked, so that the first question asked has an' +
+            'ordinal number of 0.', () => {
+            expect(getOrdinalNumber(emptyQuestions)).to.equal(testGetOrdinalNumber(emptyQuestions))
+        })
+    })
+
     describe('putQuestionsHandler', () => {
         it('should call stubbed functions', async () => {
             const req = {

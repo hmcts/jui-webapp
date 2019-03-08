@@ -1,11 +1,13 @@
 <ng-container *ngIf="targetSection && targetSection.sections">
     <ng-container *ngFor="let item of targetSection.sections">
         <ng-container [ngSwitch]="item.type" >
-            <app-summary-panel data-selector="summary-panel" *ngSwitchCase="'summary-panel'" [panelData]="item"></app-summary-panel>
+            <div class="jui-width-container">
+                <app-summary-panel data-selector="summary-panel" *ngSwitchCase="'summary-panel'" [panelData]="item"></app-summary-panel>
+                <app-parties-panel data-selector="parties-panel" *ngSwitchCase="'parties-panel'" [panelData]="item"></app-parties-panel>
+                <app-timeline-panel data-selector="timeline-panel" *ngSwitchCase="'timeline-panel'" [panelData]="item"></app-timeline-panel>
+                <app-questions-panel data-selector="questions-panel" *ngSwitchCase="'questions-panel'" [panelData]="item"></app-questions-panel>
+            </div>
             <app-document-panel data-selector="document-panel" *ngSwitchCase="'document-panel'" [panelData]="item" [docList]="case.documents"></app-document-panel>
-            <app-parties-panel data-selector="parties-panel" *ngSwitchCase="'parties-panel'" [panelData]="item"></app-parties-panel>
-            <app-timeline-panel data-selector="timeline-panel" *ngSwitchCase="'timeline-panel'" [panelData]="item"></app-timeline-panel>
-            <app-questions-panel data-selector="questions-panel" *ngSwitchCase="'questions-panel'" [panelData]="item"></app-questions-panel>
         </ng-container>
     </ng-container>
 </ng-container>

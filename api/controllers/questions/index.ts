@@ -103,12 +103,13 @@ export function formatQuestionRes(question, answers) {
     }
 }
 
-export function formatQuestion(body: any, email: string) {
+export function formatQuestion(body: any, email: string, ordinalNumber = 0) {
+
     return {
         owner_reference: email,
         question_body_text: body.question,
         question_header_text: body.subject,
-        question_ordinal: '1',
+        question_ordinal: ordinalNumber,
         question_round: body.rounds,
         question_state: 'question_drafted',
     }
@@ -176,6 +177,32 @@ export function questionsHandler(req, res) {
         })
 }
 
+/**
+ * getOrdinalNumber
+ *
+ * We calculate the ordinal number, using the previous highest ordinal number, instead of using array length.
+ * As if we used array length we would be assigning an incorrect ordinal number, if the user were to of previously
+ * deleted an item.
+ *
+ * We take the highest ordinal number and increase it by 1. Therefore the question that the user is about to post now
+ * has the highest ordinal number, therefore our list of questions can be ordered.
+ *
+ * If there are no previous questions, the user will be submitting the first question hence return an ordinal number of 0.
+ *
+ * @param questions @see unit test
+ */
+export function getOrdinalNumber(questions) {
+
+    if (!questions.questions.length) {
+        return 0
+    }
+
+    const allQuestionOrdinals = questions.questions.map(question => question.question_ordinal as number)
+    let highestOrdinal = Math.max(...allQuestionOrdinals)
+
+    return ++highestOrdinal
+}
+
 export function postQuestionsHandler(req, res) {
     const caseId = req.params.case_id
 
@@ -186,15 +213,21 @@ export function postQuestionsHandler(req, res) {
                 ? hearing.online_hearings[0].online_hearing_id
                 : cohCor.createHearing(caseId)
         )
-        .then(hearingId => cohCor.postQuestion(hearingId, formatQuestion(req.body, req.session.user.email)))
-        .then(response => {
-            res.setHeader('Access-Control-Allow-Origin', '*')
-            res.setHeader('content-type', 'application/json')
-            res.status(201).send(JSON.stringify(response))
-        })
-        .catch(response => {
-            console.log(response.error || response)
-            res.status(response.error.status).send(response.error.message)
+        .then(hearingId => {
+            cohCor
+                .getQuestions(hearingId)
+                .then(questions => getOrdinalNumber(questions))
+                .then(ordinalNumber => cohCor.postQuestion(hearingId, formatQuestion(req.body,
+                    req.session.user.email, ordinalNumber)))
+                .then(response => {
+                    res.setHeader('Access-Control-Allow-Origin', '*')
+                    res.setHeader('content-type', 'application/json')
+                    res.status(201).send(JSON.stringify(response))
+                })
+                .catch(response => {
+                    console.log(response.error || response)
+                    res.status(response.error.status).send(response.error.message)
+                })
         })
 }
 

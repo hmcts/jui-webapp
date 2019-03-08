@@ -63,14 +63,6 @@ describe('TableComponent', () => {
         it('should have no rows', () => {
             expect(element.nativeElement.querySelectorAll(Selector.selector('table-row')).length).toBe(0);
         });
-
-        // xit('should have ALL the headers', () => {
-        //     dataWithNoRows.columns.splice(0,1);
-        //     dataWithNoRows.columns.forEach((column) => {
-        //         const header = element.nativeElement.querySelector(Selector.selector(`table-component|${column.case_field_id}-header`));
-        //         expect(header.textContent).toEqual(column.label);
-        //     });
-        // });
     });
 
     describe('when I pass the table data with results', () => {
@@ -85,6 +77,10 @@ describe('TableComponent', () => {
             });
         }));
 
+        afterEach(function() {
+            element.nativeElement.remove();
+        });
+
         it('should show match the number of  rows', () => {
             expect(element.nativeElement.querySelectorAll(Selector.selector('table-row')).length).toBe(dataWithTwoRows.results.length);
         });
@@ -95,18 +91,10 @@ describe('TableComponent', () => {
             expect(links[0].attributes.href.value).toEqual('/case/SSCS/Benefit/1528476356357908/summary');
         });
 
-        xit('should have a clickable case status link', () => {
+        it('should have a clickable case status link', () => {
             const links =
                 element.nativeElement.querySelectorAll(Selector.selector('table-component|case-status-reference-link'));
             expect(links[0].attributes.href.value).toEqual('/case/SSCS/Benefit/1528476356357908/casefile');
         });
-
-        // xit('should have ALL the headers', () => {
-        //     dataWithNoRows.columns.splice(0,1);
-        //     dataWithTwoRows.columns.forEach((column) => {
-        //         const header = element.nativeElement.querySelector(Selector.selector(`table-component|${column.case_field_id}-header`));
-        //         expect(header.textContent).toEqual(column.label);
-        //     });
-        // });
     });
 });
