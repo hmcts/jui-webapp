@@ -3,7 +3,6 @@ import { expect } from 'chai'
 import 'mocha'
 import * as sinon from 'sinon'
 import * as sinonChai from 'sinon-chai'
-import { mockReq, mockRes } from 'sinon-express-mock'
 import * as filters from '../../lib/filters'
 import * as utils from '../../lib/util'
 import * as ccdStore from '../../services/ccd-store-api/ccd-store'
@@ -106,8 +105,7 @@ describe('index', () => {
             }
             const stub = sinon.stub(cohCorApi, 'getHearingByCase')
             stub.returns(stubReturns)
-            const res = mockRes()
-            const result = await appendCOR(res, caseLists)
+            const result = await appendCOR(caseLists)
             expect(result).to.be.an('array')
             expect(result[0]).to.be.an('array')
             stub.restore()
@@ -119,9 +117,8 @@ describe('index', () => {
             const casesData = [{ id: 1 }, { id: 2 }, { id: 3 }]
             const options = {}
             const stub = sinon.stub(cohCorApi, 'getHearingByCase')
-            stub.returns(Promise.resolve(123))
-            const res = mockRes()
-            const result = await getCOR(res, casesData)
+            stub.returns(123)
+            const result = await getCOR(casesData)
             expect(stub).to.be.calledWith('1&case_id=2&case_id=3')
             stub.restore()
         })
@@ -142,9 +139,8 @@ describe('index', () => {
             const options = {}
             const stub = sinon.stub(cohCorApi, 'getHearingByCase')
             const stub2 = sinon.stub(coh, 'getDecision')
-            stub.returns(Promise.resolve(stubReturns))
-            const res = mockRes()
-            const result = await getCOR(res, casesData)
+            stub.returns(stubReturns)
+            const result = await getCOR(casesData)
             expect(result).to.be.an('array')
             expect(result[0].id).to.eql(1)
 
@@ -169,11 +165,9 @@ describe('index', () => {
             const options = {}
             const stub = sinon.stub(cohCorApi, 'getHearingByCase')
             const stub2 = sinon.stub(coh, 'getDecision')
-            stub.returns(Promise.resolve(stubReturns))
+            stub.returns(stubReturns)
             stub2.returns({})
-            const res = mockRes()
-            
-            const result = await getCOR(res, casesData)
+            const result = await getCOR(casesData)
             expect(stub2).to.be.calledWith('2a')
             stub.restore()
             stub2.restore()
