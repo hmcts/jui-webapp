@@ -100,8 +100,7 @@ export async function getMutiJudCCDCases(userId: string, jurisdictions: any[]): 
             false
         )
     })
-    console.log('################')
-    console.log(cases.length)
+
     return cases
 }
 
