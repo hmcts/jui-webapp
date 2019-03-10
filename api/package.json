@@ -25,9 +25,9 @@
       ".tsx"
     ],
     "include": [
-      "controllers",
-      "lib",
-      "services"
+      "xcontrollers",
+      "lib/store",
+      "xservices"
     ],
     "exclude": [
       "**/*.d.ts"
