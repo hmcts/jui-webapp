@@ -24,6 +24,11 @@
       ".ts",
       ".tsx"
     ],
+    "include": [
+      "controllers",
+      "lib",
+      "services"
+    ],
     "exclude": [
       "**/*.d.ts"
     ],
