@@ -3,10 +3,11 @@ import { request, response } from 'express'
 import * as log4js from 'log4js'
 import { config } from '../../config'
 import * as errorStack from '../lib/errorStack'
+import { JUILogger } from '../lib/models'
 import { valueOrNull } from '../lib/util'
 import { client } from './appInsights'
 
-let logger = null
+
 let req = null
 let res = null
 
@@ -15,8 +16,8 @@ const sessionid = config.cookies.sessionId
 
 // This is done to mimic log4js calls
 
-export function getLogger(category: string) {
-    logger = log4js.getLogger(category)
+export function getLogger(category: string): JUILogger {
+    const logger: log4js.Logger = log4js.getLogger(category)
     logger.level = config.logging || 'off'
 
     return {
