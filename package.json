@@ -106,14 +106,15 @@
     "rxjs": "6.4.0",
     "rxjs-compat": "6.4.0",
     "session-file-store": "1.2.0",
+    "shortid": "^2.2.14",
+    "snyk": "^1.136.0",
     "stable": "0.1.8",
     "ts-loader": "5.3.2",
     "udk": "0.3.12",
     "url": "0.11.0",
     "util": "0.11.1",
     "yarn": "1.13.0",
-    "zone.js": "0.8.28",
-    "snyk": "^1.136.0"
+    "zone.js": "0.8.28"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "0.7.0",
@@ -125,6 +126,7 @@
     "@types/jasmine": "2.8.3",
     "@types/jasminewd2": "2.0.2",
     "@types/mocha": "^5.2.6",
+    "@types/shortid": "0.0.29",
     "argv": "0.0.2",
     "autoprefixer": "9.4.9",
     "chai": "^4.2.0",

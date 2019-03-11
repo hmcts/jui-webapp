@@ -15,6 +15,11 @@ export default async (req, res, next) => {
     const expires = new Date(jwtData.exp).getTime()
     const now = new Date().getTime() / 1000
     const expired = expires < now
+
+    if (!log4jui.isReqResSet()) {
+        log4jui.setReqRes(req, res)
+    }
+
     if (!req.session.user) {
         logger.warn('Session expired. Trying to get user details again')
         const options = { headers: { Authorization: `Bearer ${jwt}` } }

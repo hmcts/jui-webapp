@@ -1,11 +1,13 @@
 import * as express from 'express'
-import * as log4jui from '../../lib/log4jui'
+import { generate } from 'shortid'
 import { config } from '../../../config'
+import * as log4jui from '../../lib/log4jui'
 import { asyncReturnOrError, exists } from '../../lib/util'
 import { getDetails, postOauthToken } from '../../services/idam'
 
 const cookieToken = config.cookies.token
 const cookieUserId = config.cookies.userId
+const sessionId = config.cookies.sessionId
 
 const logger = log4jui.getLogger('auth')
 
@@ -36,6 +38,10 @@ export async function authenticateUser(req: any, res) {
             req.session.user = details
             res.cookie(cookieToken, data.access_token)
             res.cookie(cookieUserId, details.id)
+            // set response object to get session in logging
+            res.cookie(sessionId, generate())
+            log4jui.setReqRes(req, res)
+
             // need this so angular knows which enviroment config to use ...
             res.cookie('platform', config.environment)
         }

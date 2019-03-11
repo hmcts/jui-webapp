@@ -1,7 +1,8 @@
 export const application = {
     cookies: {
         token: '__auth__',
-        userId: '__userid__'
+        userId: '__userid__',
+        sessionId: '__sessionId__'
     },
     maxCCDRetries: 3,
     microservice: 'jui_webapp',
