@@ -24,8 +24,11 @@ const logger = log4jui.getLogger('case list')
 export async function getCOR(res, casesData) {
     const caseIds = casesData.map(caseRow => `${caseRow.id}`).join('&case_id=')
 
+    // Need to place this back in?
+    // const hearings: any = await asyncReturnOrError(getHearingByCase(caseIds), 'Error getting hearing by case.', null, logger)
     const hearings = await asyncReturnOrError(getHearingByCase(caseIds), ' Error getting COR', res, logger, false)
     if (hearings && hearings.online_hearings) {
+
         const caseStateMap = new Map(hearings.online_hearings.map(hearing => [Number(hearing.case_id), hearing]))
 
         await map(casesData, async (caseRow: any) => {
@@ -147,20 +150,37 @@ export async function getMutiJudCaseAssignedCases(userDetails) {
     return await getMutiJudCCDCases(userDetails.id, filterByCaseTypeAndRole(userDetails))
 }
 
+/**
+ * hasCases
+ *
+ * Checks that there are case results returned on the case lists object.
+ *
+ * @param caseList
+ */
+function hasCases(caseList) {
+    return caseList && caseList.results.length > 0
+}
+
 // Get List of case and transform to correct format
 export async function getMutiJudCaseTransformed(res, userDetails) {
     let caseLists
 
-    caseLists = await getMutiJudCaseAssignedCases(userDetails)
-    caseLists = await appendCOR(res, caseLists)
-    caseLists = await appendQuestionsRound(caseLists, userDetails.id)
-    caseLists = await processCaseListsState(caseLists)
-    caseLists = await applyStateFilter(caseLists)
-    caseLists = await convertCaselistToTemplate(caseLists)
-    caseLists = await combineLists(caseLists)
-    caseLists = await sortTransformedCases(caseLists)
-    caseLists = await aggregatedData(caseLists)
+    caseLists = await asyncReturnOrError(getMutiJudCaseAssignedCases(userDetails), 'Error getting Multi' +
+        'Jurisdictional assigned cases.', null, logger, false)
+    caseLists = await asyncReturnOrError(appendCOR(res, caseLists), 'Error appending to COR.', null, logger, false)
+    caseLists = await asyncReturnOrError(appendQuestionsRound(caseLists, userDetails.id),
+        'Error appending question rounds.', null, logger, false)
 
+    caseLists = processCaseListsState(caseLists)
+    caseLists = applyStateFilter(caseLists)
+    caseLists = convertCaselistToTemplate(caseLists)
+    caseLists = combineLists(caseLists)
+    caseLists = sortTransformedCases(caseLists)
+    caseLists = aggregatedData(caseLists)
+
+    if (!hasCases(caseLists)) {
+        return null
+    }
     return caseLists
 }
 
@@ -178,8 +198,8 @@ export async function getMutiJudCaseRawCoh(res, userDetails) {
     let caseLists = await getMutiJudCaseAssignedCases(userDetails)
     caseLists = await appendCOR(res, caseLists)
     caseLists = await appendQuestionsRound(caseLists, userDetails.id)
-    caseLists = await combineLists(combineLists)
-    caseLists = await sortCases(combineLists)
+    caseLists = await combineLists(caseLists)
+    caseLists = await sortCases(caseLists)
 
     return caseLists
 }
@@ -203,22 +223,24 @@ export async function getCases(res) {
 
         while (tryCCD < config.maxCCDRetries && !results) {
             // need to disable error sending here and catch it later if retrying
-            results = await asyncReturnOrError(getMutiJudCaseTransformed(res, user),
-                ' Error getting case list', res, logger, false)
+            results = await asyncReturnOrError(getMutiJudCaseTransformed(res, user), ' Error getting case list',
+                res, logger, false)
+
             tryCCD++
+
             if (!results) {
                 logger.warn('Having to retry CCD')
             }
         }
 
-        if (results) {
+        if (hasCases(results)) {
             res.setHeader('Access-Control-Allow-Origin', '*')
             res.setHeader('content-type', 'application/json')
             res.status(200).send(JSON.stringify(results))
         } else {
+            logger.warn('Cases unable to be retrieved.')
             res.status(500).send(JSON.stringify(errorStack.get()))
         }
-
     }
 }
 
