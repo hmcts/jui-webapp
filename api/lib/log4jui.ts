@@ -33,11 +33,8 @@ function prepareMessage(fullMessage: string): string {
 
     const uid = req && req.session ? req.session.user.id : null
     const sessionId = req && req.cookies ? req.cookies[sessionid] : null
-
-    if (req && req.cookies) {
-        console.log(req.cookies)
-    }
     const userString: string = uid && sessionId ? `[${uid} - ${sessionId}] - ` : ''
+
     return `${userString}${fullMessage}`
 }
 
