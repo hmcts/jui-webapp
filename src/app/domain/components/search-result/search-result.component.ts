@@ -11,31 +11,42 @@ import {Observable} from 'rxjs';
 })
 export class SearchResultComponent implements OnInit {
 
-    data$: Object;
-    error: string;
+    /**
+     * This component has a couple of different view states, therefore assigning a static
+     * string to each state; as it's cleaner and easier to read, rather than to place multiply variable conditions
+     * in the html.
+     */
+    LOADING = 'LOADING';
+    CASES_LOAD_SUCCESSFULLY = 'CASES_LOAD_SUCCESSFULLY';
+    CASES_LOAD_ERROR = 'CASES_LOAD_ERROR';
+
+    cases: Object;
+
+    componentState = this.LOADING;
 
     constructor(private caseService: CaseService) {
     }
 
     ngOnInit() {
 
-        const cases = this.caseService.getCases();
-        console.log('cases');
-        console.log(cases);
-        //This is an observable
-        this.data$ = cases;
+        const casesObservable = this.caseService.getCases();
 
-        // We want to handle the error condition here.
-        // casesObservable.subscribe(cases => {
-        //         console.log('in subscribe');
-        //         console.log(cases);
-        //         this.data$ = cases;
-        //     },
-        //     error => {
-        //         console.log('error condition');
-        //         console.log(error);
-        //     }
-        // );
+        casesObservable.subscribe(cases => {
 
+                this.cases = cases;
+
+
+                this.componentState = this.CASES_LOAD_SUCCESSFULLY;
+
+                //TODO: No cases logic
+
+            },
+            error => {
+                this.componentState = this.CASES_LOAD_ERROR;
+
+                console.log('error condition');
+                console.log(error);
+            }
+        );
     }
 }

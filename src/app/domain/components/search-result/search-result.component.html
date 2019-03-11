@@ -1,20 +1,36 @@
 <div data-selector="search-result">
-    <div *ngIf="data$ | async as data; else noResults">
-        <app-table *ngIf="data.results && data.results.length; else noResultsOrError" [data]="data"></app-table>
-        <ng-template #noResultsOrError>
-            <span *ngIf="data.error; else noResults" data-selector="error-text" class="govuk-error-message">
-                There was an error getting your cases
-            </span>
-            <ng-template #noResults>
-                <span data-selector="no-results-text">
-                    You have no cases to work on.
-                </span>
-            </ng-template>
-        </ng-template>
+    <div [ngSwitch]="componentState">
+
+        <!-- Loading Graphic -->
+        <div *ngSwitchCase="LOADING" class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div>
+        </div><div></div><div></div><div></div><div></div><div></div></div>
+
+        <!-- Cases -->
+        <app-table *ngSwitchCase="CASES_LOAD_SUCCESSFULLY" [data]="cases"></app-table>
+
+        <!-- Error -->
+        <span *ngSwitchCase="CASES_LOAD_ERROR"  data-selector="error-text" class="govuk-error-message">
+            There was an error getting your cases
+        </span>
+
     </div>
-    <ng-template #noResults>
+
+
+    <!--<div *ngIf="cases">-->
+        <!--<app-table *ngIf="cases" [data]="cases"></app-table>-->
+
+        <!--<ng-template #noResultsOrError>-->
+
+            <!--<ng-template #noResults>-->
+                <!--<span data-selector="no-results-text">-->
+                    <!--You have no cases to work on.-->
+                <!--</span>-->
+            <!--</ng-template>-->
+        <!--</ng-template>-->
+    <!--</div>-->
+    <!--<ng-template>-->
         <!--TODO add this as external component when provided by UX guys-->
-        <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-    </ng-template>
+        <!--<div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>-->
+    <!--</ng-template>-->
 </div>
 
