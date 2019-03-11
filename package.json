@@ -5,7 +5,7 @@
   "scripts": {
     "ng": "ng",
     "nuke": "rm -rf dist",
-    "build": "npm run build:node && ng build --prod && ng run jui:server",
+    "build": "npm run build:node && ng build --prod && ng run jui:server && npm install express --save",
     "build:node": "cd api && npm run build",
     "encrypt": "node ./dist/jui-backend/api/lib/encryption.js encrypt",
     "decrypt": "node ./dist/jui-backend/api/lib/encryption.js decrypt",
@@ -83,6 +83,7 @@
     "core-js": "2.6.1",
     "eslint-html-reporter": "^0.7.1",
     "exception-formatter": "1.0.7",
+    "express": "^4.16.4",
     "express-session": "^1.15.6",
     "global-tunnel-ng": "^2.7.1",
     "govuk-frontend": "2.5.0",
