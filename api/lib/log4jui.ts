@@ -1,23 +1,45 @@
-import { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { request, response } from 'express'
 import * as log4js from 'log4js'
 import { config } from '../../config'
 import * as errorStack from '../lib/errorStack'
-import { valueOrNull } from '../lib/util'
 import { client } from './appInsights'
+
+const categories: string[] = []
+let MAX_CAT_LENGTH = 0
 
 let logger = null
 let req = null
 let res = null
 
-const cookieUserId = config.cookies.userId
 const sessionid = config.cookies.sessionId
 
 // This is done to mimic log4js calls
+log4js.configure({
+    appenders: {
+        out: {
+            layout: {
+                pattern: '%[%d | %p |%X{spaces}%c%X{spaces}|%] %m%n',
+                type: 'pattern',
+            },
+            type: 'stdout',
+        },
+    },
+    categories: {
+        default: { appenders: ['out'], level: 'info' },
+    },
+})
 
 export function getLogger(category: string) {
     logger = log4js.getLogger(category)
     logger.level = config.logging || 'off'
+
+    categories.push(category)
+    // add 2 for a space on each side
+    MAX_CAT_LENGTH = categories.reduce((a, b) => a.length > b.length ? a : b ).length + 2
+    let padLength = Math.round((MAX_CAT_LENGTH - category.length) / 2)
+    // round to nearest even number
+    padLength = 2 * Math.round(padLength / 2)
+    logger.addContext('spaces', ''.padEnd(padLength))
 
     return {
         _logger: logger,
@@ -88,4 +110,3 @@ function error(...messages: any[]) {
         errorStack.push([category, fullMessage])
     }
 }
-
