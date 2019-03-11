@@ -1,36 +1,22 @@
 <div data-selector="search-result">
     <div [ngSwitch]="componentState">
 
-        <!-- Loading Graphic -->
+        <!-- Loading Graphic TODO: To be suppiled by the UX team -->
         <div *ngSwitchCase="LOADING" class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div>
         </div><div></div><div></div><div></div><div></div><div></div></div>
 
         <!-- Cases -->
         <app-table *ngSwitchCase="CASES_LOAD_SUCCESSFULLY" [data]="cases"></app-table>
 
-        <!-- Error -->
-        <span *ngSwitchCase="CASES_LOAD_ERROR"  data-selector="error-text" class="govuk-error-message">
-            There was an error getting your cases
+        <!-- User has no cases -->
+        <span *ngSwitchCase="USER_HAS_NO_CASES" data-selector="no-results-text">
+            You have no cases to work on.
         </span>
 
+        <!-- Error -->
+        <span *ngSwitchCase="CASES_LOAD_ERROR" data-selector="error-text" class="govuk-error-message">
+            There was an error getting your cases.
+        </span>
     </div>
-
-
-    <!--<div *ngIf="cases">-->
-        <!--<app-table *ngIf="cases" [data]="cases"></app-table>-->
-
-        <!--<ng-template #noResultsOrError>-->
-
-            <!--<ng-template #noResults>-->
-                <!--<span data-selector="no-results-text">-->
-                    <!--You have no cases to work on.-->
-                <!--</span>-->
-            <!--</ng-template>-->
-        <!--</ng-template>-->
-    <!--</div>-->
-    <!--<ng-template>-->
-        <!--TODO add this as external component when provided by UX guys-->
-        <!--<div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>-->
-    <!--</ng-template>-->
 </div>
 

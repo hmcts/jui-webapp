@@ -19,6 +19,7 @@ export class SearchResultComponent implements OnInit {
     LOADING = 'LOADING';
     CASES_LOAD_SUCCESSFULLY = 'CASES_LOAD_SUCCESSFULLY';
     CASES_LOAD_ERROR = 'CASES_LOAD_ERROR';
+    USER_HAS_NO_CASES = 'USER_HAS_NO_CASES';
 
     cases: Object;
 
@@ -27,21 +28,33 @@ export class SearchResultComponent implements OnInit {
     constructor(private caseService: CaseService) {
     }
 
+    /**
+     * Checks if the user has any cases. If they do not we display a message to the user.
+     *
+     * @param cases
+     */
+    userHasCases(cases) {
+        return cases.results.length > 0;
+    }
+
     ngOnInit() {
 
         const casesObservable = this.caseService.getCases();
 
-        casesObservable.subscribe(cases => {
+        casesObservable.subscribe(
+            cases => {
 
-                this.cases = cases;
-
+                if (!this.userHasCases(cases)) {
+                    this.componentState = this.USER_HAS_NO_CASES;
+                    return;
+                }
 
                 this.componentState = this.CASES_LOAD_SUCCESSFULLY;
 
-                //TODO: No cases logic
-
+                this.cases = cases;
             },
             error => {
+
                 this.componentState = this.CASES_LOAD_ERROR;
 
                 console.log('error condition');
