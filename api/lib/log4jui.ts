@@ -1,12 +1,10 @@
 import * as log4js from 'log4js'
-import { client } from './appInsights'
 import { config } from '../../config'
 import * as errorStack from '../lib/errorStack'
 import { JUILogger } from '../lib/models'
+import { client } from './appInsights'
 import { isReqResSet, request, response } from './middleware/responseRequest'
 
-
-const cookieUserId = config.cookies.userId
 const sessionid = config.cookies.sessionId
 
 // This is done to mimic log4js calls
@@ -25,19 +23,23 @@ export function getLogger(category: string): JUILogger {
     }
 }
 
-function prepareMessage(fullMessage: string): string {
+export function prepareMessage(fullMessage: string): string {
     let uid
     let sessionId
-
+    console.log('is set?', isReqResSet())
     if (isReqResSet()) {
-
+        console.log('yes')
         const req = request()
         const res = response()
+
+        console.log(req.session)
 
         uid = req.session ? req.session.user.id : null
         sessionId = req.cookies ? req.cookies[sessionid] : null
     }
 
+    console.log('uid', uid)
+    console.log('sessionId', sessionId)
     const userString: string = uid && sessionId ? `[${uid} - ${sessionId}] - ` : ''
 
     return `${userString}${fullMessage}`

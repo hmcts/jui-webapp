@@ -8,8 +8,12 @@ import { mockReq, mockRes } from 'sinon-express-mock'
 chai.use(sinonChai)
 
 import * as log4js from 'log4js'
+import { config } from '../../config'
 import * as log4jui from '../lib/log4jui'
 import { isJUILogger, JUILogger } from '../lib/models'
+import * as appInsights from './appInsights'
+import * as responseRequest from './middleware/responseRequest'
+
 
 describe('log4jui', () => {
     describe('getLogger', () => {
@@ -37,7 +41,7 @@ describe('log4jui', () => {
     })
 
     describe('info', () => {
-        it('should log a info with log4js', async () => {
+        it('should log an info with log4js', async () => {
 
             const spy = sinon.spy()
             const stub = sinon.stub(log4js, 'getLogger')
@@ -50,19 +54,45 @@ describe('log4jui', () => {
             stub.restore()
         })
     })
+})
 
-    describe('error', () => {
-        it('should log a info with log4js', async () => {
+describe('error', () => {
+    it('should log an error with log4js', async () => {
 
-            const spy = sinon.spy()
-            const stub = sinon.stub(log4js, 'getLogger')
-            stub.returns({ error: spy })
+        const spy = sinon.spy()
+        const stub = sinon.stub(log4js, 'getLogger')
+        stub.returns({ error: spy })
 
-            const logger = log4jui.getLogger('test')
-            logger.error('warning')
+        const logger = log4jui.getLogger('test')
+        logger.error('warning')
 
-            expect(spy).to.be.calledWith('warning')
-            stub.restore()
+        expect(spy).to.be.calledWith('warning')
+        stub.restore()
+    })
+})
+
+describe('prepareMessage', () => {
+    it('prepare a message to be sent with userId and sessionId', async () => {
+        const req = mockReq({
+            cookies: [],
+            session: {
+                user: {
+                    id: 'testId',
+                },
+            },
         })
+        const res = mockRes()
+
+        req.cookies.__sessionId__ = 'testCookie'
+        const stub = sinon.stub(responseRequest, 'isReqResSet')
+        const stub2 = sinon.stub(responseRequest, 'request')
+        stub.returns(true)
+        stub2.returns(req)
+
+        expect(log4jui.prepareMessage('hello')).to.equal('[testId - testCookie] - hello')
+
+
+        stub.restore()
+        stub2.restore()
     })
 })

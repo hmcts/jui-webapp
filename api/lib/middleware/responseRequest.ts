@@ -27,5 +27,5 @@ export function request(): request {
 }
 
 export function isReqResSet(): boolean {
-    return res && req
+    return !!res && !!req
 }
