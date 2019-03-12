@@ -1,15 +1,10 @@
-import { AxiosRequestConfig, AxiosResponse } from 'axios'
-import { request, response } from 'express'
 import * as log4js from 'log4js'
+import { client } from './appInsights'
 import { config } from '../../config'
 import * as errorStack from '../lib/errorStack'
 import { JUILogger } from '../lib/models'
-import { valueOrNull } from '../lib/util'
-import { client } from './appInsights'
+import { isReqResSet, request, response } from './middleware/responseRequest'
 
-
-let req = null
-let res = null
 
 const cookieUserId = config.cookies.userId
 const sessionid = config.cookies.sessionId
@@ -31,21 +26,21 @@ export function getLogger(category: string): JUILogger {
 }
 
 function prepareMessage(fullMessage: string): string {
+    let uid
+    let sessionId
 
-    const uid = req && req.session ? req.session.user.id : null
-    const sessionId = req && req.cookies ? req.cookies[sessionid] : null
+    if (isReqResSet()) {
+
+        const req = request()
+        const res = response()
+
+        uid = req.session ? req.session.user.id : null
+        sessionId = req.cookies ? req.cookies[sessionid] : null
+    }
+
     const userString: string = uid && sessionId ? `[${uid} - ${sessionId}] - ` : ''
 
     return `${userString}${fullMessage}`
-}
-
-export function setReqRes(request: request, response: response): void {
-    req = request
-    res = response
-}
-
-export function isReqResSet(): boolean {
-    return res && req
 }
 
 function info(...messages: any[]) {

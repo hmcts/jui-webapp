@@ -7,6 +7,7 @@ import decisionRoutes from './controllers/decisions'
 import questionsRoutes from './controllers/questions'
 import { errorStack } from './lib/errorStack'
 import authInterceptor from './lib/middleware/auth'
+import responseRequest from './lib/middleware/responseRequest'
 import serviceTokenMiddleware from './lib/middleware/serviceToken'
 import barApiRoutes from './services/bar'
 import ccdStoreApiRoutes from './services/ccd-store-api/ccd-store'
@@ -27,6 +28,8 @@ const caseCreationRoute = require('./controllers/case-creation')
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 auth(router)
+
+router.use(responseRequest)
 router.use(serviceTokenMiddleware)
 router.use(authInterceptor)
 
