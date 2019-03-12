@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {CaseService} from '../../services/case.service';
-import {RedirectionService} from '../../../routing/redirection.service';
-import {ActivatedRoute} from '@angular/router';
-import {Observable} from 'rxjs';
+import {ErrorFormattingService} from '../../../shared/services/error-formatting.service';
 
 @Component({
     selector: 'app-search-result',
@@ -22,11 +20,14 @@ export class SearchResultComponent implements OnInit {
     USER_HAS_NO_CASES = 'USER_HAS_NO_CASES';
 
     cases: Object;
-    error: Object;
+    // TODO: Rename
+    errorInResponseData: Object;
+
+    minimalErrorStack: Object;
 
     componentState = this.LOADING;
 
-    constructor(private caseService: CaseService) {
+    constructor(private caseService: CaseService, private errorFormattingService: ErrorFormattingService) {
     }
 
     /**
@@ -53,12 +54,23 @@ export class SearchResultComponent implements OnInit {
                 this.componentState = this.CASES_LOAD_SUCCESSFULLY;
                 this.cases = cases;
             },
-            error => {
+            fullErrorStack => {
 
                 this.componentState = this.CASES_LOAD_ERROR;
-                this.error = error.error.response.data;
+
+                // Full Error Stack, with request and response data. Although it does not look like
+                // return is returning the correct message
+                this.errorInResponseData = fullErrorStack.error.response.data;
                 console.log('HttpErrorResponse Error:');
-                console.log(error);
+                console.log(fullErrorStack);
+
+                // Minimal Error Stack, to display in the view.
+                console.log('HttpErrorResponse minimalErrorStack for view:');
+                const fullErrorStackClone = Object.assign({}, fullErrorStack.error);
+
+                this.minimalErrorStack = this.errorFormattingService.removeRequestAndResponse(fullErrorStackClone);
+
+                console.log(this.minimalErrorStack);
             }
         );
     }
