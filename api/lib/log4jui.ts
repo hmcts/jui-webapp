@@ -1,16 +1,12 @@
-import { request, response } from 'express'
 import * as log4js from 'log4js'
 import { config } from '../../config'
 import * as errorStack from '../lib/errorStack'
+import { JUILogger } from '../lib/models'
 import { client } from './appInsights'
+import { isReqResSet, request, response } from './middleware/responseRequest'
 
 // the longest category length we have currently
 const maxCatLength = 14
-
-let logger = null
-let req = null
-let res = null
-
 const sessionid = config.cookies.sessionId
 
 // This is done to mimic log4js calls
@@ -20,8 +16,8 @@ const leftPad = (str: string, length = 20) => {
     return `${' '.repeat(Math.max(length - str.length, 0))}${str}`
 }
 
-export function getLogger(category: string) {
-    logger = log4js.getLogger(category)
+export function getLogger(category: string): JUILogger {
+    const logger: log4js.Logger = log4js.getLogger(category)
     logger.level = config.logging || 'off'
 
     const catFormatted = leftPad(category, maxCatLength)
@@ -37,22 +33,26 @@ export function getLogger(category: string) {
     }
 }
 
-function prepareMessage(fullMessage: string): string {
+export function prepareMessage(fullMessage: string): string {
+    let uid
+    let sessionId
+    console.log('is set?', isReqResSet())
+    if (isReqResSet()) {
+        console.log('yes')
+        const req = request()
+        const res = response()
 
-    const uid = req && req.session ? req.session.user.id : null
-    const sessionId = req && req.cookies ? req.cookies[sessionid] : null
+        console.log(req.session)
+
+        uid = req.session ? req.session.user.id : null
+        sessionId = req.cookies ? req.cookies[sessionid] : null
+    }
+
+    console.log('uid', uid)
+    console.log('sessionId', sessionId)
     const userString: string = uid && sessionId ? `[${uid} - ${sessionId}] - ` : ''
 
     return `${userString}${fullMessage}`
-}
-
-export function setReqRes(request: request, response: response): void {
-    req = request
-    res = response
-}
-
-export function isReqResSet(): boolean {
-    return res && req
 }
 
 function info(...messages: any[]) {
@@ -96,3 +96,4 @@ function error(...messages: any[]) {
         errorStack.push([category, fullMessage])
     }
 }
+
