@@ -76,3 +76,13 @@
         opacity: 0;
     }
 }
+
+.error-message {
+    border: 1px solid lightgrey;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    font-family: "nta", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    padding: 10px;
+    width: 50%;
+}

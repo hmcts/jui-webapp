@@ -22,6 +22,7 @@ export class SearchResultComponent implements OnInit {
     USER_HAS_NO_CASES = 'USER_HAS_NO_CASES';
 
     cases: Object;
+    error: Object;
 
     componentState = this.LOADING;
 
@@ -50,14 +51,13 @@ export class SearchResultComponent implements OnInit {
                 }
 
                 this.componentState = this.CASES_LOAD_SUCCESSFULLY;
-
                 this.cases = cases;
             },
             error => {
 
                 this.componentState = this.CASES_LOAD_ERROR;
-
-                console.log('error condition');
+                this.error = error.error.response.data;
+                console.log('HttpErrorResponse Error:');
                 console.log(error);
             }
         );

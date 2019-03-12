@@ -14,9 +14,10 @@
         </span>
 
         <!-- Error -->
-        <span *ngSwitchCase="CASES_LOAD_ERROR" data-selector="error-text" class="govuk-error-message">
-            There was an error getting your cases.
-        </span>
+        <div *ngSwitchCase="CASES_LOAD_ERROR">
+            <div data-selector="error-text" class="govuk-error-message">There was an error getting your cases.</div>
+            <div class="error-message">{{error | json}}</div>
+        </div>
     </div>
 </div>
 
