@@ -4,7 +4,6 @@ import { config } from '../../config'
 import * as errorStack from '../lib/errorStack'
 import { client } from './appInsights'
 
-const categories: string[] = []
 let MAX_CAT_LENGTH = 0
 
 let logger = null
@@ -18,7 +17,7 @@ log4js.configure({
     appenders: {
         out: {
             layout: {
-                pattern: '%[%d | %p |%X{spaces}%c%X{spaces}|%] %m%n',
+                pattern: '%[%d | %p |%X{catFormatted}|%] %m%n',
                 type: 'pattern',
             },
             type: 'stdout',
@@ -29,17 +28,19 @@ log4js.configure({
     },
 })
 
+const leftPad = (str, length = 20) => {
+    return `${' '.repeat(Math.max(length - str.length, 0))}${str}`
+}
+
 export function getLogger(category: string) {
     logger = log4js.getLogger(category)
     logger.level = config.logging || 'off'
 
-    categories.push(category)
-    // add 2 for a space on each side
-    MAX_CAT_LENGTH = categories.reduce((a, b) => a.length > b.length ? a : b ).length + 2
-    let padLength = Math.round((MAX_CAT_LENGTH - category.length) / 2)
-    // round to nearest even number
-    padLength = 2 * Math.round(padLength / 2)
-    logger.addContext('spaces', ''.padEnd(padLength))
+    const catLength = category.length
+    MAX_CAT_LENGTH = catLength > MAX_CAT_LENGTH ? catLength : MAX_CAT_LENGTH
+    MAX_CAT_LENGTH = 2 * Math.round(MAX_CAT_LENGTH / 2)
+    const catFormatted = leftPad(category, MAX_CAT_LENGTH)
+    logger.addContext('catFormatted', `${catFormatted} `)
 
     return {
         _logger: logger,
