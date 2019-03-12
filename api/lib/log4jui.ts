@@ -4,7 +4,8 @@ import { config } from '../../config'
 import * as errorStack from '../lib/errorStack'
 import { client } from './appInsights'
 
-let maxCatLength = 0
+// the longest category length we have currently
+const maxCatLength = 14
 
 let logger = null
 let req = null
@@ -13,22 +14,9 @@ let res = null
 const sessionid = config.cookies.sessionId
 
 // This is done to mimic log4js calls
-log4js.configure({
-    appenders: {
-        out: {
-            layout: {
-                pattern: '%[%d | %p |%X{catFormatted}|%] %m%n',
-                type: 'pattern',
-            },
-            type: 'stdout',
-        },
-    },
-    categories: {
-        default: { appenders: ['out'], level: 'info' },
-    },
-})
+log4js.configure(config.log4jui)
 
-const leftPad = (str, length = 20) => {
+const leftPad = (str: string, length = 20) => {
     return `${' '.repeat(Math.max(length - str.length, 0))}${str}`
 }
 
@@ -36,9 +24,6 @@ export function getLogger(category: string) {
     logger = log4js.getLogger(category)
     logger.level = config.logging || 'off'
 
-    const catLength = category.length
-    maxCatLength = catLength > maxCatLength ? catLength : maxCatLength
-    maxCatLength = 2 * Math.round(maxCatLength / 2)
     const catFormatted = leftPad(category, maxCatLength)
     logger.addContext('catFormatted', `${catFormatted} `)
 
