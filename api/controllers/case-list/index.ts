@@ -178,8 +178,8 @@ export async function getMutiJudCaseRawCoh(res, userDetails) {
     let caseLists = await getMutiJudCaseAssignedCases(userDetails)
     caseLists = await appendCOR(res, caseLists)
     caseLists = await appendQuestionsRound(caseLists, userDetails.id)
-    caseLists = await combineLists(combineLists)
-    caseLists = await sortCases(combineLists)
+    caseLists = await combineLists(caseLists)
+    caseLists = await sortCases(caseLists)
 
     return caseLists
 }

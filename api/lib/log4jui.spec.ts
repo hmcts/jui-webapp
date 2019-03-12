@@ -14,7 +14,6 @@ import { isJUILogger, JUILogger } from '../lib/models'
 import * as appInsights from './appInsights'
 import * as responseRequest from './middleware/responseRequest'
 
-
 describe('log4jui', () => {
     describe('getLogger', () => {
         it('Should  return an instance of JUILogger', () => {
@@ -30,7 +29,7 @@ describe('log4jui', () => {
 
             const spy = sinon.spy()
             const stub = sinon.stub(log4js, 'getLogger')
-            stub.returns({ warn: spy })
+            stub.returns({ warn: spy, addContext: sinon.spy() })
 
             const logger = log4jui.getLogger('test')
             logger.warn('warning')
@@ -45,7 +44,7 @@ describe('log4jui', () => {
 
             const spy = sinon.spy()
             const stub = sinon.stub(log4js, 'getLogger')
-            stub.returns({ info: spy })
+            stub.returns({ info: spy, addContext: sinon.spy() })
 
             const logger = log4jui.getLogger('test')
             logger.info('warning')
@@ -61,7 +60,7 @@ describe('error', () => {
 
         const spy = sinon.spy()
         const stub = sinon.stub(log4js, 'getLogger')
-        stub.returns({ error: spy })
+        stub.returns({ error: spy, addContext: sinon.spy() })
 
         const logger = log4jui.getLogger('test')
         logger.error('warning')
@@ -90,7 +89,6 @@ describe('prepareMessage', () => {
         stub2.returns(req)
 
         expect(log4jui.prepareMessage('hello')).to.equal('[testId - testCookie] - hello')
-
 
         stub.restore()
         stub2.restore()

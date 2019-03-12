@@ -48,7 +48,7 @@ describe('interceptors', () => {
         it('Should log outbound request', () => {
             const spy = sinon.spy()
             const getLoggerStub = sinon.stub(log4js, 'getLogger')
-            getLoggerStub.returns({ info: spy })
+            getLoggerStub.returns({ info: spy, addContext: sinon.spy() })
             requestInterceptor(request)
             expect(spy).to.be.calledWith('GET to http://test.com')
             getLoggerStub.restore()
@@ -62,7 +62,7 @@ describe('interceptors', () => {
         it('Should log returned response', () => {
             const spy = sinon.spy()
             const getLoggerStub = sinon.stub(log4js, 'getLogger')
-            getLoggerStub.returns({ info: spy })
+            getLoggerStub.returns({ info: spy, addContext: sinon.spy() })
             successInterceptor(response)
             expect(spy).to.be.called
             getLoggerStub.restore()
@@ -76,7 +76,7 @@ describe('interceptors', () => {
         it('Should log returned response', () => {
             const spy = sinon.spy()
             const getLoggerStub = sinon.stub(log4js, 'getLogger')
-            getLoggerStub.returns({ error: spy })
+            getLoggerStub.returns({ error: spy, addContext: sinon.spy() })
             errorInterceptor(error)
             expect(spy).to.be.called
             getLoggerStub.restore()

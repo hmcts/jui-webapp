@@ -96,4 +96,3 @@ function error(...messages: any[]) {
         errorStack.push([category, fullMessage])
     }
 }
-
