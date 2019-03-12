@@ -4,7 +4,7 @@ import { config } from '../../config'
 import * as errorStack from '../lib/errorStack'
 import { client } from './appInsights'
 
-let MAX_CAT_LENGTH = 0
+let maxCatLength = 0
 
 let logger = null
 let req = null
@@ -37,9 +37,9 @@ export function getLogger(category: string) {
     logger.level = config.logging || 'off'
 
     const catLength = category.length
-    MAX_CAT_LENGTH = catLength > MAX_CAT_LENGTH ? catLength : MAX_CAT_LENGTH
-    MAX_CAT_LENGTH = 2 * Math.round(MAX_CAT_LENGTH / 2)
-    const catFormatted = leftPad(category, MAX_CAT_LENGTH)
+    maxCatLength = catLength > maxCatLength ? catLength : maxCatLength
+    maxCatLength = 2 * Math.round(maxCatLength / 2)
+    const catFormatted = leftPad(category, maxCatLength)
     logger.addContext('catFormatted', `${catFormatted} `)
 
     return {
