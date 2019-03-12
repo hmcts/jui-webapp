@@ -88,6 +88,7 @@
     "express-session": "^1.15.6",
     "global-tunnel-ng": "^2.7.1",
     "govuk-frontend": "2.5.0",
+    "hmctsroles-lib": "git+https://github.com/hmcts/rpa-access-managment-lib.git",
     "http-proxy-middleware": "0.19.1",
     "http-tunneling-proxy": "^0.3.4",
     "https-proxy-agent": "^2.2.1",
