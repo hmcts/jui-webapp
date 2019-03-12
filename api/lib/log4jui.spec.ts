@@ -8,10 +8,9 @@ import { mockReq, mockRes } from 'sinon-express-mock'
 chai.use(sinonChai)
 
 import * as log4js from 'log4js'
-import { config } from '../../config'
 import * as log4jui from '../lib/log4jui'
-import { isJUILogger, JUILogger } from '../lib/models'
-import * as appInsights from './appInsights'
+import { leftPad } from '../lib/log4jui'
+import { isJUILogger } from '../lib/models'
 import * as responseRequest from './middleware/responseRequest'
 
 describe('log4jui', () => {
@@ -92,5 +91,19 @@ describe('prepareMessage', () => {
 
         stub.restore()
         stub2.restore()
+    })
+})
+
+describe('leftPad', () => {
+    it('should not left pad a string if string length is same as param length', () => {
+        const str = 'test'
+        const result = `    ${str}`
+        expect(leftPad(str, 4)).not.to.equal(result)
+    })
+
+    it('should left pad a string if param length is greater than string length', () => {
+        const str = 'test'
+        const result = `    ${str}`
+        expect(leftPad(str, 8)).to.equal(result)
     })
 })

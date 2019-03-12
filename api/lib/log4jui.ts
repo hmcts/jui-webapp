@@ -12,7 +12,8 @@ const sessionid = config.cookies.sessionId
 // This is done to mimic log4js calls
 log4js.configure(config.log4jui)
 
-const leftPad = (str: string, length = 20) => {
+// TODO: this should be moved into util but the import seems to fail
+export function leftPad(str: string, length = 20): string  {
     return `${' '.repeat(Math.max(length - str.length, 0))}${str}`
 }
 
@@ -36,20 +37,14 @@ export function getLogger(category: string): JUILogger {
 export function prepareMessage(fullMessage: string): string {
     let uid
     let sessionId
-    console.log('is set?', isReqResSet())
-    if (isReqResSet()) {
-        console.log('yes')
-        const req = request()
-        const res = response()
 
-        console.log(req.session)
+    if (isReqResSet()) {
+        const req = request()
 
         uid = req.session ? req.session.user.id : null
         sessionId = req.cookies ? req.cookies[sessionid] : null
     }
 
-    console.log('uid', uid)
-    console.log('sessionId', sessionId)
     const userString: string = uid && sessionId ? `[${uid} - ${sessionId}] - ` : ''
 
     return `${userString}${fullMessage}`
