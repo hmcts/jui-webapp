@@ -61,4 +61,15 @@ export class AuthService {
         // do stuff!!
         return !expired;
     }
+
+    getLoggedInUserRoles(): string[] {
+
+        const jwt = this.cookieService.get(this.COOKIE_KEYS.TOKEN);
+        if (!jwt) {
+            return [];
+        }
+        const jwtData: any = this.decodeJwt(jwt);
+        const roles = jwtData.data;
+        return roles;
+    }
 }

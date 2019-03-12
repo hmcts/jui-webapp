@@ -1,5 +1,6 @@
-import {Component, Input} from '@angular/core';
-import {LinkItem} from '../../../domain/models/section_fields';
+import { Component, Input } from '@angular/core';
+import { LinkItem } from '../../../domain/models/section_fields';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
     selector: 'app-case-actions',
@@ -11,5 +12,9 @@ export class CaseActionsComponent {
     @Input() actionPrimaryButton: LinkItem;
     @Input() actionSecondaryButton: LinkItem;
     @Input() actionThirdButton: LinkItem;
-    constructor() { }
+
+    roleList: string[];
+    constructor(public authService: AuthService) {
+        this.roleList = authService.getLoggedInUserRoles();
+    }
 }
