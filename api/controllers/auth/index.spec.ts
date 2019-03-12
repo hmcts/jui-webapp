@@ -55,13 +55,13 @@ describe('Auth', () => {
         })
 
         it('should set the authorisation header', async () => {
-            await authenticateUser(req, res)
+            await authenticateUser(req, res, () => { })
             expect(idam.postOauthToken).to.be.calledWith(1, 'localhost')
             // expect(idam.getDetails).to.have.been.calledWith({ headers: { Authorization: `Bearer ${accessToken}` } })
         })
 
         it('should set the session, cookies and redirect the user', async () => {
-            await authenticateUser(req, res)
+            await authenticateUser(req, res, () => { })
             expect(req.session.user).to.be.equals(details)
             expect(res.cookie).to.be.calledWith(config.cookies.token, accessToken)
             expect(res.cookie).to.be.calledWith(config.cookies.userId, details.id)
@@ -72,7 +72,7 @@ describe('Auth', () => {
             // @ts-ignore
             idam.postOauthToken.restore()
             sandbox.stub(idam, 'postOauthToken').resolves({ error: `${accessToken}` })
-            await authenticateUser(req, res)
+            await authenticateUser(req, res, () => { })
             expect(req.session.user).not.to.be.equals(details)
             expect(res.cookie).not.to.be.calledWith(config.cookies.token, accessToken)
             expect(res.cookie).not.to.be.calledWith(config.cookies.userId, details.id)
@@ -83,7 +83,7 @@ describe('Auth', () => {
             // @ts-ignore
             idam.getDetails.restore()
             sandbox.stub(idam, 'getDetails').resolves(null)
-            await authenticateUser(req, res)
+            await authenticateUser(req, res, () => { })
             expect(req.session.user).not.to.be.equals(details)
             expect(res.cookie).not.to.be.calledWith(config.cookies.token, accessToken)
             expect(res.cookie).not.to.be.calledWith(config.cookies.userId, details.id)
