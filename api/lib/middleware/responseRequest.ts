@@ -7,14 +7,13 @@ const sessionId = config.cookies.sessionId
 let res = null
 let req = null
 
-export default function setReqRes(expressRes: response, expressReq: request, next) {
+export default function setReqRes(expressReq: request, expressRes: response, next) {
     res = expressRes
     req = expressReq
 
     // set response object to get session in logging
-    if (res.cookie) {
-        req.cookie(sessionId, generate())
-    }
+    res.cookie(sessionId, generate())
+
     next()
 
 }
