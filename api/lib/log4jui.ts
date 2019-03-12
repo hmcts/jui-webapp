@@ -26,20 +26,15 @@ export function getLogger(category: string): JUILogger {
 export function prepareMessage(fullMessage: string): string {
     let uid
     let sessionId
-    console.log('is set?', isReqResSet())
+
     if (isReqResSet()) {
-        console.log('yes')
         const req = request()
         const res = response()
-
-        console.log(req.session)
 
         uid = req.session ? req.session.user.id : null
         sessionId = req.cookies ? req.cookies[sessionid] : null
     }
 
-    console.log('uid', uid)
-    console.log('sessionId', sessionId)
     const userString: string = uid && sessionId ? `[${uid} - ${sessionId}] - ` : ''
 
     return `${userString}${fullMessage}`
