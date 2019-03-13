@@ -10,7 +10,7 @@ chai.use(sinonChai)
 import * as log4js from 'log4js'
 import * as log4jui from '../lib/log4jui'
 import { leftPad } from '../lib/log4jui'
-import { isJUILogger } from '../lib/models'
+import { isJUILogger, JUILogger } from '../lib/models'
 import * as responseRequest from './middleware/responseRequest'
 
 describe('log4jui', () => {

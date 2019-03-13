@@ -46,7 +46,6 @@ export function prepareMessage(fullMessage: string): string {
     }
 
     const userString: string = uid && sessionId ? `[${uid} - ${sessionId}] - ` : ''
-
     return `${userString}${fullMessage}`
 }
 
