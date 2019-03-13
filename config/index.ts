@@ -11,6 +11,7 @@ import * as aat from './environments/aat.config';
 import * as prod from './environments/prod.config';
 import * as mock from './environments/mock.config';
 import * as process from 'process';
+import * as sandbox from './environments/sandbox.config';
 
 export const configs = {
     local,
@@ -23,6 +24,7 @@ export const configs = {
     aat,
     prod,
     mock,
+    sandbox
 };
 
 export const configEnv = process ? process.env.JUI_ENV || 'local' : 'local';
