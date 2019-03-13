@@ -61,9 +61,7 @@ export class SearchResultComponent implements OnInit {
                 this.componentState = this.CASES_LOAD_ERROR;
 
                 this.errorStackResponse = errorStack.error.response.data;
-
-                const errorStackClone = Object.assign({}, errorStack.error);
-                this.minimalErrorStack = this.errorFormattingService.createMinimalErrorStack(errorStackClone);
+                this.minimalErrorStack = this.errorFormattingService.createMinimalErrorStack(errorStack.error);
 
                 console.log('HttpErrorResponse Error:');
                 console.log(errorStack);
