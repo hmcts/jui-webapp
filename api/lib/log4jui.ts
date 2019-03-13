@@ -31,7 +31,7 @@ export function prepareMessage(fullMessage: string): string {
         const req = request()
         const res = response()
 
-        uid = req.session ? req.session.user.id : null
+        uid = req.session && req.session.user ? req.session.user.id : null
         sessionId = req.cookies ? req.cookies[sessionid] : null
     }
 
