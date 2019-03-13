@@ -8,12 +8,13 @@ describe('ErrorFormattingService', () => {
         });
     });
 
-    const expectedRemoveRequestAndResponse = (object) => {
+    const expectedMinimalErrorStack = (errorStack) => {
 
-        delete object.response;
-        delete object.request;
+        delete errorStack.response;
+        delete errorStack.request;
+        delete errorStack.return;
 
-        return object;
+        return errorStack;
     };
 
     /**
@@ -29,10 +30,11 @@ describe('ErrorFormattingService', () => {
             questions: 'Error getting question rounds.',
             response: {},
             request: {},
+            return: '',
         };
 
         const errorStackClone = Object.assign({}, errorStack);
 
-        expect(service.removeRequestAndResponse(errorStack)).toEqual(expectedRemoveRequestAndResponse(errorStackClone));
+        expect(service.createMinimalErrorStack(errorStack)).toEqual(expectedMinimalErrorStack(errorStackClone));
     }));
 });

@@ -17,20 +17,16 @@
         <div *ngSwitchCase="CASES_LOAD_ERROR">
             <div data-selector="error-text" class="govuk-error-message">There was an error getting your cases.</div>
 
-            <!-- Minimal Error stack -->
             <div class="error-message">
+                <div>Error: {{errorStackResponse.error}}</div>
+                <div>Status code: {{errorStackResponse.status}}</div>
+                <div>Message: {{errorStackResponse.message}}</div>
+                <div>On path: {{errorStackResponse.path}}</div>
+                <div>Time: {{errorStackResponse.timestamp}}</div>
+                <div>Stack trace:</div>
                 <div *ngFor="let error of minimalErrorStack | keyvalue">
                     {{error.key}} : {{error.value}}
                 </div>
-            </div>
-
-            <!-- This is for the body error, if there are multiply issues, sometimes this is inaccurate. -->
-            <div class="error-message">
-                <div>Error: {{errorInResponseData.error}}</div>
-                <div>Status code: {{errorInResponseData.status}}</div>
-                <div>Message: {{errorInResponseData.message}}</div>
-                <div>On path: {{errorInResponseData.path}}</div>
-                <div>Time: {{errorInResponseData.timestamp}}</div>
             </div>
         </div>
     </div>

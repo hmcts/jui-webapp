@@ -20,9 +20,7 @@ export class SearchResultComponent implements OnInit {
     USER_HAS_NO_CASES = 'USER_HAS_NO_CASES';
 
     cases: Object;
-    // TODO: Rename
-    errorInResponseData: Object;
-
+    errorStackResponse: Object;
     minimalErrorStack: Object;
 
     componentState = this.LOADING;
@@ -39,6 +37,10 @@ export class SearchResultComponent implements OnInit {
         return cases.results.length > 0;
     }
 
+    /**
+     * Note that the minimal error stack, does not include the request, response or return objects, as this is
+     * too much information to place into the view.
+     */
     ngOnInit() {
 
         const casesObservable = this.caseService.getCases();
@@ -54,23 +56,17 @@ export class SearchResultComponent implements OnInit {
                 this.componentState = this.CASES_LOAD_SUCCESSFULLY;
                 this.cases = cases;
             },
-            fullErrorStack => {
+            errorStack => {
 
                 this.componentState = this.CASES_LOAD_ERROR;
 
-                // Full Error Stack, with request and response data. Although it does not look like
-                // return is returning the correct message
-                this.errorInResponseData = fullErrorStack.error.response.data;
+                this.errorStackResponse = errorStack.error.response.data;
+
+                const errorStackClone = Object.assign({}, errorStack.error);
+                this.minimalErrorStack = this.errorFormattingService.createMinimalErrorStack(errorStackClone);
+
                 console.log('HttpErrorResponse Error:');
-                console.log(fullErrorStack);
-
-                // Minimal Error Stack, to display in the view.
-                console.log('HttpErrorResponse minimalErrorStack for view:');
-                const fullErrorStackClone = Object.assign({}, fullErrorStack.error);
-
-                this.minimalErrorStack = this.errorFormattingService.removeRequestAndResponse(fullErrorStackClone);
-
-                console.log(this.minimalErrorStack);
+                console.log(errorStack);
             }
         );
     }

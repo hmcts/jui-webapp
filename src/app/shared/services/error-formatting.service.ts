@@ -9,17 +9,19 @@ export class ErrorFormattingService {
     }
 
     /**
-     * removeRequestAndResponse
+     * createMinimalErrorStack
      *
-     * We remove the request and response properties from an object,
+     * We remove the request, response and return properties from the errorStack,
      * as we should not be displaying these in the view.
      *
      * @param object
      */
-    removeRequestAndResponse(object) {
-        delete object.response;
-        delete object.request;
+    createMinimalErrorStack(errorStack) {
 
-        return object;
+        delete errorStack.response;
+        delete errorStack.request;
+        delete errorStack.return;
+
+        return errorStack;
     }
 }
