@@ -1,5 +1,7 @@
 import * as express from 'express'
+import * as errorStack from '../../lib/errorStack'
 import * as log4jui from '../../lib/log4jui'
+import { request } from '../../lib/middleware/responseRequest'
 import { CCDCaseWithSchema } from '../../lib/models'
 import { processCaseState } from '../../lib/processors/case-state-model'
 import { dataLookup } from '../../lib/processors/value-processor'
@@ -11,10 +13,23 @@ import { getEvents } from '../events'
 import { getAllQuestionsByCase } from '../questions/index'
 import * as getCaseTemplate from './templates/index'
 
-const logger = log4jui.getLogger('cases')
+const logger = log4jui.getLogger('case')
 
 function hasCOR(jurisdiction, caseType) {
     return jurisdiction === 'SSCS'
+}
+
+export function checkValidUser(caseData) {
+    const req = request()
+    const user = req.session.user
+    // best to get by id else all we have is name and thus two members with the same name could have access
+    const disabilityId = caseData.assignedToDisabilityMember ?
+        parseInt(caseData.assignedToDisabilityMember.split('|')[0], 10) : null
+    const medicalId = caseData.assignedToMedicalMember ?
+        parseInt(caseData.assignedToMedicalMember.split('|')[0], 10) : null
+    const judge = caseData.assignedToJudge
+    return (judge === user.email || disabilityId === user.id || medicalId === user.id)
+
 }
 
 export async function getCaseWithEventsAndQuestions(userId, jurisdiction, caseType, caseId): Promise<[any, any, any, any]> {
@@ -22,12 +37,20 @@ export async function getCaseWithEventsAndQuestions(userId, jurisdiction, caseTy
     const events = await getEvents(userId, jurisdiction, caseType, caseId)
     let hearing
     let questions
+
     if (hasCOR(jurisdiction, caseType)) {
         hearing = await getHearingByCase(caseId)
         questions = await getAllQuestionsByCase(caseId, userId, jurisdiction)
     }
 
+
+    if (!checkValidUser(caseData.case_data)) {
+        logger.error('unauthorised user for particular case')
+        throw new Error()
+    }
     await normaliseForPanel(caseData.case_data)
+
+
     return [caseData, events, hearing, questions]
 }
 

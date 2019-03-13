@@ -23,11 +23,19 @@ describe('RotationService', () => {
     });
 
     describe('toggleRotation', () => {
-        it('should change the value of the boolean', inject([RotationService], (service: RotationService) => {
+        it('should toggle the value to true', inject([RotationService], (service: RotationService) => {
             service.toggleRotation();
 
             const value = service.getShowRotationSub().getValue();
             expect(value).toBeTruthy();
+        }));
+
+        it('should toggle the value to false', inject([RotationService], (service: RotationService) => {
+            service.toggleRotation();
+            service.toggleRotation();
+
+            const value = service.getShowRotationSub().getValue();
+            expect(value).toBeFalsy();
         }));
     });
 });

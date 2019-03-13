@@ -1,6 +1,7 @@
 import * as express from 'express'
-import * as log4jui from '../../lib/log4jui'
 import { config } from '../../../config'
+import * as log4jui from '../../lib/log4jui'
+import * as responseRequest from '../../lib/middleware/responseRequest'
 import { asyncReturnOrError, exists } from '../../lib/util'
 import { getDetails, postOauthToken } from '../../services/idam'
 
@@ -18,7 +19,7 @@ export function logout(req, res) {
     doLogout(req, res)
 }
 
-export async function authenticateUser(req: any, res) {
+export async function authenticateUser(req: any, res, next) {
     const data = await asyncReturnOrError(
         postOauthToken(req.query.code, req.get('host')),
         'Error getting token for code',
@@ -36,6 +37,7 @@ export async function authenticateUser(req: any, res) {
             req.session.user = details
             res.cookie(cookieToken, data.access_token)
             res.cookie(cookieUserId, details.id)
+
             // need this so angular knows which enviroment config to use ...
             res.cookie('platform', config.environment)
         }
