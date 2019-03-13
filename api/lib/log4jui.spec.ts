@@ -8,12 +8,9 @@ import { mockReq, mockRes } from 'sinon-express-mock'
 chai.use(sinonChai)
 
 import * as log4js from 'log4js'
-import { config } from '../../config'
 import * as log4jui from '../lib/log4jui'
 import { isJUILogger, JUILogger } from '../lib/models'
-import * as appInsights from './appInsights'
 import * as responseRequest from './middleware/responseRequest'
-
 
 describe('log4jui', () => {
     describe('getLogger', () => {
@@ -90,7 +87,6 @@ describe('prepareMessage', () => {
         stub2.returns(req)
 
         expect(log4jui.prepareMessage('hello')).to.equal('[testId - testCookie] - hello')
-
 
         stub.restore()
         stub2.restore()

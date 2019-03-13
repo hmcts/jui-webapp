@@ -28,7 +28,6 @@ export function prepareMessage(fullMessage: string): string {
     let sessionId
 
     if (isReqResSet()) {
-
         const req = request()
         const res = response()
 
