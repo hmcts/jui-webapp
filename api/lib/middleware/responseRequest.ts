@@ -2,6 +2,7 @@ import { request, response } from 'express'
 import { generate } from 'shortid'
 import { config } from '../../../config'
 
+
 const sessionId = config.cookies.sessionId
 
 let res = null
