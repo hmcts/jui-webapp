@@ -99,7 +99,7 @@ describe('SearchResultComponent', () => {
                        });
             }));
 
-            //TODO: Ok so we should test error message, and you have no cases to work on.
+            //TODO: Re-write and add unit tests once functionality is signed off.
             xit('should have zero rows', () => {
                 expect(nativeElement.querySelectorAll(Selector.selector('search-result|table-row')).length)
                     .toBe(0);

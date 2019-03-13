@@ -78,11 +78,11 @@
 }
 
 .error-message {
+    -webkit-font-smoothing: antialiased;
     border: 1px solid #d06e78;
+    font-family: "nta", Arial, sans-serif;
     font-size: 0.8rem;
     line-height: 1.5;
-    font-family: "nta", Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
     padding: 10px;
     width: 50%;
 }

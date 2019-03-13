@@ -24,8 +24,6 @@ const logger = log4jui.getLogger('case list')
 export async function getCOR(res, casesData) {
     const caseIds = casesData.map(caseRow => `${caseRow.id}`).join('&case_id=')
 
-    // Need to place this back in?
-    // const hearings: any = await asyncReturnOrError(getHearingByCase(caseIds), 'Error getting hearing by case.', null, logger)
     const hearings = await asyncReturnOrError(getHearingByCase(caseIds), ' Error getting COR', res, logger, false)
     if (hearings && hearings.online_hearings) {
 
