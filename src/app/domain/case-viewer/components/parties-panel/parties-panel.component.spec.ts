@@ -1,9 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { PartiesPanelComponent } from './parties-panel.component';
-import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild} from '@angular/core';
-import {mockPanelData} from '../summary-panel/mock/summary-panel.mock';
-import {PageDateDefault} from '../../../models/section_fields';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild } from '@angular/core';
+import { mockPanelData } from '../summary-panel/mock/summary-panel.mock';
+import { PageDateDefault } from '../../../models/section_fields';
+import { AuthService } from '../../../../auth/auth.service';
 
+class MockAuthService {
+    getLoggedInUserRoles() {
+        return ['roleA', 'roleB'];
+    }
+}
 
 describe('PartiesPanelComponent Component: Testing Input & Output', () => {
     @Component({
@@ -11,7 +17,7 @@ describe('PartiesPanelComponent Component: Testing Input & Output', () => {
         template: `<app-parties-panel [panelData]="data"></app-parties-panel>`
     })
     class TestDummyHostComponent {
-        public data:  PageDateDefault = mockPanelData;
+        public data: PageDateDefault = mockPanelData;
         @ViewChild(PartiesPanelComponent)
         public partiesPanelComponent: PartiesPanelComponent;
     }
@@ -25,8 +31,13 @@ describe('PartiesPanelComponent Component: Testing Input & Output', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ PartiesPanelComponent, TestDummyHostComponent ],
-            schemas: [CUSTOM_ELEMENTS_SCHEMA]
+            declarations: [PartiesPanelComponent, TestDummyHostComponent],
+            schemas: [CUSTOM_ELEMENTS_SCHEMA],
+            providers: [
+                {
+                    provide: AuthService, useClass: MockAuthService
+                }
+            ]
         })
             .compileComponents();
     }));
@@ -53,6 +64,6 @@ describe('PartiesPanelComponent Component: Testing Input & Output', () => {
 
     it('panelData should have data loaded', () => {
         testHostFixture.detectChanges();
-        expect( typeof testHostComponent.partiesPanelComponent.panelData === 'object').toBeTruthy();
+        expect(typeof testHostComponent.partiesPanelComponent.panelData === 'object').toBeTruthy();
     });
 });
