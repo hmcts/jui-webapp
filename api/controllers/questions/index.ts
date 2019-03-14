@@ -165,11 +165,12 @@ export async function questionHandler(req, res) {
 }
 
 export function questionsHandler(req, res) {
+
     const caseId = req.params.case_id
     const userId = req.auth.userId
     const options = getOptions(req)
 
-    return getAllQuestionsByCase(caseId, userId, 'SSCS')
+    return this.getAllQuestionsByCase(caseId, userId, 'SSCS')
         .then(response => {
             res.setHeader('Access-Control-Allow-Origin', '*')
             res.setHeader('content-type', 'application/json')

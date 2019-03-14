@@ -302,7 +302,7 @@ describe('index', () => {
     const mockRequestObject = {
         auth: {
             token: 0,
-            userId: 'testUser'
+            userId: 'testUser',
         },
         headers: {
             ServiceAuthorization: 1,
@@ -311,7 +311,7 @@ describe('index', () => {
             case_id: 1,
             question_id: 2,
         },
-    }
+    };
 
     const mockResponseObject = {
         end: function () {
@@ -321,7 +321,7 @@ describe('index', () => {
         },
         send: x => x,
         setHeader: () => false,
-    }
+    };
 
     describe('questionsHandler', () => {
 
