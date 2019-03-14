@@ -37,35 +37,52 @@ export class SearchResultComponent implements OnInit {
         return cases.results.length > 0;
     }
 
+    getCasesSuccess(cases) {
+
+        if (!this.userHasCases(cases)) {
+            this.componentState = this.USER_HAS_NO_CASES;
+            return;
+        }
+
+        this.componentState = this.CASES_LOAD_SUCCESSFULLY;
+        this.cases = cases;
+    }
+
+    getCasesError(errorStack) {
+
+        this.componentState = this.CASES_LOAD_ERROR;
+
+        this.errorStackResponse = errorStack.error.response.data;
+        this.minimalErrorStack = this.errorFormattingService.createMinimalErrorStack(errorStack.error);
+
+        console.log('HttpErrorResponse Error:');
+        console.log(errorStack);
+    }
+
     /**
      * Note that the minimal error stack, does not include the request, response or return objects, as this is
      * too much information to place into the view.
      */
-    ngOnInit() {
+    getCases() {
 
         const casesObservable = this.caseService.getCases();
 
         casesObservable.subscribe(
             cases => {
-
-                if (!this.userHasCases(cases)) {
-                    this.componentState = this.USER_HAS_NO_CASES;
-                    return;
-                }
-
-                this.componentState = this.CASES_LOAD_SUCCESSFULLY;
-                this.cases = cases;
+                this.getCasesSuccess(cases);
             },
             errorStack => {
-
-                this.componentState = this.CASES_LOAD_ERROR;
-
-                this.errorStackResponse = errorStack.error.response.data;
-                this.minimalErrorStack = this.errorFormattingService.createMinimalErrorStack(errorStack.error);
-
-                console.log('HttpErrorResponse Error:');
-                console.log(errorStack);
+                this.getCasesError(errorStack);
             }
         );
+    }
+
+    /**
+     * When we move out logic into seperate functions they become easier to test in Angular, otherwise we
+     * have to mock.
+     */
+    ngOnInit() {
+
+        this.getCases();
     }
 }

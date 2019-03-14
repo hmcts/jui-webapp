@@ -1,22 +1,22 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { SearchResultComponent } from './search-result.component';
-import { SharedModule } from '../../../shared/shared.module';
-import { DomainModule } from '../../domain.module';
-import { CaseService } from '../../services/case.service';
+import {async, ComponentFixture, TestBed, inject} from '@angular/core/testing';
+import {of} from 'rxjs';
+import {SearchResultComponent} from './search-result.component';
+import {SharedModule} from '../../../shared/shared.module';
+import {DomainModule} from '../../domain.module';
+import {CaseService} from '../../services/case.service';
 import {Selector} from '../../../shared/selector-helper';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { ConfigService } from '../../../config.service';
-import { BrowserTransferStateModule, StateKey } from '@angular/platform-browser';
-import { makeStateKey, TransferState } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import {ConfigService} from '../../../config.service';
+import {BrowserTransferStateModule, StateKey} from '@angular/platform-browser';
+import {makeStateKey, TransferState} from '@angular/platform-browser';
+import {RouterTestingModule} from '@angular/router/testing';
 import {mockColums} from './mock/columns.mock';
 import {mockConfigService} from '../../mock/config.mock';
 
 const columns = mockColums;
 const casesUrl = '/api/cases';
 
-describe('SearchResultComponent', () => {
+fdescribe('SearchResultComponent', () => {
     let component: SearchResultComponent;
     let fixture: ComponentFixture<SearchResultComponent>;
     let httpMock: HttpTestingController;
@@ -40,7 +40,7 @@ describe('SearchResultComponent', () => {
                 }
             ]
         })
-               .compileComponents();
+            .compileComponents();
     }));
     beforeEach(() => {
         fixture = TestBed.createComponent(SearchResultComponent);
@@ -55,6 +55,59 @@ describe('SearchResultComponent', () => {
                 fixture.detectChanges();
             });
     }));
+
+    it('should be able to check if the user has cases.', () => {
+
+        /**
+         * A test object, here 'cases', should be representative of the actual object used in the production
+         * code, so that a developer is easily able to see an objects structure; understand what the function
+         * does and develop against it.
+         */
+        const cases = {
+            columns: [],
+            results: [
+                {
+                    case_id: 1552389424468616,
+                },
+                {
+                    case_id: 1552402420415026,
+                },
+                {
+                    case_id: 1551801279180592,
+                }
+            ]
+        };
+
+        expect(component.userHasCases(cases)).toBeTruthy();
+    });
+
+    // const caseServiceStub = {
+    //     getCases() {
+    //         const cases = {
+    //             columns: [],
+    //             results: [
+    //                 {
+    //                     case_id: 1552389424468616,
+    //                 },
+    //                 {
+    //                     case_id: 1552402420415026,
+    //                 },
+    //                 {
+    //                     case_id: 1551801279180592,
+    //                 }
+    //             ]
+    //         };
+    //         return of(cases);
+    //     }
+    // };
+
+    // it('should be able to retrieve cases from the case service.', inject([CaseService], (caseService: CaseService) => {
+    //
+    //     const caseServiceSpy = spyOn(caseService, 'getCases');
+    //
+    //     component.getCases();
+    //     expect(caseServiceSpy).toHaveBeenCalled();
+    // }));
 
     describe('when there is no data in the transfer state', () => {
 
@@ -75,7 +128,6 @@ describe('SearchResultComponent', () => {
             }));
 
 
-
             it('should have zero rows', () => {
                 expect(nativeElement.querySelectorAll(Selector.selector('search-result|table-row')).length)
                     .toBe(0);
@@ -94,22 +146,22 @@ describe('SearchResultComponent', () => {
 
             beforeEach(async(() => {
                 fixture.whenStable()
-                       .then(() => {
-                           fixture.detectChanges();
-                       });
+                    .then(() => {
+                        fixture.detectChanges();
+                    });
             }));
 
             //TODO: Re-write and add unit tests once functionality is signed off.
-            xit('should have zero rows', () => {
-                expect(nativeElement.querySelectorAll(Selector.selector('search-result|table-row')).length)
-                    .toBe(0);
-            });
+            // xit('should have zero rows', () => {
+            //     expect(nativeElement.querySelectorAll(Selector.selector('search-result|table-row')).length)
+            //         .toBe(0);
+            // });
 
-            xit('should show a message saying that there has been an error', () => {
-                console.log("1", nativeElement.querySelector(Selector.selector('error-text')))
-                expect(nativeElement.querySelector(Selector.selector('error-text')))
-                    .toBeTruthy();
-            });
+            // xit('should show a message saying that there has been an error', () => {
+            //     console.log("1", nativeElement.querySelector(Selector.selector('error-text')))
+            //     expect(nativeElement.querySelector(Selector.selector('error-text')))
+            //         .toBeTruthy();
+            // });
         });
 
         describe('when some rows are returned', () => {
@@ -137,9 +189,9 @@ describe('SearchResultComponent', () => {
 
             beforeEach(async(() => {
                 fixture.whenStable()
-                       .then(() => {
-                           fixture.detectChanges();
-                       });
+                    .then(() => {
+                        fixture.detectChanges();
+                    });
             }));
 
             xit('should have some rows', () => {

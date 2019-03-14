@@ -311,7 +311,7 @@ describe('index', () => {
             case_id: 1,
             question_id: 2,
         },
-    };
+    }
 
     const mockResponseObject = {
         end: function () {
@@ -321,7 +321,7 @@ describe('index', () => {
         },
         send: x => x,
         setHeader: () => false,
-    };
+    }
 
     describe('questionsHandler', () => {
 
