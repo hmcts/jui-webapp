@@ -75,6 +75,9 @@ fdescribe('SearchResultComponent', () => {
             }]
     };
 
+    /**
+     * getCasesSuccess()
+     */
     it('should be able to check if the user has cases.', () => {
 
         expect(component.userHasCases(cases)).toBeTruthy();
@@ -115,6 +118,39 @@ fdescribe('SearchResultComponent', () => {
         component.getCasesSuccess(cases);
 
         expect(component.cases).toEqual(cases);
+    });
+
+    const errorStack = {
+        error: {
+            response: {
+                data: {}
+            }
+        }
+    };
+
+    /**
+     * getCasesError()
+     */
+    it('should be able to set a state of "CASES_LOAD_ERROR".', () => {
+
+        component.getCasesError(errorStack);
+
+        expect(component.componentState).toEqual(component.CASES_LOAD_ERROR);
+    });
+
+    it('should set errorStackResponse as the response data, so that it can be shown to the user,' +
+        'within the view.', () => {
+
+        component.getCasesError(errorStack);
+
+        expect(component.errorStackResponse).toEqual(errorStack.error.response.data);
+    });
+
+    it('should call createMinimalErrorStack to create a more granular error stack.', () => {
+
+        component.getCasesError(errorStack);
+
+        expect(component.errorStackResponse).toEqual(errorStack.error.response.data);
     });
 
     // const caseServiceStub = {
