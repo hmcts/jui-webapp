@@ -8,6 +8,10 @@ import { asyncReturnOrError } from '../util'
 
 const logger = log4jui.getLogger('auth')
 
+export function validRoles(roles) {
+    return roles.indexOf(config.juiJudgeRole) > -1 || roles.indexOf(config.juiPanelMember) > -1
+}
+
 export default async (req, res, next) => {
     const userId = req.headers[config.cookies.userId] || req.cookies[config.cookies.userId]
     const jwt = req.headers.authorization || req.cookies[config.cookies.token]
@@ -27,6 +31,12 @@ export default async (req, res, next) => {
     }
     if (expired || !req.session.user) {
         logger.warn('Auth token  expired need to log in again')
+        auth.doLogout(req, res, 401)
+
+    }
+
+    if (!validRoles(req.session.user.roles)) {
+        logger.warn('User role does not allow login')
         auth.doLogout(req, res, 401)
 
     } else {

@@ -9,6 +9,7 @@ chai.use(sinonChai)
 
 import * as log4js from 'log4js'
 import * as log4jui from '../lib/log4jui'
+import { leftPad } from '../lib/log4jui'
 import { isJUILogger, JUILogger } from '../lib/models'
 import * as responseRequest from './middleware/responseRequest'
 
@@ -27,7 +28,7 @@ describe('log4jui', () => {
 
             const spy = sinon.spy()
             const stub = sinon.stub(log4js, 'getLogger')
-            stub.returns({ warn: spy })
+            stub.returns({ warn: spy, addContext: sinon.spy() })
 
             const logger = log4jui.getLogger('test')
             logger.warn('warning')
@@ -42,7 +43,7 @@ describe('log4jui', () => {
 
             const spy = sinon.spy()
             const stub = sinon.stub(log4js, 'getLogger')
-            stub.returns({ info: spy })
+            stub.returns({ info: spy, addContext: sinon.spy() })
 
             const logger = log4jui.getLogger('test')
             logger.info('warning')
@@ -58,7 +59,7 @@ describe('error', () => {
 
         const spy = sinon.spy()
         const stub = sinon.stub(log4js, 'getLogger')
-        stub.returns({ error: spy })
+        stub.returns({ error: spy, addContext: sinon.spy() })
 
         const logger = log4jui.getLogger('test')
         logger.error('warning')
@@ -90,5 +91,19 @@ describe('prepareMessage', () => {
 
         stub.restore()
         stub2.restore()
+    })
+})
+
+describe('leftPad', () => {
+    it('should not left pad a string if string length is same as param length', () => {
+        const str = 'test'
+        const result = `    ${str}`
+        expect(leftPad(str, 4)).not.to.equal(result)
+    })
+
+    it('should left pad a string if param length is greater than string length', () => {
+        const str = 'test'
+        const result = `    ${str}`
+        expect(leftPad(str, 8)).to.equal(result)
     })
 })
