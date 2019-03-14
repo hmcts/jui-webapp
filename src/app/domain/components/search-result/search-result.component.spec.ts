@@ -56,29 +56,65 @@ fdescribe('SearchResultComponent', () => {
             });
     }));
 
+    /**
+     * A test object, here 'cases', should be representative of the actual object used in the production
+     * code, so that a developer is easily able to see an objects structure; understand what the function
+     * does and develop against it.
+     */
+    const cases = {
+        columns: [],
+        results: [
+            {
+                case_id: 1552389424468616,
+            },
+            {
+                case_id: 1552402420415026,
+            },
+            {
+                case_id: 1551801279180592,
+            }]
+    };
+
     it('should be able to check if the user has cases.', () => {
 
-        /**
-         * A test object, here 'cases', should be representative of the actual object used in the production
-         * code, so that a developer is easily able to see an objects structure; understand what the function
-         * does and develop against it.
-         */
-        const cases = {
+        expect(component.userHasCases(cases)).toBeTruthy();
+    });
+
+    it('should start in a state of "LOADING" as the component has no cases.', () => {
+
+        expect(component.componentState).toEqual(component.LOADING);
+    });
+
+    /**
+     * The results property in the cases object, are the cases that are viewed by the user in the view.
+     *
+     * Hence we pass in an empty array of results, and test that the component is now in a
+     * 'USER_HAS_NO_CASES' state.
+     */
+    it('should set the componentState as "USER_HAS_NO_CASES", if there are no case results for that user.', () => {
+
+        const casesWithNoResults = {
             columns: [],
-            results: [
-                {
-                    case_id: 1552389424468616,
-                },
-                {
-                    case_id: 1552402420415026,
-                },
-                {
-                    case_id: 1551801279180592,
-                }
-            ]
+            results: []
         };
 
-        expect(component.userHasCases(cases)).toBeTruthy();
+        component.getCasesSuccess(casesWithNoResults);
+
+        expect(component.componentState).toEqual(component.USER_HAS_NO_CASES);
+    });
+
+    it('should set the componentState as "CASES_LOAD_SUCCESSFULLY", if there are cases for that user.', () => {
+
+        component.getCasesSuccess(cases);
+
+        expect(component.componentState).toEqual(component.CASES_LOAD_SUCCESSFULLY);
+    });
+
+    it('should set cases, if there are results.', () => {
+
+        component.getCasesSuccess(cases);
+
+        expect(component.cases).toEqual(cases);
     });
 
     // const caseServiceStub = {
