@@ -82,6 +82,7 @@
     "chalk": "^2.4.2",
     "cookie-parser": "1.4.4",
     "core-js": "2.6.1",
+    "depd": "^2.0.0",
     "ejs": "^2.6.1",
     "eslint-html-reporter": "0.5.2",
     "exception-formatter": "1.0.7",
