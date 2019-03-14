@@ -5,6 +5,7 @@
         </div>
         <!-- TODO: Should use HMCTS Menu Component here, instead of this. -->
         <div [unlessRole]="'caseworker-sscs-panelmember'"  roleList="{{roleList}}" roleSource="inline">
+               
         <div *ngIf="actionPrimaryButton || actionSecondaryButton" class="hmcts-page-heading__actions-wrapper">
             <a *ngIf="actionPrimaryButton"
                data-selector="primary-button"
@@ -28,6 +29,8 @@
                 {{actionThirdButton.text}}
             </a>
         </div>
+                
+        
         </div>
     </div>
 </div>

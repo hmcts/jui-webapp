@@ -1,11 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { HmctsrolesLibModule } from 'hmctsroles-lib';
 import { CaseActionsComponent } from './case-actions.component';
-import {RouterTestingModule} from '@angular/router/testing';
-import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, Input, ViewChild} from '@angular/core';
-import {FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {LinkItem} from '../../../domain/models/section_fields';
-import {Selector} from '../../selector-helper';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, Input, ViewChild } from '@angular/core';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LinkItem } from '../../../domain/models/section_fields';
+import { Selector } from '../../selector-helper';
+
+// import { AuthService } from '../../../auth/auth.service';
+// import { AuthModule } from '../../../auth/auth.module';
+
+// class MockAuthService {
+//     getLoggedInUserRoles() {
+//         return ['roleA', 'roleB'];
+//     }
+// }
+
 
 describe('CaseActionsComponent', () => {
     @Component({
@@ -15,13 +26,16 @@ describe('CaseActionsComponent', () => {
             [actionPrimaryButton]="actionPrimaryButton"
             [actionSecondaryButton]="actionSecondaryButton"
             [actionThirdButton]="actionThirdButton"
+            [roleList]="roles"        
         ></app-case-actions>`
     })
+
     class TestDummyHostComponent {
-        header =  'Questions';
-        actionPrimaryButton: LinkItem = {href: '../decision/create', text: 'Make decision'};
-        actionSecondaryButton: LinkItem = {href: '../hearing/list', text: 'List for hearing'};
-        actionThirdButton: LinkItem = {href: '../../upload', text: 'Upload'};
+        header = 'Questions';
+        actionPrimaryButton: LinkItem = { href: '../decision/create', text: 'Make decision' };
+        actionSecondaryButton: LinkItem = { href: '../hearing/list', text: 'List for hearing' };
+        actionThirdButton: LinkItem = { href: '../../upload', text: 'Upload' };
+        roles = ['roleA', 'roleB']
         @ViewChild(CaseActionsComponent)
         public caseActionsComponent: CaseActionsComponent;
     }
@@ -33,15 +47,17 @@ describe('CaseActionsComponent', () => {
     let component: CaseActionsComponent;
     let fixture: ComponentFixture<CaseActionsComponent>;
     let element: DebugElement;
+    // let componentService: AuthService
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
                 ReactiveFormsModule,
                 FormsModule,
-                RouterTestingModule
+                RouterTestingModule,
+                HmctsrolesLibModule,
             ],
-            declarations: [ CaseActionsComponent, TestDummyHostComponent ],
+            declarations: [CaseActionsComponent, TestDummyHostComponent],
             schemas: [CUSTOM_ELEMENTS_SCHEMA]
         })
             .compileComponents();
@@ -54,6 +70,9 @@ describe('CaseActionsComponent', () => {
         fixture = TestBed.createComponent(CaseActionsComponent);
         component = fixture.componentInstance;
         element = fixture.debugElement;
+
+        // AuthService provided by Component, (should return MockAuthService)
+        // componentService = fixture.debugElement.injector.get(AuthService);
     });
 
     it('should create', () => {
@@ -67,11 +86,11 @@ describe('CaseActionsComponent', () => {
         expect(testHostComponent.caseActionsComponent.actionPrimaryButton).toBeUndefined();
         expect(testHostComponent.caseActionsComponent.actionSecondaryButton).toBeUndefined();
         expect(testHostComponent.caseActionsComponent.actionThirdButton).toBeUndefined();
-        });
+    });
     it('should load data', () => {
         testHostFixture.detectChanges();
         expect(testHostComponent.caseActionsComponent.header).toEqual('Questions');
-        expect(testHostComponent.caseActionsComponent.actionPrimaryButton).toEqual({href: '../decision/create', text: 'Make decision'});
+        expect(testHostComponent.caseActionsComponent.actionPrimaryButton).toEqual({ href: '../decision/create', text: 'Make decision' });
     });
     it('should display the title', () => {
         testHostFixture.detectChanges();
@@ -96,4 +115,8 @@ describe('CaseActionsComponent', () => {
         expect(typeof testHostComponent.caseActionsComponent.actionSecondaryButton === 'object').toBeTruthy();
         expect(typeof testHostComponent.caseActionsComponent.actionThirdButton === 'object').toBeTruthy();
     });
+
+    // it('Service injected via component should be and instance of MockAuthService', () => {
+    //     expect(componentService instanceof MockAuthService).toBeTruthy();
+    // });
 });
