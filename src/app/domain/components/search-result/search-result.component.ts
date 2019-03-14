@@ -54,9 +54,6 @@ export class SearchResultComponent implements OnInit {
 
         this.errorStackResponse = errorStack.error.response.data;
 
-        console.log('errorStack')
-        console.log(errorStack)
-
         this.minimalErrorStack = this.errorFormattingService.createMinimalErrorStack(errorStack.error);
 
         console.log('HttpErrorResponse Error:');

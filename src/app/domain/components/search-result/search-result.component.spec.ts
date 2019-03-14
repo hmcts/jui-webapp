@@ -1,5 +1,4 @@
 import {async, ComponentFixture, TestBed, inject} from '@angular/core/testing';
-import {of} from 'rxjs';
 import {SearchResultComponent} from './search-result.component';
 import {SharedModule} from '../../../shared/shared.module';
 import {DomainModule} from '../../domain.module';
@@ -12,11 +11,12 @@ import {makeStateKey, TransferState} from '@angular/platform-browser';
 import {RouterTestingModule} from '@angular/router/testing';
 import {mockColums} from './mock/columns.mock';
 import {mockConfigService} from '../../mock/config.mock';
+import {ErrorFormattingService} from '../../../shared/services/error-formatting.service';
 
 const columns = mockColums;
 const casesUrl = '/api/cases';
 
-fdescribe('SearchResultComponent', () => {
+describe('SearchResultComponent', () => {
     let component: SearchResultComponent;
     let fixture: ComponentFixture<SearchResultComponent>;
     let httpMock: HttpTestingController;
@@ -34,6 +34,10 @@ fdescribe('SearchResultComponent', () => {
             ],
             providers: [
                 CaseService,
+                {
+                    provide: ErrorFormattingService,
+                    useValue: mockErrorFormattingService,
+                },
                 {
                     provide: ConfigService,
                     useValue: mockConfigService
@@ -55,6 +59,20 @@ fdescribe('SearchResultComponent', () => {
                 fixture.detectChanges();
             });
     }));
+
+    /**
+     * Representative object of the minimal error stack.
+     */
+    const mockErrorFormattingService = {
+
+        createMinimalErrorStack() {
+            return {
+                'case list': 'Error appending question rounds.',
+                'questions': 'Error getting question rounds.',
+                'ccd-store': 'Error getting cases for DIVORCE'
+            };
+        }
+    };
 
     /**
      * A test object, here 'cases', should be representative of the actual object used in the production
@@ -146,41 +164,25 @@ fdescribe('SearchResultComponent', () => {
         expect(component.errorStackResponse).toEqual(errorStack.error.response.data);
     });
 
-    it('should call createMinimalErrorStack to create a more granular error stack.', () => {
+    it('should call createMinimalErrorStack, to create a more granular error stack.', inject([ErrorFormattingService], (errorFormattingService: ErrorFormattingService) => {
+
+        const errorFormattingServiceSpy = spyOn(errorFormattingService, 'createMinimalErrorStack');
 
         component.getCasesError(errorStack);
 
-        expect(component.errorStackResponse).toEqual(errorStack.error.response.data);
-    });
+        expect(errorFormattingServiceSpy).toHaveBeenCalled();
+    }));
 
-    // const caseServiceStub = {
-    //     getCases() {
-    //         const cases = {
-    //             columns: [],
-    //             results: [
-    //                 {
-    //                     case_id: 1552389424468616,
-    //                 },
-    //                 {
-    //                     case_id: 1552402420415026,
-    //                 },
-    //                 {
-    //                     case_id: 1551801279180592,
-    //                 }
-    //             ]
-    //         };
-    //         return of(cases);
-    //     }
-    // };
+    it('should set minimalErrorStack with the result from calling createMinimalErrorStack.', inject([ErrorFormattingService], (errorFormattingService: ErrorFormattingService) => {
 
-    // it('should be able to retrieve cases from the case service.', inject([CaseService], (caseService: CaseService) => {
-    //
-    //     const caseServiceSpy = spyOn(caseService, 'getCases');
-    //
-    //     component.getCases();
-    //     expect(caseServiceSpy).toHaveBeenCalled();
-    // }));
+        component.getCasesError(errorStack);
 
+        expect(component.minimalErrorStack).toEqual(mockErrorFormattingService.createMinimalErrorStack());
+    }));
+
+    /**
+     * The following are legacy unit tests, that seem to be covering more of dom element side of things.
+     */
     describe('when there is no data in the transfer state', () => {
 
 
@@ -222,18 +224,6 @@ fdescribe('SearchResultComponent', () => {
                         fixture.detectChanges();
                     });
             }));
-
-            //TODO: Re-write and add unit tests once functionality is signed off.
-            // xit('should have zero rows', () => {
-            //     expect(nativeElement.querySelectorAll(Selector.selector('search-result|table-row')).length)
-            //         .toBe(0);
-            // });
-
-            // xit('should show a message saying that there has been an error', () => {
-            //     console.log("1", nativeElement.querySelector(Selector.selector('error-text')))
-            //     expect(nativeElement.querySelector(Selector.selector('error-text')))
-            //         .toBeTruthy();
-            // });
         });
 
         describe('when some rows are returned', () => {
