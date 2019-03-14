@@ -4153,9 +4153,9 @@ hmac-drbg@^1.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.1"
 
-"hmctsroles-lib@git+https://github.com/hmcts/rpa-access-managment-lib.git":
+"hmctsroles-lib@https://github.com/hmcts/rpa-access-managment-lib.git":
   version "0.0.5"
-  resolved "git+https://github.com/hmcts/rpa-access-managment-lib.git#bdd52ec2f0ed47a903d2854a063c55988935b40e"
+  resolved "https://github.com/hmcts/rpa-access-managment-lib.git#bdd52ec2f0ed47a903d2854a063c55988935b40e"
   dependencies:
     tslib "^1.9.0"
 
