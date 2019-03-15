@@ -1,0 +1,1 @@
+additional_host_name="https://jui-webapp-sandbox-staging.service.core-compute-sandbox.internal/"
