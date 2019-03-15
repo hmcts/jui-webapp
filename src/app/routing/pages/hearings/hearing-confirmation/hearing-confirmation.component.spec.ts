@@ -11,8 +11,9 @@ import {ActivatedRoute} from '@angular/router';
 import {GovukModule} from '../../../../govuk/govuk.module';
 import {HmctsModule} from '../../../../hmcts/hmcts.module';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import {ExchangeService} from '../../../../domain/services/exchange.service';
 
-describe('HearingConfirmationComponent', () => {
+fdescribe('HearingConfirmationComponent', () => {
     let component: HearingConfirmationComponent;
     let fixture: ComponentFixture<HearingConfirmationComponent>;
 
@@ -36,6 +37,12 @@ describe('HearingConfirmationComponent', () => {
                         config: {
                             api_base_url: ''
                         }
+                    }
+                },
+                {
+                    provide: ExchangeService,
+                    useValue: {
+                        newEvent: function() {}
                     }
                 },
                 {
