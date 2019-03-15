@@ -13,8 +13,6 @@ import * as Templates from './templates'
 export const mapping = Mapping.mapping
 export const templates = Templates.templates
 
-//ccdStore from '../../../services/ccd-store-api/ccd-store'
-
 const ccdStore = require('../../../services/ccd-store-api/ccd-store')
 
 const logger = log4jui.getLogger('State')
@@ -24,11 +22,11 @@ const exceptionOptions = {
     maxLines: 1,
 }
 
-function getOptions(req) {
+export function getOptions(req) {
     return headerUtilities.getAuthHeaders(req)
 }
 
-function perpareCaseForApproval(caseData, eventToken, eventId, user, store) {
+export function prepareCaseForApproval(eventToken, eventId, user, store) {
     return {
         /* eslint-disable-next-line id-blacklist */
         data: {
@@ -47,7 +45,7 @@ function perpareCaseForApproval(caseData, eventToken, eventId, user, store) {
     }
 }
 
-function translate(store, fieldName) {
+export function translate(store, fieldName) {
     if (store[fieldName]) {
         return translateJson.lookup[fieldName]
     }
@@ -74,7 +72,7 @@ function translate(store, fieldName) {
 //     return payload
 // }
 
-function perpareCaseForRefusal(caseData, eventToken, eventId, user, store) {
+export function prepareCaseForRefusal(eventToken, eventId, user, store) {
     let orderRefusal = []
     let orderRefusalOther = null
     let orderRefusalNotEnough = []
@@ -172,10 +170,9 @@ function perpareCaseForRefusal(caseData, eventToken, eventId, user, store) {
     }
 }
 
-async function makeDecision(decision, req, state, store) {
+export async function makeDecision(decision, req, state, store) {
     let payloadData = {}
     let eventToken = {}
-    let caseDetails = {}
 
     try {
         logger.info('Getting Event Token')
@@ -192,7 +189,6 @@ async function makeDecision(decision, req, state, store) {
         )
 
         eventToken = eventTokenAndCAse.token
-        caseDetails = eventTokenAndCAse.caseDetails
 
         logger.info(`Got token ${eventToken}`)
     } catch (exception) {
@@ -201,11 +197,11 @@ async function makeDecision(decision, req, state, store) {
     }
 
     if (decision === 'yes') {
-        payloadData = perpareCaseForApproval(caseDetails, eventToken, 'FR_approveApplication', req.session.user, store)
+        payloadData = prepareCaseForApproval(eventToken, 'FR_approveApplication', req.session.user, store)
     }
 
     if (decision === 'no') {
-        payloadData = perpareCaseForRefusal(caseDetails, eventToken, 'FR_orderRefusal', req.session.user, store)
+        payloadData = prepareCaseForRefusal(eventToken, 'FR_orderRefusal', req.session.user, store)
     }
 
     try {
@@ -247,8 +243,7 @@ payload.financialremedymvp2 = async (req, res, store) => {
     }
 
     logger.info('Posting to CCD')
-    let result = false
-    result = await makeDecision(store.approveDraftConsent, req, state, store)
+    const result = await this.makeDecision(store.approveDraftConsent, req, state, store)
 
     logger.info('Posted to CCD', result)
 
