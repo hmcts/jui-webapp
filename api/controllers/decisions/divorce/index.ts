@@ -172,6 +172,108 @@ function perpareCaseForRefusal(caseData, eventToken, eventId, user, store) {
     }
 }
 
+function perpareCaseForRefusalFR(caseData, eventToken, eventId, user, store) {
+    let orderRefusal = []
+    let orderRefusalOther = null
+    let orderRefusalNotEnough = []
+    let orderRefusalNotEnoughOther = null
+    let estimateLengthOfHearing = null
+    let whenShouldHearingTakePlace = null
+    let whereShouldHearingTakePlace = null
+    let otherHearingDetails = null
+
+    /* eslint-disable-next-line id-blacklist */
+
+    orderRefusal.push(translate(store, 'orderNotAppearOfS25ca1973'))
+    orderRefusal.push(translate(store, 'd81'))
+    orderRefusal.push(translate(store, 'pensionAnnex'))
+    orderRefusal.push(translate(store, 'applicantTakenAdvice'))
+    orderRefusal.push(translate(store, 'respondentTakenAdvice'))
+
+    whereShouldHearingTakePlace = store.whichCourt // translate(store, 'whichCourt')
+
+    estimateLengthOfHearing = store.estimateLengthOfHearing
+    whenShouldHearingTakePlace = store.whenHearingPlaced
+
+    otherHearingDetails = store.otherHearingDetails
+
+    if (store.NotEnoughInformation) {
+        orderRefusalNotEnough.push(translate(store, 'capitalPositions'))
+        orderRefusalNotEnough.push(translate(store, 'partiesHousingNeeds'))
+        orderRefusalNotEnough.push(translate(store, 'justificationDeparture'))
+        orderRefusalNotEnough.push(translate(store, 'partiesPensionProvision'))
+        orderRefusalNotEnough.push(translate(store, 'childrensHousingNeeds'))
+        orderRefusalNotEnough.push(translate(store, 'netEffectOrder'))
+    }
+
+    orderRefusal = orderRefusal.filter(x => Boolean(x))
+    orderRefusalNotEnough = orderRefusalNotEnough.filter(x => Boolean(x))
+
+    if (orderRefusal.length === 0) {
+        orderRefusal = null
+    }
+
+    if (orderRefusalNotEnough.length === 0) {
+        orderRefusalNotEnough = null
+    }
+
+    if (store.other) {
+        orderRefusalNotEnoughOther = translate(store, 'informationNeeded')
+    }
+
+    if (store.other2) {
+        orderRefusalOther = translate(store, 'Reason')
+    }
+
+    const orderRefusalCollection: any = [{
+        value: {
+            orderRefusalAddComments: store.notesForAdmin,
+            orderRefusalDate: moment(new Date()).format('YYYY-MM-DD'),
+            orderRefusalJudge: 'District Judge',
+            orderRefusalJudgeName: `${user.forename} ${user.surname} `,
+        },
+    }]
+
+    const checkList = {
+        estimateLengthOfHearing,
+        orderRefusal,
+        orderRefusalNotEnough,
+        orderRefusalNotEnoughOther,
+        orderRefusalOther,
+        otherHearingDetails,
+        whenShouldHearingTakePlace,
+        whereShouldHearingTakePlace,
+    }
+
+    Object.entries(checkList).forEach(keyValue => {
+        logger.info('checking ', keyValue[0], ' with', keyValue[1])
+        if (keyValue[1]) {
+            orderRefusalCollection.map( orderRefusalItem => {
+                orderRefusalItem.value[keyValue[0]] = keyValue[1]
+            })
+        }
+    })
+
+    /*const documentAnnotationId = store.documentAnnotationId
+
+    orderRefusalCollection.orderRefusalDocs = {
+        document_binary_url: `${config.services.dm_store_api}/documents/${documentAnnotationId}/binary`,
+        document_url: `${config.services.dm_store_api}/documents/${documentAnnotationId}`,
+    }*/
+    return {
+        /* eslint-disable-next-line id-blacklist */
+        data: {
+            orderRefusalCollection,
+        },
+        event: {
+            id: eventId,
+        },
+        event_token: eventToken,
+
+        ignore_warning: true,
+    }
+}
+
 async function makeDecision(decision, req, state, store) {
     let payloadData = {}
     let eventToken = {}
@@ -224,6 +326,58 @@ async function makeDecision(decision, req, state, store) {
     } catch (exception) {
         logger.error('Error sending event', exceptionFormatter(exception, exceptionOptions))
         return false
+    }
+}
+
+export async function listForHearingFR(caseId, userId, req, store, state) {
+    let payloadData
+    let eventToken = {}
+    let caseDetails = {}
+    const event = 'FR_orderRefusal2'
+
+    try {
+        logger.info('Getting Event Token')
+
+        const eventTokenAndCAse = await ccdStore.getEventTokenAndCase(
+            userId,
+            'DIVORCE',
+            'FinancialRemedyMVP2',
+            caseId,
+            event,
+            getOptions(req)
+        )
+
+        eventToken = eventTokenAndCAse.token
+        caseDetails = eventTokenAndCAse.caseDetails
+
+        logger.info(`Got token ${eventToken}`)
+    } catch (exception) {
+        logger.error('Error getting event token', exceptionFormatter(exception, exceptionOptions))
+        return false
+    }
+
+    payloadData = perpareCaseForRefusalFR(
+        caseDetails,
+        eventToken,
+        event,
+        req.session.user,
+        store
+    )
+
+    try {
+        logger.info('Payload assembled')
+        logger.info(JSON.stringify(payloadData))
+        return await ccdStore.postCaseWithEventToken(
+            userId,
+            'DIVORCE',
+            'FinancialRemedyMVP2',
+            caseId,
+            payloadData,
+            getOptions(req)
+        )
+
+    } catch (exception) {
+        logger.error('Error sending event', exceptionFormatter(exception, exceptionOptions))
     }
 }
 

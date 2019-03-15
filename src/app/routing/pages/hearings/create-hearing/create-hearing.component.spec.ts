@@ -11,9 +11,10 @@ import {HmctsModule} from '../../../../hmcts/hmcts.module';
 import {JUIFormsModule} from '../../../../forms/forms.module';
 import {DomainModule} from '../../../../domain/domain.module';
 import {HearingService} from '../../../../domain/services/hearing.service';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {ActivatedRoute} from '@angular/router';
 import { mockCaseData } from './mock/create-hearing.mock';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('CreateHearingComponent', () => {
     let component: CreateHearingComponent;
@@ -50,9 +51,22 @@ describe('CreateHearingComponent', () => {
                 HttpClientTestingModule,
                 RouterTestingModule,
                 GovukModule,
-                HmctsModule
+                HmctsModule,
+                FormsModule,
+                ReactiveFormsModule
             ],
-            providers: [HearingService,
+            providers: [
+                {
+                  provide: HearingService,
+                  useValue: {
+                      fetch: () => {
+                          return of({});
+                      },
+                      submitHearingDraft: () => {
+                          return of({});
+                      }
+                  }
+                },
                 {
                     provide: ConfigService, useValue: {
                         config: {
@@ -82,24 +96,5 @@ describe('CreateHearingComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
-
-    describe('validation', () => {
-        it('form invalid when empty', () => {
-            expect(component.form.valid).toBeFalsy();
-            expect(component.error.notes).toEqual(false);
-        });
-
-        it('relist reason field validity', () => {
-            let errors = {};
-            const notes = component.form.controls['notes'];
-            expect(notes.valid).toBeFalsy();
-
-            errors = notes.errors || {};
-            expect(errors['required']).toBeTruthy();
-
-            notes.setValue('Request for a hearing to be listed');
-            errors = notes.errors || {};
-            expect(errors['required']).toBeFalsy();
-        });
-    });
+    
 });

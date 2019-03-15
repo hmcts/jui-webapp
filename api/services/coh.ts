@@ -4,7 +4,7 @@ import { http } from '../lib/http'
 
 import { ERROR_NO_HEARING_IDENTIFIER, ERROR_UNABLE_TO_RELIST_HEARING } from '../lib/config/cohConstants'
 import * as log4jui from '../lib/log4jui'
-import { valueOrNull } from '../lib/util'
+import { exists, valueOrNull } from '../lib/util'
 
 export const url = config.services.coh_cor_api
 
@@ -101,7 +101,7 @@ export async function getOrCreateHearing(caseId, userId) {
     const hearing = await getHearing(caseId)
     let hearingId
 
-    if (hearing) {
+    if (exists(hearing, 'online_hearings.length')) {
         hearingId = hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : null
     } else {
         hearingId = await createHearing(caseId, userId)

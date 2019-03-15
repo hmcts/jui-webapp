@@ -1,27 +1,29 @@
 <div class="jui-width-container">
     <main class="govuk-main-wrapper" role="main">
-        <h1 class="govuk-heading-xl">List for hearing</h1>
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                <div *ngIf="error.server" class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="error-summary">
-                    <h2 class="govuk-error-summary__title" id="error-summary-title">There is a problem</h2>
-                    <div class="govuk-error-summary__body">
-                        <ul class="govuk-list govuk-error-summary__list">
-                            <li *ngIf="error.server"><a>There Was a Server error</a></li>
-                        </ul>
-                    </div>
+            <h1 class="govuk-heading-xl">List for hearing</h1>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    <ng-container *ngIf="useValidation && form.invalid">
+                        <app-validation-header [validationHeaderErrorMessages]="pageitems.validationHeaderErrorMessages" [formGroup]="form">
+                        </app-validation-header>
+                    </ng-container>
+                    <form *ngIf="pageitems" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+                        <div [ngClass]="{'govuk-form-group':true, 'govuk-form-group--error' : useValidation && form.invalid }">
+
+                            <div class="govuk-form-group" *ngFor="let group of pageitems.groups">
+                                <app-fieldset *ngIf="group.fieldset"
+                                              [classes]="'govuk-fieldset'"
+                                              [group]="form"
+                                              [data]="group.fieldset"
+                                              [validate]="useValidation">
+                                </app-fieldset>
+                                <app-jui-form-elements [group]="form" [validate]="useValidation" [data]="group"></app-jui-form-elements>
+                            </div>
+
+                        </div>
+                    </form>
                 </div>
-                <app-form [callback_options]="callback_options" [formGroup]="form">
-                    <app-textarea
-                        [id]="'notes'"
-                        [rows]="'5'"
-                        [label]="'Hearing notes (optional)'"
-                        [text]="relistReasonText"
-                        [formGroup]="form"
-                    ></app-textarea>
-                    <button class="govuk-button" type="submit">Continue</button>
-                </app-form>
             </div>
-        </div>
     </main>
 </div>

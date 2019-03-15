@@ -3,7 +3,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {RedirectionService} from '../../../redirection.service';
 import {HearingService} from '../../../../domain/services/hearing.service';
-import {CaseDataOther, CaseSnapShootRoot} from '../../modules/case';
+import {CaseDataOther} from '../../modules/case';
+import { FormsService } from '../../../../shared/services/forms.service';
+import { ValidationService } from '../../../../shared/services/validation.service';
 
 @Component({
     selector: 'app-list-for-hearing',
@@ -14,82 +16,65 @@ export class CreateHearingComponent implements OnInit {
     form: FormGroup;
     case: CaseDataOther;
 
-    relistReasonText = '';
+    hearing: any;
+    pageValues: any;
+    pageitems: any;
+    useValidation = false;
+    request: any;
 
-    eventEmitter: EventEmitter<any> = new EventEmitter();
-    callback_options = {
-        eventEmitter: this.eventEmitter
-    };
-
-    error = {
-        server: false,
-        notes: false
-    };
-
-    constructor(private fb: FormBuilder,
+    constructor(private formsService: FormsService,
+                private validationService: ValidationService,
                 private router: Router,
                 private route: ActivatedRoute,
                 private hearingService: HearingService,
-                public redirectionService: RedirectionService,
-                private cdRef: ChangeDetectorRef) {
+                public redirectionService: RedirectionService) {
     }
 
-    createForm() {
-        this.form = this.fb.group({
-            notes: [this.relistReasonText, Validators.required],
-        });
+
+    createForm(pageitems, pageValues) {
+        this.form = new FormGroup(this.formsService.defineformControls(pageitems, pageValues));
+        const formGroupValidators = this.validationService.createFormGroupValidators(this.form, pageitems.formGroupValidators);
+        this.form.setValidators(formGroupValidators);
     }
 
     ngOnInit() {
-        this.hearingService.currentMessage.subscribe(message => this.relistReasonText = message);
-        this.eventEmitter.subscribe(this.submitCallback.bind(this));
         this.case = this.route.parent.snapshot.data['caseData'];
 
-        this.createForm();
-
-        this.getDraftedHearingReason(this.case.id);
-    }
-
-    /**
-     * getDraftedHearingState
-     *
-     * We store the reason for re-listing within CoH therefore we need to retrieve the reason when we display
-     * this page to the user.
-     *
-     * If we get an error response, for now we will let the user pass through to the continue page.
-     *
-     * @param caseId - 1545063650329442
-     */
-    getDraftedHearingReason(caseId) {
-        this.hearingService.getHearing(caseId)
-            .subscribe((response) => {
-                    this.relistReasonText = response.online_hearings[0].relisting.reason;
-                }, error => {
-                }
-            );
-    }
-
-    /**
-     * saveDraftedHearingReason
-     *
-     * We store the reason for re-listing within CoH, in a 'drafted' state.
-     *
-     * @param caseId - 1545063650329442
-     * @param relistReason - 'user freetext'
-     */
-    saveDraftedHearingReason(caseId, relistReason) {
-        this.hearingService.listForHearing(caseId, relistReason, 'drafted')
-            .subscribe((response) => {
-                }, error => {
-                }
-            );
-    }
-
-    submitCallback(values) {
-
-        this.saveDraftedHearingReason(this.case.id, values.notes);
-        this.hearingService.changeMessage(values.notes);
-        this.router.navigate(['../check'], {relativeTo: this.route});
+        this.hearingService.fetch('DIVORCE', this.case.id, 'hearing-details', 'FinancialRemedyMVP2').subscribe(hearing => {
+            this.hearing = hearing;
+            this.pageitems = this.hearing.meta;
+            this.pageValues = this.hearing.formValues;
+            if (this.hearing.formValues.visitedPages === undefined) {
+                this.hearing.formValues.visitedPages = {};
+                this.hearing.formValues.visitedPages['create'] =  true ;
+            } else {
+                this.hearing.formValues.visitedPages['list'] = true;
+            }
+            this.createForm(this.pageitems, this.pageValues);
+        });
 
     }
+
+    onSubmit() {
+        if (this.form.value.createButton) {
+            const event = this.form.value.createButton.toLowerCase();
+            delete this.form.value.createButton;
+            this.request = { formValues: this.form.value, event: event };
+            this.request.formValues.visitedPages = this.pageValues.visitedPages;
+            if (this.form.invalid) {
+                this.useValidation = true;
+                return;
+            } else {
+                this.hearingService.submitHearingDraft(
+                    'DIVORCE',
+                    this.case.id,
+                    this.pageitems.name,
+                    'FinancialRemedyMVP2',
+                    this.request).subscribe(decision => {
+                    this.router.navigate(['../check'], {relativeTo: this.route});
+                });
+            }
+        }
+    }
+
 }

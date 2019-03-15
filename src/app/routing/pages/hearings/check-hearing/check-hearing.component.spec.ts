@@ -14,12 +14,27 @@ import {Observable, of, throwError} from 'rxjs';
 import {DomainModule} from '../../../../domain/domain.module';
 import {RedirectionService} from '../../../redirection.service';
 import {mockCaseData} from './mock/check-hearing.mock';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 class MockHearingService {
     isError = false;
     currentMessage = of({});
 
     listForHearing(caseId: string, relist_reason: string): Observable<any> {
+        if (this.isError) {
+            return throwError({});
+        }
+        return of({});
+    }
+    
+    fetch(jurId: string, caseId: string, pageId: string, caseType: string): Observable<any> {        
+        if (this.isError) {
+            return throwError({});
+        }
+        return of({});
+    }
+
+    submitHearingDraft(jurId: string, caseId: string, pageId: string, caseType: string, body: any): Observable<any> {
         if (this.isError) {
             return throwError({});
         }
@@ -45,7 +60,9 @@ describe('CheckHearingComponent', () => {
                 HttpClientTestingModule,
                 RouterTestingModule,
                 GovukModule,
-                HmctsModule
+                HmctsModule,
+                FormsModule,
+                ReactiveFormsModule
             ],
             providers: [
                 {
@@ -91,24 +108,5 @@ describe('CheckHearingComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    describe('on form submission', () => {
-        let redirectionServiceSpy;
-
-        beforeEach(() => {
-            redirectionServiceSpy = spyOn(TestBed.get(RedirectionService), 'redirect');
-        });
-
-        it('should re-list for hearing', () => {
-            component.submitCallback({});
-            expect(redirectionServiceSpy).toHaveBeenCalled();
-        });
-
-        it('should not redirect in the event of error', () => {
-            mockHearingService.isError = true;
-
-            component.submitCallback({});
-            expect(redirectionServiceSpy).toHaveBeenCalledTimes(0);
-            expect(component.error).toBe(true);
-        });
-    });
+    
 });
