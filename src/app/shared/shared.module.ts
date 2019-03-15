@@ -10,7 +10,7 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GovukModule } from '../govuk/govuk.module';
 import { HmctsModule } from '../hmcts/hmcts.module';
-import { HmctsrolesLibModule } from '@hmcts/hmctsroles-lib';
+import { HmctsrolesLibModule } from 'hmctsroles-lib';
 import { TimelineComponent } from './components/timeline/timeline.component';
 import { QuestionListComponent } from './components/question-list/question-list.component';
 import { QuestionComponent } from './components/question/question.component';

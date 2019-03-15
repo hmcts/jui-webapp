@@ -19,7 +19,7 @@ import { QuestionService } from './services/question.service';
 import { JUIFormsModule } from '../forms/forms.module';
 import { GovukModule } from '../govuk/govuk.module';
 import { HmctsModule } from '../hmcts/hmcts.module';
-import { HmctsrolesLibModule } from '@hmcts/hmctsroles-lib';
+import { HmctsrolesLibModule } from 'hmctsroles-lib';
 
 
 @NgModule({
