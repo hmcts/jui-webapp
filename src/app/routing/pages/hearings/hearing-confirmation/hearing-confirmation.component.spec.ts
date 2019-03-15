@@ -13,7 +13,7 @@ import {HmctsModule} from '../../../../hmcts/hmcts.module';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {ExchangeService} from '../../../../domain/services/exchange.service';
 
-fdescribe('HearingConfirmationComponent', () => {
+describe('HearingConfirmationComponent', () => {
     let component: HearingConfirmationComponent;
     let fixture: ComponentFixture<HearingConfirmationComponent>;
 
