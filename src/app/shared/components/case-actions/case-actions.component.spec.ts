@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HmctsrolesLibModule } from 'hmctsroles-lib';
+import { HmctsrolesLibModule } from '@hmcts/hmctsroles-lib';
 import { CaseActionsComponent } from './case-actions.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, Input, ViewChild } from '@angular/core';
