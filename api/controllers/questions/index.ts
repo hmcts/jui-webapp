@@ -1,10 +1,14 @@
 import * as express from 'express'
-import { judgeLookUp } from '../../lib/util'
+import {asyncReturnOrError, judgeLookUp} from '../../lib/util'
 import * as cohCor from '../../services/cohQA'
+import * as log4jui from '../../lib/log4jui'
 
 const moment = require('moment')
 
 import * as headerUtilities from '../../lib/utilities/headerUtilities'
+import {getHearingByCase} from "../../services/cohQA"
+
+const logger = log4jui.getLogger('questions')
 
 // Create a new hearing
 export async function createHearing(caseId, userId, options, jurisdiction = 'SSCS') {
@@ -129,9 +133,9 @@ export function formatAnswer(body = null) {
 }
 
 export async function getAllQuestionsByCase(caseId, userId, jurisdiction) {
-    const r1 = await cohCor.getHearingByCase(caseId)
+    const r1 = await asyncReturnOrError(getHearingByCase(caseId), 'Error getting hearing by case.', null, logger)
     const r2 = r1.online_hearings[0] ? r1.online_hearings[0].online_hearing_id : createHearing(caseId, userId, jurisdiction)
-    const r3 = await cohCor.getAllRounds(r2)
+    const r3 = await asyncReturnOrError(cohCor.getAllRounds(r2), 'Error getting question rounds.', null, logger)
     return r3 && formatRounds(r3.question_rounds)
 }
 
@@ -161,11 +165,12 @@ export async function questionHandler(req, res) {
 }
 
 export function questionsHandler(req, res) {
+
     const caseId = req.params.case_id
     const userId = req.auth.userId
     const options = getOptions(req)
 
-    return getAllQuestionsByCase(caseId, userId, 'SSCS')
+    return this.getAllQuestionsByCase(caseId, userId, 'SSCS')
         .then(response => {
             res.setHeader('Access-Control-Allow-Origin', '*')
             res.setHeader('content-type', 'application/json')
