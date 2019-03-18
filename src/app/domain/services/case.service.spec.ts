@@ -62,7 +62,7 @@ describe('CaseService', () => {
     it('should search', () => {
         const mockCaseData = [{is: 1}, {id: 2}];
         const url = `/api/cases`;
-        caseService.search().subscribe(data => {
+        caseService.getCases().subscribe(data => {
             expect(data).toEqual(mockCaseData);
         });
         const mockReq = httpMock.expectOne(url);

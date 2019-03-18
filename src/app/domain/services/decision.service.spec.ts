@@ -79,15 +79,29 @@ describe('DecisionService', () => {
         // TODO to mock correctly this property to terst valid also
         const caseData = {
             sections: {
-                id : 'casefile',
-                sections: ''
+                id: 'casefile',
+                sections: [
+                    {
+                        id: 'documents',
+                        fields:[
+                            {
+                                label: 'consentOrder',
+                                value: [
+                                    {
+                                        document_url: 'testUrl'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             }
         };
 
         expect(service.generateDecisionUrl( jurId, caseId, pageId, caseType)).toBeTruthy()
         expect(service.fetch(jurId, caseId, pageId, caseType)).toBeTruthy();
         expect(service.submitDecisionDraft(jurId, caseId, pageId, caseType, body)).toBeTruthy();
-        // expect(service.issueDecision('')).toBeUndefined();
+        expect(service.issueDecision('')).toBeUndefined();
         expect(service.findConsentOrderDocumentUrl(caseData)).toBeNull();
     }));
 

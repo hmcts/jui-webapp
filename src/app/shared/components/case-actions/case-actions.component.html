@@ -4,6 +4,8 @@
             <h1 data-selector="heading" role="heading" aria-level="1" class="hmcts-page-heading__title govuk-heading-xl">{{header}}</h1>
         </div>
         <!-- TODO: Should use HMCTS Menu Component here, instead of this. -->
+        <div [unlessRole]="'caseworker-sscs-panelmember'"  roleList="{{roleList}}" roleSource="inline">
+               
         <div *ngIf="actionPrimaryButton || actionSecondaryButton" class="hmcts-page-heading__actions-wrapper">
             <a *ngIf="actionPrimaryButton"
                data-selector="primary-button"
@@ -26,6 +28,9 @@
                class="govuk-button hmcts-page-heading__button hmcts-button--secondary">
                 {{actionThirdButton.text}}
             </a>
+        </div>
+                
+        
         </div>
     </div>
 </div>

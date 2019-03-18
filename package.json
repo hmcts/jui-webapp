@@ -88,6 +88,7 @@
     "express-session": "^1.15.6",
     "global-tunnel-ng": "^2.7.1",
     "govuk-frontend": "2.5.0",
+    "hmctsroles-lib": "0.0.5",
     "http-proxy-middleware": "0.19.1",
     "http-tunneling-proxy": "^0.3.4",
     "https-proxy-agent": "^2.2.1",
