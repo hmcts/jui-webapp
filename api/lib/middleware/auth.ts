@@ -12,9 +12,18 @@ export function validRoles(roles) {
     return roles.indexOf(config.juiJudgeRole) > -1 || roles.indexOf(config.juiPanelMember) > -1
 }
 
+export function isValidJwtToken(token: string|null): boolean {
+    return token !== null && token !== ''
+}
+
 export default async (req, res, next) => {
     const userId = req.headers[config.cookies.userId] || req.cookies[config.cookies.userId]
     const jwt = req.headers.authorization || req.cookies[config.cookies.token]
+
+    if (!isValidJwtToken(jwt)) {
+        logger.error(`Invalid jwt token: ${jwt}`)
+    }
+
     const jwtData: any = jwtDecode(jwt)
     const expires = new Date(jwtData.exp).getTime()
     const now = new Date().getTime() / 1000
