@@ -81,7 +81,7 @@ export async function getCCDEvents(userId: string, jurisdiction: string, caseTyp
 
 export async function getCCDCases(userId: string, jurisdiction: string, caseType: string, filter: string): Promise<any> {
     const response = await http.get(
-        `${url}/xcaseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases?sortDirection=DESC${filter}`
+        `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases?sortDirection=DESC${filter}`
     )
     return response.data
 }
