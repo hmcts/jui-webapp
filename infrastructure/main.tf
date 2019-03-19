@@ -4,6 +4,11 @@ locals {
     ase_name = "core-compute-${var.env}"
     local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
     shared_vault_name = "${var.shared_product_name}-${local.local_env}"
+    env_ase_url = "${local.local_env}.service.${local.local_ase}.internal"
+
+    // S2S
+    s2s_url = "http://rpe-service-auth-provider-${local.env_ase_url}"
+    s2s_vault_url = "https://s2s-${local.local_env}.vault.azure.net/"
 }
 # "${local.ase_name}"
 # "${local.app_full_name}"
@@ -46,7 +51,7 @@ module "app" {
         PACKAGES_PROJECT = "${var.team_name}"
         PACKAGES_ENVIRONMENT = "${var.env}"
 
-        S2S_SECRET = "${data.azurerm_key_vault_secret.s2s_secret.value}"
+        S2S_SECRET = "${data.azurerm_key_vault_secret.microservicekey_jui_webapp.value}"
         IDAM_SECRET = "${data.azurerm_key_vault_secret.oauth2_secret.value}"
         DECRYPT_KEY = "${data.azurerm_key_vault_secret.decrypt_key.value}"
     }
@@ -62,9 +67,9 @@ data "azurerm_key_vault_secret" "decrypt_key" {
    vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
 }
 
-data "azurerm_key_vault_secret" "s2s_secret" {
-    name = "jui-s2s-token"
-    vault_uri = "${data.azurerm_key_vault.key_vault.vault_uri}"
+data "azurerm_key_vault_secret" "microservicekey_jui_webapp" {
+  name = "microservicekey-jui-webapp"
+  vault_uri = "${local.s2s_vault_url}"
 }
 
 data "azurerm_key_vault_secret" "oauth2_secret" {
