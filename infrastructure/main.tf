@@ -7,7 +7,7 @@ locals {
     env_ase_url = "${local.local_env}.service.${local.local_ase}.internal"
 
     // S2S
-    s2s_url = "http://rpe-service-auth-provider-${local.env_ase_url}"
+    s2s_url = "http://rpe-service-auth-provider-${local.local_env}"
     s2s_vault_url = "https://s2s-${local.local_env}.vault.azure.net/"
 }
 # "${local.ase_name}"
