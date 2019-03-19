@@ -4,7 +4,6 @@ locals {
     ase_name = "core-compute-${var.env}"
     local_env = "${(var.env == "preview" || var.env == "spreview") ? (var.env == "preview" ) ? "aat" : "saat" : var.env}"
     shared_vault_name = "${var.shared_product_name}-${local.local_env}"
-    env_ase_url = "${local.local_env}.service.${local.local_ase}.internal"
 
     // S2S
     s2s_url = "http://rpe-service-auth-provider-${local.local_env}"
