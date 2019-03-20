@@ -32,13 +32,13 @@ export class CaseService {
      *
      * Retrieves the cases. On success we pass back the response data, on error we pass back the error response to the subscriber.
      */
-    getCases(): Observable<Object> {
+    /*getCases(): Observable<Object> {
         const url = `${this.configService.config.api_base_url}/api/cases`;
         return this.httpClient
             .get(url)
             .pipe(map(data => data))
             .pipe(catchError(error => throwError(error)));
-    }
+    }*/
 
     getNewCase(): Observable<Object> {
         const url = `${this.configService.config.api_base_url}/api/cases/assign/new`;
