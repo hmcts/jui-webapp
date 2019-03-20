@@ -5,16 +5,11 @@ import { http } from '../lib/http'
 import { ERROR_NO_HEARING_IDENTIFIER, ERROR_UNABLE_TO_RELIST_HEARING } from '../lib/config/cohConstants'
 import * as log4jui from '../lib/log4jui'
 import { valueOrNull } from '../lib/util'
+import { DateTimeObject } from '../lib/models'
 
 export const url = config.services.coh_cor_api
 
 const logger = log4jui.getLogger('COH')
-
-interface DateTimeObject {
-    date: string
-    dateUtc: string
-    time: string
-}
 
 function convertDateTime(dateObj: string): DateTimeObject {
     const conDateTime = moment(dateObj)

@@ -15,7 +15,6 @@ export async function getHearingByCase(caseId) {
     const response = await http.get(`${url}/continuous-online-hearings?case_id=${caseId}`)
 
     return response.data
-
 }
 
 // Questions
