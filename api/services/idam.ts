@@ -31,7 +31,7 @@ export async function postOauthToken(code, host) {
         headers: {
             Authorization: `Basic ${Buffer.from(`${idamClient}:${idamSecret}`).toString('base64')}`,
             'Content-Type': 'application/x-www-form-urlencoded',
-            'Accept: application/json'
+            'Accept': 'application/json'
         },
     }
 
