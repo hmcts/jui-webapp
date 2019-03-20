@@ -32,7 +32,7 @@ List<LinkedHashMap<String, Object>> secrets = [
     secret('fr-email', 'FR_EMAIL'),
     secret('fr-password', 'FR_PASSWORD'),
     secret('sscs-email', 'SSCS_EMAIL'),
-    secret('sscs-password', 'SSCS_PASSWORD')
+    secret('sscs-password', 'SSCS_PASSWORD'),
     secret('microservicekey-jui-webapp', 'S2S_SECRET')
 ]
 
