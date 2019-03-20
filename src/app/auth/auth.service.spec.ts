@@ -86,5 +86,20 @@ describe('AuthService', () => {
             expiry = new Date().getTime() - 3000;
             expect(service.isAuthenticated()).toEqual(true);
         }));
+
+    });
+
+
+    describe('User Roles', () => {
+        it('it should return user roles', inject([AuthService], (service: AuthService) => {
+            service.decodeJwt = () => {
+                return {
+                    roles: ''
+                };
+            };
+            const userRoles = service.getLoggedInUserRoles();
+            expect(userRoles).toBe(undefined);
+        }));
+
     });
 });
