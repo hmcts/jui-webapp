@@ -10,6 +10,7 @@ import { NavigationEnd, Router, Event } from '@angular/router';
 
 export class AppComponent implements OnInit {
     title = 'JUI Web App';
+    urls = ['summary', 'parties', 'casefile', 'timeline', 'decision', 'hearing', 'reject-reasons'];
     config; // TODO add type
 
     constructor(private configService: ConfigService, private router: Router) { }
@@ -25,26 +26,10 @@ export class AppComponent implements OnInit {
     }
 
     replacedTitles(url: string): string {
-        if (url.indexOf('summary') !== -1) {
-            return 'summary';
-        }
-        if (url.indexOf('parties') !== -1) {
-            return 'parties';
-        }
-        if (url.indexOf('casefile') !== -1) {
-            return 'caseFile';
-        }
-        if (url.indexOf('timeline') !== -1) {
-            return 'timeline';
-        }
-        if (url.indexOf('decision') !== -1) {
-            return 'decision';
-        }
-        if (url.indexOf('hearing') !== -1) {
-            return 'listOfHearing';
-        }
-        if (url.indexOf('reject-reasons') !== -1) {
-            return 'reject-reasons';
+        for ( const page of this.urls ){
+            if (url.indexOf(page) !== -1) {
+                return page;
+            }
         }
         return '/';
     }

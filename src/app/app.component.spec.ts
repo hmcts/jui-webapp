@@ -37,7 +37,7 @@ describe('AppComponent', () => {
         expect(app.title).toEqual('JUI Web App');
     }));
     it(`should replace title`, async(() => {
-        expect(['test', '/']).toContain(app.replacedTitles('test'));
+        expect(['summary', 'parties', 'casefile', 'timeline', 'decision', 'hearing', 'reject-reasons', '/']).toContain(app.replacedTitles('test'));
     }));
     it(`should return title mapping `, async(() => {
         expect('Your cases - Judicial case manager').toContain(app.getTitle('/'));
