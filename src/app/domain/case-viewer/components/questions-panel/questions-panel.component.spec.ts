@@ -1,17 +1,25 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {QuestionsPanelComponent} from './questions-panel.component';
-import {CaseViewerModule} from '../../case-viewer.module';
-import {Selector} from '../../../../shared/selector-helper';
-import {RouterTestingModule} from '@angular/router/testing';
-import {ConfigService} from '../../../../config.service';
-import {mockQuestion, mockQuestionEmpty, mockQuestions2, mockQuestionsPanelData} from './mock/mock-questions.mock';
-import {api_base_url} from '../../../../enviorment.mock';
-import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {PageDateQuestion} from '../../../models/section_fields';
-import {mockActiveRouteQuestionsPanel} from './mock/activeRoute.mock';
-import {mockConfigService} from '../../../mock/config.mock';
+import { QuestionsPanelComponent } from './questions-panel.component';
+import { CaseViewerModule } from '../../case-viewer.module';
+import { Selector } from '../../../../shared/selector-helper';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ConfigService } from '../../../../config.service';
+import { mockQuestion, mockQuestionEmpty, mockQuestions2, mockQuestionsPanelData } from './mock/mock-questions.mock';
+import { api_base_url } from '../../../../enviorment.mock';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, ViewChild } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PageDateQuestion } from '../../../models/section_fields';
+import { mockActiveRouteQuestionsPanel } from './mock/activeRoute.mock';
+import { mockConfigService } from '../../../mock/config.mock';
+import { AuthService } from '../../../../auth/auth.service';
+
+class MockAuthService {
+    getLoggedInUserRoles() {
+        return ['roleA', 'roleB'];
+    }
+}
+
 @Component({
     selector: `app-host-dummy-component`,
     template: `<app-questions-panel [panelData]="data"></app-questions-panel>`
@@ -32,13 +40,17 @@ describe('Testing @input', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ QuestionsPanelComponent, TestQuestionsPanelDummyHostComponent ],
+            declarations: [QuestionsPanelComponent, TestQuestionsPanelDummyHostComponent],
             schemas: [CUSTOM_ELEMENTS_SCHEMA],
             imports: [RouterTestingModule],
             providers: [
                 {
                     provide: ConfigService,
                     useValue: mockConfigService
+                },
+                {
+                    provide: AuthService,
+                    useClass: MockAuthService
                 }
             ]
         })

@@ -1,6 +1,7 @@
 import * as express from 'express'
 import { config } from '../../config'
 import { http } from '../lib/http'
+import { getHealth, getInfo } from '../lib/util'
 
 const url = config.services.coh_cor_api
 
@@ -15,7 +16,6 @@ export async function getHearingByCase(caseId) {
     const response = await http.get(`${url}/continuous-online-hearings?case_id=${caseId}`)
 
     return response.data
-
 }
 
 // Questions
@@ -65,6 +65,7 @@ export async function getAnswer(hearingId, questionId, answerId) {
 }
 
 export async function putAnswer(hearingId, questionId, answerId, body) {
+    // there seems to be a missing '/' i'm not sure
     const response = http.put(`${url}/continuous-online-hearings/${hearingId}/questions/${questionId}/answers${answerId}`, body)
 }
 
@@ -129,15 +130,6 @@ export async function postHearing(body) {
     return response.data
 }
 
-export async function getHealth() {
-    const response = await http.get(`${url}/health`)
-    return response.data
-}
-
-export async function getInfo() {
-    const response = await http.get(`${url}/info`)
-    return response.data
-}
 
 export default app => {
     const router = express.Router({ mergeParams: true })
@@ -145,11 +137,11 @@ export default app => {
 
     router.get('/health', (req, res, next) => {
         res.status(200)
-        res.send(getHealth())
+        res.send(getHealth(url))
     })
 
     router.get('/info', (req, res, next) => {
         res.status(200)
-        res.send(getInfo())
+        res.send(getInfo(url))
     })
 }

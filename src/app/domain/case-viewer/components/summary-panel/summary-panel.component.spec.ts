@@ -1,9 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, Input, ViewChild} from '@angular/core';
-import {Selector} from '../../../../shared/selector-helper';
-import {mockPanelData} from './mock/summary-panel.mock';
-import {PageDateDefault, SectionSummaryItem} from '../../../models/section_fields';
-import {SummaryPanelComponent} from './summary-panel.component';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, Input, ViewChild } from '@angular/core';
+import { Selector } from '../../../../shared/selector-helper';
+import { mockPanelData } from './mock/summary-panel.mock';
+import { PageDateDefault, SectionSummaryItem } from '../../../models/section_fields';
+import { SummaryPanelComponent } from './summary-panel.component';
+import { AuthService } from '../../../../auth/auth.service';
+
+
+
+class MockAuthService {
+    getLoggedInUserRoles() {
+        return ['roleA', 'roleB'];
+    }
+}
 
 describe('SummaryPanelComponent Component: Testing Input & Output', () => {
     @Component({
@@ -11,7 +20,7 @@ describe('SummaryPanelComponent Component: Testing Input & Output', () => {
         template: `<app-summary-panel [panelData]="data"></app-summary-panel>`
     })
     class TestDummyHostComponent {
-        public data:  PageDateDefault = mockPanelData;
+        public data: PageDateDefault = mockPanelData;
         @ViewChild(SummaryPanelComponent)
         public summaryPanelComponent: SummaryPanelComponent;
     }
@@ -25,8 +34,13 @@ describe('SummaryPanelComponent Component: Testing Input & Output', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ SummaryPanelComponent, TestDummyHostComponent ],
-            schemas: [CUSTOM_ELEMENTS_SCHEMA]
+            declarations: [SummaryPanelComponent, TestDummyHostComponent],
+            schemas: [CUSTOM_ELEMENTS_SCHEMA],
+            providers: [
+                {
+                    provide: AuthService, useClass: MockAuthService
+                }
+            ]
         })
             .compileComponents();
     }));
@@ -58,8 +72,8 @@ describe('SummaryPanelComponent Component: Testing Input & Output', () => {
         testHostFixture.detectChanges();
 
         // const actualTitles = element.nativeElement.querySelectorAll(Selector.selector('title'));
-       const filtered = (testHostComponent.summaryPanelComponent.panelData.sections as Array<SectionSummaryItem>
-       ).filter(item => item.type !== 'timeline').map(item => item);
+        const filtered = (testHostComponent.summaryPanelComponent.panelData.sections as Array<SectionSummaryItem>
+        ).filter(item => item.type !== 'timeline').map(item => item);
         expect(filtered[0].name).toEqual('Case Details');
         expect(filtered[1].name).toEqual('Representative');
 

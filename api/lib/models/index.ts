@@ -10,6 +10,11 @@ export interface CCDCaseWithSchema {
     schema: any
 }
 
+export interface DateTimeObject {
+    date: string
+    dateUtc: string
+    time: string
+}
 export interface JUILogger {
     _logger: log4js.Logger
     debug: (...message: any[]) => void

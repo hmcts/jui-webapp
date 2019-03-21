@@ -6,8 +6,16 @@ import { of } from 'rxjs';
 import { CaseViewerModule } from '../../case-viewer.module';
 import { ConfigService } from '../../../../config.service';
 import { RouterTestingModule } from '@angular/router/testing';
-import {TransferState} from '@angular/platform-browser';
-import {Selector} from '../../../../shared/selector-helper';
+import { TransferState } from '@angular/platform-browser';
+import { Selector } from '../../../../shared/selector-helper';
+import { AuthService } from '../../../../auth/auth.service';
+
+
+class MockAuthService {
+    getLoggedInUserRoles() {
+        return ['roleA', 'roleB'];
+    }
+}
 
 describe('DocumentPanelComponent', () => {
     let component: DocumentPanelComponent;
@@ -71,6 +79,10 @@ describe('DocumentPanelComponent', () => {
                     {
                         provide: ConfigService,
                         useValue: mockConfigService
+                    },
+                    {
+                        provide: AuthService,
+                        useClass: MockAuthService
                     },
                     TransferState
                 ]

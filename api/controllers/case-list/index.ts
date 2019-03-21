@@ -236,7 +236,7 @@ export async function getCases(res) {
             res.setHeader('content-type', 'application/json')
             res.status(200).send(JSON.stringify(results))
         } else {
-            logger.warn('Cases unable to be retrieved.')
+            logger.error('Unable to get any cases.')
             res.status(500).send(JSON.stringify(errorStack.get()))
         }
     }
