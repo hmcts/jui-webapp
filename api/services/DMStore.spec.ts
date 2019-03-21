@@ -80,71 +80,155 @@ describe('DMStore', () => {
         })
     })
 
-    // describe('getHearingByCase', () => {
-    //     it('Should make a http.get call based on the casee Id', async () => {
-    //         await cohQA.getHearingByCase('test')
-    //         expect(spy).to.be.calledWith(`${url}/continuous-online-hearings?case_id=test`)
-    //     })
-    //     it('Should return the data property of the return ofa http.get call', async () => {
-    //         expect(await cohQA.getHearingByCase('test')).to.equal('okay')
-    //     })
-    // })
-    //
-    // describe('getQuestions', () => {
-    //     it('Should make a http.get call based on the hearing Id', async () => {
-    //         await cohQA.getQuestions('test')
-    //         expect(spy).to.be.calledWith(`${url}/continuous-online-hearings/test/questions`)
-    //     })
-    //     it('Should return the data property of the return ofa http.get call', async () => {
-    //         expect(await cohQA.getQuestions('test')).to.equal('okay')
-    //     })
-    // })
-    //
-    // describe('postQuestion', () => {
-    //     it('Should make a http.post call based on the hearing Id and given payload', async () => {
-    //         await cohQA.postQuestion('test', 'body')
-    //         expect(spyPost).to.be.calledWith(`${url}/continuous-online-hearings/test/questions`, 'body')
-    //     })
-    //     it('Should return the data property of the return ofa http.get call', async () => {
-    //         expect(await cohQA.postQuestion('test', 'body')).to.equal('okay')
-    //     })
-    // })
-    //
-    // describe('getQuestion', () => {
-    //     it('Should make a http.get call based on the hearing Id, question id', async () => {
-    //         await cohQA.getQuestion('test', 'test2', {})
-    //         expect(spy).to.be.calledWith(`${url}/continuous-online-hearings/test/questions/test2`, {})
-    //     })
-    //     it('Should return the data property of the return ofa http.get call', async () => {
-    //         expect(await cohQA.getQuestion('test', 'test2', {})).to.equal('okay')
-    //     })
-    // })
-    //
-    // describe('putQuestion', () => {
-    //     it('Should make a http.put call based on the hearing Id, question id', async () => {
-    //         await cohQA.putQuestion('test', 'test2', {})
-    //         expect(spyPut).to.be.calledWith(`${url}/continuous-online-hearings/test/questions/test2`, {})
-    //     })
-    // })
-    //
-    // describe('deleteQuestion', () => {
-    //     it('Should make a http.get call based on the hearing Id, question id', async () => {
-    //         await cohQA.deleteQuestion('test', 'test2')
-    //         expect(spyDelete).to.be.calledWith(`${url}/continuous-online-hearings/test/questions/test2`)
-    //     })
-    //     it('Should return the data property of the return ofa http.get call', async () => {
-    //         expect(await cohQA.deleteQuestion('test', 'test2')).to.equal('okay')
-    //     })
-    // })
-    //
-    // describe('getAnswers', () => {
-    //     it('Should make a http.get call based on the hearing Id, question id', async () => {
-    //         await cohQA.getAnswers('test', 'test2')
-    //         expect(spy).to.be.calledWith(`${url}/continuous-online-hearings/test/questions/test2/answers`)
-    //     })
-    //     it('Should return the data property of the return ofa http.get call', async () => {
-    //         expect(await cohQA.getAnswers('test', 'test2')).to.equal('okay')
-    //     })
-    // })
+    // TODO: Get this working
+    xdescribe('getDocuments()', () => {
 
+        const documentIds = ['42', '42']
+
+        it('Should make a call to getDocument() for each document Id', async () => {
+
+            const spy = sinon.stub(DMStore, 'getDocument').resolves(res)
+
+            await DMStore.getDocuments(documentIds)
+
+            expect(spy).to.be.called
+
+            spy.restore()
+        })
+    })
+
+    describe('getDocumentVersion()', () => {
+
+        const documentId = 'Document Id'
+        const versionId = 'Version Id'
+
+        it('Should make a http.get call based on the document Id', async () => {
+
+            const spy = sinon.stub(http, 'get').resolves(res)
+
+            await DMStore.getDocumentVersion(documentId, versionId)
+            expect(spy).to.be.calledWith(`${url}/documents/${documentId}/versions/${versionId}`)
+
+            spy.restore()
+        })
+
+        it('Should return the data property of the return of the http.get call', async () => {
+
+            const spy = sinon.stub(http, 'get').resolves(res)
+
+            expect(await DMStore.getDocumentVersion(documentId, versionId)).to.equal('okay')
+
+            spy.restore()
+        })
+
+        /**
+         * Error Condition if asyncReturnOrError returns a null.
+         */
+        it('should return null if asyncReturnOrError returns null', async () => {
+
+            const spy = sinon.stub(http, 'get').resolves(null)
+
+            expect(await DMStore.getDocumentVersion(documentId, versionId)).to.equal(null)
+
+            spy.restore()
+        })
+    })
+
+    describe('getDocumentBinary()', () => {
+
+        const documentId = 'Document Id'
+
+        it('Should make a http.get call based on the document Id', async () => {
+
+            const spy = sinon.stub(http, 'get').resolves(res)
+
+            await DMStore.getDocumentBinary(documentId)
+            expect(spy).to.be.calledWith(`${url}/documents/${documentId}/binary`)
+
+            spy.restore()
+        })
+
+        it('Should return the data property of the return of the http.get call', async () => {
+
+            const spy = sinon.stub(http, 'get').resolves(res)
+
+            expect(await DMStore.getDocumentBinary(documentId)).to.equal('okay')
+
+            spy.restore()
+        })
+    })
+
+    describe('getDocumentVersionBinary()', () => {
+
+        const documentId = 'Document Id'
+        const versionId = 'Version Id'
+
+        it('Should make a http.get call based on the document Id', async () => {
+
+            const spy = sinon.stub(http, 'get').resolves(res)
+
+            await DMStore.getDocumentVersionBinary(documentId, versionId)
+            expect(spy).to.be.calledWith(`${url}/documents/${documentId}/versions/${versionId}/binary`)
+
+            spy.restore()
+        })
+
+        it('Should return the data property of the return of the http.get call', async () => {
+
+            const spy = sinon.stub(http, 'get').resolves(res)
+
+            expect(await DMStore.getDocumentVersionBinary(documentId, versionId)).to.equal('okay')
+
+            spy.restore()
+        })
+    })
+
+    describe('getDocumentThumbnail()', () => {
+
+        const documentId = 'Document Id'
+
+        it('Should make a http.get call based on the document Id', async () => {
+
+            const spy = sinon.stub(http, 'get').resolves(res)
+
+            await DMStore.getDocumentThumbnail(documentId)
+            expect(spy).to.be.calledWith(`${url}/documents/${documentId}/thumbnail`)
+
+            spy.restore()
+        })
+
+        it('Should return the data property of the return of the http.get call', async () => {
+
+            const spy = sinon.stub(http, 'get').resolves(res)
+
+            expect(await DMStore.getDocumentThumbnail(documentId)).to.equal('okay')
+
+            spy.restore()
+        })
+    })
+
+    describe('getDocumentVersionThumbnail()', () => {
+
+        const documentId = 'Document Id'
+        const versionId = 'Version Id'
+
+        it('Should make a http.get call based on the document Id and version Id', async () => {
+
+            const spy = sinon.stub(http, 'get').resolves(res)
+
+            await DMStore.getDocumentVersionThumbnail(documentId, versionId)
+            expect(spy).to.be.calledWith(`${url}/documents/${documentId}/versions/${versionId}/thumbnail`)
+
+            spy.restore()
+        })
+
+        it('Should return the data property of the return of the http.get call', async () => {
+
+            const spy = sinon.stub(http, 'get').resolves(res)
+
+            expect(await DMStore.getDocumentVersionThumbnail(documentId, versionId)).to.equal('okay')
+
+            spy.restore()
+        })
+    })
 })
