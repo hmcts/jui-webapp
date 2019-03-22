@@ -9,12 +9,9 @@ import * as jwt from 'jsonwebtoken'
 
 chai.use(sinonChai)
 
-import * as log4js from 'log4js'
 import * as authController from '../../controllers/auth'
 import * as idam from '../../services/idam'
 import * as auth from './auth'
-
-import * as responseRequest from './responseRequest'
 
 describe('auth', () => {
     describe('validRoles', () => {
