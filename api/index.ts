@@ -23,7 +23,6 @@ const router = express.Router()
 
 const eventsRoutes = require('./controllers/events')
 const documentsRoutes = require('./controllers/documents')
-const caseCreationRoute = require('./controllers/case-creation')
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
@@ -43,8 +42,6 @@ eventsRoutes(router)
 questionsRoutes(router)
 
 if (config.configEnv !== 'prod') {
-    // Dev Tools
-    caseCreationRoute(router)
 
     // Uncomment to enable direct access to Microservices
     barApiRoutes(router)
