@@ -4,7 +4,7 @@ export default {
             'https://ccd-data-store-api-aat.service.core-compute-aat.internal',
         ccd_def_api:
             'https://ccd-definition-store-api-aat.service.core-compute-aat.internal',
-        idam_web: 'https://idam-web-admin-idam-aat.service.core-compute-idam-aat.internal/login',
+        idam_web: 'https://idam-web-public-idam-aat.service.core-compute-idam-aat.internal',
         idam_api: 'https://idam-api-idam-aat.service.core-compute-idam-aat.internal',
         s2s:
             'https://rpe-service-auth-provider-aat.service.core-compute-aat.internal',
