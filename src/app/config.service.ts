@@ -10,7 +10,7 @@ export class ConfigService {
     config = null;
     CONFIG_KEY = makeStateKey('config');
     constructor(
-        private state: TransferState,
+        public state: TransferState,
         public cookieService: CookieService,
         @Inject(DOCUMENT) public document: any
     ) {

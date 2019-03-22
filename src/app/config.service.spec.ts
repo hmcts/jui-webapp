@@ -1,38 +1,36 @@
 import {inject, TestBed} from '@angular/core/testing';
-import { ANGULAR2_COOKIE_PROVIDERS } from '../../src/core';
 import { CookieModule, CookieService } from 'ngx-cookie';
+import { Injectable } from '@angular/core';
 import { makeStateKey, TransferState } from '@angular/platform-browser';
 import { configs, baseConfig } from '../../config';
-import { DOCUMENT } from '@angular/common';
-import {ConfigService} from './config.service';
+import { ConfigService } from './config.service';
 
-xdescribe('Service: ConfigService', () => {
+describe('Service: ConfigService', () => {
     const mockDocument = configs;
     const mockConfData = baseConfig;
-    const mockDocument = DOCUMENT;
-    let cookieService: CookieService;
+    const config: any = { ...baseConfig };
 
     beforeEach(() => {
+
         TestBed.configureTestingModule({
             imports: [
                 CookieModule.forRoot() // <==== This line fixed it
             ],
             providers: [
+                Injectable,
                 ConfigService,
                 TransferState,
                 CookieService
             ]
-
         });
-
-        let injector = ReflectiveInjector.resolveAndCreate(ANGULAR2_COOKIE_PROVIDERS);
-        cookieService = injector.get(CookieService);
-        cookieService.removeAll();
-
     });
-    it('should be created', inject([ConfigService, CookieService], (service: ConfigService) => {
+    it('should be created', inject([ConfigService], (service: ConfigService) => {
         service.CONFIG_KEY = makeStateKey('config');
+        service.state.get(this.CONFIG_KEY, null as any);
+        service.cookieService.put('test', '1');
+        const platform = service.cookieService.get(config.platformCookie) || config.localEnv;
         expect(service).toBeTruthy();
+        expect(platform).toBe('local');
     }));
     it('should return base url', inject([ConfigService], (service: ConfigService) => {
         service.CONFIG_KEY = makeStateKey('config');

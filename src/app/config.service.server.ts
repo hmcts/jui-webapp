@@ -1,10 +1,7 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { makeStateKey, TransferState } from '@angular/platform-browser';
-declare function require(name: string);
 import { config } from '../../config';
-
 import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
-import { isPlatformBrowser } from '@angular/common';
 import { Response, Request } from 'express';
 
 @Injectable({
@@ -16,12 +13,14 @@ export class ServerConfigService {
     CONFIG_KEY = makeStateKey('config');
 
     constructor(
-        private state: TransferState,
+        public state: TransferState,
         @Inject(REQUEST) private request: Request,
         @Inject(RESPONSE) private response: Response,
         @Inject(PLATFORM_ID) private platformId: string
     ) {
         this.config = this.state.get(this.CONFIG_KEY, null as any);
+        console.log("Request =>>>>>", request);
+        console.log("RESPONSE =>>>>>", response);
         if (!this.config) {
             config.api_base_url = this.getBaseUrl(config);
             this.state.set(this.CONFIG_KEY, config);
@@ -29,8 +28,8 @@ export class ServerConfigService {
         }
     }
 
-    getBaseUrl(config) {
-        const protocol = config.protocol;
+    getBaseUrl(conf) {
+        const protocol = conf.protocol;
         const host = this.request.get('host');
         return `${protocol}://${host}`;
     }
