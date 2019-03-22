@@ -33,7 +33,7 @@ export async function handlePost(req: Request, res: Response): Promise<void> {
         const response = await asyncReturnOrError(createAnnotationSet(req.body), ' Error creating annotations', res, logger)
 
         if (response) {
-            res.status(200).send(JSON.stringify(response))
+            res.status(200).send(response)
         }
     }
 }
@@ -43,7 +43,7 @@ export async function handleGet(req: Request, res: Response): Promise<void> {
     const response = await asyncReturnOrError(getAnnotionSet(uuid), ' Error getting annotations', res, logger)
 
     if (response) {
-        res.status(200).send(JSON.stringify(response))
+        res.status(200).send(response)
     }
 }
 
@@ -52,7 +52,7 @@ export async function handleDelete(req: Request, res: Response): Promise<void> {
     const response = await asyncReturnOrError(deleteAnnotation(uuid), ' Error deleting annotations', res, logger)
 
     if (response) {
-        res.status(200).send(JSON.stringify(response))
+        res.status(200).send(response)
     }
 }
 
@@ -60,7 +60,7 @@ export async function handleAdd(req: Request, res: Response): Promise<void> {
     const response = await asyncReturnOrError(addAnnotation(req.body), ' Error Adding annotations', res, logger)
 
     if (response) {
-        res.status(200).send(JSON.stringify(response))
+        res.status(200).send(response)
     }
 }
 
