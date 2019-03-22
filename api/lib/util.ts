@@ -26,7 +26,13 @@ export function asyncReturnOrError(
             logger.error(msg)
 
             if (setResponse) {
-                res.status(err.statusCode || 500).send(JSON.stringify(errorStack.get()))
+                let status
+                if (exists(err, 'response.status')) {
+                    status = err.response.status
+                } else {
+                    status = err.statusCode || 500
+                }
+                res.status(status).send(JSON.stringify(errorStack.get()))
             }
 
             return null

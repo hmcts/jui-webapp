@@ -6,19 +6,21 @@ import { SharedModule } from '../shared/shared.module';
 import { CaseViewerModule } from './case-viewer/case-viewer.module';
 import { HeaderComponent } from './components/header/header.component';
 import { RouterModule } from '@angular/router';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CreateQuestionsComponent } from './components/questions/create/create.component';
 import { CheckQuestionsComponent } from './components/questions/check/check.component';
 import { ViewQuestionComponent } from './components/questions/view/view.component';
 import { DeleteQuestionComponent } from './components/questions/delete/delete.component';
 import { EditQuestionComponent } from './components/questions/edit/edit.component';
 import { CaseBarComponent } from './components/casebar/casebar.component';
-import {CaseService} from './services/case.service';
-import {QuestionService} from './services/question.service';
+import { CaseService } from './services/case.service';
+import { QuestionService } from './services/question.service';
 
-import {JUIFormsModule} from '../forms/forms.module';
-import {GovukModule} from '../govuk/govuk.module';
-import {HmctsModule} from '../hmcts/hmcts.module';
+import { JUIFormsModule } from '../forms/forms.module';
+import { GovukModule } from '../govuk/govuk.module';
+import { HmctsModule } from '../hmcts/hmcts.module';
+import { HmctsrolesLibModule } from 'hmctsroles-lib';
+
 
 @NgModule({
     imports: [
@@ -30,7 +32,8 @@ import {HmctsModule} from '../hmcts/hmcts.module';
         BrowserTransferStateModule,
         GovukModule,
         HmctsModule,
-        FormsModule
+        FormsModule,
+        HmctsrolesLibModule
     ],
     exports: [
         CaseBarComponent,

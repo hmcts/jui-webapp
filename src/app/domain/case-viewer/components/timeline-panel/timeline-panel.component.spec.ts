@@ -1,9 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CaseViewerModule } from '../../case-viewer.module';
 import { TimelinePanelComponent } from './timeline-panel.component';
-import {Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, Input, ViewChild} from '@angular/core';
-import {mockPanelDataTimeline} from '../summary-panel/mock/summary-panel.mock';
-import {PageDateWithFields} from '../../../models/section_fields';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement, Input, ViewChild } from '@angular/core';
+import { mockPanelDataTimeline } from '../summary-panel/mock/summary-panel.mock';
+import { PageDateWithFields } from '../../../models/section_fields';
+import { AuthService } from '../../../../auth/auth.service';
+
+class MockAuthService {
+    getLoggedInUserRoles() {
+        return ['roleA', 'roleB'];
+    }
+}
+
 
 describe('Timeline Panel Component: Testing Input & Output', () => {
     @Component({
@@ -11,7 +19,7 @@ describe('Timeline Panel Component: Testing Input & Output', () => {
         template: `<app-timeline-panel [panelData]="data"></app-timeline-panel>`
     })
     class TestDummyHostComponent {
-        public data:  PageDateWithFields = mockPanelDataTimeline;
+        public data: PageDateWithFields = mockPanelDataTimeline;
         @ViewChild(TimelinePanelComponent)
         public timelinePanelComponent: TimelinePanelComponent;
     }
@@ -25,8 +33,13 @@ describe('Timeline Panel Component: Testing Input & Output', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ TimelinePanelComponent, TestDummyHostComponent ],
-            schemas: [CUSTOM_ELEMENTS_SCHEMA]
+            declarations: [TimelinePanelComponent, TestDummyHostComponent],
+            schemas: [CUSTOM_ELEMENTS_SCHEMA],
+            providers: [
+                {
+                    provide: AuthService, useClass: MockAuthService
+                }
+            ]
         })
             .compileComponents();
     }));
@@ -53,7 +66,7 @@ describe('Timeline Panel Component: Testing Input & Output', () => {
 
     it('panelData should have data loaded', () => {
         testHostFixture.detectChanges();
-        expect( typeof testHostComponent.timelinePanelComponent.panelData === 'object').toBeTruthy();
+        expect(typeof testHostComponent.timelinePanelComponent.panelData === 'object').toBeTruthy();
     });
 })
 

@@ -247,7 +247,7 @@ describe('index', () => {
             const stub3 = sinon.stub(utils, 'asyncReturnOrError')
             stub.resolves({ id: 1, roles: [1, 2, 3] })
             stub2.resolves([1, 2, 3])
-            stub3.resolves([1, 2, 3])
+            stub3.resolves({results: [1, 2, 3]})
             const result = await getCases(res)
             expect(stub).to.be.called
             // expect(result).to.be.an('array')

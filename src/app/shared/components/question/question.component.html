@@ -37,7 +37,10 @@
             <a data-selector="create-draft-questions-link" class="govuk-button" [ngClass]="{'jui-button--secondary':round.questions.length > 0, 'govuk-!-margin-bottom-4': true} " routerLink="./new/{{round.question_round_number}}">Add questions</a>
         </div>
         <div *ngIf="round.questions.length > 0" class="jui-button-action">
-            <a data-selector="send-draft-questions-link" class="govuk-button" routerLink="./check/{{round.question_round_number}}">Send questions</a>
+             
+
+            <a [unlessRole]="'caseworker-sscs-panelmember'"  roleList="{{roleList}}" roleSource="inline" 
+            data-selector="send-draft-questions-link" class="govuk-button" routerLink="./check/{{round.question_round_number}}">Send questions</a>
         </div>
         <br>
     </ng-template>

@@ -1,6 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {LinkItem, PageDateQuestion, QuestionValue} from '../../../models/section_fields';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { LinkItem, PageDateQuestion, QuestionValue } from '../../../models/section_fields';
+import { AuthService } from '../../../../auth/auth.service';
 
 @Component({
     selector: 'app-questions-panel',
@@ -13,9 +14,14 @@ export class QuestionsPanelComponent implements OnInit {
     updatedQuestion: string;
     deletedQuestion: string;
     sentQuestions: string;
-    actionPrimaryButton: LinkItem = {href: '../decision/create', text: 'Make decision'};
-    actionSecondaryButton: LinkItem = {href: '../hearing/list', text: 'List for hearing'};
-    constructor(private route: ActivatedRoute) {}
+    actionPrimaryButton: LinkItem = { href: '../decision/create', text: 'Make decision' };
+    actionSecondaryButton: LinkItem = { href: '../hearing/list', text: 'List for hearing' };
+    roles: string[];
+
+    constructor(private route: ActivatedRoute,
+        private authService: AuthService) {
+        this.roles = authService.getLoggedInUserRoles();
+    }
 
     ngOnInit(): void {
         this.route.queryParams.subscribe(queryParams => {

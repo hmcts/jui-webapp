@@ -5,9 +5,15 @@ import * as sinon from 'sinon'
 import * as sinonChai from 'sinon-chai'
 import { mockReq, mockRes } from 'sinon-express-mock'
 
+import * as jwt from 'jsonwebtoken'
+
 chai.use(sinonChai)
 
+import * as log4js from 'log4js'
+import * as authController from '../../controllers/auth'
+import * as idam from '../../services/idam'
 import * as auth from './auth'
+
 import * as responseRequest from './responseRequest'
 
 describe('auth', () => {
@@ -20,4 +26,126 @@ describe('auth', () => {
             expect(auth.validRoles(['test'])).to.equal(false)
         })
     })
+
+    describe('default', () => {
+        it('should call user details if session  does not contain user details', async () => {
+
+            const req = mockReq({
+                cookies: [],
+                headers: [],
+
+            })
+
+            const res = mockRes()
+
+            // lets set the expiry to be tomorrow
+            const expiry = new Date();
+            expiry.setDate(expiry.getDate() + 1)
+            // this should be able to decoded by jwtdecode
+            const token = jwt.sign({ exp: expiry.getTime() / 1000 }, 'test')
+            req.headers.authorization = token
+            const stub = sinon.stub(idam, 'getDetails')
+            const stub2 = sinon.stub(auth, 'validRoles')
+
+            stub.returns(Promise.resolve({
+                roles: []
+            }))
+
+            stub2.returns(true)
+
+            await auth.default(req, res, () => { })
+            expect(stub).to.be.called
+            stub.restore()
+
+        })
+        it('should log the user out if token has expired', async () => {
+
+            const req = mockReq({
+                cookies: [],
+                headers: [],
+                session: {
+                    user: {
+                        id: 'testId',
+                        roles: []
+                    },
+                },
+
+            })
+
+            const res = mockRes()
+
+            // lets set the expiry to be tomorrow
+            const expiry = new Date()
+            expiry.setDate(expiry.getDate() - 1)
+            // this should be able to decoded by jwtdecode
+            const token = jwt.sign({ exp: expiry.getTime() / 1000 }, 'test')
+            req.headers.authorization = token
+            const stub = sinon.stub(authController, 'doLogout')
+
+            await auth.default(req, res, () => { })
+            expect(stub).to.be.called
+            stub.restore()
+        })
+
+        it('should log out users without correct roles', async () => {
+
+            const req = mockReq({
+                cookies: [],
+                headers: [],
+                session: {
+                    user: {
+                        id: 'testId',
+                        roles: []
+                    },
+                },
+
+            })
+
+            const res = mockRes()
+
+            // lets set the expiry to be tomorrow
+            const expiry = new Date()
+            expiry.setDate(expiry.getDate() + 1)
+            // this should be able to decoded by jwtdecode
+            const token = jwt.sign({ exp: expiry.getTime() / 1000 }, 'test')
+            req.headers.authorization = token
+            const stub = sinon.stub(authController, 'doLogout')
+
+            await auth.default(req, res, () => { })
+            expect(stub).to.be.called
+            stub.restore()
+        })
+    })
+
+    it('should not log out users with correct roles', async () => {
+
+        const req = mockReq({
+            cookies: [],
+            headers: [],
+            session: {
+                user: {
+                    id: 'testId',
+                    roles: ['jui-judge'],
+                },
+            },
+
+        })
+
+        const res = mockRes()
+
+        // lets set the expiry to be tomorrow
+        const expiry = new Date()
+        expiry.setDate(expiry.getDate() + 1)
+        // this should be able to decoded by jwtdecode
+        const token = jwt.sign({ exp: expiry.getTime() / 1000 }, 'test')
+        req.headers.authorization = token
+        const spy = sinon.spy()
+
+        // the spy in this context is the middleware next function  which 
+        // will be  called right at the end if everything is successful
+
+        await auth.default(req, res, spy)
+        expect(spy).to.be.called
+    })
 })
+

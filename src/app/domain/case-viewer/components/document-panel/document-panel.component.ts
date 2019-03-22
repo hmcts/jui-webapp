@@ -1,6 +1,7 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {ConfigService} from '../../../../config.service';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ConfigService } from '../../../../config.service';
+import { AuthService } from '../../../../auth/auth.service';
 
 @Component({
     selector: 'app-document-panel',
@@ -14,11 +15,14 @@ export class DocumentPanelComponent implements OnInit {
     documents: any[] = [];
     selectedDocument: any;
     documentUrl: string;
+    roles: string[];
 
     constructor(private route: ActivatedRoute,
-                private router: Router,
-                private configService: ConfigService) {
+        private authService: AuthService,
+        private router: Router,
+        private configService: ConfigService) {
         this.documentUrl = `${configService.config.api_base_url}/api`;
+        this.roles = authService.getLoggedInUserRoles();
     }
 
     ngOnInit(): void {
@@ -33,7 +37,7 @@ export class DocumentPanelComponent implements OnInit {
                 if (params['section_item_id']) {
                     this.selectedDocument = this.documents.filter(doc => doc.id === params['section_item_id'])[0];
                 } else {
-                    this.router.navigate([`${this.documents[0].id}`], {relativeTo: this.route});
+                    this.router.navigate([`${this.documents[0].id}`], { relativeTo: this.route });
                 }
 
             });

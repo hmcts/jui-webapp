@@ -10,6 +10,7 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { GovukModule } from '../govuk/govuk.module';
 import { HmctsModule } from '../hmcts/hmcts.module';
+import { HmctsrolesLibModule } from 'hmctsroles-lib';
 import { TimelineComponent } from './components/timeline/timeline.component';
 import { QuestionListComponent } from './components/question-list/question-list.component';
 import { QuestionComponent } from './components/question/question.component';
@@ -43,6 +44,7 @@ import { HmctsEmViewerUiModule } from './components/hmcts-em-viewer-ui/hmcts-em-
 import { DateComponent } from './components/date/date.component';
 import { CustombuttonsComponent } from './components/custombuttons/custombuttons.component';
 
+
 @NgModule({
     imports: [
         CommonModule,
@@ -52,7 +54,8 @@ import { CustombuttonsComponent } from './components/custombuttons/custombuttons
         HmctsEmViewerUiModule,
         RouterModule,
         GovukModule,
-        HmctsModule
+        HmctsModule,
+        HmctsrolesLibModule
     ],
     declarations: [
         TableComponent,
