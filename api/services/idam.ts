@@ -5,7 +5,7 @@ import { getHealth, getInfo } from '../lib/util'
 import * as log4jui from '../lib/log4jui'
 
 
-const configTest = require('@hmcts/properties-volume').addTo(require('config'),{mountPoint:'some/properties/mount/point'})
+const configTest = require('@hmcts/properties-volume').addTo(require(config),{mountPoint:'some/properties/mount/point'})
 
 
 
