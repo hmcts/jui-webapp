@@ -3,10 +3,13 @@ import { config } from '../../config'
 import { http } from '../lib/http'
 import { getHealth, getInfo } from '../lib/util'
 import * as log4jui from '../lib/log4jui'
+import * as propertiesVolume from '@hmcts/properties-volume'
+propertiesVolume.addTo(config)
 
 const url = config.services.idam_apiq
 const sSecrets = process.env.secrets;
 const logger = log4jui.getLogger('auth')
+logger.info(config);
 logger.info("sSecrets = " + sSecrets);
 const idamSecret = sSecrets.rpa.jui-oauth2-token || 'AAAAAAAAAAAAAAAA'
 logger.info(idamSecret)
