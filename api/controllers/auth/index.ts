@@ -20,17 +20,20 @@ export function logout(req, res) {
 }
 
 export async function authenticateUser(req: any, res, next) {
-    const data = await asyncReturnOrError(
-        postOauthToken(req.query.code, req.get('host')),
-        'Error getting token for code',
-        res,
-        logger,
-        false
-    )
+    // const data = await asyncReturnOrError(
+    //     postOauthToken(req.query.code, req.get('host')),
+    //     'Error getting token for code',
+    //     res,
+    //     logger,
+    //     false
+    // )
+    console.log('doing post')
+    console.log(req.headers)
+    const data = await postOauthToken(req.query.code, req.get('host'))
 
     if (exists(data, 'access_token')) {
         const options = { headers: { Authorization: `Bearer ${data.access_token}` } }
-
+        console.log('user details 1')
         const details = await asyncReturnOrError(getDetails(options), 'Cannot get user details', res, logger, false)
         if (details) {
             logger.info('Setting session and cookies')
