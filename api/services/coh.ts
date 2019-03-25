@@ -115,7 +115,7 @@ export async function storeData(hearingId, data, state = 'decision_drafted') {
     // okay we need to check the state of the decision. Not very efficent to do this every set, but
     // while things are being sorted out this is safest
 
-    const decision = await getDecision(hearingId)
+    const decision = await this.getDecision(hearingId)
 
     if (
         valueOrNull(decision, 'decision_state.state_name') !== 'decision_issued' &&
@@ -151,14 +151,14 @@ export async function getOrCreateDecision(caseId, userId) {
     let decisionId
     let decision
 
-    const hearingId = await getOrCreateHearing(caseId, userId)
+    const hearingId = await this.getOrCreateHearing(caseId, userId)
 
     if (!hearingId) {
         logger.error('Error getting hearing for decision!')
     } else {
         logger.info(`Got hearding for case ${caseId}`)
         try {
-            decision = await getDecision(hearingId)
+            decision = await this.getDecision(hearingId)
             logger.info('decision:', JSON.stringify(decision))
         } catch (error) {
             logger.info(`Can't find decision`)
