@@ -10,6 +10,7 @@ const url = config.services.idam_apiq
 const sSecrets = process.env.secrets;
 const logger = log4jui.getLogger('auth')
 logger.info(config);
+logger.info("config = " + JSON.stringify(config));
 logger.info("sSecrets = " + sSecrets);
 //const idamSecret = sSecrets.rpa.jui-oauth2-token || 'AAAAAAAAAAAAAAAA'
 const idamSecret = 'AAAAAAAAAAAAAAAA'
