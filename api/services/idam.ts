@@ -2,9 +2,14 @@ import * as express from 'express'
 import { config } from '../../config'
 import { http } from '../lib/http'
 import { getHealth, getInfo } from '../lib/util'
+import * as log4jui from '../lib/log4jui'
 
-const url = config.services.idam_api
-const idamSecret = process.env.secrets.rpa.jui-oauth2-token || 'AAAAAAAAAAAAAAAA'
+const url = config.services.idam_apiq
+const sSecrets = process.env.secrets;
+const logger = log4jui.getLogger('auth')
+logger.info("sSecrets = " + sSecrets);
+const idamSecret = sSecrets.rpa.jui-oauth2-token || 'AAAAAAAAAAAAAAAA'
+logger.info(idamSecret)
 const idamClient = config.idam_client
 const idamProtocol = config.protocol
 const oauthCallbackUrl = config.oauth_callback_url
