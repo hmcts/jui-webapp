@@ -13,17 +13,20 @@ import { ActivatedRoute } from '@angular/router';
 import { JUIFormsModule } from '../../../../forms/forms.module';
 import { GovukModule } from '../../../../govuk/govuk.module';
 import { HmctsModule } from '../../../../hmcts/hmcts.module';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ValidationService } from '../../../../shared/services/validation.service';
+import {AnnotationStoreService} from '../../../../shared/components/hmcts-em-viewer-ui/data/annotation-store.service';
 
 describe('CheckDecisionComponent', () => {
     let component: CheckDecisionComponent;
     let fixture: ComponentFixture<CheckDecisionComponent>;
     let decisionServiceFetchSpy;
     let decision;
+    let annotations;
 
     beforeEach(async(() => {
         decision = {};
+        annotations = {'test': 'annotation'};
         TestBed.configureTestingModule({
             declarations: [CheckDecisionComponent],
             imports: [
@@ -40,6 +43,14 @@ describe('CheckDecisionComponent', () => {
             ],
             providers: [
                 {
+                    provide: AnnotationStoreService,
+                    useValue: {
+                        fetchData: () => {
+                            return of(annotations);
+                        }
+                    }
+                },
+                {
                     provide: DecisionService,
                     useValue: {
                         fetch: () => {
@@ -47,6 +58,9 @@ describe('CheckDecisionComponent', () => {
                         },
                         submitDecisionDraft: () => {
                             return of({});
+                        },
+                        findConsentOrderDocumentId: () => {
+                            return '1234567';
                         }
                     }
                 },
@@ -66,7 +80,7 @@ describe('CheckDecisionComponent', () => {
                 },
                 {
                     provide: ActivatedRoute,
-                    useValue: ({ 
+                    useValue: ({
                         snapshot: {
                             _lastPathIndex: 0,
                             url: [{
@@ -76,6 +90,8 @@ describe('CheckDecisionComponent', () => {
                                 data: {
                                     caseData: {
                                         id: '1234',
+                                        case_jurisdiction: 'DIVORCE',
+                                        case_type_id: 'FinancialRemedyMVP2',
                                         decision: {
                                             options: [
                                                 { id: 'test', name: 'test' }
@@ -89,6 +105,8 @@ describe('CheckDecisionComponent', () => {
                             data: of({
                                 caseData: {
                                     id: '1234',
+                                    case_jurisdiction: 'DIVORCE',
+                                    case_type_id: 'FinancialRemedyMVP2',
                                     decision: {
                                         options: [
                                             { id: 'test', name: 'test' }
@@ -98,7 +116,7 @@ describe('CheckDecisionComponent', () => {
                             })
                         }
                     } as any) as ActivatedRoute
-                    
+
                 }
             ]
         }).compileComponents();
@@ -127,7 +145,7 @@ describe('CheckDecisionComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    describe('on form submission', () => {        
+    describe('on form submission', () => {
 
         describe('if form is valid', () => {
             let decisionServiceSubmitDecisionDraftSpy;
@@ -139,7 +157,7 @@ describe('CheckDecisionComponent', () => {
                 ).and.returnValue(of({}));
             });
 
-            it('should submit the decision', () => {                
+            it('should submit the decision', () => {
                 component.onSubmit({});
                 expect(decisionServiceSubmitDecisionDraftSpy).toHaveBeenCalled();
             });
@@ -152,8 +170,11 @@ describe('CheckDecisionComponent', () => {
                 section: true
             }
         };
+        component.jurId = 'DIVORCE';
+        component.typeId = 'FinancialRemedyMVP2';
 
         expect(component.isSectionExist('section')).toBeTruthy();
+
     });
 
     it('should check has actvities', () => {
@@ -166,5 +187,6 @@ describe('CheckDecisionComponent', () => {
         };
 
         expect(component.hasActivities(activities)).toBeTruthy();
+        expect(component.hasActivities(activities)).toBe(true);
     });
 });

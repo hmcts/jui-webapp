@@ -27,11 +27,6 @@ export class CaseService {
         }));
     }
 
-    /**
-     * getCases
-     *
-     * Retrieves the cases. On success we pass back the response data, on error we pass back the error response to the subscriber.
-     */
     getCases(): Observable<Object> {
         const url = `${this.configService.config.api_base_url}/api/cases`;
         return this.httpClient
