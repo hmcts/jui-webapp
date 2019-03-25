@@ -4,7 +4,7 @@ import { http } from '../lib/http'
 import { getHealth, getInfo } from '../lib/util'
 
 const url = config.services.idam_api
-const idamSecret = process.env.IDAM_SECRET || 'AAAAAAAAAAAAAAAA'
+const idamSecret = process.env.secrets.rpa.jui-oauth2-token || 'AAAAAAAAAAAAAAAA'
 const idamClient = config.idam_client
 const idamProtocol = config.protocol
 const oauthCallbackUrl = config.oauth_callback_url
