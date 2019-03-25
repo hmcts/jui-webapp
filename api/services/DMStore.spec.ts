@@ -57,45 +57,20 @@ describe('DMStore', () => {
 
     describe('getDocument()', () => {
 
-        const documentId = 'document Id';
+        const documentId = 'document Id'
 
         it('Should make a http.get call based on the document Id', async () => {
 
-            await DMStore.getDocument(documentId);
-            expect(spy).to.be.calledWith(`${url}/documents/${documentId}`);
-        });
+            await DMStore.getDocument(documentId)
+            expect(spy).to.be.calledWith(`${url}/documents/${documentId}`)
+        })
 
         it('Should return the data property of the return of a http.get call', async () => {
 
-            expect(await DMStore.getDocument(documentId)).to.equal('okay');
-        });
+            expect(await DMStore.getDocument(documentId)).to.equal('okay')
+        })
 
-        /**
-         * TODO:
-         * Error Condition if asyncReturnOrError returns a null.
-         */
-        xit('should return null if asyncReturnOrError returns null', async () => {
-
-            spy = sinon.stub(http, 'get').resolves(null);
-
-            expect(await DMStore.getDocument(documentId)).to.equal(null);
-        });
-    });
-
-    // TODO: Get this working
-    xdescribe('getDocuments()', () => {
-
-        const documentIds = ['42', '42'];
-
-        it('Should make a call to getDocument() for each document Id', async () => {
-
-            await DMStore.getDocuments(documentIds);
-
-            expect(spy).to.be.called;
-
-            spy.restore();
-        });
-    });
+    })
 
     describe('getDocumentVersion()', () => {
 
@@ -111,18 +86,6 @@ describe('DMStore', () => {
         it('Should return the data property of the return of the http.get call', async () => {
 
             expect(await DMStore.getDocumentVersion(documentId, versionId)).to.equal('okay');
-        });
-
-        /**
-         * Error Condition if asyncReturnOrError returns a null.
-         */
-        xit('should return null if asyncReturnOrError returns null', async () => {
-
-            const spyReturningNull = sinon.stub(http, 'get').resolves(null);
-
-            expect(await DMStore.getDocumentVersion(documentId, versionId)).to.equal(null);
-
-            spyReturningNull.restore();
         });
     });
 
