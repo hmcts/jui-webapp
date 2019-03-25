@@ -1,22 +1,24 @@
-import * as chai from 'chai';
-import {expect} from 'chai';
-import 'mocha';
-import * as sinon from 'sinon';
-import * as sinonChai from 'sinon-chai';
-import {mockReq, mockRes} from 'sinon-express-mock';
+import * as chai from 'chai'
+import {expect} from 'chai'
+import 'mocha'
+import * as sinon from 'sinon'
+import * as sinonChai from 'sinon-chai'
+import {mockReq, mockRes} from 'sinon-express-mock'
 
-chai.use(sinonChai);
+chai.use(sinonChai)
 
-import * as coh from './coh';
-import {http} from '../lib/http';
-import {config} from '../../config';
-import {url} from './coh';
+import * as coh from './coh'
+import {http} from '../lib/http'
+import {config} from '../../config'
+import {url} from './coh'
+import * as log4jui from '../lib/log4jui'
+const logger = log4jui.getLogger('COH')
 
 describe('Assign Case', () => {
 
     const res = {
         data: 'okay',
-    };
+    }
 
     // let spy: any;
     // let spyDelete: any;
@@ -29,7 +31,7 @@ describe('Assign Case', () => {
         // spyPost = sinon.stub(http, 'post').resolves(res);
         // spyPatch = sinon.stub(http, 'patch').resolves(res);
         // spyDelete = sinon.stub(http, 'delete').resolves(res);
-    });
+    })
 
     afterEach(() => {
 
@@ -180,5 +182,99 @@ describe('Assign Case', () => {
 
             spy.restore()
         })
+    })
+
+    /**
+     * TODO: This test request getDecision to be test.getDecision, so that the spy has a refenece, as to
+     * what to spy upon.
+     */
+    describe('storeData', () => {
+
+        it('Should take in the hearingId and make a call to get the decision using the hearingId.', async () => {
+
+            const hearingId = '42'
+            const data = {}
+            const state = 'decision_drafted'
+
+            spy = sinon.stub(coh, 'getDecision').resolves({
+                decision_state: {
+                    state_name: 'decision_drafted',
+                },
+            })
+
+            coh.storeData(hearingId, data, state)
+
+            expect(spy).to.be.calledWith(hearingId)
+
+            spy.restore()
+        })
+    })
+
+    describe('getData', () => {
+
+        it('Should take in the hearingId and make a call to get the decisions using the hearingId.', async () => {
+
+            const hearingId = '42'
+
+            spy = sinon.stub(http, 'get').resolves(res)
+
+            coh.getData(hearingId)
+
+            expect(spy).to.be.calledWith(`${url}/continuous-online-hearings/${hearingId}/decisions`)
+
+            spy.restore()
+        })
+
+        xit('Should log the error if there is an issue getting decisions.', async () => {
+
+            const hearingId = '42'
+
+            spy = sinon.stub(http, 'get').throws()
+            const loggerSpy = sinon.stub(logger, 'info')
+
+            coh.getData(hearingId)
+
+            expect(loggerSpy).to.be.calledWith(`No decision for hearing ${hearingId} found`)
+
+            loggerSpy.restore()
+        })
+    })
+
+    /**
+     * Requires this. to be placed on the getOrCreateHearing function.
+     */
+    describe('getOrCreateDecision', () => {
+
+        it('Should take in the caseId and userId and make a call to get or create hearing Id.', async () => {
+
+            const hearingId = 'hearingId'
+            const caseId = 'caseId'
+            const userId = 'userId'
+
+            spy = sinon.stub(coh, 'getOrCreateHearing').resolves(hearingId)
+
+            coh.getOrCreateDecision(caseId, userId)
+
+            expect(spy).to.be.calledWith(caseId, userId)
+
+            spy.restore()
+        })
+
+        // it('Should make a call to get decision.', async () => {
+        //
+        //     const hearingId = 'hearingId'
+        //     const caseId = 'caseId'
+        //     const userId = 'userId'
+        //
+        //     spy = sinon.stub(coh, 'getOrCreateHearing').resolves(hearingId)
+        //     const spyGetDecision = sinon.stub(coh, 'getDecision').resolves(res)
+        //
+        //     coh.getOrCreateDecision(caseId, userId)
+        //
+        //     expect(spyGetDecision).to.be.calledWith(hearingId)
+        //
+        //     spy.restore()
+        //     spyGetDecision.restore()
+        // })
     })
 })
