@@ -11,8 +11,8 @@ const sSecrets = process.env.secrets;
 const logger = log4jui.getLogger('auth')
 logger.info(config);
 logger.info("sSecrets = " + sSecrets);
-const idamSecret = sSecrets.rpa.jui-oauth2-token || 'AAAAAAAAAAAAAAAA'
-logger.info(idamSecret)
+//const idamSecret = sSecrets.rpa.jui-oauth2-token || 'AAAAAAAAAAAAAAAA'
+//logger.info(idamSecret)
 const idamClient = config.idam_client
 const idamProtocol = config.protocol
 const oauthCallbackUrl = config.oauth_callback_url
