@@ -13,6 +13,19 @@ nodejs:
     IDAM_SECRET: ${IDAM_SECRET}
     JUI_ENV: preview
     DECRYPT_KEY: ${DECRYPT_KEY}
+  keyVaults:
+    rpa:
+      resourceGroup: rpa
+      secrets:
+        - test-email
+        - jui-s2s-toke
+        - decrypt-key
+        - jui-oauth2-token
+        - fr-email
+        - fr-password
+        - sscs-email
+        - sscs-password
+        - AppInsightsInstrumentationKey
   # Don't modify below here
   image: ${IMAGE_NAME}
   ingressHost: ${SERVICE_FQDN}
