@@ -68,6 +68,7 @@
     "@angular/router": "6.1.0",
     "@hmcts/frontend": "0.0.14-alpha",
     "@hmcts/nodejs-logging": "3.0.0",
+    "@hmcts/properties-volume": "0.0.9",
     "@ng-toolkit/universal": "^1.1.51",
     "@nguniversal/express-engine": "^7.1.0",
     "@nguniversal/module-map-ngfactory-loader": "^7.1.0",
