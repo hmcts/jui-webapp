@@ -9,7 +9,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 app.engine('html', ejs.renderFile);
 app.set('view engine', 'html');
 app.set('views', __dirname);
-
+const config = require('@hmcts/properties-volume').addTo(require('config'),{mountPoint:'some/properties/mount/point'})
 
 app.set('view engine', 'html');
 app.set('views', __dirname);
