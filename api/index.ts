@@ -1,5 +1,5 @@
 import * as express from 'express'
-import * as config from '../config'
+import * as config from '../test-config'
 import { auth } from './controllers/auth'
 import caseRoutes from './controllers/case'
 import caseListRoute from './controllers/case-list'

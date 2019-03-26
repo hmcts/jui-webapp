@@ -1,5 +1,5 @@
 import * as express from 'express'
-import { config } from '../../config'
+import { config } from '../../test-config'
 import { http } from '../lib/http'
 import { getHealth, getInfo } from '../lib/util'
 

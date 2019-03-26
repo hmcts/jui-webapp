@@ -1,5 +1,5 @@
 import * as moment from 'moment'
-import { config } from '../../config'
+import { config } from '../../test-config'
 import { http } from '../lib/http'
 
 import { ERROR_NO_HEARING_IDENTIFIER, ERROR_UNABLE_TO_RELIST_HEARING } from '../lib/config/cohConstants'

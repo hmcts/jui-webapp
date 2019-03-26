@@ -1,6 +1,6 @@
 import { request, response } from 'express'
 import { generate } from 'shortid'
-import { config } from '../../../config'
+import { config } from '../../../test-config'
 
 const sessionId = config.cookies.sessionId
 

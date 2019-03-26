@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express'
-import { config } from '../../config'
+import { config } from '../../test-config'
 import { http } from '../lib/http'
 import * as log4jui from '../lib/log4jui'
 import { asyncReturnOrError } from '../lib/util'

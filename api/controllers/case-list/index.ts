@@ -1,7 +1,7 @@
 import * as express from 'express'
 import { map } from 'p-iteration'
 
-import { config } from '../../../config';
+import { config } from '../../../test-config';
 import columns from '../../lib/config/refCaselistCols'
 import * as errorStack from '../../lib/errorStack'
 import { filterByCaseTypeAndRole } from '../../lib/filters'

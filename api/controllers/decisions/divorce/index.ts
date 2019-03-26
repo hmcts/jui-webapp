@@ -1,5 +1,5 @@
 import * as exceptionFormatter from 'exception-formatter'
-import { config } from '../../../../config'
+import { config } from '../../../../test-config'
 import * as log4jui from '../../../lib/log4jui'
 
 import * as moment from 'moment'

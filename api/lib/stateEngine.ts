@@ -1,5 +1,5 @@
 import { map } from 'p-iteration'
-import { config } from '../../config'
+import { config } from '../../test-config'
 import * as log4jui from './log4jui'
 import { some } from './util'
 

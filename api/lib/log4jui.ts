@@ -1,5 +1,5 @@
 import * as log4js from 'log4js'
-import { config } from '../../config'
+import { config } from '../../test-config'
 import * as errorStack from '../lib/errorStack'
 import { JUILogger } from '../lib/models'
 import { client } from './appInsights'

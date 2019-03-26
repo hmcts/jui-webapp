@@ -1,5 +1,5 @@
 import * as jwtDecode from 'jwt-decode'
-import { config } from '../../../config'
+import { config } from '../../../test-config'
 import { postS2SLease } from '../../services/serviceAuth'
 import * as log4jui from '../log4jui'
 import { asyncReturnOrError } from '../util'

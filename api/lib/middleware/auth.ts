@@ -1,6 +1,6 @@
 import axios from 'axios'
 import * as jwtDecode from 'jwt-decode'
-import { config } from '../../../config'
+import { config } from '../../../test-config'
 import * as auth from '../../controllers/auth'
 import * as log4jui from '../../lib/log4jui'
 import { getDetails } from '../../services/idam'

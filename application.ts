@@ -2,7 +2,7 @@
 /*const { InfoContributor, infoRequestHandler } = require('@hmcts/info-provider');*/
 
 import * as express from 'express';
-import { config } from './config';
+import { config } from './test-config';
 import { appInsights } from './api/lib/appInsights';
 import { securityHeaders } from './api/lib/middleware/securityHeaders';
 import * as log4jui from './api/lib/log4jui';

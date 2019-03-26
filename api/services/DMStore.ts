@@ -1,7 +1,7 @@
 import * as express from 'express'
 
 import { map } from 'p-iteration'
-import { config } from '../../config'
+import { config } from '../../test-config'
 import { http } from '../lib/http'
 import * as log4jui from '../lib/log4jui'
 import { asyncReturnOrError, getHealth, getInfo } from '../lib/util'

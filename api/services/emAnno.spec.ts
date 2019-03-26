@@ -9,7 +9,7 @@ chai.use(sinonChai)
 import { http } from '../lib/http'
 import * as emAnno from './emAnno'
 
-import { config } from '../../config'
+import { config } from '../../test-config'
 
 describe('emAnno', () => {
 

@@ -13,7 +13,7 @@ import * as index from './index'
 import { getOrdinalNumber, getRoundAndAnswer } from './index'
 import { getRoundAndHalfAnswer } from './index'
 import {getAllQuestionsByCase} from './index';
-import {config} from '../../../config';
+import {config} from '../../../test-config';
 
 describe('index', () => {
     describe('formatQuestion', () => {
