@@ -4,9 +4,7 @@ import * as express from 'express';
 import * as path from 'path';
 import * as ejs from 'ejs';
 
-import * as config from 'config'
-import * as propertiesVolume from '@hmcts/properties-volume'
-propertiesVolume.addTo(config)
+const config = require('@hmcts/properties-volume').addTo(require('config'),{mountPoint:'some/properties/mount/point'})
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
