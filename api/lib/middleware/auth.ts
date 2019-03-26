@@ -42,7 +42,7 @@ export default async (req, res, next) => {
 
     } else {
         req.auth = {}
-        req.auth.data = req.session.userId
+        req.auth.data = req.session.user
         req.auth.token = jwt
         req.auth.userId = userId
 
