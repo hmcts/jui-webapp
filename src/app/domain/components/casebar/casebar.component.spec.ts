@@ -82,5 +82,9 @@ describe('CaseBarComponent Component: Testing Input & Output', () => {
         component.ngOnInit();
         expect(component.isHidden).toBe(false);
     });
+
+    it('Exchange service included', () => {
+        expect(component.isHidden).toBeFalsy();
+    });
 });
 
