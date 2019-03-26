@@ -13,13 +13,17 @@ const logger = log4jui.getLogger('auth')
 export function doLogout(req, res, status = 302) {
     res.clearCookie(cookieToken)
     res.clearCookie(cookieUserId)
-    res.redirect(status, req.query.redirect || '/')
+    req.session.user = null
+    req.session.save(() => {
+        res.redirect(status, req.query.redirect || '/')
+    })
 }
 export function logout(req, res) {
     doLogout(req, res)
 }
 
 export async function authenticateUser(req: any, res, next) {
+    req.session.user = null
     const data = await asyncReturnOrError(
         postOauthToken(req.query.code, req.get('host')),
         'Error getting token for code',
@@ -40,13 +44,12 @@ export async function authenticateUser(req: any, res, next) {
 
             // need this so angular knows which enviroment config to use ...
             res.cookie('platform', config.environment)
-        } else {
-            logger.info('Error getting user details on login')
-            doLogout(req, res, 401)
         }
     }
     logger.info('Auth finished, redirecting')
-    res.redirect('/')
+    req.session.save(() => {
+        res.redirect('/')
+    })
 }
 
 export function auth(app) {
