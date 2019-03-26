@@ -20,9 +20,7 @@ const sessionFileStore = require('session-file-store');
 
 const FileStore = sessionFileStore(session);
 
-import * as configTest from 'config'
-import * as propertiesVolume from '@hmcts/properties-volume'
-propertiesVolume.addTo(configTest)
+const config = require('@hmcts/properties-volume').addTo(require('config'),{mountPoint:'some/properties/mount/point'})
 
 app.use(securityHeaders);
 
