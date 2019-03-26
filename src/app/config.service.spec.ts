@@ -2,7 +2,7 @@ import {inject, TestBed} from '@angular/core/testing';
 import { CookieModule, CookieService } from 'ngx-cookie';
 import { Injectable } from '@angular/core';
 import { makeStateKey, TransferState } from '@angular/platform-browser';
-import { configs, baseConfig } from '../../config';
+import { configs, baseConfig } from '../../test-config';
 import { ConfigService } from './config.service';
 
 describe('Service: ConfigService', () => {
