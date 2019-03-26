@@ -43,7 +43,7 @@ describe('index', () => {
                 session: {
                     user: {
                         email: true,
-                        id: 1,
+                        id: '1',
                     },
                 },
             })
@@ -160,12 +160,12 @@ describe('index', () => {
             stub[2] = sandbox.stub(cohCorApi, 'getHearingByCase')
             stub[3] = sandbox.stub(questions, 'getAllQuestionsByCase')
             stub[4] = sandbox.stub(utils, 'judgeLookUp')
-            stub[0].resolves({ case_data: { assignedToMedicalMember: '1 | 2' } })
+            stub[0].resolves({ case_data: { assignedToMedicalMember: '1|2' } })
             stub[1].resolves(2)
             stub[2].resolves(3)
             stub[3].resolves([1, 2, 3])
             stub[4].returns(5)
-            const userId = 1
+            const userId = '1'
             const jurisdiction = 'SSCS'
             const caseType = 'SSCS'
             const caseId = 123
@@ -187,7 +187,7 @@ describe('index', () => {
             stub[5] = sandbox.stub(processCaseState, 'processCaseState')
             stub[6] = sandbox.stub(getCaseTemplate, 'default')
             stub[7] = sandbox.stub(valueProcessor, 'dataLookup')
-            stub[0].resolves({ case_data: { assignedToMedicalMember: '1 | 2' } })
+            stub[0].resolves({ case_data: { assignedToMedicalMember: '1|2' } })
             stub[1].resolves(2)
             stub[2].resolves(3)
             stub[3].resolves([1, 2, 3])
@@ -200,7 +200,7 @@ describe('index', () => {
                 ],
             })
             stub[7].returns(1)
-            const userId = 1
+            const userId = '1'
             const jurisdiction = 'SSCS'
             const caseType = 'SSCS'
             const caseId = 123
@@ -223,7 +223,7 @@ describe('index', () => {
             stub[5] = sandbox.stub(processCaseState, 'processCaseState')
             stub[6] = sandbox.stub(getCaseTemplate, 'default')
             stub[7] = sandbox.stub(valueProcessor, 'dataLookup')
-            stub[0].resolves({ case_data: { assignedToMedicalMember: '1 | 2' } })
+            stub[0].resolves({ case_data: { assignedToMedicalMember: '1|2' } })
             stub[1].resolves(2)
             stub[2].resolves(3)
             stub[3].resolves([1, 2, 3])
@@ -236,7 +236,7 @@ describe('index', () => {
                 ],
             })
             stub[7].returns(1)
-            const userId = 1
+            const userId = '1'
             const jurisdiction = 'SSCS'
             const caseType = 'SSCS'
             const caseId = 123
@@ -257,7 +257,7 @@ describe('index', () => {
                 session: {
                     user: {
                         email: true,
-                        id: 1,
+                        id: '1',
                     },
                 },
             })

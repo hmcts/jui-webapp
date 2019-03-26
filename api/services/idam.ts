@@ -26,11 +26,8 @@ export async function getDetails(token: string = null) {
     }
 
     const jwt = token || request().cookies[config.cookies.token]
-    console.log('jwt', jwt)
     const options = { headers: { Authorization: `Bearer ${jwt}` } }
-
     const response = await http.get(`${url}/details`, options)
-    console.log('data', response.data)
     return response.data
 }
 
