@@ -125,7 +125,6 @@ function assignToJudge(userId, awaitingJuiRespCases) {
         const caseType = newCase.case_type_id
         const caseId = newCase.id
         const eventId = getAssignEventId(jurisdiction, caseType)
-
         getDetails().then(details => {
             const body = generateAssignToJudgeBody(jurisdiction, caseType, eventId, details.email)
             updateCase(userId, jurisdiction, caseType, caseId, eventId, JUI_AUTO_ASSIGN, JUI_AUTO_ASSIGN, body).catch(error => {

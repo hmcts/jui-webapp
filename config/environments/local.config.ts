@@ -4,8 +4,8 @@ export default {
             'https://ccd-data-store-api-aat.service.core-compute-aat.internal',
         ccd_def_api:
             'https://ccd-definition-store-api-aat.service.core-compute-aat.internal',
-        idam_web: 'https://idam.preprod.ccidam.reform.hmcts.net',
-        idam_api: 'https://preprod-idamapi.reform.hmcts.net:3511',
+        idam_web: 'https://idam-web-public.aat.platform.hmcts.net',
+        idam_api: 'https://idam-api.aat.platform.hmcts.net',
         s2s:
             'https://rpe-service-auth-provider-aat.service.core-compute-aat.internal',
         draft_store_api:

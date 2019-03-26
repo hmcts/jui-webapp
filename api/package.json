@@ -30,7 +30,9 @@
       "services"
     ],
     "exclude": [
-      "**/*.d.ts"
+      "**/*.d.ts",
+      "**/*.spec.ts",
+      "**/templates"
     ],
     "reporter": [
       "lcov",

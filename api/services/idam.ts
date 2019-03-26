@@ -1,7 +1,9 @@
 import * as express from 'express'
 import { config } from '../../config'
 import { http } from '../lib/http'
-import { getHealth, getInfo } from '../lib/util'
+import { isReqResSet, request, response } from '../lib/middleware/responseRequest'
+
+import { getHealth, getInfo, valueOrNull } from '../lib/util'
 
 const url = config.services.idam_api
 const idamSecret = process.env.IDAM_SECRET || 'AAAAAAAAAAAAAAAA'
@@ -9,18 +11,34 @@ const idamClient = config.idam_client
 const idamProtocol = config.protocol
 const oauthCallbackUrl = config.oauth_callback_url
 
-export async function getDetails(options = {}) {
+export async function getDetails() {
     // have to pass options in at first login as headers are yet to be attached.
-    const response = await http.get(`${url}/details`, options)
+    // lets try and see if we have these already
+    let details
 
+    if (isReqResSet()) {
+        const req = request()
+        details = valueOrNull(req, 'session.user')
+
+        if (details) {
+            return details
+        }
+    }
+
+    const jwt = request().cookies[config.cookies.token]
+    console.log('jwt', jwt)
+    const options = { headers: { Authorization: `Bearer ${jwt}` } }
+
+    const response = await http.get(`${url}/details`, options)
+    console.log('data', response.data)
     return response.data
 }
 
 // this does same as above + more. need to depricate above
 export async function getUser(email = null) {
-    const response = email ? await http.get(`${url}/users?email=${email}`) : await http.get(`${url}/details`)
+    const response = email ? await http.get(`${url}/users?email=${email}`) : await getDetails()
 
-    return response.data
+    return response
 }
 
 export async function postOauthToken(code, host) {
