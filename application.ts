@@ -20,6 +20,10 @@ const sessionFileStore = require('session-file-store');
 
 const FileStore = sessionFileStore(session);
 
+import * as configTest from 'config'
+import * as propertiesVolume from '@hmcts/properties-volume'
+propertiesVolume.addTo(configTest)
+
 app.use(securityHeaders);
 
 app.set('trust proxy', 1);
