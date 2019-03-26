@@ -512,6 +512,11 @@
   resolved "https://registry.yarnpkg.com/@types/camelcase/-/camelcase-4.1.0.tgz#e054f7986f31658d49936261b5cd4588ef29d1ee"
   integrity sha512-nsaprOtNLvUrLyFX5+mRpE9h2Q0d5YzQRr+Lav3fxdYtc1/E/U7G+Ld861NWBDDtWY3MnwKoUOhCrE1nrVxUQA==
 
+"@types/config@0.0.34":
+  version "0.0.34"
+  resolved "https://registry.yarnpkg.com/@types/config/-/config-0.0.34.tgz#123f91bdb5afdd702294b9de9ca04d9ea11137b0"
+  integrity sha512-jWi9DXx77hnzN4kHCNEvP/kab+nchRLTg9yjXYxjTcMBkuc5iBb3QuwJ4sPrb+nzy1GQjrfyfMqZOdR4i7opRQ==
+
 "@types/global-tunnel-ng@^2.1.0":
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@types/global-tunnel-ng/-/global-tunnel-ng-2.1.0.tgz#93ef1c3de0a36458147ef8cd47b3c8c67e33d43d"
