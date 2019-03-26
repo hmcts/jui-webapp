@@ -11,7 +11,7 @@ const idamClient = config.idam_client
 const idamProtocol = config.protocol
 const oauthCallbackUrl = config.oauth_callback_url
 
-export async function getDetails() {
+export async function getDetails(token: string = null) {
     // have to pass options in at first login as headers are yet to be attached.
     // lets try and see if we have these already
     let details
@@ -25,7 +25,7 @@ export async function getDetails() {
         }
     }
 
-    const jwt = request().cookies[config.cookies.token]
+    const jwt = token || request().cookies[config.cookies.token]
     console.log('jwt', jwt)
     const options = { headers: { Authorization: `Bearer ${jwt}` } }
 

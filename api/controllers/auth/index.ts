@@ -33,14 +33,14 @@ export async function authenticateUser(req: any, res, next) {
     )
 
     if (exists(data, 'access_token')) {
-        res.cookie(cookieToken, data.access_token)
 
-        const details = await asyncReturnOrError(getDetails(), 'Cannot get user details', res, logger, false)
+        const details = await asyncReturnOrError(getDetails(data.access_token), 'Cannot get user details', res, logger, false)
 
         if (details) {
             logger.info('Setting session and cookies')
             req.session.user = details
             res.cookie(cookieUserId, details.id)
+            res.cookie(cookieToken, data.access_token)
 
             // need this so angular knows which enviroment config to use ...
             res.cookie('platform', config.environment)
