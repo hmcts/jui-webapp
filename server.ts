@@ -10,9 +10,7 @@ app.engine('html', ejs.renderFile);
 app.set('view engine', 'html');
 app.set('views', __dirname);
 console.log('test to check working')
-import * as config from 'config'
-import * as propertiesVolume from '@hmcts/properties-volume'
-propertiesVolume.addTo(config)
+const config = require('@hmcts/properties-volume').addTo(require('config'),{mountPoint:'default'})
 console.log('past test point')
 
 app.set('view engine', 'html');
