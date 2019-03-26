@@ -11,11 +11,11 @@ export class HearingConfirmationComponent implements OnInit {
 
     caseId: string;
 
-    constructor(private route: ActivatedRoute, private exchangeervice: ExchangeService,) { }
+    constructor(private route: ActivatedRoute, private exchangeService: ExchangeService,) { }
 
     ngOnInit() {
         this.caseId = this.route.parent.snapshot.data['caseData'].details.fields[0].value || null;
-        this.exchangeervice.newEvent('hideCasebar');
+        this.exchangeService.newEvent('hideCasebar');
     }
 
 }

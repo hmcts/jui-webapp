@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
 
 import { HearingConfirmationComponent } from './hearing-confirmation.component';
 import {RouterTestingModule} from '@angular/router/testing';
@@ -12,6 +12,7 @@ import {GovukModule} from '../../../../govuk/govuk.module';
 import {HmctsModule} from '../../../../hmcts/hmcts.module';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {ExchangeService} from '../../../../domain/services/exchange.service';
+import {AuthService} from '../../../../auth/auth.service';
 
 describe('HearingConfirmationComponent', () => {
     let component: HearingConfirmationComponent;
@@ -80,4 +81,12 @@ describe('HearingConfirmationComponent', () => {
     it('should create', () => {
         expect(component).toBeTruthy();
     });
+
+    it('should have caseId', () => {
+        expect(component.caseId).toBeTruthy();
+    });
+
+    it('should call the exchangeService', inject([ExchangeService], (service: ExchangeService)  => {
+        expect(service.newEvent).toBeTruthy();
+    }));
 });
