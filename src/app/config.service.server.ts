@@ -1,6 +1,6 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { makeStateKey, TransferState } from '@angular/platform-browser';
-import { config } from '../../config';
+import { config } from '../../test-config';
 import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
 import { Response, Request } from 'express';
 

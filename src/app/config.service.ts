@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie';
 import { makeStateKey, TransferState } from '@angular/platform-browser';
-import { configs, baseConfig } from '../../config';
+import { configs, baseConfig } from '../../test-config';
 import { DOCUMENT } from '@angular/common';
 @Injectable({
     providedIn: 'root'
