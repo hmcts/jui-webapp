@@ -40,6 +40,9 @@ export async function authenticateUser(req: any, res, next) {
 
             // need this so angular knows which enviroment config to use ...
             res.cookie('platform', config.environment)
+        } else {
+            logger.info('Error getting user details on login')
+            doLogout(req, res, 401)
         }
     }
     logger.info('Auth finished, redirecting')
