@@ -20,25 +20,22 @@ export function logout(req, res) {
 }
 
 export async function authenticateUser(req: any, res, next) {
-    // const data = await asyncReturnOrError(
-    //     postOauthToken(req.query.code, req.get('host')),
-    //     'Error getting token for code',
-    //     res,
-    //     logger,
-    //     false
-    // )
-    console.log('doing post')
-    console.log(req.headers)
-    const data = await postOauthToken(req.query.code, req.get('host'))
+    const data = await asyncReturnOrError(
+        postOauthToken(req.query.code, req.get('host')),
+        'Error getting token for code',
+        res,
+        logger,
+        false
+    )
 
     if (exists(data, 'access_token')) {
-        const options = { headers: { Authorization: `Bearer ${data.access_token}` } }
-        console.log('user details 1')
-        const details = await asyncReturnOrError(getDetails(options), 'Cannot get user details', res, logger, false)
+        res.cookie(cookieToken, data.access_token)
+
+        const details = await asyncReturnOrError(getDetails(), 'Cannot get user details', res, logger, false)
+
         if (details) {
             logger.info('Setting session and cookies')
             req.session.user = details
-            res.cookie(cookieToken, data.access_token)
             res.cookie(cookieUserId, details.id)
 
             // need this so angular knows which enviroment config to use ...

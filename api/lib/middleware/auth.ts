@@ -22,8 +22,8 @@ export default async (req, res, next) => {
 
     if (!req.session.user) {
         logger.warn('Session expired. Trying to get user details again')
-        const options = { headers: { Authorization: `Bearer ${jwt}` } }
-        const details = await asyncReturnOrError(getDetails(options), 'Cannot get user details', res, logger, false)
+        const details = await asyncReturnOrError(getDetails(), 'Cannot get user details', res, logger, false)
+
         if (details) {
             logger.info('Setting session')
             req.session.user = details
@@ -41,7 +41,8 @@ export default async (req, res, next) => {
         auth.doLogout(req, res, 401)
 
     } else {
-        req.auth = jwtData
+        req.auth = {}
+        req.auth.data = req.session.userId
         req.auth.token = jwt
         req.auth.userId = userId
 

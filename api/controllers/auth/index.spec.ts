@@ -85,7 +85,6 @@ describe('Auth', () => {
             sandbox.stub(idam, 'getDetails').resolves(null)
             await authenticateUser(req, res, () => { })
             expect(req.session.user).not.to.be.equals(details)
-            expect(res.cookie).not.to.be.calledWith(config.cookies.token, accessToken)
             expect(res.cookie).not.to.be.calledWith(config.cookies.userId, details.id)
             expect(res.redirect).to.be.calledWith('/')
         })
