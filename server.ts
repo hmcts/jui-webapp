@@ -4,6 +4,10 @@ import * as express from 'express';
 import * as path from 'path';
 import * as ejs from 'ejs';
 
+import * as config from 'config'
+import * as propertiesVolume from '@hmcts/properties-volume'
+propertiesVolume.addTo(config)
+
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 app.engine('html', ejs.renderFile);
