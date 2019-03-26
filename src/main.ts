@@ -3,9 +3,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
-import * as config from 'config'
-import * as propertiesVolume from '@hmcts/properties-volume'
-propertiesVolume.addTo(config)
+const config = require('@hmcts/properties-volume').addTo(require('config'),{mountPoint:'some/properties/mount/point'})
 
 if (environment.production) {
     enableProdMode();
