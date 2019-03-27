@@ -24,9 +24,9 @@ export function checkValidUser(caseData) {
     const user = req.session.user
     // best to get by id else all we have is name and thus two members with the same name could have access
     const disabilityId = caseData.assignedToDisabilityMember ?
-        parseInt(caseData.assignedToDisabilityMember.split('|')[0], 10) : null
+        caseData.assignedToDisabilityMember.split('|')[0] : null
     const medicalId = caseData.assignedToMedicalMember ?
-        parseInt(caseData.assignedToMedicalMember.split('|')[0], 10) : null
+        caseData.assignedToMedicalMember.split('|')[0] : null
     const judge = caseData.assignedToJudge
     return (judge === user.email || disabilityId === user.id || medicalId === user.id)
 

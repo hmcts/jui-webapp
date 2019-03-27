@@ -22,6 +22,7 @@ export function requestInterceptor(request) {
 }
 
 export function successInterceptor(response) {
+
     response.config.metadata.endTime = new Date()
     response.duration = response.config.metadata.endTime - response.config.metadata.startTime
 
@@ -42,7 +43,6 @@ export function successInterceptor(response) {
 }
 
 export function errorInterceptor(error) {
-
     error.config.metadata.endTime = new Date()
     error.duration = error.config.metadata.endTime - error.config.metadata.startTime
 
