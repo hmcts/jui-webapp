@@ -9,11 +9,14 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 app.engine('html', ejs.renderFile);
 app.set('view engine', 'html');
 app.set('views', __dirname);
-console.log('test to check working')
-const config = require('@hmcts/properties-volume').addTo(require('config'),{mountPoint:'default'})
-console.log('past test point')
-
-app.set('view engine', 'html');
+console.log('test to check working');
+//var someObject = require('myconfig.json')
+//import * as config from 'config'
+//this imp0ort works import {config} from './config'
+//import * as propertiesVolume from '@hmcts/properties-volume'
+//propertiesVolume.addTo(config)
+const config = require('@hmcts/properties-volume').addTo(require('./config'))
+console.log('past test point changed');
 app.set('views', __dirname);
 
 app.use(express.static(path.join(__dirname, '..', 'assets'), { index: false }));
