@@ -35,7 +35,6 @@ export default async (req, res, next) => {
         auth.doLogout(req, res, 401)
 
     } else if (!validRoles(req.session.user.roles)) {
-
         logger.warn('User role does not allow login')
         auth.doLogout(req, res, 401)
 
