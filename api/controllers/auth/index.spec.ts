@@ -14,14 +14,24 @@ describe('Auth', () => {
 
     describe('logOut', () => {
         it('should delete auth cookie', () => {
-            const req = mockReq({})
+            const req = mockReq({
+                session: {
+                    save: (fun) => { fun() }
+                }
+            })
+
             const res = mockRes()
             logout(req, res)
             expect(res.clearCookie).to.be.calledWith(config.cookies.token)
         })
 
         it('should redirect to index page', () => {
-            const req = mockReq({})
+            const req = mockReq({
+                session: {
+                    save: (fun) => { fun() }
+                }
+            })
+
             const res = mockRes()
             logout(req, res)
             expect(res.redirect).to.be.calledWith(302, '/')
@@ -44,7 +54,9 @@ describe('Auth', () => {
                     code: 1,
                 },
                 session: {
+                    save: (fun) => { fun() },
                     user: null,
+
                 },
             })
             res = mockRes()
@@ -85,7 +97,6 @@ describe('Auth', () => {
             sandbox.stub(idam, 'getDetails').resolves(null)
             await authenticateUser(req, res, () => { })
             expect(req.session.user).not.to.be.equals(details)
-            expect(res.cookie).not.to.be.calledWith(config.cookies.token, accessToken)
             expect(res.cookie).not.to.be.calledWith(config.cookies.userId, details.id)
             expect(res.redirect).to.be.calledWith('/')
         })

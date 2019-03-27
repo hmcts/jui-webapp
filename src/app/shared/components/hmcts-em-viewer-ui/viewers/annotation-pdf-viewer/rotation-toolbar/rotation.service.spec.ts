@@ -2,7 +2,7 @@ import { RotationService } from './rotation.service';
 import { TestBed, inject } from '@angular/core/testing';
 import { HmctsEmViewerUiModule } from '../../../hmcts-em-viewer-ui.module';
 
-xdescribe('RotationService', () => {
+describe('RotationService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -13,7 +13,7 @@ xdescribe('RotationService', () => {
         });
     });
 
-    xdescribe('getShowRotationSub', () => {
+    describe('getShowRotationSub', () => {
         it('should return show rotation', inject([RotationService], (service: RotationService) => {
             const showRotation = service.getShowRotationSub();
             const value = showRotation.getValue();
@@ -22,7 +22,7 @@ xdescribe('RotationService', () => {
         }));
     });
 
-    xdescribe('toggleRotation', () => {
+    describe('toggleRotation', () => {
         it('should toggle the value to true', inject([RotationService], (service: RotationService) => {
             service.toggleRotation();
 

@@ -30,6 +30,7 @@ describe('auth', () => {
             const req = mockReq({
                 cookies: [],
                 headers: [],
+                session: { save: (fun) => { fun() } }
 
             })
 

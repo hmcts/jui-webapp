@@ -59,6 +59,13 @@ describe('CaseService', () => {
         httpMock.verify();
     });
 
+    it('should have getCases method', () => {
+        expect(caseService.getCases).toBeTruthy();
+    });
+
+    it('should have getNewCase method', () => {
+        expect(caseService.getNewCase).toBeTruthy();
+    });
 
     it('should search', () => {
         const mockCaseData = [{is: 1}, {id: 2}];

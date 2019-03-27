@@ -22,31 +22,31 @@ export default async (req, res, next) => {
 
     if (!req.session.user) {
         logger.warn('Session expired. Trying to get user details again')
-        const options = { headers: { Authorization: `Bearer ${jwt}` } }
-        const details = await asyncReturnOrError(getDetails(options), 'Cannot get user details', res, logger, false)
+        const details = await asyncReturnOrError(getDetails(), 'Cannot get user details', res, logger, false)
+
         if (details) {
             logger.info('Setting session')
             req.session.user = details
         }
     }
+
     if (expired || !req.session.user) {
         logger.warn('Auth token  expired need to log in again')
         auth.doLogout(req, res, 401)
 
-    }
-
-    if (!validRoles(req.session.user.roles)) {
+    } else if (!validRoles(req.session.user.roles)) {
 
         logger.warn('User role does not allow login')
         auth.doLogout(req, res, 401)
 
     } else {
-        req.auth = jwtData
+        req.auth = {}
+        req.auth.data = req.session.user
         req.auth.token = jwt
         req.auth.userId = userId
 
         axios.defaults.headers.common.Authorization = `Bearer ${req.auth.token}`
-        axios.defaults.headers.common['user-roles'] = req.auth.data
+        axios.defaults.headers.common['user-roles'] = req.auth.data.roles.join()
         if (req.headers.ServiceAuthorization) {
             axios.defaults.headers.common.ServiceAuthorization = req.headers.ServiceAuthorization
         }
