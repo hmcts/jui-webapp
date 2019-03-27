@@ -59,7 +59,6 @@ export async function getEvents(caseId: string, userId: string): Promise<any[]> 
 
     const hearing = await this.getHearingByCase(caseId)
 
-    // TODO: Make this DRY with the below.
     if (hearing) {
         hearingId = hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : null
     } else {
