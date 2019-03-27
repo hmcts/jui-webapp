@@ -26,9 +26,10 @@ const documentsRoutes = require('./controllers/documents')
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
+router.use(responseRequest)
 auth(router)
 
-router.use(responseRequest)
+
 router.use(serviceTokenMiddleware)
 router.use(authInterceptor)
 

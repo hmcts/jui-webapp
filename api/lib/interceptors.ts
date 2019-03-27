@@ -23,6 +23,7 @@ export function requestInterceptor(request) {
 }
 
 export function successInterceptor(response) {
+
     response.config.metadata.endTime = new Date()
     response.duration = response.config.metadata.endTime - response.config.metadata.startTime
 
