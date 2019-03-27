@@ -4,14 +4,17 @@ import 'mocha'
 import * as sinon from 'sinon'
 import * as sinonChai from 'sinon-chai'
 import {mockReq, mockRes} from 'sinon-express-mock'
+import * as moment from 'moment'
+import * as log4jui from '../lib/log4jui'
 
 chai.use(sinonChai)
 
 import * as coh from './coh'
 import {http} from '../lib/http'
 import {config} from '../../config'
-import {url} from './coh'
-import * as log4jui from '../lib/log4jui'
+
+import {getHearingByCase} from './coh'
+
 const logger = log4jui.getLogger('COH')
 
 describe('Assign Case', () => {
@@ -20,45 +23,30 @@ describe('Assign Case', () => {
         data: 'okay',
     }
 
-    // let spy: any;
-    // let spyDelete: any;
-    // let spyPost: any;
-    // let spyPatch: any;
+    // let spy: any
+    // let spyDelete: any
+    // let spyPost: any
+    // let spyPatch: any
 
     beforeEach(() => {
 
-        // spy = sinon.stub(http, 'get').resolves(res);
-        // spyPost = sinon.stub(http, 'post').resolves(res);
-        // spyPatch = sinon.stub(http, 'patch').resolves(res);
-        // spyDelete = sinon.stub(http, 'delete').resolves(res);
+        // spy = sinon.stub(http, 'get').resolves(res)
+        // spyPost = sinon.stub(http, 'post').resolves(res)
+        // spyPatch = sinon.stub(http, 'patch').resolves(res)
+        // spyDelete = sinon.stub(http, 'delete').resolves(res)
     })
 
     afterEach(() => {
 
-        // spy.restore();
-        // spyPost.restore();
-        // spyPatch.restore();
-        // spyDelete.restore();
-    });
+        // spy.restore()
+        // spyPost.restore()
+        // spyPatch.restore()
+        // spyDelete.restore()
+    })
 
-    // describe('sortCasesByLastModifiedDate', () => {
-    //
-    //     const results = [{
-    //
-    //     }]
-    //
-    //     it('Should sort the cases by the last modified date.', async () => {
-    //
-    //         // await assignCase.unassignFromJudge(userId, caseData)
-    //
-    //         expect(true).to.equal(false)
-    //         // expect(spy).to.be.calledWith(`${url}/documents/${documentId}`);
-    //     })
-    // })
+    let spy: any
 
-    let spy: any;
-
-    const url = config.services.coh_cor_api;
+    const url = config.services.coh_cor_api
 
     /**
      * Note that I don't know why the following logic is happening in getAssignEventId() as the unit test
@@ -77,7 +65,7 @@ describe('Assign Case', () => {
             expect(spy).to.be.calledWith(`${url}/continuous-online-hearings?case_id=${caseId}`)
 
             spy.restore()
-        });
+        })
 
         it('Should return the data property of the return of a http.get call', async () => {
 
@@ -91,10 +79,51 @@ describe('Assign Case', () => {
         })
     })
 
+    describe('convertDateTime', () => {
+
+        it('Should convert date time', async () => {
+
+            const dateObj = new Date('1995-12-15T03:24:00')
+            const dateAsString = String(dateObj)
+
+            const momentDate = moment(dateAsString)
+            const dateUtc = momentDate.utc().format()
+            const date = momentDate.format('D MMMM YYYY')
+            const time = momentDate.format('h:mma')
+
+            expect(coh.convertDateTime(dateAsString).date).to.equal(date)
+            expect(coh.convertDateTime(dateAsString).time).to.equal(time)
+            expect(coh.convertDateTime(dateAsString).dateUtc).to.equal(dateUtc)
+        })
+    })
+
+    /**
+     * The production code that this test relates to does something unusual - it always returns
+     * an array of "history", with subsequent values being [undefined]'s.
+     *
+     * Writing a unit test around this would only inflate the issue, hence
+     * it's being skipped until there is more clarity around the production code here.
+     */
+    xdescribe('mergeCohEvents', () => {
+
+        it('Should merge history, questions history, answers history and decision history together.', async () => {
+
+            const eventsJson = {
+                online_hearing: {
+                    answers: ['answers', 'answers2', 'answers3'],
+                    decision: ['decision', 'decision2', 'decision3'],
+                    history: ['history', 'history2', 'history3'],
+                    questions: ['questions', 'questions2', 'questions3'],
+                },
+            }
+
+            expect(coh.mergeCohEvents(eventsJson)).to.equal([])
+        })
+    })
+
     describe('createHearing', () => {
 
-        // TODO: Not working.
-        xit('Should take in the caseId, userId, jurisdictionId and make a call to post the hearing.', async () => {
+        it('Should take in the caseId, userId, jurisdictionId and make a call to post the hearing.', async () => {
 
             const caseId = 'caseId'
             const userId = 'userId'
@@ -106,9 +135,8 @@ describe('Assign Case', () => {
 
             expect(spyPost).to.be.calledWith(`${url}/continuous-online-hearings`, {
                 case_id: caseId,
-                userId,
                 jurisdiction: jurisdictionId,
-                panel: [{ identity_token: 'string', name: userId }],
+                panel: [{identity_token: 'string', name: userId}],
                 start_date: new Date().toISOString(),
             })
 
@@ -117,12 +145,24 @@ describe('Assign Case', () => {
     })
 
     // TODO: Working through.
-    xdescribe('getEvents', () => {
+    describe('getEvents', () => {
 
-        it('Should take in the caseId, userId, jurisdictionId and make a call to post the hearing.', async () => {
+        const caseId = 'case id'
+        const userId = 'user id'
 
-            const caseId = 'caseId'
-            const userId = 'userId'
+        it('Should take in the caseId and userId and make a call to getHearingByCase().', async () => {
+
+            spy = sinon.stub(coh, 'getHearingByCase').resolves(res)
+
+            coh.getEvents(caseId, userId)
+
+            expect(spy).to.be.calledWith(caseId)
+
+            spy.restore()
+        })
+
+        xit('Should make a call to continuous-online-hearings /conversations.', async () => {
+
             const hearingId = 'hearingId'
 
             spy = sinon.stub(http, 'get').resolves(res)
@@ -130,6 +170,23 @@ describe('Assign Case', () => {
             coh.getEvents(caseId, userId)
 
             expect(spy).to.be.calledWith(`${url}/continuous-online-hearings/${hearingId}/conversations`)
+
+            spy.restore()
+        })
+
+        xit('Should return the online_hearing_id if online_hearings are available.', async () => {
+
+            const hearing = {
+                online_hearings: [
+                    {
+                        online_hearing_id: 135,
+                    },
+                ],
+            }
+
+            spy = sinon.stub(coh, 'getHearingByCase').resolves(hearing)
+
+            expect(await coh.getEvents(caseId, userId)).to.equal(hearing.online_hearings[0].online_hearing_id)
 
             spy.restore()
         })
@@ -148,7 +205,7 @@ describe('Assign Case', () => {
             expect(spy).to.be.calledWith(`${url}/continuous-online-hearings/${hearingId}/decisions`)
 
             spy.restore()
-        });
+        })
 
         it('Should return the data property of the return of a http.get call', async () => {
 
@@ -159,6 +216,61 @@ describe('Assign Case', () => {
             expect(await coh.getDecision(hearingId)).to.equal('okay')
 
             spy.restore()
+        })
+    })
+
+    describe('getOrCreateHearing', () => {
+
+        it('Should make a call to getHearingByCase with caseId.', async () => {
+
+            const caseId = '42'
+            const userId = '42'
+
+            const hearingId = 'hearingId'
+
+            spy = sinon.stub(coh, 'getHearingByCase').resolves(hearingId)
+
+            coh.getOrCreateHearing(caseId, userId)
+
+            expect(spy).to.be.calledWith(caseId)
+
+            spy.restore()
+        })
+
+        it('Should return the online_hearing_id if online_hearings are available.', async () => {
+
+            const caseId = '42'
+            const userId = '42'
+
+            const hearingId = {
+                online_hearings: [
+                    {
+                        online_hearing_id: 135,
+                    },
+                ],
+            }
+
+            spy = sinon.stub(coh, 'getHearingByCase').resolves(hearingId)
+
+            expect(await coh.getOrCreateHearing(caseId, userId)).to.equal(hearingId.online_hearings[0].online_hearing_id)
+
+            spy.restore()
+        })
+
+        xit('Should call createHearing() if there is no hearing.', async () => {
+
+            const caseId = 'caseId'
+            const userId = 'userId'
+            const hearingId = 'hearingId'
+
+            spy = sinon.stub(coh, 'getHearingByCase').resolves(false)
+            const spyCreateHearing = sinon.stub(coh, 'createHearing').resolves(hearingId)
+
+            coh.getOrCreateHearing(caseId, userId)
+
+            expect(spyCreateHearing).to.be.calledWith(caseId, userId)
+
+            spyCreateHearing.restore()
         })
     })
 
@@ -259,22 +371,26 @@ describe('Assign Case', () => {
 
             spy.restore()
         })
+    })
 
-        // it('Should make a call to get decision.', async () => {
-        //
-        //     const hearingId = 'hearingId'
-        //     const caseId = 'caseId'
-        //     const userId = 'userId'
-        //
-        //     spy = sinon.stub(coh, 'getOrCreateHearing').resolves(hearingId)
-        //     const spyGetDecision = sinon.stub(coh, 'getDecision').resolves(res)
-        //
-        //     coh.getOrCreateDecision(caseId, userId)
-        //
-        //     expect(spyGetDecision).to.be.calledWith(hearingId)
-        //
-        //     spy.restore()
-        //     spyGetDecision.restore()
-        // })
+    describe('relistHearing', () => {
+
+        const caseId = 'caseId'
+        const userId = 'userId'
+        const state = 'issued'
+        const reason = 'users freetext'
+
+        it('Should call getOrCreateHearing() to get a hearing id.', async () => {
+
+            const hearingId = 'hearingId'
+
+            spy = sinon.stub(coh, 'getOrCreateHearing').resolves(hearingId)
+
+            coh.relistHearing(caseId, userId, state, reason)
+
+            expect(spy).to.be.calledWith(caseId, userId)
+
+            spy.restore()
+        })
     })
 })

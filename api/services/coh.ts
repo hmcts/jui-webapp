@@ -11,7 +11,8 @@ export const url = config.services.coh_cor_api
 
 const logger = log4jui.getLogger('COH')
 
-function convertDateTime(dateObj: string): DateTimeObject {
+export function convertDateTime(dateObj: string): DateTimeObject {
+
     const conDateTime = moment(dateObj)
     const dateUtc = conDateTime.utc().format()
     const date = conDateTime.format('D MMMM YYYY')
@@ -20,7 +21,7 @@ function convertDateTime(dateObj: string): DateTimeObject {
     return { date, dateUtc, time }
 }
 
-function mergeCohEvents(eventsJson: any): any[] {
+export function mergeCohEvents(eventsJson: any): any[] {
     const history = eventsJson.online_hearing.history
 
     const questionHistory = eventsJson.online_hearing.questions
@@ -52,10 +53,13 @@ export async function getHearingByCase(caseId: string): Promise<any> {
 }
 
 export async function getEvents(caseId: string, userId: string): Promise<any[]> {
+    console.log('coh.ts getEvents')
+
     let hearingId
 
-    const hearing = await getHearingByCase(caseId)
+    const hearing = await this.getHearingByCase(caseId)
 
+    // TODO: Make this DRY with the below.
     if (hearing) {
         hearingId = hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : null
     } else {
@@ -64,7 +68,7 @@ export async function getEvents(caseId: string, userId: string): Promise<any[]> 
 
     const response = await http.get(`${url}/continuous-online-hearings/${hearingId}/conversations`)
 
-    return mergeCohEvents(response.data).map(event => {
+    return this.mergeCohEvents(response.data).map(event => {
         const dateObj = convertDateTime(event.state_datetime)
         const dateUtc = dateObj.dateUtc
         const date = dateObj.date
@@ -88,13 +92,13 @@ export async function getDecision(hearingId: string): Promise<any> {
 }
 
 export async function getOrCreateHearing(caseId, userId) {
-    const hearing = await getHearingByCase(caseId)
+    const hearing = await this.getHearingByCase(caseId)
     let hearingId
 
     if (hearing) {
         hearingId = hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : null
     } else {
-        hearingId = await createHearing(caseId, userId)
+        hearingId = await this.createHearing(caseId, userId)
     }
 
     return hearingId
@@ -195,7 +199,7 @@ export async function getOrCreateDecision(caseId, userId) {
  * @return {Promise}
  */
 export async function relistHearing(caseId: string, userId: string, state: string, reason: string): Promise<any> {
-    const hearingId = await getOrCreateHearing(caseId, userId)
+    const hearingId = await this.getOrCreateHearing(caseId, userId)
 
     if (!hearingId) {
         return Promise.reject({
