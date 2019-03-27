@@ -47,7 +47,6 @@ export default async (req, res, next) => {
         req.auth.userId = userId
 
         axios.defaults.headers.common.Authorization = `Bearer ${req.auth.token}`
-        console.log(req.auth.data.roles)
         axios.defaults.headers.common['user-roles'] = req.auth.data.roles.join()
         if (req.headers.ServiceAuthorization) {
             axios.defaults.headers.common.ServiceAuthorization = req.headers.ServiceAuthorization
