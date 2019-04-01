@@ -102,27 +102,6 @@ describe('Assign Case', () => {
         })
     })
 
-    describe('createHearing', () => {
-
-        it('Should take in the caseId, userId, jurisdictionId and make a call to post the hearing.', async () => {
-
-            const jurisdictionId = 'jurisdictionId'
-
-            const spyPost = sinon.stub(http, 'post').resolves(res)
-
-            coh.createHearing(caseId, userId, jurisdictionId)
-
-            expect(spyPost).to.be.calledWith(`${url}/continuous-online-hearings`, {
-                case_id: caseId,
-                jurisdiction: jurisdictionId,
-                panel: [{identity_token: 'string', name: userId}],
-                start_date: new Date().toISOString(),
-            })
-
-            spyPost.restore()
-        })
-    })
-
     describe('getEvents', () => {
 
         it('Should take in the caseId and userId and make a call to getHearingByCase().', async () => {
