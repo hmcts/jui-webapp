@@ -16,18 +16,6 @@
         <!-- Error -->
         <div *ngSwitchCase="CASES_LOAD_ERROR">
             <div data-selector="error-text" class="govuk-error-message">There was an error getting your cases.</div>
-
-            <div class="error-message">
-                <div>Error: {{errorStackResponse.error}}</div>
-                <div>Status code: {{errorStackResponse.status}}</div>
-                <div>Message: {{errorStackResponse.message}}</div>
-                <div>On path: {{errorStackResponse.path}}</div>
-                <div>Time: {{errorStackResponse.timestamp}}</div>
-                <div>Stack trace:</div>
-                <div *ngFor="let error of minimalErrorStack | keyvalue">
-                    {{error.key}} : {{error.value}}
-                </div>
-            </div>
         </div>
     </div>
 </div>
