@@ -11,7 +11,8 @@ export const url = config.services.coh_cor_api
 
 const logger = log4jui.getLogger('COH')
 
-function convertDateTime(dateObj: string): DateTimeObject {
+export function convertDateTime(dateObj: string): DateTimeObject {
+
     const conDateTime = moment(dateObj)
     const dateUtc = conDateTime.utc().format()
     const date = conDateTime.format('D MMMM YYYY')
@@ -20,7 +21,7 @@ function convertDateTime(dateObj: string): DateTimeObject {
     return { date, dateUtc, time }
 }
 
-function mergeCohEvents(eventsJson: any): any[] {
+export function mergeCohEvents(eventsJson: any): any[] {
     const history = eventsJson.online_hearing.history
 
     const questionHistory = eventsJson.online_hearing.questions
@@ -46,20 +47,17 @@ export async function createHearing(caseId: string, userId: string, jurisdiction
     return response.data.online_heading_id
 }
 
-export async function getHearing(caseId: string): Promise<any> {
-    const response = await http.get(`${url}/continuous-online-hearings?case_id=${caseId}`)
-    return response.data
-}
-
 export async function getHearingByCase(caseId: string): Promise<any> {
     const response = await http.get(`${url}/continuous-online-hearings?case_id=${caseId}`)
     return response.data
 }
 
 export async function getEvents(caseId: string, userId: string): Promise<any[]> {
+    console.log('coh.ts getEvents')
+
     let hearingId
 
-    const hearing = await getHearing(caseId)
+    const hearing = await this.getHearingByCase(caseId)
 
     if (hearing) {
         hearingId = hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : null
@@ -69,7 +67,7 @@ export async function getEvents(caseId: string, userId: string): Promise<any[]> 
 
     const response = await http.get(`${url}/continuous-online-hearings/${hearingId}/conversations`)
 
-    return mergeCohEvents(response.data).map(event => {
+    return this.mergeCohEvents(response.data).map(event => {
         const dateObj = convertDateTime(event.state_datetime)
         const dateUtc = dateObj.dateUtc
         const date = dateObj.date
@@ -93,13 +91,13 @@ export async function getDecision(hearingId: string): Promise<any> {
 }
 
 export async function getOrCreateHearing(caseId, userId) {
-    const hearing = await getHearing(caseId)
+    const hearing = await this.getHearingByCase(caseId)
     let hearingId
 
     if (hearing) {
         hearingId = hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : null
     } else {
-        hearingId = await createHearing(caseId, userId)
+        hearingId = await this.createHearing(caseId, userId)
     }
 
     return hearingId
@@ -120,7 +118,7 @@ export async function storeData(hearingId, data, state = 'decision_drafted') {
     // okay we need to check the state of the decision. Not very efficent to do this every set, but
     // while things are being sorted out this is safest
 
-    const decision = await getDecision(hearingId)
+    const decision = await this.getDecision(hearingId)
 
     if (
         valueOrNull(decision, 'decision_state.state_name') !== 'decision_issued' &&
@@ -156,14 +154,14 @@ export async function getOrCreateDecision(caseId, userId) {
     let decisionId
     let decision
 
-    const hearingId = await getOrCreateHearing(caseId, userId)
+    const hearingId = await this.getOrCreateHearing(caseId, userId)
 
     if (!hearingId) {
         logger.error('Error getting hearing for decision!')
     } else {
         logger.info(`Got hearding for case ${caseId}`)
         try {
-            decision = await getDecision(hearingId)
+            decision = await this.getDecision(hearingId)
             logger.info('decision:', JSON.stringify(decision))
         } catch (error) {
             logger.info(`Can't find decision`)
@@ -200,7 +198,7 @@ export async function getOrCreateDecision(caseId, userId) {
  * @return {Promise}
  */
 export async function relistHearing(caseId: string, userId: string, state: string, reason: string): Promise<any> {
-    const hearingId = await getOrCreateHearing(caseId, userId)
+    const hearingId = await this.getOrCreateHearing(caseId, userId)
 
     if (!hearingId) {
         return Promise.reject({

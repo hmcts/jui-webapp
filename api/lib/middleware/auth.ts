@@ -29,14 +29,12 @@ export default async (req, res, next) => {
             req.session.user = details
         }
     }
+
     if (expired || !req.session.user) {
         logger.warn('Auth token  expired need to log in again')
         auth.doLogout(req, res, 401)
 
-    }
-
-    if (!validRoles(req.session.user.roles)) {
-
+    } else if (!validRoles(req.session.user.roles)) {
         logger.warn('User role does not allow login')
         auth.doLogout(req, res, 401)
 
@@ -47,7 +45,6 @@ export default async (req, res, next) => {
         req.auth.userId = userId
 
         axios.defaults.headers.common.Authorization = `Bearer ${req.auth.token}`
-        console.log(req.auth.data.roles)
         axios.defaults.headers.common['user-roles'] = req.auth.data.roles.join()
         if (req.headers.ServiceAuthorization) {
             axios.defaults.headers.common.ServiceAuthorization = req.headers.ServiceAuthorization
