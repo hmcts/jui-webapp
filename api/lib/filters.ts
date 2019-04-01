@@ -1,7 +1,5 @@
 import refCaselistFilters from '../lib/config/refCaselistFilters'
 import refCaselistRoleFilters from '../lib/config/refCaselistRoleFilters'
-import { ERROR_USER_HAS_NO_MATCHING_ACCESS_ROLE } from './config/errorConstants'
-import { exists } from './util'
 
 /**
  * filterCaseListsByRoles
@@ -12,15 +10,12 @@ import { exists } from './util'
  *
  * @param caseListFilters @see refCaselistFilters.ts
  * @param roles - the user roles - eg. ['caseworker-sscs-judge', 'caseworker-sscs-panelmember']
+ * @returns caseListFilters filtered
  */
 export function filterCaseListsByRoles(caseListFilters, roles) {
-    const filters = caseListFilters.filter( caseListFilter => {
+    return caseListFilters.filter( caseListFilter => {
         return caseListFilter.accessRoles.some( accessRole => roles.includes(accessRole))
     })
-    if (!exists(filters, 'length')) {
-        return ERROR_USER_HAS_NO_MATCHING_ACCESS_ROLE
-    }
-    return filters
 }
 
 export function filterByCaseTypeAndRole(userDetails) {

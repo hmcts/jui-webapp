@@ -3,8 +3,6 @@ import { expect } from 'chai'
 import 'mocha'
 import * as sinon from 'sinon'
 import * as sinonChai from 'sinon-chai'
-import { mockReq, mockRes } from 'sinon-express-mock'
-import { ERROR_USER_HAS_NO_MATCHING_ACCESS_ROLE } from '../lib/config/errorConstants'
 import refCaselistFilters from '../lib/config/refCaselistFilters'
 import * as filters from './filters'
 import { filterByCaseTypeAndRole, filterCaseListsByRoles } from './filters'
@@ -60,29 +58,6 @@ describe('filters', () => {
 
             expect(filterCaseListsByRoles(caseListFilters, roles))
                 .to.deep.equal(caseListFilters.filter(caseList => caseList.caseType === 'DIVORCE'))
-        })
-
-        it('should return an error if the user does not have a matching access role', () => {
-
-            const caseListFilters = [
-                {
-                    accessRoles: ['caseworker-sscs-judge', 'caseworker-sscs-panelmember'],
-                    caseType: 'Benefit',
-                    filter: '&state=appealCreated&case.appeal.benefitType.code=PIP',
-                    jur: 'SSCS',
-                },
-                {
-                    accessRoles: ['caseworker-divorce-judge'],
-                    caseType: 'DIVORCE',
-                    filter: '',
-                    jur: 'DIVORCE',
-                },
-            ]
-
-            const roles = ['caseworker-random']
-
-            expect(filterCaseListsByRoles(caseListFilters, roles))
-                .to.equal(ERROR_USER_HAS_NO_MATCHING_ACCESS_ROLE)
         })
     })
 })
