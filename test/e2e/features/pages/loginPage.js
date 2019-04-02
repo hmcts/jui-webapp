@@ -9,7 +9,7 @@ function loginPage() {
     this.signinTitle = element(by.css("h1.heading-large"));
     this.signinBtn = element(by.css("input.button"));
     this.signOutlink = element(by.css("a.hmcts-header__navigation-link"));
-    this.failure_error_heading = element(by.css("#failure-error-summary-heading"));
+    this.failure_error_heading = element(by.css("[id='validation-error-summary-heading']"));
 
 
     this.givenIAmLoggedIn = async function () {

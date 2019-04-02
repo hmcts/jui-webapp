@@ -1,5 +1,5 @@
-import {NgModule, ModuleWithProviders } from '@angular/core';
-import {CommonModule} from '@angular/common';
+import { NgModule, ModuleWithProviders } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormComponent } from './components/form/form.component';
 import { FormService } from './services/form.service';
 import { FormsModule } from '@angular/forms';
