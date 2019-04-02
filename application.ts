@@ -70,6 +70,11 @@ function healthcheckConfig(msUrl) {
     });
 }
 
+let healthCheckRouter = express.Router()
+
+export default express.Router().use(healthCheckRouter)
+healthcheck.addTo(healthCheckRouter, healthcheckConfig)
+
 app.get(
     "/health",
     healthcheck.configure({
@@ -87,7 +92,6 @@ app.get(
         buildInfo: {}
     })
 );
-
 
 app.get('/oauth2/callback', apiRoute);
 app.get('/logout', apiRoute);
