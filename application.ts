@@ -70,7 +70,7 @@ function healthcheckConfig(msUrl) {
     });
 }
 
-app.get(
+/*app.get(
     "/health",
     healthcheck.configure({
         checks: {
@@ -87,7 +87,7 @@ app.get(
         },
         buildInfo: {}
     })
-);
+);/*
 
 
 app.get('/oauth2/callback', apiRoute);
