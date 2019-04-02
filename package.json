@@ -28,7 +28,7 @@
     "test:coverage": "echo 'not implemented'",
     "test:coverage:merge": "./node_modules/.bin/lcov-result-merger './reports/tests/coverage/*/lcov.info' > ./reports/tests/coverage/lcov.info",
     "test:coverage:node": "cd api && npm run coverage",
-    "test:coverage:ng": "ng test --code-coverage",
+    "test:coverage:ng": "ng test --source-map --code-coverage",
     "test:a11y": "echo 'not implemented'",
     "test:smoke": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/smoke.conf.js --local",
     "test:smoke:local": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/smoke.conf.js --local",
