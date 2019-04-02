@@ -16,10 +16,9 @@ import { getUser } from '../../services/idam'
 import { getAllQuestionsByCase } from '../questions/index'
 import { getNewCase, unassignAllCaseFromJudge } from './assignCase'
 
-
 const getListTemplate = require('./templates/index')
 const { caseStateFilter } = require('../../lib/processors/case-state-util')
-const logger = log4jui.getLogger('case list')
+const logger = log4jui.getLogger('case-list')
 
 export async function getCOR(res, casesData) {
     const caseIds = casesData.map(caseRow => `${caseRow.id}`).join('&case_id=')
@@ -213,32 +212,30 @@ export async function unassignAll(req, res) {
 }
 
 export async function getCases(res) {
-    {
-        let results = null
-        const user = await getUser()
+    let results = null
+    const user = await getUser()
 
-        let tryCCD = 0
+    let tryCCD = 0
 
-        while (tryCCD < config.maxCCDRetries && !results) {
-            // need to disable error sending here and catch it later if retrying
-            results = await asyncReturnOrError(getMutiJudCaseTransformed(res, user), ' Error getting case list',
-                res, logger, false)
+    while (tryCCD < config.maxCCDRetries && !results) {
+        // need to disable error sending here and catch it later if retrying
+        results = await asyncReturnOrError(getMutiJudCaseTransformed(res, user), ' Error getting case list',
+            res, logger, false)
 
-            tryCCD++
+        tryCCD++
 
-            if (!results) {
-                logger.warn('Having to retry CCD')
-            }
+        if (!results) {
+            logger.warn('Having to retry CCD')
         }
+    }
 
-        if (hasCases(results)) {
-            res.setHeader('Access-Control-Allow-Origin', '*')
-            res.setHeader('content-type', 'application/json')
-            res.status(200).send(JSON.stringify(results))
-        } else {
-            logger.error('Unable to get any cases.')
-            res.status(500).send(JSON.stringify(errorStack.get()))
-        }
+    if (hasCases(results)) {
+        res.setHeader('Access-Control-Allow-Origin', '*')
+        res.setHeader('content-type', 'application/json')
+        res.status(200).send(JSON.stringify(results))
+    } else {
+        logger.error('Unable to get any cases.')
+        res.status(500).send(JSON.stringify(errorStack.get()))
     }
 }
 
