@@ -57,7 +57,7 @@ defineSupportCode(function ({ Given, When, Then }) {
         await expect(loginPage.failure_error_heading.getText())
             .to
             .eventually
-            .equal('Incorrect email/password combination');
+            .equal('Incorrect email or password');
 
     });
 
