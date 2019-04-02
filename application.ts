@@ -1,4 +1,4 @@
-/*const healthcheck = require('@hmcts/nodejs-healthcheck');*/
+const healthcheck = require('@hmcts/nodejs-healthcheck');
 /*const { InfoContributor, infoRequestHandler } = require('@hmcts/info-provider');*/
 
 import * as express from 'express';
@@ -62,6 +62,32 @@ if (config.proxy) {
         port: config.proxy.port,
     })
 }
+
+function healthcheckConfig(msUrl) {
+    return healthcheck.web(`${msUrl}/health`, {
+        timeout: 6000,
+        deadline: 6000
+    });
+}
+
+app.get(
+    "/health",
+    healthcheck.configure({
+        checks: {
+            ccd_data_api: healthcheckConfig(config.services.ccd_data_api),
+            ccd_def_api: healthcheckConfig(config.services.ccd_def_api),
+            idam_web: healthcheckConfig(config.services.idam_web),
+            idam_api: healthcheckConfig(config.services.idam_api),
+            s2s: healthcheckConfig(config.services.s2s),
+            draft_store_api: healthcheckConfig(config.services.draft_store_api),
+            dm_store_api: healthcheckConfig(config.services.dm_store_api),
+            em_anno_api: healthcheckConfig(config.services.em_anno_api),
+            em_npa_api: healthcheckConfig(config.services.em_npa_api),
+            coh_cor_api: healthcheckConfig(config.services.coh_cor_api)
+        },
+        buildInfo: {}
+    })
+);
 
 
 app.get('/oauth2/callback', apiRoute);
