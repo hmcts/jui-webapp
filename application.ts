@@ -87,7 +87,7 @@ function healthcheckConfig(msUrl) {
         },
         buildInfo: {}
     })
-);/*
+);*/
 
 
 app.get('/oauth2/callback', apiRoute);
