@@ -50,11 +50,3 @@ export class FormComponent implements OnInit {
     }
 }
 
-// Incorrectly written
-// export interface JUIFormInterface {
-//     submitCallback(value: Object): void;
-//     form: FormGroup;
-//     eventEmitter: EventEmitter<any>;
-//     callback_options: object;
-//     ngAfterViewChecked(): void;
-// }
