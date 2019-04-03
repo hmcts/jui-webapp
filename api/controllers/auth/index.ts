@@ -8,6 +8,7 @@ import * as jwt from 'jsonwebtoken';
 
 const cookieToken = config.cookies.token
 const cookieUserId = config.cookies.userId
+const cookieRoles = 'roles'
 
 const logger = log4jui.getLogger('auth')
 
@@ -47,7 +48,7 @@ export async function authenticateUser(req: any, res, next) {
             res.cookie('platform', config.environment)
 
             const cookieTokenStr = jwt.sign({ roles: req.session.user.roles }, 'juisecret') // secret doesn't really matter
-            res.cookie('roles', cookieTokenStr)
+            res.cookie(cookieRoles, cookieTokenStr)
         }
     }
     logger.info('Auth finished, redirecting')
