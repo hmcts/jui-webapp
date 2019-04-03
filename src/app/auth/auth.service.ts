@@ -3,6 +3,9 @@ import { CookieService } from 'ngx-cookie';
 import * as jwtDecode from 'jwt-decode';
 import { ConfigService } from '../config.service';
 import { RedirectionService } from '../routing/redirection.service';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError, tap, map } from 'rxjs/operators';
+import { throwError, Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -13,7 +16,8 @@ export class AuthService {
     constructor(
         private configService: ConfigService,
         private cookieService: CookieService,
-        private redirectionService: RedirectionService
+        private redirectionService: RedirectionService,
+        private http: HttpClient
     ) {
         this.COOKIE_KEYS = {
             TOKEN: this.configService.config.cookies.token,
@@ -62,14 +66,19 @@ export class AuthService {
         return !expired;
     }
 
+
     getLoggedInUserRoles(): string[] {
 
-        const jwt = this.cookieService.get(this.COOKIE_KEYS.TOKEN);
+        const jwt = this.cookieService.get('roles');
         if (!jwt) {
             return [];
         }
         const jwtData: any = this.decodeJwt(jwt);
-        const roles = jwtData.data;
+        const roles = jwtData.roles;
         return roles;
     }
+
+
+
+
 }
