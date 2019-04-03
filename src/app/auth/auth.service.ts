@@ -3,9 +3,6 @@ import { CookieService } from 'ngx-cookie';
 import * as jwtDecode from 'jwt-decode';
 import { ConfigService } from '../config.service';
 import { RedirectionService } from '../routing/redirection.service';
-//import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-//import { catchError, tap, map } from 'rxjs/operators';
-//import { throwError, Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
