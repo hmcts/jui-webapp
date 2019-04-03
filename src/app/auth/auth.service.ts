@@ -3,9 +3,9 @@ import { CookieService } from 'ngx-cookie';
 import * as jwtDecode from 'jwt-decode';
 import { ConfigService } from '../config.service';
 import { RedirectionService } from '../routing/redirection.service';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { catchError, tap, map } from 'rxjs/operators';
-import { throwError, Observable } from 'rxjs';
+//import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+//import { catchError, tap, map } from 'rxjs/operators';
+//import { throwError, Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -17,7 +17,7 @@ export class AuthService {
         private configService: ConfigService,
         private cookieService: CookieService,
         private redirectionService: RedirectionService,
-        private http: HttpClient
+        //private http: HttpClient
     ) {
         this.COOKIE_KEYS = {
             TOKEN: this.configService.config.cookies.token,

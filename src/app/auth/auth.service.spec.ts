@@ -94,11 +94,11 @@ describe('AuthService', () => {
         it('it should return user roles', inject([AuthService], (service: AuthService) => {
             service.decodeJwt = () => {
                 return {
-                    roles: ''
+                    roles: []
                 };
             };
             const userRoles = service.getLoggedInUserRoles();
-            expect(userRoles).toBe(undefined);
+            expect(userRoles.length).toBe(0);
         }));
 
     });
