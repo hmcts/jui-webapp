@@ -13,8 +13,7 @@ export class AuthService {
     constructor(
         private configService: ConfigService,
         private cookieService: CookieService,
-        private redirectionService: RedirectionService,
-        //private http: HttpClient
+        private redirectionService: RedirectionService
     ) {
         this.COOKIE_KEYS = {
             TOKEN: this.configService.config.cookies.token,
