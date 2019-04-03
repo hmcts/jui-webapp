@@ -70,8 +70,6 @@ function healthcheckConfig(msUrl) {
     });
 }
 
-let healthCheckRouter = express.Router()
-
 let healthchecks = {
         checks: {
             ccd_data_api: healthcheckConfig(config.services.ccd_data_api),
@@ -86,8 +84,7 @@ let healthchecks = {
         }
 }
 
-export default express.Router().use(healthCheckRouter)
-healthcheck.addTo(healthCheckRouter, healthchecks)
+healthcheck.addTo(app, healthchecks)
 
 app.get('/oauth2/callback', apiRoute);
 app.get('/logout', apiRoute);
