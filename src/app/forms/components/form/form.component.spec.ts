@@ -6,7 +6,7 @@ import {FormService} from '../../services/form.service';
 import {Listener} from 'selenium-webdriver';
 import {HostListener} from '@angular/core';
 
-fdescribe('FormComponent', () => {
+describe('FormComponent', () => {
     let component: FormComponent;
     let fixture: ComponentFixture<FormComponent>;
     let formService;
