@@ -5,7 +5,7 @@ import { getHealth, getInfo } from '../lib/util'
 
 const url = config.services.em_npa_api
 
-async function createNpaTask(body) {
+export async function createNpaTask(body) {
     const request = await http.post(`${url}/api/document-tasks`, body)
     return request.data
 }

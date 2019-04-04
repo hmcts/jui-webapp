@@ -1,6 +1,6 @@
 import * as express from 'express'
 import * as headerUtilities from '../../lib/utilities/headerUtilities'
-import { getHearing, relistHearing } from '../../services/coh'
+import { getHearingByCase, relistHearing } from '../../services/coh'
 import { getHearingIdOrCreateHearing, getDecision, postDecision, putDecision } from '../../services/cohQA'
 
 function getOptions(req) {
@@ -68,7 +68,7 @@ export default app => {
         const caseId = req.params.case_id
 
         try {
-            const response = await getHearing(caseId)
+            const response = await getHearingByCase(caseId)
 
             res.setHeader('Access-Control-Allow-Origin', '*')
             res.setHeader('content-type', 'application/json')

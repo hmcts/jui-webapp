@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {  ElementRef, HostListener, Input, Output, EventEmitter } from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {HostListener, Input} from '@angular/core';
+import {FormGroup} from '@angular/forms';
 import {FormService} from '../../services/form.service';
 
 @Component({
@@ -50,11 +50,3 @@ export class FormComponent implements OnInit {
     }
 }
 
-// Incorrectly written
-// export interface JUIFormInterface {
-//     submitCallback(value: Object): void;
-//     form: FormGroup;
-//     eventEmitter: EventEmitter<any>;
-//     callback_options: object;
-//     ngAfterViewChecked(): void;
-// }

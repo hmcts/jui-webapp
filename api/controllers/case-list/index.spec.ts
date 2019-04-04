@@ -4,6 +4,7 @@ import 'mocha'
 import * as sinon from 'sinon'
 import * as sinonChai from 'sinon-chai'
 import { mockReq, mockRes } from 'sinon-express-mock'
+import refCaselistFilters from '../../lib/config/refCaselistFilters'
 import * as filters from '../../lib/filters'
 import * as utils from '../../lib/util'
 import * as ccdStore from '../../services/ccd-store-api/ccd-store'
@@ -35,6 +36,15 @@ import {
 
 chai.use(sinonChai)
 describe('index', () => {
+    beforeEach(() => {
+        sinon.stub(filters, 'filterCaseListsByRoles').callsFake(() => {
+            return refCaselistFilters
+        })
+    })
+
+    afterEach(() => {
+        sinon.restore()
+    })
     describe('getMutiJudCaseRaw', () => {
         it('Should return caseLists array', async () => {
             const userDetails = { id: 1, name: 'John Doe', roles: [1, 2, 3] }
@@ -172,7 +182,7 @@ describe('index', () => {
             stub.returns(Promise.resolve(stubReturns))
             stub2.returns({})
             const res = mockRes()
-            
+
             const result = await getCOR(res, casesData)
             expect(stub2).to.be.calledWith('2a')
             stub.restore()

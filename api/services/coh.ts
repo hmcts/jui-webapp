@@ -11,7 +11,8 @@ export const url = config.services.coh_cor_api
 
 const logger = log4jui.getLogger('COH')
 
-function convertDateTime(dateObj: string): DateTimeObject {
+export function convertDateTime(dateObj: string): DateTimeObject {
+
     const conDateTime = moment(dateObj)
     const dateUtc = conDateTime.utc().format()
     const date = conDateTime.format('D MMMM YYYY')
@@ -20,7 +21,7 @@ function convertDateTime(dateObj: string): DateTimeObject {
     return { date, dateUtc, time }
 }
 
-function mergeCohEvents(eventsJson: any): any[] {
+export function mergeCohEvents(eventsJson: any): any[] {
     const history = eventsJson.online_hearing.history
 
     const questionHistory = eventsJson.online_hearing.questions
@@ -46,11 +47,6 @@ export async function createHearing(caseId: string, userId: string, jurisdiction
     return response.data.online_heading_id
 }
 
-export async function getHearing(caseId: string): Promise<any> {
-    const response = await http.get(`${url}/continuous-online-hearings?case_id=${caseId}`)
-    return response.data
-}
-
 export async function getHearingByCase(caseId: string): Promise<any> {
     const response = await http.get(`${url}/continuous-online-hearings?case_id=${caseId}`)
     return response.data
@@ -59,7 +55,7 @@ export async function getHearingByCase(caseId: string): Promise<any> {
 export async function getEvents(caseId: string, userId: string): Promise<any[]> {
     let hearingId
 
-    const hearing = await getHearing(caseId)
+    const hearing = await getHearingByCase(caseId)
 
     if (hearing) {
         hearingId = hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : null
@@ -93,7 +89,7 @@ export async function getDecision(hearingId: string): Promise<any> {
 }
 
 export async function getOrCreateHearing(caseId, userId) {
-    const hearing = await getHearing(caseId)
+    const hearing = await getHearingByCase(caseId)
     let hearingId
 
     if (hearing) {

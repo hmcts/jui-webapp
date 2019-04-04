@@ -4,9 +4,11 @@ import * as log4jui from '../../lib/log4jui'
 import * as responseRequest from '../../lib/middleware/responseRequest'
 import { asyncReturnOrError, exists } from '../../lib/util'
 import { getDetails, postOauthToken } from '../../services/idam'
+import * as jwt from 'jsonwebtoken';
 
 const cookieToken = config.cookies.token
 const cookieUserId = config.cookies.userId
+const cookieRoles = 'roles'
 
 const logger = log4jui.getLogger('auth')
 
@@ -44,6 +46,9 @@ export async function authenticateUser(req: any, res, next) {
 
             // need this so angular knows which enviroment config to use ...
             res.cookie('platform', config.environment)
+
+            const cookieTokenStr = jwt.sign({ roles: req.session.user.roles }, 'juisecret') // secret doesn't really matter
+            res.cookie(cookieRoles, cookieTokenStr)
         }
     }
     logger.info('Auth finished, redirecting')

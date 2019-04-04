@@ -9,6 +9,7 @@ import { RedirectionService } from '../routing/redirection.service';
 })
 export class AuthService {
     COOKIE_KEYS;
+    COOKIE_ROLES = 'roles';
 
     constructor(
         private configService: ConfigService,
@@ -62,14 +63,19 @@ export class AuthService {
         return !expired;
     }
 
+
     getLoggedInUserRoles(): string[] {
 
-        const jwt = this.cookieService.get(this.COOKIE_KEYS.TOKEN);
+        const jwt = this.cookieService.get(this.COOKIE_ROLES);
         if (!jwt) {
             return [];
         }
         const jwtData: any = this.decodeJwt(jwt);
-        const roles = jwtData.data;
+        const roles = jwtData.roles;
         return roles;
     }
+
+
+
+
 }

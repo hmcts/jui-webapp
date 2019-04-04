@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import {FormsModule, FormGroup, FormControl, ReactiveFormsModule} from '@angular/forms';
+import {  FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { TextEditorComponent } from './text-editor.component';
 import { TextareaCustomComponent } from './textarea-custom/textarea-custom.component';
@@ -10,7 +10,7 @@ describe('TextEditorComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [FormsModule, ReactiveFormsModule],
+      imports: [  ReactiveFormsModule ],
       declarations: [ TextEditorComponent, TextareaCustomComponent ]
     })
     .compileComponents();
@@ -68,10 +68,10 @@ describe('TextEditorComponent', () => {
           }
         }
       };
-      
+
       expect(component.changeFocus('next', event)).toMatch('next');
     });
-    
+
     it('should get changeFocus to return value when called with parameter "previous"', () => {
       const event = {
         preventDefault: () => {},
@@ -81,12 +81,12 @@ describe('TextEditorComponent', () => {
           }
         }
       };
-      
+
       expect(component.changeFocus('previous', event)).toMatch('previous');
     });
 
   });
-  
+
   describe('TextEditorComponent events', () => {
 
     it('should call applyCommand function when clicked', () => {
@@ -136,7 +136,7 @@ describe('TextEditorComponent', () => {
       component.onKeyDown(event);
       expect(changeFocus).toHaveBeenCalledWith('next', event);
     });
-    
+
     it('should call changeFocus with direction "previous" function when key pressed up', () => {
       const changeFocus = spyOn(component, 'changeFocus');
       const event = {
