@@ -106,7 +106,6 @@ export class ValidationService {
      * @return {boolean}
      */
     isFormControlValid(formGroup: FormGroup, control: string): boolean {
-
         return formGroup.get(control).valid;
     }
 
