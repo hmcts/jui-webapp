@@ -3,9 +3,10 @@ import { CaseService } from './case.service';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {ConfigService} from '../../config.service';
 import {RouterTestingModule} from '@angular/router/testing';
-import {BrowserTransferStateModule} from '@angular/platform-browser';
+import {BrowserTransferStateModule, makeStateKey, TransferState} from '@angular/platform-browser';
 import {SharedModule} from '../../shared/shared.module';
 import {DomainModule} from '../domain.module';
+import {Subscriber} from 'rxjs/Subscriber';
 
 const configMock = {
     config: {
@@ -16,27 +17,27 @@ const configMock = {
 let caseService: CaseService;
 let httpMock: HttpTestingController;
 
-describe('CaseService', () => {
+fdescribe('CaseService', () => {
     beforeEach(() => {
-    TestBed.configureTestingModule({
-        imports: [
-            DomainModule,
-            SharedModule,
-            BrowserTransferStateModule,
-            HttpClientTestingModule,
-            RouterTestingModule
-        ],
-        providers: [
-            CaseService,
-            {
-                provide: ConfigService,
-                useValue: configMock
-            }
-        ]
-    });
+        TestBed.configureTestingModule({
+            imports: [
+                DomainModule,
+                SharedModule,
+                BrowserTransferStateModule,
+                HttpClientTestingModule,
+                RouterTestingModule
+            ],
+            providers: [
+                CaseService,
+                {
+                    provide: ConfigService,
+                    useValue: configMock
+                }
+            ]
+        });
 
-    caseService = TestBed.get(CaseService);
-    httpMock = TestBed.get(HttpTestingController);
+        caseService = TestBed.get(CaseService);
+        httpMock = TestBed.get(HttpTestingController);
     });
 
     it('should be created', inject([CaseService], (service: CaseService) => {
@@ -49,8 +50,9 @@ describe('CaseService', () => {
         const mockCaseId = '123';
         const mockCaseType = 'DIVORCE';
         const url = `/api/case/${mockJudistdiction}/${mockCaseType}/${mockCaseId}`;
+
         caseService.fetch(mockCaseId, mockJudistdiction, mockCaseType).subscribe(data => {
-             expect(data).toEqual(mockCaseData);
+            expect(data).toEqual(mockCaseData);
         });
         const mockReq = httpMock.expectOne(url);
         expect(mockReq.request.method).toBe('GET');
@@ -59,12 +61,12 @@ describe('CaseService', () => {
         httpMock.verify();
     });
 
-    it('should have getCases method', () => {
-        expect(caseService.getCases).toBeTruthy();
-    });
 
-    it('should have getNewCase method', () => {
-        expect(caseService.getNewCase).toBeTruthy();
+    it('should fetch data from cache if cache is exist', () => {
+        const mockUrl = 'testUrl';
+        caseService.checkCache(mockUrl).subscribe( data => {
+            expect(data).toBe(mockUrl);
+        });
     });
 
     it('should search', () => {

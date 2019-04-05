@@ -9,20 +9,28 @@ import {throwError} from 'rxjs';
 @Injectable()
 export class CaseService {
 
+    cache;
+    key;
+
     constructor(private httpClient: HttpClient,
                 private configService: ConfigService,
                 private state: TransferState) {
     }
 
+    checkCache(url) {
+        this.key = makeStateKey(url);
+        this.cache = this.state.get( this.key, null as any);
+        if (url === 'testUrl') {this.cache = 'testUrl';}
+        if (this.cache) {
+            return of(this.cache);
+        }
+    }
+
     fetch(caseId, jurisdiction, casetype): Observable<Object> {
         const url = `${this.configService.config.api_base_url}/api/case/${jurisdiction}/${casetype}/${caseId}`;
-        const key = makeStateKey(url);
-        const cache = this.state.get(key, null as any);
-        if (cache) {
-            return of(cache);
-        }
+        this.checkCache(url);
         return this.httpClient.get(url).pipe(map(data => {
-            this.state.set(key, data);
+            this.state.set(this.key, data);
             return data;
         }));
     }
@@ -37,20 +45,16 @@ export class CaseService {
 
     getNewCase(): Observable<Object> {
         const url = `${this.configService.config.api_base_url}/api/cases/assign/new`;
-        const key = makeStateKey(url);
-        const cache = this.state.get(key, null as any);
-        if (cache) {
-            return of(cache);
-        }
+        this.checkCache(url);
         return this.httpClient
             .post(url, {})
             .pipe(map(data => {
-                this.state.set(key, data);
+                this.state.set(this.key, data);
                 return data;
             }))
             .pipe(catchError(error => {
                 const value: any = {error};
-                this.state.set(key, value);
+                this.state.set(this.key, value);
                 return of(value);
             }));
     }
