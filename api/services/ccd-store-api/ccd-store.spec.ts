@@ -24,14 +24,14 @@ describe('ccd Store', () => {
     const url = config.services.ccd_data_api
 
     let spy: any
+    let spyPost: any
     // let spyDelete: any
-    // let spyPost: any
     // let spyPatch: any
 
     beforeEach(() => {
 
         spy = sinon.stub(http, 'get').resolves(res)
-        // spyPost = sinon.stub(http, 'post').resolves(res)
+        spyPost = sinon.stub(http, 'post').resolves(res)
         // spyPatch = sinon.stub(http, 'patch').resolves(res)
         // spyDelete = sinon.stub(http, 'delete').resolves(res)
     })
@@ -39,7 +39,7 @@ describe('ccd Store', () => {
     afterEach(() => {
 
         spy.restore()
-        // spyPost.restore()
+        spyPost.restore()
         // spyPatch.restore()
         // spyDelete.restore()
     })
@@ -50,6 +50,8 @@ describe('ccd Store', () => {
     const caseType = 'caseType'
     const caseId = 'caseId'
     const eventId = 'eventId'
+    const body = {}
+    const filter = 'filter'
 
     describe('getCCDEventToken()', () => {
 
@@ -95,20 +97,84 @@ describe('ccd Store', () => {
         })
     })
 
-    //TODO: Working through
     describe('postCaseWithEventToken()', () => {
 
-        xit('Should make a http.get call', async () => {
+        const caseTypeId = 'caseTypeId'
 
-            const caseTypeId = 'caseTypeId';
+        it('Should make a http.post call', async () => {
 
-            await ccdStore.postCaseWithEventToken(userId, jurisdiction, caseType, caseTypeId, eventId)
-            expect(spy).to.be.calledWith(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseTypeId}/cases/${caseId}/events`)
+            await ccdStore.postCaseWithEventToken(userId, jurisdiction, caseTypeId, caseId, body)
+            expect(spyPost).to.be.calledWith(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseTypeId}/cases/${caseId}/events`)
         })
 
-        xit('Should return the data property of the return of a http.get call', async () => {
+        it('Should return the data property of the return of a http.post call', async () => {
 
-            expect(await ccdStore.getCCDEventTokenWithoutCase(userId, jurisdiction, caseType, eventId)).to.equal(res.data)
+            expect(await ccdStore.postCaseWithEventToken(userId, jurisdiction, caseTypeId, caseId, body)).to.equal(res.data)
+        })
+    })
+
+    describe('postCCDEvent()', () => {
+
+        it('Should make a http.get call', async () => {
+
+            await ccdStore.postCCDEvent(userId, jurisdiction, caseType, caseId, body)
+            expect(spy).to.be.calledWith(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`)
+        })
+
+        it('Should return the data property of the return of a http.get call', async () => {
+
+            expect(await ccdStore.postCCDEvent(userId, jurisdiction, caseType, caseId, body)).to.equal(res.data)
+        })
+    })
+
+    describe('getCCDCase()', () => {
+
+        it('Should make a http.get call', async () => {
+
+            await ccdStore.getCCDCase(userId, jurisdiction, caseType, caseId)
+            expect(spy).to.be.calledWith(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}`)
+        })
+
+        it('Should return the data property of the return of a http.get call', async () => {
+
+            expect(await ccdStore.getCCDCase(userId, jurisdiction, caseType, caseId)).to.equal(res.data)
+        })
+    })
+
+    describe('getCCDEvents()', () => {
+
+        it('Should make a http.get call', async () => {
+
+            await ccdStore.getCCDEvents(userId, jurisdiction, caseType, caseId)
+            expect(spy).to.be.calledWith(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`)
+        })
+
+        it('Should return the data property of the return of a http.get call', async () => {
+
+            expect(await ccdStore.getCCDEvents(userId, jurisdiction, caseType, caseId)).to.equal(res.data)
+        })
+    })
+
+    describe('getCCDCases()', () => {
+
+        it('Should make a http.get call', async () => {
+
+            await ccdStore.getCCDCases(userId, jurisdiction, caseType, filter)
+            expect(spy).to.be.calledWith(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases?sortDirection=DESC${filter}`)
+        })
+
+        it('Should return the data property of the return of a http.get call', async () => {
+
+            expect(await ccdStore.getCCDCases(userId, jurisdiction, caseType, filter)).to.equal(res.data)
+        })
+    })
+
+    describe('postCCDCase()', () => {
+
+        it('Should make a http.get call', async () => {
+
+            await ccdStore.postCCDCase(userId, jurisdiction, caseType, body)
+            expect(spyPost).to.be.calledWith(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases`)
         })
     })
 })

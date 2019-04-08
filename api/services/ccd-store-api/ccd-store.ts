@@ -45,7 +45,6 @@ export async function getCCDEventTokenWithoutCase(userId: string,
     return response.data
 }
 
-//TODO: Working through
 export async function postCaseWithEventToken(userId: string, jurisdiction: string, caseTypeId: string, caseId: string, body: any): Promise<any> {
 
     const response = await http.post(
@@ -87,6 +86,7 @@ export async function getCCDCases(userId: string, jurisdiction: string, caseType
     return response.data
 }
 
+//TODO: Working through
 export async function postCCDCase(userId: string, jurisdiction: string, caseType: string, body: any): Promise<any> {
     const response = await http.post(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases`, body)
 }
