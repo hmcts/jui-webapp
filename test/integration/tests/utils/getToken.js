@@ -1,7 +1,7 @@
 //const config = require('../../../../config')
-const config = require('../../../../config/application.config.ts')
+const config = require('../../../../dist/jui-backend/config')
 const base64 = require('base-64')
-const idam_api= 'https://idam-api.aat.platform.hmcts.net'
+const idam_api= 'https://preprod-idamapi.reform.hmcts.net:3511'
 
 const idamSecret = process.env.IDAM_SECRET || 'AAAAAAAAAAAAAAAA'
 const baseUrl= process.env.TEST_URL || 'https://localhost:3000'
