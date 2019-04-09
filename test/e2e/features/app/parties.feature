@@ -10,7 +10,7 @@ Feature: Parties
         Then I will be redirected to Parties page for that case
 
 
-    @all # comment out by alec need to work with Div, FR and SSCS
+     # comment out by alec need to work with Div, FR and SSCS
     Scenario Outline: Verify Parties tab for a case type
         Then I can see that case <type> tab component
         Examples:
@@ -18,7 +18,7 @@ Feature: Parties
         |Financial remedy|
 
 
-    @all # comment out by alec need to work with Div, FR and SSCS
+   # comment out by alec need to work with Div, FR and SSCS
     Scenario Outline: Verify Petitioner details for that case type
         When I select Petitioner tab
         Then I can see Full name,Address,Phone,Email,Representative
@@ -26,7 +26,7 @@ Feature: Parties
         |type|
         |Financial remedy|
 
-    @all # comment out by alec need to work with Div, FR and SSCS
+   # comment out by alec need to work with Div, FR and SSCS
     Scenario: Verify Representative details for that case type
         When I select Respondent tab
         Then I can see Full name,Address,Phone,Email,Representative

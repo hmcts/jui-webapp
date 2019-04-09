@@ -12,32 +12,32 @@ Feature: Dashboard
         Then I should see table each column header text as Case number, Parties, Type, Decision needed on, Case received, Date of last event
 
 
-    @RIUI_370 @RIUI_418
-    Scenario Outline: Verify available case types on Jui Dashboard
-        When I am logged into JUI web app with FR judge details
-        Then I will be redirected to the JUI dashboard page
-        When one or more cases <type> are displayed
-        When I select a case <type>
-        Then I will be redirected to the Case Summary page for that case <type>
-        Examples:
-            | type             |
-            | Financial Remedy |
+#    @RIUI_370 @RIUI_418
+#    Scenario Outline: Verify available case types on Jui Dashboard
+#        When I am logged into JUI web app with FR judge details
+#        Then I will be redirected to the JUI dashboard page
+#        When one or more cases <type> are displayed
+#        When I select a case <type>
+#        Then I will be redirected to the Case Summary page for that case <type>
+#        Examples:
+#            | type             |
+#            | Financial Remedy |
 
 
 
 
-    #FR specific judge to login n verify
-    @FR_case
-    Scenario: Verify Draft consent order redirects correct case
-        When I am logged into JUI web app with FR judge details
-        Then I will be redirected to the JUI dashboard page
-        When I select a Draft consent order from decision needed on column
-        Then I will be redirected to the Case file page for that Financial remedy case
-
+#    #FR specific judge to login n verify
+#    @FR_case
+#    Scenario: Verify Draft consent order redirects correct case
+#        When I am logged into JUI web app with FR judge details
+#        Then I will be redirected to the JUI dashboard page
+#        When I select a Draft consent order from decision needed on column
+#        Then I will be redirected to the Case file page for that Financial remedy case
+#
 
 
     #SSCS specific judge
-    # @RIUI-895 @all
+     @RIUI-895 @all @smoke
     Scenario: Verify PIP cases 'Question Drafted' link redirection
         When I am logged into JUI web app with SSCS judge details
         Then I will be redirected to the JUI dashboard page

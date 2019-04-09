@@ -4,7 +4,7 @@ Feature: Dashboard
     Background:
         Given I navigate to JUI Url
 
-    @RIUI-956 @all @smoke
+    @RIUI-956 @all @smoke @crossbrowser
     Scenario: Verify Dashboard table column header texts
         When I am logged into JUI web app
         Then I will be redirected to the JUI dashboard page
