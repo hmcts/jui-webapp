@@ -6,11 +6,11 @@ const { getCCDEvents } = require('../../services/ccd-store-api/ccd-store')
 import { dataLookup as valueProcessor } from '../../lib/processors/value-processor'
 import { getHearingIdOrCreateHearing, getOnlineHearingConversation } from '../../services/cohQA'
 
-function hasCOR(jurisdiction, caseType) {
+export function hasCOR(jurisdiction) {
     return jurisdiction === 'SSCS'
 }
 
-function convertDateTime(dateObj) {
+export function convertDateTime(dateObj) {
     const conDateTime = moment(dateObj)
     const dateUtc = conDateTime.utc().format()
     const date = conDateTime.format('D MMMM YYYY')
@@ -118,7 +118,7 @@ export async function getEvents(userId, jurisdiction, caseType, caseId) {
     let cohEvents: Promise<any[]> | any = []
     const ccdEvents = await getCcdEvents(userId, jurisdiction, caseType, caseId)
 
-    if (hasCOR(jurisdiction, caseType)) {
+    if (hasCOR(jurisdiction)) {
         cohEvents = await getCohEvents(userId, caseId)
     }
 
@@ -159,3 +159,5 @@ module.exports = app => {
 }
 
 module.exports.getEvents = getEvents
+module.exports.hasCOR = hasCOR
+module.exports.convertDateTime = convertDateTime
