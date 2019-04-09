@@ -105,11 +105,11 @@ export async function getCohEvents(userId, caseId) {
 /// Event Functions
 /// ///////////////////////
 
-function combineLists(lists) {
+export function combineLists(lists) {
     return [].concat(...lists)
 }
 
-function sortEvents(events) {
+export function sortEvents(events) {
     return events.sort((result1, result2) =>
         moment.duration(moment(result2.dateUtc).diff(moment(result1.dateUtc))).asMilliseconds())
 }
@@ -161,3 +161,5 @@ module.exports = app => {
 module.exports.getEvents = getEvents
 module.exports.hasCOR = hasCOR
 module.exports.convertDateTime = convertDateTime
+module.exports.sortEvents = sortEvents
+module.exports.combineLists = combineLists

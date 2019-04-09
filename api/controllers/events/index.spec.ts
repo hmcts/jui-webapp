@@ -9,6 +9,7 @@ const moment = require('moment')
 chai.use(sinonChai)
 
 import * as eventFile from './index'
+import {sortEvents} from './index';
 
 describe('controller / events', () => {
     const res = {
@@ -69,6 +70,49 @@ describe('controller / events', () => {
                 date,
                 time
             })
+        })
+    })
+
+    describe('sortEvents()', () => {
+
+        it('Should sort events', async () => {
+
+            const events = [
+                {
+                    dateUtc: '1970-01-11',
+                },
+                {
+                    dateUtc: '1970-01-13',
+                },
+                {
+                    dateUtc: '1970-01-12',
+                },
+            ]
+
+            const expectedEvents = [
+                {
+                    dateUtc: '1970-01-13',
+                },
+                {
+                    dateUtc: '1970-01-12',
+                },
+                {
+                    dateUtc: '1970-01-11',
+                },
+            ]
+
+            expect(eventFile.sortEvents(events)).to.deep.equal(expectedEvents)
+        })
+    })
+
+    describe('combineLists()', () => {
+
+        it('Should combine two arrays', async () => {
+
+            const arrayOne = ['one', 'two', 'three']
+            const arrayTwo = ['four', 'five']
+
+            expect(eventFile.combineLists([arrayOne, arrayTwo])).to.deep.equal([...arrayOne, ...arrayTwo])
         })
     })
 })
