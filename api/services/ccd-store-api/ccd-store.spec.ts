@@ -25,23 +25,17 @@ describe('ccd Store', () => {
 
     let spy: any
     let spyPost: any
-    // let spyDelete: any
-    // let spyPatch: any
 
     beforeEach(() => {
 
         spy = sinon.stub(http, 'get').resolves(res)
         spyPost = sinon.stub(http, 'post').resolves(res)
-        // spyPatch = sinon.stub(http, 'patch').resolves(res)
-        // spyDelete = sinon.stub(http, 'delete').resolves(res)
     })
 
     afterEach(() => {
 
         spy.restore()
         spyPost.restore()
-        // spyPatch.restore()
-        // spyDelete.restore()
     })
 
     // TODO: Abstract up a level
@@ -175,6 +169,47 @@ describe('ccd Store', () => {
 
             await ccdStore.postCCDCase(userId, jurisdiction, caseType, body)
             expect(spyPost).to.be.calledWith(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases`)
+        })
+    })
+
+    describe('getMutiJudCCDCases()', () => {
+
+        it('Should make a call to getCCDCases', async () => {
+
+            const jurisdictions = [{
+                caseType: 'caseType',
+                filter: 'filter',
+                jur: 'jur',
+            }]
+
+            await ccdStore.getMutiJudCCDCases(userId, jurisdictions)
+            expect(spy).to.be.called
+        })
+    })
+
+    describe('createCase()', () => {
+
+        it('Should make a call to getCCDEventTokenWithoutCase', async () => {
+
+            const description = ''
+            const summary = ''
+            const data = {}
+
+            await ccdStore.createCase(userId, jurisdiction, caseType, eventId, description, summary, data)
+            expect(spy).to.be.calledWith(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/event-triggers/${eventId}/token`)
+        })
+    })
+
+    describe('updateCase()', () => {
+
+        it('Should make a call to getCCDEventToken', async () => {
+
+            const description = ''
+            const summary = ''
+            const data = {}
+
+            await ccdStore.updateCase(userId, jurisdiction, caseType, caseId, eventId, description, summary, data)
+            expect(spy).to.be.calledWith(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/event-triggers/${eventId}/token`)
         })
     })
 })
