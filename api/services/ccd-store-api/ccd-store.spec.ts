@@ -23,6 +23,14 @@ describe('ccd Store', () => {
 
     const url = config.services.ccd_data_api
 
+    const userId = '42'
+    const jurisdiction = 'jurisdiction'
+    const caseType = 'caseType'
+    const caseId = 'caseId'
+    const eventId = 'eventId'
+    const body = {}
+    const filter = 'filter'
+
     let spy: any
     let spyPost: any
 
@@ -38,15 +46,6 @@ describe('ccd Store', () => {
         spyPost.restore()
     })
 
-    // TODO: Abstract up a level
-    const userId = '42'
-    const jurisdiction = 'jurisdiction'
-    const caseType = 'caseType'
-    const caseId = 'caseId'
-    const eventId = 'eventId'
-    const body = {}
-    const filter = 'filter'
-
     describe('getCCDEventToken()', () => {
 
         it('Should make a http.get call', async () => {
@@ -59,7 +58,6 @@ describe('ccd Store', () => {
 
             expect(await ccdStore.getCCDEventToken(userId, jurisdiction, caseType, caseId, eventId)).to.equal(res.data)
         })
-
     })
 
     describe('getEventTokenAndCase()', () => {
@@ -74,7 +72,6 @@ describe('ccd Store', () => {
 
             expect(await ccdStore.getEventTokenAndCase(userId, jurisdiction, caseType, caseId, eventId)).to.deep.equal({token: 'tokenValue', caseDetails: 'caseDetails'})
         })
-
     })
 
     describe('getCCDEventTokenWithoutCase()', () => {
