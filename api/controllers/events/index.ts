@@ -23,11 +23,11 @@ export function convertDateTime(dateObj) {
     }
 }
 
-/// ///////////////////////
-/// CCD EVENT Data
-/// ///////////////////////
+/**
+ * CCD EVENT Data
+ */
 
-function reduceCcdEvents(jurisdiction, caseType, caseId, events) {
+export function reduceCcdEvents(jurisdiction, caseType, caseId, events) {
     return events.map(event => {
         const dateObj = convertDateTime(event.created_date)
         const dateUtc = dateObj.dateUtc
@@ -54,17 +54,17 @@ function reduceCcdEvents(jurisdiction, caseType, caseId, events) {
     })
 }
 
-async function getCcdEvents(userId, jurisdiction, caseType, caseId) {
+export async function getCcdEvents(userId, jurisdiction, caseType, caseId) {
     return await getCCDEvents(userId, jurisdiction, caseType, caseId).then(events =>
         reduceCcdEvents(jurisdiction, caseType, caseId, events)
     )
 }
 
-/// ///////////////////////
-/// COH EVENT Data
-/// ///////////////////////
+/**
+ * COH EVENT Data
+ */
 
-function getHistory(arrObject) {
+export function getHistory(arrObject) {
     return arrObject.map(arr => arr.history).reduce((history, item) => history.concat(item), [])
 }
 
@@ -101,9 +101,9 @@ export async function getCohEvents(userId, caseId) {
     return reduceCohEvents(mergedEvents)
 }
 
-/// ///////////////////////
-/// Event Functions
-/// ///////////////////////
+/**
+ * Event Functions
+ */
 
 export function combineLists(lists) {
     return [].concat(...lists)
@@ -163,3 +163,6 @@ module.exports.hasCOR = hasCOR
 module.exports.convertDateTime = convertDateTime
 module.exports.sortEvents = sortEvents
 module.exports.combineLists = combineLists
+module.exports.reduceCcdEvents = reduceCcdEvents
+module.exports.getHistory = getHistory
+module.exports.getCcdEvents = getCcdEvents
