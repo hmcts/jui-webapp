@@ -39,7 +39,6 @@
     "test:mutation": "echo 'not implemented'",
     "test:apiGateway": "echo 'not implemented'",
     "sonar-scan": "node_modules/sonar-scanner/bin/sonar-scanner",
-    "test:codecov-upload": "codecov -f ./reports/tests/coverage/lcov.info",
     "snyk": "snyk test",
     "snyk-protect": "snyk protect",
     "doc:ng": "compodoc -p src/tsconfig.app.json -s",

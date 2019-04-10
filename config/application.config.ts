@@ -4,7 +4,7 @@ export const application = {
         userId: '__userid__',
         sessionId: '__sessionId__'
     },
-    maxCCDRetries: 3,
+    maxCCDRetries: 1,
     microservice: 'jui_webapp',
     idam_client: 'juiwebapp',
     juiJudgeRole: 'jui-judge',
