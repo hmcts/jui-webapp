@@ -74,7 +74,7 @@ export function replaceSectionValues(section, caseData) {
     }
 }
 
-export function getDocIdList(documents) {
+function getDocIdList(documents) {
     return (documents || []).map(document => {
         const splitDocLink = document.document_url.split('/')
         return splitDocLink[splitDocLink.length - 1]
@@ -89,7 +89,7 @@ function appendDocIdToDocument(documents) {
     })
 }
 
-export function appendCollectedData([caseData, events, hearings, questions]) {
+function appendCollectedData([caseData, events, hearings, questions]) {
     caseData.events = events
     caseData.hearing_data = hearings && hearings.online_hearings ? hearings.online_hearings[0] : []
     caseData.question_data = questions ? questions.sort((a, b) => a.question_round_number < b.question_round_number) : []
