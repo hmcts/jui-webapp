@@ -18,8 +18,6 @@ describe('CaseBarComponent Component: Testing Input & Output', () => {
     }
     let testHostComponent: TestDummyHostComponent;
     let testHostFixture: ComponentFixture<TestDummyHostComponent>;
-    let el: DebugElement;
-    let de: any;
     let component: CaseBarComponent;
     let fixture: ComponentFixture<CaseBarComponent>;
     let element: DebugElement;
@@ -29,23 +27,11 @@ describe('CaseBarComponent Component: Testing Input & Output', () => {
         TestBed.configureTestingModule({
             providers: [
                 CaseService,
-                {
-                    provide: {
-                        ExchangeService,
-                        useValue: {
-                            events: [
-                                {
-                                    isHidden: true
-                                }
-                            ]
-                        }
-                    }
-                }
+                ExchangeService
             ],
             declarations: [ CaseBarComponent, TestDummyHostComponent ],
             schemas: [CUSTOM_ELEMENTS_SCHEMA]
-        })
-            .compileComponents();
+        }).compileComponents();
     }));
     beforeEach(() => {
         testHostFixture = TestBed.createComponent(TestDummyHostComponent);
@@ -79,12 +65,8 @@ describe('CaseBarComponent Component: Testing Input & Output', () => {
     });
     it('Exchange service included', () => {
         testHostFixture.detectChanges();
-        component.ngOnInit();
+        component.exchangeService.newEvent('hideCasebar');
         expect(component.isHidden).toBe(false);
-    });
-
-    it('Exchange service included', () => {
-        expect(component.isHidden).toBeFalsy();
     });
 });
 

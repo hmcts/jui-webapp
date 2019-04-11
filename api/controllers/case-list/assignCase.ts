@@ -1,3 +1,5 @@
+
+
 import { getMutiJudCCDCases, updateCase } from '../../services/ccd-store-api/ccd-store'
 import { getDetails } from '../../services/idam'
 
@@ -32,20 +34,20 @@ const jurisdictions = [
     // }
 ]
 
-function sortCasesByLastModifiedDate(results) {
+export function sortCasesByLastModifiedDate(results) {
     return results.sort((result1, result2) => (new Date(result2.lastModified) as any) - (new Date(result1.lastModified) as any))
 }
 
-function filterAssignedCases(cases) {
+export function filterAssignedCases(cases) {
     return cases.filter(row => !row.case_data.assignedToJudge)
 }
 
-function combineLists(lists) {
+export function combineLists(lists) {
     return [].concat(...lists)
 }
 
 // stateType is not needed atm however it could in the future
-function getAssignEventId(jurisdiction, caseType, stateType = null) {
+export function getAssignEventId(jurisdiction, caseType, stateType = null) {
     const defaultAssignToJudgeEventId = 'assignToJudge'
     const assignToJudgeEventIds = {
         sscs: {
@@ -68,7 +70,7 @@ function getAssignEventId(jurisdiction, caseType, stateType = null) {
 }
 
 // stateType is not needed atm however it could in the future
-function getUnassignEventId(jurisdiction, caseType, stateType = null) {
+export function getUnassignEventId(jurisdiction, caseType, stateType = null) {
     const defaultAssignToJudgeEventId = 'unassignToJudge'
     const assignToJudgeEventIds = {
         sscs: {
@@ -90,7 +92,7 @@ function getUnassignEventId(jurisdiction, caseType, stateType = null) {
     return template || defaultAssignToJudgeEventId
 }
 
-function generateAssignToJudgeBody(jurisdiction, caseType, eventId, email) {
+export function generateAssignToJudgeBody(jurisdiction, caseType, eventId, email) {
     const defaultAssignToJudgeBody = {
         assignedToJudge: email,
     }
@@ -118,7 +120,7 @@ function generateAssignToJudgeBody(jurisdiction, caseType, eventId, email) {
     return template || defaultAssignToJudgeBody
 }
 
-function assignToJudge(userId, awaitingJuiRespCases) {
+export function assignToJudge(userId, awaitingJuiRespCases) {
     const newCase = awaitingJuiRespCases[0]
     if (newCase) {
         const jurisdiction = newCase.jurisdiction

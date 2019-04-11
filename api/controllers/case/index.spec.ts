@@ -151,6 +151,38 @@ describe('index', () => {
             stub.restore()
         })
     })
+
+    describe('appendCollectedData', () => {
+        it('should return append collected data', () => {
+            const caseData = {}
+            const section = {
+                sections: [
+                    { fields: [{ value: 1 }] },
+                    { fields: [{ value: 2 }] },
+                ],
+            }
+            index.appendCollectedData([caseData, section, [], []])
+            expect(caseData).to.be.an('object')
+        })
+    })
+
+    describe('getDocIdList', () => {
+        it('should return split document link', () => {
+            const caseData = {}
+            const section = {
+                sections: [
+                    { fields: [{ value: 1 }] },
+                    { fields: [{ value: 2 }] },
+                ],
+            }
+            const document = {
+                document_url: 'some/path/to/heaven'
+            }
+            const dockId = index.getDocIdList([document])
+            expect(dockId).to.be.an('array')
+        })
+    })
+
     describe('getCaseData', () => {
         it('should return object', async () => {
             const sandbox = sinon.createSandbox()
