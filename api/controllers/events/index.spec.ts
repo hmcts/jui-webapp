@@ -9,8 +9,11 @@ const moment = require('moment')
 
 chai.use(sinonChai)
 
+import {http} from '../../lib/http'
+
 import * as eventFile from './index'
 import * as ccdStore from '../../services/ccd-store-api/ccd-store'
+import {config} from '../../../config';
 
 describe('controller / events', () => {
     const res = {
@@ -136,18 +139,20 @@ describe('controller / events', () => {
 
         it('Should call getCCDEvents in Ccd Store.', async () => {
 
-            let spy: any
-            spy = sinon.stub(ccdStore, 'getCCDEvents').resolves(res)
+            const url = config.services.ccd_data_api
 
             const userId = 'userId'
             const jurisdiction = 'jurisdiction'
             const caseType = 'caseType'
             const caseId = 'caseId'
 
-            expect(spy).to.be.called
-            // expect(eventFile.getCcdEvents(userId, jurisdiction, caseType, caseId)).to.deep.equal([
-            //     'history',
-            // ])
+            let spy: any
+
+            spy = sinon.stub(http, 'get').resolves(res)
+
+            eventFile.getCcdEvents(userId, jurisdiction, caseType, caseId)
+
+            expect(spy).to.be.calledWith(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/${caseId}/events`)
         })
     })
 
