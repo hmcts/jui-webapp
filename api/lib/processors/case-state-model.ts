@@ -5,7 +5,7 @@ import { GO_TO, STATE, createCaseState, getDocId } from './case-state-util'
 // Default States
 /// //////////////////////////////////////////////////////////////////////////////////////
 
-const DEFAULT_CCD_STATE = {
+export const DEFAULT_CCD_STATE = {
     when(context) {
         // TODO add check for ccd-state
         // add check context.caseData.hearingType === 'online hearing' OR
@@ -26,7 +26,7 @@ const DEFAULT_CCD_STATE = {
 // if a final decision is made in the absence of any real state change look at property of case
 // this seems pretty hacky through
 
-const ccdFinalDecisionState = {
+export const ccdFinalDecisionState = {
     when(context) {
         return !!context.caseData.decisionNotes
     },
@@ -40,7 +40,7 @@ const ccdFinalDecisionState = {
 // then
 // set state to COH Started
 // goto the casefile
-const cohState = {
+export const cohState = {
     when(context) {
         const hearingData = context.caseData.hearingData
         const hearingState = hearingData ? hearingData.current_state.state_name : undefined
@@ -57,7 +57,7 @@ const cohState = {
 // then
 // set state to Question state
 // goto the questions
-const questionState = {
+export const questionState = {
     when(context) {
         const questionRound = context.caseData.latestQuestions
         const currentState = questionRound && questionRound.questions && questionRound.questions[0].state
@@ -78,7 +78,7 @@ const questionState = {
 // then
 // set state to 'Question Elapsed'
 // goto questions
-const deadlineElapsed = {
+export const deadlineElapsed = {
     when(context) {
         const questionRound = context.caseData.latestQuestions
         return context.cohStateCheck && questionRound && questionRound.state === STATE.COH_Q_DEADLINE_ELAPSED_STATE
@@ -98,7 +98,7 @@ const deadlineElapsed = {
 // then
 // set state to 'Question Extension Expired'
 // goto questions
-const deadlineExtensionExpired = {
+export const deadlineExtensionExpired = {
     when(context) {
         const questionRound = context.caseData.latestQuestions
         const questionDeadlineElapsed =
@@ -116,7 +116,7 @@ const deadlineExtensionExpired = {
     },
 }
 
-const cohPreliminaryViewState = {
+export const cohPreliminaryViewState = {
     when(context) {
         const preliminaryView = valueOrNull(context, 'caseData.hearingData.preliminaryView.decision_state.state_name')
         return (
@@ -139,7 +139,7 @@ const cohPreliminaryViewState = {
 // then
 // set state to COH_DECISION_ISSUED_STATE
 // goto summary
-const cohDecisionState = {
+export const cohDecisionState = {
     when(context) {
         const hearingData = context.caseData.hearingData
         // TODO add check for ccd-state as well
@@ -161,7 +161,7 @@ const cohDecisionState = {
 // then
 // set state to COH_DECISION_ISSUED_STATE
 // goto summary
-const cohRelistState = {
+export const cohRelistState = {
     when(context) {
         const hearingData = context.caseData.hearingData
         // TODO add check for ccd-state as well
@@ -186,7 +186,7 @@ const cohRelistState = {
 // then
 // set state to referToJudge (Draft Content Order)
 // goto CaseFile and select Content Order
-const referredToJudge = {
+export const referredToJudge = {
     when(context) {
         return context.caseData.ccdState === STATE.FR_CCD_REFER_TO_JUDGE_STATE
     },
@@ -212,7 +212,7 @@ const referredToJudge = {
 /// ///////////////////////////////////////////////////////////////////////////////////
 /// ///////////////////////////////////////////////////////////////////////////////////
 
-const conditionProcessor = {
+export const conditionProcessor = {
     init: context => {
         return {
             evaluate: when => when(context),
@@ -221,7 +221,7 @@ const conditionProcessor = {
     },
 }
 
-const processEngineMap = {
+export const processEngineMap = {
     sscs: {
         benefit: {
             stateConditions: [
