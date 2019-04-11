@@ -156,6 +156,62 @@ describe('controller / events', () => {
         })
     })
 
+    describe('getCohEvents()', () => {
+
+        it('Should return an object.', async () => {
+
+            const userId = 'userId'
+            const caseId = 'caseId'
+
+            expect(eventFile.getCohEvents(userId, caseId)).to.exist
+        })
+    })
+
+    describe('reduceCohEvents()', () => {
+
+        it('Should have coh in the by field.', async () => {
+
+            const events = [{
+                'state_datetime' : {
+                    date: '',
+                    dateUtc: '',
+                    time: '',
+                },
+            }]
+
+            expect(eventFile.reduceCohEvents(events)[0].by).to.equal('coh')
+        })
+
+        it('Should have documents return as an empty array.', async () => {
+
+            const events = [{
+                'state_datetime' : {
+                    date: '',
+                    dateUtc: '',
+                    time: '',
+                },
+            }]
+
+            expect(eventFile.reduceCohEvents(events)[0].documents).to.deep.equal([])
+        })
+    })
+
+    describe('getEvents()', () => {
+
+        it('Should take in userId, jurisdiction, caseType, caseId.', async () => {
+
+            const events = [{
+                'state_datetime' : {
+                    date: '',
+                    dateUtc: '',
+                    time: '',
+                },
+            }]
+
+            expect(eventFile.reduceCohEvents(events)[0].by).to.equal('coh')
+        })
+    })
+
     xdescribe('reduceCcdEvents()', () => {
 
         it('Should take in jurisdiction, caseType, caseId and events.', async () => {

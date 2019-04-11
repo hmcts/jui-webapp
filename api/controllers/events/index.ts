@@ -76,7 +76,7 @@ function mergeCohEvents(eventsJson) {
     return [...history, ...questionHistory, ...answersHistory, ...decisionHistory]
 }
 
-function reduceCohEvents(events) {
+export function reduceCohEvents(events) {
     return events.map(event => {
         const dateObj = convertDateTime(event.state_datetime)
         const dateUtc = dateObj.dateUtc
@@ -166,3 +166,5 @@ module.exports.combineLists = combineLists
 module.exports.reduceCcdEvents = reduceCcdEvents
 module.exports.getHistory = getHistory
 module.exports.getCcdEvents = getCcdEvents
+module.exports.getCohEvents = getCohEvents
+module.exports.reduceCohEvents = reduceCohEvents
