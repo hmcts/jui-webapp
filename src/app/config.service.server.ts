@@ -19,8 +19,6 @@ export class ServerConfigService {
         @Inject(PLATFORM_ID) private platformId: string
     ) {
         this.config = this.state.get(this.CONFIG_KEY, null as any);
-        console.log("Request =>>>>>", request);
-        console.log("RESPONSE =>>>>>", response);
         if (!this.config) {
             config.api_base_url = this.getBaseUrl(config);
             this.state.set(this.CONFIG_KEY, config);
