@@ -10,19 +10,22 @@ export class ConfigService {
     config = null;
     CONFIG_KEY = makeStateKey('config');
     constructor(
-        public state: TransferState,
-        public cookieService: CookieService,
-        @Inject(DOCUMENT) public document: any
+        private state: TransferState,
+        private cookieService: CookieService,
+        @Inject(DOCUMENT) private document: any
     ) {
         this.config = this.state.get(this.CONFIG_KEY, null as any);
+        console.log(this.config);
         if (!this.config) {
             const config: any = { ...baseConfig };
             const platform = this.cookieService.get(config.platformCookie) || config.localEnv;
-
             config.protocol = configs[platform].default.protocol || config.protocol;
-
             config.services = configs[platform].default.services;
             config.api_base_url = this.getBaseUrl(config);
+
+            console.log(configs[platform]);
+            console.log(config.protocol);
+
             this.state.set(this.CONFIG_KEY, config);
             this.config = config;
         }
