@@ -19,6 +19,11 @@ describe('DEFAULT_CCD_STATE', () => {
         const context = {}
         expect(caseStateModule.DEFAULT_CCD_STATE.when(context)).to.be.true
     })
+    it('Should return true', () => {
+        const context = {}
+        const result = caseStateModule.DEFAULT_CCD_STATE.when(context)
+        expect(result).to.be.true
+    })
     it('should give an outcome and ccdCohStateCheck', () => {
         const context = {
             caseData:{ccdState: 'test'}
@@ -44,9 +49,10 @@ describe('ccdFinalDecisionState', () => {
             caseData: {decisionNotes: 'test'}
         }
         const sandbox = sinon.createSandbox()
-        sandbox.stub(caseStateUtil, 'createCaseState')
+        const stub = sandbox.stub(caseStateUtil, 'createCaseState')
         caseStateModule.ccdFinalDecisionState.then(context)
         expect(caseStateUtil.createCaseState).to.have.been.called
+        expect(stub).to.be.called
         sandbox.restore()
     })
 })
@@ -99,9 +105,10 @@ describe('cohState', () => {
             COH_STARTED_STATE: 'welcome'
         }
         const sandbox = sinon.createSandbox()
-        sandbox.stub(caseStateUtil, 'createCaseState')
+        const stub = sandbox.stub(caseStateUtil, 'createCaseState')
         caseStateModule.ccdFinalDecisionState.then(context)
         expect(caseStateUtil.createCaseState).to.have.been.called
+        expect(stub).to.be.called
         sandbox.restore()
     })
 })
@@ -124,9 +131,31 @@ describe('questionState', () => {
             caseData: {decisionNotes: 'test'}
         }
         const sandbox = sinon.createSandbox()
-        sandbox.stub(caseStateUtil, 'createCaseState')
+        const stub = sandbox.stub(caseStateUtil, 'createCaseState')
         caseStateModule.ccdFinalDecisionState.then(context)
         expect(caseStateUtil.createCaseState).to.have.been.called
+        expect(stub).to.be.called
+        sandbox.restore()
+    })
+    it('should give an stop to true', () => {
+        const context = {
+            caseData: {latestQuestions: {questions : [{ state: true, state_datetime: 'test' } ]}  },
+            cohStateCheck: true
+        }
+        const sandbox = sinon.createSandbox()
+        const stub = sandbox.stub(caseStateUtil, 'createCaseState').returns(
+            {
+                stateName: 'test',
+                stateDateTime: 'test',
+                actionGoTo: 'test',
+                ID: 'test',
+            }
+        )
+        caseStateModule.questionState.then(context)
+        expect(caseStateModule.questionState.then(context)).to.be.undefined
+        expect(stub).to.be.called
+        expect(context.caseData.latestQuestions).to.exist
+        expect(context.caseData.latestQuestions.questions.length).to.equal(1)
         sandbox.restore()
     })
 })
@@ -179,9 +208,10 @@ describe('cohPreliminaryViewState', () => {
             stop: false
         }
         const sandbox = sinon.createSandbox()
-        sandbox.stub(caseStateUtil, 'createCaseState')
+        const stub = sandbox.stub(caseStateUtil, 'createCaseState')
         caseStateModule.cohPreliminaryViewState.then(context)
         expect(context.stop).to.be.true
+        expect(stub).to.be.called
         sandbox.restore()
     })
 })
@@ -206,6 +236,22 @@ describe('cohDecisionState', () => {
         sandbox.stub(util, 'valueOrNull').returns('decision_issued')
         caseStateModule.cohDecisionState.when(context)
         expect(caseStateModule.cohDecisionState.when(context)).to.be.true
+        sandbox.restore()
+    })
+    it('cohDecisionState on when to return true', () => {
+        const context = {
+            caseData: {
+                hearingData: null,
+                latestQuestions: {
+                    state: 'question_deadline_elapsed'
+                },
+            },
+            cohStateCheck: true
+        }
+        const sandbox = sinon.createSandbox()
+        sandbox.stub(util, 'valueOrNull').returns('decision_issued')
+        caseStateModule.cohDecisionState.when(context)
+        expect(caseStateModule.cohDecisionState.when(context)).to.be.null
         sandbox.restore()
     })
     it('cohDecisionState on when to return false', () => {

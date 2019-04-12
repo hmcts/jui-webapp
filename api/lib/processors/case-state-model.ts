@@ -94,10 +94,11 @@ export const deadlineElapsed = {
     },
 }
 
-// if we have coh and latest questions deadline elapsed and has happen more than once
-// then
-// set state to 'Question Extension Expired'
-// goto questions
+/**
+ * if we have coh and latest questions deadline elapsed and has happen more than once
+ * then  set state to 'Question Extension Expired' goto questions
+ **/
+
 export const deadlineExtensionExpired = {
     when(context) {
         const questionRound = context.caseData.latestQuestions
