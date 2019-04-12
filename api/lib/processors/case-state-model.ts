@@ -258,14 +258,14 @@ export const processEngineMap = {
 }
 
 // given a Jurisdiction
-function getProcessEngine(jurisdiction, caseType) {
+export function getProcessEngine(jurisdiction, caseType) {
     const jud = processEngineMap[jurisdiction.toLowerCase()]
     const conditionsList = jud ? jud[caseType.toLowerCase()] : null
 
     return conditionsList || [DEFAULT_CCD_STATE]
 }
 
-function processCaseStateEngine(param) {
+export function processCaseStateEngine(param) {
     const stateConditions = getProcessEngine(param.jurisdiction, param.caseType).stateConditions
     const context = {
         caseData: param,

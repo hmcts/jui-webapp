@@ -1,6 +1,6 @@
 const caseStatusMap = require('./case-status-map')
 
-function createState(map, status) {
+export function createState(map, status) {
     return {
         name: map && map[status.stateName] ? map[status.stateName] : status.stateName,
         actionGoTo: status.actionGoTo,

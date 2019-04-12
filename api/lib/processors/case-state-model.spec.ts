@@ -12,6 +12,7 @@ import * as caseStateModule from './case-state-model'
 import * as caseStateUtil from './case-state-util'
 import * as util from '../util'
 import { GO_TO, STATE, createCaseState, getDocId } from './case-state-util'
+import {DEFAULT_CCD_STATE} from './case-state-model';
 
 describe('DEFAULT_CCD_STATE', () => {
     it('Should return true', () => {
@@ -293,14 +294,36 @@ describe('referredToJudge', () => {
 })
 
 
-describe('conditionProcessor', () => {
-    it('conditionProcessor', () => {
-        expect(1).to.be.false
-    })
-})
+// describe('conditionProcessor', () => {
+//     it('conditionProcessor', () => {
+//         expect(1).to.be.false
+//     })
+// })
 
 describe('processEngineMap', () => {
     it('processEngineMap', () => {
-        expect(caseStateUtil.processEngineMap.sscs.benefit.stateConditions).to.exist
+        expect(caseStateModule.processEngineMap.sscs.benefit.stateConditions).to.exist
+        expect(caseStateModule.processEngineMap.cmc.moneyclaimcase.stateConditions).to.exist
+        expect(caseStateModule.processEngineMap.divorce.divorce.stateConditions).to.exist
+        expect(caseStateModule.processEngineMap.divorce.financialremedymvp2.stateConditions).to.exist
     })
 })
+
+// describe('getProcessEngine', () => {
+//     it.only('getProcessEngine', () => {
+//     })
+// })
+//
+//
+// describe('processCaseStateEngine', () => {
+//     it.only('processCaseStateEngine', () => {
+//
+//         const sandbox = sinon.createSandbox()
+//         sandbox.stub(caseStateModule, 'getProcessEngine')
+//         caseStateModule.processCaseStateEngine('something')
+//         expect(caseStateUtil.createCaseState).to.have.been.called
+//         // expect(caseStateModule.DEFAULT_CCD_STATE).to.eventually.equal(true)
+//         sandbox.restore()
+//
+//     })
+// })

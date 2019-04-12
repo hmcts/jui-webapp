@@ -1,14 +1,14 @@
 
-import * as chai from 'chai'
-import 'mocha'
-import { expect } from 'chai'
-import * as sinonChai from 'sinon-chai'
-import * as caseStateUtil from './case-state-util'
-import {GO_TO} from './case-state-util'
+    import * as chai from 'chai'
+    import 'mocha'
+    import { expect } from 'chai'
+    import * as sinonChai from 'sinon-chai'
+    import * as caseStateUtil from './case-state-util'
+    import {GO_TO} from './case-state-util'
 
-chai.use(sinonChai)
+    chai.use(sinonChai)
 
-describe('CASE STATE ', () => {
+    describe('CASE STATE ', () => {
     it('should have STATE constants', () => {
         expect(caseStateUtil.STATE.FR_CCD_REFER_TO_JUDGE_STATE).to.exist
         expect(caseStateUtil.STATE.SSCS_CCD_APPEAL_CREATED).to.exist
@@ -61,7 +61,6 @@ describe('stateToBeShown', () => {
     })
 })
 
-
 describe('createCaseState', () => {
     it('should return', () => {
 
@@ -71,5 +70,10 @@ describe('createCaseState', () => {
             actionGoTo: 'c',
             ID: null,
         })
+    })
+})
+describe('getDocId', () => {
+    it('getDocId', () => {
+        expect(caseStateUtil.getDocId({document_url: '/helpme' })).to.equal('helpme')
     })
 })
