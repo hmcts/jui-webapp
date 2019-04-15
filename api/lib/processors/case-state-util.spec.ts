@@ -9,7 +9,7 @@
     chai.use(sinonChai)
 
     describe('CASE STATE ', () => {
-    it('should have STATE constants', () => {
+    it('should  STATE  have the correct properties', () => {
         expect(caseStateUtil.STATE.FR_CCD_REFER_TO_JUDGE_STATE).to.exist
         expect(caseStateUtil.STATE.SSCS_CCD_APPEAL_CREATED).to.exist
         expect(caseStateUtil.STATE.COH_STARTED_STATE).to.exist
@@ -55,14 +55,14 @@ describe('GO_TO', () => {
 })
 
 describe('stateToBeShown', () => {
-    it('should have stateToBeShown constants', () => {
+    it('should be a type of array ', () => {
         expect(caseStateUtil.stateToBeShown).to.exist
         expect(caseStateUtil.stateToBeShown).to.be.an('array')
     })
 })
 
 describe('createCaseState', () => {
-    it('should return', () => {
+    it('should return and object with properties: stateName, StateDateTime, actionGoTo ID', () => {
 
         expect(caseStateUtil.createCaseState('a', 'b', 'c', null)).to.deep.equal({
             stateName: 'a',

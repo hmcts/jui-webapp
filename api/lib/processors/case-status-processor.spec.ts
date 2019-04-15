@@ -9,7 +9,16 @@ import * as sinon from 'sinon'
 chai.use(sinonChai)
 
 describe('createState', () => {
-    it('should createState return with a proper name', () => {
+    it('Should return object with properties name, actionGoT, Id', () => {
+        const sandbox = sinon.createSandbox()
+        const map = {something: 'bravo'}
+        const status = { stateName: 'something', actionGoTo: 'yes', ID: '1' }
+        const expected = { name: 'bravo', actionGoTo: 'yes', ID: '1' }
+        const result = caseStatusProcessor.createState(map, status)
+        expect(caseStatusProcessor.createState(map, status)).to.be.deep.equal(expected)
+        sandbox.restore()
+    })
+    it('Should assign the Name properties from map object', () => {
         const sandbox = sinon.createSandbox()
         const map = {something: 'bravo'}
         const status = { stateName: 'something', actionGoTo: 'yes', ID: '1' }
@@ -18,10 +27,9 @@ describe('createState', () => {
         expect(result.name).to.equal('bravo')
         expect(result.actionGoTo).to.equal('yes')
         expect(result.ID).to.equal('1')
-        expect(caseStatusProcessor.createState(map, status)).to.be.deep.equal(expected)
         sandbox.restore()
     })
-    it('should createState return with a status.stateName', () => {
+    it('should assign the Name properties from  status obj', () => {
         const sandbox = sinon.createSandbox()
         const map = {}
         const status = { stateName: 'something', actionGoTo: 'yes', ID: '1' }
@@ -35,7 +43,7 @@ describe('createState', () => {
     })
 })
 describe('caseStatusProcessor', () => {
-    it('should caseStatusProcessor return undefined', () => {
+    it('should assign undefined to the result object properties', () => {
         const sandbox = sinon.createSandbox()
         const caseData = {jurisdiction: 'something', case_type_id: 'bravo'}
         const status = true
@@ -45,7 +53,7 @@ describe('caseStatusProcessor', () => {
         expect(result).to.be.deep.equal({ name: undefined, actionGoTo: undefined, ID: undefined })
         sandbox.restore()
     })
-    it('should caseStatusProcessor return undefined', () => {
+    it('should assign undefined that result in false', () => {
         const sandbox = sinon.createSandbox()
         const caseData = {jurisdiction: 'something', case_type_id: 'bravo'}
         const status = false

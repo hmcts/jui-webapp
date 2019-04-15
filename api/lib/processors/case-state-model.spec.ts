@@ -11,16 +11,16 @@ import { GO_TO, STATE, createCaseState, getDocId } from './case-state-util'
 import {DEFAULT_CCD_STATE} from './case-state-model'
 
 describe('DEFAULT_CCD_STATE', () => {
-    it('Should return true to context.when', () => {
+    it('Should assign true to context.when', () => {
         const context = {}
         expect(caseStateModule.DEFAULT_CCD_STATE.when(context)).to.be.true
     })
-    it('Should return true to context.when', () => {
+    it('Should assign true to context.when', () => {
         const context = {}
         const result = caseStateModule.DEFAULT_CCD_STATE.when(context)
         expect(result).to.be.true
     })
-    it('should called method createCaseState', () => {
+    it('should have called method createCaseState', () => {
         const context = {
             caseData:{ccdState: 'test'}
         }
