@@ -11,48 +11,55 @@ import { GO_TO, STATE, createCaseState, getDocId } from './case-state-util'
 import {DEFAULT_CCD_STATE} from './case-state-model'
 
 describe('DEFAULT_CCD_STATE', () => {
-    it('Should return true', () => {
+    it('Should return true to context.when', () => {
         const context = {}
         expect(caseStateModule.DEFAULT_CCD_STATE.when(context)).to.be.true
     })
-    it('Should return true', () => {
+    it('Should return true to context.when', () => {
         const context = {}
         const result = caseStateModule.DEFAULT_CCD_STATE.when(context)
         expect(result).to.be.true
     })
-    it('should give an outcome and ccdCohStateCheck', () => {
+    it('should called method createCaseState', () => {
         const context = {
             caseData:{ccdState: 'test'}
         }
         const sandbox = sinon.createSandbox()
         sandbox.stub(caseStateUtil, 'createCaseState')
-        caseStateModule.DEFAULT_CCD_STATE.then(context)
-        console.log('caseStateModule.DEFAULT_CCD_STATE', caseStateModule.DEFAULT_CCD_STATE)
         expect(caseStateUtil.createCaseState).to.have.been.called
         sandbox.restore()
     })
 })
 describe('ccdFinalDecisionState', () => {
-    it('Should return false', () => {
+    it('should assign true to context.when', () => {
         const context = {
             caseData: {decisionNotes: 'test'}
         }
         expect(caseStateModule.ccdFinalDecisionState.when(context)).to.be.true
     })
-    it('should give an stop to true', () => {
+    it('should assign true to context.then', () => {
         const context = {
             caseData: {decisionNotes: 'test'}
         }
         const sandbox = sinon.createSandbox()
         const stub = sandbox.stub(caseStateUtil, 'createCaseState')
         caseStateModule.ccdFinalDecisionState.then(context)
+        expect(stub).to.be.called
+        sandbox.restore()
+    })
+    it('should call method createCaseState()', () => {
+        const context = {
+            caseData: {decisionNotes: 'test'}
+        }
+        const sandbox = sinon.createSandbox()
+        const stub = sandbox.stub(caseStateUtil, 'createCaseState')
         expect(caseStateUtil.createCaseState).to.have.been.called
         expect(stub).to.be.called
         sandbox.restore()
     })
 })
 describe('cohState', () => {
-    it('Should return boolean undefined', () => {
+    it('Should assign undefined to context.when', () => {
         const context = {
             caseData: {
                 hearingData: {
@@ -62,18 +69,18 @@ describe('cohState', () => {
         }
         expect(caseStateModule.cohState.when(context)).to.be.undefined
     })
-    it('Should state_name have a string and return false', () => {
+    it('Should assign false to context.when', () => {
         const context = {
             caseData: {
                 hearingData: {
                     current_state: { state_name: 'welcome' }
                 }
             },
-            ccdCohStateCheck: 'ttest'
+            ccdCohStateCheck: 'test'
         }
         expect(caseStateModule.cohState.when(context)).to.be.false
     })
-    it('Should state_name have a string and return false', () => {
+    it('Should assign false to context.when', () => {
         const context = {
             caseData: {
                 hearingData: {
@@ -87,7 +94,7 @@ describe('cohState', () => {
         }
         expect(caseStateModule.cohState.when(context)).to.be.false
     })
-    it('createCaseState should be called', () => {
+    it('should have called method createCaseState', () => {
         const context = {
             caseData: {
                 hearingData: {
@@ -114,14 +121,14 @@ describe('questionState', () => {
         }
         expect(caseStateModule.questionState.when(context)).to.be.undefined
     })
-    it('', () => {
+    it('Should assign true to context.when', () => {
         const context = {
             caseData: {latestQuestions: {questions : [{ state: true }]}  },
             cohStateCheck: true
         }
         expect(caseStateModule.questionState.when(context)).to.be.true
     })
-    it('should give an stop to true', () => {
+    it('should have called createCaseState method ', () => {
         const context = {
             caseData: {decisionNotes: 'test'}
         }
@@ -132,7 +139,7 @@ describe('questionState', () => {
         expect(stub).to.be.called
         sandbox.restore()
     })
-    it('should give an stop to true', () => {
+    it('should assign undefined to context.then', () => {
         const context = {
             caseData: {latestQuestions: {questions : [{ state: true, state_datetime: 'test' } ]}  },
             cohStateCheck: true
@@ -148,7 +155,41 @@ describe('questionState', () => {
         )
         caseStateModule.questionState.then(context)
         expect(caseStateModule.questionState.then(context)).to.be.undefined
+        sandbox.restore()
+    })
+    it('should have called createCaseState method', () => {
+        const context = {
+            caseData: {latestQuestions: {questions : [{ state: true, state_datetime: 'test' } ]}  },
+            cohStateCheck: true
+        }
+        const sandbox = sinon.createSandbox()
+        const stub = sandbox.stub(caseStateUtil, 'createCaseState').returns(
+            {
+                stateName: 'test',
+                stateDateTime: 'test',
+                actionGoTo: 'test',
+                ID: 'test',
+            }
+        )
+        caseStateModule.questionState.then(context)
         expect(stub).to.be.called
+        sandbox.restore()
+    })
+    it('should context.caseData have latestQuestions array', () => {
+        const context = {
+            caseData: {latestQuestions: {questions : [{ state: true, state_datetime: 'test' } ]}  },
+            cohStateCheck: true
+        }
+        const sandbox = sinon.createSandbox()
+        const stub = sandbox.stub(caseStateUtil, 'createCaseState').returns(
+            {
+                stateName: 'test',
+                stateDateTime: 'test',
+                actionGoTo: 'test',
+                ID: 'test',
+            }
+        )
+        caseStateModule.questionState.then(context)
         expect(context.caseData.latestQuestions).to.exist
         expect(context.caseData.latestQuestions.questions.length).to.equal(1)
         sandbox.restore()
@@ -156,7 +197,7 @@ describe('questionState', () => {
 })
 
 describe('cohPreliminaryViewState', () => {
-    it('deadlineElapsed on when to return true', () => {
+    it('Should assign context.when to true', () => {
         const context = {
             caseData: {
                 latestQuestions: {
@@ -171,7 +212,7 @@ describe('cohPreliminaryViewState', () => {
         expect(caseStateModule.deadlineElapsed.when(context)).to.be.true
         sandbox.restore()
     })
-    it('deadlineElapsed on when to return false', () => {
+    it('should assign false to context.when', () => {
         const context = {
             caseData: {
                 latestQuestions: {
@@ -186,7 +227,25 @@ describe('cohPreliminaryViewState', () => {
         expect(caseStateModule.cohPreliminaryViewState.when(context)).to.be.false
         sandbox.restore()
     })
-    it('deadlineElapsed on when to return false', () => {
+    it('Should have called method createCaseState in context.then', () => {
+        const context = {
+            caseData: {
+                hearingData: {current_state: {state_name: 'continuous_online_hearing_decision_issued'}},
+                latestQuestions: {
+                    questions : [{ state: true }],
+                    state: 'dddddd'
+                },
+            },
+            cohStateCheck: true,
+            stop: false
+        }
+        const sandbox = sinon.createSandbox()
+        const stub = sandbox.stub(caseStateUtil, 'createCaseState')
+        caseStateModule.cohPreliminaryViewState.then(context)
+        expect(stub).to.be.called
+        sandbox.restore()
+    })
+    it('Should assign true to context.stop on context.then', () => {
         const context = {
             caseData: {
                 hearingData: {
@@ -206,14 +265,13 @@ describe('cohPreliminaryViewState', () => {
         const stub = sandbox.stub(caseStateUtil, 'createCaseState')
         caseStateModule.cohPreliminaryViewState.then(context)
         expect(context.stop).to.be.true
-        expect(stub).to.be.called
         sandbox.restore()
     })
 })
 
 
 describe('cohDecisionState', () => {
-    it('cohDecisionState on when to return true', () => {
+    it('Should assign true to context.when', () => {
         const context = {
             caseData: {
                 hearingData: {
@@ -233,7 +291,7 @@ describe('cohDecisionState', () => {
         expect(caseStateModule.cohDecisionState.when(context)).to.be.true
         sandbox.restore()
     })
-    it('cohDecisionState on when to return true', () => {
+    it('Should assign null to context.when', () => {
         const context = {
             caseData: {
                 hearingData: null,
@@ -249,7 +307,7 @@ describe('cohDecisionState', () => {
         expect(caseStateModule.cohDecisionState.when(context)).to.be.null
         sandbox.restore()
     })
-    it('cohDecisionState on when to return false', () => {
+    it('Should assign false to context.when', () => {
         const context = {
             caseData: {
                 hearingData: {
@@ -272,7 +330,7 @@ describe('cohDecisionState', () => {
 })
 
 describe('cohRelistState', () => {
-    it('cohRelistState on when to return true', () => {
+    it('Should assign true to context.when', () => {
         const context = {
             caseData: {
                 hearingData: 'continuous_online_hearing_relisted',
@@ -288,7 +346,7 @@ describe('cohRelistState', () => {
         expect(caseStateModule.cohRelistState.when(context)).to.be.true
         sandbox.restore()
     })
-    it('cohRelistState on when to return true', () => {
+    it('Shoudl assign true to context.when', () => {
         const context = {
             caseData: {
                 hearingData: 'ISSUE_PENDING',
@@ -304,7 +362,7 @@ describe('cohRelistState', () => {
         expect(caseStateModule.cohRelistState.when(context)).to.be.true
         sandbox.restore()
     })
-    it('cohRelistState on when to return true', () => {
+    it('Should assign to false to context.when', () => {
         const context = {
             caseData: {
                 hearingData: 'something',
@@ -322,7 +380,7 @@ describe('cohRelistState', () => {
     })
 })
 describe('referredToJudge', () => {
-    it('referredToJudge on when to return true', () => {
+    it('Should assign false to context.when', () => {
         const context = {
             caseData: {
                 ccdState: 'referredToJudge'
@@ -335,7 +393,7 @@ describe('referredToJudge', () => {
 })
 
 describe('processEngineMap', () => {
-    it('processEngineMap', () => {
+    it('Should check for properties exist', () => {
         expect(caseStateModule.processEngineMap.sscs.benefit.stateConditions).to.exist
         expect(caseStateModule.processEngineMap.cmc.moneyclaimcase.stateConditions).to.exist
         expect(caseStateModule.processEngineMap.divorce.divorce.stateConditions).to.exist
