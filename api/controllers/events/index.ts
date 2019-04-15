@@ -68,7 +68,7 @@ export function getHistory(arrObject) {
     return arrObject.map(arr => arr.history).reduce((history, item) => history.concat(item), [])
 }
 
-function mergeCohEvents(eventsJson) {
+export function mergeCohEvents(eventsJson) {
     const history = eventsJson.online_hearing.history
     const questionHistory = eventsJson.online_hearing.questions ? getHistory(eventsJson.online_hearing.questions) : []
     const answersHistory = eventsJson.online_hearing.answers ? getHistory(eventsJson.online_hearing.answers) : []
@@ -168,3 +168,4 @@ module.exports.getHistory = getHistory
 module.exports.getCcdEvents = getCcdEvents
 module.exports.getCohEvents = getCohEvents
 module.exports.reduceCohEvents = reduceCohEvents
+module.exports.mergeCohEvents = mergeCohEvents

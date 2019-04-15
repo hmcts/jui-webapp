@@ -12,70 +12,49 @@ chai.use(sinonChai)
 import {http} from '../../lib/http'
 
 import * as eventFile from './index'
-import * as ccdStore from '../../services/ccd-store-api/ccd-store'
-import {config} from '../../../config';
+import {config} from '../../../config'
 
 describe('controller / events', () => {
+
     const res = {
         data: 'okay',
     }
-
-    // let spy: any
-    // let spyDelete: any
-    // let spyPost: any
-    // let spyPatch: any
-
-    // beforeEach(() => {
-    //
-    //     spy = sinon.stub(http, 'get').resolves(res)
-    //     spyPost = sinon.stub(http, 'post').resolves(res)
-    //     spyPatch = sinon.stub(http, 'patch').resolves(res)
-    //     spyDelete = sinon.stub(http, 'delete').resolves(res)
-    // })
-    //
-    // afterEach(() => {
-    //
-    //     spy.restore()
-    //     spyPost.restore()
-    //     spyPatch.restore()
-    //     spyDelete.restore()
-    // })
 
     describe('hasCOR()', () => {
 
         it('Should return true if jurisdiction matches SSCS', async () => {
 
-            const jurisdiction = 'SSCS';
+            const jurisdiction = 'SSCS'
 
-            expect(eventFile.hasCOR(jurisdiction)).to.be.true;
-        });
+            expect(eventFile.hasCOR(jurisdiction)).to.be.true
+        })
 
         it('Should return false if jurisdiction does not match SSCS', async () => {
 
-            const jurisdiction = 'FR';
+            const jurisdiction = 'FR'
 
-            expect(eventFile.hasCOR(jurisdiction)).to.be.false;
-        });
-    });
+            expect(eventFile.hasCOR(jurisdiction)).to.be.false
+        })
+    })
 
     describe('convertDateTime()', () => {
 
         it('Should return true if jurisdiction matches SSCS', async () => {
 
-            const dateObj = new Date(946684800);
+            const dateObj = new Date(946684800)
 
-            const conDateTime = moment(dateObj);
-            const dateUtc = conDateTime.utc().format();
-            const date = conDateTime.format('D MMMM YYYY');
-            const time = conDateTime.format('h:mma');
+            const conDateTime = moment(dateObj)
+            const dateUtc = conDateTime.utc().format()
+            const date = conDateTime.format('D MMMM YYYY')
+            const time = conDateTime.format('h:mma')
 
             expect(eventFile.convertDateTime(dateObj)).to.deep.equal({
-                dateUtc,
                 date,
-                time
-            });
-        });
-    });
+                dateUtc,
+                time,
+            })
+        })
+    })
 
     describe('sortEvents()', () => {
 
@@ -91,7 +70,7 @@ describe('controller / events', () => {
                 {
                     dateUtc: '1970-01-12',
                 },
-            ];
+            ]
 
             const expectedEvents = [
                 {
@@ -103,11 +82,11 @@ describe('controller / events', () => {
                 {
                     dateUtc: '1970-01-11',
                 },
-            ];
+            ]
 
-            expect(eventFile.sortEvents(events)).to.deep.equal(expectedEvents);
-        });
-    });
+            expect(eventFile.sortEvents(events)).to.deep.equal(expectedEvents)
+        })
+    })
 
     describe('combineLists()', () => {
 
@@ -156,6 +135,10 @@ describe('controller / events', () => {
         })
     })
 
+    /**
+     * We need to be able to mock function calls within the scope to increase the
+     * test coverage here.
+     */
     describe('getCohEvents()', () => {
 
         it('Should return an object.', async () => {
@@ -167,12 +150,32 @@ describe('controller / events', () => {
         })
     })
 
+    /**
+     * This is hard to test as the function makes multiply calls to getHistory which is in the same scope.
+     */
+    describe('mergeCohEvents()', () => {
+
+        it('Should merge the coh events.', async () => {
+
+            const eventsJson = {
+                online_hearing: {
+                    answers: ['answers'],
+                    decision: ['decision'],
+                    history: ['history'],
+                    questions: ['questions'],
+                },
+            }
+
+            expect(eventFile.mergeCohEvents(eventsJson)).to.be.an('array')
+        })
+    })
+
     describe('reduceCohEvents()', () => {
 
         it('Should have coh in the by field.', async () => {
 
             const events = [{
-                'state_datetime' : {
+                'state_datetime': {
                     date: '',
                     dateUtc: '',
                     time: '',
@@ -185,7 +188,7 @@ describe('controller / events', () => {
         it('Should have documents return as an empty array.', async () => {
 
             const events = [{
-                'state_datetime' : {
+                'state_datetime': {
                     date: '',
                     dateUtc: '',
                     time: '',
@@ -196,12 +199,16 @@ describe('controller / events', () => {
         })
     })
 
+    /**
+     * We need to be able to mock function calls within the scope to increase the
+     * test coverage here.
+     */
     describe('getEvents()', () => {
 
         it('Should take in userId, jurisdiction, caseType, caseId.', async () => {
 
             const events = [{
-                'state_datetime' : {
+                'state_datetime': {
                     date: '',
                     dateUtc: '',
                     time: '',
@@ -212,13 +219,13 @@ describe('controller / events', () => {
         })
     })
 
-    xdescribe('reduceCcdEvents()', () => {
+    describe('reduceCcdEvents()', () => {
 
         it('Should take in jurisdiction, caseType, caseId and events.', async () => {
 
-            const jurisdiction = 'SCSS';
-            const caseType = 'caseType';
-            const caseId = 'caseId';
+            const jurisdiction = 'SCSS'
+            const caseType = 'caseType'
+            const caseId = 'caseId'
             const events = [
                 {
                     documents: [
@@ -227,9 +234,18 @@ describe('controller / events', () => {
                             id: '',
                         },
                     ],
-                }, {}]
+                },
+                {
+                    documents: [
+                        {
+                            document_filename: '',
+                            id: '',
+                        },
+                    ],
+                },
+            ]
 
-            expect(eventFile.reduceCcdEvents(jurisdiction, caseType, caseId, events)).to.deep.equal({});
-        });
-    });
-});
+            expect(eventFile.reduceCcdEvents(jurisdiction, caseType, caseId, events)).to.be.an('array')
+        })
+    })
+})
