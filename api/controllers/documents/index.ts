@@ -4,7 +4,7 @@ import { getDocument, getDocumentBinary } from '../../services/DMStore'
 
 const JUI_UPLOAD_DOCUMENT = 'Document Uploaded By Jui'
 
-function getUploadDocumentEventId(jurisdiction, caseType) {
+export function getUploadDocumentEventId(jurisdiction, caseType) {
     return 'someEventId'
 }
 

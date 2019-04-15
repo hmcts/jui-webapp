@@ -12,7 +12,7 @@ import * as caseStateModule from './case-state-model'
 import * as caseStateUtil from './case-state-util'
 import * as util from '../util'
 import { GO_TO, STATE, createCaseState, getDocId } from './case-state-util'
-import {DEFAULT_CCD_STATE} from './case-state-model';
+import {DEFAULT_CCD_STATE} from './case-state-model'
 
 describe('DEFAULT_CCD_STATE', () => {
     it('Should return true', () => {
