@@ -3,11 +3,7 @@ import { expect } from 'chai'
 import 'mocha'
 import * as sinon from 'sinon'
 import * as sinonChai from 'sinon-chai'
-import { mockReq, mockRes } from 'sinon-express-mock'
-
 chai.use(sinonChai)
-// below this line you  ut imports to do with our code. Above this line are all testing i ports
-import * as log4js from 'log4js'
 import * as caseStateModule from './case-state-model'
 import * as caseStateUtil from './case-state-util'
 import * as util from '../util'
@@ -33,7 +29,6 @@ describe('DEFAULT_CCD_STATE', () => {
         caseStateModule.DEFAULT_CCD_STATE.then(context)
         console.log('caseStateModule.DEFAULT_CCD_STATE', caseStateModule.DEFAULT_CCD_STATE)
         expect(caseStateUtil.createCaseState).to.have.been.called
-        // expect(caseStateModule.DEFAULT_CCD_STATE).to.eventually.equal(true)
         sandbox.restore()
     })
 })
@@ -339,13 +334,6 @@ describe('referredToJudge', () => {
     })
 })
 
-
-// describe('conditionProcessor', () => {
-//     it('conditionProcessor', () => {
-//         expect(1).to.be.false
-//     })
-// })
-
 describe('processEngineMap', () => {
     it('processEngineMap', () => {
         expect(caseStateModule.processEngineMap.sscs.benefit.stateConditions).to.exist
@@ -354,36 +342,3 @@ describe('processEngineMap', () => {
         expect(caseStateModule.processEngineMap.divorce.financialremedymvp2.stateConditions).to.exist
     })
 })
-
-// describe('getProcessEngine', () => {
-//     it.only('getProcessEngine', () => {
-//     })
-// })
-//
-// TODO: fix (this) scope
-// describe('processCaseState', () => {
-//     it.only('processCaseState', () => {
-//         const context = {
-//             jurisdiction: 'test',
-//             case_type_id: 0,
-//             case_data: {
-//                 consentOrder: '',
-//                 decisionNotes: ''
-//             },
-//             state: '',
-//             hearing_data: '',
-//             question_data: [
-//                 {
-//                     question_round_number: 1
-//                 }
-//             ]
-//         }
-//         const sandbox = sinon.createSandbox()
-//         // sandbox.stub(caseStateModule, 'processCaseStateEngine')
-//         caseStateModule.processCaseState('something')
-//         expect(caseStateUtil.createCaseState).to.have.been.called
-//         // expect(caseStateModule.DEFAULT_CCD_STATE).to.eventually.equal(true)
-//         sandbox.restore()
-//
-//     })
-// })

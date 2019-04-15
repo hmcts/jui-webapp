@@ -11,16 +11,8 @@ chai.use(sinonChai)
 describe('dataLookup', () => {
     it('', () => {
         const sandbox = sinon.createSandbox()
-
-        // const documents = [{ id: '', document_url: 'about/us' }]
-        // const caseData = { documents: [] }
         const lookup = 'ABC'
         const caseData = 'testing'
-        // sandbox.stub(caseStatusProcessor, 'createState').returns({ name: 'something', actionGoTo: 'yes', ID: '1' })
-
-        // const method = valueProcessor.dataLookup(lookup, caseData)
-        // expect(method).to.be.deep.equal(object)
-        // expect(method).to.be.deep.equal(typeof Object)
         sandbox.restore()
     })
 })
