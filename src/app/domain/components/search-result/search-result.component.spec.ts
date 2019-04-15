@@ -71,6 +71,10 @@ describe('SearchResultComponent', () => {
                 'questions': 'Error getting question rounds.',
                 'ccd-store': 'Error getting cases for DIVORCE'
             };
+        },
+
+        createHumanReadableStack() {
+            return 'ER_CASES, ER_CASES_JUR_SCSS';
         }
     };
 
