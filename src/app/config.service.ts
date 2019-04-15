@@ -15,17 +15,14 @@ export class ConfigService {
         @Inject(DOCUMENT) private document: any
     ) {
         this.config = this.state.get(this.CONFIG_KEY, null as any);
-        console.log(this.config);
         if (!this.config) {
             const config: any = { ...baseConfig };
             const platform = this.cookieService.get(config.platformCookie) || config.localEnv;
-            config.protocol = configs[platform].default.protocol || config.protocol;
+            if (configs[platform].default.protocol) {
+                config.protocol = configs[platform].default.protocol;
+            }
             config.services = configs[platform].default.services;
             config.api_base_url = this.getBaseUrl(config);
-
-            console.log(configs[platform]);
-            console.log(config.protocol);
-
             this.state.set(this.CONFIG_KEY, config);
             this.config = config;
         }

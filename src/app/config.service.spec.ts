@@ -3,10 +3,9 @@ import { CookieModule, CookieService } from 'ngx-cookie';
 import { Injectable } from '@angular/core';
 import { TransferState } from '@angular/platform-browser';
 import { ConfigService } from './config.service';
-import { configs, baseConfig } from '../../config';
+import { baseConfig } from '../../config';
 
-fdescribe('Service: ConfigService', () => {
-    let mockConfigs = configs;
+describe('Service: ConfigService', () => {
 
     class MockTransferState {
         get() {
@@ -47,33 +46,4 @@ fdescribe('Service: ConfigService', () => {
         expect(platform).toBe('local');
         expect(service).toBeTruthy();
     }));
-    // it('should return base url', inject([ConfigService], (service: ConfigService) => {
-    //     const MockMakeStateKey = makeStateKey('config'); {
-    //         return 'local';
-    //     }
-    //     service.CONFIG_KEY = MockMakeStateKey;
-    //     this.mockDocument = {
-    //         location:{
-    //             host: 'test-base-url.com'
-    //         }
-    //     }
-    //     this.mockConfData = {
-    //         protocol: 'http',
-    //     };
-    //     service['document'] = this.mockDocument;
-    //     expect(['http://test-base-url.com', 'https://test-base-url.com']).toContain(service.getBaseUrl(this.mockConfData));
-    // }));
-    // it('should return base url', inject([ConfigService], (service: ConfigService) => {
-    //     // service.CONFIG_KEY = makeStateKey('config');
-    //     // this.mockDocument = {
-    //     //     location:{
-    //     //         host: 'test-base-url.com'
-    //     //     }
-    //     // }
-    //     // this.mockConfData = {
-    //     //     protocol: 'http',
-    //     // };
-    //     // service.document = this.mockDocument;
-    //     // expect(['http://test-base-url.com', 'https://test-base-url.com']).toContain(service.getBaseUrl(this.mockConfData));
-    // }));
 });
