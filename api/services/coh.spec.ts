@@ -1,20 +1,14 @@
-import 'mocha'
-
 import * as chai from 'chai'
-import * as coh from './coh'
-import * as sinonChai from 'sinon-chai'
-import * as sinon from 'sinon'
+import { expect } from 'chai'
+import 'mocha'
 import * as moment from 'moment'
-
-import {mockReq, mockRes} from 'sinon-express-mock'
-import {expect} from 'chai'
-import {http} from '../lib/http'
-import {config} from '../../config'
-import {getHearingByCase} from './coh'
+import * as sinon from 'sinon'
+import * as sinonChai from 'sinon-chai'
+import { config } from '../../config'
+import { http } from '../lib/http'
+import * as coh from './coh'
 
 chai.use(sinonChai)
-
-// TODO: need to look into why 'this' was failing
 
 describe('Assign Case', () => {
 
@@ -23,23 +17,33 @@ describe('Assign Case', () => {
     const caseId = 'case id'
     const userId = 'user id'
     const hearingId = 'hearingId'
+    const hearing = {
+        online_hearings: [
+            {
+                online_hearing_id: 135,
+            },
+        ],
+    }
 
     const res = {
         data: 'okay',
     }
 
-    let spy: any
+    let spyGet: any
+    let spyPost: any
+    let spyPut: any
     let sandbox
 
     beforeEach(() => {
 
         sandbox = sinon.createSandbox()
 
-        spy = sandbox.stub(http, 'get').resolves(res)
+        spyGet = sandbox.stub(http, 'get').resolves(res)
+        spyPost = sandbox.stub(http, 'post').resolves(res)
+        spyPut = sandbox.stub(http, 'put').resolves(res)
     })
 
     afterEach(() => {
-
         sandbox.restore()
     })
 
@@ -53,12 +57,13 @@ describe('Assign Case', () => {
 
             coh.getHearingByCase(caseId)
 
-            expect(spy).to.be.calledWith(`${url}/continuous-online-hearings?case_id=${caseId}`)
+            expect(spyGet).to.be.calledWith(`${url}/continuous-online-hearings?case_id=${caseId}`)
         })
 
         it('Should return the data property of the return of a http.get call', async () => {
 
-            expect(await coh.getHearingByCase(caseId)).to.equal('okay')
+            const result = await coh.getHearingByCase(caseId)
+            expect(result).to.equal('okay')
         })
     })
 
@@ -67,16 +72,20 @@ describe('Assign Case', () => {
         it('Should convert date time', async () => {
 
             const dateObj = new Date('1995-12-15T03:24:00')
-            const dateAsString = String(dateObj)
+            const dateAsString = dateObj.toISOString()
 
             const momentDate = moment(dateAsString)
             const dateUtc = momentDate.utc().format()
             const date = momentDate.format('D MMMM YYYY')
             const time = momentDate.format('h:mma')
 
-            expect(coh.convertDateTime(dateAsString).date).to.equal(date)
-            expect(coh.convertDateTime(dateAsString).time).to.equal(time)
-            expect(coh.convertDateTime(dateAsString).dateUtc).to.equal(dateUtc)
+            const result = coh.convertDateTime(dateAsString)
+
+            expect(result).to.deep.equal({
+                date,
+                dateUtc,
+                time,
+            })
         })
     })
 
@@ -99,18 +108,21 @@ describe('Assign Case', () => {
                     questions: ['questions', 'questions2', 'questions3'],
                 },
             }
+            const result = coh.mergeCohEvents(eventsJson)
 
-            expect(coh.mergeCohEvents(eventsJson)).to.equal([])
+            expect(result).to.equal([])
         })
     })
 
-    xdescribe('getEvents', () => {
+    describe('getEvents', () => {
 
         it('Should take in the caseId and userId and make a call to getHearingByCase().', async () => {
 
-            const spyGetHearingByCase = sandbox.stub(coh, 'getHearingByCase').resolves(res)
+            const spyGetHearingByCase = sandbox.stub(coh, 'getHearingByCase').resolves(hearing)
 
-            coh.getEvents(caseId, userId)
+            sandbox.stub(coh, 'mergeCohEvents').returns([])
+
+            await coh.getEvents(caseId, userId)
 
             expect(spyGetHearingByCase).to.be.calledWith(caseId)
 
@@ -122,45 +134,35 @@ describe('Assign Case', () => {
 
         it('Should take in the hearingId and make a call to get the decision.', async () => {
 
-            coh.getDecision(hearingId)
+            await coh.getDecision(hearingId)
 
-            expect(spy).to.be.calledWith(`${url}/continuous-online-hearings/${hearingId}/decisions`)
+            expect(spyGet).to.be.calledWith(`${url}/continuous-online-hearings/${hearingId}/decisions`)
         })
 
         it('Should return the data property of the return of a http.get call', async () => {
-
-            expect(await coh.getDecision(hearingId)).to.equal('okay')
+            const result = await coh.getDecision(hearingId)
+            expect(result).to.equal('okay')
         })
     })
 
-    xdescribe('getOrCreateHearing', () => {
+    describe('getOrCreateHearing', () => {
 
         it('Should make a call to getHearingByCase with caseId.', async () => {
 
-            const spyGetHearingByCase = sandbox.stub(coh, 'getHearingByCase').resolves(hearingId)
+            const spyGetHearingByCase = sandbox.stub(coh, 'getHearingByCase').resolves(hearing)
 
-            coh.getOrCreateHearing(caseId, userId)
+            await coh.getOrCreateHearing(caseId, userId)
 
             expect(spyGetHearingByCase).to.be.calledWith(caseId)
-
-            spyGetHearingByCase.restore()
         })
 
         it('Should return the online_hearing_id if online_hearings are available.', async () => {
 
-            const hearing = {
-                online_hearings: [
-                    {
-                        online_hearing_id: 135,
-                    },
-                ],
-            }
+            sandbox.stub(coh, 'getHearingByCase').resolves(hearing)
 
-            const spyGetHearingByCase = sandbox.stub(coh, 'getHearingByCase').resolves(hearing)
+            const result = await coh.getOrCreateHearing(caseId, userId)
+            expect(result).to.equal(hearing.online_hearings[0].online_hearing_id)
 
-            expect(await coh.getOrCreateHearing(caseId, userId)).to.equal(hearing.online_hearings[0].online_hearing_id)
-
-            spyGetHearingByCase.restore()
         })
     })
 
@@ -168,9 +170,7 @@ describe('Assign Case', () => {
 
         it('Should take in the hearingId and make a call to post the decision.', async () => {
 
-            const spyPost = sandbox.stub(http, 'post').resolves(res)
-
-            coh.createDecision(hearingId)
+            await coh.createDecision(hearingId)
 
             expect(spyPost).to.be.calledWith(`${url}/continuous-online-hearings/${hearingId}/decisions`,
                 {
@@ -180,11 +180,10 @@ describe('Assign Case', () => {
                     decision_text: 'n/a',
                 })
 
-            spyPost.restore()
         })
     })
 
-    xdescribe('storeData', () => {
+    describe('storeData', () => {
 
         it('Should take in the hearingId and make a call to get the decision using the hearingId.', async () => {
 
@@ -197,11 +196,9 @@ describe('Assign Case', () => {
                 },
             })
 
-            coh.storeData(hearingId, data, state)
+            await coh.storeData(hearingId, data, state)
 
             expect(spyGetDecision).to.be.calledWith(hearingId)
-
-            spyGetDecision.restore()
         })
     })
 
@@ -209,27 +206,26 @@ describe('Assign Case', () => {
 
         it('Should take in the hearingId and make a call to get the decisions using the hearingId.', async () => {
 
-            coh.getData(hearingId)
+            await coh.getData(hearingId)
 
-            expect(spy).to.be.calledWith(`${url}/continuous-online-hearings/${hearingId}/decisions`)
+            expect(spyGet).to.be.calledWith(`${url}/continuous-online-hearings/${hearingId}/decisions`)
         })
     })
 
-    xdescribe('getOrCreateDecision', () => {
+    describe('getOrCreateDecision', () => {
 
         it('Should take in the caseId and userId and make a call to get or create hearing Id.', async () => {
 
             const spyGetOrCreateHearing = sandbox.stub(coh, 'getOrCreateHearing').resolves(hearingId)
 
-            coh.getOrCreateDecision(caseId, userId)
+            sandbox.stub(coh, 'createDecision').resolves(true)
+            await coh.getOrCreateDecision(caseId, userId)
 
             expect(spyGetOrCreateHearing).to.be.calledWith(caseId, userId)
-
-            spyGetOrCreateHearing.restore()
         })
     })
 
-    xdescribe('relistHearing', () => {
+    describe('relistHearing', () => {
 
         const state = 'issued'
         const reason = 'users freetext'
@@ -238,11 +234,10 @@ describe('Assign Case', () => {
 
             const spyGetOrCreateHearing = sandbox.stub(coh, 'getOrCreateHearing').resolves(hearingId)
 
-            coh.relistHearing(caseId, userId, state, reason)
+            await coh.relistHearing(caseId, userId, state, reason)
 
             expect(spyGetOrCreateHearing).to.be.calledWith(caseId, userId)
 
-            spyGetOrCreateHearing.restore()
         })
     })
 })
