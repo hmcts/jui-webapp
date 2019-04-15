@@ -360,13 +360,27 @@ describe('processEngineMap', () => {
 //     })
 // })
 //
-//
-// describe('processCaseStateEngine', () => {
-//     it.only('processCaseStateEngine', () => {
-//
+// TODO: fix (this) scope
+// describe('processCaseState', () => {
+//     it.only('processCaseState', () => {
+//         const context = {
+//             jurisdiction: 'test',
+//             case_type_id: 0,
+//             case_data: {
+//                 consentOrder: '',
+//                 decisionNotes: ''
+//             },
+//             state: '',
+//             hearing_data: '',
+//             question_data: [
+//                 {
+//                     question_round_number: 1
+//                 }
+//             ]
+//         }
 //         const sandbox = sinon.createSandbox()
-//         sandbox.stub(caseStateModule, 'getProcessEngine')
-//         caseStateModule.processCaseStateEngine('something')
+//         // sandbox.stub(caseStateModule, 'processCaseStateEngine')
+//         caseStateModule.processCaseState('something')
 //         expect(caseStateUtil.createCaseState).to.have.been.called
 //         // expect(caseStateModule.DEFAULT_CCD_STATE).to.eventually.equal(true)
 //         sandbox.restore()

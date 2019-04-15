@@ -4,4 +4,3 @@
 --bail
 --exit
 **/*.spec.ts
---exclude controllers/documents
