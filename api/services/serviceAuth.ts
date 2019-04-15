@@ -19,6 +19,7 @@ export async function postS2SLease() {
     return request.data
 }
 
+
 export default app => {
     const router = express.Router({ mergeParams: true })
     app.use('/s2s', router)
