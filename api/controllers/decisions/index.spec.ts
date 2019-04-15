@@ -11,7 +11,6 @@ import * as states from './states'
 describe('Decisions', () => {
     it('should have called cohDecisionRoutes Method', () => {
         const sandbox = sinon.createSandbox()
-        // const stub = sandbox.stub(decisionsIndex, 'default')
         const stub = sandbox.stub(cohDecisionsRoutes, 'default')
         const stubstates = sandbox.stub(states, 'default')
         decisionsIndex.default('test')
