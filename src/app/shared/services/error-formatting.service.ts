@@ -31,4 +31,26 @@ export class ErrorFormattingService {
 
         return minimalErrorStack;
     }
+
+    /**
+     * createHumanReadableStack
+     *
+     * Create a human readable error stack, that can be displayed to the User, so that they
+     * are able to take a screenshot of it, to help us diagnose their issue.
+     *
+     * @param minimalErrorStack
+     * @returns {string}
+     */
+    createHumanReadableStack(minimalErrorStack) {
+
+        const humanReadableErrors = [];
+
+        for (const error in minimalErrorStack) {
+            if (minimalErrorStack.hasOwnProperty(error)) {
+                humanReadableErrors.push(minimalErrorStack[error]);
+            }
+        }
+
+        return humanReadableErrors.join(', ');
+    }
 }

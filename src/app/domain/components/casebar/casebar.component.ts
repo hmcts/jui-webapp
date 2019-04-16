@@ -14,11 +14,12 @@ export class CaseBarComponent implements OnInit {
     isHidden = false;
 
     constructor(
-        private service: ExchangeService
+        public exchangeService: ExchangeService
     ) {}
 
     ngOnInit() {
-        this.service.events.forEach(event => {
+        console.log('Events', this.exchangeService.events);
+        this.exchangeService.events.forEach(event => {
             if (event === 'hideCasebar') {
                 this.isHidden = true;
             }

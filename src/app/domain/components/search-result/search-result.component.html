@@ -6,6 +6,7 @@
         </div><div></div><div></div><div></div><div></div><div></div></div>
 
         <!-- Cases -->
+        <h1 *ngSwitchCase="CASES_LOAD_SUCCESSFULLY" class="govuk-heading-xl">Your cases</h1>
         <app-table *ngSwitchCase="CASES_LOAD_SUCCESSFULLY" [data]="cases"></app-table>
 
         <!-- User has no cases -->
@@ -15,7 +16,29 @@
 
         <!-- Error -->
         <div *ngSwitchCase="CASES_LOAD_ERROR">
-            <div data-selector="error-text" class="govuk-error-message">There was an error getting your cases.</div>
+
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    <h1 class="govuk-heading-xl">Sorry, there is a problem with the service</h1>
+                    <p class="govuk-body">Try again later.</p>
+                    <p class="govuk-body">
+                        Contact the IT service desk quoting {{humanReadableErrorStack}} with the time of
+                        {{browserTime}} if you have any questions.
+                    </p>
+                    <p class="govuk-body">
+                        Telephone:<br>
+                        <strong class="govuk-!-font-weight-bold">0300 303 0686</strong>
+                    </p>
+                    <p class="govuk-body">
+                        Email:<br>
+                        <strong class="govuk-!-font-weight-bold">DCD-ITServiceDesk@hmcts.net</strong>
+                    </p>
+                    <p class="govuk-body">
+                        Opening times:<br>
+                        <strong class="govuk-!-font-weight-bold">Monday to Friday: 8am to 6pm</strong>
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 </div>

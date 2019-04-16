@@ -7,6 +7,7 @@ const moment = require('moment')
 
 import * as headerUtilities from '../../lib/utilities/headerUtilities'
 import {getHearingByCase} from "../../services/cohQA"
+import {ERROR_UNABLE_TO_APPEND_QRS_HEARING, ERROR_UNABLE_TO_APPEND_QRS_ROUNDS} from "../../lib/errors"
 
 const logger = log4jui.getLogger('questions')
 
@@ -133,9 +134,9 @@ export function formatAnswer(body = null) {
 }
 
 export async function getAllQuestionsByCase(caseId, userId, jurisdiction) {
-    const r1 = await asyncReturnOrError(getHearingByCase(caseId), 'Error getting hearing by case.', null, logger)
+    const r1 = await asyncReturnOrError(getHearingByCase(caseId), ERROR_UNABLE_TO_APPEND_QRS_HEARING.humanStatusCode, null, logger)
     const r2 = r1.online_hearings[0] ? r1.online_hearings[0].online_hearing_id : createHearing(caseId, userId, jurisdiction)
-    const r3 = await asyncReturnOrError(cohCor.getAllRounds(r2), 'Error getting question rounds.', null, logger)
+    const r3 = await asyncReturnOrError(cohCor.getAllRounds(r2), ERROR_UNABLE_TO_APPEND_QRS_ROUNDS.humanStatusCode, null, logger)
     return r3 && formatRounds(r3.question_rounds)
 }
 

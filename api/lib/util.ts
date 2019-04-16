@@ -23,6 +23,7 @@ export function asyncReturnOrError(
         })
         .catch(err => {
             const msg = `${message}`
+
             logger.error(msg)
 
             if (setResponse) {

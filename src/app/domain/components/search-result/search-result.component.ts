@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CaseService} from '../../services/case.service';
 import {ErrorFormattingService} from '../../../shared/services/error-formatting.service';
+import * as moment from 'moment';
 
 @Component({
     selector: 'app-search-result',
@@ -22,6 +23,8 @@ export class SearchResultComponent implements OnInit {
     cases: Object;
     errorStackResponse: Object;
     minimalErrorStack: Object;
+    humanReadableErrorStack: String;
+    browserTime: String;
 
     componentState = this.LOADING;
 
@@ -55,12 +58,24 @@ export class SearchResultComponent implements OnInit {
         this.errorStackResponse = errorStack.error.response.data;
 
         this.minimalErrorStack = this.errorFormattingService.createMinimalErrorStack(errorStack.error);
+        this.humanReadableErrorStack = this.errorFormattingService.createHumanReadableStack(this.minimalErrorStack);
 
+        this.browserTime = moment().format(`D MMMM YYYY, h:mm:ss a`);
+
+        /**
+         * Please keep the following console logs in here, as then
+         * we are able to debug while with Clients / Judges.
+         */
         console.log('HttpErrorResponse Error:');
         console.log(errorStack);
 
         console.log('Minimal Error Stack:');
         console.log(this.minimalErrorStack);
+
+        console.log('Human Readable Error Stack:');
+        console.log(this.humanReadableErrorStack);
+
+        console.log(this.browserTime);
     }
 
     /**

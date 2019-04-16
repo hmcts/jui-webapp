@@ -4,12 +4,13 @@ import { http } from '../lib/http'
 
 import { ERROR_NO_HEARING_IDENTIFIER, ERROR_UNABLE_TO_RELIST_HEARING } from '../lib/config/cohConstants'
 import * as log4jui from '../lib/log4jui'
-import { valueOrNull } from '../lib/util'
 import { DateTimeObject } from '../lib/models'
+import { valueOrNull } from '../lib/util'
 
 export const url = config.services.coh_cor_api
 
 const logger = log4jui.getLogger('COH')
+const that = this
 
 export function convertDateTime(dateObj: string): DateTimeObject {
 
@@ -55,18 +56,18 @@ export async function getHearingByCase(caseId: string): Promise<any> {
 export async function getEvents(caseId: string, userId: string): Promise<any[]> {
     let hearingId
 
-    const hearing = await getHearingByCase(caseId)
+    const hearing = await that.getHearingByCase(caseId)
 
     if (hearing) {
         hearingId = hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : null
     } else {
-        hearingId = await createHearing(caseId, userId)
+        hearingId = await that.createHearing(caseId, userId)
     }
 
     const response = await http.get(`${url}/continuous-online-hearings/${hearingId}/conversations`)
 
-    return mergeCohEvents(response.data).map(event => {
-        const dateObj = convertDateTime(event.state_datetime)
+    return that.mergeCohEvents(response.data).map(event => {
+        const dateObj = that.convertDateTime(event.state_datetime)
         const dateUtc = dateObj.dateUtc
         const date = dateObj.date
         const time = dateObj.time
@@ -89,13 +90,13 @@ export async function getDecision(hearingId: string): Promise<any> {
 }
 
 export async function getOrCreateHearing(caseId, userId) {
-    const hearing = await getHearingByCase(caseId)
+    const hearing = await that.getHearingByCase(caseId)
     let hearingId
 
     if (hearing) {
         hearingId = hearing.online_hearings[0] ? hearing.online_hearings[0].online_hearing_id : null
     } else {
-        hearingId = await createHearing(caseId, userId)
+        hearingId = await that.createHearing(caseId, userId)
     }
 
     return hearingId
@@ -116,7 +117,7 @@ export async function storeData(hearingId, data, state = 'decision_drafted') {
     // okay we need to check the state of the decision. Not very efficent to do this every set, but
     // while things are being sorted out this is safest
 
-    const decision = await getDecision(hearingId)
+    const decision = await that.getDecision(hearingId)
 
     if (
         valueOrNull(decision, 'decision_state.state_name') !== 'decision_issued' &&
@@ -152,14 +153,14 @@ export async function getOrCreateDecision(caseId, userId) {
     let decisionId
     let decision
 
-    const hearingId = await getOrCreateHearing(caseId, userId)
+    const hearingId = await that.getOrCreateHearing(caseId, userId)
 
     if (!hearingId) {
         logger.error('Error getting hearing for decision!')
     } else {
         logger.info(`Got hearding for case ${caseId}`)
         try {
-            decision = await getDecision(hearingId)
+            decision = await that.getDecision(hearingId)
             logger.info('decision:', JSON.stringify(decision))
         } catch (error) {
             logger.info(`Can't find decision`)
@@ -170,7 +171,7 @@ export async function getOrCreateDecision(caseId, userId) {
         }
         if (!(decision && decisionId)) {
             logger.info(`Can't find decision, creating`)
-            decisionId = await createDecision(hearingId)
+            decisionId = await that.createDecision(hearingId)
         }
     }
 
@@ -196,7 +197,7 @@ export async function getOrCreateDecision(caseId, userId) {
  * @return {Promise}
  */
 export async function relistHearing(caseId: string, userId: string, state: string, reason: string): Promise<any> {
-    const hearingId = await getOrCreateHearing(caseId, userId)
+    const hearingId = await that.getOrCreateHearing(caseId, userId)
 
     if (!hearingId) {
         return Promise.reject({
@@ -229,11 +230,11 @@ export class Store {
     async set(key, value) {
         const data = {}
         data[key] = value
-        await storeData(this.hearingId, data)
+        await that.storeData(this.hearingId, data)
     }
 
     async get(key) {
-        const data = await getData(this.hearingId)
+        const data = await that.getData(this.hearingId)
         return data[key]
     }
 }
