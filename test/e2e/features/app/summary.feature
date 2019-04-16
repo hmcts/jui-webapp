@@ -31,7 +31,7 @@ Feature: View Case Summary Page
          Then I will be redirected to the JUI dashboard page
 
 
-   # @all
+    @all
     Scenario: Verify summary page sub nav links and their redirected pages
         Then I should see Summary sub nav link
         Then I can see sub nav links as Parties,Case file,Timeline

@@ -10,17 +10,17 @@ export class ConfigService {
     config = null;
     CONFIG_KEY = makeStateKey('config');
     constructor(
-        public state: TransferState,
-        public cookieService: CookieService,
-        @Inject(DOCUMENT) public document: any
+        private state: TransferState,
+        private cookieService: CookieService,
+        @Inject(DOCUMENT) private document: any
     ) {
         this.config = this.state.get(this.CONFIG_KEY, null as any);
         if (!this.config) {
             const config: any = { ...baseConfig };
             const platform = this.cookieService.get(config.platformCookie) || config.localEnv;
-
-            config.protocol = configs[platform].default.protocol || config.protocol;
-
+            if (configs[platform].default.protocol) {
+                config.protocol = configs[platform].default.protocol;
+            }
             config.services = configs[platform].default.services;
             config.api_base_url = this.getBaseUrl(config);
             this.state.set(this.CONFIG_KEY, config);

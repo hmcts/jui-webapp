@@ -6,11 +6,11 @@ const { getCCDEvents } = require('../../services/ccd-store-api/ccd-store')
 import { dataLookup as valueProcessor } from '../../lib/processors/value-processor'
 import { getHearingIdOrCreateHearing, getOnlineHearingConversation } from '../../services/cohQA'
 
-function hasCOR(jurisdiction, caseType) {
+export function hasCOR(jurisdiction) {
     return jurisdiction === 'SSCS'
 }
 
-function convertDateTime(dateObj) {
+export function convertDateTime(dateObj) {
     const conDateTime = moment(dateObj)
     const dateUtc = conDateTime.utc().format()
     const date = conDateTime.format('D MMMM YYYY')
@@ -23,11 +23,11 @@ function convertDateTime(dateObj) {
     }
 }
 
-/// ///////////////////////
-/// CCD EVENT Data
-/// ///////////////////////
+/**
+ * CCD EVENT Data
+ */
 
-function reduceCcdEvents(jurisdiction, caseType, caseId, events) {
+export function reduceCcdEvents(jurisdiction, caseType, caseId, events) {
     return events.map(event => {
         const dateObj = convertDateTime(event.created_date)
         const dateUtc = dateObj.dateUtc
@@ -54,21 +54,21 @@ function reduceCcdEvents(jurisdiction, caseType, caseId, events) {
     })
 }
 
-async function getCcdEvents(userId, jurisdiction, caseType, caseId) {
+export async function getCcdEvents(userId, jurisdiction, caseType, caseId) {
     return await getCCDEvents(userId, jurisdiction, caseType, caseId).then(events =>
         reduceCcdEvents(jurisdiction, caseType, caseId, events)
     )
 }
 
-/// ///////////////////////
-/// COH EVENT Data
-/// ///////////////////////
+/**
+ * COH EVENT Data
+ */
 
-function getHistory(arrObject) {
+export function getHistory(arrObject) {
     return arrObject.map(arr => arr.history).reduce((history, item) => history.concat(item), [])
 }
 
-function mergeCohEvents(eventsJson) {
+export function mergeCohEvents(eventsJson) {
     const history = eventsJson.online_hearing.history
     const questionHistory = eventsJson.online_hearing.questions ? getHistory(eventsJson.online_hearing.questions) : []
     const answersHistory = eventsJson.online_hearing.answers ? getHistory(eventsJson.online_hearing.answers) : []
@@ -76,7 +76,7 @@ function mergeCohEvents(eventsJson) {
     return [...history, ...questionHistory, ...answersHistory, ...decisionHistory]
 }
 
-function reduceCohEvents(events) {
+export function reduceCohEvents(events) {
     return events.map(event => {
         const dateObj = convertDateTime(event.state_datetime)
         const dateUtc = dateObj.dateUtc
@@ -101,15 +101,15 @@ export async function getCohEvents(userId, caseId) {
     return reduceCohEvents(mergedEvents)
 }
 
-/// ///////////////////////
-/// Event Functions
-/// ///////////////////////
+/**
+ * Event Functions
+ */
 
-function combineLists(lists) {
+export function combineLists(lists) {
     return [].concat(...lists)
 }
 
-function sortEvents(events) {
+export function sortEvents(events) {
     return events.sort((result1, result2) =>
         moment.duration(moment(result2.dateUtc).diff(moment(result1.dateUtc))).asMilliseconds())
 }
@@ -118,7 +118,7 @@ export async function getEvents(userId, jurisdiction, caseType, caseId) {
     let cohEvents: Promise<any[]> | any = []
     const ccdEvents = await getCcdEvents(userId, jurisdiction, caseType, caseId)
 
-    if (hasCOR(jurisdiction, caseType)) {
+    if (hasCOR(jurisdiction)) {
         cohEvents = await getCohEvents(userId, caseId)
     }
 
@@ -159,3 +159,13 @@ module.exports = app => {
 }
 
 module.exports.getEvents = getEvents
+module.exports.hasCOR = hasCOR
+module.exports.convertDateTime = convertDateTime
+module.exports.sortEvents = sortEvents
+module.exports.combineLists = combineLists
+module.exports.reduceCcdEvents = reduceCcdEvents
+module.exports.getHistory = getHistory
+module.exports.getCcdEvents = getCcdEvents
+module.exports.getCohEvents = getCohEvents
+module.exports.reduceCohEvents = reduceCohEvents
+module.exports.mergeCohEvents = mergeCohEvents

@@ -18,12 +18,14 @@ import { getNewCase, unassignAllCaseFromJudge } from './assignCase'
 
 const getListTemplate = require('./templates/index')
 const { caseStateFilter } = require('../../lib/processors/case-state-util')
+import { ERROR_UNABLE_TO_APPEND_TO_COR, ERROR_UNABLE_TO_APPEND_QRS, ERROR_UNABLE_TO_GET_CASES, ERROR_UNABLE_TO_GET_HEARING_BY_CASE } from '../../lib/errors'
 const logger = log4jui.getLogger('case-list')
 
 export async function getCOR(res, casesData) {
     const caseIds = casesData.map(caseRow => `${caseRow.id}`).join('&case_id=')
 
-    const hearings = await asyncReturnOrError(getHearingByCase(caseIds), ' Error getting COR', res, logger, false)
+    const hearings = await asyncReturnOrError(getHearingByCase(caseIds), ERROR_UNABLE_TO_GET_HEARING_BY_CASE.humanStatusCode,
+        res, logger, false)
     if (hearings && hearings.online_hearings) {
 
         const caseStateMap = new Map(hearings.online_hearings.map(hearing => [Number(hearing.case_id), hearing]))
@@ -162,11 +164,16 @@ function hasCases(caseList) {
 export async function getMutiJudCaseTransformed(res, userDetails) {
     let caseLists
 
-    caseLists = await asyncReturnOrError(getMutiJudCaseAssignedCases(userDetails), 'Error getting Multi' +
+    const jurisdictions = filterByCaseTypeAndRole(userDetails)
+
+    caseLists = await asyncReturnOrError(getMutiJudCCDCases(userDetails.id, jurisdictions), 'Error getting Multi' +
         'Jurisdictional assigned cases.', null, logger, false)
-    caseLists = await asyncReturnOrError(appendCOR(res, caseLists), 'Error appending to COR.', null, logger, false)
+
+    caseLists = await asyncReturnOrError(appendCOR(res, caseLists), ERROR_UNABLE_TO_APPEND_TO_COR.humanStatusCode,
+        null, logger, false)
+
     caseLists = await asyncReturnOrError(appendQuestionsRound(caseLists, userDetails.id),
-        'Error appending question rounds.', null, logger, false)
+        ERROR_UNABLE_TO_APPEND_QRS.humanStatusCode, null, logger, false)
 
     caseLists = processCaseListsState(caseLists)
     caseLists = applyStateFilter(caseLists)
@@ -234,7 +241,8 @@ export async function getCases(res) {
         res.setHeader('content-type', 'application/json')
         res.status(200).send(JSON.stringify(results))
     } else {
-        logger.error('Unable to get any cases.')
+        logger.error(ERROR_UNABLE_TO_GET_CASES.humanStatusCode)
+
         res.status(500).send(JSON.stringify(errorStack.get()))
     }
 }
