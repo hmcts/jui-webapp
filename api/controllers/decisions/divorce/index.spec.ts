@@ -1,3 +1,4 @@
+/* tslint:disable:no-unused-expression no-var-requires */
 import * as chai from 'chai'
 import { expect } from 'chai'
 import 'mocha'
@@ -5,6 +6,7 @@ import * as moment from 'moment'
 import * as sinon from 'sinon'
 import * as sinonChai from 'sinon-chai'
 import { mockReq, mockRes } from 'sinon-express-mock'
+import { config } from '../../../../config'
 import * as log4jui from '../../../lib/log4jui'
 import * as headerUtilities from '../../../lib/utilities/headerUtilities'
 import * as divorce from './index'
@@ -13,7 +15,6 @@ import * as translateJson from './translate'
 const ccdStore = require('../../../services/ccd-store-api/ccd-store')
 
 chai.use(sinonChai)
-
 describe('Decisions - Divorce', () => {
 
     let sandbox
@@ -39,6 +40,7 @@ describe('Decisions - Divorce', () => {
     const res = mockRes()
     const store = {
         approveDraftConsent: 'yes',
+        documentAnnotationId: 'annotationId',
         notesForAdmin: 'test note',
     }
 
@@ -66,7 +68,7 @@ describe('Decisions - Divorce', () => {
                 orderDirectionAddComments: store.notesForAdmin,
                 orderDirectionDate: 'YYYY-MM-DD',
                 orderDirectionJudge: 'District Judge',
-                orderDirectionJudgeName: `${user.forename} ${user.surname} `,
+                orderDirectionJudgeName: `${user.forename} ${user.surname} `
             },
             event: {
                 id: 'eventId',
@@ -98,6 +100,63 @@ describe('Decisions - Divorce', () => {
             const result = divorce.translate(translateJson.lookup, fieldName)
             expect(result).to.be.null
         })
+    })
+
+    describe('prepareCaseForRefusal', () => {
+
+        const user = { forename: 'Test', surname: 'User' }
+        let caseForRefusal
+        let orderRefusalCollection
+        beforeEach(() => {
+            sandbox.stub(moment.fn, 'format').callsFake(() => 'YYYY-MM-DD')
+            orderRefusalCollection = {
+                orderRefusalAddComments: store.notesForAdmin,
+                    orderRefusalDate: 'YYYY-MM-DD',
+                orderRefusalDocs: {
+                document_binary_url:
+                    `${config.services.dm_store_api}/documents/${store.documentAnnotationId}/binary`,
+                        document_url:
+                `${config.services.dm_store_api}/documents/${store.documentAnnotationId}`,
+            },
+                orderRefusalJudge: 'District Judge',
+                    orderRefusalJudgeName: `${user.forename} ${user.surname} `,
+            }
+            caseForRefusal = {
+                data: {
+                    orderRefusalCollection,
+                },
+                event: { id: 'eventId' },
+                event_token: 'token',
+                ignore_warning: true,
+            }
+        })
+
+        it('should return default payload', () => {
+
+            const payload = divorce.prepareCaseForRefusal(caseForRefusal.event_token, caseForRefusal.event.id, user, store)
+
+            expect(payload).to.deep.equal(caseForRefusal)
+        })
+
+        it('should add hearing details if parties need attend', () => {
+            const hearingDetails = {
+                estimateLengthOfHearing: 10,
+                partiesNeedAttend: true,
+                whenHearingPlaced: '01/01/2020',
+            }
+            const newStore = {...store, ...hearingDetails}
+            const payload = divorce.prepareCaseForRefusal(caseForRefusal.event_token, caseForRefusal.event.id, user, newStore)
+
+            caseForRefusal.data.orderRefusalCollection = {...caseForRefusal.data.orderRefusalCollection, ...{
+                    estimateLengthOfHearing: 10,
+                    whenShouldHearingTakePlace: '01/01/2020',
+                },
+            }
+
+            expect(payload).to.deep.equal(caseForRefusal)
+        })
+
+        it('should ')
     })
 
     describe('getEventTokenForMakeDecision', () => {
@@ -156,6 +215,74 @@ describe('Decisions - Divorce', () => {
                 expect(result).to.be.false
             })
         })
+    })
+
+    describe('getPayloadDataForMakeDecision', () => {
+
+        const payloadData = {
+            data: {},
+            event: {
+                id: 1,
+            },
+            event_token: 'token',
+            ignore_warning: true,
+        }
+
+        beforeEach(() => {
+            sandbox.stub(divorce, 'getEventTokenForMakeDecision').resolves({ token: 'test' })
+            sandbox.stub(divorce, 'prepareCaseForApproval').returns(payloadData)
+            sandbox.stub(divorce, 'prepareCaseForRefusal').returns(payloadData)
+        })
+
+        it('should call prepareCaseForApproval if decision is yes', async () => {
+            const result = await divorce.getPayloadDataForMakeDecision('yes', req, state, store)
+            expect(result).to.deep.equal(payloadData)
+            expect(divorce.prepareCaseForApproval).to.have.been.called
+        })
+
+        it('should call prepareCaseForRefusal if decision is no', async () => {
+            const result = await divorce.getPayloadDataForMakeDecision('no', req, state, store)
+            expect(result).to.deep.equal(payloadData)
+            expect(divorce.prepareCaseForRefusal).to.have.been.called
+        })
+
+    })
+
+    describe('makeDecision', () => {
+
+        beforeEach(() => {
+            sandbox.stub(divorce, 'getPayloadDataForMakeDecision').returns({ payload: 'test' })
+            sandbox.stub(divorce, 'getOptions').returns(true)
+        })
+
+        describe('success', () => {
+
+            it('should make a call to getPayloadDataForMakeDecision', async () => {
+                sandbox.stub(ccdStore, 'postCaseWithEventToken').resolves(true)
+                const result = await divorce.makeDecision('yes', req, state, store)
+                expect(result).to.be.true
+                expect(ccdStore.postCaseWithEventToken).to.have.been.called
+            })
+        })
+        describe('exceptions', () => {
+
+            let result
+
+            beforeEach(async () => {
+                sandbox.stub(ccdStore, 'postCaseWithEventToken').throws('Invalid token')
+                result = await divorce.makeDecision('yes', req, state, store)
+            })
+
+            it('should catch any exceptions', () => {
+                expect(result).to.be.false
+                expect(ccdStore.postCaseWithEventToken).to.have.been.called
+            })
+
+            it('should log errors on exception', () => {
+                expect(logger.error).to.have.been.calledWith('Error sending event')
+            })
+        })
+
     })
 
     describe('payload.divorce', () => {

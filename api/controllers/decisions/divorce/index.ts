@@ -1,5 +1,6 @@
+/* tslint:disable:no-var-requires */
 import * as exceptionFormatter from 'exception-formatter'
-import { Request, Response } from 'express'
+import { Request } from 'express'
 import { config } from '../../../../config'
 import * as log4jui from '../../../lib/log4jui'
 
@@ -20,6 +21,7 @@ const ERROR400 = 400
 const exceptionOptions = {
     maxLines: 1,
 }
+const that = this
 
 export function getOptions(req) {
     return headerUtilities.getAuthHeaders(req)
@@ -65,26 +67,26 @@ export function prepareCaseForRefusal(eventToken, eventId, user, store) {
 
     /* eslint-disable-next-line id-blacklist */
 
-    orderRefusal.push(translate(store, 'orderNotAppearOfS25ca1973'))
-    orderRefusal.push(translate(store, 'd81'))
-    orderRefusal.push(translate(store, 'pensionAnnex'))
-    orderRefusal.push(translate(store, 'applicantTakenAdvice'))
-    orderRefusal.push(translate(store,  'respondentTakenAdvice'))
+    orderRefusal.push(that.translate(store, 'orderNotAppearOfS25ca1973'))
+    orderRefusal.push(that.translate(store, 'd81'))
+    orderRefusal.push(that.translate(store, 'pensionAnnex'))
+    orderRefusal.push(that.translate(store, 'applicantTakenAdvice'))
+    orderRefusal.push(that.translate(store,  'respondentTakenAdvice'))
 
     if (store.partiesNeedAttend) {
         estimateLengthOfHearing = store.estimateLengthOfHearing
         whenShouldHearingTakePlace = store.whenHearingPlaced
-        whereShouldHearingTakePlace = translate(store, 'whichCourt')
+        whereShouldHearingTakePlace = that.translate(store, 'whichCourt')
         otherHearingDetails = store.otherHearingDetails
     }
 
     if (store.NotEnoughInformation) {
-        orderRefusalNotEnough.push(translate(store, 'capitalPositions'))
-        orderRefusalNotEnough.push(translate(store, 'partiesHousingNeeds'))
-        orderRefusalNotEnough.push(translate(store, 'justificationDeparture'))
-        orderRefusalNotEnough.push(translate(store, 'partiesPensionProvision'))
-        orderRefusalNotEnough.push(translate(store, 'childrensHousingNeeds'))
-        orderRefusalNotEnough.push(translate(store, 'netEffectOrder'))
+        orderRefusalNotEnough.push(that.translate(store, 'capitalPositions'))
+        orderRefusalNotEnough.push(that.translate(store, 'partiesHousingNeeds'))
+        orderRefusalNotEnough.push(that.translate(store, 'justificationDeparture'))
+        orderRefusalNotEnough.push(that.translate(store, 'partiesPensionProvision'))
+        orderRefusalNotEnough.push(that.translate(store, 'childrensHousingNeeds'))
+        orderRefusalNotEnough.push(that.translate(store, 'netEffectOrder'))
     }
 
     orderRefusal = orderRefusal.filter(x => Boolean(x))
@@ -99,11 +101,11 @@ export function prepareCaseForRefusal(eventToken, eventId, user, store) {
     }
 
     if (store.other) {
-        orderRefusalNotEnoughOther = translate(store, 'informationNeeded')
+        orderRefusalNotEnoughOther = that.translate(store, 'informationNeeded')
     }
 
     if (store.other2) {
-        orderRefusalOther = translate(store, 'Reason')
+        orderRefusalOther = that.translate(store, 'Reason')
     }
 
     const orderRefusalCollection: any = {
@@ -165,7 +167,7 @@ export async function getEventTokenForMakeDecision(decision: string, req: Reques
             'FinancialRemedyMVP2',
             state.caseId,
             event,
-            this.getOptions(req)
+            that.getOptions(req)
         )
 
         eventToken = eventTokenAndCase.token
@@ -179,17 +181,17 @@ export async function getEventTokenForMakeDecision(decision: string, req: Reques
 }
 
 export async function getPayloadDataForMakeDecision(decision, req, state, store) {
-    const eventToken = await this.getEventTokenForMakeDecision(decision, req, state)
+    const eventToken = await that.getEventTokenForMakeDecision(decision, req, state)
     const logger = log4jui.getLogger('State')
 
     let payloadData
 
     if (decision === 'yes') {
-        payloadData = prepareCaseForApproval(eventToken, 'FR_approveApplication', req.session.user, store)
+        payloadData = that.prepareCaseForApproval(eventToken, 'FR_approveApplication', req.session.user, store)
     }
 
     if (decision === 'no') {
-        payloadData = prepareCaseForRefusal(eventToken, 'FR_orderRefusal', req.session.user, store)
+        payloadData = that.prepareCaseForRefusal(eventToken, 'FR_orderRefusal', req.session.user, store)
     }
 
     logger.info('Payload assembled')
@@ -200,7 +202,7 @@ export async function getPayloadDataForMakeDecision(decision, req, state, store)
 
 export async function makeDecision(decision: string, req, state, store): Promise<boolean> {
     const logger = log4jui.getLogger('State')
-    const payloadData = await this.getPayloadDataForMakeDecision(decision, req, state, store)
+    const payloadData = await that.getPayloadDataForMakeDecision(decision, req, state, store)
 
     try {
         await ccdStore.postCaseWithEventToken(
@@ -209,7 +211,7 @@ export async function makeDecision(decision: string, req, state, store): Promise
             'FinancialRemedyMVP2',
             state.caseId,
             payloadData,
-            getOptions(req)
+            that.getOptions(req)
         )
         return true
     } catch (exception) {
@@ -240,7 +242,7 @@ payload.financialremedymvp2 = async (req, res, store) => {
     }
 
     logger.info('Posting to CCD')
-    const result = await this.makeDecision(store.approveDraftConsent, req, state, store)
+    const result = await that.makeDecision(store.approveDraftConsent, req, state, store)
 
     logger.info('Posted to CCD', result)
 
