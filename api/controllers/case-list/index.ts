@@ -15,6 +15,7 @@ import { getHearingByCase } from '../../services/cohQA'
 import { getUser } from '../../services/idam'
 import { getAllQuestionsByCase } from '../questions/index'
 import { getNewCase, unassignAllCaseFromJudge } from './assignCase'
+import { isCaseListPopulated } from '../../lib/case-list/case-list-helper'
 
 const getListTemplate = require('./templates/index')
 const { caseStateFilter } = require('../../lib/processors/case-state-util')
@@ -247,18 +248,34 @@ export async function getMutiJudCaseTransformed(res, userDetails) {
     // Ok So at this point both caseLists for a judge with cases, and one without
     // question_data is upon the cases.
 
+    //
+
     caseLists = processCaseListsState(caseLists)
 
     //caseLists goes into this.
     // If caseLists is empty at this point [ [] ] there has been an issue with
     // an async call and the error stacks have been set
 
+    /**
+     * If we get to this point and the caseList is not populated then there has been
+     * an issue in getting the cases from CCD therefore we should throw the null,
+     * as what was happening previously.
+     *
+     * The error stack should have been set already at this point.
+     *
+     * TODO: This should pass back 'ERROR_RETRIEVING_CASES' and not null.
+     * @see unit test around isCaseListPopulated the shape of caseLists object
+     * at this point.
+     */
+    if (!isCaseListPopulated(caseLists)) {
+
+        return null
+    }
+
     // TODO: So if there is an empty array at this point [ [] ] we should do an early return.
 
     console.log('caseLists')
     console.log(caseLists)
-
-
 
     // If you had an error above here, what would happen?
     // would it still get to this point?
@@ -282,6 +299,8 @@ export async function getMutiJudCaseTransformed(res, userDetails) {
     // At this point
     console.log('applyStateFilter')
     console.log(caseLists)
+
+    // if(isAnyCaseViewableByAJudge)
 
     // At this point caseLists is empty
 
