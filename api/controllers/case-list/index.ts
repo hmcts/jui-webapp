@@ -118,7 +118,9 @@ export function processCaseListsState(caseLists) {
  * @return [ [] ]
  */
 export function applyStateFilter(caseLists) {
-    return caseLists.map(caseList => caseList.filter(caseStateFilter))
+    return caseLists.map(caseList => {
+        return caseList.filter(caseStateFilter)
+    })
 }
 
 export function rawCasesReducer(cases, columns) {
