@@ -26,6 +26,7 @@ describe('DEFAULT_CCD_STATE', () => {
         }
         const sandbox = sinon.createSandbox()
         sandbox.stub(caseStateUtil, 'createCaseState')
+        caseStateModule.DEFAULT_CCD_STATE.then(context)
         expect(caseStateUtil.createCaseState).to.have.been.called
         sandbox.restore()
     })
@@ -53,6 +54,7 @@ describe('ccdFinalDecisionState', () => {
         }
         const sandbox = sinon.createSandbox()
         const stub = sandbox.stub(caseStateUtil, 'createCaseState')
+        caseStateModule.ccdFinalDecisionState.then(context)
         expect(caseStateUtil.createCaseState).to.have.been.called
         expect(stub).to.be.called
         sandbox.restore()
