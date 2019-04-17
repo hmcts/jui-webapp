@@ -94,6 +94,29 @@ export function processCaseListsState(caseLists) {
     return caseLists.map(caseList => caseList.map(processCaseState))
 }
 
+/**
+ * I've found that caseLists looks like the following at this point.
+ *
+ * @param caseLists - [ [ { id: 1554974408669103,
+ *     jurisdiction: 'SSCS',
+ *     state: [Object],
+ *     case_type_id: 'Benefit',
+ *     created_date: '2019-04-11T09:20:08.602',
+ *     last_modified: '2019-04-11T09:20:17Z',
+ *     security_classification: 'PUBLIC',
+ *     case_data: [Object],
+ *     data_classification: [Object],
+ *     after_submit_callback_response: null,
+ *     callback_response_status_code: null,
+ *     callback_response_status: null,
+ *     delete_draft_response_status_code: null,
+ *     delete_draft_response_status: null,
+ *     security_classifications: [Object],
+ *     hearing_data: [Object],
+ *     question_data: [Array] } ] ]
+ *
+ * @return [ [] ]
+ */
 export function applyStateFilter(caseLists) {
     return caseLists.map(caseList => caseList.filter(caseStateFilter))
 }
@@ -169,18 +192,84 @@ export async function getMutiJudCaseTransformed(res, userDetails) {
     caseLists = await asyncReturnOrError(getMutiJudCCDCases(userDetails.id, jurisdictions), 'Error getting Multi' +
         'Jurisdictional assigned cases.', null, logger, false)
 
+    // console.log('caseLists')
+    // console.log(caseLists)
+
+    /**
+     * appendCOR appends a hearing_data object onto each case, in the caseLists.
+     *
+     * hearing_data is always attached to a case therefore everything is the same
+     * at this point for a Judge with no cases, and a judge with them.+-
+     * TODO: Should change caseLists to caseList.
+     */
     caseLists = await asyncReturnOrError(appendCOR(res, caseLists), ERROR_UNABLE_TO_APPEND_TO_COR.humanStatusCode,
         null, logger, false)
 
+    // console.log('caseLists')
+    // console.log(caseLists[0])
+
+    // Ok so at this point caseLists has hearing_data: [Object]
+    // but what is in the hearing data of each caseLists?
+
+    // So you want to run through each of them , see how many cases you have
+    // and if each one has hearing data.
+
+    // const casesWithHearings = caseLists[0].map(caseWithHearing => {
+    //     console.log('caseWithHearing')
+    //     console.log(caseWithHearing.hearing_data.online_hearing_id)
+    //     return caseWithHearing.hearing_data
+    // })
+
+    // So all cases have a hearing ID therefore everything is the same
+    // at this point for a judge with no cases, and a judge with
+
+    /**
+     * appendQuestionRound appends question_data onto each case, within the caseLists.
+     */
     caseLists = await asyncReturnOrError(appendQuestionsRound(caseLists, userDetails.id),
         ERROR_UNABLE_TO_APPEND_QRS.humanStatusCode, null, logger, false)
 
+    // So at this point caseLists, each case has hearing_data that
+    // is populated?
+    // So what happens here?
+
+    // console.log('caseLists')
+    // console.log(caseLists)
+
+    // const casesWithHearingAndQuestionData = caseLists[0].map(caseWithHearingAndQuestionData => {
+    //     console.log('caseWithHearingAndQuestionData')
+    //     console.log(caseWithHearingAndQuestionData.question_data)
+    //     return caseWithHearingAndQuestionData.question_data
+    // })
+
+    // Ok So at this point both caseLists for a judge with cases, and one without
+    // question_data is upon the cases.
+
     caseLists = processCaseListsState(caseLists)
+
+    //caseLists goes into this.
+    console.log('caseLists')
+    console.log(caseLists)
+
+    /**
+     * applyStateFilter takes in the case
+     */
     caseLists = applyStateFilter(caseLists)
+
+    // At this point
+    console.log('applyStateFilter')
+    console.log(caseLists)
+
+    // At this point caseLists is empty
+
     caseLists = convertCaselistToTemplate(caseLists)
     caseLists = combineLists(caseLists)
     caseLists = sortTransformedCases(caseLists)
     caseLists = aggregatedData(caseLists)
+
+    //
+    console.log('caseLists after processing')
+    console.log(caseLists)
 
     if (!hasCases(caseLists)) {
         return null

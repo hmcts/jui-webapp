@@ -90,9 +90,9 @@ export function isObject(o) {
 
 export function judgeLookUp(judgeEmail) {
     if (!refJudgeLookUp.length) {
-        utilLogger.info('Decrypting judge data ...')
+        // utilLogger.info('Decrypting judge data ...')
         try {
-            utilLogger.info(`Running from__dirname ${__dirname}`)
+            // utilLogger.info(`Running from__dirname ${__dirname}`)
             const data = decrypt(path.join(__dirname, '../lib/config/refJudgeLookUp.crypt'))
             refJudgeLookUp = JSON.parse(data)
         } catch (e) {
