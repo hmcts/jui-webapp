@@ -96,17 +96,17 @@ export function caseStateFilter(caseData) {
 
     return caseShownToJudge.find(caseState => {
 
-        console.log('caseData.state.stateName')
-        console.log(caseData.state.stateName)
+        // console.log('caseData.state.stateName')
+        // console.log(caseData.state.stateName)
+        //
+        // console.log('caseStateFilter')
+        // console.log(caseState)
 
-        console.log('caseStateFilter')
-        console.log(caseState)
-
-        if (caseData.state.stateName === caseState) {
-            console.log('MATCH')
-        } else {
-            console.log('NO MATCH')
-        }
+        // if (caseData.state.stateName === caseState) {
+        //     console.log('MATCH')
+        // } else {
+        //     console.log('NO MATCH')
+        // }
 
         return caseData.state.stateName === caseState
     })

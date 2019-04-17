@@ -250,14 +250,35 @@ export async function getMutiJudCaseTransformed(res, userDetails) {
     caseLists = processCaseListsState(caseLists)
 
     //caseLists goes into this.
+    // If caseLists is empty at this point [ [] ] there has been an issue with
+    // an async call and the error stacks have been set
+
+    // TODO: So if there is an empty array at this point [ [] ] we should do an early return.
+
     console.log('caseLists')
     console.log(caseLists)
 
+
+
+    // If you had an error above here, what would happen?
+    // would it still get to this point?
+    // as if an error gets here
+
+    // If caseLists is still set as something and it comes into here
+    // then an error and no cases are still going to throw off the same thing.
+    // as the following will return an empty array.
+    // But if there is an error with the async call above then we shouldn't get this far.
+
     /**
-     * applyStateFilter takes in the case
+     * If the state of the case, retrieved from caseData.state.stateName does not align
+     * with the cases the Judges should see, then we do not show the Case to a Judge.
+     *
+     * The following applyStateFilter does this.
      */
     caseLists = applyStateFilter(caseLists)
 
+    // TODO: If there are no longer any cases in the case list then it is no longer an
+    // async error, but a User has no cases error. and return this.
     // At this point
     console.log('applyStateFilter')
     console.log(caseLists)
