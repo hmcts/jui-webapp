@@ -186,69 +186,46 @@ function hasCases(caseList) {
     return caseList && caseList.results.length > 0
 }
 
-// Get List of case and transform to correct format
+/**
+ * Get List of case and transform to correct format.
+ *
+ * At <code>appendCOR</code> func appends a hearing_data object onto each case, in the caseList. The hearing_data object is
+ * always attached to each case.
+ *
+ * At <code>appendQuestionRound</code> func appends question_data onto each case, within the caseList.
+ *
+ * At: <code>!isCaseListPopulated(caseList)</code>
+ *
+ * If we get to is <code>!isCaseListPopulated(caseList)</code> and caseList is not populated then
+ * there has been an issue in getting the cases from CCD therefore we should throw an error with an
+ * appropriate error message, in this case: 'ERROR_RETRIEVING_CASES'
+ *
+ * The error stack should have been set already at this point.
+ *
+ * @see unit test around isCaseListPopulated the shape of caseLists object
+ * at this point.
+ */
 export async function getMutiJudCaseTransformed(res, userDetails) {
-    let caseLists
+
+    let caseList
 
     const jurisdictions = filterByCaseTypeAndRole(userDetails)
 
-    caseLists = await asyncReturnOrError(getMutiJudCCDCases(userDetails.id, jurisdictions), 'Error getting Multi' +
+    caseList = await asyncReturnOrError(getMutiJudCCDCases(userDetails.id, jurisdictions), 'Error getting Multi' +
         'Jurisdictional assigned cases.', null, logger, false)
 
-    // console.log('caseLists')
-    // console.log(caseLists)
-
-    /**
-     * appendCOR appends a hearing_data object onto each case, in the caseLists.
-     *
-     * hearing_data is always attached to a case therefore everything is the same
-     * at this point for a Judge with no cases, and a judge with them.+-
-     * TODO: Should change caseLists to caseList.
-     */
-    caseLists = await asyncReturnOrError(appendCOR(res, caseLists), ERROR_UNABLE_TO_APPEND_TO_COR.humanStatusCode,
+    caseList = await asyncReturnOrError(appendCOR(res, caseList), ERROR_UNABLE_TO_APPEND_TO_COR.humanStatusCode,
         null, logger, false)
 
-    /**
-     * appendQuestionRound appends question_data onto each case, within the caseLists.
-     */
-    caseLists = await asyncReturnOrError(appendQuestionsRound(caseLists, userDetails.id),
+    caseList = await asyncReturnOrError(appendQuestionsRound(caseList, userDetails.id),
         ERROR_UNABLE_TO_APPEND_QRS.humanStatusCode, null, logger, false)
 
-    caseLists = processCaseListsState(caseLists)
+    caseList = processCaseListsState(caseList)
 
-    //caseLists goes into this.
-    // If caseLists is empty at this point [ [] ] there has been an issue with
-    // an async call and the error stacks have been set
-
-    /**
-     * If we get to this point and the caseList is not populated then there has been
-     * an issue in getting the cases from CCD therefore we should throw the null,
-     * as what was happening previously.
-     *
-     * The error stack should have been set already at this point.
-     *
-     * TODO: This should pass back 'ERROR_RETRIEVING_CASES' and not null.
-     * @see unit test around isCaseListPopulated the shape of caseLists object
-     * at this point.
-     */
-    if (!isCaseListPopulated(caseLists)) {
+    if (!isCaseListPopulated(caseList)) {
 
         return { message: 'ERROR_RETRIEVING_CASES' }
     }
-
-    // TODO: So if there is an empty array at this point [ [] ] we should do an early return.
-
-    console.log('caseLists')
-    console.log(caseLists)
-
-    // If you had an error above here, what would happen?
-    // would it still get to this point?
-    // as if an error gets here
-
-    // If caseLists is still set as something and it comes into here
-    // then an error and no cases are still going to throw off the same thing.
-    // as the following will return an empty array.
-    // But if there is an error with the async call above then we shouldn't get this far.
 
     /**
      * If the state of the case, retrieved from caseData.state.stateName does not align
@@ -256,12 +233,12 @@ export async function getMutiJudCaseTransformed(res, userDetails) {
      *
      * The following applyStateFilter does this.
      */
-    caseLists = applyStateFilter(caseLists)
+    caseList = applyStateFilter(caseList)
 
     /**
      * If the Judge has no viewable cases we should pass this back.
      */
-    if (!isAnyCaseViewableByAJudge(caseLists)) {
+    if (!isAnyCaseViewableByAJudge(caseList)) {
 
         console.log('NO CASES TO SHOW TO JUDGE')
         return { message: 'JUDGE_HAS_NO_VIEWABLE_CASES' }
@@ -271,27 +248,27 @@ export async function getMutiJudCaseTransformed(res, userDetails) {
     // async error, but a User has no cases error. and return this.
     // At this point
     console.log('applyStateFilter')
-    console.log(caseLists)
+    console.log(caseList)
 
     // if(isAnyCaseViewableByAJudge)
 
     // At this point caseLists is empty
 
-    caseLists = convertCaselistToTemplate(caseLists)
-    caseLists = combineLists(caseLists)
-    caseLists = sortTransformedCases(caseLists)
-    caseLists = aggregatedData(caseLists)
+    caseList = convertCaselistToTemplate(caseList)
+    caseList = combineLists(caseList)
+    caseList = sortTransformedCases(caseList)
+    caseList = aggregatedData(caseList)
 
     //
     console.log('caseLists after processing')
-    console.log(caseLists)
+    console.log(caseList)
 
-    if (!hasCases(caseLists)) {
+    if (!hasCases(caseList)) {
         return { message: 'ERROR_TRANSFORMING_CASES' }
     }
     return {
         message: 'JUDGE_HAS_VIEWABLE_CASES',
-        result: caseLists,
+        result: caseList,
     }
 }
 
