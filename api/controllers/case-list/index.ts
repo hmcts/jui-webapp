@@ -186,6 +186,11 @@ function hasCases(caseList) {
     return caseList && caseList.results.length > 0
 }
 
+const ERROR_RETRIEVING_CASES = 'ERROR_RETRIEVING_CASES'
+const JUDGE_HAS_NO_VIEWABLE_CASES = 'JUDGE_HAS_NO_VIEWABLE_CASES'
+const ERROR_TRANSFORMING_CASES = 'ERROR_TRANSFORMING_CASES'
+const JUDGE_HAS_VIEWABLE_CASES = 'JUDGE_HAS_VIEWABLE_CASES'
+
 /**
  * Get List of cases and transform them to the correct format.
  *
@@ -242,14 +247,14 @@ export async function getMutiJudCaseTransformed(res, userDetails) {
 
     if (!isCaseListPopulated(caseList)) {
 
-        return { message: 'ERROR_RETRIEVING_CASES' }
+        return { message: ERROR_RETRIEVING_CASES }
     }
 
     caseList = applyStateFilter(caseList)
 
     if (!isAnyCaseViewableByAJudge(caseList)) {
 
-        return { message: 'JUDGE_HAS_NO_VIEWABLE_CASES' }
+        return { message: JUDGE_HAS_NO_VIEWABLE_CASES }
     }
 
     caseList = convertCaselistToTemplate(caseList)
@@ -258,10 +263,10 @@ export async function getMutiJudCaseTransformed(res, userDetails) {
     caseList = aggregatedData(caseList)
 
     if (!hasCases(caseList)) {
-        return { message: 'ERROR_TRANSFORMING_CASES' }
+        return { message: ERROR_TRANSFORMING_CASES }
     }
     return {
-        message: 'JUDGE_HAS_VIEWABLE_CASES',
+        message: JUDGE_HAS_VIEWABLE_CASES,
         result: caseList,
     }
 }
@@ -297,6 +302,7 @@ export async function unassignAll(req, res) {
 }
 
 export async function getCases(res) {
+
     let results = null
     const user = await getUser()
 
@@ -308,53 +314,29 @@ export async function getCases(res) {
             res, logger, false)
 
         tryCCD++
-
-        // if (!results) {
-        //     logger.warn('Having to retry CCD')
-        // }
     }
 
-    // If there is an error returned then we throw the error
-
-    // If there are no cases returned then we show no cases.
     let responseStatusCode
     let responseResult
-
-    // if (results === 'JUDGE_HAS_NO_VIEWABLE_CASES') {
-    //
-    // }
-
-    // But we wish to keep this code for now, so that we don't change the production code
-    // too much.
-
-    console.log('case list results.')
-    console.log(results)
-
-    // Let's do no cases and cases first
 
     if (results) {
         switch (results.message) {
 
-            case 'JUDGE_HAS_NO_VIEWABLE_CASES':
+            case ERROR_RETRIEVING_CASES:
+            case ERROR_TRANSFORMING_CASES:
+
+                logger.error(ERROR_UNABLE_TO_GET_CASES.humanStatusCode)
+                responseStatusCode = 500
+                responseResult = JSON.stringify(errorStack.get())
+                break
+
+            case JUDGE_HAS_NO_VIEWABLE_CASES:
+
                 responseStatusCode = 200
-                responseResult = { message: 'JUDGE_HAS_NO_VIEWABLE_CASES' }
+                responseResult = { message: JUDGE_HAS_NO_VIEWABLE_CASES }
                 break
 
-            case 'ERROR_RETRIEVING_CASES':
-                logger.error(ERROR_UNABLE_TO_GET_CASES.humanStatusCode)
-
-                responseStatusCode = 500
-                responseResult = JSON.stringify(errorStack.get())
-                break
-
-            case 'ERROR_TRANSFORMING_CASES':
-                logger.error(ERROR_UNABLE_TO_GET_CASES.humanStatusCode)
-
-                responseStatusCode = 500
-                responseResult = JSON.stringify(errorStack.get())
-                break
-
-            case 'JUDGE_HAS_VIEWABLE_CASES':
+            case JUDGE_HAS_VIEWABLE_CASES:
 
                 responseStatusCode = 200
                 responseResult = JSON.stringify(results.result)
@@ -365,50 +347,6 @@ export async function getCases(res) {
     } else {
         res.status(500).send(JSON.stringify(errorStack.get()))
     }
-
-    // So if there are no cases then results will be JUDGE_HAS_NO_VIEWABLE_CASES
-    // if (results === 'JUDGE_HAS_NO_VIEWABLE_CASES') {
-    //
-    //     responseStatusCode = 200
-    //     responseResult = 'JUDGE_HAS_NO_VIEWABLE_CASES'
-    // }
-
-    /**
-     * Error retrieving cases, therefore we pass back the error stack.
-     */
-    // if (results === 'ERROR_RETRIEVING_CASES') {
-    //
-    //     logger.error(ERROR_UNABLE_TO_GET_CASES.humanStatusCode)
-    //
-    //     responseStatusCode = 500
-    //     responseResult = JSON.stringify(errorStack.get())
-    // }
-
-    // console.log('results')
-    // console.log(results)
-    // If there are cases then we pass back the cases.
-    // if (hasCases(results)) {
-    //
-    //     res.setHeader('Access-Control-Allow-Origin', '*')
-    //     res.setHeader('content-type', 'application/json')
-    //
-    //     responseStatusCode = 200
-    //     responseResult = JSON.stringify(results)
-    // } else {
-    //
-    //     // if there are no cases then we return the error stack as default.
-    //     logger.error(ERROR_UNABLE_TO_GET_CASES.humanStatusCode)
-    //
-    //     responseStatusCode = 500
-    //
-    //     responseResult = JSON.stringify(errorStack.get())
-    // }
-
-    // if (results === null) {
-    //     res.status(500).send(JSON.stringify(errorStack.get()))
-    // }
-    //
-    // res.status(responseStatusCode).send(responseResult)
 }
 
 export async function unassign(res) {
