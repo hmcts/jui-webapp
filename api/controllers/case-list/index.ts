@@ -187,12 +187,18 @@ function hasCases(caseList) {
 }
 
 /**
- * Get List of case and transform to correct format.
+ * Get List of cases and transform them to the correct format.
  *
- * At <code>appendCOR</code> func appends a hearing_data object onto each case, in the caseList. The hearing_data object is
+ * The following was a legacy function that returned null for every error it encountered, and for no cases.
+ * This has now been changed as we needed to make a disparity between errors and the judge having no
+ * viewable cases.
+ *
+ * At: <code>appendCOR</code> func appends a hearing_data object onto each case, in the caseList. The hearing_data object is
  * always attached to each case.
  *
- * At <code>appendQuestionRound</code> func appends question_data onto each case, within the caseList.
+ *
+ * At: <code>appendQuestionRound</code> func appends question_data onto each case, within the caseList.
+ *
  *
  * At: <code>!isCaseListPopulated(caseList)</code>
  *
@@ -204,6 +210,18 @@ function hasCases(caseList) {
  *
  * @see unit test around isCaseListPopulated the shape of caseLists object
  * at this point.
+ *
+ *
+ * At code: <code>applyStateFilter(caseList)</code>
+ *
+ * If the state of the case, retrieved from caseData.state.stateName does not match
+ * with the cases the Judges should see, then we do not show the Case to a Judge.
+ *
+ *
+ * At code: <code>!isAnyCaseViewableByAJudge(caseList)</code>
+ *
+ * If the Judge has no viewable cases we should pass back a message stating this. So that we
+ * can hook into this to display 'User has no cases' on the front end.
  */
 export async function getMutiJudCaseTransformed(res, userDetails) {
 
@@ -227,41 +245,17 @@ export async function getMutiJudCaseTransformed(res, userDetails) {
         return { message: 'ERROR_RETRIEVING_CASES' }
     }
 
-    /**
-     * If the state of the case, retrieved from caseData.state.stateName does not align
-     * with the cases the Judges should see, then we do not show the Case to a Judge.
-     *
-     * The following applyStateFilter does this.
-     */
     caseList = applyStateFilter(caseList)
 
-    /**
-     * If the Judge has no viewable cases we should pass this back.
-     */
     if (!isAnyCaseViewableByAJudge(caseList)) {
 
-        console.log('NO CASES TO SHOW TO JUDGE')
         return { message: 'JUDGE_HAS_NO_VIEWABLE_CASES' }
     }
-
-    // TODO: If there are no longer any cases in the case list then it is no longer an
-    // async error, but a User has no cases error. and return this.
-    // At this point
-    console.log('applyStateFilter')
-    console.log(caseList)
-
-    // if(isAnyCaseViewableByAJudge)
-
-    // At this point caseLists is empty
 
     caseList = convertCaselistToTemplate(caseList)
     caseList = combineLists(caseList)
     caseList = sortTransformedCases(caseList)
     caseList = aggregatedData(caseList)
-
-    //
-    console.log('caseLists after processing')
-    console.log(caseList)
 
     if (!hasCases(caseList)) {
         return { message: 'ERROR_TRANSFORMING_CASES' }
