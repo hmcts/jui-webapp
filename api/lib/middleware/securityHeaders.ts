@@ -1,4 +1,5 @@
-import { Request, Response } from 'express'
+import { Response } from 'express'
+const that = this
 
 export function nocache(res: Response) {
     res.setHeader('Surrogate-Control', 'no-store')
@@ -10,7 +11,6 @@ export function nocache(res: Response) {
 export function hidePoweredBy(res: Response) {
     res.app.disable('x-powered-by')
     res.removeHeader('Server')
-
 }
 
 export function frameguard(res: Response) {
@@ -18,8 +18,8 @@ export function frameguard(res: Response) {
 }
 
 export function securityHeaders(req: Request, res: Response, next: any) {
-    frameguard(res)
-    nocache(res)
-    hidePoweredBy(res)
+    that.frameguard(res)
+    that.nocache(res)
+    that.hidePoweredBy(res)
     next()
 }

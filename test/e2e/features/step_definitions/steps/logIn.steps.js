@@ -112,14 +112,21 @@ defineSupportCode(function ({ Given, When, Then }) {
 
 
     Then(/^I should be redirected to JUI dashboard page$/, async function () {
-        browser.sleep(MID_DELAY);
+        // browser.sleep(LONG_DELAY);
+        // await expect(dashBoardPage.dashboard_header.isDisplayed()).to.eventually.be.true;
+        // await dashBoardPage.table.isDisplayed();
+        // // await expect(dashBoardPage.your_cases.getText())
+        // //     .to
+        // //     .eventually
+        // //     .equal('Your cases');
+        // browser.sleep(LONG_DELAY);
+
+        await waitForElement('govuk-heading-xl');
         await expect(dashBoardPage.dashboard_header.isDisplayed()).to.eventually.be.true;
-        await dashBoardPage.table.isDisplayed();
-        // await expect(dashBoardPage.your_cases.getText())
-        //     .to
-        //     .eventually
-        //     .equal('Your cases');
-        browser.sleep(MID_DELAY);
+        await expect(dashBoardPage.dashboard_header.getText())
+            .to
+            .eventually
+            .equal('Your cases');
 
     });
 
@@ -131,8 +138,8 @@ defineSupportCode(function ({ Given, When, Then }) {
     });
 
     When(/^I am logged into JUI web app with SSCS judge details$/, async function () {
-        await loginPage.emailAddress.sendKeys(this.config.sscs_username);
-        await loginPage.password.sendKeys(this.config.sscs_password);
+        await loginPage.emailAddress.sendKeys(this.config.username);
+        await loginPage.password.sendKeys(this.config.password);
         await loginPage.clickSignIn();
         browser.sleep(LONG_DELAY);
 
