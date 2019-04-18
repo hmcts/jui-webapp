@@ -42,9 +42,6 @@ export class SearchResultComponent implements OnInit {
 
     getCasesSuccess(cases) {
 
-        console.log('cases');
-        console.log(cases);
-
         if (this.userHasNoCases(cases)) {
             this.componentState = this.USER_HAS_NO_CASES;
             return;
@@ -54,7 +51,6 @@ export class SearchResultComponent implements OnInit {
         this.cases = cases;
     }
 
-    // It should not get into here for no cases, as that's not an error.
     getCasesError(errorStack) {
 
         this.componentState = this.CASES_LOAD_ERROR;

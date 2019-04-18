@@ -96,7 +96,7 @@ export function processCaseListsState(caseLists) {
 }
 
 /**
- * I've found that caseLists looks like the following at this point.
+ * caseLists looks like the following at this point.
  *
  * @param caseLists - [ [ { id: 1554974408669103,
  *     jurisdiction: 'SSCS',
@@ -119,9 +119,7 @@ export function processCaseListsState(caseLists) {
  * @return [ [] ]
  */
 export function applyStateFilter(caseLists) {
-    return caseLists.map(caseList => {
-        return caseList.filter(caseStateFilter)
-    })
+    return caseLists.map(caseList => caseList.filter(caseStateFilter))
 }
 
 export function rawCasesReducer(cases, columns) {

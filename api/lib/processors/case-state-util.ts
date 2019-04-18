@@ -66,7 +66,7 @@ export const GO_TO = {
 }
 
 /**
- * These seem to be the state a Judge should be able to see.
+ * The case states which a Judge should be able to see.
  */
 export const caseShownToJudge = [
     STATE.FR_CCD_REFER_TO_JUDGE_STATE,
@@ -95,18 +95,6 @@ export const caseShownToJudge = [
 export function caseStateFilter(caseData) {
 
     return caseShownToJudge.find(caseState => {
-
-        // console.log('caseData.state.stateName')
-        // console.log(caseData.state.stateName)
-        //
-        // console.log('caseStateFilter')
-        // console.log(caseState)
-
-        // if (caseData.state.stateName === caseState) {
-        //     console.log('MATCH')
-        // } else {
-        //     console.log('NO MATCH')
-        // }
 
         return caseData.state.stateName === caseState
     })

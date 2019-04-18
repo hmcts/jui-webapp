@@ -40,8 +40,6 @@ export class CaseService {
         return this.httpClient
             .get(url)
             .pipe(map(data => {
-                console.log('data');
-                console.log(data);
                 return data;
             }))
             .pipe(catchError(error => throwError(error)));

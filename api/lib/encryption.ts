@@ -12,22 +12,22 @@ function encrypt(fileName: string): void {
     const filenamePart = fileName.split('.')[0]
     const outName = filenamePart + '.crypt'
 
-    // logger.info(`Reading contents from ${fileName}`)
+    logger.info(`Reading contents from ${fileName}`)
     const contents = fs.createReadStream(fileName)
     const encrypted = contents.pipe(crypto.createCipher(algorithm, password))
-    // logger.info(`Writing contents to ${outName}`)
+    logger.info(`Writing contents to ${outName}`)
     encrypted.pipe(fs.createWriteStream(`${outName}`))
 }
 
 export function decrypt(fileName: string): string {
     let contents
-    // logger.info(`reading file ${fileName}`)
+    logger.info(`reading file ${fileName}`)
     contents = fs.readFileSync(fileName)
-    // logger.info(`using key ${password}`)
+    logger.info(`using key ${password}`)
     const decipher = crypto.createDecipher(algorithm, password)
 
     const decrypted = Buffer.concat([decipher.update(contents), decipher.final()])
-    // logger.info(decrypted.toString())
+    logger.info(decrypted.toString())
     return decrypted.toString()
 }
 
