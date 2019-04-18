@@ -15,7 +15,7 @@ import { getHearingByCase } from '../../services/cohQA'
 import { getUser } from '../../services/idam'
 import { getAllQuestionsByCase } from '../questions/index'
 import { getNewCase, unassignAllCaseFromJudge } from './assignCase'
-import { isCaseListPopulated } from '../../lib/case-list/case-list-helper'
+import { isCaseListPopulated, isAnyCaseViewableByAJudge } from '../../lib/case-list/case-list-helper'
 
 const getListTemplate = require('./templates/index')
 const { caseStateFilter } = require('../../lib/processors/case-state-util')
@@ -294,6 +294,17 @@ export async function getMutiJudCaseTransformed(res, userDetails) {
      */
     caseLists = applyStateFilter(caseLists)
 
+    /**
+     * If the Judge has no viewable cases we should pass this back.
+     */
+    if (!isAnyCaseViewableByAJudge(caseLists)) {
+
+        console.log('NO CASES TO SHOW TO JUDGE')
+        return 'JUDGE_HAS_NO_VIEWABLE_CASES'
+    } else {
+        console.log('CASES TO SHOW TO JUDGE')
+    }
+
     // TODO: If there are no longer any cases in the case list then it is no longer an
     // async error, but a User has no cases error. and return this.
     // At this point
@@ -366,6 +377,17 @@ export async function getCases(res) {
             logger.warn('Having to retry CCD')
         }
     }
+
+    // If there is an error returned then we throw the error
+
+    // If there are no cases returned then we show no cases.
+
+    if(results === 'JUDGE_HAS_NO_VIEWABLE_CASES') {
+
+    }
+
+    // But we wish to keep this code for now, so that we don't change the production code
+    // too much.
 
     if (hasCases(results)) {
         res.setHeader('Access-Control-Allow-Origin', '*')
