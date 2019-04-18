@@ -36,13 +36,16 @@ export class SearchResultComponent implements OnInit {
      *
      * @param cases
      */
-    userHasCases(cases) {
-        return cases.results.length > 0;
+    userHasNoCases(cases) {
+        return cases.message === 'JUDGE_HAS_NO_VIEWABLE_CASES';
     }
 
     getCasesSuccess(cases) {
 
-        if (!this.userHasCases(cases)) {
+        console.log('cases');
+        console.log(cases);
+
+        if (this.userHasNoCases(cases)) {
             this.componentState = this.USER_HAS_NO_CASES;
             return;
         }
@@ -51,6 +54,7 @@ export class SearchResultComponent implements OnInit {
         this.cases = cases;
     }
 
+    // It should not get into here for no cases, as that's not an error.
     getCasesError(errorStack) {
 
         this.componentState = this.CASES_LOAD_ERROR;

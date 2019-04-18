@@ -366,7 +366,7 @@ export async function getCases(res) {
 
             case 'JUDGE_HAS_NO_VIEWABLE_CASES':
                 responseStatusCode = 200
-                responseResult = 'JUDGE_HAS_NO_VIEWABLE_CASES'
+                responseResult = { message: 'JUDGE_HAS_NO_VIEWABLE_CASES' }
                 break
 
             case 'ERROR_RETRIEVING_CASES':

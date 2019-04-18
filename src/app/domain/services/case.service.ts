@@ -39,7 +39,11 @@ export class CaseService {
         const url = `${this.configService.config.api_base_url}/api/cases`;
         return this.httpClient
             .get(url)
-            .pipe(map(data => data))
+            .pipe(map(data => {
+                console.log('data');
+                console.log(data);
+                return data;
+            }))
             .pipe(catchError(error => throwError(error)));
     }
 

@@ -9,9 +9,14 @@
         <h1 *ngSwitchCase="CASES_LOAD_SUCCESSFULLY" class="govuk-heading-xl">Your cases</h1>
         <app-table *ngSwitchCase="CASES_LOAD_SUCCESSFULLY" [data]="cases"></app-table>
 
-        <!-- User has no cases -->
+        <!-- User has no cases to work on -->
         <span *ngSwitchCase="USER_HAS_NO_CASES" data-selector="no-results-text">
-            You have no cases to work on.
+            <h1 class="govuk-heading-xl">Your cases</h1>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    <p class="govuk-body">You currently have no cases assigned to you.</p>
+                </div>
+            </div>
         </span>
 
         <!-- Error -->
