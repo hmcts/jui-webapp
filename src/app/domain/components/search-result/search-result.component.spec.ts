@@ -102,7 +102,11 @@ describe('SearchResultComponent', () => {
      */
     it('should be able to check if the user has cases.', () => {
 
-        expect(component.userHasCases(cases)).toBeTruthy();
+        const casesNoViewableCasesMessage = {
+            message: 'JUDGE_HAS_NO_VIEWABLE_CASES'
+        };
+
+        expect(component.userHasNoCases(casesNoViewableCasesMessage)).toBeTruthy();
     });
 
     it('should start in a state of "LOADING" as the component has no cases.', () => {
@@ -111,19 +115,16 @@ describe('SearchResultComponent', () => {
     });
 
     /**
-     * The results property in the cases object, are the cases that are viewed by the user in the view.
-     *
-     * Hence we pass in an empty array of results, and test that the component is now in a
-     * 'USER_HAS_NO_CASES' state.
+     * If a message of Judge Has No Viewable Cases is sent through to the UI the component should
+     * switch into a 'USER_HAS_NO_CASES' state.
      */
     it('should set the componentState as "USER_HAS_NO_CASES", if there are no case results for that user.', () => {
 
-        const casesWithNoResults = {
-            columns: [],
-            results: []
+        const casesNoViewableCasesMessage = {
+            message: 'JUDGE_HAS_NO_VIEWABLE_CASES'
         };
 
-        component.getCasesSuccess(casesWithNoResults);
+        component.getCasesSuccess(casesNoViewableCasesMessage);
 
         expect(component.componentState).toEqual(component.USER_HAS_NO_CASES);
     });
