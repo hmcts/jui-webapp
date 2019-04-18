@@ -269,7 +269,7 @@ export async function getMutiJudCaseTransformed(res, userDetails) {
      */
     if (!isCaseListPopulated(caseLists)) {
 
-        return null
+        return 'ERROR_RETRIEVING_CASES'
     }
 
     // TODO: So if there is an empty array at this point [ [] ] we should do an early return.
@@ -373,31 +373,68 @@ export async function getCases(res) {
 
         tryCCD++
 
-        if (!results) {
-            logger.warn('Having to retry CCD')
-        }
+        // if (!results) {
+        //     logger.warn('Having to retry CCD')
+        // }
     }
 
     // If there is an error returned then we throw the error
 
     // If there are no cases returned then we show no cases.
+    let responseStatusCode
+    let responseResult
 
-    if(results === 'JUDGE_HAS_NO_VIEWABLE_CASES') {
-
-    }
+    // if (results === 'JUDGE_HAS_NO_VIEWABLE_CASES') {
+    //
+    // }
 
     // But we wish to keep this code for now, so that we don't change the production code
     // too much.
 
-    if (hasCases(results)) {
-        res.setHeader('Access-Control-Allow-Origin', '*')
-        res.setHeader('content-type', 'application/json')
-        res.status(200).send(JSON.stringify(results))
-    } else {
+    console.log('case list results.')
+    console.log(results)
+
+    // Let's do no cases and cases first
+
+    // So if there are no cases then results will be JUDGE_HAS_NO_VIEWABLE_CASES
+    if (results === 'JUDGE_HAS_NO_VIEWABLE_CASES') {
+
+        responseStatusCode = 200
+        responseResult = 'JUDGE_HAS_NO_VIEWABLE_CASES'
+    }
+
+    /**
+     * Error retrieving cases, therefore we pass back the error stack.
+     */
+    if (results === 'ERROR_RETRIEVING_CASES') {
+
         logger.error(ERROR_UNABLE_TO_GET_CASES.humanStatusCode)
 
-        res.status(500).send(JSON.stringify(errorStack.get()))
+        responseStatusCode = 500
+        responseResult = JSON.stringify(errorStack.get())
     }
+
+    console.log('results')
+    console.log(results)
+    // If there are cases then we pass back the cases.
+    if (hasCases(results)) {
+
+        res.setHeader('Access-Control-Allow-Origin', '*')
+        res.setHeader('content-type', 'application/json')
+
+        responseStatusCode = 200
+        responseResult = JSON.stringify(results)
+    } else {
+
+        // if there are no cases then we return the error stack as default.
+        logger.error(ERROR_UNABLE_TO_GET_CASES.humanStatusCode)
+
+        responseStatusCode = 500
+
+        responseResult = JSON.stringify(errorStack.get())
+    }
+
+    res.status(responseStatusCode).send(responseResult)
 }
 
 export async function unassign(res) {
