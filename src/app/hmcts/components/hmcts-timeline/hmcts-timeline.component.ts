@@ -1,4 +1,5 @@
 import {Component, Input} from '@angular/core';
+import * as moment from 'moment';
 
 @Component({
     selector: 'app-hmcts-timeline',
@@ -9,6 +10,9 @@ export class HmctsTimelineComponent {
 
     @Input() events;
 
-    constructor() {}
+    getLocalTime(e) {
+        const date = moment.utc(e.dateUtc).format();
+        return moment.utc(date).local().format('h:mma');
+    }
 
 }

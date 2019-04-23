@@ -18,7 +18,6 @@ export class CaseBarComponent implements OnInit {
     ) {}
 
     ngOnInit() {
-        console.log('Events', this.exchangeService.events);
         this.exchangeService.events.forEach(event => {
             if (event === 'hideCasebar') {
                 this.isHidden = true;
