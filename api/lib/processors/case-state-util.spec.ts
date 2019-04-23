@@ -56,8 +56,7 @@ describe('GO_TO', () => {
 
 describe('stateToBeShown', () => {
     it('should be a type of array ', () => {
-        expect(caseStateUtil.stateToBeShown).to.exist
-        expect(caseStateUtil.stateToBeShown).to.be.an('array')
+        expect(caseStateUtil.caseStateFilter).to.exist
     })
 })
 
