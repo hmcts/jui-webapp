@@ -104,7 +104,7 @@ export async function getMutiJudCCDCases(userId: string, jurisdictions: any[]): 
         )
     })
 
-    return cases
+    return [[].concat(...cases)]
 }
 
 export async function createCase(userId: string,
