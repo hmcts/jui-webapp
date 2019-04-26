@@ -254,7 +254,7 @@ describe('ValidationService', () => {
             expect(isValidDateValidationFn[validationIdentifier]).toBe(true);
         }));
 
-        xit('should not return any error if date is valid and properly formatted', inject([ValidationService], (service: ValidationService) => {
+        it('should not return any error if date is valid and properly formatted', inject([ValidationService], (service: ValidationService) => {
             formGroup.get('dayTestFiled').setValue('2');
             formGroup.get('monthTestFiled').setValue('2');
             formGroup.get('yearTestFiled').setValue('2019');
