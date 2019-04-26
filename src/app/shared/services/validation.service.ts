@@ -281,7 +281,7 @@ export class ValidationService {
 
                         // Get proper date format by create Date object and convert it back to string for comparison with what the user entered
                         const dateStr = dateValueArray.toString();
-                        const dateReverse = dateValueArray.reverse();
+                        const dateReverse = dateValueArray.slice().reverse();
                         const dateStrDDMMYYYY = dateReverse.toString();
 
                         const dateObj = new Date(dateStr);
