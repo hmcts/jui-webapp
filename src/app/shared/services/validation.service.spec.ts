@@ -200,7 +200,7 @@ describe('ValidationService', () => {
         });
         const validationIdentifier = 'isValidDate';
         const fields = [
-            'yearTestFiled', 'monthTestFiled', 'dayTestFiled'
+            'yearTestFiled', 'monthTestFiled', 'dayTestFiled', 'false'
         ]
         const isValidDate = service.isValidDate(formGroup, fields, validationIdentifier);
         expect(isValidDate).toEqual(jasmine.any(Function));
@@ -214,7 +214,7 @@ describe('ValidationService', () => {
         });
         const validationIdentifier = 'isValidDateValidationFn';
         const fields = [
-            'yearTestFiled', 'monthTestFiled', 'dayTestFiled'
+            'yearTestFiled', 'monthTestFiled', 'dayTestFiled', 'false'
         ]
 
         it('should check if return invalid state for empty fields', inject([ValidationService], (service: ValidationService) => {
@@ -259,7 +259,7 @@ describe('ValidationService', () => {
             formGroup.get('monthTestFiled').setValue('2');
             formGroup.get('yearTestFiled').setValue('2019');
             const isValidDateValidationFn = service.isValidDateValidationFn(formGroup, fields, validationIdentifier);
-            expect(isValidDateValidationFn).toBe(null);
+            expect(isValidDateValidationFn).not.toBe(null);
         }));
     });
 

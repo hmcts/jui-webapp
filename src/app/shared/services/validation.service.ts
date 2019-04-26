@@ -219,7 +219,6 @@ export class ValidationService {
 
 
     isValidDateValidationFn(controls: FormGroup, fields: Array<string>, validationIdentifier){
-
         if (controls !== null && fields !== null) {
             const dateValueArray = [];
 
@@ -338,7 +337,6 @@ export class ValidationService {
 
     isTextAreaValidWhenCheckboxChecked(formGroup: FormGroup, controls: controlsisTextAreaValidWhenCheckboxChecked, validationIdentifier: string) {
 
-
         const isTextAreaValidWhenCheckboxChecked: ValidatorFn = (formControls: FormGroup): ValidationErrors | null => {
 
             if (!formControls.get(controls.checkboxControl).value) {
@@ -444,7 +442,6 @@ export class ValidationService {
      * @return {ValidatorFn}
      */
     createFormGroupValidator(formGroup: FormGroup, validatorFunc: string, controls: any, validationErrorId: string): ValidatorFn {
-
         return this[validatorFunc](formGroup, controls, validationErrorId);
     }
 }
