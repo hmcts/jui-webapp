@@ -281,17 +281,31 @@ export class ValidationService {
                         if (dateValueArray[2] < 10) { dateValueArray[2] = ("0" + (dateValueArray[2]).toString().slice(-2)); }
 
                         // Get proper date format by create Date object and convert it back to string for comparison with what the user entered
-
                         const dateStr = dateValueArray.toString();
+                        const dateStrDDMMYYYY = dateValueArray.reverse().toString();
 
                         const dateObj = new Date(dateStr);
-                        const checkDateStr = dateObj.toISOString().slice(0, 10).replace(/-/g, ",").replace("T", " ");
-
+                        const checkDateStr = dateObj.toLocaleDateString();
+                        const checkDateStrFormatted = checkDateStr.replace(/\//g, ',');
                         // Return null if valid date
-                        if (checkDateStr === dateStr) {
-                            return null;
+                        if (checkDateStrFormatted === dateStrDDMMYYYY) {
+                            if (fields[3] === 'false') {
+                                const today = new Date();
+                                today.setHours(0,0,0,0);
+                                if (dateObj.getTime() <= today.getTime()) {
+                                    // proper date
+                                    return null;
+                                } else {
+                                    // Date in the future return error message here
+                                    return {
+                                        [validationIdentifier]: true
+                                    };
+                                }
+                            } else {
+                                // valid date
+                                return null;
+                            }
                         }
-
                         return {
                             [validationIdentifier]: true
                         };
