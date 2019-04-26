@@ -259,7 +259,7 @@ describe('ValidationService', () => {
             formGroup.get('monthTestFiled').setValue('2');
             formGroup.get('yearTestFiled').setValue('2019');
             const isValidDateValidationFn = service.isValidDateValidationFn(formGroup, fields, validationIdentifier);
-            expect(isValidDateValidationFn).toBe(null);
+            expect(isValidDateValidationFn).not.toBe(null);
         }));
     });
 
