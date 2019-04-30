@@ -231,8 +231,7 @@ export class ValidationService {
                 } else {
 
                     // Form have valid values and we can create date
-                    // Check is form controls matching the right lengh and then create array contained date
-
+                    // Check is form controls matching the right length and then create array contained date
                     if (controls.get(field).value.length <= 2) {
                         dateValueArray.push(controls.get(field).value);
                     } else if  (controls.get(field).value.length === 4) {
@@ -244,8 +243,7 @@ export class ValidationService {
                     }
 
                     // Check if array is ready and convert to string
-
-                    if (dateValueArray.length === 3){
+                    if (dateValueArray.length === 3) {
 
                         //Return error if not numbers
                         for (const element of dateValueArray) {
@@ -274,19 +272,19 @@ export class ValidationService {
                         }
 
                         // Here value might me invalid
+                        const pad = (n) => n < 10 ? '0' + n : n;
 
                         // Adding zeros in front if less than 10
-                        if (dateValueArray[1] < 10) { dateValueArray[1] = ("0" + (dateValueArray[1]).toString().slice(-2)); }
-                        if (dateValueArray[2] < 10) { dateValueArray[2] = ("0" + (dateValueArray[2]).toString().slice(-2)); }
+                        if (dateValueArray[1] < 10) { dateValueArray[1] = pad(dateValueArray[1]); }
+                        if (dateValueArray[2] < 10) { dateValueArray[2] = pad(dateValueArray[2]); }
 
                         // Get proper date format by create Date object and convert it back to string for comparison with what the user entered
                         const dateStr = dateValueArray.toString();
                         const dateReverse = dateValueArray.slice().reverse();
                         const dateStrDDMMYYYY = dateReverse.toString();
-
                         const dateObj = new Date(dateStr);
-                        const checkDateStr = dateObj.toLocaleDateString();
-                        const checkDateStrFormatted = checkDateStr.replace(/\//g, ',');
+                        const checkDateStrFormatted = pad(dateObj.getDate()) + ',' + pad(dateObj.getMonth() + 1) + ',' + dateObj.getFullYear();
+
                         // Return null if valid date
                         if (checkDateStrFormatted === dateStrDDMMYYYY) {
                             if (fields[3] === 'false') {
@@ -314,8 +312,6 @@ export class ValidationService {
                 }
             }
         }
-
-        return null;
     }
 
     isValidDate(formGroup: FormGroup, fields: Array<string>, validationIdentifier: string): ValidatorFn | null {
