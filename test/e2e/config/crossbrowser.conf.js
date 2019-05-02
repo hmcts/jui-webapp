@@ -11,7 +11,7 @@ const config = {
     framework: 'custom',
     frameworkPath: require.resolve('protractor-cucumber-framework'),
 
-    sauceSeleniumAddress: 'ondemand.saucelabs.com:443/wd/hub',
+    sauceSeleniumAddress: 'ondemand.eu-central-1.com:443/wd/hub',
     allScriptsTimeout: 111000,
     specs: ['../features/**/*.feature'],
 
