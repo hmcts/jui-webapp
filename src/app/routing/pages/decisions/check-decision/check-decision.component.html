@@ -76,16 +76,15 @@
                                             && pageValues['awardStartDateYear']
                                             && pageValues['awardEndDateDay']
                                             && pageValues['awardEndDateMonth']
-                                            && pageValues['awardEndDateYear']">Their view is that you’re entitled to PIP at the rate below from
+                                            && pageValues['awardEndDateYear']">You are entitled to PIP at the rate below from
                                     {{ pageValues['awardStartDateYear'] + '-' + pageValues['awardStartDateMonth']+'-'+ pageValues['awardStartDateDay'] | date: 'dd MMMM yyyy' }}
                                     until
                                     {{ pageValues['awardEndDateYear'] + '-' + pageValues['awardEndDateMonth']+'-'+ pageValues['awardEndDateDay'] | date: 'dd MMMM yyyy' }}</p>
                                 <p *ngIf="pageValues.endDateRadio === 'indefinite'
                                             && pageValues['awardStartDateDay']
                                             && pageValues['awardStartDateMonth']
-                                            && pageValues['awardStartDateYear']">Their view is that you’re entitled to PIP at the rate below from
-                                    {{ pageValues['awardStartDateYear'] + '-' + pageValues['awardStartDateMonth']+'-'+ pageValues['awardStartDateDay'] | date: 'dd MMMM yyyy' }}
-                                    until indefinite award date.</p>
+                                            && pageValues['awardStartDateYear']">You are entitled to PIP at the rate below from
+                                    {{ pageValues['awardStartDateYear'] + '-' + pageValues['awardStartDateMonth']+'-'+ pageValues['awardStartDateDay'] | date: 'dd MMMM yyyy' }}</p>
                                 <table class="govuk-table">
                                     <tbody class="govuk-table__body">
                                         <tr *ngIf="pageValues['forDailyLiving']" class="govuk-table__row">
