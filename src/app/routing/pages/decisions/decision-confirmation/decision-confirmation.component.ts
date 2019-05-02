@@ -21,11 +21,11 @@ export class DecisionConfirmationComponent implements OnInit {
     pages: pages = {
         tribunal: {
             header:'Tribunal\'s view submitted',
-            text: 'The tribunal\'s view will be sent to the appelant and DWP.'
+            text: 'The tribunal\'s view will be sent to the appellant and DWP.'
         },
         finaldesision: {
             header:'Tribunal\'s decision submitted',
-            text: 'The tribunal\'s decision will be sent to the appelant and DWP.'
+            text: 'The tribunal\'s decision will be sent to the appellant and DWP.'
         }
     };
 
