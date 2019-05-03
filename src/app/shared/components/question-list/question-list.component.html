@@ -15,9 +15,9 @@
         </h3>
 
         <ng-container [ngSwitch]="question.state">
-            <p data-selector="questions-meta-data" *ngSwitchCase="'question_drafted'" class="jui-questions__meta">Last updated by <span class="jui-questions__author">{{question.owner_reference}}</span> {{question.state_datetime | date: "'on' d MMMM yyyy 'at' h:mmaaaaa'm'":'+00:00'}}</p>
-            <p data-selector="questions-issued-meta-data" *ngSwitchCase="'question_issued'" class="jui-questions__meta">Sent by <span class="jui-questions__author">{{question.owner_reference}}</span> {{question.state_datetime | date: "'on' d MMMM yyyy 'at' h:mmaaaaa'm'":'+00:00'}}</p>
-            <p data-selector="questions-answered-meta-data" *ngSwitchCase="'question_answered'" class="jui-questions__meta">Responded by <span class="jui-questions__author">Appellant</span> {{question.state_datetime | date: "'on' d MMMM yyyy 'at' h:mmaaaaa'm'":'+00:00'}}</p>
+            <p data-selector="questions-meta-data" *ngSwitchCase="'question_drafted'" class="jui-questions__meta">Last updated by <span class="jui-questions__author">{{question.owner_reference}}</span> {{question.state_datetime | date: "'on' d MMMM yyyy 'at' h:mmaaaaa'm'"}}</p>
+            <p data-selector="questions-issued-meta-data" *ngSwitchCase="'question_issued'" class="jui-questions__meta">Sent by <span class="jui-questions__author">{{question.owner_reference}}</span> {{question.state_datetime | date: "'on' d MMMM yyyy 'at' h:mmaaaaa'm'"}}</p>
+            <p data-selector="questions-answered-meta-data" *ngSwitchCase="'question_answered'" class="jui-questions__meta">Responded by <span class="jui-questions__author">Appellant</span> {{question.state_datetime | date: "'on' d MMMM yyyy 'at' h:mmaaaaa'm'"}}</p>
         </ng-container>
     </div>
 </div>
