@@ -71,7 +71,7 @@ export class EditQuestionComponent implements OnInit {
     onSubmit() {
         if (this.form.valid) {
 
-            this.form.value.question = this.fixHtml(this.form.value.question);
+            this.form.value.question = this.questionService.validateHTML(this.form.value.question);
             const values = {
                 ...this.form.value,
                 rounds: this.roundNumber
@@ -83,15 +83,5 @@ export class EditQuestionComponent implements OnInit {
         }
         this.submitted = true;
     }
-
-
-    fixHtml(html) {
-        const doc = new DOMParser().parseFromString(html, 'text/html');
-        const xmlString = new XMLSerializer().serializeToString(doc);
-        const bodyOpening = xmlString.indexOf('<body');
-        const bodyStart = bodyOpening + xmlString.substr(bodyOpening).indexOf('>') + 1;
-        const bodyEnd = xmlString.indexOf('</body>');
-        const result = xmlString.substring(bodyStart, bodyEnd);
-        return result;
-    }
+   
 }
