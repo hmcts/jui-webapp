@@ -539,11 +539,6 @@
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-5.2.6.tgz#b8622d50557dd155e9f2f634b7d68fd38de5e94b"
   integrity sha512-1axi39YdtBI7z957vdqXI4Ac25e7YihYQtJa+Clnxg1zTJEaIRbndt71O3sP4GAMgiAm0pY26/b9BrY4MR/PMw==
 
-"@types/node@^6.0.46":
-  version "6.14.4"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-6.14.4.tgz#d8de576bdeaaafcf54a158af1e38cbb6e6d3db46"
-  integrity sha512-UqB7h2dVJr/KdZXRMJIhNUWT0HXVe9UNvfLCOsqiSGKAVaAp0QniYHlU9yegxyG6Ug2rc7VdAD4hYj3VghqvAw==
-
 "@types/node@^8.0.7":
   version "8.10.44"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.10.44.tgz#b00cf3595c6a3d75740af9768739a8125053a5a9"
@@ -8383,7 +8378,7 @@ protoduck@^5.0.1:
   dependencies:
     genfun "^5.0.0"
 
-protractor-cucumber-framework@6.1.1:
+protractor-cucumber-framework@^6.1.1:
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/protractor-cucumber-framework/-/protractor-cucumber-framework-6.1.1.tgz#19e56836702b014d3ec8fe4fa6a65075ee9ab056"
   integrity sha512-zbV/JWCtpr3FrEP1tpFZeOnytuYjAVnTtE85LDOmSDFFM6fcso1X4VypwEpcvW4adSN+cBuYnCKcdm/kay1slg==
@@ -8393,7 +8388,7 @@ protractor-cucumber-framework@6.1.1:
     q "^1.5.1"
     tmp "^0.0.33"
 
-protractor-multiple-cucumber-html-reporter-plugin@1.8.0:
+protractor-multiple-cucumber-html-reporter-plugin@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/protractor-multiple-cucumber-html-reporter-plugin/-/protractor-multiple-cucumber-html-reporter-plugin-1.8.0.tgz#2c277e84c01ef371243a37ee1cd4e456f567e46f"
   integrity sha512-9fvk9jJhQgf47xNfeuUwMV68ClMU1z2s+GMdb97Imu38P7d+VzsIeS81+QxCwH3aKOSDqjRcO1mvcaDg9H/pDA==
@@ -8401,12 +8396,11 @@ protractor-multiple-cucumber-html-reporter-plugin@1.8.0:
     fs-extra "^3.0.1"
     multiple-cucumber-html-reporter "^1.11.0"
 
-protractor@5.4.1:
-  version "5.4.1"
-  resolved "https://registry.yarnpkg.com/protractor/-/protractor-5.4.1.tgz#011a99e38df7aa45d22455b889ffbb13a6ce0bd9"
-  integrity sha512-ORey5ewQMYiXQxcQohsqEiKYOg/r5yJoJbt0tuROmmgajdg/CA3gTOZNIFJncUVMAJIk5YFqBBLUjKVmQO6tfA==
+protractor@^5.4.1:
+  version "5.4.2"
+  resolved "https://registry.yarnpkg.com/protractor/-/protractor-5.4.2.tgz#329efe37f48b2141ab9467799be2d4d12eb48c13"
+  integrity sha512-zlIj64Cr6IOWP7RwxVeD8O4UskLYPoyIcg0HboWJL9T79F1F0VWtKkGTr/9GN6BKL+/Q/GmM7C9kFVCfDbP5sA==
   dependencies:
-    "@types/node" "^6.0.46"
     "@types/q" "^0.0.32"
     "@types/selenium-webdriver" "^3.0.0"
     blocking-proxy "^1.0.0"
