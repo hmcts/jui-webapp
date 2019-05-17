@@ -51,6 +51,14 @@ module "app" {
         DECRYPT_KEY = "${data.azurerm_key_vault_secret.decrypt_key.value}"
     }
 }
+module "redis-cache" {
+  source      = "git@github.com:contino/moj-module-redis?ref=master"
+  product     = "${var.product}-redis"
+  location    = "${var.location}"
+  env         = "${var.env}"
+  subnetid    = "${data.terraform_remote_state.core_apps_infrastructure.subnet_ids[1]}"
+  common_tags = "${var.common_tags}"
+}
 
 data "azurerm_key_vault" "key_vault" {
     name = "${local.shared_vault_name}"
