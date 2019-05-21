@@ -9,8 +9,6 @@ locals {
 # "${local.app_full_name}"
 # "${local.local_env}"
 
-
-
 # module "redis-cache" {
 #   source      = "git@github.com:contino/moj-module-redis?ref=master"
 #   product     = "${var.product}-redis"
