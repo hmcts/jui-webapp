@@ -81,7 +81,7 @@ withNightlyPipeline(type, product, component) {
 
      after('crossBrowserTest') {
        //steps.archiveArtifacts allowEmptyArchive: true, artifacts: 'functional-output/**/*',
-           publishHTML([
+         publishHTML([
          allowMissing         : true,
          alwaysLinkToLastBuild: true,
          keepAll              : true,
@@ -89,7 +89,6 @@ withNightlyPipeline(type, product, component) {
          reportFiles          : 'index.html',
          reportName           : 'JUI Cross Browser Test Report'
      ])
-
      }
 
     after('fullFunctionalTest') {
@@ -97,7 +96,7 @@ withNightlyPipeline(type, product, component) {
             allowMissing         : true,
             alwaysLinkToLastBuild: true,
             keepAll              : true,
-            reportDir            : "reports/tests/fullFunctional/",
+            reportDir            : "reports/tests/functional/",
             reportFiles          : 'index.html',
             reportName           : 'JUI Full Functional Test Report'
         ])

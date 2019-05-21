@@ -20,6 +20,16 @@ exports.config = {
     //     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
     // },
 
+    onComplete: function () {
+
+        var printSessionId = function (jobName) {
+            browser.getSession().then(function (session) {
+                console.log('SauceOnDemandSessionID=' + session.getId() + ' job-name=' + jobName);
+            });
+        }
+        printSessionId('JUI CB Tests');
+    },
+
     plugins: [{
         package: 'protractor-multiple-cucumber-html-reporter-plugin',
         options:{

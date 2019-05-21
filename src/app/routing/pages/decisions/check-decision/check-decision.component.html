@@ -70,22 +70,21 @@
 
                             <div *ngIf="group.information" class="panel panel--information">
                                 <p>The tribunal have considered all the information submitted by you and DWP.</p>
-                                <p *ngIf="pageValues.approveDraftConsent === 'endDate'
+                                <p *ngIf="pageValues.endDateRadio === 'endDate'
                                             && pageValues['awardStartDateDay']
                                             && pageValues['awardStartDateMonth']
                                             && pageValues['awardStartDateYear']
                                             && pageValues['awardEndDateDay']
                                             && pageValues['awardEndDateMonth']
-                                            && pageValues['awardEndDateYear']">Their view is that you’re entitled to PIP at the rate below from
-                                    {{ pageValues['awardStartDateDay']+'/'+pageValues['awardStartDateMonth']+'/'+pageValues['awardStartDateYear'] | date: 'dd MMMM yyyy' }}
+                                            && pageValues['awardEndDateYear']">You are entitled to PIP at the rate below from
+                                    {{ pageValues['awardStartDateYear'] + '-' + pageValues['awardStartDateMonth']+'-'+ pageValues['awardStartDateDay'] | date: 'dd MMMM yyyy' }}
                                     until
-                                    {{ pageValues['awardEndDateDay']+'/'+pageValues['awardEndDateMonth']+'/'+pageValues['awardEndDateYear'] | date: 'dd MMMM yyyy' }}.</p>
-                                <p *ngIf="pageValues.approveDraftConsent === 'indefinite'
+                                    {{ pageValues['awardEndDateYear'] + '-' + pageValues['awardEndDateMonth']+'-'+ pageValues['awardEndDateDay'] | date: 'dd MMMM yyyy' }}</p>
+                                <p *ngIf="pageValues.endDateRadio === 'indefinite'
                                             && pageValues['awardStartDateDay']
                                             && pageValues['awardStartDateMonth']
-                                            && pageValues['awardStartDateYear']">Their view is that you’re entitled to PIP at the rate below from
-                                    {{ pageValues['awardStartDateDay']+'/'+pageValues['awardStartDateMonth']+'/'+pageValues['awardStartDateYear'] | date: 'dd MMMM yyyy' }}
-                                    until indefinite award date.</p>
+                                            && pageValues['awardStartDateYear']">You are entitled to PIP at the rate below from
+                                    {{ pageValues['awardStartDateYear'] + '-' + pageValues['awardStartDateMonth']+'-'+ pageValues['awardStartDateDay'] | date: 'dd MMMM yyyy' }}</p>
                                 <table class="govuk-table">
                                     <tbody class="govuk-table__body">
                                         <tr *ngIf="pageValues['forDailyLiving']" class="govuk-table__row">
