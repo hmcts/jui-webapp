@@ -4,7 +4,6 @@ import { auth } from './controllers/auth'
 import caseRoutes from './controllers/case'
 import caseListRoute from './controllers/case-list'
 import decisionRoutes from './controllers/decisions'
-import documentsRoutes from './controllers/documents'
 import questionsRoutes from './controllers/questions'
 import { errorStack } from './lib/errorStack'
 import authInterceptor from './lib/middleware/auth'
@@ -23,11 +22,13 @@ import s2sApiRoutes from './services/serviceAuth'
 const router = express.Router()
 
 const eventsRoutes = require('./controllers/events')
+const documentsRoutes = require('./controllers/documents')
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0'
 
 router.use(responseRequest)
 auth(router)
+
 
 router.use(serviceTokenMiddleware)
 router.use(authInterceptor)

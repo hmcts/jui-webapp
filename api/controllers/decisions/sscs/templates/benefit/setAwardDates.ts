@@ -33,7 +33,7 @@ module.exports = {
             validatorFunc: 'isValidDate',
             validationErrorId: 'startDateValid',
             controls: [
-                'awardStartDateYear', 'awardStartDateMonth', 'awardStartDateDay', 'false' // accepts only format YYYY, mm, dd, false can not be in the future
+                'awardStartDateYear', 'awardStartDateMonth', 'awardStartDateDay' // accepts only format YYYY, mm, dd
             ]
         }
     ],

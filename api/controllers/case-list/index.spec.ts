@@ -13,7 +13,26 @@ import * as cohCorApi from '../../services/cohQA'
 import * as idamApi from '../../services/idam'
 import * as getAllQuestionsByCase from '../questions/index'
 import * as assignCase from './assignCase'
-import * as caseList from './index'
+import {
+    aggregatedData,
+    appendCOR,
+    appendQuestionsRound,
+    assign,
+    combineLists,
+    getCases,
+    getCOR,
+    getHearingWithQuestionData,
+    getMutiJudCaseAssignedCases,
+    getMutiJudCaseRaw,
+    getMutiJudCaseRawCoh,
+    getQuestionData,
+    raw,
+    rawCOH,
+    sortCases,
+    sortTransformedCases,
+    unassign,
+    unassignAll,
+} from './index'
 
 chai.use(sinonChai)
 describe('index', () => {
@@ -31,7 +50,7 @@ describe('index', () => {
             const userDetails = { id: 1, name: 'John Doe', roles: [1, 2, 3] }
             const stub = sinon.stub(ccdStore, 'getMutiJudCCDCases')
             stub.returns([1, 2, 3])
-            const result = await caseList.getMutiJudCaseRaw(userDetails)
+            const result = await getMutiJudCaseRaw(userDetails)
             expect(stub).to.be.called
             expect(result).to.be.an('array')
             stub.restore()
@@ -40,7 +59,7 @@ describe('index', () => {
     describe('combineLists', () => {
         it('Should return concatenated array', () => {
             const lists = [[1, 2], [3, 4]]
-            const result = caseList.combineLists(lists)
+            const result = combineLists(lists)
             expect(result).to.be.an('array')
             expect(result).to.eql([1, 2, 3, 4])
         })
@@ -52,7 +71,7 @@ describe('index', () => {
                 { id: 2, case_fields: { lastModified: 1549899156 } },
                 { id: 3, case_fields: { lastModified: 1549899216 } },
             ]
-            const result = caseList.sortTransformedCases(results)
+            const result = sortTransformedCases(results)
             expect(result).to.be.an('array')
             expect(result[0].id).to.equal(2)
             expect(result[1].id).to.equal(3)
@@ -66,7 +85,7 @@ describe('index', () => {
                 { id: 2, last_modified: 1549899156 },
                 { id: 3, last_modified: 1549899216 },
             ]
-            const result = caseList.sortCases(results)
+            const result = sortCases(results)
             expect(result).to.be.an('array')
             expect(result[0].id).to.equal(2)
             expect(result[1].id).to.equal(3)
@@ -76,7 +95,7 @@ describe('index', () => {
     describe('aggregatedData', () => {
         it('Should return object', () => {
             const results = [{ id: 1 }, { id: 2 }, { id: 3 }]
-            const result = caseList.aggregatedData(results)
+            const result = aggregatedData(results)
             expect(result).to.be.an('object')
             expect(result.columns).to.not.be.null
             expect(result.results).to.equal(results)
@@ -98,7 +117,7 @@ describe('index', () => {
             const stub = sinon.stub(cohCorApi, 'getHearingByCase')
             stub.returns(stubReturns)
             const res = mockRes()
-            const result = await caseList.appendCOR(res, caseLists)
+            const result = await appendCOR(res, caseLists)
             expect(result).to.be.an('array')
             expect(result[0]).to.be.an('array')
             stub.restore()
@@ -112,7 +131,7 @@ describe('index', () => {
             const stub = sinon.stub(cohCorApi, 'getHearingByCase')
             stub.returns(Promise.resolve(123))
             const res = mockRes()
-            const result = await caseList.getCOR(res, casesData)
+            const result = await getCOR(res, casesData)
             expect(stub).to.be.calledWith('1&case_id=2&case_id=3')
             stub.restore()
         })
@@ -135,7 +154,7 @@ describe('index', () => {
             const stub2 = sinon.stub(coh, 'getDecision')
             stub.returns(Promise.resolve(stubReturns))
             const res = mockRes()
-            const result = await caseList.getCOR(res, casesData)
+            const result = await getCOR(res, casesData)
             expect(result).to.be.an('array')
             expect(result[0].id).to.eql(1)
 
@@ -164,7 +183,7 @@ describe('index', () => {
             stub2.returns({})
             const res = mockRes()
 
-            const result = await caseList.getCOR(res, casesData)
+            const result = await getCOR(res, casesData)
             expect(stub2).to.be.calledWith('2a')
             stub.restore()
             stub2.restore()
@@ -179,7 +198,7 @@ describe('index', () => {
             const userId = 2
             const stub = sinon.stub(getAllQuestionsByCase, 'getAllQuestionsByCase')
             stub.returns({ questions: 2 })
-            const result = await caseList.getHearingWithQuestionData(caseData, userId)
+            const result = await getHearingWithQuestionData(caseData, userId)
             expect(result).to.be.an('object')
             expect(result).to.eql(expectedResult)
             stub.restore()
@@ -193,7 +212,7 @@ describe('index', () => {
                 },
             ]
             const userId = 2
-            const result = await caseList.getQuestionData(caseLists, userId)
+            const result = await getQuestionData(caseLists, userId)
             expect(result).to.be.an('array')
         })
         it("Should return 'getHearingWithQuestionData' if 'hearing_data'", async () => {
@@ -206,7 +225,7 @@ describe('index', () => {
             const expectedResult = [{ id: 1, questions: { questions: 2 } }]
             const userId = 2
             const stub = sinon.stub(getAllQuestionsByCase, 'getAllQuestionsByCase').resolves({ questions: 2 })
-            await caseList.getQuestionData(caseLists, userId).then(result => {
+            await getQuestionData(caseLists, userId).then(result => {
                 expect(result).to.be.an('array')
                 expect(result).to.eql(expectedResult)
             })
@@ -218,7 +237,7 @@ describe('index', () => {
             const userDetails = { id: 1, roles: [1, 2, 3] }
             const stub = sinon.stub(ccdStore, 'getMutiJudCCDCases')
             stub.resolves(123)
-            const result = await caseList.getMutiJudCaseAssignedCases(userDetails)
+            const result = await getMutiJudCaseAssignedCases(userDetails)
             expect(stub).to.be.called
             expect(result).to.equal(123)
             stub.restore()
@@ -234,12 +253,12 @@ describe('index', () => {
                 },
             }
             const stub = sinon.stub(idamApi, 'getUser')
-            const stub2 = sinon.stub(caseList, 'getMutiJudCaseTransformed')
+            const stub2 = sinon.stub(filters, 'filterByCaseTypeAndRole')
             const stub3 = sinon.stub(utils, 'asyncReturnOrError')
             stub.resolves({ id: 1, roles: [1, 2, 3] })
             stub2.resolves([1, 2, 3])
             stub3.resolves({results: [1, 2, 3]})
-            const result = await caseList.getCases(res)
+            const result = await getCases(res)
             expect(stub).to.be.called
             // expect(result).to.be.an('array')
             stub.restore()
@@ -262,7 +281,7 @@ describe('index', () => {
             stub.resolves({ id: 1, roles: [1, 2, 3] })
             stub2.resolves([1, 2, 3])
             stub3.resolves([1, 2, 3])
-            const result = await caseList.unassign(res)
+            const result = await unassign(res)
             expect(stub).to.be.called
             // expect(result).to.be.an('array')
             stub.restore()
@@ -290,7 +309,7 @@ describe('index', () => {
             stub.returns({ id: 1, roles: [1, 2, 3] })
             stub2.resolves([1, 2, 3])
             stub3.resolves([1, 2, 3])
-            const result = await caseList.assign(req, res)
+            const result = await assign(req, res)
             expect(stub).to.be.called
             // expect(result).to.be.an('array')
             stub.restore()
@@ -313,7 +332,7 @@ describe('index', () => {
             stub.returns({ id: 1, roles: [1, 2, 3] })
             stub2.resolves([1, 2, 3])
             stub3.resolves([1, 2, 3])
-            const result = await caseList.raw(res)
+            const result = await raw(res)
             expect(stub).to.be.called
             // expect(result).to.be.an('array')
             stub.restore()
@@ -341,7 +360,7 @@ describe('index', () => {
                 { id: 2, last_modified: 1549899156 },
                 { id: 3, last_modified: 1549899216 },
             ])
-            const result = await caseList.rawCOH(res)
+            const result = await rawCOH(res)
             expect(stub).to.be.called
             // expect(result).to.be.an('array')
             stub.restore()
@@ -364,7 +383,7 @@ describe('index', () => {
             stub.returns(1)
             stub2.resolves({ id: 2 })
             stub3.resolves(3)
-            const result = await caseList.unassignAll(req, res)
+            const result = await unassignAll(req, res)
             expect(stub).to.be.called
             expect(result).to.equal(1)
             stub.restore()
@@ -378,7 +397,7 @@ describe('index', () => {
             const userId = 1
             const stub = sinon.stub(getAllQuestionsByCase, 'getAllQuestionsByCase')
             stub.resolves(123)
-            const result = await caseList.appendQuestionsRound(caseLists, userId)
+            const result = await appendQuestionsRound(caseLists, userId)
             expect(stub).to.not.be.called
             expect(result).to.eql([[], []])
             stub.restore()
@@ -389,7 +408,7 @@ describe('index', () => {
                 [{ id: 3, question_data: 3 }, { id: 4, question_data: 4 }],
             ]
             const userId = 1
-            const result = await caseList.appendQuestionsRound(caseLists, userId)
+            const result = await appendQuestionsRound(caseLists, userId)
             expect(result).to.be.an('array')
             expect(result[1]).to.not.be.null
         })

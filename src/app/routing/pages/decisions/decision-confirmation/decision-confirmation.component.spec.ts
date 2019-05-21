@@ -106,7 +106,7 @@ describe('DecisionConfirmationComponent', () => {
             'preliminary-advanced': true
         }
         component.setPageData(visitedPages);
-        expect(JSON.stringify(component.display)).toBe(JSON.stringify({header: "Tribunal's view submitted", text: "The tribunal's view will be sent to the appellant and DWP."}));
+        expect(JSON.stringify(component.display)).toBe(JSON.stringify({header: "Tribunal's view submitted", text: "The tribunal's view will be sent to the appelant and DWP."}));
     });
 
     it('should set "final decision" page data if "final decision" page visited', () => {
@@ -114,6 +114,6 @@ describe('DecisionConfirmationComponent', () => {
             'final-decision': true
         }
         component.setPageData(visitedPages);
-        expect(JSON.stringify(component.display)).toBe(JSON.stringify({header: "Tribunal's decision submitted", text: "The tribunal's decision will be sent to the appellant and DWP."}));
+        expect(JSON.stringify(component.display)).toBe(JSON.stringify({header: "Tribunal's decision submitted", text: "The tribunal's decision will be sent to the appelant and DWP."}));
     });
 });

@@ -70,8 +70,6 @@ export class EditQuestionComponent implements OnInit {
 
     onSubmit() {
         if (this.form.valid) {
-
-            this.form.value.question = this.questionService.validateHTML(this.form.value.question);
             const values = {
                 ...this.form.value,
                 rounds: this.roundNumber
@@ -83,5 +81,4 @@ export class EditQuestionComponent implements OnInit {
         }
         this.submitted = true;
     }
-   
 }

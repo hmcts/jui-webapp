@@ -200,7 +200,7 @@ describe('ValidationService', () => {
         });
         const validationIdentifier = 'isValidDate';
         const fields = [
-            'yearTestFiled', 'monthTestFiled', 'dayTestFiled', 'false'
+            'yearTestFiled', 'monthTestFiled', 'dayTestFiled'
         ]
         const isValidDate = service.isValidDate(formGroup, fields, validationIdentifier);
         expect(isValidDate).toEqual(jasmine.any(Function));
@@ -214,7 +214,7 @@ describe('ValidationService', () => {
         });
         const validationIdentifier = 'isValidDateValidationFn';
         const fields = [
-            'yearTestFiled', 'monthTestFiled', 'dayTestFiled', 'false'
+            'yearTestFiled', 'monthTestFiled', 'dayTestFiled'
         ]
 
         it('should check if return invalid state for empty fields', inject([ValidationService], (service: ValidationService) => {
@@ -246,7 +246,7 @@ describe('ValidationService', () => {
             expect(isValidDateValidationFn[validationIdentifier]).toBe(true);
         }));
 
-        it('should check if dates like 29/02/2019 does not exist and should return error', inject([ValidationService], (service: ValidationService) => {
+        it('should check if date is valid 29/02/2019 does not exist and should return error', inject([ValidationService], (service: ValidationService) => {
             formGroup.get('dayTestFiled').setValue('29');
             formGroup.get('monthTestFiled').setValue('2');
             formGroup.get('yearTestFiled').setValue('2019');
@@ -255,23 +255,12 @@ describe('ValidationService', () => {
         }));
 
         it('should not return any error if date is valid and properly formatted', inject([ValidationService], (service: ValidationService) => {
-            formGroup.get('dayTestFiled').setValue('15');
+            formGroup.get('dayTestFiled').setValue('2');
             formGroup.get('monthTestFiled').setValue('2');
             formGroup.get('yearTestFiled').setValue('2019');
             const isValidDateValidationFn = service.isValidDateValidationFn(formGroup, fields, validationIdentifier);
             expect(isValidDateValidationFn).toBe(null);
         }));
-
-        it('should return accept date is in the future and the "isInTheFuture" flag is true', inject([ValidationService], (service: ValidationService) => {
-            formGroup.get('dayTestFiled').setValue('5');
-            formGroup.get('monthTestFiled').setValue('2');
-            formGroup.get('yearTestFiled').setValue('2099');
-            fields[3] = 'true';
-            const isValidDateValidationFn = service.isValidDateValidationFn(formGroup, fields, validationIdentifier);
-            expect(isValidDateValidationFn).toBe(null);
-        }));
-
-
     });
 
 });

@@ -130,6 +130,7 @@ export async function postHearing(body) {
     return response.data
 }
 
+
 export default app => {
     const router = express.Router({ mergeParams: true })
     app.use('/coh-cor', router)

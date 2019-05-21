@@ -21,7 +21,6 @@ const getListTemplate = require('./templates/index')
 const { caseStateFilter } = require('../../lib/processors/case-state-util')
 import { ERROR_UNABLE_TO_APPEND_TO_COR, ERROR_UNABLE_TO_APPEND_QRS, ERROR_UNABLE_TO_GET_CASES, ERROR_UNABLE_TO_GET_HEARING_BY_CASE } from '../../lib/errors'
 const logger = log4jui.getLogger('case-list')
-const that = this
 
 export async function getCOR(res, casesData) {
     const caseIds = casesData.map(caseRow => `${caseRow.id}`).join('&case_id=')
@@ -236,11 +235,6 @@ export async function getMutiJudCaseTransformed(res, userDetails) {
     caseList = await asyncReturnOrError(getMutiJudCCDCases(userDetails.id, jurisdictions), 'Error getting Multi' +
         'Jurisdictional assigned cases.', null, logger, false)
 
-    if (!isAnyCaseViewableByAJudge(caseList)) {
-
-        return { message: JUDGE_HAS_NO_VIEWABLE_CASES }
-    }
-
     caseList = await asyncReturnOrError(appendCOR(res, caseList), ERROR_UNABLE_TO_APPEND_TO_COR.humanStatusCode,
         null, logger, false)
 
@@ -314,7 +308,7 @@ export async function getCases(res) {
 
     while (tryCCD < config.maxCCDRetries && !results) {
         // need to disable error sending here and catch it later if retrying
-        results = await asyncReturnOrError(that.getMutiJudCaseTransformed(res, user), ' Error getting case list',
+        results = await asyncReturnOrError(getMutiJudCaseTransformed(res, user), ' Error getting case list',
             res, logger, false)
 
         tryCCD++
