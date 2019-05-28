@@ -9,15 +9,14 @@ locals {
 # "${local.app_full_name}"
 # "${local.local_env}"
 
-
-module "redis-cache" {
-  source      = "git@github.com:contino/moj-module-redis?ref=master"
-  product     = "${var.product}-redis"
-  location    = "${var.location}"
-  env         = "${var.env}"
-  subnetid    = "${data.terraform_remote_state.core_apps_infrastructure.subnet_ids[1]}"
-  common_tags = "${var.common_tags}"
-}
+# module "redis-cache" {
+#   source      = "git@github.com:contino/moj-module-redis?ref=master"
+#   product     = "${var.product}-redis"
+#   location    = "${var.location}"
+#   env         = "${var.env}"
+#   subnetid    = "${data.terraform_remote_state.core_apps_infrastructure.subnet_ids[1]}"
+#   common_tags = "${var.common_tags}"
+# }
 
 module "app" {
     source = "git@github.com:hmcts/cnp-module-webapp?ref=master"
@@ -36,9 +35,9 @@ module "app" {
     asp_name = "${var.env == "prod" ? "rpa-rd-prod" : "${var.shared_product_name}-${var.env}"}"
 
     app_settings = {
-        REDIS_HOST = "${module.redis-cache.host_name}"
-        REDIS_PORT = "${module.redis-cache.redis_port}"
-        REDIS_PASSWORD = "${module.redis-cache.access_key}"
+        # REDIS_HOST = "${module.redis-cache.host_name}"
+        # REDIS_PORT = "${module.redis-cache.redis_port}"
+        # REDIS_PASSWORD = "${module.redis-cache.access_key}"
         WEBSITE_NODE_DEFAULT_VERSION = "8.10.0"
 
         # NODE_ENV = "${var.env}"

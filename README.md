@@ -16,7 +16,6 @@
 [![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=sqale_index)](https://sonarcloud.io/dashboard?id=rpa-jui-webapp)
 [![sonarcloud](https://sonarcloud.io/api/project_badges/measure?project=rpa-jui-webapp&metric=vulnerabilities)](https://sonarcloud.io/dashboard?id=rpa-jui-webapp)
 
-
 # Judicial UI Webapp
 This is the Web Application to allow Judicial staff (Judges & Panel Members) to access and work on cases.
 
