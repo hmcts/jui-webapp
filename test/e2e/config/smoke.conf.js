@@ -114,7 +114,7 @@ const config = {
             "node_modules/cucumber-pretty",
             "json:reports_json/results.json"
         ],
-        tags: ["@smoke"],
+        tags: ["@ignore"],
         require: [
             "../support/timeout.js",
             "../support/world.js",
