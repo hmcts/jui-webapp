@@ -5,9 +5,9 @@ export default {
         ccd_def_api:
             'https://ccd-definition-store-api-prod.service.core-compute-prod.internal',
         idam_web:
-            'https://idam-web-public.platform.hmcts.net',
+            'https://hmcts-access.service.gov.uk',
         idam_api:
-          'https://idam-api-pregolive.platform.hmcts.net',
+          'https://idam-api.platform.hmcts.net',
         s2s:
             'https://rpe-service-auth-provider-prod.service.core-compute-prod.internal',
         draft_store_api:
