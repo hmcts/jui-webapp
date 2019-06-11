@@ -14,8 +14,8 @@ module "redis-cache" {
     product     = "${var.product}-redis"
     location    = "${var.location}"
     env         = "${var.env}"
-   subnetid    = "${data.terraform_remote_state.core_apps_infrastructure.subnet_ids[1]}"
-   common_tags = "${var.common_tags}"
+    subnetid    = "${data.terraform_remote_state.core_apps_infrastructure.subnet_ids[1]}"
+    common_tags = "${var.common_tags}"
 }
 
 module "app" {
@@ -38,7 +38,7 @@ module "app" {
         REDIS_HOST = "${module.redis-cache.host_name}"
         REDIS_PORT = "${module.redis-cache.redis_port}"
         REDIS_PASSWORD = "${module.redis-cache.access_key}"
-        
+
         WEBSITE_NODE_DEFAULT_VERSION = "8.10.0"
 
         # NODE_ENV = "${var.env}"
