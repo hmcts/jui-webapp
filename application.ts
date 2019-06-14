@@ -17,13 +17,16 @@ const cookieParser = require("cookie-parser");
 
 const session = require("express-session");
 var redis = require("redis");
-const redisClient = redis.createClient({
-    host: process.env.REDIS_HOST,
-    port: process.env.REDIS_PORT,
-    password: process.env.REDIS_PASSWORD
-});
-
 var redisStore = require("connect-redis")(session);
+
+const redisClient = redis.createClient(
+    process.env.REDIS_PORT,
+    process.env.REDIS_HOST
+);
+
+if (process.env.REDIS_HOST) {
+    redisClient.auth(process.env.REDIS_PASSWORD);
+}
 
 redisClient.on("error", err => {
     console.log("Redis error: ", err);
