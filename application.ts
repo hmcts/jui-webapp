@@ -24,9 +24,7 @@ const redisClient = redis.createClient(
     process.env.REDIS_HOST
 );
 
-if (process.env.REDIS_HOST) {
-    redisClient.auth(process.env.REDIS_PASSWORD);
-}
+
 
 redisClient.on('error', err => {
     console.log('Redis error: ', err);
