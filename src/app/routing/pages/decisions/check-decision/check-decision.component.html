@@ -123,7 +123,9 @@
                                         <!--</tr>-->
                                     </tbody>
                                 </table>
-                                <p *ngIf="pageValues['compareToDWPAward']">This is the {{pageValues['compareToDWPAward'] | lowercase }} DWP initially awarded you.</p>
+                                <p *ngIf="pageValues['compareToDWPAward']==='Higher'">This is more than DWP initially awarded you.</p>
+                                <p *ngIf="pageValues['compareToDWPAward']==='Same'">This is same DWP initially awarded you.</p>
+                                <p *ngIf="pageValues['compareToDWPAward']==='Lower'">This is less than DWP initially awarded you.</p>
                                 <p>If both you and DWP accept this view, you’ll be awarded PIP at the above rate.</p>
                             </div>
                             <ng-container *ngIf="group.reasons">
