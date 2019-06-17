@@ -55,7 +55,7 @@ module "app" {
 
 module "redis-cache" {
     source      = "git@github.com:contino/moj-module-redis?ref=master"
-    product     = "${local.app_full_name}-redis"
+    product     = "${var.product}-redis"
     location    = "${var.location}"
     env         = "${var.env}"
     subnetid    = "${data.terraform_remote_state.core_apps_infrastructure.subnet_ids[1]}"
