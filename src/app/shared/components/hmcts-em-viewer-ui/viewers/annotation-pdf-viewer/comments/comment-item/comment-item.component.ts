@@ -99,7 +99,7 @@ export class CommentItemComponent implements OnInit, OnDestroy {
     }
 
     setHeight() {
-        this.renderer.setStyle(this.commentArea.nativeElement, 'height', 'fit-content');
+        this.renderer.setStyle(this.commentArea.nativeElement, 'height', 'auto');
         this.renderer.setStyle(this.commentArea.nativeElement, 'height', (this.commentArea.nativeElement.scrollHeight) + 'px');
         this.commentHeight =  this.commentSelector.nativeElement.getBoundingClientRect().height;
         this.commentRendered.emit(true);
