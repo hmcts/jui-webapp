@@ -33,7 +33,6 @@ const sscsCaseData = [
         id: 987654321,
         jurisdiction: 'SSCS',
         case_type_id: 'Benefit',
-        state: 'appealCreated',
         case_data: {
             caseReference: '123-123-123',
             appeal: {
@@ -57,7 +56,6 @@ const sscsCaseDataNullCaseRef = [
         id: 987654321,
         jurisdiction: 'SSCS',
         case_type_id: 'Benefit',
-        state: 'appealCreated',
         case_data: {
             appeal: {
                 appellant: {

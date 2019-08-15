@@ -23,7 +23,6 @@ describe('case list helpers', () => {
 
             const caseList = [ [ { id: 1554974408669103,
                 jurisdiction: 'SSCS',
-                state: 'appealCreated',
                 case_type_id: 'Benefit',
                 created_date: '2019-04-11T09:20:08.602',
                 last_modified: '2019-04-11T09:30:23.802',
@@ -60,7 +59,6 @@ describe('case list helpers', () => {
 
             const caseList = [ [ { id: 1554974408669103,
                 jurisdiction: 'SSCS',
-                state: 'appealCreated',
                 case_type_id: 'Benefit',
                 created_date: '2019-04-11T09:20:08.602',
                 last_modified: '2019-04-11T09:30:23.802',

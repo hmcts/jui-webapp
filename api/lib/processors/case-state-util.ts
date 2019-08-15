@@ -6,7 +6,6 @@
 // alway suffix with STATE to make it easy to find.
 export const STATE = {
     FR_CCD_REFER_TO_JUDGE_STATE: 'referredToJudge',
-    SSCS_CCD_APPEAL_CREATED: 'appealCreated',
     COH_STARTED_STATE: 'continuous_online_hearing_started',
     COH_DECISION_ISSUED_STATE: 'continuous_online_hearing_decision_issued',
     COH_PRELIMINARY_VIEW_ISSUED_STATE: 'decision_issued',
@@ -22,7 +21,6 @@ export const STATE = {
     COH_Q_QUESTION_DEADLINE_EXTENSION_DENIED_STATE: 'question_deadline_extension_denied',
     COH_A_QUESTION_ANSWERED_STATE: 'question_answered',
     SSCS: [
-        'appealCreated',
         'continuous_online_hearing_started',
         'continuous_online_hearing_decision_issued',
         'question_drafted',
@@ -76,7 +74,7 @@ export const caseShownToJudge = [
     STATE.COH_Q_DEADLINE_ELAPSED_STATE,
     STATE.COH_Q_DEADLINE_EXT_ELAPSED_STATE,
     STATE.COH_A_QUESTION_ANSWERED_STATE,
-    STATE.SSCS_CCD_APPEAL_CREATED,
+    // STATE.SSCS_CCD_APPEAL_CREATED,
     // ...[...STATE.SSCS],
     ...[...STATE.FR],
     ...[...STATE.DIV],

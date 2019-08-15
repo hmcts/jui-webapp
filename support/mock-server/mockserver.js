@@ -13,7 +13,7 @@ server.use((req, res, next) => {
 
 server.use(mockserver.rewriter({
     '/caseworkers/:id/jurisdictions/:jur/case-types/:case_type/cases?sortDirection=DESC': '/:case_type',
-    '/caseworkers/:id/jurisdictions/:jur/case-types/:case_type/cases?sortDirection=DESC&state=appealCreated&case.appeal.benefitType.code=PIP': '/:case_type',
+    '/caseworkers/:id/jurisdictions/:jur/case-types/:case_type/cases?sortDirection=DESC&case.appeal.benefitType.code=PIP': '/:case_type',
     '/caseworkers/123141/jurisdictions/:jur/case-types/:case_type/cases/:caseId': '/caseSummary/:caseId',
     '/caseworkers/123141/jurisdictions/:jur/case-types/:case_type/cases/:caseId/events': '/events-:caseId'
 }));

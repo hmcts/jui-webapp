@@ -11,7 +11,6 @@
     describe('CASE STATE ', () => {
     it('should  STATE  have the correct properties', () => {
         expect(caseStateUtil.STATE.FR_CCD_REFER_TO_JUDGE_STATE).to.exist
-        expect(caseStateUtil.STATE.SSCS_CCD_APPEAL_CREATED).to.exist
         expect(caseStateUtil.STATE.COH_STARTED_STATE).to.exist
         expect(caseStateUtil.STATE.COH_DECISION_ISSUED_STATE).to.exist
         expect(caseStateUtil.STATE.COH_PRELIMINARY_VIEW_ISSUED_STATE).to.exist

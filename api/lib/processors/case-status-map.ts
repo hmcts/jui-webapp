@@ -9,8 +9,7 @@ module.exports = {
             continuous_online_hearing_decision_issued: 'Decision issued',
             question_deadline_extension_granted: 'Question deadline extension granted',
             question_issued: 'Question issued',
-            appealCreated: 'Appeal created'
-        }
+        },
     },
     cmc: {
         moneyclaimcase: {

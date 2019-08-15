@@ -1,5 +1,3 @@
-
-
 import { getMutiJudCCDCases, updateCase } from '../../services/ccd-store-api/ccd-store'
 import { getDetails } from '../../services/idam'
 
@@ -9,7 +7,7 @@ const jurisdictions = [
     {
         jur: 'SSCS',
         caseType: 'Benefit',
-        filter: '&state=appealCreated&case.appeal.benefitType.code=PIP',
+        filter: '&case.appeal.benefitType.code=PIP',
     },
     {
         jur: 'DIVORCE',

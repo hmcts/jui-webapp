@@ -43,7 +43,7 @@ describe('filters', () => {
                 {
                     accessRoles: ['caseworker-sscs-judge', 'caseworker-sscs-panelmember'],
                     caseType: 'Benefit',
-                    filter: '&state=appealCreated&case.appeal.benefitType.code=PIP',
+                    filter: '&case.appeal.benefitType.code=PIP',
                     jur: 'SSCS',
                 },
                 {
