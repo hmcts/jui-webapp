@@ -3443,9 +3443,9 @@ ejs@^2.5.7, ejs@^2.6.1:
   integrity sha512-PcW2a0tyTuPHz3tWyYqtK6r1fZ3gp+3Sop8Ph+ZYN81Ob5rwmbHEzaqs10N3BEsaGTkh/ooniXK+WwszGlc2+Q==
 
 electron-to-chromium@^1.3.191, electron-to-chromium@^1.3.47:
-  version "1.3.229"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.229.tgz#accc9a08dd07d0a4d6c76937821bc94eb2e49eae"
-  integrity sha512-N6pUbSuKFBeUifxBZp9hODS1N9jFobJYW47QT2VvZIr+G5AWnHK/iG3ON9RPRGH7lHDQ6KUDVhzpNkj4ZiznoA==
+  version "1.3.230"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.230.tgz#2d0618cb6f724391d5fd0926dde84d6c67cbcda9"
+  integrity sha512-r0RljY5DZi9RX4v8mjHxJkDWnQe+nsrkGlHtrDF2uvZcvAkw+iglvlQi1794gZhwRtJoDOomMJlDHL2LfXSCZA==
 
 elliptic@^6.0.0:
   version "6.5.0"
@@ -7433,9 +7433,9 @@ multicast-dns@^6.0.1:
     thunky "^1.0.2"
 
 multiple-cucumber-html-reporter@^1.11.0:
-  version "1.12.0"
-  resolved "https://registry.yarnpkg.com/multiple-cucumber-html-reporter/-/multiple-cucumber-html-reporter-1.12.0.tgz#db94d2feaa598a82ed9150efbe3c918edf1ea9c9"
-  integrity sha512-aDQnFKJhUaEiJyww5Bd7XZ2M8/VG3U0M83QBAnfKJ8hR5A70zUpH1mnQKDlzPp6/dDmeE2P9HMateFlWXZF0zg==
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/multiple-cucumber-html-reporter/-/multiple-cucumber-html-reporter-1.12.1.tgz#b2f625b2218226dfdd6cecc0e71ffadfcde1875c"
+  integrity sha512-T7pQci/01ySGfeBrnPShXdtyE7ySDO4X4nHahkBfgca8i5E3RIvdlYVn4ZYcgHXT5b4UPHRQsr2ha0eE/UugQA==
   dependencies:
     chalk "^2.4.2"
     find "^0.3.0"
@@ -10348,9 +10348,9 @@ snyk-try-require@1.3.1, snyk-try-require@^1.1.1, snyk-try-require@^1.3.1:
     then-fs "^2.0.0"
 
 snyk@^1.136.0:
-  version "1.216.5"
-  resolved "https://registry.yarnpkg.com/snyk/-/snyk-1.216.5.tgz#409272c4662888ca6a3bea8122ecb4be3d4d044c"
-  integrity sha512-mtCMRjN+TyTMWgeQNtfL4+9qe2K6ge1zYDCso1Hj41O1q5pzZrD3ObkdT4RGl/i9Iq1/WJv+8vProtKJ4X5eCA==
+  version "1.217.0"
+  resolved "https://registry.yarnpkg.com/snyk/-/snyk-1.217.0.tgz#a588b06e406a6970de1f786d0c9a4692d901d4ed"
+  integrity sha512-yjD7vp2XYv5jxCzAJMcnPXbSzeOPqsPzO5dBjKK7GTZb9THXfvzEvW7rWkKY+miWcd50o2exgCLq4eeu1PxKoA==
   dependencies:
     "@snyk/dep-graph" "1.12.0"
     "@snyk/gemfile" "1.2.0"
