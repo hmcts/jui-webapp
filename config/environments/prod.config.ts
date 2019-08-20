@@ -11,7 +11,7 @@ export default {
         s2s:
             'https://rpe-service-auth-provider-prod.service.core-compute-prod.internal',
         draft_store_api:
-            'https://draft-store-service-prod.service.core-compute-prod.internal',
+            'http://draft-store-service-prod.service.core-compute-prod.internal',
         dm_store_api:
             'https://dm-store-prod.service.core-compute-prod.internal',
         em_anno_api: 'https://em-anno-prod.service.core-compute-prod.internal',

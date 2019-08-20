@@ -9,7 +9,7 @@ export default {
         s2s:
             'https://rpe-service-auth-provider-demo.service.core-compute-demo.internal',
         draft_store_api:
-            'https://draft-store-service-demo.service.core-compute-demo.internal',
+            'http://draft-store-service-demo.service.core-compute-demo.internal',
         dm_store_api:
             'https://dm-store-demo.service.core-compute-demo.internal',
         em_anno_api: 'https://em-anno-demo.service.core-compute-demo.internal',

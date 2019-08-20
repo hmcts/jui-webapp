@@ -9,7 +9,7 @@ export default {
         s2s:
             'https://rpe-service-auth-provider-saat.service.core-compute-saat.internal',
         draft_store_api:
-            'https://draft-store-service-saat.service.core-compute-saat.internal',
+            'http://draft-store-service-saat.service.core-compute-saat.internal',
         dm_store_api:
             'https://dm-store-saat.service.core-compute-saat.internal',
         em_anno_api: 'https://em-anno-saat.service.core-compute-saat.internal',

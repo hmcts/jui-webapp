@@ -9,7 +9,7 @@ export default {
         s2s:
             'https://rpe-service-auth-provider-sandbox.service.core-compute-sandbox.internal',
         draft_store_api:
-            'https://draft-store-service-sandbox.service.core-compute-sandbox.internal',
+            'http://draft-store-service-sandbox.service.core-compute-sandbox.internal',
         dm_store_api:
             'https://dm-store-sandbox.service.core-compute-sandbox.internal',
         em_anno_api:
