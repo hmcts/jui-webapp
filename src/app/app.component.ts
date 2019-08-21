@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, Renderer2, NgZone } from '@angular/core';
 import { ConfigService } from './config.service';
-import { NavigationEnd, Router, Event } from '@angular/router';
+import { NavigationEnd, Router, RouterEvent, NavigationStart, NavigationCancel, NavigationError } from '@angular/router';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
     selector: 'app-root',
@@ -12,11 +13,19 @@ export class AppComponent implements OnInit {
     title = 'JUI Web App';
     urls = ['summary', 'parties', 'casefile', 'timeline', 'decision', 'hearing', 'reject-reasons'];
     config; // TODO add type
+    loadingClass = 'jui-loading';
 
-    constructor(private configService: ConfigService, private router: Router) { }
+    constructor(
+        @Inject(DOCUMENT) private document: Document,
+        private configService: ConfigService,
+        private router: Router,
+        private renderer: Renderer2,
+        private ngZone: NgZone
+    ) { }
 
     ngOnInit() {
-        this.router.events.subscribe((event: Event) => {
+        this.router.events.subscribe((event: RouterEvent) => {
+            this.navigationInterceptor(event);
             if (event instanceof NavigationEnd) {
                 const replacedTitles = this.replacedTitles(event.url);
                 this.title = this.getTitle(replacedTitles);
@@ -25,8 +34,27 @@ export class AppComponent implements OnInit {
 
     }
 
+    navigationInterceptor(event: RouterEvent): void {
+        if (event instanceof NavigationStart) {
+            this.loading = true;
+        }
+        if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
+            this.loading = false;
+        }
+    }
+
+    set loading(load: boolean) {
+        this.ngZone.runOutsideAngular(() => {
+            if (load) {
+                this.renderer.addClass(this.document.body, this.loadingClass);
+            } else {
+                this.renderer.removeClass(this.document.body, this.loadingClass);
+            }
+        });
+    }
+
     replacedTitles(url: string): string {
-        for ( const page of this.urls ){
+        for ( const page of this.urls ) {
             if (url.indexOf(page) !== -1) {
                 return page;
             }
