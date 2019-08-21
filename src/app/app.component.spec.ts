@@ -1,13 +1,15 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, fakeAsync, tick } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import {ConfigService} from './config.service';
 import {configMock} from './domain/services/mock/config.env.mock';
 import {RouterTestingModule} from '@angular/router/testing';
+import { Router } from '@angular/router';
 describe('AppComponent', () => {
 
     let app;
     let fixture;
+    let router: Router;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
@@ -21,11 +23,12 @@ describe('AppComponent', () => {
                     useValue: configMock
                 }
             ],
-            schemas:[CUSTOM_ELEMENTS_SCHEMA]
+            schemas: [CUSTOM_ELEMENTS_SCHEMA]
         }).compileComponents();
 
         fixture = TestBed.createComponent(AppComponent);
         app = fixture.debugElement.componentInstance;
+        router = TestBed.get(Router);
 
     }));
     it('should create the app', async(() => {
@@ -41,5 +44,14 @@ describe('AppComponent', () => {
     }));
     it(`should return title mapping `, async(() => {
         expect('Your cases - Judicial case manager').toContain(app.getTitle('/'));
+    }));
+
+    it('should call navigationInterceptor on init router subscribe', fakeAsync( () => {
+        const spy = spyOn(app, 'navigationInterceptor');
+        expect(spy).not.toHaveBeenCalled();
+        app.ngOnInit();
+        router.navigate(['']);
+        tick();
+        expect(spy).toHaveBeenCalled();
     }));
 });
