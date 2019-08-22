@@ -259,13 +259,13 @@ export class ValidationService {
                         dateValueArray[2] = Number(dateValueArray[2]);
 
                         // Return error if user entered months less than 0 and more than 12
-                        if (dateValueArray[1] <= 0 || dateValueArray[1] >= 12) {
+                        if (dateValueArray[1] <= 0 || dateValueArray[1] > 12) {
                             return {
                                 [validationIdentifier]: true
                             };
                         }
                         // Return error if user entered months less than 0 and more than 31
-                        if (dateValueArray[2] <= 0 || dateValueArray[2] >= 31) {
+                        if (dateValueArray[2] <= 0 || dateValueArray[2] > 31) {
                             return {
                                 [validationIdentifier]: true
                             };
