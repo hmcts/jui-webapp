@@ -17,13 +17,7 @@ nodejs:
     rpa:
       resourceGroup: rpa
       secrets:
-        - test-email
-        - jui-s2s-toke
         - decrypt-key
-        - jui-oauth2-token
-        - fr-email
-        - fr-password
-        - sscs-email
         - sscs-password
         - AppInsightsInstrumentationKey
   # Don't modify below here
