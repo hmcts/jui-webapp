@@ -2,6 +2,7 @@ import { Component, OnInit, Inject, Renderer2, NgZone } from '@angular/core';
 import { ConfigService } from './config.service';
 import { NavigationEnd, Router, RouterEvent, NavigationStart, NavigationCancel, NavigationError } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
+import { LoaderService } from './loader.service'
 
 @Component({
     selector: 'app-root',
@@ -20,27 +21,22 @@ export class AppComponent implements OnInit {
         private configService: ConfigService,
         private router: Router,
         private renderer: Renderer2,
-        private ngZone: NgZone
-    ) { }
+        private ngZone: NgZone,
+        private loaderService: LoaderService
+    ) {
+        this.loaderService.isLoading.subscribe((v) => {
+            this.loading = v;
+        });
+    }
 
     ngOnInit() {
         this.router.events.subscribe((event: RouterEvent) => {
-            this.navigationInterceptor(event);
             if (event instanceof NavigationEnd) {
                 const replacedTitles = this.replacedTitles(event.url);
                 this.title = this.getTitle(replacedTitles);
             }
         });
 
-    }
-
-    navigationInterceptor(event: RouterEvent): void {
-        if (event instanceof NavigationStart) {
-            this.loading = true;
-        }
-        if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
-            this.loading = false;
-        }
     }
 
     set loading(load: boolean) {
