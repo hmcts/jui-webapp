@@ -9,6 +9,8 @@ import {BrowserTransferStateModule} from '@angular/platform-browser';
 import {RouterTestingModule} from '@angular/router/testing';
 import {mockConfigService} from '../../mock/config.mock';
 import {ErrorFormattingService} from '../../../shared/services/error-formatting.service';
+import { of } from 'rxjs';
+
 
 describe('SearchResultComponent', () => {
     let component: SearchResultComponent;
@@ -27,7 +29,6 @@ describe('SearchResultComponent', () => {
                 RouterTestingModule
             ],
             providers: [
-                CaseService,
                 {
                     provide: ErrorFormattingService,
                     useValue: mockErrorFormattingService,
@@ -53,6 +54,15 @@ describe('SearchResultComponent', () => {
                 fixture.detectChanges();
             });
     }));
+
+    const mockCaseService = {
+        getCases() {
+            return of({});
+        },
+        getPaginationMetadata() {
+            return of({});
+        }
+    }
 
     /**
      * Representative object of the minimal error stack.
@@ -177,5 +187,104 @@ describe('SearchResultComponent', () => {
         component.getCasesError(errorStack);
 
         expect(component.minimalErrorStack).toEqual(mockErrorFormattingService.createMinimalErrorStack());
+    }));
+
+    /**
+     * getCases()
+     */
+    it('should set the component state to loading when getting cases.', inject([ErrorFormattingService], (errorFormattingService: ErrorFormattingService) => {
+
+        const requestCcdPage = 42;
+
+        // Initially set the component state
+        component.setComponentState('This component state property should change to LOADING.');
+
+        // getCases changes the component state to LOADING
+        component.getCases(requestCcdPage);
+
+        expect(component.componentState).toEqual(component.LOADING);
+    }));
+
+    it('should call getCasesSuccess() if we are able to get cases successfully.', inject([CaseService], (caseService: CaseService) => {
+
+        const requestCcdPage = 42;
+
+        const caseServiceSpy = spyOn(caseService, 'getCases').and.returnValue(of({}));
+        const onCasesSubscribeSuccess = spyOn(component, 'getCasesSuccess')
+
+        component.getCases(requestCcdPage);
+
+        expect(caseServiceSpy).toHaveBeenCalled();
+        expect(onCasesSubscribeSuccess).toHaveBeenCalled();
+    }));
+
+    // it('should call getCasesError() if we are able to get cases successfully.', inject([CaseService], (caseService: CaseService) => {
+    //
+    //     const requestCcdPage = 42;
+    //
+    //     const caseServiceSpy = spyOn(caseService, 'getCases').and.throwError;
+    //
+    //     const onCasesSubscribeError = spyOn(component, 'getCasesError')
+    //
+    //     component.getCases(requestCcdPage);
+    //
+    //     expect(caseServiceSpy).toHaveBeenCalled();
+    //     expect(onCasesSubscribeError).toHaveBeenCalled();
+    // }));
+
+    it('should return true if there is a next page for pagination, by checking that the selected page index is less than ' +
+        'the total number of pages.', inject([CaseService], (caseService: CaseService) => {
+
+        const selectedPageIndex = 1;
+        component.totalPages = 2;
+
+        expect(component.hasNextPage(selectedPageIndex)).toBeTruthy();
+    }));
+
+    it('should return false if there is no next page for pagination.', inject([CaseService], (caseService: CaseService) => {
+
+        const selectedPageIndex = 2;
+        component.totalPages = 2;
+
+        expect(component.hasNextPage(selectedPageIndex)).toBeFalsy();
+    }));
+
+    it('should return true if there is a previous page for pagination.', inject([CaseService], (caseService: CaseService) => {
+
+        const selectedPageIndex = 2;
+
+        expect(component.hasPreviousPage(selectedPageIndex)).toBeTruthy();
+    }));
+
+    it('should return false if there is no previous page for pagination.', inject([CaseService], (caseService: CaseService) => {
+
+        const selectedPageIndex = 1;
+
+        expect(component.hasPreviousPage(selectedPageIndex)).toBeFalsy();
+    }));
+
+    it('should return true if the current page index is the same as the selected page index. If it is' +
+        'then we can highlight the page number in the view.', inject([CaseService], (caseService: CaseService) => {
+
+        const pageIndex = 1;
+        const selectedPageIndex = 1;
+
+        expect(component.pageSelected(pageIndex, selectedPageIndex)).toBeTruthy();
+    }));
+
+    it('should return false if the current page index is not the same as the selected page index.', inject([CaseService], (caseService: CaseService) => {
+
+        const pageIndex = 1;
+        const selectedPageIndex = 2;
+
+        expect(component.pageSelected(pageIndex, selectedPageIndex)).toBeFalsy();
+    }));
+
+    it('should set the selected page index.', inject([CaseService], (caseService: CaseService) => {
+
+        const selectedPageIndex = 42;
+        component.setSelectedPageIndex(selectedPageIndex);
+
+        expect(component.selectedPageIndex).toEqual(selectedPageIndex);
     }));
 });

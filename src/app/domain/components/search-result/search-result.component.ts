@@ -55,11 +55,11 @@ export class SearchResultComponent implements OnInit {
     getCasesSuccess(cases) {
 
         if (this.userHasNoCases(cases)) {
-            this.componentState = this.USER_HAS_NO_CASES;
+            this.setComponentState(this.USER_HAS_NO_CASES);
             return;
         }
 
-        this.componentState = this.CASES_LOAD_SUCCESSFULLY;
+        this.setComponentState(this.CASES_LOAD_SUCCESSFULLY);
 
         this.cases = cases;
 
@@ -69,7 +69,7 @@ export class SearchResultComponent implements OnInit {
 
     getCasesError(errorStack) {
 
-        this.componentState = this.CASES_LOAD_ERROR;
+        this.setComponentState(this.CASES_LOAD_ERROR);
 
         this.errorStackResponse = errorStack.error.response.data;
 
@@ -95,12 +95,20 @@ export class SearchResultComponent implements OnInit {
     }
 
     /**
+     * Set this component's state.
+     *
+     * @param state
+     * @returns {any}
+     */
+    setComponentState = state => this.componentState = state;
+
+    /**
      * Note that the minimal error stack, does not include the request, response or return objects, as this is
      * too much information to place into the view.
      */
     getCases(requestCcdPage) {
 
-        this.componentState = this.LOADING;
+        this.setComponentState(this.LOADING);
         const casesObservable = this.caseService.getCases(requestCcdPage);
 
         casesObservable.subscribe(
