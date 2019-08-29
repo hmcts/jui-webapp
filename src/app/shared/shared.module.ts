@@ -41,6 +41,7 @@ import { ValidationHeaderComponent } from './components/validation-header/valida
 import { JuiFormElementsComponent } from './components/jui-form-elements/jui-form-elements.component';
 import { InputsComponent } from './components/inputs/inputs.component';
 import { HmctsEmViewerUiModule } from './components/hmcts-em-viewer-ui/hmcts-em-viewer-ui.module';
+import { MediaViewerModule } from '@hmcts/media-viewer';
 import { DateComponent } from './components/date/date.component';
 import { CustombuttonsComponent } from './components/custombuttons/custombuttons.component';
 
@@ -52,6 +53,7 @@ import { CustombuttonsComponent } from './components/custombuttons/custombuttons
         FormsModule,
         ReactiveFormsModule,
         HmctsEmViewerUiModule,
+        MediaViewerModule,
         RouterModule,
         GovukModule,
         HmctsModule,
