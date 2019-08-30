@@ -34,8 +34,6 @@ List<LinkedHashMap<String, Object>> secrets = [
 
 ]
 
-
-
 static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
     [ $class: 'AzureKeyVaultSecret',
       secretType: 'Secret',
@@ -50,8 +48,8 @@ static LinkedHashMap<String, Object> secret(String secretName, String envVar) {
 
 withPipeline(type, product, component) {
     enableSlackNotifications(channel)
-    loadVaultSecrets(secrets)
-    setVaultName(vault)
+  //  loadVaultSecrets(secrets)
+   // setVaultName(vault)
 
 //    enablePerformanceTest(15)
 //    enableApiGatewayTest(15)
