@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject, Renderer2, NgZone } from '@angular/core';
 import { ConfigService } from './config.service';
-import { NavigationEnd, Router, RouterEvent } from '@angular/router';
+import { NavigationEnd, Router, RouterEvent, NavigationStart, NavigationCancel, NavigationError } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
-import { LoaderService } from './loader.service';
+import { LoaderService } from './loader.service'
 
 @Component({
     selector: 'app-root',
