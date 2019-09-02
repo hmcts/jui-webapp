@@ -62,9 +62,6 @@ export class SearchResultComponent implements OnInit {
         this.setComponentState(this.CASES_LOAD_SUCCESSFULLY);
 
         this.cases = cases;
-
-        console.log('set cases');
-        console.log(this.cases);
     }
 
     getCasesError(errorStack) {

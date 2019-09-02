@@ -218,20 +218,6 @@ describe('SearchResultComponent', () => {
         expect(onCasesSubscribeSuccess).toHaveBeenCalled();
     }));
 
-    // it('should call getCasesError() if we are able to get cases successfully.', inject([CaseService], (caseService: CaseService) => {
-    //
-    //     const requestCcdPage = 42;
-    //
-    //     const caseServiceSpy = spyOn(caseService, 'getCases').and.throwError;
-    //
-    //     const onCasesSubscribeError = spyOn(component, 'getCasesError')
-    //
-    //     component.getCases(requestCcdPage);
-    //
-    //     expect(caseServiceSpy).toHaveBeenCalled();
-    //     expect(onCasesSubscribeError).toHaveBeenCalled();
-    // }));
-
     it('should return true if there is a next page for pagination, by checking that the selected page index is less than ' +
         'the total number of pages.', inject([CaseService], (caseService: CaseService) => {
 

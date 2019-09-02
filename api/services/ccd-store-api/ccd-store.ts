@@ -94,9 +94,6 @@ export async function getCCDEvents(userId: string, jurisdiction: string, caseTyp
  */
 export async function getCCDCases(userId: string, jurisdiction: string, caseType: string, filter: string, requestCcdPage): Promise<any> {
 
-    console.log('getCCDCases')
-    console.log(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases?sortDirection=DESC${filter}`)
-
     const response = await http.get(
         `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases?sortDirection=DESC${filter}&page=${requestCcdPage}`
     )
@@ -116,8 +113,6 @@ export async function getCCDCases(userId: string, jurisdiction: string, caseType
 export async function getCasesPaginationMetadata(userId: string, jurisdiction: string, caseType: string, filter: string): Promise<any> {
 
     const paginationUrl = `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases/pagination_metadata?sortDirection=DESC${filter}`
-    console.log('paginationUrl')
-    console.log(paginationUrl)
 
     try {
         const paginationMetadata = await http.get(paginationUrl)

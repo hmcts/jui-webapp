@@ -234,17 +234,9 @@ export async function getMutiJudCaseTransformed(res, userDetails, requestCcdPage
 
     const jurisdictions = filterByCaseTypeAndRole(userDetails)
 
-    console.log('jurisdictions')
-    console.log(jurisdictions)
-    // if we're retrieve 30 cases here
     caseList = await asyncReturnOrError(getMutiJudCCDCases(userDetails.id, jurisdictions, requestCcdPage), 'Error getting Multi' +
         'Jurisdictional assigned cases.', null, logger, false)
 
-    // so this is only return 25 cases here from CCD
-    console.log('caseList')
-    console.log(caseList)
-
-    // then somewhere along the way before the cases are returned to the UI we are taking off the incorrect case
     if (!isAnyCaseViewableByAJudge(caseList)) {
 
         return { message: JUDGE_HAS_NO_VIEWABLE_CASES }
@@ -398,9 +390,6 @@ export async function getCasesPaginationMetadata(req, res) {
         const userId = userDetails.id
 
         const jurisdictions = filterByCaseTypeAndRole(userDetails)
-
-        console.log('jurisdictions')
-        console.log(jurisdictions)
 
         // This is for multiply set of cases
         const paginationMetadata = await getMultiplyCasesPaginationMetadata(userId, jurisdictions)

@@ -25,7 +25,6 @@ export function logout(req, res) {
 }
 
 export async function authenticateUser(req: any, res, next) {
-    console.log('authenticateUser');
     req.session.user = null
     const data = await asyncReturnOrError(
         postOauthToken(req.query.code, req.get('host')),
