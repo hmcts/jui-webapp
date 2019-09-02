@@ -262,7 +262,6 @@ export async function getMutiJudCaseTransformed(res, userDetails, requestCcdPage
         return { message: JUDGE_HAS_NO_VIEWABLE_CASES }
     }
 
-    // These are just syncronise
     caseList = convertCaselistToTemplate(caseList)
     caseList = combineLists(caseList)
     caseList = sortTransformedCases(caseList)
@@ -374,10 +373,28 @@ export async function getCases(req, res) {
 }
 
 /**
- * Get Cases Pagination Metadata
+ * getCasesPaginationMetadata
  *
- * Note that there could be multiply jurisdictions therefore we need to map through the jurisdictions,
- * and get the pagination results for multiply sets of cases.
+ * Note that there could be multiply filters, returned by
+ * <code>filterByCaseTypeAndRole(userDetails)</code>
+ *
+ * This is for a User who has multiply filters assigned to them. We currently take the total pages from all jurisdictions
+ * and add them together. This may increase the number of pages by 1 or 2. But if a User were to click one of these
+ * pages at the end of the pagination list the request will return nothing, therefore a 'No Cases' view will be displayed, which is fine.
+ *
+ * We do this as the cases returned by CCD are concatenated in
+ * @see ccd-store.ts getMutiJudCCDCases()
+ *
+ * This implementation is a stop gap measure as JUI will be deprecated.
+ *
+ * To implement this correctly we would have to 1. Stop concatenating the cases. 2. Have a filter on the UI where the User
+ * selects what filter they wish to use, and then we display the Cases and Pagination relating to that Filter.
+ *
+ * We shouldn't concatenate Cases ever in the UI as this would always throw off a pagination page number, returned from CCD.
+ *
+ * It seems the Cases results have been concatenated as CCD doesn't support filtering by &case.assignedToDisabilityMember=510604|Medical 1
+ * and &case.assignedToMedicalMember=510604|Medical 1 in one call. Therefore pagination will only approximately reflect
+ * the Pages that a User has, if the User has more than one filter.
  *
  * @param req
  * @param res
@@ -391,7 +408,6 @@ export async function getCasesPaginationMetadata(req, res) {
 
         const jurisdictions = filterByCaseTypeAndRole(userDetails)
 
-        // This is for multiply set of cases
         const paginationMetadata = await getMultiplyCasesPaginationMetadata(userId, jurisdictions)
         const totalPages = getTotalPages(paginationMetadata)
 
