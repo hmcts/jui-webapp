@@ -23,7 +23,8 @@ const sessionFileStore = require('session-file-store');
 const FileStore = sessionFileStore(session);
 
 const tlsOptions = {
-    password: process.env.REDIS_PASSWORD
+    password: process.env.REDIS_PASSWORD,
+    tls: true
 };
 
 const redisClient = redis.createClient(
@@ -71,9 +72,13 @@ app.use(
         resave: true,
         saveUninitialized: true,
         secret: config.sessionSecret,
-        store: new FileStore({
-            path: process.env.NOW ? '/tmp/sessions' : '.sessions'
-        })
+        store: new redisStore({
+            host: process.env.REDIS_HOST,
+            port: process.env.REDIS_PORT,
+            pass: process.env.REDIS_PASSWORD,
+            client: redisClient,
+            ttl: 86400
+        }),
     })
 );
 
