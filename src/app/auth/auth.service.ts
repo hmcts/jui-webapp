@@ -28,7 +28,7 @@ export class AuthService {
         const callback = `${this.configService.config.api_base_url}/${
             this.configService.config.oauth_callback_url
             }`;
-        return `${base}/login?response_type=code&client_id=${clientId}&redirect_uri=${callback}&scope=openid profile roles search-user manage-user`;
+        return `${base}/login?response_type=code&client_id=${clientId}&redirect_uri=${callback}`;
     }
 
     getAuthHeaders() {
