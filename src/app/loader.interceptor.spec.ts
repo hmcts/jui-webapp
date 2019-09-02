@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 import {
     HttpClientTestingModule,
     HttpTestingController
@@ -8,7 +8,7 @@ import { LoaderInterceptor } from './loader.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoaderService } from './loader.service';
 
-describe(`LoaderInterceptor`, () => {
+fdescribe(`LoaderInterceptor`, () => {
     let service: LoaderInterceptorServiceMock;
     let httpMock: HttpTestingController;
     let loaderService: LoaderService;
@@ -73,4 +73,14 @@ describe(`LoaderInterceptor`, () => {
         subscription.unsubscribe();
         expect(state).not.toBeTruthy();
     });
+
+    it('should set the loading state to false if request is cancelled', inject(
+        [HTTP_INTERCEPTORS],
+        (interceptors: HTTP_INTERCEPTORS) => {
+            const loaderInterceptor = interceptors.filter( interceptor => interceptor instanceof LoaderInterceptor);
+            console.log(loaderInterceptor);
+            subscription.unsubscribe();
+            expect(state).not.toBeTruthy();
+        }
+    ));
 });
