@@ -483,32 +483,32 @@ module.exports = {
                         scores: [
                             {
                                 selector: '0',
-                                text: 'Can plan and follow the route of a journey unaided',
+                                text: 'Can plan and follow the route of a journey unaided.',
                                 score: 0
                             },
                             {
                                 selector: '4',
-                                text: 'Needs prompting to be able to undertake any journey to avoid overwhelming psychological distress to the claimant',
+                                text: 'Needs prompting to be able to undertake any journey to avoid overwhelming psychological distress to the claimant.',
                                 score: 4
                             },
                             {
                                 selector: '8',
-                                text: 'For reasons other than psychological distress, cannot plan the route of a journey',
+                                text: 'Cannot plan the route of a journey.',
                                 score: 8
                             },
                             {
                                 selector: '10.0',
-                                text: 'For reasons other than psychological distress, cannot follow the route of an unfamiliar journey without another person, assistance dog or orientation aid',
+                                text: 'Cannot follow the route of an unfamiliar journey without another person, assistance dog or orientation aid.',
                                 score: 10
                             },
                             {
                                 selector: '10.1',
-                                text: 'Cannot undertake any journey because it would cause overwhelming psychological distress to the claimant',
+                                text: 'Cannot undertake any journey because it would cause overwhelming psychological distress to the claimant.',
                                 score: 10
                             },
                             {
                                 selector: '12',
-                                text: 'For reasons other than psychological distress, cannot follow the route of a familiar journey without another person, an assistance dog or an orientation aid',
+                                text: 'Cannot follow the route of a familiar journey without another person, an assistance dog or an orientation aid.',
                                 score: 12
                             }
                         ]
