@@ -9,7 +9,6 @@ import { LoaderService } from './loader.service';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })
-
 export class AppComponent implements OnInit {
     title = 'JUI Web App';
     urls = ['summary', 'parties', 'casefile', 'timeline', 'decision', 'hearing', 'reject-reasons'];
