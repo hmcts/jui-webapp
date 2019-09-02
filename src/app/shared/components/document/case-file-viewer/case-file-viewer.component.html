@@ -1,18 +1,18 @@
 <!-- Casefile View Code starts -->
 <div class="jui-cf__document-pages">
     <div class="jui-cf__document-page">
-        <div class="jui-casefile-document-wrapper" *ngIf="selectedDocument">
+        <div class="jui-casefile-document-wrapper" *ngIf="selectedDocument && documentUrl">
             <div class="jui-casefile-page editable medium-editor-element" data-medium-editor-element="true"
                  role="textbox"
                  aria-multiline="true" data-medium-editor-editor-index="1"
                  medium-editor-index="ca3cfb8f-8b6a-8f73-1ed5-fa7679703446" data-placeholder="Type your text">
                  <!--<app-viewer [url]="selectedDocument.url" [baseUrl]="documentUrl"></app-viewer>-->
                 <!--<app-document-viewer [url]="selectedDocument.url" [baseUrl]="documentUrl" [annotate]="allowAnnotations"></app-document-viewer>-->
-                <mv-media-viewer [url]="documentUrl + '/documents/' + selectedDocument.id + '/binary'"
+                <mv-media-viewer [annotationApiUrl]="documentUrl + '/em-anno'"
+                                 [url]="documentUrl + '/documents/' + selectedDocument.id + '/binary'"
                                  [downloadFileName]="selectedDocument.name"
                                  [showToolbar]="true"
                                  [contentType]="'pdf'"
-                                 [annotationApiUrl]="documentUrl"
                                  [enableAnnotations]="allowAnnotations"
                                  (mediaLoadStatus)="onMediaLoadStatus($event)"
                                  (viewerException)="onMediaLoadException($event)"
