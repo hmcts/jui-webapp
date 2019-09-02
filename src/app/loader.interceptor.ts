@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-/* istanbul ignore next */
 import { HttpResponse, HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-/* istanbul ignore next */
 import { Observable } from 'rxjs';
 import { LoaderService } from './loader.service';
 

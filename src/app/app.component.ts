@@ -23,8 +23,8 @@ export class AppComponent implements OnInit {
         private ngZone: NgZone,
         private loaderService: LoaderService
     ) {
-        this.loaderService.isLoading.subscribe((v) => {
-            this.loading = v;
+        this.loaderService.isLoading.subscribe( state => {
+            this.loading = state;
         });
     }
 

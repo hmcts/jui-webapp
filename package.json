@@ -148,7 +148,6 @@
     "cucumber-html-reporter": "^4.0.5",
     "cucumber-pretty": "1.5.0",
     "cucumberjs-allure-reporter": "1.0.3",
-    "electron": "^6.0.3",
     "eslint": "5.12.0",
     "eslint-config-standard": "12.0.0",
     "eslint-plugin-import": "2.16.0",

@@ -37,7 +37,6 @@ describe('AppComponent', () => {
         router = TestBed.get(Router);
 
         renderer = fixture.componentRef.injector.get(Renderer2);
-        // and spy on it
         spyOn(renderer, 'addClass').and.callThrough();
         spyOn(renderer, 'removeClass').and.callThrough();
     });
