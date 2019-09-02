@@ -480,7 +480,7 @@ module.exports = {
                             },
                             {
                                 selector: '10.0',
-                                text: ' Cannot follow the route of an unfamiliar journey without another person, assistance dog or orientation aid.',
+                                text: 'Cannot follow the route of an unfamiliar journey without another person, assistance dog or orientation aid.',
                                 score: 10
                             },
                             {
