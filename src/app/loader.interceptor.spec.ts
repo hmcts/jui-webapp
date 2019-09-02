@@ -7,8 +7,9 @@ import { LoaderInterceptorServiceMock } from './loader.interceptor.service.mock'
 import { LoaderInterceptor } from './loader.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LoaderService } from './loader.service';
+import { throwError } from 'rxjs';
 
-fdescribe(`LoaderInterceptor`, () => {
+describe(`LoaderInterceptor`, () => {
     let service: LoaderInterceptorServiceMock;
     let httpMock: HttpTestingController;
     let loaderService: LoaderService;
@@ -35,11 +36,12 @@ fdescribe(`LoaderInterceptor`, () => {
 
         state = false;
         loaderService.isLoading.subscribe( loading => state = loading);
-        subscription = service.getMock().subscribe();
-        httpRequest = httpMock.expectOne(`/test`);
     });
 
     it('should set the loading state to true upon one or more waiting requests', () => {
+        subscription = service.getMock().subscribe();
+        httpRequest = httpMock.expectOne(`/test`);
+
         // fire off another request, so more than 1 in the queue
         service.getMock().subscribe();
         httpMock.expectOne(`/test`);
@@ -51,6 +53,9 @@ fdescribe(`LoaderInterceptor`, () => {
     });
 
     it('should set the loading state to false after all requests complete', () => {
+        subscription = service.getMock().subscribe();
+        httpRequest = httpMock.expectOne(`/test`);
+
         // fire another request whilst first is waiting
         service.getMock().subscribe(response => {
             expect(response).toBeTruthy();
@@ -64,23 +69,30 @@ fdescribe(`LoaderInterceptor`, () => {
         expect(state).not.toBeTruthy();
     });
 
-    it('should set the loading state to false if request errors', () => {
-        httpRequest.flush(1, {status: 404, statusText: 'Not Found'});
-        expect(state).not.toBeTruthy();
-    });
-
-    it('should set the loading state to false if request is cancelled', () => {
-        subscription.unsubscribe();
-        expect(state).not.toBeTruthy();
-    });
-
-    it('should set the loading state to false if request is cancelled', inject(
+     it('should set the loading state to false if request errors', inject(
         [HTTP_INTERCEPTORS],
-        (interceptors: HTTP_INTERCEPTORS) => {
-            const loaderInterceptor = interceptors.filter( interceptor => interceptor instanceof LoaderInterceptor);
-            console.log(loaderInterceptor);
-            subscription.unsubscribe();
+        (interceptors) => {
+            const loaderInterceptor: LoaderInterceptor = interceptors.find( interceptor => interceptor instanceof LoaderInterceptor);
+            const httpRequestSpy = jasmine.createSpyObj('HttpRequest', ['doesNotMatter']);
+            const httpHandlerSpy = jasmine.createSpyObj('HttpHandler', ['handle']);
+            httpHandlerSpy.handle.and.returnValue(throwError(
+                {error:
+                        {message: 'test-error'}
+                }
+            ));
+            loaderInterceptor.intercept(httpRequestSpy, httpHandlerSpy)
+                .subscribe(
+                    result => expect(result).toBeTruthy(),
+                    error => expect(error).toBeTruthy()
+                );
             expect(state).not.toBeTruthy();
         }
     ));
+
+    it('should set the loading state to false if request is cancelled', () => {
+        subscription = service.getMock().subscribe();
+        httpRequest = httpMock.expectOne(`/test`);
+        subscription.unsubscribe();
+        expect(state).not.toBeTruthy();
+    });
 });
