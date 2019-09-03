@@ -21,8 +21,7 @@ const redisStore = require('connect-redis')(session);
 
 
 const tlsOptions = {
-    password: process.env.REDIS_PASSWORD,
-    tls: true
+    password: process.env.REDIS_PASSWORD
 };
 
 const redisClient = redis.createClient(
