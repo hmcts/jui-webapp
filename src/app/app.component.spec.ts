@@ -52,11 +52,24 @@ describe('AppComponent', () => {
     });
 
     it(`should replace title`, () => {
-        expect(['summary', 'parties', 'casefile', 'timeline', 'decision', 'hearing', 'reject-reasons', '/']).toContain(app.replacedTitles('test'));
+        expect([...app.urls, '/']).toContain(app.replacedTitles('test'));
     });
 
     it(`should return title mapping `, () => {
-        expect('Your cases - Judicial case manager').toContain(app.getTitle('/'));
+
+        const mappings = {
+            '/': 'Your cases - Judicial case manager',
+            'summary': 'Summary - Judicial case manager',
+            'parties': 'Parties - Judicial case manager',
+            'caseFile': 'Case File - Judicial case manager',
+            'timeline': 'Timeline - Judicial case manager',
+            'decision': 'Make decision - Judicial case manager',
+            'listOfHearing': 'List of hearing - Judicial case manager',
+        };
+
+        Object.keys(mappings).forEach( key => {
+            expect(app.getTitle(key)).toBe(mappings[key]);
+        });
     });
 
     it('should add the loading class if loading is true', () => {
