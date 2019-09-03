@@ -52,6 +52,10 @@ describe('AppComponent', () => {
     });
 
     it(`should replace title`, () => {
+        expect([...app.urls, '/']).toContain(app.replacedTitles('summary'));
+    });
+
+    it(`should replace title if not found`, () => {
         expect([...app.urls, '/']).toContain(app.replacedTitles('test'));
     });
 
