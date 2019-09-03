@@ -21,8 +21,6 @@ export function filterCaseListsByRoles(caseListFilters, roles) {
 /**
  * filterByCaseTypeAndRole
  *
- * TODO: Does this always return one object as part of an array?
- *
  * @param userDetails
  * @returns [
  *  {"accessRoles":["caseworker-sscs-judge","caseworker-sscs-panelmember"],

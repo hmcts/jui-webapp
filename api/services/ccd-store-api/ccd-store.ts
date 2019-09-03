@@ -88,8 +88,7 @@ export async function getCCDEvents(userId: string, jurisdiction: string, caseTyp
  * @param {string} jurisdiction
  * @param {string} caseType
  * @param {string} filter
- * @param requestCcdPage - We request the page number from Ccd, as Ccd paginate all Case requests, to a maximum of 25, if we
- * want to more Cases than 25 we must request the next page for the User.
+ * @param requestCcdPage - We request the page number from CCD as CCD paginate all Case requests to a maximum of 25 within their ccd-store-api service.
  * @returns {Promise<any>}
  */
 export async function getCCDCases(userId: string, jurisdiction: string, caseType: string, filter: string, requestCcdPage): Promise<any> {
@@ -131,8 +130,9 @@ export async function getCasesPaginationMetadata(userId: string, jurisdiction: s
 /**
  * getMultiplyCasesPaginationMetadata
  *
- * There could be multiply pagination results for a Users many jurisdictions. We need to interate through this
- * and find the pagination result for the one jurisdiction?
+ * There could be multiple pagination results for a Users with mulitple filters.
+ *
+ * We need to iterate through these pagination results.
  *
  * @param {string} userId
  * @param {any[]} jurisdictions

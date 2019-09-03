@@ -475,8 +475,6 @@ export async function rawCOH(res) {
  * /cases/
  * /cases/paginationMetadata
  *
- * It looks like routes /cases/assign /cases/raw are not used.
- *
  * @param app
  */
 export default app => {
