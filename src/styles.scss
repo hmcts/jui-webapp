@@ -16,3 +16,9 @@ div.govuk-prose-scope, p {
 td.govuk-table__cell {
     white-space: pre-wrap;
 }
+
+.jui-loading {
+    &, & * {
+        cursor: wait;
+    }
+}
