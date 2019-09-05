@@ -91,7 +91,7 @@ export async function getCCDEvents(userId: string, jurisdiction: string, caseTyp
  * @param requestCcdPage - We request the page number from CCD as CCD paginate all Case requests to a maximum of 25 within their ccd-store-api service.
  * @returns {Promise<any>}
  */
-export async function getCCDCases(userId: string, jurisdiction: string, caseType: string, filter: string, requestCcdPage): Promise<any> {
+export async function getCCDCases(userId: string, jurisdiction: string, caseType: string, filter: string, requestCcdPage = 0): Promise<any> {
 
     const response = await http.get(
         `${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases?sortDirection=DESC${filter}&page=${requestCcdPage}`
@@ -159,7 +159,7 @@ export async function postCCDCase(userId: string, jurisdiction: string, caseType
  * @param {number} requestCcdPage - is set as 0 as default as it's currently being called in multiply places.
  * @returns {Promise<any[]>}
  */
-export async function getMutiJudCCDCases(userId: string, jurisdictions: any[], requestCcdPage = 0): Promise<any[]> {
+export async function getMutiJudCCDCases(userId: string, jurisdictions: any[], requestCcdPage): Promise<any[]> {
 
     const cases = await map(jurisdictions, async (jurisdiction: any) => {
 

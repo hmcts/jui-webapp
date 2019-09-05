@@ -125,7 +125,6 @@ export class SearchResultComponent implements OnInit {
         paginationMetadataObservable.subscribe(
             paginationMetadata => {
 
-                //TODO: What's the difference between totalPages and pages?
                 this.totalPages = paginationMetadata['totalPagesForAllCases'];
 
                 for (let index = 1; index <= this.totalPages; index++) {
