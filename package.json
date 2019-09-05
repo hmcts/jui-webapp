@@ -133,6 +133,7 @@
     "@types/jasminewd2": "2.0.2",
     "@types/mocha": "^5.2.6",
     "@types/shortid": "0.0.29",
+    "angular2-template-loader": "^0.6.2",
     "argv": "0.0.2",
     "autoprefixer": "9.4.9",
     "chai": "^4.2.0",
@@ -199,7 +200,8 @@
     "tslint": "5.13.0",
     "typescript": "^2.8.0",
     "uglifyjs-webpack-plugin": "2.1.1",
-    "url-loader": "0.6.2"
+    "url-loader": "0.6.2",
+    "wallaby-webpack": "^3.9.15"
   },
   "snyk": true,
   "eslintConfig": {

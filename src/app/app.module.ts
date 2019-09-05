@@ -13,6 +13,7 @@ import { GovukModule } from './govuk/govuk.module';
 import { RouterModule } from '@angular/router';
 
 import { AppInterceptor } from './app.interceptor';
+import { LoaderInterceptor } from './loader.interceptor';
 @NgModule({
     declarations: [
         AppComponent
@@ -33,6 +34,11 @@ import { AppInterceptor } from './app.interceptor';
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AppInterceptor,
+            multi: true
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: LoaderInterceptor,
             multi: true
         },
         ConfigService

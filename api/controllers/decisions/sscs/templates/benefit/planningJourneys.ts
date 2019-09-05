@@ -36,7 +36,7 @@ module.exports = {
                         radioGroup: [
                             {
                                 value: '0',
-                                text: 'Can plan and follow the route of a journey unaided',
+                                text: 'Can plan and follow the route of a journey unaided.',
                                 hint: {
                                     text: '0 points',
                                     classes: 'govuk-hint govuk-radios__hint'
@@ -44,7 +44,7 @@ module.exports = {
                             },
                             {
                                 value: '4',
-                                text: 'Needs prompting to be able to undertake any journey to avoid overwhelming psychological distress to the claimant',
+                                text: 'Needs prompting to be able to undertake any journey to avoid overwhelming psychological distress to the claimant.',
                                 hint: {
                                     text: '4 points',
                                     classes: 'govuk-hint govuk-radios__hint'
@@ -52,7 +52,7 @@ module.exports = {
                             },
                             {
                                 value: '8',
-                                text: 'For reasons other than psychological distress, cannot plan the route of a journey',
+                                text: 'Cannot plan the route of a journey.',
                                 hint: {
                                     text: '8 points',
                                     classes: 'govuk-hint govuk-radios__hint'
@@ -60,7 +60,7 @@ module.exports = {
                             },
                             {
                                 value: '10.0',
-                                text: 'For reasons other than psychological distress, cannot follow the route of an unfamiliar journey without another person, assistance dog or orientation aid',
+                                text: 'Cannot follow the route of an unfamiliar journey without another person, assistance dog or orientation aid.',
                                 hint: {
                                     text: '10 points',
                                     classes: 'govuk-hint govuk-radios__hint'
@@ -68,7 +68,7 @@ module.exports = {
                             },
                             {
                                 value: '10.1',
-                                text: 'Cannot undertake any journey because it would cause overwhelming psychological distress to the claimant',
+                                text: 'Cannot undertake any journey because it would cause overwhelming psychological distress to the claimant.',
                                 hint: {
                                     text: '10 points',
                                     classes: 'govuk-hint govuk-radios__hint'
@@ -76,7 +76,7 @@ module.exports = {
                             },
                             {
                                 value: '12',
-                                text: 'For reasons other than psychological distress, cannot follow the route of a familiar journey without another person, an assistance dog or an orientation aid',
+                                text: 'Cannot follow the route of a familiar journey without another person, an assistance dog or an orientation aid.',
                                 hint: {
                                     text: '12 points',
                                     classes: 'govuk-hint govuk-radios__hint'

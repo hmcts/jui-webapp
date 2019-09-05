@@ -50,6 +50,7 @@
                             }
                         ],
                         "styles": [
+                            "node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
                             "src/public/sass/annotation-ui-theme.scss",
                             "src/styles.scss"
                         ],

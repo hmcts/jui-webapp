@@ -73,9 +73,6 @@ app.use(
         saveUninitialized: true,
         secret: config.sessionSecret,
         store: new redisStore({
-            host: process.env.REDIS_HOST,
-            port: process.env.REDIS_PORT,
-            pass: process.env.REDIS_PASSWORD,
             client: redisClient,
             ttl: 86400
         }),
