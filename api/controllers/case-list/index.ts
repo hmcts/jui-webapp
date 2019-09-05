@@ -172,7 +172,7 @@ export function aggregatedData(results) {
 }
 
 export async function getMutiJudCaseAssignedCases(userDetails) {
-    return await getMutiJudCCDCases(userDetails.id, filterByCaseTypeAndRole(userDetails))
+    return await getMutiJudCCDCases(userDetails.id, filterByCaseTypeAndRole(userDetails), 0)
 }
 
 /**

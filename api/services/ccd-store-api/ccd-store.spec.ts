@@ -180,7 +180,7 @@ describe('ccd Store', () => {
                 jur: 'jur',
             }]
 
-            await ccdStore.getMutiJudCCDCases(userId, jurisdictions)
+            await ccdStore.getMutiJudCCDCases(userId, jurisdictions, 0)
             expect(spy).to.be.called
         })
     })
