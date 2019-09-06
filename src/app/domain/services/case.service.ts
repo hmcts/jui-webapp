@@ -35,29 +35,41 @@ export class CaseService {
         }));
     }
 
-    getCases(): Observable<Object> {
+    /**
+     * Get Cases
+     *
+     * @param requestCcdPage - page number 0
+     * @returns {Observable<Object>}
+     */
+    getCases(requestCcdPage): Observable<Object> {
         const url = `${this.configService.config.api_base_url}/api/cases`;
         return this.httpClient
-            .get(url)
+            .get(url,
+                {
+                    params: {
+                        requestCcdPage: requestCcdPage,
+                    },
+                })
             .pipe(map(data => {
                 return data;
             }))
             .pipe(catchError(error => throwError(error)));
     }
 
-    getNewCase(): Observable<Object> {
-        const url = `${this.configService.config.api_base_url}/api/cases/assign/new`;
-        this.checkCache(url);
+    /**
+     * Get Pagination Metadata
+     *
+     * Returns the number of pages of Case results a User has.
+     *
+     * @returns {Observable<Object>}
+     */
+    getPaginationMetadata(): Observable<Object> {
+        const url = `${this.configService.config.api_base_url}/api/cases/paginationMetadata`;
         return this.httpClient
-            .post(url, {})
+            .get(url)
             .pipe(map(data => {
-                this.state.set(this.key, data);
                 return data;
             }))
-            .pipe(catchError(error => {
-                const value: any = {error};
-                this.state.set(this.key, value);
-                return of(value);
-            }));
+            .pipe(catchError(error => throwError(error)));
     }
 }

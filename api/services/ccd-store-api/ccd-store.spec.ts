@@ -30,6 +30,7 @@ describe('ccd Store', () => {
     const eventId = 'eventId'
     const body = {}
     const filter = 'filter'
+    const requestCcdPage = 0
 
     let spy: any
     let spyPost: any
@@ -150,13 +151,13 @@ describe('ccd Store', () => {
 
         it('Should make a http.get call', async () => {
 
-            await ccdStore.getCCDCases(userId, jurisdiction, caseType, filter)
-            expect(spy).to.be.calledWith(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases?sortDirection=DESC${filter}`)
+            await ccdStore.getCCDCases(userId, jurisdiction, caseType, filter, requestCcdPage)
+            expect(spy).to.be.calledWith(`${url}/caseworkers/${userId}/jurisdictions/${jurisdiction}/case-types/${caseType}/cases?sortDirection=DESC${filter}&page=${requestCcdPage}`)
         })
 
         it('Should return the data property of the return of a http.get call', async () => {
 
-            expect(await ccdStore.getCCDCases(userId, jurisdiction, caseType, filter)).to.equal(res.data)
+            expect(await ccdStore.getCCDCases(userId, jurisdiction, caseType, filter, requestCcdPage)).to.equal(res.data)
         })
     })
 
@@ -179,7 +180,7 @@ describe('ccd Store', () => {
                 jur: 'jur',
             }]
 
-            await ccdStore.getMutiJudCCDCases(userId, jurisdictions)
+            await ccdStore.getMutiJudCCDCases(userId, jurisdictions, 0)
             expect(spy).to.be.called
         })
     })

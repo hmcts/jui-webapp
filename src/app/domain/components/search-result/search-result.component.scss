@@ -86,3 +86,41 @@
     padding: 10px;
     width: 50%;
 }
+
+.pagination-page-buttons {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.pagination-next-prev-buttons {
+    display: flex;
+}
+
+.pagination-page-link {
+    color: #005ea5;
+    font-size: 1.2em;
+    cursor: pointer;
+    margin-right: 3px;
+    padding: 6px;
+    text-decoration: underline;
+}
+
+.pagination-prev-link {
+    @extend .pagination-link;
+}
+
+.pagination-next-link {
+    @extend .pagination-link;
+}
+
+.selected {
+    color: #1b1b1b;
+}
+
+.pagination-link {
+    color: #005ea5;
+    cursor: pointer;
+    font-size: 1.2em;
+    padding: 4px;
+    text-decoration: underline;
+}

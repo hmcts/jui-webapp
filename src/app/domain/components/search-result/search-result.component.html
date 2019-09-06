@@ -14,10 +14,26 @@
             <h1 class="govuk-heading-xl">Your cases</h1>
             <div class="govuk-grid-row">
                 <div class="govuk-grid-column-two-thirds">
-                    <p class="govuk-body">You currently have no cases assigned to you.</p>
+                    <p class="govuk-body">You currently have no cases assigned to you or no cases on this page.</p>
                 </div>
             </div>
         </span>
+
+        <div class="pagination-page-buttons">
+            <div *ngFor="let pageIndex of pages">
+                <div class="pagination-page-link" (click)="getPage(pageIndex)">
+                    <a class="govuk-link" [ngClass]="{'selected': pageSelected(pageIndex, selectedPageIndex)}">{{pageIndex}}</a>
+                </div>
+            </div>
+        </div>
+        <div class="pagination-next-prev-buttons">
+            <div class="pagination-link" *ngIf="hasPreviousPage(selectedPageIndex)" (click)="getPreviousPage(selectedPageIndex)">
+                <a class="govuk-link">Previous</a>
+            </div>
+            <div class="pagination-link" *ngIf="hasNextPage(selectedPageIndex)" (click)="getNextPage(selectedPageIndex)">
+                <a class="govuk-link">Next</a>
+            </div>
+        </div>
 
         <!-- Error -->
         <div *ngSwitchCase="CASES_LOAD_ERROR">

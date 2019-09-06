@@ -7,9 +7,10 @@ import * as errorStack from '../../lib/errorStack'
 import { filterByCaseTypeAndRole } from '../../lib/filters'
 import * as log4jui from '../../lib/log4jui'
 import { processCaseState } from '../../lib/processors/case-state-model'
+import { getTotalPages } from '../../lib/pagination'
 import { dataLookup as valueProcessor } from '../../lib/processors/value-processor'
 import { asyncReturnOrError } from '../../lib/util'
-import { getMutiJudCCDCases } from '../../services/ccd-store-api/ccd-store'
+import { getMutiJudCCDCases, getMultiplyCasesPaginationMetadata } from '../../services/ccd-store-api/ccd-store'
 import { getDecision } from '../../services/coh'
 import { getHearingByCase } from '../../services/cohQA'
 import { getUser } from '../../services/idam'
@@ -171,7 +172,7 @@ export function aggregatedData(results) {
 }
 
 export async function getMutiJudCaseAssignedCases(userDetails) {
-    return await getMutiJudCCDCases(userDetails.id, filterByCaseTypeAndRole(userDetails))
+    return await getMutiJudCCDCases(userDetails.id, filterByCaseTypeAndRole(userDetails), 0)
 }
 
 /**
@@ -227,13 +228,13 @@ const JUDGE_HAS_VIEWABLE_CASES = 'JUDGE_HAS_VIEWABLE_CASES'
  * If the Judge has no viewable cases we should pass back a message stating this. So that we
  * can hook into this to display 'User has no cases' on the front end.
  */
-export async function getMutiJudCaseTransformed(res, userDetails) {
+export async function getMutiJudCaseTransformed(res, userDetails, requestCcdPage) {
 
     let caseList
 
     const jurisdictions = filterByCaseTypeAndRole(userDetails)
 
-    caseList = await asyncReturnOrError(getMutiJudCCDCases(userDetails.id, jurisdictions), 'Error getting Multi' +
+    caseList = await asyncReturnOrError(getMutiJudCCDCases(userDetails.id, jurisdictions, requestCcdPage), 'Error getting Multi' +
         'Jurisdictional assigned cases.', null, logger, false)
 
     if (!isAnyCaseViewableByAJudge(caseList)) {
@@ -298,23 +299,41 @@ export async function getMutiJudCaseRawCoh(res, userDetails) {
 export async function unassignAll(req, res) {
     const filters = filterByCaseTypeAndRole(req.auth)
 
-    let caseLists = await getMutiJudCCDCases(req.auth.id, filters)
+    let caseLists = await getMutiJudCCDCases(req.auth.id, filters, 0)
     caseLists = combineLists(caseLists)
     caseLists = unassignAllCaseFromJudge(req.auth.id, caseLists)
 
     return caseLists
 }
 
-export async function getCases(res) {
+/**
+ * Get Cases
+ *
+ * <code>req.query.requestCcdPage</code>
+ * requestCcdPage is taken from the requests query params. We use 'requestCcdPage' to request a different page of results from CCD.
+ *
+ * Yes it could of been called 'page' but it would throw another develop off, as page would refer to the UI next page, where
+ * this refers to the request that is page for the next CCD page, and we run the CCD results through more filters, to supply
+ * the UI with all the Cases or a filtered set of Cases.
+ *
+ * Note that we still have logic after the request to CCD is made that may remove Cases.
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
+export async function getCases(req, res) {
+
+    const requestCcdPage = req.query.requestCcdPage
+    const user = await getUser()
 
     let results = null
-    const user = await getUser()
 
     let tryCCD = 0
 
     while (tryCCD < config.maxCCDRetries && !results) {
         // need to disable error sending here and catch it later if retrying
-        results = await asyncReturnOrError(that.getMutiJudCaseTransformed(res, user), ' Error getting case list',
+        results = await asyncReturnOrError(that.getMutiJudCaseTransformed(res, user, requestCcdPage), ' Error getting case list',
             res, logger, false)
 
         tryCCD++
@@ -353,11 +372,58 @@ export async function getCases(res) {
     }
 }
 
+/**
+ * getCasesPaginationMetadata
+ *
+ * Note that there could be multiply filters, returned by
+ * <code>filterByCaseTypeAndRole(userDetails)</code>
+ *
+ * This is for a User who has multiply filters assigned to them. We currently take the total pages from all jurisdictions
+ * and add them together. This may increase the number of pages by 1 or 2. But if a User were to click one of these
+ * pages at the end of the pagination list the request will return nothing, therefore a 'No Cases' view will be displayed, which is fine.
+ *
+ * We do this as the cases returned by CCD are concatenated in
+ * @see ccd-store.ts getMutiJudCCDCases()
+ *
+ * This implementation is a stop gap measure as JUI will be deprecated.
+ *
+ * To implement this correctly we would have to 1. Stop concatenating the cases. 2. Have a filter on the UI where the User
+ * selects what filter they wish to use, and then we display the Cases and Pagination relating to that Filter.
+ *
+ * We shouldn't concatenate Cases ever in the UI as this would always throw off a pagination page number, returned from CCD.
+ *
+ * It seems the Cases results have been concatenated as CCD doesn't support filtering by &case.assignedToDisabilityMember=510604|Medical 1
+ * and &case.assignedToMedicalMember=510604|Medical 1 in one call. Therefore pagination will only approximately reflect
+ * the Pages that a User has, if the User has more than one filter.
+ *
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
+export async function getCasesPaginationMetadata(req, res) {
+
+    try {
+        const userDetails = await getUser()
+        const userId = userDetails.id
+
+        const jurisdictions = filterByCaseTypeAndRole(userDetails)
+
+        const paginationMetadata = await getMultiplyCasesPaginationMetadata(userId, jurisdictions)
+        const totalPages = getTotalPages(paginationMetadata)
+
+        res.status(200).send({
+            totalPagesForAllCases: totalPages,
+        })
+    } catch (error) {
+        res.status(error.serviceError.status).send(error)
+    }
+}
+
 export async function unassign(res) {
     {
         const user = await getUser()
 
-        const results = await asyncReturnOrError(getMutiJudCaseTransformed(res, user),
+        const results = await asyncReturnOrError(that.getMutiJudCaseTransformed(res, user, 0),
             ' Error unassigning all', res, logger)
 
         if (results) {
@@ -404,11 +470,20 @@ export async function rawCOH(res) {
     }
 }
 
+/**
+ * Routes:
+ * /cases/
+ * /cases/paginationMetadata
+ *
+ * @param app
+ */
 export default app => {
     const router = express.Router({ mergeParams: true })
     app.use('/cases', router)
 
-    router.get('/', async (req: any, res, next) => getCases(res))
+    router.get('/', async (req: any, res, next) => getCases(req, res))
+    router.get('/paginationMetadata', async (req: any, res, next) => getCasesPaginationMetadata(req, res))
+
     router.get('/unassign/all', async (req: any, res, next) => unassign(res))
     router.post('/assign/new', async (req: any, res, next) => assign(req, res))
     router.get('/raw', async (req: any, res, next) => raw(res))

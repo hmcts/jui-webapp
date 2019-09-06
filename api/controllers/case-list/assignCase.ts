@@ -164,7 +164,7 @@ export function unassignAllCaseFromJudge(userId, caseList) {
 }
 
 export function getNewCase(userId) {
-    return getMutiJudCCDCases(userId, jurisdictions)
+    return getMutiJudCCDCases(userId, jurisdictions, 0)
         .then(combineLists) // TODO: One day will not need this with muti judristion
         .then(filterAssignedCases) // TODO: We should filter on the request not here (FUTURE CHANGE)
         .then(sortCasesByLastModifiedDate) // TODO: hopefully remove in the future

@@ -71,8 +71,9 @@ describe('CaseService', () => {
 
     it('should search', () => {
         const mockCaseData = [{is: 1}, {id: 2}];
-        const url = `/api/cases`;
-        caseService.getCases().subscribe(data => {
+        const requestCcdPage = 2;
+        const url = `/api/cases?requestCcdPage=${requestCcdPage}`;
+        caseService.getCases(requestCcdPage).subscribe(data => {
             expect(data).toEqual(mockCaseData);
         });
         const mockReq = httpMock.expectOne(url);
@@ -84,9 +85,10 @@ describe('CaseService', () => {
 
     it('should throw the error if there is an api connections errors in search', () => {
         const mockCaseData = [{is: 1}, {id: 2}];
-        const url = `/api/cases`;
+        const requestCcdPage = 2;
+        const url = `/api/cases?requestCcdPage=${requestCcdPage}`;
         const mockErrorResponse = { status: 400, statusText: 'Bad Request' };
-        caseService.getCases().subscribe(data => {
+        caseService.getCases(requestCcdPage).subscribe(data => {
             expect(data).toEqual(mockCaseData);
         }, err => errResponse = err);
         const mockReq = httpMock.expectOne(url);
@@ -96,27 +98,19 @@ describe('CaseService', () => {
         httpMock.verify();
     });
 
-    it('should get new case', () => {
-        const mockCaseData = [{is: 1}, {id: 2}];
-        const url = `/api/cases/assign/new`;
-        caseService.getNewCase().subscribe(data => {
+    it('should make a request to get the pagination metadata.', () => {
+
+        const mockCaseData = {
+            totalPagesForAllCases: 42,
+        };
+        const url = `/api/cases/paginationMetadata`;
+        caseService.getPaginationMetadata().subscribe(data => {
             expect(data).toEqual(mockCaseData);
         });
         const mockReq = httpMock.expectOne(url);
-        expect(mockReq.request.method).toBe('POST');
+        expect(mockReq.request.method).toBe('GET');
         expect(mockReq.request.responseType).toEqual('json');
         mockReq.flush(mockCaseData);
-        httpMock.verify();
-    });
-
-    it('should throw the error if there is an api connections errors in get new case', () => {
-        const mockCaseData = [{is: 1}, {id: 2}];
-        const url = `/api/cases/assign/new`;
-        const mockErrorResponse = { status: 400, statusText: 'Bad Request' };
-        caseService.getNewCase().subscribe(data => {}, err => errResponse = err);
-        const mockReq = httpMock.expectOne(url);
-        mockReq.flush(mockCaseData, mockErrorResponse);
-        expect(errResponse.status).toBe(400);
         httpMock.verify();
     });
 });

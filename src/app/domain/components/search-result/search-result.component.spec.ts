@@ -3,18 +3,14 @@ import {SearchResultComponent} from './search-result.component';
 import {SharedModule} from '../../../shared/shared.module';
 import {DomainModule} from '../../domain.module';
 import {CaseService} from '../../services/case.service';
-import {Selector} from '../../../shared/selector-helper';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {ConfigService} from '../../../config.service';
-import {BrowserTransferStateModule, StateKey} from '@angular/platform-browser';
-import {makeStateKey, TransferState} from '@angular/platform-browser';
+import {BrowserTransferStateModule} from '@angular/platform-browser';
 import {RouterTestingModule} from '@angular/router/testing';
-import {mockColums} from './mock/columns.mock';
 import {mockConfigService} from '../../mock/config.mock';
 import {ErrorFormattingService} from '../../../shared/services/error-formatting.service';
+import { of } from 'rxjs';
 
-const columns = mockColums;
-const casesUrl = '/api/cases';
 
 describe('SearchResultComponent', () => {
     let component: SearchResultComponent;
@@ -33,7 +29,6 @@ describe('SearchResultComponent', () => {
                 RouterTestingModule
             ],
             providers: [
-                CaseService,
                 {
                     provide: ErrorFormattingService,
                     useValue: mockErrorFormattingService,
@@ -59,6 +54,15 @@ describe('SearchResultComponent', () => {
                 fixture.detectChanges();
             });
     }));
+
+    const mockCaseService = {
+        getCases() {
+            return of({});
+        },
+        getPaginationMetadata() {
+            return of({});
+        }
+    }
 
     /**
      * Representative object of the minimal error stack.
@@ -186,159 +190,87 @@ describe('SearchResultComponent', () => {
     }));
 
     /**
-     * The following are legacy unit tests, that seem to be covering more of dom element side of things.
+     * getCases()
      */
-    describe('when there is no data in the transfer state', () => {
+    it('should set the component state to loading when getting cases.', inject([ErrorFormattingService], (errorFormattingService: ErrorFormattingService) => {
 
+        const requestCcdPage = 42;
 
-        it('should create', () => {
-            expect(component)
-                .toBeTruthy();
-        });
+        // Initially set the component state
+        component.setComponentState('This component state property should change to LOADING.');
 
-        describe('when no rows are returned', () => {
-            beforeEach(async(() => {
-                const req = httpMock.expectOne(casesUrl);
+        // getCases changes the component state to LOADING
+        component.getCases(requestCcdPage);
 
-                req.flush({
-                    columns,
-                    results: []
-                });
-            }));
+        expect(component.componentState).toEqual(component.LOADING);
+    }));
 
+    it('should call getCasesSuccess() if we are able to get cases successfully.', inject([CaseService], (caseService: CaseService) => {
 
-            it('should have zero rows', () => {
-                expect(nativeElement.querySelectorAll(Selector.selector('search-result|table-row')).length)
-                    .toBe(0);
-            });
-        });
+        const requestCcdPage = 42;
 
-        describe('when there is an error', () => {
-            beforeEach(async(() => {
-                const req = httpMock.expectOne(casesUrl);
+        const caseServiceSpy = spyOn(caseService, 'getCases').and.returnValue(of({}));
+        const onCasesSubscribeSuccess = spyOn(component, 'getCasesSuccess')
 
-                req.flush({}, {
-                    statusText: 'Forbidden',
-                    status: 403
-                });
-            }));
+        component.getCases(requestCcdPage);
 
-            beforeEach(async(() => {
-                fixture.whenStable()
-                    .then(() => {
-                        fixture.detectChanges();
-                    });
-            }));
-        });
+        expect(caseServiceSpy).toHaveBeenCalled();
+        expect(onCasesSubscribeSuccess).toHaveBeenCalled();
+    }));
 
-        describe('when some rows are returned', () => {
-            const results = [
-                {
-                    case_id: '987654321',
-                    case_reference: '123-456-789',
-                    case_fields: {
-                        parties: 'Louis Houghton versus DWP',
-                        type: 'PIP',
-                        createdDate: '2018-06-21T12:56:12.466Z',
-                        lastModified: '2018-06-21T12:58:12.466Z'
-                    }
-                }
-            ];
+    it('should return true if there is a next page for pagination, by checking that the selected page index is less than ' +
+        'the total number of pages.', inject([CaseService], (caseService: CaseService) => {
 
-            beforeEach(async(() => {
-                const req = httpMock.expectOne(casesUrl);
+        const selectedPageIndex = 1;
+        component.totalPages = 2;
 
-                req.flush({
-                    columns,
-                    results
-                });
-            }));
+        expect(component.hasNextPage(selectedPageIndex)).toBeTruthy();
+    }));
 
-            beforeEach(async(() => {
-                fixture.whenStable()
-                    .then(() => {
-                        fixture.detectChanges();
-                    });
-            }));
+    it('should return false if there is no next page for pagination.', inject([CaseService], (caseService: CaseService) => {
 
-            xit('should have some rows', () => {
-                expect(nativeElement.querySelectorAll(Selector.selector('search-result|table-row')).length)
-                    .toBe(results.length);
-            });
+        const selectedPageIndex = 2;
+        component.totalPages = 2;
 
-            xit('should have have dates formatted properly', () => {
-                expect(nativeElement.querySelector(Selector.selector('createdDate-value')).textContent)
-                    .toEqual('21 June 2018 at 12:56pm');
+        expect(component.hasNextPage(selectedPageIndex)).toBeFalsy();
+    }));
 
-                expect(nativeElement.querySelector(Selector.selector('lastModified-value')).textContent)
-                    .toEqual('21 June 2018 at 12:58pm');
-            });
-        });
-    });
+    it('should return true if there is a previous page for pagination.', inject([CaseService], (caseService: CaseService) => {
 
-    describe('when there is some data in the transfer state', () => {
-        const results = [
-            {
-                case_id: '987654321',
-                case_reference: '123-456-789',
-                case_fields: {
-                    parties: 'Louis Houghton versus DWP',
-                    type: 'PIP',
-                    createdDate: '2018-06-21T12:56:12.466Z',
-                    lastModified: '2018-06-21T12:56:12.466Z'
-                }
-            }
-        ];
-        let state: TransferState;
+        const selectedPageIndex = 2;
 
-        beforeEach(() => {
-            state = TestBed.get(TransferState);
+        expect(component.hasPreviousPage(selectedPageIndex)).toBeTruthy();
+    }));
 
-            const key: StateKey<Object> = makeStateKey(casesUrl);
-            state.set(key, {
-                columns,
-                results
-            });
-        });
+    it('should return false if there is no previous page for pagination.', inject([CaseService], (caseService: CaseService) => {
 
-        beforeEach(() => {
-            fixture = TestBed.createComponent(SearchResultComponent);
-            component = fixture.componentInstance;
-            nativeElement = fixture.nativeElement;
-            httpMock = TestBed.get(HttpTestingController);
-            fixture.detectChanges();
-        });
+        const selectedPageIndex = 1;
 
-        xit('should have some rows without hitting backend', () => {
-            expect(nativeElement.querySelectorAll(Selector.selector('search-result|table-row')).length)
-                .toBe(results.length);
-        });
-    });
+        expect(component.hasPreviousPage(selectedPageIndex)).toBeFalsy();
+    }));
 
-    describe('when there is an error in the transfer state', () => {
-        let state: TransferState;
+    it('should return true if the current page index is the same as the selected page index. If it is' +
+        'then we can highlight the page number in the view.', inject([CaseService], (caseService: CaseService) => {
 
-        beforeEach(() => {
-            state = TestBed.get(TransferState);
+        const pageIndex = 1;
+        const selectedPageIndex = 1;
 
-            const key: StateKey<Object> = makeStateKey(casesUrl);
-            state.set(key, {
-                error: {}
-            });
-        });
+        expect(component.pageSelected(pageIndex, selectedPageIndex)).toBeTruthy();
+    }));
 
-        beforeEach(() => {
-            fixture = TestBed.createComponent(SearchResultComponent);
-            component = fixture.componentInstance;
-            nativeElement = fixture.nativeElement;
-            httpMock = TestBed.get(HttpTestingController);
-            fixture.detectChanges();
-        });
+    it('should return false if the current page index is not the same as the selected page index.', inject([CaseService], (caseService: CaseService) => {
 
-        it('should show a message saying that there has been an error', () => {
-            console.log(nativeElement.querySelector(Selector.selector('search-result|error-text')));
-            expect(nativeElement.querySelector(Selector.selector('search-result|error-text')))
-                .not.toBeTruthy();
-        });
-    });
+        const pageIndex = 1;
+        const selectedPageIndex = 2;
+
+        expect(component.pageSelected(pageIndex, selectedPageIndex)).toBeFalsy();
+    }));
+
+    it('should set the selected page index.', inject([CaseService], (caseService: CaseService) => {
+
+        const selectedPageIndex = 42;
+        component.setSelectedPageIndex(selectedPageIndex);
+
+        expect(component.selectedPageIndex).toEqual(selectedPageIndex);
+    }));
 });

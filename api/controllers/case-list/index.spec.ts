@@ -226,6 +226,14 @@ describe('index', () => {
     })
     describe('getCases', () => {
         it('Should call getUser', async () => {
+            const req = {
+                auth: {
+                    id: 1,
+                },
+                query: {
+                    requestCcdPage: 42,
+                },
+            }
             const res = {
                 send: () => false,
                 setHeader: () => false,
@@ -239,7 +247,7 @@ describe('index', () => {
             stub.resolves({ id: 1, roles: [1, 2, 3] })
             stub2.resolves([1, 2, 3])
             stub3.resolves({results: [1, 2, 3]})
-            const result = await caseList.getCases(res)
+            const result = await caseList.getCases(req, res)
             expect(stub).to.be.called
             // expect(result).to.be.an('array')
             stub.restore()

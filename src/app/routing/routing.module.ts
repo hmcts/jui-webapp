@@ -36,6 +36,7 @@ import { TermsAndConditionsComponent } from './pages/generic-page/terms-and-cond
 import { CookiesComponent } from './pages/generic-page/cookies/cookies.component';
 import { PrivacyPolicyComponent } from './pages/generic-page/privacy-policy/privacy-policy.component';
 import { CaseDataService } from './pages/view-case/view-case.services';
+import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 
 const routes: Routes = [
     {
@@ -59,7 +60,7 @@ const routes: Routes = [
                 path: 'privacy-policy',
                 component: PrivacyPolicyComponent
             },
-        ]
+        ],
     },
     {
         path: 'case/:jur/:casetype/:case_id',
@@ -68,7 +69,8 @@ const routes: Routes = [
         },
         children: [
             {
-                path: 'decision', component: DecisionRootComponent,
+                path: 'decision',
+                component: DecisionRootComponent,
                 children: [
                     //Common routes
                     { path: 'create', component: MakeDecisionComponent },
@@ -144,7 +146,17 @@ const routes: Routes = [
                 path: '',
                 component: ViewCaseComponent
             }
-        ]
+        ],
+        canActivate: [AuthGuardService],
+    },
+    /**
+     * AuthGuard placed on the wildcard path so that a User is redirected to the login page if
+     * they are unauthenticated, and attempt to navigate to a url.
+     */
+    {
+        path: '**',
+        component: PageNotFoundComponent,
+        canActivate: [AuthGuardService],
     }
 ];
 
@@ -182,7 +194,8 @@ const routes: Routes = [
         ErrorServiceUnavailableComponent,
         ConfirmationComponent,
         CheckYourAnswersComponent,
-        TaskListComponent
+        TaskListComponent,
+        PageNotFoundComponent,
     ],
     providers: [
         CaseResolve,
