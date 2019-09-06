@@ -23,8 +23,12 @@ export async function addAnnotation(body: string) {
 }
 
 export async function deleteAnnotation(uuid: string) {
-    const request = await http.post(`${url}/api/annotations/${uuid}`)
-    return request.data
+    const request = await http.delete(`${url}/api/annotations/${uuid}`)
+    // request.data is empty on success, need to return our own data
+    return {
+        status: request.status,
+        statusText: request.headers['x-emannotationapp-alert'],
+    }
 }
 
 export async function handlePost(req: Request, res: Response): Promise<void> {
@@ -39,7 +43,7 @@ export async function handlePost(req: Request, res: Response): Promise<void> {
 }
 
 export async function handleGet(req: Request, res: Response): Promise<void> {
-    const uuid = req.params.documentId
+    const uuid = req.query.documentId
     const response = await asyncReturnOrError(getAnnotionSet(uuid), ' Error getting annotations', res, logger)
 
     if (response) {

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfigService } from '../../../../config.service';
 import { AuthService } from '../../../../auth/auth.service';
@@ -23,6 +23,16 @@ export class DocumentPanelComponent implements OnInit {
         private configService: ConfigService) {
         this.documentUrl = `${configService.config.api_base_url}/api`;
         this.roles = authService.getLoggedInUserRoles();
+    }
+
+    static getContentType(mimeType: string): string {
+        let contentType = 'txt';
+        if (mimeType === 'application/pdf') {
+            contentType = 'pdf';
+        } else if (String(mimeType).startsWith('image/')) {
+            contentType = 'image';
+        }
+        return contentType;
     }
 
     ngOnInit(): void {
@@ -75,6 +85,7 @@ export class DocumentPanelComponent implements OnInit {
                 name: doc.originalDocumentName,
                 url: doc._links.self.href,
                 modifiedOn: doc.modifiedOn,
+                contentType: DocumentPanelComponent.getContentType(doc.mimeType)
             };
         });
 

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 export interface ListView {
     command: Array<any>;
@@ -7,19 +7,26 @@ export interface ListView {
         queryParams: {
             type:  string;
         }
-    }
-};
+    };
+}
+
 @Component({
     selector: 'app-case-file-tool-bar',
     templateUrl: './case-file-tool-bar.component.html'
 })
-export class CaseFileToolBarComponent {
+export class CaseFileToolBarComponent implements OnInit {
     isCommentView = false;
 
     @Input() commentViewRedirect: ListView;
     @Input() listViewRedirect: ListView;
 
-    constructor(private router: Router) { }
+    constructor(private router: Router, private route: ActivatedRoute) { }
+
+    ngOnInit() {
+        this.route.queryParamMap.subscribe(queryParams => {
+            this.isCommentView = queryParams.get('type') === 'comment';
+        });
+    }
 
     commentView() {
         this.isCommentView = true;

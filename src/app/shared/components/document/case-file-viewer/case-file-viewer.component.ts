@@ -16,7 +16,7 @@ export class CaseFileViewerComponent implements OnInit {
     }
 
     onMediaLoadStatus($event: any) {
-        console.log('onMediaLoadStatus', $event);
+        console.log('onMediaLoadStatus', $event, this.selectedDocument);
     }
 
     onMediaLoadException($event: any) {

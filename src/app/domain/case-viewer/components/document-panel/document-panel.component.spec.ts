@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { DocumentPanelComponent } from './document-panel.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CaseViewerModule } from '../../case-viewer.module';
 import { ConfigService } from '../../../../config.service';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -57,7 +57,8 @@ describe('DocumentPanelComponent', () => {
                     params: {
                         'section_item_id': '13eb9981-9360-4d4b-b9fd-506b5818e7ff'
                     }
-                }
+                },
+                queryParamMap: new Observable()
             };
             mockConfigService = {
                 config: {
@@ -212,6 +213,26 @@ describe('DocumentPanelComponent', () => {
 
             it('should show a friendly message that there are no documents', () => {
                 expect(nativeElement.querySelector(Selector.selector('no-documents'))).toBeNull();
+            });
+
+            it('should determine the correct content type from the mime type', () => {
+                const mimes = [
+                    {
+                        mime: 'image/*',
+                        expected: 'image'
+                    },
+                    {
+                        mime: 'application/pdf',
+                        expected: 'pdf'
+                    },
+                    {
+                        mime: 'foo/bar',
+                        expected: 'txt'
+                    },
+                ];
+                mimes.forEach( mime => {
+                    expect(DocumentPanelComponent.getContentType(mime.mime)).toBe(mime.expected);
+                });
             });
         });
     });

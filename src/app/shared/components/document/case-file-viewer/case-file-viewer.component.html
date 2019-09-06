@@ -12,7 +12,7 @@
                                  [url]="documentUrl + '/documents/' + selectedDocument.id + '/binary'"
                                  [downloadFileName]="selectedDocument.name"
                                  [showToolbar]="true"
-                                 [contentType]="'pdf'"
+                                 [contentType]="selectedDocument.contentType"
                                  [enableAnnotations]="allowAnnotations"
                                  (mediaLoadStatus)="onMediaLoadStatus($event)"
                                  (viewerException)="onMediaLoadException($event)"
