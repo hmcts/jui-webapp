@@ -27,6 +27,10 @@ describe('emAnno', () => {
         // so is just set by default and overridden in that test, to be reset after
         res = {
             data: 'okay',
+            headers: {
+                'x-emannotationapp-alert': 'deleted annotation',
+            },
+            status: 200,
         }
 
         spy = sinon.stub(http, 'get').callsFake(() => {
@@ -86,10 +90,13 @@ describe('emAnno', () => {
     describe('postAnnotation', () => {
         it('Should make a http.post call based on a given payload', async () => {
             await emAnno.deleteAnnotation('test')
-            expect(spyPost).to.be.calledWith(`${url}/api/annotations/test`)
+            expect(spyDelete).to.be.calledWith(`${url}/api/annotations/test`)
         })
-        it('Should return the data property of the return ofa http.get call', async () => {
-            expect(await emAnno.deleteAnnotation('test')).to.equal('okay')
+        it('Should return the data property of the return of a http.get call', async () => {
+            expect(await emAnno.deleteAnnotation('test')).to.deep.equal({
+                status: 200,
+                statusText: 'deleted annotation',
+            })
         })
     })
 
