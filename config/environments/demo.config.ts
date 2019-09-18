@@ -7,7 +7,7 @@ export default {
         idam_web: 'https://idam-web-public.demo.platform.hmcts.net',
         idam_api: 'https://idam-api.demo.platform.hmcts.net',
         s2s:
-            'https://rpe-service-auth-provider-demo.service.core-compute-demo.internal',
+            'http://rpe-service-auth-provider-demo.service.core-compute-demo.internal',
         draft_store_api:
             'http://draft-store-service-demo.service.core-compute-demo.internal',
         dm_store_api:

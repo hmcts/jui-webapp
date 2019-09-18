@@ -7,7 +7,7 @@ export default {
         idam_web: 'http://idam-web-public-idam-saat.service.core-compute-idam-saat.internal',
         idam_api: 'http://idam-api-idam-saat.service.core-compute-idam-saat.internal',
         s2s:
-            'https://rpe-service-auth-provider-saat.service.core-compute-saat.internal',
+            'http://rpe-service-auth-provider-saat.service.core-compute-saat.internal',
         draft_store_api:
             'http://draft-store-service-saat.service.core-compute-saat.internal',
         dm_store_api:

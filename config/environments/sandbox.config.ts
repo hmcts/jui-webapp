@@ -7,7 +7,7 @@ export default {
         idam_web: 'https://idam-test.dev.ccidam.reform.hmcts.net',
         idam_api: 'https://betaDevBccidamAppLB.reform.hmcts.net',
         s2s:
-            'https://rpe-service-auth-provider-sandbox.service.core-compute-sandbox.internal',
+            'http://rpe-service-auth-provider-sandbox.service.core-compute-sandbox.internal',
         draft_store_api:
             'http://draft-store-service-sandbox.service.core-compute-sandbox.internal',
         dm_store_api:
