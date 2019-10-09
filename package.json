@@ -92,7 +92,7 @@
     "hmctsroles-lib": "0.0.5",
     "http-proxy-middleware": "0.19.1",
     "http-tunneling-proxy": "^0.3.4",
-    "https-proxy-agent": "^2.2.1",
+    "https-proxy-agent": "^3.0.0",
     "json-stringify-safe": "^5.0.1",
     "jsonpath": "1.0.0",
     "jsonwebtoken": "^8.5.0",
