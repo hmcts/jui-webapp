@@ -11,8 +11,8 @@ export default {
         draft_store_api:
             'http://draft-store-service-aat.service.core-compute-aat.internal',
         dm_store_api: 'https://dm-store-aat.service.core-compute-aat.internal',
-        em_anno_api: 'https://em-anno-aat.service.core-compute-aat.internal',
-        em_npa_api: 'https://em-npa-aat.service.core-compute-aat.internal',
+        em_anno_api: 'http://em-anno-aat.service.core-compute-aat.internal',
+        em_npa_api: 'http://em-npa-aat.service.core-compute-aat.internal',
         coh_cor_api: 'https://coh-cor-aat.service.core-compute-aat.internal'
     },
     proxy: {
