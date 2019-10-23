@@ -12,8 +12,8 @@ export default {
             'http://draft-store-service-saat.service.core-compute-saat.internal',
         dm_store_api:
             'https://dm-store-saat.service.core-compute-saat.internal',
-        em_anno_api: 'https://em-anno-saat.service.core-compute-saat.internal',
-        em_npa_api: 'https://em-npa-saat.service.core-compute-saat.internal',
+        em_anno_api: 'http://em-anno-saat.service.core-compute-saat.internal',
+        em_npa_api: 'http://em-npa-saat.service.core-compute-saat.internal',
         coh_cor_api: 'https://coh-cor-saat.service.core-compute-saat.internal'
     },
     useProxy: false,

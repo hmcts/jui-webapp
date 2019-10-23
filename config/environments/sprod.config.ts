@@ -13,8 +13,8 @@ export default {
         dm_store_api:
             'https://dm-store-sprod.service.core-compute-sprod.internal',
         em_anno_api:
-            'https://em-anno-sprod.service.core-compute-sprod.internal',
-        em_npa_api: 'https://em-npa-sprod.service.core-compute-sprod.internal',
+            'http://em-anno-sprod.service.core-compute-sprod.internal',
+        em_npa_api: 'http://em-npa-sprod.service.core-compute-sprod.internal',
         coh_cor_api: 'https://coh-cor-sprod.service.core-compute-sprod.internal'
     },
     useProxy: false,
