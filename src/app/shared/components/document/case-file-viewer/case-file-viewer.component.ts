@@ -10,6 +10,8 @@ export class CaseFileViewerComponent implements OnInit {
     @Input() documentUrl: string;
     @Input() allowAnnotations = true;
 
+    toolbarButtons = { showDownload: false, showPrint: true };
+
     constructor() { }
 
     ngOnInit() {

@@ -12,6 +12,7 @@
                                  [url]="documentUrl + '/documents/' + selectedDocument.id + '/binary'"
                                  [downloadFileName]="selectedDocument.name"
                                  [showToolbar]="true"
+                                 [toolbarButtonOverrides]="toolbarButtons"
                                  [contentType]="selectedDocument.contentType"
                                  [enableAnnotations]="allowAnnotations"
                                  (mediaLoadStatus)="onMediaLoadStatus($event)"
