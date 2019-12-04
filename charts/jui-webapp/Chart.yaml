@@ -1,3 +1,4 @@
+apiVersion: v1
 name: jui-webapp
 home: https://github.com/hmcts/rpa-jui-webapp
 version: 0.0.1
