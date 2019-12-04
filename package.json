@@ -66,7 +66,7 @@
     "@angular/platform-server": "6.1.0",
     "@angular/router": "6.1.0",
     "@hmcts/frontend": "0.0.14-alpha",
-    "@hmcts/media-viewer": "^1.1.10",
+    "@hmcts/media-viewer": "1.1.11",
     "@hmcts/nodejs-healthcheck": "^1.5.1",
     "@hmcts/nodejs-logging": "3.0.0",
     "@ng-toolkit/universal": "^1.1.51",

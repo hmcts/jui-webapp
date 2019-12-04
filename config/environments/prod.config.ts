@@ -1,9 +1,9 @@
 export default {
     services: {
         ccd_data_api:
-            'https://ccd-data-store-api-prod.service.core-compute-prod.internal',
+            'http://ccd-data-store-api-prod.service.core-compute-prod.internal',
         ccd_def_api:
-            'https://ccd-definition-store-api-prod.service.core-compute-prod.internal',
+            'http://ccd-definition-store-api-prod.service.core-compute-prod.internal',
         idam_web:
             'https://hmcts-access.service.gov.uk',
         idam_api:
@@ -16,7 +16,7 @@ export default {
             'http://dm-store-prod.service.core-compute-prod.internal',
         em_anno_api: 'http://em-anno-prod.service.core-compute-prod.internal',
         em_npa_api: 'http://em-npa-prod.service.core-compute-prod.internal',
-        coh_cor_api: 'https://coh-cor-prod.service.core-compute-prod.internal'
+        coh_cor_api: 'http://coh-cor-prod.service.core-compute-prod.internal'
     },
     useProxy: false,
     secureCookie: false,

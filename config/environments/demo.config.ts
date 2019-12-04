@@ -1,9 +1,9 @@
 export default {
     services: {
         ccd_data_api:
-            'https://ccd-data-store-api-demo.service.core-compute-demo.internal',
+            'http://ccd-data-store-api-demo.service.core-compute-demo.internal',
         ccd_def_api:
-            'https://ccd-definition-store-api-demo.service.core-compute-demo.internal',
+            'http://ccd-definition-store-api-demo.service.core-compute-demo.internal',
         idam_web: 'https://idam-web-public.demo.platform.hmcts.net',
         idam_api: 'https://idam-api.demo.platform.hmcts.net',
         s2s:
@@ -14,7 +14,7 @@ export default {
             'http://dm-store-demo.service.core-compute-demo.internal',
         em_anno_api: 'http://em-anno-demo.service.core-compute-demo.internal',
         em_npa_api: 'http://em-npa-demo.service.core-compute-demo.internal',
-        coh_cor_api: 'https://coh-cor-demo.service.core-compute-demo.internal'
+        coh_cor_api: 'http://coh-cor-demo.service.core-compute-demo.internal'
     },
     useProxy: false,
     secureCookie: false,
