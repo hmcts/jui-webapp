@@ -112,8 +112,8 @@ const logger = log4jui.getLogger('Application');
 try {
     judgeLookUp('a@a.com', true);
 } catch (e) {
-    logger.error('exiting due to malformed crypt file')
-    process.exit(1)
+    logger.error('exiting due to malformed crypt file');
+    process.exit(1);
 }
 
 logger.info(
