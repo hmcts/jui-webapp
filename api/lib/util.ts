@@ -88,7 +88,7 @@ export function isObject(o) {
     return o !== null && typeof o === 'object' && Array.isArray(o) === false
 }
 
-export function judgeLookUp(judgeEmail) {
+export function judgeLookUp(judgeEmail, rethrow = false) {
     if (!refJudgeLookUp.length) {
         utilLogger.info('Decrypting judge data ...')
         try {
@@ -97,6 +97,9 @@ export function judgeLookUp(judgeEmail) {
             refJudgeLookUp = JSON.parse(data)
         } catch (e) {
             utilLogger.error(e)
+            if (rethrow) {
+                throw e
+            }
         }
     }
 

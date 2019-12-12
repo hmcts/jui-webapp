@@ -1,3 +1,5 @@
+import { judgeLookUp } from './api/lib/util'
+
 const healthcheck = require('@hmcts/nodejs-healthcheck');
 /*const { InfoContributor, infoRequestHandler } = require('@hmcts/info-provider');*/
 
@@ -106,6 +108,14 @@ app.get('/logout', apiRoute);
 app.use('/api', apiRoute);
 
 const logger = log4jui.getLogger('Application');
+
+try {
+    judgeLookUp('a@a.com', true);
+} catch (e) {
+    logger.error('exiting due to malformed crypt file')
+    process.exit(1)
+}
+
 logger.info(
     `Started up on ${config.environment || 'local'} using ${config.protocol}`
 );
