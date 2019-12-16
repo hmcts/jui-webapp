@@ -131,7 +131,7 @@
     "@hmcts/eslint-config": "1.4.0",
     "@types/camelcase": "^4.1.0",
     "@types/jasmine": "2.8.3",
-    "@types/jasminewd2": "2.0.2",
+    "@types/jasminewd2": "2.0.8",
     "@types/mocha": "^5.2.6",
     "@types/shortid": "0.0.29",
     "angular2-template-loader": "^0.6.2",
