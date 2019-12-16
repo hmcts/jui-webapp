@@ -195,7 +195,7 @@
     "socks-proxy-agent": "4.0.1",
     "sonar-scanner": "^3.1.0",
     "style-loader": "0.23.1",
-    "stylus-loader": "3.0.1",
+    "stylus-loader": "3.0.2",
     "supertest": "3.4.2",
     "ts-node": "^7.0.1",
     "tslint": "5.13.0",
