@@ -13,6 +13,7 @@ async function generateAPIRequest(method, subURL, params) {
         cookie = token;
     });
 
+    console.log(cookie);
 
     const options = {
         headers: {

@@ -30,7 +30,7 @@
     "test:coverage:node": "cd api && npm run coverage",
     "test:coverage:ng": "ng test --source-map --code-coverage",
     "test:a11y": "echo 'not implemented'",
-    "test:smoke": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/smoke.conf.js --local",
+    "test:smoke": "yarn test:api",
     "test:smoke:local": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/smoke.conf.js --local",
     "test:functional": "webdriver-manager update --versions.chrome 2.40 && protractor ./test/e2e/config/conf.js --local",
     "test:functional:local": "protractor ./test/e2e/config/conf.js --local",

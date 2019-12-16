@@ -1,11 +1,12 @@
 //const config = require('../../../../config')
 const config = require('../../../../dist/jui-backend/config')
 const base64 = require('base-64')
-const idam_api= 'https://preprod-idamapi.reform.hmcts.net:3511'
+const idam_api= 'https://idam-web-public.aat.platform.hmcts.net'
 
 const idamSecret = process.env.IDAM_SECRET || 'AAAAAAAAAAAAAAAA'
 const baseUrl= process.env.TEST_URL || 'https://localhost:3000'
-const idamClient = config.idam_client
+// const idamClient = config.idam_client
+const idamClient = 'juiwebapp'
 const fetch = require('node-fetch')
 
 async function getOauth2Token () {
