@@ -23,7 +23,6 @@ This is the Web Application to allow Judicial staff (Judges & Panel Members) to 
 ```bash
 git clone https://github.com/hmcts/rpa-jui-webapp.git
 cd rpa-jui-webapp/
-```
 
 
 ## Set Environmental Variables
