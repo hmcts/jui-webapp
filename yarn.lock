@@ -4948,10 +4948,10 @@ got@^6.7.1:
     unzip-response "^2.0.1"
     url-parse-lax "^1.0.0"
 
-govuk-frontend@2.5.0:
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/govuk-frontend/-/govuk-frontend-2.5.0.tgz#7fa7a1f6522ffbc500613598aaae32ecbf390a9a"
-  integrity sha512-NjrI7G7oFXvuFhj30a3bAuouUWZwfkpewEUmmz5Sfm/BgM9ElTyhV/bvQaGcCefLhYTwXI8DSnZ86861GMZUug==
+govuk-frontend@3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/govuk-frontend/-/govuk-frontend-3.5.0.tgz#040e6fd0227f65d3e5820f8a05a9932ffdfb2a9e"
+  integrity sha512-4tNKgcChO1bMNsrTz2UsK4fDMmU9R87UDxy/KhKIMbnhsuJLVuArDveYLkZuUsZ6B3eaCbl5gmI8i/Q/Mi680A==
 
 govuk-frontend@^2.11.0:
   version "2.13.0"
